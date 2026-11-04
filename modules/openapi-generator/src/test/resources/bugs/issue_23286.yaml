@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: Repro
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Repro:
+      type: object
+      properties:
+        content:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                $ref: '#/components/schemas/Repro'

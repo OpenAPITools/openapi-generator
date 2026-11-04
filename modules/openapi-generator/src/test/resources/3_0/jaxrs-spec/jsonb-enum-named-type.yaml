@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: JSON-B enum named Type
+  description: A top-level enum and a model with an inline enum, both next to a schema named Type.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Type:
+      type: string
+      enum:
+        - alpha
+        - beta
+    TypeHolder:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/Type'
+        status:
+          type: string
+          enum:
+            - available
+            - pending

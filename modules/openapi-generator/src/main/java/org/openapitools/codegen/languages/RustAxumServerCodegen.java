@@ -68,6 +68,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private Boolean basicAuthorization = false;
     private Boolean basicAnalytic = false;
     private Boolean ownedRequest = false;
+    private Boolean boxRecursiveModels = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -251,6 +252,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         optAllowBlockingResponseSerialize.setType("bool");
         optAllowBlockingResponseSerialize.defaultValue(allowBlockingResponseSerialize.toString());
 
+        CliOption optBoxRecursiveModels = new CliOption("boxRecursiveModels",
+                String.join("", "Wrap model fields that lead back to their own model (directly or through other ",
+                        "models) in Box, so recursive models compile. Changes the type of those fields."));
+        optBoxRecursiveModels.setType("bool");
+        optBoxRecursiveModels.defaultValue(boxRecursiveModels.toString());
+
         cliOptions = new ArrayList<>(
                 List.of(
                         new CliOption(CodegenConstants.PACKAGE_NAME,
@@ -260,7 +267,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                                 "Rust crate version."),
                         optDisableValidator,
                         optAllowBlockingValidator,
-                        optAllowBlockingResponseSerialize
+                        optAllowBlockingResponseSerialize,
+                        optBoxRecursiveModels
                 )
         );
 
@@ -358,6 +366,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             ownedRequest = convertPropertyToBooleanAndWriteBack("ownedRequest");
         } else {
             additionalProperties.put("ownedRequest", ownedRequest);
+        }
+
+        if (additionalProperties.containsKey("boxRecursiveModels")) {
+            boxRecursiveModels = convertPropertyToBooleanAndWriteBack("boxRecursiveModels");
+        } else {
+            additionalProperties.put("boxRecursiveModels", boxRecursiveModels);
         }
     }
 
@@ -713,14 +727,29 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         }
 
+        final Map<String, CodegenModel> enumModels = new HashMap<>();
+        for (final ModelMap mo : allModels) {
+            final CodegenModel cm = mo.getModel();
+            if (cm.isEnum) {
+                enumModels.put(cm.getClassname(), cm);
+            }
+        }
+
         final var blocking = new HashSet<String>();
+        // Models mapped by several discriminator values
+        final var multiValued = new HashSet<String>();
         for (ModelMap mo : allModels) {
             final CodegenModel cm = mo.getModel();
 
-            final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getSchemaName());
+            final List<CodegenDiscriminator> discriminators = discriminatorsForModel.get(cm.getClassname());
             if (discriminators != null) {
+                final List<String> values = discriminatorValues(cm.getClassname(), discriminators);
+                if (values.size() > 1) {
+                    multiValued.add(cm.getClassname());
+                }
+
                 // If the discriminator field is not a defined attribute in the variant structure, create it.
-                if (!discriminating(discriminators, cm)) {
+                if (!discriminating(discriminators, cm, enumModels, values)) {
                     final CodegenDiscriminator discriminator = discriminators.get(0);
 
                     CodegenProperty property = new CodegenProperty();
@@ -749,15 +778,15 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
                     // Attributes based on the model name
                     property.defaultValue = String.format(Locale.ROOT, "r#\"%s\"#.to_string()", cm.getSchemaName());
-                    property.discriminatorValue = getDiscriminatorValue(cm.getClassname(), discriminator);
                     property.jsonSchema = String.format(Locale.ROOT, "{ \"default\":\"%s\"; \"type\":\"string\" }", cm.getSchemaName());
+                    setDiscriminatorValues(property, values, enumModels);
 
                     cm.vars.add(property);
                 }
             }
 
             if (cm.vars.stream().noneMatch(v -> v.isDiscriminator)) {
-                blocking.add(cm.getSchemaName());
+                blocking.add(cm.getClassname());
             }
         }
 
@@ -767,9 +796,46 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 // if no discriminator in any of variant -> disable discriminator
                 if (cm.oneOf.stream().anyMatch(blocking::contains) || cm.anyOf.stream().anyMatch(blocking::contains)) {
                     cm.discriminator = null;
+                } else if (cm.oneOf.stream().anyMatch(multiValued::contains) || cm.anyOf.stream().anyMatch(multiValued::contains)) {
+                    setTaggedDeserialize(cm);
                 }
             }
         }
+    }
+
+    /**
+     * serde consumes the tag before deserializing a variant of an internally tagged enum,
+     * so the discriminator field of a variant mapped by several discriminator values cannot be restored.
+     * Such a union is deserialized by `impl_deserialize_tagged!` instead, which mimics `#[serde(tag = "...")]`
+     * but keeps the tag in the content the variant is deserialized from.
+     */
+    private void setTaggedDeserialize(final CodegenModel cm) {
+        final CodegenComposedSchemas cs = cm.getComposedSchemas();
+        final List<CodegenProperty> variants = cs.getOneOf() != null && !cs.getOneOf().isEmpty() ? cs.getOneOf() : cs.getAnyOf();
+        final List<Map<String, Object>> mappings = variants.stream()
+                .map(variant -> Map.<String, Object>of(
+                        "values", discriminatorValues(toModelName(variant.complexType), List.of(cm.discriminator)),
+                        "variant", variant.datatypeWithEnum))
+                .collect(Collectors.toList());
+
+        cm.discriminator.getVendorExtensions().put("x-discriminator-deserialize", true);
+        cm.discriminator.getVendorExtensions().put("x-discriminator-mappings", mappings);
+        // Renders impl_deserialize_tagged! in types.rs
+        additionalProperties.put("usesTaggedDeserialize", true);
+    }
+
+    /**
+     * @return the discriminator values mapped to the model over all the discriminators, or its name if none
+     */
+    private static List<String> discriminatorValues(final String modelName, final List<CodegenDiscriminator> discriminators) {
+        final List<String> values = discriminators.stream()
+                .filter(d -> d.getMappedModels() != null)
+                .flatMap(d -> d.getMappedModels().stream())
+                .filter(m -> m.getModelName().equals(modelName) && m.getMappingName() != null)
+                .map(CodegenDiscriminator.MappedModel::getMappingName)
+                .distinct()
+                .collect(Collectors.toList());
+        return values.isEmpty() ? List.of(modelName) : values;
     }
 
     private static String getDiscriminatorValue(String modelName, CodegenDiscriminator discriminator) {
@@ -785,19 +851,24 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                 .orElse(modelName);
     }
 
-    private static boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm) {
+    private boolean discriminating(final List<CodegenDiscriminator> discriminatorsForModel, final CodegenModel cm,
+                                   final Map<String, CodegenModel> enumModels, final List<String> values) {
         resetDiscriminatorProperty(cm);
 
         // Discriminator will be presented as enum tag -> One and only one tag is allowed
         int countString = 0;
         int countNonString = 0;
         for (final CodegenProperty var : cm.vars) {
-            if (discriminatorsForModel.stream().anyMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
-                if (var.isString) {
-                    var.isDiscriminator = true;
-                    ++countString;
-                } else
-                    ++countNonString;
+            if (discriminatorsForModel.stream().noneMatch(discriminator -> var.baseName.equals(discriminator.getPropertyBaseName()) || var.name.equals(discriminator.getPropertyName()))) {
+                continue;
+            }
+
+            if (canHoldTag(cm, var, values, enumModels)) {
+                var.isDiscriminator = true;
+                setDiscriminatorValues(var, values, enumModels);
+                ++countString;
+            } else {
+                ++countNonString;
             }
         }
 
@@ -809,10 +880,76 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         return countNonString > 0 || countString > 0;
     }
 
+    /**
+     * Whether the discriminator property can hold the serde tag, which is always present and one of the given values.
+     */
+    private boolean canHoldTag(final CodegenModel cm, final CodegenProperty var, final List<String> values,
+                               final Map<String, CodegenModel> enumModels) {
+        final String reason;
+        if (!var.required) {
+            reason = "it is not required";
+        } else if (var.isNullable) {
+            reason = "it is nullable";
+        } else if (var.isString) {
+            return true;
+        } else if (!var.isEnumRef) {
+            reason = "it is neither a string nor a string enum";
+        } else {
+            final Optional<String> invalid = values.stream()
+                    .filter(value -> findEnumVariant(enumModels.get(var.complexType), value) == null)
+                    .findFirst();
+            if (invalid.isEmpty()) {
+                return true;
+            }
+            reason = String.format(Locale.ROOT, "'%s' is not a value of enum '%s'", invalid.get(), var.complexType);
+        }
+
+        LOGGER.warn("Discriminator property '{}' of model '{}' cannot hold the serde tag ({}), falling back to untagged",
+                var.baseName, cm.getSchemaName(), reason);
+        return false;
+    }
+
+    /**
+     * A discriminator property mapped by a single value is fixed to it,
+     * otherwise it keeps the value it is deserialized from.
+     */
+    private void setDiscriminatorValues(final CodegenProperty var, final List<String> values,
+                                        final Map<String, CodegenModel> enumModels) {
+        if (values.size() > 1) {
+            var.vendorExtensions.put("x-discriminator-multi", true);
+            return;
+        }
+
+        var.discriminatorValue = values.get(0);
+        if (var.isEnumRef) {
+            var.vendorExtensions.put("x-discriminator-enum-variant",
+                    findEnumVariant(enumModels.get(var.complexType), var.discriminatorValue));
+        }
+    }
+
     private static void resetDiscriminatorProperty(final CodegenModel cm) {
         for (final CodegenProperty var : cm.vars) {
             var.isDiscriminator = false;
+            var.vendorExtensions.remove("x-discriminator-enum-variant");
+            var.vendorExtensions.remove("x-discriminator-multi");
         }
+    }
+
+    private String findEnumVariant(final CodegenModel enumModel, final String value) {
+        if (enumModel == null || enumModel.allowableValues == null) {
+            return null;
+        }
+        final List<Map<String, Object>> enumVars = (List<Map<String, Object>>) enumModel.allowableValues.get("enumVars");
+        if (enumVars == null) {
+            return null;
+        }
+        // enumVars values are quoted string literals
+        final String quoted = toEnumValue(value, "String");
+        return enumVars.stream()
+                .filter(v -> quoted.equals(v.get("value")))
+                .map(v -> (String) v.get("name"))
+                .findFirst()
+                .orElse(null);
     }
 
     private static void processPolymorphismDataType(final List<CodegenProperty> cp, CodegenDiscriminator discriminator) {
@@ -1284,6 +1421,20 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        final CodegenModel model = super.fromModel(name, schema);
+        // Only explicit false closes an object; an omitted keyword must retain its current behavior.
+        final Object additionalProperties = schema.getAdditionalProperties();
+        final boolean denyUnknownFields = Boolean.FALSE.equals(additionalProperties)
+                || (additionalProperties instanceof Schema
+                && Boolean.FALSE.equals(((Schema) additionalProperties).getBooleanSchemaValue()));
+        if (denyUnknownFields) {
+            model.vendorExtensions.put("x-rust-deny-unknown-fields", true);
+        }
+        return model;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap modelsMap) {
         for (ModelMap mo : modelsMap.getModels()) {
             CodegenModel cm = mo.getModel();
@@ -1312,6 +1463,70 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             cm.vendorExtensions.put("x-is-string", stringType.equals(cm.dataType));
         }
         return super.postProcessModelsEnum(modelsMap);
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (!boxRecursiveModels) {
+            return objs;
+        }
+
+        // Model fields that lead back to their own model (directly or through other models)
+        // would make the struct infinitely sized, so they are boxed.
+        final Map<String, CodegenModel> models = new HashMap<>();
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap mo : modelsMap.getModels()) {
+                models.put(mo.getModel().classname, mo.getModel());
+            }
+        }
+
+        for (CodegenModel cm : models.values()) {
+            for (CodegenProperty var : cm.vars) {
+                final String target = directModelReference(var);
+                if (target != null && reachesModel(target, cm.classname, models, new HashSet<>())) {
+                    var.vendorExtensions.put("x-is-boxed", true);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    /**
+     * Returns the name of the model a property holds inline (i.e. not inside a container), or null.
+     */
+    private static String directModelReference(CodegenProperty property) {
+        if (property.isContainer || !property.dataType.startsWith("models::")) {
+            return null;
+        }
+        return property.dataType.substring("models::".length());
+    }
+
+    private static boolean reachesModel(String from, String to, Map<String, CodegenModel> models, Set<String> visited) {
+        if (from.equals(to)) {
+            return true;
+        }
+        final CodegenModel cm = models.get(from);
+        if (cm == null || !visited.add(from)) {
+            return false;
+        }
+        // oneOf/anyOf models are enums that hold their variants inline
+        final List<CodegenProperty> fields = new ArrayList<>(cm.vars);
+        final CodegenComposedSchemas cs = cm.getComposedSchemas();
+        if (cs != null && cs.getOneOf() != null) {
+            fields.addAll(cs.getOneOf());
+        }
+        if (cs != null && cs.getAnyOf() != null) {
+            fields.addAll(cs.getAnyOf());
+        }
+        for (CodegenProperty var : fields) {
+            final String target = directModelReference(var);
+            if (target != null && reachesModel(target, to, models, visited)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

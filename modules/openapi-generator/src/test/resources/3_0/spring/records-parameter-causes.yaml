@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+  title: Record parameter objects that Spring's data binder cannot fill
+  version: 1.0.0
+paths:
+  /model:
+    get:
+      operationId: model
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/RenamedModel'}}
+      responses:
+        '200': {description: ok}
+  /array:
+    get:
+      operationId: array
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/RenamedArray'}}
+      responses:
+        '200': {description: ok}
+  /map:
+    get:
+      operationId: map
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/RenamedMap'}}
+      responses:
+        '200': {description: ok}
+  /nullable-model:
+    get:
+      operationId: nullableModel
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/NullableModel'}}
+      responses:
+        '200': {description: ok}
+  /nullable-container:
+    get:
+      operationId: nullableContainer
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/NullableContainer'}}
+      responses:
+        '200': {description: ok}
+  /plain-container:
+    get:
+      operationId: plainContainer
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/PlainContainer'}}
+      responses:
+        '200': {description: ok}
+  /wrapped-scalar:
+    get:
+      operationId: wrappedScalar
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/WrappedScalar'}}
+      responses:
+        '200': {description: ok}
+  /any-type:
+    get:
+      operationId: anyType
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/AnyType'}}
+      responses:
+        '200': {description: ok}
+  /free-form:
+    get:
+      operationId: freeForm
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/FreeForm'}}
+      responses:
+        '200': {description: ok}
+components:
+  schemas:
+    WrappedScalar:
+      type: object
+      properties:
+        name:
+          type: string
+          nullable: true
+    AnyType:
+      type: object
+      properties:
+        anyType: {}
+        name:
+          type: string
+    FreeForm:
+      type: object
+      properties:
+        free:
+          type: object
+        name:
+          type: string
+    RenamedModel:
+      type: object
+      properties:
+        my-sub:
+          $ref: '#/components/schemas/BelowRenamedModel'
+    BelowRenamedModel:
+      type: object
+      properties:
+        value:
+          type: string
+        deeper:
+          $ref: '#/components/schemas/DeeperRenamedModel'
+    DeeperRenamedModel:
+      type: object
+      properties:
+        value:
+          type: string
+    RenamedArray:
+      type: object
+      properties:
+        my-list:
+          type: array
+          items:
+            type: string
+        below:
+          $ref: '#/components/schemas/BelowRenamedArray'
+    BelowRenamedArray:
+      type: object
+      properties:
+        value:
+          type: string
+    RenamedMap:
+      type: object
+      properties:
+        my-map:
+          type: object
+          additionalProperties:
+            type: string
+        below:
+          $ref: '#/components/schemas/BelowRenamedMap'
+    BelowRenamedMap:
+      type: object
+      properties:
+        value:
+          type: string
+    NullableModel:
+      type: object
+      properties:
+        inner:
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/BelowNullableModel'
+    BelowNullableModel:
+      type: object
+      properties:
+        value:
+          type: string
+    NullableContainer:
+      type: object
+      properties:
+        values:
+          type: array
+          nullable: true
+          items:
+            type: string
+        below:
+          $ref: '#/components/schemas/BelowNullableContainer'
+    BelowNullableContainer:
+      type: object
+      properties:
+        value:
+          type: string
+    PlainContainer:
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+        below:
+          $ref: '#/components/schemas/BelowPlainContainer'
+    BelowPlainContainer:
+      type: object
+      properties:
+        value:
+          type: string

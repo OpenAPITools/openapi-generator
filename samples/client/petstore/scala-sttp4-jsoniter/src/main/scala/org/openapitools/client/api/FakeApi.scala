@@ -66,9 +66,9 @@ case class FakeApi[Auth <: org.openapitools.client.core.Authorization] private (
   def parameterTypes(uuid: Option[UUID] = scala.None, datetime: Option[OffsetDateTime] = scala.None, date: Option[LocalDate] = scala.None): sttp.client4.Request[Either[ResponseException[String], Unit]] =
     val requestURL =
       uri"$baseUrl/fake/misc"
-        .addParams(FormSerializable.serialize("uuid", uuid, FormStyleFormat.FORM, true): _*)
-        .addParams(FormSerializable.serialize("datetime", datetime, FormStyleFormat.FORM, true): _*)
-        .addParams(FormSerializable.serialize("date", date, FormStyleFormat.FORM, true): _*)
+        .addParams(FormSerializable.serialize("uuid", uuid, FormStyleFormat.FORM, true)*)
+        .addParams(FormSerializable.serialize("datetime", datetime, FormStyleFormat.FORM, true)*)
+        .addParams(FormSerializable.serialize("date", date, FormStyleFormat.FORM, true)*)
 
     basicRequest
       .method(Method.GET, requestURL)

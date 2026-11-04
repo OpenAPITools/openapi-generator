@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Schemas named like JDK types
+  version: "1"
+paths: {}
+components:
+  schemas:
+    URI:
+      type: object
+      properties:
+        x:
+          type: string
+    Holder:
+      type: object
+      properties:
+        inner:
+          allOf:
+            - $ref: '#/components/schemas/URI'
+          default: {}

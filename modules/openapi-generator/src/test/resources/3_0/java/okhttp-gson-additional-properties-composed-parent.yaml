@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info: {title: t, version: '1'}
+paths:
+  /pet:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ExtendedPetLeaf'}
+  /shape:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ExtendedShape'}
+components:
+  schemas:
+    Cat:
+      type: object
+      required: [petType]
+      properties:
+        petType: {type: string}
+        meows: {type: boolean}
+    Dog:
+      type: object
+      required: [petType]
+      properties:
+        petType: {type: string}
+        barks: {type: boolean}
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator: {propertyName: petType}
+    ExtendedPet:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required: [petType]
+          properties:
+            petType: {type: string}
+            name: {type: string}
+      discriminator: {propertyName: petType}
+    ExtendedPetLeaf:
+      allOf:
+        - $ref: '#/components/schemas/ExtendedPet'
+        - type: object
+          properties:
+            nickname: {type: string}
+    Circle:
+      type: object
+      required: [shapeType]
+      properties:
+        shapeType: {type: string}
+        radius: {type: number}
+    Square:
+      type: object
+      required: [shapeType]
+      properties:
+        shapeType: {type: string}
+        side: {type: number}
+    Shape:
+      anyOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+      discriminator: {propertyName: shapeType}
+    ExtendedShape:
+      allOf:
+        - $ref: '#/components/schemas/Shape'
+        - type: object
+          required: [shapeType]
+          properties:
+            shapeType: {type: string}
+            colour: {type: string}

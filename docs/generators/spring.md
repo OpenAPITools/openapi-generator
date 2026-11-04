@@ -68,7 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
-|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
+|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. The match is case insensitive, like HTTP header names. Note: this parameter is ignored when implicitHeaders=true| |null|
 |includeHttpRequestContext|Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.| |true (reactive) / false (blocking)|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
@@ -121,6 +121,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useJspecify|Use Jspecify for null checks| |false|
 |useOneOfInterfaces|whether to use a java interface to describe a set of oneOf options, where each option is a class that implements the interface| |true|
 |useOptional|Use Optional container for optional parameters| |false|
+|useRecords|Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot be a record yet stays a class, and the reason is logged: inheritance, additionalProperties (a record gets them only with useSpringBoot4, Jackson 2.18 or later), an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a property name a record cannot have, or a request-parameter model that Spring's data binder cannot fill as a record. Not supported with hateoas, Lombok annotations, withXml and useOptional.| |false|
 |useResponseEntity|Use the `ResponseEntity` type to wrap return values of generated API methods. If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition| |true|
 |useSealed|Whether to generate sealed model interfaces and classes| |false|
 |useSpringBoot3|Generate code and provide dependencies for use with Spring Boot &ge; 3 (use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.| |true|

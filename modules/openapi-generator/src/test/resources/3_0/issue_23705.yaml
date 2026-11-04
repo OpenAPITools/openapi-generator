@@ -43,4 +43,17 @@ components:
             allOf:
               - $ref: '#/components/schemas/Code'
             x-field-extra-annotation: '@Size(max=10)'
+        listRef:
+          type: array
+          x-items-x-field-extra-annotation: '@NotEmpty'
+          items:
+            $ref: '#/components/schemas/Stubb'
+        listInline:
+          type: array
+          x-items-x-field-extra-annotation: '@NotEmpty'
+          items:
+            type: object
+            properties:
+              name:
+                type: string
 

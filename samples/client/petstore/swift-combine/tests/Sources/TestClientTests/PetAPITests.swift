@@ -13,7 +13,7 @@ import OpenAPITransport
 class PetAPITests: XCTestCase {
     var cancellable = Set<AnyCancellable>()
     let timeout: TimeInterval = 10
-    let baseURL = URL(string: "https://petstore.swagger.io/v2")!
+    let baseURL = URL(string: "http://petstore.swagger.io/v2")!
 
     override func tearDown() {
         cancellable.removeAll()

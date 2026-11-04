@@ -143,12 +143,7 @@ extension KeyedEncodingContainerProtocol {
     }
 
     public mutating func encode(_ value: Decimal, forKey key: Self.Key) throws {
-        let decimalNumber = NSDecimalNumber(decimal: value)
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.locale = Locale(identifier: "en_US")
-        numberFormatter.usesGroupingSeparator = false
-        let formattedString = numberFormatter.string(from: decimalNumber) ?? "\(value)"
+        let formattedString = NSDecimalNumber(decimal: value).description(withLocale: Locale(identifier: "en_US_POSIX"))
         try encode(formattedString, forKey: key)
     }
 

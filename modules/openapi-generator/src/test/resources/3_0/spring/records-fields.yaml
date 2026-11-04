@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Record fields
+  version: 1.0.0
+paths:
+  /defaults:
+    post:
+      operationId: addDefaults
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Defaults'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    Color:
+      type: string
+      enum:
+        - red
+        - green
+    Defaults:
+      type: object
+      x-implements:
+        - Marker
+      required:
+        - reqString
+        - reqNullable
+        - reqList
+      properties:
+        reqString:
+          type: string
+          default: x
+        reqNullable:
+          type: string
+          nullable: true
+        reqList:
+          type: array
+          items:
+            type: string
+        plain:
+          type: string
+        optInt:
+          type: integer
+          format: int32
+          default: 7
+        optLong:
+          type: integer
+          format: int64
+          default: 8
+        optBool:
+          type: boolean
+          default: true
+        optDouble:
+          type: number
+          format: double
+          default: 1.5
+        optDecimal:
+          type: number
+          default: 2.5
+        optString:
+          type: string
+          default: abc
+        optDate:
+          type: string
+          format: date
+          default: 2020-01-02
+        optColor:
+          $ref: '#/components/schemas/Color'
+        optInline:
+          type: string
+          enum:
+            - one
+            - two
+          default: two
+        nullablePlain:
+          type: string
+          nullable: true
+        nullableDefault:
+          type: string
+          nullable: true
+          default: n
+        nullableList:
+          type: array
+          nullable: true
+          items:
+            type: string
+        listPlain:
+          type: array
+          items:
+            type: string
+        listDefault:
+          type: array
+          default:
+            - a
+            - b
+          items:
+            type: string
+        listEmptyDefault:
+          type: array
+          default: []
+          items:
+            type: string
+        setUnique:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+        mapPlain:
+          type: object
+          additionalProperties:
+            type: string
+        inlineEnumList:
+          type: array
+          items:
+            type: string
+            enum:
+              - p
+              - q
+    AllRequired:
+      type: object
+      required:
+        - a
+        - b
+      properties:
+        a:
+          type: string
+        b:
+          type: integer
+    NoneRequired:
+      type: object
+      properties:
+        a:
+          type: string
+    Empty:
+      type: object
+    Blob:
+      type: object
+      properties:
+        name:
+          type: string
+        data:
+          type: string
+          format: byte
+    Reserved:
+      type: object
+      properties:
+        hashCode:
+          type: integer
+        toString:
+          type: string
+        notify:
+          type: string
+        okName:
+          type: string
+    FailExt:
+      type: object
+      properties:
+        s:
+          type: string
+          x-jackson-json-setter-nulls: FAIL
+    SkipExt:
+      type: object
+      properties:
+        s:
+          type: string
+          x-jackson-json-setter-nulls: SKIP

@@ -59,7 +59,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonDeserialize(using = Pig.PigDeserializer.class)
 @JsonSerialize(using = Pig.PigSerializer.class)
 public class Pig extends AbstractOpenApiSchema {
@@ -173,12 +173,12 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     public Pig(BasquePig o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 
     public Pig(DanishPig o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 

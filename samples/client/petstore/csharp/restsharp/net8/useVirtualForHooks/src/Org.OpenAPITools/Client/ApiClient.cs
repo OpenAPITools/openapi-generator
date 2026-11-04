@@ -30,7 +30,6 @@ using RestSharpMethod = RestSharp.Method;
 using FileIO = System.IO.File;
 using Polly;
 using Org.OpenAPITools.Client.Auth;
-using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
 {
@@ -71,10 +70,10 @@ namespace Org.OpenAPITools.Client
         /// <returns>A JSON string.</returns>
         public string Serialize(object obj)
         {
-            if (obj != null && obj is AbstractOpenAPISchema)
+            if (obj != null && obj is Org.OpenAPITools.Model.AbstractOpenAPISchema)
             {
                 // the object to be serialized is an oneOf/anyOf schema
-                return ((AbstractOpenAPISchema)obj).ToJson();
+                return ((Org.OpenAPITools.Model.AbstractOpenAPISchema)obj).ToJson();
             }
             else
             {
@@ -487,14 +486,21 @@ namespace Org.OpenAPITools.Client
             }
 
             using (RestClient client = new RestClient(clientOptions,
-                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)),
+                useClientFactory: true))
             {
+                // RestSharp only applies UserAgent when the factory creates the cached HttpClient, i.e. on the first request per base URL
+                if (!string.IsNullOrEmpty(configuration.UserAgent))
+                {
+                    client.DefaultParameters.ReplaceParameter(new HeaderParameter(KnownHeaders.UserAgent, configuration.UserAgent));
+                }
+
                 InterceptRequest(request);
 
                 RestResponse<T> response = await getResponse(client).ConfigureAwait(false);
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-                if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+                if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
                     try
                     {

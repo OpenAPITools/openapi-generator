@@ -1,0 +1,229 @@
+openapi: 3.0.3
+info:
+  title: Record aliases
+  version: 1.0.0
+paths:
+  /direct:
+    get:
+      operationId: direct
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/AliasA'
+      responses:
+        '200':
+          description: ok
+  /chain:
+    get:
+      operationId: chain
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/AliasB2'
+      responses:
+        '200':
+          description: ok
+  /items:
+    get:
+      operationId: items
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/AliasC'
+      responses:
+        '200':
+          description: ok
+  /map:
+    get:
+      operationId: map
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/AliasD'
+      responses:
+        '200':
+          description: ok
+  /content:
+    get:
+      operationId: content
+      parameters:
+        - name: q
+          in: query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AliasE'
+      responses:
+        '200':
+          description: ok
+  /header:
+    get:
+      operationId: header
+      parameters:
+        - name: q
+          in: header
+          schema:
+            $ref: '#/components/schemas/AliasF'
+      responses:
+        '200':
+          description: ok
+  /allof:
+    get:
+      operationId: allOf
+      parameters:
+        - name: q
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/AliasG'
+      responses:
+        '200':
+          description: ok
+  /property:
+    get:
+      operationId: property
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/ParamModel'
+      responses:
+        '200':
+          description: ok
+  /ap:
+    get:
+      operationId: ap
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/ApHolder'
+      responses:
+        '200':
+          description: ok
+  /arrayalias:
+    get:
+      operationId: arrayAlias
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/ArrAliasJ'
+      responses:
+        '200':
+          description: ok
+  /control:
+    post:
+      operationId: control
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AliasCtl'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    RA:
+      type: object
+      properties:
+        value:
+          type: string
+    RB:
+      type: object
+      properties:
+        value:
+          type: string
+    RC:
+      type: object
+      properties:
+        value:
+          type: string
+    RD:
+      type: object
+      properties:
+        value:
+          type: string
+    RE:
+      type: object
+      properties:
+        value:
+          type: string
+    RF:
+      type: object
+      properties:
+        value:
+          type: string
+    RG:
+      type: object
+      properties:
+        value:
+          type: string
+    RH:
+      type: object
+      properties:
+        value:
+          type: string
+    RI:
+      type: object
+      properties:
+        value:
+          type: string
+    RJ:
+      type: object
+      properties:
+        value:
+          type: string
+    Ctl:
+      type: object
+      properties:
+        value:
+          type: string
+    AliasA:
+      $ref: '#/components/schemas/RA'
+    AliasB1:
+      $ref: '#/components/schemas/RB'
+    AliasB2:
+      $ref: '#/components/schemas/AliasB1'
+    AliasC:
+      $ref: '#/components/schemas/RC'
+    AliasD:
+      $ref: '#/components/schemas/RD'
+    AliasE:
+      $ref: '#/components/schemas/RE'
+    AliasF:
+      $ref: '#/components/schemas/RF'
+    AliasG:
+      $ref: '#/components/schemas/RG'
+    AliasH:
+      $ref: '#/components/schemas/RH'
+    AliasI:
+      $ref: '#/components/schemas/RI'
+    AliasCtl:
+      $ref: '#/components/schemas/Ctl'
+    ArrAliasJ:
+      $ref: '#/components/schemas/ArrBaseJ'
+    ArrBaseJ:
+      type: array
+      items:
+        $ref: '#/components/schemas/RJ'
+    ParamModel:
+      type: object
+      properties:
+        many:
+          type: array
+          items:
+            $ref: '#/components/schemas/AliasH'
+    ApHolder:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/AliasI'

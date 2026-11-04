@@ -15,6 +15,7 @@ on:
       - samples/client/echo_api/java/feign-gson/**
       - samples/client/echo_api/java/okhttp-gson/**
       - samples/client/echo_api/java/okhttp/**
+      - samples/client/echo_api/java/resttemplate/**
       - samples/client/echo_api/java/resteasy/**
 jobs:
   build:

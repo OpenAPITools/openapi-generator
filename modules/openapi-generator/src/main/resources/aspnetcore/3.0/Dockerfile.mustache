@@ -1,13 +1,23 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # Container we use for final publish
+{{#net10OrLater}}
+FROM mcr.microsoft.com/dotnet/aspnet:{{aspnetCoreVersion}} AS base
+{{/net10OrLater}}
+{{^net10OrLater}}
 FROM mcr.microsoft.com/dotnet/core/aspnet:{{aspnetCoreVersion}}-buster-slim AS base
+{{/net10OrLater}}
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
 # Build container
+{{#net10OrLater}}
+FROM mcr.microsoft.com/dotnet/sdk:{{aspnetCoreVersion}} AS build
+{{/net10OrLater}}
+{{^net10OrLater}}
 FROM mcr.microsoft.com/dotnet/core/sdk:{{aspnetCoreVersion}}-buster AS build
+{{/net10OrLater}}
 
 # Copy the code into the container
 WORKDIR /{{sourceFolder}}

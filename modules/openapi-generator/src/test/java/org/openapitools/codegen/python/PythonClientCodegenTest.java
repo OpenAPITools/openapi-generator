@@ -174,14 +174,71 @@ public class PythonClientCodegenTest {
         TestUtils.assertFileContains(
                 api,
                 "import json",
-                "_header_params['X-Json-Arg'] = json.dumps(",
+                "self.api_client._set_header(_header_params, 'X-Json-Arg', json.dumps(",
                 "self.api_client.sanitize_for_serialization(x_json_arg)",
-                "_header_params['X-Plain-Arg'] = x_plain_arg");
+                "self.api_client._set_header(_header_params, 'X-Plain-Arg', x_plain_arg)");
 
         TestUtils.assertFileNotContains(
                 api,
                 "_header_params['X-Json-Arg'] = x_json_arg",
                 "_header_params['X-Plain-Arg'] = json.dumps(");
+    }
+
+    @Test
+    public void testWebhookParametersAndJsonHeaderContent() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/webhooks.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(
+                output.getAbsolutePath(),
+                "openapi_client",
+                "api",
+                "hooks_api.py");
+
+        TestUtils.assertFileContains(
+                api,
+                "filter: StrictStr,",
+                "x_json_arg: HeaderArg,",
+                "from openapi_client.models.header_arg import HeaderArg",
+                "import json",
+                "self.api_client._set_header(_header_params, 'X-Json-Arg', json.dumps(");
+
+        TestUtils.assertFileNotContains(
+                api,
+                "filter: ,",
+                "x_json_arg: ,");
+    }
+
+    @Test
+    public void testWebhookIndependentImplicitClientLifecycleOperationNames() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(
+                PythonClientCodegen.USE_INDEPENDENT_IMPLICIT_CLIENTS, true);
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+        final Path api = Paths.get(outputPath + "openapi_client/api/hooks_api.py");
+
+        assertFileContains(
+                api,
+                "def close(self) -> None:",
+                "def call_close(");
+        List<String> methodNames = Files.readAllLines(api).stream()
+                .filter(line -> line.startsWith("    def "))
+                .map(line -> line.substring(
+                        line.indexOf("def ") + 4, line.indexOf('(')))
+                .collect(Collectors.toList());
+        Assert.assertEquals(
+                methodNames.stream().distinct().count(),
+                methodNames.size(),
+                "generated webhook API method names must be unique");
     }
 
     @Test
@@ -229,6 +286,53 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(
                 otherContent.split("def kind_validate_not_enum", -1).length - 1,
                 1);
+    }
+
+    @Test
+    public void testRegexWithEscapedDoubleQuote() throws IOException {
+        String output = generateFiles(new PythonClientCodegen(),
+                "src/test/resources/3_0/python/regex-escaped-quote.yaml");
+        Path model = Paths.get(output, "openapi_client", "models", "pattern_model.py");
+        String pattern = "[^\\/:?*<>\\\"|]*";
+        assertFileContains(model,
+                "re.match(r\"" + pattern + "\", value)",
+                "raise ValueError(r\"must validate the regular expression /" + pattern + "/\")");
+
+        String modelContent = Files.readString(model);
+        Map<String, String> expectedPatterns = Map.of(
+                "unescaped_quote", "^a\\\"b$",
+                "already_escaped_quote", "^a\\\"b$",
+                "even_backslashes", "^a\\\\\\\"b$",
+                "odd_backslashes", "^a\\\\\\\"b$",
+                "trailing_backslashes", "a\\\\",
+                "trailing_four_backslashes", "a\\\\\\\\");
+        expectedPatterns.forEach((field, expectedPattern) -> {
+            int start = modelContent.indexOf("def " + field + "_validate_regular_expression");
+            Assert.assertTrue(start >= 0, field);
+            int next = modelContent.indexOf("\n    @field_validator", start);
+            String validator = modelContent.substring(start, next < 0 ? modelContent.length() : next);
+            Assert.assertTrue(validator.contains("re.match(r\"" + expectedPattern + "\", value)"), field);
+        });
+    }
+
+    @DataProvider(name = "regexQuoteEscaping")
+    public Object[][] regexQuoteEscaping() {
+        return new Object[][] {
+                {"^a\"b$", "^a\\\"b$"},
+                {"^a\\\"b$", "^a\\\"b$"},
+                {"^a\\\\\"b$", "^a\\\\\\\"b$"},
+                {"^a\\\\\\\"b$", "^a\\\\\\\"b$"},
+                {"a\\\\", "a\\\\"},
+                {"a\\\\\\\\", "a\\\\\\\\"}
+        };
+    }
+
+    @Test(dataProvider = "regexQuoteEscaping")
+    public void testRegexQuoteEscaping(String pattern, String expectedRegex) {
+        Map<String, Object> vendorExtensions = new HashMap<>();
+        new PythonClientCodegen().postProcessPattern(pattern, vendorExtensions);
+        Assert.assertEquals(vendorExtensions.get(CodegenConstants.X_REGEX), expectedRegex);
+        Assert.assertEquals(vendorExtensions.get(CodegenConstants.X_PATTERN), "/" + expectedRegex + "/");
     }
 
     @Test
@@ -285,7 +389,61 @@ public class PythonClientCodegenTest {
         // added to test fix for issue #6675
         // removed because "/^[\\pattern\\d{3}$/i" is invalid regex because [ is not escaped and there is no closing ]
         // Assert.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
+        // alternation_with_forward_slash '/ax$|/bx$'
+        Assert.assertEquals(op.allParams.get(7).pattern, "/\\/ax$|\\/bx$/");
+        Assert.assertEquals(op.allParams.get(7).vendorExtensions.get("x-regex"), "\\/ax$|\\/bx$");
+        Assert.assertEquals(op.allParams.get(7).vendorExtensions.get("x-modifiers"), Collections.emptyList());
+    }
 
+    @Test(description = "test regex patterns starting with forward slash (e.g. URL paths)")
+    public void testRegularExpressionStartingWithSlash() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+
+        Schema<?> singleSlashSchema = new StringSchema().pattern("/v1");
+        CodegenProperty singleSlash = codegen.fromProperty("single_slash", singleSlashSchema, false);
+        codegen.postProcessModelProperty(null, singleSlash);
+        Assert.assertEquals(singleSlash.pattern, "/\\/v1/");
+        Assert.assertEquals(singleSlash.vendorExtensions.get("x-regex"), "\\/v1");
+        Assert.assertEquals(singleSlash.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> pathSchema = new StringSchema().pattern("/health_question_definition/[0-9]+");
+        CodegenProperty pathProp = codegen.fromProperty("path_pattern", pathSchema, false);
+        codegen.postProcessModelProperty(null, pathProp);
+        Assert.assertEquals(pathProp.pattern, "/\\/health_question_definition\\/[0-9]+/");
+        Assert.assertEquals(pathProp.vendorExtensions.get("x-regex"), "\\/health_question_definition\\/[0-9]+");
+        Assert.assertEquals(pathProp.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> multiSlashWithModifierLetters = new StringSchema().pattern("/api/v1/users");
+        CodegenProperty multiSlashPath = codegen.fromProperty("multi_slash_path", multiSlashWithModifierLetters, false);
+        codegen.postProcessModelProperty(null, multiSlashPath);
+        Assert.assertEquals(multiSlashPath.pattern, "/\\/api\\/v1\\/users/");
+        Assert.assertEquals(multiSlashPath.vendorExtensions.get("x-regex"), "\\/api\\/v1\\/users");
+        Assert.assertEquals(multiSlashPath.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> perlModifierSchema = new StringSchema().pattern("/^image_\\d{1,3}$/i");
+        CodegenProperty perlModifierProp = codegen.fromProperty("perl_modifier", perlModifierSchema, false);
+        codegen.postProcessModelProperty(null, perlModifierProp);
+        Assert.assertEquals(perlModifierProp.pattern, "/^image_\\d{1,3}$/i");
+        Assert.assertEquals(perlModifierProp.vendorExtensions.get("x-regex"), "^image_\\d{1,3}$");
+        Assert.assertEquals(perlModifierProp.vendorExtensions.get("x-modifiers"), Collections.singletonList("IGNORECASE"));
+
+        Schema<?> perlGlobalSchema = new StringSchema().pattern("/[0-9]{10}/g");
+        CodegenProperty perlGlobalProp = codegen.fromProperty("perl_global", perlGlobalSchema, false);
+        codegen.postProcessModelProperty(null, perlGlobalProp);
+        Assert.assertEquals(perlGlobalProp.pattern, "/[0-9]{10}/g");
+        Assert.assertEquals(perlGlobalProp.vendorExtensions.get("x-regex"), "[0-9]{10}");
+        Assert.assertEquals(perlGlobalProp.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> escapedBackslashBeforeSlashSchema = new StringSchema().pattern("a\\\\/b");
+        CodegenProperty escapedBackslashProp = codegen.fromProperty("escaped_backslash", escapedBackslashBeforeSlashSchema, false);
+        codegen.postProcessModelProperty(null, escapedBackslashProp);
+        Assert.assertEquals(escapedBackslashProp.pattern, "/a\\\\\\/b/");
+        Assert.assertEquals(escapedBackslashProp.vendorExtensions.get("x-regex"), "a\\\\\\/b");
+        Assert.assertEquals(escapedBackslashProp.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Assert.assertEquals(codegen.patternCorrection("/health_question_definition/[0-9]+"), "/health_question_definition/[0-9]+");
+        Assert.assertEquals(codegen.patternCorrection("/api/v1/"), "/api/v1/");
+        Assert.assertEquals(codegen.patternCorrection("/^image_\\d{1,3}$/i"), "^image_\\d{1,3}$");
     }
 
 
@@ -327,6 +485,34 @@ public class PythonClientCodegenTest {
             Assert.assertTrue(example.contains(prop + " = openapi_client.models.shared.Shared("),
                     prop + " missing its example in:\n" + example);
         }
+    }
+
+    @Test(description = "inline object examples use the generated module and class names")
+    public void testExampleValueForInlineObjects() {
+        // The inline model resolver names this schema _holder_child; the generated file is
+        // holder_child.py with class HolderChild, so the example must use those names.
+        final Schema child = new ObjectSchema().addProperty("prop", new StringSchema());
+        child.setTitle("_holder_child");
+        final Schema holder = new ObjectSchema()
+                .addProperty("child", child)
+                // a free-form object has no model at all, it is a plain dict
+                .addProperty("aProperty", new ObjectSchema());
+        holder.setTitle("Holder");
+        final OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Holder", holder));
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final String example = codegen.toExampleValue(holder);
+
+        Assert.assertTrue(example.contains("child = openapi_client.models.holder_child.HolderChild("),
+                "inline model path wrong in:\n" + example);
+        Assert.assertTrue(example.contains("a_property = { }"),
+                "free-form object should be a dict in:\n" + example);
+        Assert.assertFalse(example.contains("models.a_property."), "free-form object got a model path in:\n" + example);
+
+        // the same holds for a free-form object that never got a title, e.g. bare array items
+        Assert.assertEquals(codegen.toExampleValue(new ObjectSchema()), "{ }");
     }
 
     @Test(description = "test single quotes escape")
@@ -806,7 +992,7 @@ public class PythonClientCodegenTest {
         File apiFile = files
                 .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
         assertNotNull(apiFile);
-        assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
+        assertFileContains(apiFile.toPath(), "self.api_client._set_header(_header_params, 'X-CUSTOM_CONSTANT_HEADER', 'CONSTANT_VALUE')");
         assertFileContains(apiFile.toPath(), "_query_params.append(('CONSTANT_QUERY_STRING_KEY', 'CONSTANT_QUERY_STRING_VALUE'))");
     }
 
@@ -1262,6 +1448,8 @@ public class PythonClientCodegenTest {
                 defaultOutputPath + "openapi_client/api/default_api.py");
         final Path defaultApiClient = Paths.get(
                 defaultOutputPath + "openapi_client/api_client.py");
+        final Path defaultLegacyHelpers = Paths.get(
+                defaultOutputPath + "openapi_client/_legacy_model_helpers.py");
 
         assertFileContains(defaultModel,
                 "return json.dumps(to_jsonable_python(self.to_dict()))",
@@ -1285,6 +1473,7 @@ public class PythonClientCodegenTest {
                 "async_req", "        _preload_content: bool = True",
                 "return self.api_client.pool.apply_async(");
         TestUtils.assertFileNotContains(defaultApiClient, "_OPENAPI_GENERATOR_TO_DICT");
+        Assert.assertFalse(Files.exists(defaultLegacyHelpers));
 
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.additionalProperties().put(
@@ -1298,12 +1487,12 @@ public class PythonClientCodegenTest {
         final Path api = Paths.get(
                 outputPath + "openapi_client/api/default_api.py");
         final Path apiClient = Paths.get(outputPath + "openapi_client/api_client.py");
+        final Path legacyHelpers = Paths.get(
+                outputPath + "openapi_client/_legacy_model_helpers.py");
 
         assertFileContains(model,
-                "def _get_openapi_to_dict(value: Any) -> Any:",
-                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
-                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
-                "def _to_openapi_value(value: Any) -> Any:",
+                "from openapi_client._legacy_model_helpers import (",
+                "    _OPENAPI_GENERATOR_TO_DICT,",
                 "def to_dict(self, serialize: bool = False) -> Dict[str, Any]:",
                 "_to_legacy_value(getattr(self, \"renamed\", None), serialize)",
                 "def __openapi_generator_modern_projection(self) -> Dict[str, Any]:",
@@ -1321,6 +1510,10 @@ public class PythonClientCodegenTest {
                 "def __eq__(self, other: object) -> bool:",
                 "def __ne__(self, other: object) -> bool:");
         TestUtils.assertFileNotContains(model,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                "def _to_openapi_value(value: Any) -> Any:",
                 "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(");
         assertFileContains(nestedModel,
                 "camel_case: Optional[StrictStr]",
@@ -1333,16 +1526,21 @@ public class PythonClientCodegenTest {
         for (String wrapper : Arrays.asList("one_of_model.py", "any_of_model.py")) {
             final Path wrapperModel = Paths.get(outputPath + "openapi_client/models/" + wrapper);
             assertFileContains(wrapperModel,
+                    "from openapi_client._legacy_model_helpers import (",
                     "def to_dict(self, serialize: bool = False) -> Any:",
                     "def __openapi_generator_modern_projection(self) -> Any:",
                     "del __openapi_generator_modern_projection");
             TestUtils.assertFileNotContains(wrapperModel,
+                    "def _get_openapi_to_dict(value: Any) -> Any:",
+                    "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                    "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                    "def _to_openapi_value(value: Any) -> Any:",
                     "_legacy_model_to_dict_impl: ClassVar", "def _to_openapi_dict(",
                     "openapi_types", "attribute_map", "extra=\"forbid\"",
                     "def __repr__", "def __eq__");
         }
         assertFileContains(apiClient,
-                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "from openapi_client._legacy_model_helpers import _get_openapi_to_dict",
                 "to_dict = getattr(obj, 'to_dict', None)",
                 "to_openapi_dict = _get_openapi_to_dict(obj)",
                 "if to_openapi_dict is not None:",
@@ -1359,6 +1557,13 @@ public class PythonClientCodegenTest {
                 "response_types_map: Dict[str, Optional[str]]",
                 "return self._get_pool().apply_async(call)",
                 "response_data.getheaders()");
+        TestUtils.assertFileNotContains(apiClient,
+                "def _get_openapi_to_dict(value: Any) -> Any:");
+        assertFileContains(legacyHelpers,
+                "def _get_openapi_to_dict(value: Any) -> Any:",
+                "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                "def _to_openapi_value(value: Any) -> Any:");
         assertFileContains(api,
                 "async_req: Optional[bool] = None",
                 "_preload_content: bool = True",
@@ -1457,14 +1662,73 @@ public class PythonClientCodegenTest {
                     "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
                     "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
                     "def _to_openapi_value(value: Any) -> Any:");
-            TestUtils.assertFileNotContains(model, "_legacy_model_dict import");
+            TestUtils.assertFileNotContains(model, "_legacy_model_helpers import");
             Assert.assertFalse(Files.exists(Paths.get(
-                    outputPath + "openapi_client/_legacy_model_dict.py")));
+                    outputPath + "openapi_client/_legacy_model_helpers.py")));
         } finally {
             if (oldModels == null) {
                 GlobalSettings.clearProperty(CodegenConstants.MODELS);
             } else {
                 GlobalSettings.setProperty(CodegenConstants.MODELS, oldModels);
+            }
+        }
+    }
+
+    @Test
+    public void testLegacyModelHelpersFollowSourceFolder() throws IOException {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setCompatibleWithPythonLegacy(true);
+        codegen.additionalProperties().put(CodegenConstants.SOURCE_FOLDER, "src");
+        addModelAttributeNameMappings(codegen);
+
+        final String outputPath = generateFiles(codegen,
+                "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+        final Path model = Paths.get(
+                outputPath + "src/openapi_client/models/legacy_model.py");
+        final Path legacyHelpers = Paths.get(
+                outputPath + "src/openapi_client/_legacy_model_helpers.py");
+
+        assertFileContains(model,
+                "from openapi_client._legacy_model_helpers import (");
+        assertFileExists(legacyHelpers);
+        Assert.assertFalse(Files.exists(Paths.get(
+                outputPath + "openapi_client/_legacy_model_helpers.py")));
+    }
+
+    @Test
+    public void testLegacyModelHelpersStayInlineForWhitespaceOnlySupportingFiles() throws IOException {
+        final String oldModels = GlobalSettings.getProperty(CodegenConstants.MODELS);
+        final String oldSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
+        try {
+            GlobalSettings.setProperty(CodegenConstants.MODELS, "");
+            GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, " ");
+            final PythonClientCodegen codegen = new PythonClientCodegen();
+            codegen.setCompatibleWithPythonLegacy(true);
+            addModelAttributeNameMappings(codegen);
+
+            final String outputPath = generateFiles(codegen,
+                    "src/test/resources/3_0/python/legacy-model-dictionaries.yaml");
+            final Path model = Paths.get(
+                    outputPath + "openapi_client/models/legacy_model.py");
+
+            assertFileContains(model,
+                    "def _get_openapi_to_dict(value: Any) -> Any:",
+                    "def _to_legacy_item(value: Any, serialize: bool) -> Any:",
+                    "def _to_legacy_value(value: Any, serialize: bool) -> Any:",
+                    "def _to_openapi_value(value: Any) -> Any:");
+            TestUtils.assertFileNotContains(model, "_legacy_model_helpers import");
+            Assert.assertFalse(Files.exists(Paths.get(
+                    outputPath + "openapi_client/_legacy_model_helpers.py")));
+        } finally {
+            if (oldModels == null) {
+                GlobalSettings.clearProperty(CodegenConstants.MODELS);
+            } else {
+                GlobalSettings.setProperty(CodegenConstants.MODELS, oldModels);
+            }
+            if (oldSupportingFiles == null) {
+                GlobalSettings.clearProperty(CodegenConstants.SUPPORTING_FILES);
+            } else {
+                GlobalSettings.setProperty(CodegenConstants.SUPPORTING_FILES, oldSupportingFiles);
             }
         }
     }

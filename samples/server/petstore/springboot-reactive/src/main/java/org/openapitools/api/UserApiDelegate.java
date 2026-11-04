@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface UserApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -117,7 +117,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    default Mono<ResponseEntity<User>> getUserByName(String username,
+    default @Valid Mono<ResponseEntity<User>> getUserByName(String username,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -151,7 +151,7 @@ public interface UserApiDelegate {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    default Mono<ResponseEntity<String>> loginUser(String username,
+    default @Valid Mono<ResponseEntity<String>> loginUser(String username,
         String password,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();

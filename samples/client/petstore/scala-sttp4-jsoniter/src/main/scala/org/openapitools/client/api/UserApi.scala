@@ -176,8 +176,8 @@ case class UserApi[Auth <: org.openapitools.client.core.Authorization] private (
   def loginUser(username: String, password: String): sttp.client4.Request[Either[ResponseException[String], String]] =
     val requestURL =
       uri"$baseUrl/user/login"
-        .addParams(FormSerializable.serialize("username", username, FormStyleFormat.FORM, true): _*)
-        .addParams(FormSerializable.serialize("password", password, FormStyleFormat.FORM, true): _*)
+        .addParams(FormSerializable.serialize("username", username, FormStyleFormat.FORM, true)*)
+        .addParams(FormSerializable.serialize("password", password, FormStyleFormat.FORM, true)*)
 
     basicRequest
       .method(Method.GET, requestURL)

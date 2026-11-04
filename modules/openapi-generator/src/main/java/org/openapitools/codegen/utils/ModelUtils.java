@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -422,8 +423,19 @@ public class ModelUtils {
         return schema.getProperties() != null && !schema.getProperties().isEmpty();
     }
 
-    public static boolean hasEnum(Schema<?> schema) {
-        return schema.getEnum() != null && !schema.getEnum().isEmpty();
+    /**
+     * A looser version of {@link #isEnumSchema(Schema)} that returns true if the schema has an enum, even if the enum is empty.
+     * Generally one would only expect it to be empty when expressing "reject all", so consider using {@link #isEnumSchema(Schema)} instead.
+     *
+     * @param schema the schema
+     * @return whether the schema has an enum list (which can be empty)
+     */
+    public static boolean isEnum(Schema<?> schema) {
+        return schema.getEnum() != null;
+    }
+
+    public static boolean hasSingleEnum(Schema<?> schema) {
+        return isEnumSchema(schema) && schema.getEnum().size() == 1;
     }
 
     /**
@@ -1096,7 +1108,20 @@ public class ModelUtils {
             if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
                 return true;
             } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
-                return true;
+                // a map of typed values, e.g. a model, a primitive, an array, or an enum, is not free-form.
+                // OAS 3.1 allows enum without type, and a null type is otherwise unconstrained.
+                Schema addlProps = getReferencedSchema(openAPI, (Schema) schema.getAdditionalProperties());
+                if (hasProperties(addlProps) || isComposedSchema(addlProps) || isEnumSchema(addlProps)) {
+                    return false;
+                }
+                // getType returns only the first OAS 3.1 type. A value union such as
+                // [object, string] is constrained, and member order must not change the result.
+                // This matches the schema-level types.size() > 1 check below.
+                if (addlProps.getTypes() != null && addlProps.getTypes().size() > 1) {
+                    return false;
+                }
+                String addlPropsType = getType(addlProps);
+                return addlPropsType == null || SchemaTypeUtil.OBJECT_TYPE.equals(addlPropsType);
             } else if (schema.getTypes() != null) {
                 if (schema.getTypes().size() == 1) { // types = [object]
                     return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());
@@ -2213,21 +2238,35 @@ public class ModelUtils {
     private static void setNumericValidations(Schema schema, BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
         if (multipleOf != null) target.setMultipleOf(multipleOf);
         if (minimum != null) {
-            if (isIntegerSchema(schema)) {
-                target.setMinimum(String.valueOf(minimum.toBigInteger()));
-            } else {
-                target.setMinimum(String.valueOf(minimum));
-            }
+            target.setMinimum(formatNumericBound(minimum, schema, true, Boolean.TRUE.equals(exclusiveMinimum)));
             if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
         }
         if (maximum != null) {
-            if (isIntegerSchema(schema)) {
-                target.setMaximum(String.valueOf(maximum.toBigInteger()));
-            } else {
-                target.setMaximum(String.valueOf(maximum));
-            }
+            target.setMaximum(formatNumericBound(maximum, schema, false, Boolean.TRUE.equals(exclusiveMaximum)));
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
         }
+    }
+
+    /**
+     * Formats a minimum or maximum for the given schema.
+     * <p>
+     * Integer schemas get an integer. A fractional bound is rounded into the allowed range (up for a minimum,
+     * down for a maximum, the other way round when the bound is exclusive), so the generated check accepts the
+     * same integers as the declared bound: e.g. {@code minimum: 1.5} becomes {@code 2} and
+     * {@code exclusiveMinimum: -1.5} becomes an exclusive {@code -2}. Other schemas get the declared value.
+     *
+     * @param bound     the declared minimum or maximum
+     * @param schema    the schema the bound applies to
+     * @param isMinimum true for a minimum, false for a maximum
+     * @param exclusive true if the bound is exclusive
+     * @return the bound as a string
+     */
+    public static String formatNumericBound(BigDecimal bound, Schema schema, boolean isMinimum, boolean exclusive) {
+        if (isIntegerSchema(schema)) {
+            RoundingMode roundingMode = isMinimum != exclusive ? RoundingMode.CEILING : RoundingMode.FLOOR;
+            return String.valueOf(bound.setScale(0, roundingMode).toBigInteger());
+        }
+        return String.valueOf(bound);
     }
 
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
@@ -2508,11 +2547,11 @@ public class ModelUtils {
     }
 
     /**
-     * Set schema type.
-     * For 3.1 spec, set as types, for 3.0, type
+     * Sets the schema type.
+     * For the 3.1 spec, sets {@code types}; for 3.0, sets {@code type}.
      *
      * @param schema the schema
-     * @return schema type
+     * @param type the type to set
      */
     public static void setType(Schema schema, String type) {
         if (schema instanceof JsonSchema) {
@@ -2572,7 +2611,15 @@ public class ModelUtils {
      */
     public static Schema cloneSchema(Schema schema, boolean openapi31) {
         if (openapi31) {
-            return AnnotationsUtils.clone(schema, openapi31);
+            Schema result = AnnotationsUtils.clone(schema, openapi31);
+            // `nullable` is not a valid OAS 3.1 keyword, so the 3.1 serializer used by
+            // AnnotationsUtils.clone silently drops it -- at every level of the schema, not just
+            // the root. OpenAPINormalizer rewrites an OAS 3.1 `type: [<type>, "null"]` declaration
+            // into `nullable: true` plus a plain type, so dropping it here would turn cloned
+            // schemas (e.g. properties merged into a model from an `allOf` parent) and every
+            // schema nested inside them into non-nullable ones. Carry it over explicitly.
+            restoreNullable(schema, result);
+            return result;
         } else {
             // AnnotationsUtils.clone doesn't support custom schema types for OpenAPI < 3.1
             String schemaType = schema.getType();
@@ -2583,6 +2630,60 @@ public class ModelUtils {
             schema.setType(schemaType);
             result.setType(schemaType);
             return result;
+        }
+    }
+
+    /**
+     * Copies the `nullable` flag from {@code original} onto {@code cloned}, recursing through
+     * every nested schema (properties, array items, additionalProperties, composed sub-schemas
+     * and `not`). Used to repair an OpenAPI 3.1 clone, whose serializer drops the flag because
+     * `nullable` is not a valid OAS 3.1 keyword.
+     * <p>
+     * The two schemas are walked in parallel, so this relies on {@code cloned} having the same
+     * shape as {@code original} -- which holds because it is a faithful deep copy in every other
+     * respect. Nested lists are matched positionally and defensively bounded by the shorter of
+     * the two.
+     *
+     * @param original the schema that was cloned
+     * @param cloned   the clone to repair
+     */
+    private static void restoreNullable(Schema original, Schema cloned) {
+        if (original == null || cloned == null) {
+            return;
+        }
+
+        if (original.getNullable() != null) {
+            cloned.setNullable(original.getNullable());
+        }
+
+        restoreNullableInMap(original.getProperties(), cloned.getProperties());
+        restoreNullable(original.getItems(), cloned.getItems());
+        restoreNullable(original.getNot(), cloned.getNot());
+
+        if (original.getAdditionalProperties() instanceof Schema
+                && cloned.getAdditionalProperties() instanceof Schema) {
+            restoreNullable((Schema) original.getAdditionalProperties(),
+                    (Schema) cloned.getAdditionalProperties());
+        }
+
+        restoreNullableInList(original.getAllOf(), cloned.getAllOf());
+        restoreNullableInList(original.getOneOf(), cloned.getOneOf());
+        restoreNullableInList(original.getAnyOf(), cloned.getAnyOf());
+    }
+
+    private static void restoreNullableInMap(Map<String, Schema> original, Map<String, Schema> cloned) {
+        if (original == null || cloned == null) {
+            return;
+        }
+        original.forEach((name, originalValue) -> restoreNullable(originalValue, cloned.get(name)));
+    }
+
+    private static void restoreNullableInList(List<Schema> original, List<Schema> cloned) {
+        if (original == null || cloned == null) {
+            return;
+        }
+        for (int i = 0; i < Math.min(original.size(), cloned.size()); i++) {
+            restoreNullable(original.get(i), cloned.get(i));
         }
     }
 
@@ -2685,7 +2786,7 @@ public class ModelUtils {
         }
 
         // convert referenced enum of null only to `nullable:true`
-        if (schema.getEnum() != null && schema.getEnum().size() == 1) {
+        if (hasSingleEnum(schema)) {
             if ("null".equals(String.valueOf(schema.getEnum().get(0)))) {
                 return true;
             }

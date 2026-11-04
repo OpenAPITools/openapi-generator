@@ -15,59 +15,14 @@ use serde::{Deserialize, Serialize};
 #[serde(tag = "@type")]
 pub enum EntityRef {
     #[serde(rename="BarRef")]
-    BarRef {
-        /// Hyperlink reference
-        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
-        href: Option<String>,
-        /// unique identifier
-        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
-        id: Option<String>,
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
-        at_schema_location: Option<String>,
-        /// When sub-classing, this defines the super-class
-        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
-        at_base_type: Option<String>,
-        /// Name of the related entity.
-        #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-        name: Option<String>,
-        /// The actual type of the target instance when needed for disambiguation.
-        #[serde(rename = "@referredType", skip_serializing_if = "Option::is_none")]
-        at_referred_type: Option<String>,
-    },
+    BarRef(Box<models::BarRef>),
     #[serde(rename="FooRef")]
-    FooRef {
-        /// Hyperlink reference
-        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
-        href: Option<String>,
-        /// unique identifier
-        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
-        id: Option<String>,
-        /// A URI to a JSON-Schema file that defines additional attributes and relationships
-        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
-        at_schema_location: Option<String>,
-        /// When sub-classing, this defines the super-class
-        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
-        at_base_type: Option<String>,
-        /// Name of the related entity.
-        #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-        name: Option<String>,
-        /// The actual type of the target instance when needed for disambiguation.
-        #[serde(rename = "@referredType", skip_serializing_if = "Option::is_none")]
-        at_referred_type: Option<String>,
-    },
+    FooRef(Box<models::FooRef>),
 }
 
 impl Default for EntityRef {
     fn default() -> Self {
-        Self::BarRef {
-            href: Default::default(),
-            id: Default::default(),
-            at_schema_location: Default::default(),
-            at_base_type: Default::default(),
-            name: Default::default(),
-            at_referred_type: Default::default(),
-        }
+        Self::BarRef(Default::default())
         
     }
 }

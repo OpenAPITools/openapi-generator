@@ -12,18 +12,16 @@ import { {{configurationClassName}} }                                     from '
 
 {{#operations}}
 
-{{#useSingleRequestParameter}}
 {{#operation}}
-{{#allParams.0}}
+{{#vendorExtensions.x-angular-request-params-interface}}
 export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams {
 {{#allParams}}
     {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}{{#isNullable}} | null{{/isNullable}};
 {{/allParams}}
 }
 
-{{/allParams.0}}
+{{/vendorExtensions.x-angular-request-params-interface}}
 {{/operation}}
-{{/useSingleRequestParameter}}
 
 {{#description}}
     /**

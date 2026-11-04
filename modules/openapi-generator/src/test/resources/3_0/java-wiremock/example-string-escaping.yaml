@@ -1,0 +1,47 @@
+openapi: 3.0.3
+info:
+  title: Example string escaping
+  description: "Examples that must survive as Java string literals: quotes and backslashes."
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080'
+paths:
+  /notes:
+    get:
+      summary: Get a note
+      operationId: getNote
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+  /paths:
+    get:
+      summary: Get a path
+      operationId: getPathExample
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathHolder'
+components:
+  schemas:
+    Note:
+      type: object
+      properties:
+        note:
+          type: string
+          example: 'has "quote" inside'
+    PathHolder:
+      type: object
+      properties:
+        windowsPath:
+          type: string
+          example: 'C:\temp\file.txt'
+        pattern:
+          type: string
+          example: '\d+'

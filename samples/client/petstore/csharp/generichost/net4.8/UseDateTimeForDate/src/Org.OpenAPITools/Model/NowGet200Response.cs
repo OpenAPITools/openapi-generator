@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -108,16 +108,6 @@ namespace Org.OpenAPITools.Model
         {
             OnCreated();
         }
-
-        /// <summary>
-        /// The format to use to serialize Now
-        /// </summary>
-        public string NowFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
-
-        /// <summary>
-        /// The format to use to serialize Today
-        /// </summary>
-        public string TodayFormat { get; private set; } = "yyyy'-'MM'-'dd";
 
         /// <summary>
         /// Deserializes json to <see cref="NowGet200Response" />
@@ -204,10 +194,16 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property NowGet200Response.Today to non-nullable JSON property 'today'.");
 
             if (nowGet200Response.NowOption.IsSet)
-                writer.WriteString("now", nowGet200Response.NowOption.Value.Value.ToString(NowFormat));
+                {
+                            writer.WritePropertyName("now");
+                                JsonSerializer.Serialize(writer, nowGet200Response.NowOption.Value.Value, jsonSerializerOptions);
+                            }
 
             if (nowGet200Response.TodayOption.IsSet)
-                writer.WriteString("today", nowGet200Response.TodayOption.Value.Value.ToString(TodayFormat));
+                {
+                            writer.WritePropertyName("today");
+                                JsonSerializer.Serialize(writer, nowGet200Response.TodayOption.Value.Value, jsonSerializerOptions);
+                            }
         }
     }
 }

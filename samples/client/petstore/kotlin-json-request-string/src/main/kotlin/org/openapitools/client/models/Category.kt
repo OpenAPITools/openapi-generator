@@ -38,8 +38,8 @@ import kotlinx.parcelize.Parcelize
 /**
  * A category for a pet
  *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 @Parcelize
 @Serializable

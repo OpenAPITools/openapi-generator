@@ -57,7 +57,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonDeserialize(using = Fruit.FruitDeserializer.class)
 @JsonSerialize(using = Fruit.FruitSerializer.class)
 public class Fruit extends AbstractOpenApiSchema {
@@ -105,6 +105,7 @@ public class Fruit extends AbstractOpenApiSchema {
                         attemptParsing |= ((Apple.class.equals(Float.class) || Apple.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (Apple.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (Apple.class.equals(String.class) && token == JsonToken.VALUE_STRING);
+                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -171,12 +172,12 @@ public class Fruit extends AbstractOpenApiSchema {
     }
 
     public Fruit(Apple o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 
     public Fruit(Banana o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 

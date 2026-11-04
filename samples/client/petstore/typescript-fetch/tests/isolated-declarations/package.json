@@ -1,0 +1,11 @@
+{
+  "name": "typescript-fetch-isolated-declarations-test",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

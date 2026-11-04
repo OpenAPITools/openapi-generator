@@ -23,6 +23,9 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <failOnMissingWebXml>false</failOnMissingWebXml>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+{{#openApiNullable}}
+    <jackson-databind-nullable-version>0.2.13</jackson-databind-nullable-version>
+{{/openApiNullable}}
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -50,6 +53,13 @@
       <version>${version.junit}</version>
       <scope>test</scope>
     </dependency>
+{{#openApiNullable}}
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>${jackson-databind-nullable-version}</version>
+    </dependency>
+{{/openApiNullable}}
   </dependencies>
   <build>
     <finalName>{{artifactId}}</finalName>
