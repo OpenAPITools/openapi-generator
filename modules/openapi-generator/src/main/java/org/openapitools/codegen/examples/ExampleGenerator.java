@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -265,25 +266,23 @@ public class ExampleGenerator {
         } else if (ModelUtils.isDateTimeSchema(property)) {
             return "2000-01-23T04:56:07.000+00:00";
         } else if (ModelUtils.isNumberSchema(property)) {
-            Double min = getPropertyValue(property.getMinimum());
-            Double max = getPropertyValue(property.getMaximum());
+            BigDecimal value = randomNumber(property);
             if (ModelUtils.isFloatSchema(property)) { // float
-                return (float) randomNumber(min, max);
+                return value.floatValue();
             } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
-                return BigDecimal.valueOf(randomNumber(min, max));
+                return value;
             } else { // no format defined
-                return randomNumber(min, max);
+                return value.doubleValue();
             }
         } else if (ModelUtils.isFileSchema(property)) {
             return "";  // TODO
 
         } else if (ModelUtils.isIntegerSchema(property)) {
-            Double min = getPropertyValue(property.getMinimum());
-            Double max = getPropertyValue(property.getMaximum());
+            BigDecimal value = randomNumber(property);
             if (ModelUtils.isLongSchema(property)) {
-                return (long) randomNumber(min, max);
+                return value.max(BigDecimal.valueOf(Long.MIN_VALUE)).min(BigDecimal.valueOf(Long.MAX_VALUE)).longValue();
             }
-            return (int) randomNumber(min, max);
+            return value.max(BigDecimal.valueOf(Integer.MIN_VALUE)).min(BigDecimal.valueOf(Integer.MAX_VALUE)).intValue();
         } else if (ModelUtils.isMapSchema(property)) {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
@@ -333,6 +332,53 @@ public class ExampleGenerator {
         return propertyValue == null ? null : propertyValue.doubleValue();
     }
 
+    private BigDecimal randomNumber(Schema property) {
+        ModelUtils.ResolvedMinBound minBound = ModelUtils.resolveMinimumBound(openAPI, property);
+        ModelUtils.ResolvedMaxBound maxBound = ModelUtils.resolveMaximumBound(openAPI, property);
+        BigDecimal min = minBound == null ? null : numericBound(property, minBound.minBound, minBound.exclusive, true);
+        BigDecimal max = maxBound == null ? null : numericBound(property, maxBound.maxBound, maxBound.exclusive, false);
+        double generated = randomNumber(getPropertyValue(min), getPropertyValue(max));
+        BigDecimal value;
+        if (ModelUtils.isIntegerSchema(property)) {
+            value = BigDecimal.valueOf(ModelUtils.isLongSchema(property) ? (long) generated : (int) generated);
+        } else {
+            value = BigDecimal.valueOf(generated);
+        }
+        // Keep rounding and integer conversion from moving the example outside the schema's bounds.
+        if (min != null) {
+            value = value.max(min);
+        }
+        if (max != null) {
+            value = value.min(max);
+        }
+        return value;
+    }
+
+    private BigDecimal numericBound(Schema property, BigDecimal bound, boolean exclusive, boolean minimum) {
+        if (ModelUtils.isIntegerSchema(property)) {
+            BigDecimal rounded = bound.setScale(0, minimum ? RoundingMode.CEILING : RoundingMode.FLOOR);
+            if (exclusive && rounded.compareTo(bound) == 0) {
+                rounded = rounded.add(minimum ? BigDecimal.ONE : BigDecimal.ONE.negate());
+            }
+            return rounded;
+        }
+
+        // Use the serialized float/double value when finding a representable inclusive bound.
+        boolean isFloat = ModelUtils.isFloatSchema(property);
+        if (isFloat && (minimum ? bound.floatValue() == Float.NEGATIVE_INFINITY : bound.floatValue() == Float.POSITIVE_INFINITY)) {
+            return new BigDecimal(Float.toString(minimum ? -Float.MAX_VALUE : Float.MAX_VALUE));
+        }
+        BigDecimal rounded = isFloat ? new BigDecimal(Float.toString(bound.floatValue())) : BigDecimal.valueOf(bound.doubleValue());
+        int comparison = rounded.compareTo(bound);
+        if ((minimum ? comparison < 0 : comparison > 0) || (exclusive && comparison == 0)) {
+            if (isFloat) {
+                return new BigDecimal(Float.toString(minimum ? Math.nextUp(bound.floatValue()) : Math.nextDown(bound.floatValue())));
+            }
+            return BigDecimal.valueOf(minimum ? Math.nextUp(bound.doubleValue()) : Math.nextDown(bound.doubleValue()));
+        }
+        return rounded;
+    }
+
     private double randomNumber(Double min, Double max) {
         if (min != null && max != null) {
             double range = max - min;
@@ -340,7 +386,7 @@ public class ExampleGenerator {
         } else if (min != null) {
             return random.nextDouble() + min;
         } else if (max != null) {
-            return random.nextDouble() * max;
+            return max < 0 ? max - random.nextDouble() : random.nextDouble() * max;
         } else {
             return random.nextDouble() * 10;
         }
