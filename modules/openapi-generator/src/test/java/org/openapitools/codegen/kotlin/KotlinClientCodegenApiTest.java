@@ -104,6 +104,29 @@ public class KotlinClientCodegenApiTest {
     }
 
     @Test
+    public void testRetrofit2DeleteWithBodyUsesHttpAnnotation_25454() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/issue25454-delete-with-body.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_RETROFIT2);
+
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(input).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        // Retrofit rejects @Body, @FormUrlEncoded and @Multipart on @DELETE, so these need @HTTP with hasBody
+        assertFileContainsLine(lines, "@HTTP(method = \"DELETE\", path = \"items\", hasBody = true)");
+        assertFileContainsLine(lines, "@HTTP(method = \"DELETE\", path = \"items/form\", hasBody = true)");
+        // operations without a body, and methods that allow a body, keep the short annotation
+        assertFileContainsLine(lines, "@DELETE(\"items/{id}\")");
+        assertFileContainsLine(lines, "@POST(\"items\")");
+    }
+
+    @Test
     public void testOptionalParamsHaveDefaultNullJvmKtor() throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
 

@@ -17,7 +17,13 @@ package org.openapitools.codegen.cpphttplib;
 
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.CppHttplibServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -143,5 +149,64 @@ public class CppHttplibServerCodegenTest {
         codegen.processOpts();
         
         Assert.assertEquals(codegen.additionalProperties().get("apiNamespace"), "myapp::api");
+    }
+
+    @Test
+    public void testDefaultModelNamespaceIsSetBeforeAnyModelIsProcessed() {
+        CppHttplibServerCodegen fresh = new CppHttplibServerCodegen();
+        fresh.processOpts();
+
+        Assert.assertEquals(fresh.additionalProperties().get("modelNamespace"), "models");
+    }
+
+    @Test
+    public void testSpecWithoutModelsGeneratesPrimitiveResponses() throws Exception {
+        // #24854: a spec with no schemas never reaches postProcessAllModels
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-httplib-server")
+                .setInputSpec("src/test/resources/3_1/cpp-httplib-server/primitive-responses-no-models.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiHeader = files.stream()
+                .map(File::toPath)
+                .filter(path -> path.toString().endsWith("Api.h"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("no API header generated: " + files));
+        TestUtils.assertFileContains(apiHeader,
+                "using TextGetResponse = std::string;",
+                "using FileGetResponse = std::string;");
+        // Without a model header the source must include the JSON library itself
+        // and must not name the (undeclared) model namespace.
+        Path apiSource = Path.of(apiHeader.toString().replaceAll("\\.h$", ".cpp"));
+        TestUtils.assertFileContains(apiSource, "#include <nlohmann/json.hpp>");
+        TestUtils.assertFileNotContains(apiSource, "using namespace models;");
+        for (File file : files) {
+            if (file.getName().endsWith(".h") || file.getName().endsWith(".cpp")) {
+                TestUtils.assertFileNotContains(file.toPath(), "String.h", "File.h");
+            }
+        }
+    }
+
+    @Test
+    public void testApiSourceUsesModelNamespaceWhenModelsAreUsed() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("cpp-httplib-server")
+                .setInputSpec("src/test/resources/3_0/cpp-httplib-server/petstore.json")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path petApiSource = output.toPath().resolve("api/PetApi.cpp");
+        TestUtils.assertFileContains(petApiSource, "using namespace models;", "#include <nlohmann/json.hpp>");
     }
 }

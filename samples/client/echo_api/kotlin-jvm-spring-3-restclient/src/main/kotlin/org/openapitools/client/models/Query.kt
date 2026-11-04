@@ -29,10 +29,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonValue
 
 /**
- * 
- *
  * @param id Query
- * @param outcomes 
+ * @param outcomes
  */
 
 
@@ -50,8 +48,6 @@ data class Query (
 ) {
 
     /**
-     * 
-     *
      * Values: SUCCESS,FAILURE,SKIPPED,unknown_default_open_api
      */
     enum class Outcomes(@get:JsonValue val value: kotlin.String) {

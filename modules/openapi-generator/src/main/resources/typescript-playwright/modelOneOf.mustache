@@ -1,0 +1,66 @@
+{{#hasImports}}
+{{#oneOf}}
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+import {
+    instanceOf{{{.}}},
+    {{{.}}}FromJSON,
+    {{{.}}}FromJSONTyped,
+    {{{.}}}ToJSON,
+} from './{{.}}{{importFileExtension}}';
+{{/oneOf}}
+
+{{/hasImports}}
+{{>modelOneOfInterfaces}}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return {{classname}}FromJSONTyped(json, false);
+}
+
+export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
+    if (json == null) {
+        return json;
+    }
+{{#discriminator}}
+    switch (json['{{discriminator.propertyBaseName}}']) {
+{{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return Object.assign({}, {{modelName}}FromJSONTyped(json, true), { {{discriminator.propertyName}}: '{{mappingName}}' } as const);
+{{/discriminator.mappedModels}}
+        default:
+            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${json['{{discriminator.propertyName}}']}'`);
+    }
+{{/discriminator}}
+{{^discriminator}}
+    {{#oneOf}}
+    if (instanceOf{{{.}}}(json)) {
+        return {{{.}}}FromJSONTyped(json, true);
+    }
+    {{/oneOf}}
+{{/discriminator}}
+}
+
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    if (value == null) {
+        return value;
+    }
+{{#discriminator}}
+    switch (value['{{discriminator.propertyName}}']) {
+{{#discriminator.mappedModels}}
+        case '{{mappingName}}':
+            return {{modelName}}ToJSON(value);
+{{/discriminator.mappedModels}}
+        default:
+            throw new Error(`No variant of {{classname}} exists with '{{discriminator.propertyName}}=${value['{{discriminator.propertyName}}']}'`);
+    }
+{{/discriminator}}
+
+{{^discriminator}}
+    {{#oneOf}}
+    if (instanceOf{{{.}}}(value)) {
+        return {{{.}}}ToJSON(value as {{{.}}});
+    }
+    {{/oneOf}}
+
+    return {};
+{{/discriminator}}
+}

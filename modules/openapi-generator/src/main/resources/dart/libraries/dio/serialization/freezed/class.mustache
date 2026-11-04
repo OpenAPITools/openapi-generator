@@ -1,0 +1,97 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part '{{classFilename}}.freezed.dart';
+part '{{classFilename}}.g.dart';
+
+{{!
+    Classes with polymorphism or composition may generate unused imports,
+    these need to be ignored for said classes so that there are no lint errors.
+}}
+{{#parentModel}}
+// ignore_for_file: unused_import
+
+{{/parentModel}}
+
+{{#isDeprecated}}
+@Deprecated('{{{classname}}} has been deprecated')
+{{/isDeprecated}}
+@freezed
+abstract class {{{classname}}} with _${{{classname}}} {
+  const factory {{{classname}}}({
+{{#vars}}
+  {{#description}}
+    /// {{{description}}}
+  {{/description}}
+  {{#deprecated}}
+    @Deprecated('{{{name}}} has been deprecated')
+  {{/deprecated}}
+  {{^isBinary}}
+    @JsonKey(
+      name: r'{{{baseName}}}',
+      required: {{#required}}true{{/required}}{{^required}}false{{/required}},
+      includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}},
+  {{#enumUnknownDefaultCase}}
+  {{#isArray}}
+  {{#items.isEnumOrRef}}
+      unknownEnumValue: {{{items.datatypeWithEnum}}}.unknownDefaultOpenApi,
+  {{/items.isEnumOrRef}}
+  {{/isArray}}
+  {{^isArray}}
+  {{^isMap}}
+  {{#isEnumOrRef}}
+      unknownEnumValue: {{{datatypeWithEnum}}}.unknownDefaultOpenApi,
+  {{/isEnumOrRef}}
+  {{/isMap}}
+  {{/isArray}}
+  {{/enumUnknownDefaultCase}}
+    )
+  {{/isBinary}}
+  {{#isBinary}}
+    @JsonKey(includeFromJson: false, includeToJson: false)
+  {{/isBinary}}
+  {{#defaultValue}}
+  {{#isEnum}}{{^isContainer}}
+  {{! Inline enum defaults are resolved to the matching enum constant by the generator. }}
+  {{#vendorExtensions.x-freezed-enum-default}}
+    @Default({{{.}}}) {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}},
+  {{/vendorExtensions.x-freezed-enum-default}}
+  {{^vendorExtensions.x-freezed-enum-default}}
+    {{#required}}required {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}{{{datatypeWithEnum}}}?{{/required}} {{{name}}},
+  {{/vendorExtensions.x-freezed-enum-default}}
+  {{/isContainer}}{{#isContainer}}
+    @Default({{{defaultValue}}}) {{{datatypeWithEnum}}} {{{name}}},
+  {{/isContainer}}{{/isEnum}}
+  {{^isEnum}}
+    @Default({{{defaultValue}}}) {{{datatypeWithEnum}}} {{{name}}},
+  {{/isEnum}}
+  {{/defaultValue}}
+  {{^defaultValue}}
+  {{#required}}
+    required {{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}},
+  {{/required}}
+  {{^required}}
+    {{{datatypeWithEnum}}}? {{{name}}},
+  {{/required}}
+  {{/defaultValue}}
+{{/vars}}
+  }) = _{{{classname}}};
+
+  factory {{{classname}}}.fromJson(Map<String, dynamic> json) =>
+      _${{{classname}}}FromJson(json);
+}
+{{#vars}}
+    {{#isEnum}}
+        {{^isContainer}}
+
+{{>serialization/freezed/enum_inline}}
+
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+{{>serialization/freezed/enum_inline}}
+
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/isEnum}}
+{{/vars}}

@@ -23,7 +23,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link StoreApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface StoreApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -57,7 +57,7 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
+    default @Valid Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
 
@@ -77,7 +77,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    default Mono<ResponseEntity<Order>> getOrderById(Long orderId,
+    default @Valid Mono<ResponseEntity<Order>> getOrderById(Long orderId,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -110,7 +110,7 @@ public interface StoreApiDelegate {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    default Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
+    default @Valid Mono<ResponseEntity<Order>> placeOrder(Mono<Order> order,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     

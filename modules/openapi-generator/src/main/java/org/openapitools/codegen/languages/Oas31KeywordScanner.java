@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
+
 /**
  * OAS 3.1 dialect resolution and exhaustive schema-keyword scanning.
  *
@@ -595,7 +597,7 @@ public final class Oas31KeywordScanner {
             record(ledger, "type", location, VOCAB_VALIDATION, KeywordOccurrenceStatus.EMITTED,
                     "validation-type / validation-type-array");
         }
-        if (schema.getEnum() != null) {
+        if (isEnum(schema)) {
             record(ledger, "enum", location, VOCAB_VALIDATION, KeywordOccurrenceStatus.EMITTED,
                     "validation-enum-values");
         }

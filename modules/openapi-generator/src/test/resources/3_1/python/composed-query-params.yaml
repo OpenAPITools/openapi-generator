@@ -1,0 +1,70 @@
+openapi: 3.1.0
+
+info:
+  title: Composed and model query parameter test
+  version: 1.0.0
+
+paths:
+  /t:
+    get:
+      operationId: probe
+      parameters:
+        - name: composed
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Composed'
+        - name: oneof
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OneOfM'
+        - name: addl
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WithAddl'
+        - name: plain
+          in: query
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    Tag:
+      type: object
+      properties:
+        label:
+          type: string
+    Composed:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/Tag'
+    OneOfM:
+      oneOf:
+        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/Tag'
+    WithAddl:
+      type: object
+      properties:
+        a:
+          type: string
+      additionalProperties:
+        type: string

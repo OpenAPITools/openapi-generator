@@ -8,6 +8,7 @@ on:
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
       - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
+      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-freezed/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
       - samples/openapi3/client/petstore/dart-dio/anyof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
@@ -19,6 +20,7 @@ on:
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/**
       #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/**
       - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/**
+      - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-freezed/**
       - samples/openapi3/client/petstore/dart-dio/oneof/**
       - samples/openapi3/client/petstore/dart-dio/anyof/**
       - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/**
@@ -37,6 +39,7 @@ jobs:
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake_tests/
           #- samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-json_serializable/
           - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake/
+          - samples/openapi3/client/petstore/dart-dio/petstore_client_lib_fake-freezed/
           - samples/openapi3/client/petstore/dart-dio/oneof/
           - samples/openapi3/client/petstore/dart-dio/anyof/
           - samples/openapi3/client/petstore/dart-dio/oneof_polymorphism_and_inheritance/

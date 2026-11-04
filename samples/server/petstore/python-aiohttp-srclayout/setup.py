@@ -17,6 +17,7 @@ REQUIRES = [
     "connexion==2.14.1",
     "swagger-ui-bundle==0.0.9",
     "aiohttp_jinja2==1.5.0",
+    "python_dateutil>=2.6.0",
 ]
 
 setup(
@@ -34,7 +35,7 @@ setup(
     entry_points={
         'console_scripts': ['openapi_server=openapi_server.__main__:main']},
     long_description="""\
-    This is a sample server Petstore server. For this sample, you can use the api key &#x60;special-key&#x60; to test the authorization filters.
+    This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
     """
 )
 

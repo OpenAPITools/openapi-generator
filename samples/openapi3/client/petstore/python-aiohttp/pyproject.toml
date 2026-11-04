@@ -10,7 +10,7 @@ keywords = ["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"]
 include = ["petstore_api/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.11"
 python-dateutil = ">= 2.8.2"
 aiohttp = ">= 3.14.1"
 aiohttp-retry = ">= 2.8.3"

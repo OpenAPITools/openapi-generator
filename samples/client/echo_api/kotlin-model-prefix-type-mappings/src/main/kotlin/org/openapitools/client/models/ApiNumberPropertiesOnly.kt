@@ -27,11 +27,9 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
- *
- * @param number 
- * @param float 
- * @param double 
+ * @param number
+ * @param float
+ * @param double
  */
 
 

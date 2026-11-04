@@ -12,6 +12,7 @@ docs/NestedModel.md
 docs/OneOfModel.md
 git_push.sh
 legacy_model_dict_client/__init__.py
+legacy_model_dict_client/_legacy_model_helpers.py
 legacy_model_dict_client/api/__init__.py
 legacy_model_dict_client/api/default_api.py
 legacy_model_dict_client/api_client.py
