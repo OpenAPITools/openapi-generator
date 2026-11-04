@@ -352,7 +352,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
         String dataFormat = property.getDataFormat();
         String description = property.getDescription();
         String minimum = property.getMinimum();
@@ -362,7 +361,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
         boolean unsigned = false;
-        Boolean isUuid = property.isUuid;
         Boolean isEnum = property.isEnum;
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_MYSQL_SCHEMA)) {
@@ -444,13 +442,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String description = property.getDescription();
         String minimum = property.getMinimum();
-        String maximum = property.getMaximum();
         boolean exclusiveMinimum = property.getExclusiveMinimum();
-        boolean exclusiveMaximum = property.getIExclusiveMaximum();
         String defaultValue = property.getDefaultValue();
         Boolean required = property.getRequired();
         boolean unsigned = false;
@@ -488,9 +482,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
         } else {
             Float min = (minimum != null) ? Float.valueOf(minimum) : null;
-            Float max = (maximum != null) ? Float.valueOf(maximum) : null;
             if (exclusiveMinimum && min != null) min += 1;
-            if (exclusiveMaximum && max != null) max -= 1;
             if (min != null && min >= 0) {
                 unsigned = true;
             }
@@ -589,7 +581,6 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
         String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String description = property.getDescription();
         Integer minLength = property.getMinLength();
         Integer maxLength = property.getMaxLength();
