@@ -550,4 +550,31 @@ public class RustClientCodegenTest {
             TestUtils.assertFileContains(Path.of(target.toString(), "/Cargo.toml"), "percent-encoding");
         }
     }
+
+    @Test
+    public void testEnumUnknownDefaultCaseUsesSerdeOther() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true)
+                .setInputSpec("src/test/resources/3_0/rust/enum-unknown-default-case.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // string enum schema
+        Path petKindPath = Path.of(target.toString(), "/src/models/pet_kind.rs");
+        TestUtils.assertFileExists(petKindPath);
+        TestUtils.assertFileContains(petKindPath,
+                "#[serde(rename = \"unknown_default_open_api\")] #[serde(other)] UnknownDefaultOpenApi,");
+
+        // inline string and integer property enums
+        Path petPath = Path.of(target.toString(), "/src/models/pet.rs");
+        TestUtils.assertFileExists(petPath);
+        TestUtils.assertFileContains(petPath,
+                "#[serde(rename = \"unknown_default_open_api\")] #[serde(other)] UnknownDefaultOpenApi,",
+                "#[serde(other)] UnknownDefaultOpenApi = 11184809,");
+    }
 }
