@@ -181,18 +181,50 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            bool oneOfValueWritten = false;
             if (fruitReq.AppleReq != null)
             {
-                AppleReqJsonConverter converter = (AppleReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(AppleReq)));
-                converter.WriteProperties(writer, fruitReq.AppleReq, jsonSerializerOptions);
+                if (oneOfValueWritten)
+                    throw new JsonException("Multiple oneOf variants are set for FruitReq.");
+                oneOfValueWritten = true;
+                var variant = fruitReq.AppleReq;
+                var variantOptions = jsonSerializerOptions;
+                if (!jsonSerializerOptions.Converters.Any(c => c.CanConvert(variant.GetType())))
+                {
+                    variantOptions = new JsonSerializerOptions(jsonSerializerOptions);
+                    variantOptions.Converters.Add(new AppleReqJsonConverter());
+                }
+                using (JsonDocument document = JsonDocument.Parse(JsonSerializer.Serialize(variant, variant.GetType(), variantOptions)))
+                {
+                    if (document.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("The oneOf variant must serialize as an object.");
+                    foreach (JsonProperty property in document.RootElement.EnumerateObject())
+                        property.WriteTo(writer);
+                }
             }
 
             if (fruitReq.BananaReq != null)
             {
-                BananaReqJsonConverter converter = (BananaReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(BananaReq)));
-                converter.WriteProperties(writer, fruitReq.BananaReq, jsonSerializerOptions);
+                if (oneOfValueWritten)
+                    throw new JsonException("Multiple oneOf variants are set for FruitReq.");
+                oneOfValueWritten = true;
+                var variant = fruitReq.BananaReq;
+                var variantOptions = jsonSerializerOptions;
+                if (!jsonSerializerOptions.Converters.Any(c => c.CanConvert(variant.GetType())))
+                {
+                    variantOptions = new JsonSerializerOptions(jsonSerializerOptions);
+                    variantOptions.Converters.Add(new BananaReqJsonConverter());
+                }
+                using (JsonDocument document = JsonDocument.Parse(JsonSerializer.Serialize(variant, variant.GetType(), variantOptions)))
+                {
+                    if (document.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("The oneOf variant must serialize as an object.");
+                    foreach (JsonProperty property in document.RootElement.EnumerateObject())
+                        property.WriteTo(writer);
+                }
             }
 
+            _ = oneOfValueWritten;
             WriteProperties(writer, fruitReq, jsonSerializerOptions);
             writer.WriteEndObject();
         }

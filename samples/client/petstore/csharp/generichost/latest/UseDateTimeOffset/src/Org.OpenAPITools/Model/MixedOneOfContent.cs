@@ -245,12 +245,29 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            bool oneOfValueWritten = false;
             if (mixedOneOfContent.MixedSubId != null)
             {
-                MixedSubIdJsonConverter converter = (MixedSubIdJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof(MixedSubId)));
-                converter.WriteProperties(writer, mixedOneOfContent.MixedSubId, jsonSerializerOptions);
+                if (oneOfValueWritten)
+                    throw new JsonException("Multiple oneOf variants are set for MixedOneOfContent.");
+                oneOfValueWritten = true;
+                var variant = mixedOneOfContent.MixedSubId;
+                var variantOptions = jsonSerializerOptions;
+                if (!jsonSerializerOptions.Converters.Any(c => c.CanConvert(variant.GetType())))
+                {
+                    variantOptions = new JsonSerializerOptions(jsonSerializerOptions);
+                    variantOptions.Converters.Add(new MixedSubIdJsonConverter());
+                }
+                using (JsonDocument document = JsonDocument.Parse(JsonSerializer.Serialize(variant, variant.GetType(), variantOptions)))
+                {
+                    if (document.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("The oneOf variant must serialize as an object.");
+                    foreach (JsonProperty property in document.RootElement.EnumerateObject())
+                        property.WriteTo(writer);
+                }
             }
 
+            _ = oneOfValueWritten;
             WriteProperties(writer, mixedOneOfContent, jsonSerializerOptions);
             writer.WriteEndObject();
         }

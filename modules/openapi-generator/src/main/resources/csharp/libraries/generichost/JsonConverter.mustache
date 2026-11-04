@@ -421,20 +421,41 @@
             {{^model.discriminator}}
             {{#composedSchemas}}
             {{#oneOf}}
+            {{#-first}}
+            bool oneOfValueWritten = false;
+            {{/-first}}
             {{^vendorExtensions.x-duplicated-data-type}}
             {{^isPrimitiveType}}
             {{^isArray}}
             {{^isMap}}
             if ({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
             {
-                {{baseType}}JsonConverter converter = ({{baseType}}JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(typeof({{baseType}})));
-                converter.WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+                if (oneOfValueWritten)
+                    throw new JsonException("Multiple oneOf variants are set for {{model.classname}}.");
+                oneOfValueWritten = true;
+                var variant = {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}};
+                var variantOptions = jsonSerializerOptions;
+                if (!jsonSerializerOptions.Converters.Any(c => c.CanConvert(variant.GetType())))
+                {
+                    variantOptions = new JsonSerializerOptions(jsonSerializerOptions);
+                    variantOptions.Converters.Add(new {{baseType}}JsonConverter());
+                }
+                using (JsonDocument document = JsonDocument.Parse(JsonSerializer.Serialize(variant, variant.GetType(), variantOptions)))
+                {
+                    if (document.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("The oneOf variant must serialize as an object.");
+                    foreach (JsonProperty property in document.RootElement.EnumerateObject())
+                        property.WriteTo(writer);
+                }
             }
 
             {{/isMap}}
             {{/isArray}}
             {{/isPrimitiveType}}
             {{/vendorExtensions.x-duplicated-data-type}}
+            {{#-last}}
+            _ = oneOfValueWritten;
+            {{/-last}}
             {{/oneOf}}
             {{#anyOf}}
             if ({{#lambda.joinWithAmpersand}}{{^required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet  {{/required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null{{/lambda.joinWithAmpersand}})

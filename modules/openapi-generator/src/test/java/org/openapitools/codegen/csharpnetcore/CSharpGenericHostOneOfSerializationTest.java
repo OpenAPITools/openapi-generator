@@ -25,8 +25,8 @@ public class CSharpGenericHostOneOfSerializationTest {
         new DefaultGenerator().opts(config.toClientOptInput()).generate();
         assertFileContains(output.resolve("src/OneOfRepro/Model/Entry.cs"),
                 "if (entry.FileEntry != null)",
-                "converter.WriteProperties(writer, entry.FileEntry, jsonSerializerOptions);",
+                "JsonSerializer.Serialize(variant, variant.GetType(), variantOptions)",
                 "if (entry.FolderEntry != null)",
-                "converter.WriteProperties(writer, entry.FolderEntry, jsonSerializerOptions);");
+                "Multiple oneOf variants are set for Entry.");
     }
 }
