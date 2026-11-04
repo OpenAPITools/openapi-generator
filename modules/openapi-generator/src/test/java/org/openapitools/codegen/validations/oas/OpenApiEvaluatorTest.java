@@ -283,4 +283,34 @@ public class OpenApiEvaluatorTest {
         Assert.assertEquals(warnings.size(), 1);
         Assert.assertTrue(warnings.get(0).getMessage().contains("'http'"));
     }
+
+    private static List<Invalid> getUnusedModelWarnings(ValidationResult result) {
+        return result.getWarnings().stream()
+                .filter(i -> i.getMessage().startsWith("Unused model"))
+                .collect(Collectors.toList());
+    }
+
+    @Test(description = "warn for unused schema when recommendations are enabled")
+    public void testUnusedSchemaRecommendationsOn() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        ValidationResult result = evaluator.validate(buildSpecWithEnumDefault(Arrays.asList("udp"), "udp"));
+
+        List<Invalid> warnings = getUnusedModelWarnings(result);
+        Assert.assertEquals(warnings.size(), 1);
+        Assert.assertEquals(warnings.get(0).getMessage(), "Unused model: Config");
+    }
+
+    @Test(description = "no unused schema warning when all recommendations are disabled")
+    public void testUnusedSchemaRecommendationsOff() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(false);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        ValidationResult result = evaluator.validate(buildSpecWithEnumDefault(Arrays.asList("udp"), "udp"));
+
+        Assert.assertEquals(getUnusedModelWarnings(result).size(), 0);
+    }
 }
