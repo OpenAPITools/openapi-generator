@@ -32,6 +32,8 @@ import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -494,7 +496,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             return example;
         }
 
-        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (isEnumSchema(schema)) {
             // Enum case:
             example = schema.getEnum().get(0).toString();
 /*            if (ModelUtils.isStringSchema(schema)) {
@@ -690,11 +692,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         // e.g. PhoneNumberApi.rb => phone_number_api.rb
         return camelize(name) + "API";
-    }
-
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
     }
 
     @Override
@@ -913,7 +910,7 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
         CodegenProperty cm = super.fromProperty(name, p, required);
         Schema ref = ModelUtils.getReferencedSchema(openAPI, p);
         if (ref != null) {
-            if (ref.getEnum() != null) {
+            if (isEnum(ref)) {
                 cm.isEnum = true;
             }
         }

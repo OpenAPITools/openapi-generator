@@ -29,13 +29,11 @@ import org.openapitools.client.models.ApiTag
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
- *
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param category 
- * @param tags 
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 

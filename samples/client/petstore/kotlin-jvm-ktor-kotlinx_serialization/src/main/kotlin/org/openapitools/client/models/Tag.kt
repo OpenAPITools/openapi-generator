@@ -31,8 +31,8 @@ import kotlinx.serialization.Contextual
 /**
  * A tag for a pet
  *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 @Serializable
 

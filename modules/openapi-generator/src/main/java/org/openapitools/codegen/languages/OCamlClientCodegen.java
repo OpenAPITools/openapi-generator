@@ -43,8 +43,7 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.model.EnumVarMap.ENUM_VALUES;
-import static org.openapitools.codegen.utils.ModelUtils.hasAnyOf;
-import static org.openapitools.codegen.utils.ModelUtils.hasOneOf;
+import static org.openapitools.codegen.utils.ModelUtils.*;
 import static org.openapitools.codegen.utils.StringUtils.escape;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -391,7 +390,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     private boolean isEnumSchema(Schema schema) {
-        return schema != null && schema.getEnum() != null && !schema.getEnum().isEmpty();
+        return schema != null && ModelUtils.isEnumSchema(schema);
     }
 
     private void collectEnumSchemas(String parentName, String sName, Schema schema) {
@@ -730,11 +729,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema inner = ModelUtils.getSchemaItems(p);
@@ -750,15 +744,15 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
                 LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
             }
-            String prefix = inner.getEnum() != null ? "Enums." : "";
+            String prefix = isEnum(inner) ? "Enums." : "";
             return "(string * " + prefix + getTypeDeclaration(inner) + ") list";
-        } else if (p.getEnum() != null) {
+        } else if (isEnum(p)) {
             Set<String> h = hashEnum(p);
             return enumUniqNames.get(h);
         }
 
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, p);
-        if (referencedSchema != null && referencedSchema.getEnum() != null) {
+        if (referencedSchema != null && isEnum(referencedSchema)) {
             Set<String> h = hashEnum(referencedSchema);
             return "Enums." + enumUniqNames.get(h);
         }
@@ -935,7 +929,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getDefault() != null) {
-            if (p.getEnum() != null) {
+            if (isEnum(p)) {
                 return ocamlizeEnumValue(p.getDefault().toString());
             }
             return p.getDefault().toString();

@@ -28,8 +28,6 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
- *
  * Values: active,inactive,`in-progress`,`not-started`,`name,asc`,`name,desc`,`id,asc`,`id,desc`,`not started`,`class`,fooBacktickBar,$yolo,`🎉`,unknown_default_open_api
  */
 

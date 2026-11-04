@@ -20,6 +20,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
+
 /**
  * Ordered composition lowering for the cpp-boost-beast client: builds the
  * per-schema {@link CompositionDescriptor}s (branch scan surfaces, validator
@@ -446,7 +448,7 @@ public final class Oas31CompositionLowering {
                     resolvedName = branchSchema.getType();
                 }
                 if (resolvedName == null) {
-                    if (branchSchema.getEnum() != null && !branchSchema.getEnum().isEmpty()) {
+                    if (isEnumSchema(branchSchema)) {
                         resolvedName = "enum";
                     } else {
                         resolvedName = "object";

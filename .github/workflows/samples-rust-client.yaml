@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "samples/client/others/rust/**"
-      - "samples/client/petstore/rust-server/**"
+      - "samples/client/petstore/rust/**"
   pull_request:
     paths:
       - "samples/client/others/rust/**"

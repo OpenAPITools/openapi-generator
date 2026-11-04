@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  * @param displayName Get displayName
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public record Account(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotNull 
@@ -53,5 +53,65 @@ public record Account(
         + ", displayName=" + displayName
         + "]";
   }
+
+  /**
+   * Builder of Account. Components that are not set get their initial value from the constructor.
+   * The builder can be used again after {@link #build()}.
+   */
+  public static class Builder {
+
+    private String username;
+
+    private String password;
+
+    private String displayName;
+
+    public Builder() {
+    }
+
+    protected Builder copyOf(Account value) {
+      this.username = value.username();
+      this.password = value.password();
+      this.displayName = value.displayName();
+      return this;
+    }
+
+    public Account.Builder username(String username) {
+      this.username = username;
+      return this;
+    }
+
+    public Account.Builder password(String password) {
+      this.password = password;
+      return this;
+    }
+
+    public Account.Builder displayName(String displayName) {
+      this.displayName = displayName;
+      return this;
+    }
+
+    /**
+     * Returns a new Account from the values set so far; the builder stays usable.
+     */
+    public Account build() {
+      return new Account(this.username, this.password, this.displayName);
+    }
+  }
+
+  /**
+   * Create a builder with no initialized component (the constructor applies the initial values).
+   */
+  public static Account.Builder builder() {
+    return new Account.Builder();
+  }
+
+  /**
+   * Create a builder holding every component of this record.
+   */
+  public Account.Builder toBuilder() {
+    return new Account.Builder().copyOf(this);
+  }
+
 }
 

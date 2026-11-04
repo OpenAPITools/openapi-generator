@@ -29,9 +29,7 @@ import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 /**
- * 
- *
- * @param propertyName 
+ * @param propertyName
  */
 
 
@@ -46,8 +44,6 @@ data class ModelWithEnumPropertyHavingDefault (
     }
 
     /**
-     * 
-     *
      * Values: VALUE,unknown_default_open_api
      */
     @JsonClass(generateAdapter = false)

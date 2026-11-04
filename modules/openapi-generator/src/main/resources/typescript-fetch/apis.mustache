@@ -258,7 +258,10 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#headerIsJsonMimeType}}
         {{#jsonHeaderUsesModelSerializer}}
         if (requestParameters['{{paramName}}'] !== undefined) {
-            headerParameters['{{baseName}}'] = JSON.stringify({{dataType}}ToJSON(requestParameters['{{paramName}}']));
+            const jsonHeaderValue = runtime.jsonStringifyForHeader({{dataType}}ToJSON(requestParameters['{{paramName}}']));
+            if (jsonHeaderValue !== undefined) {
+                headerParameters['{{baseName}}'] = jsonHeaderValue;
+            }
         }
 
         {{/jsonHeaderUsesModelSerializer}}
@@ -282,7 +285,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#isBasic}}
         {{#isBasicBasic}}
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+            headerParameters["Authorization"] = "Basic " + btoa((this.configuration.username || "") + ":" + (this.configuration.password || ""));
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}

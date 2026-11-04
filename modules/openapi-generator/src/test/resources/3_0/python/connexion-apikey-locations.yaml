@@ -1,0 +1,73 @@
+openapi: 3.0.0
+info:
+  title: apiKey locations
+  description: |-
+    Operations secured by apiKey security schemes in header, query and cookie.
+    The generated controller tests must send each key under its `name`
+    (keyParamName) in its declared `in` location, not under the scheme name in
+    headers.
+  version: 1.0.0
+servers:
+  - url: /api
+paths:
+  /secured-header:
+    get:
+      operationId: getSecuredHeader
+      security:
+        - apikey_header: []
+      responses:
+        '200':
+          description: ok
+  /secured-query:
+    get:
+      operationId: getSecuredQuery
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: string
+      security:
+        - apikey_query: []
+      responses:
+        '200':
+          description: ok
+  /secured-query-key-only:
+    get:
+      operationId: getSecuredQueryKeyOnly
+      security:
+        - apikey_query: []
+      responses:
+        '200':
+          description: ok
+  /secured-cookie:
+    get:
+      operationId: getSecuredCookie
+      security:
+        - apikey_cookie: []
+      responses:
+        '200':
+          description: ok
+  /secured-all:
+    get:
+      operationId: getSecuredAll
+      security:
+        - apikey_header: []
+          apikey_query: []
+          apikey_cookie: []
+      responses:
+        '200':
+          description: ok
+components:
+  securitySchemes:
+    apikey_header:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+    apikey_query:
+      type: apiKey
+      in: query
+      name: apikey
+    apikey_cookie:
+      type: apiKey
+      in: cookie
+      name: session

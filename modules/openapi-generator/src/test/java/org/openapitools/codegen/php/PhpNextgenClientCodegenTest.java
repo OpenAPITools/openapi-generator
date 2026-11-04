@@ -96,6 +96,29 @@ public class PhpNextgenClientCodegenTest {
     }
 
     @Test
+    public void testBooleanFormatForQueryStringDefaultsToString() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("Pet", new ObjectSchema());
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String configurationPhp = String.join("\n", Files.readAllLines(files.get("Configuration.php").toPath()));
+
+        // booleans in query strings must be serialized as "true" or "false" like in the other generators
+        Assert.assertTrue(configurationPhp.contains(
+                "protected string $booleanFormatForQueryString = self::BOOLEAN_FORMAT_STRING;"), configurationPhp);
+    }
+
+    @Test
     public void testEnumUnknownDefaultCaseDeserializationEnabled() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -122,6 +145,16 @@ public class PhpNextgenClientCodegenTest {
 
         Assert.assertListContains(modelContent, a -> a.equals("$color = self::COLOR_UNKNOWN_DEFAULT_OPEN_API;"), "");
         Assert.assertListNotContains(modelContent, a -> a.equals("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
+
+        List<String> objectSerializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListContains(objectSerializerContent,
+                a -> a.equals("return constant(\"$class::UNKNOWN_DEFAULT_OPEN_API\");"),
+                "ObjectSerializer must deserialize unknown values of enum classes to the unknown default case");
     }
 
     @Test
@@ -189,6 +222,16 @@ public class PhpNextgenClientCodegenTest {
 
         Assert.assertListNotContains(modelContent, a -> a.equals("$color = self::COLOR_UNKNOWN_DEFAULT_OPEN_API;"), "");
         Assert.assertListContains(modelContent, a -> a.equalsIgnoreCase("\"Invalid value '%s' for 'color', must be one of '%s'\","), "");
+
+        List<String> objectSerializerContent = Files
+                .readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListNotContains(objectSerializerContent,
+                a -> a.contains("UNKNOWN_DEFAULT_OPEN_API"),
+                "ObjectSerializer must not fall back to the unknown default case if enumUnknownDefaultCase is disabled");
     }
 
     @Test(enabled = false)
@@ -733,5 +776,46 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertFalse(modelPhp.contains("mb_strlen($starts_at)"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
+    }
+
+    @Test
+    public void testQueryParametersUsesConfiguration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> apiContent = Files.readAllLines(files.get("PetApi.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        // the boolean format of the configuration used by the API must be used for query parameters
+        Assert.assertListContains(apiContent,
+                a -> a.equals("$query = ObjectSerializer::buildQuery($queryParams, PHP_QUERY_RFC3986, $this->config);"),
+                "API must pass its configuration to ObjectSerializer::buildQuery");
+        Assert.assertListContains(apiContent,
+                a -> a.equals("$this->config"),
+                "API must pass its configuration to ObjectSerializer::toQueryValue");
+
+        List<String> objectSerializerContent = Files.readAllLines(files.get("ObjectSerializer.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListNotContains(objectSerializerContent,
+                a -> a.contains("Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()"),
+                "ObjectSerializer must only fall back to the default configuration if no configuration is given");
     }
 }

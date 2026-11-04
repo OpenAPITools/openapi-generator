@@ -29,9 +29,7 @@ import com.squareup.moshi.JsonClass
 import java.io.Serializable
 
 /**
- * 
- *
- * @param daysOfWeek 
+ * @param daysOfWeek
  */
 
 
@@ -46,8 +44,6 @@ data class ModelWithIntArrayEnum (
     }
 
     /**
-     * 
-     *
      * Values: _0,_1,_2,_3,_4,_5,_6
      */
     @JsonClass(generateAdapter = false)

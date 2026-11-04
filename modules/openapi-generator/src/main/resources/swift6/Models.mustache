@@ -95,6 +95,14 @@ where RawValue: Decodable, AllCases: BidirectionalCollection {}
     case requestMissingURL
 }
 
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum RequestBuilderError: Error, Sendable {
+    case bodyEncodingFailed(any Error)
+    case unsupportedHTTPMethod(String)
+    case unsupportedMediaType(String)
+    case unsupportedParameterValue(key: String)
+    case unsupportedResponseType(String)
+}
+
 {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} enum DecodableRequestBuilderError: Error, Sendable {
     case emptyDataResponse
     case nilHTTPResponse

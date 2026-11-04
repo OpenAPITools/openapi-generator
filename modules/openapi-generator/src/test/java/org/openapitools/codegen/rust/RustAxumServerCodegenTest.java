@@ -6,6 +6,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.RustAxumServerCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -18,6 +19,36 @@ import java.util.List;
 import static org.openapitools.codegen.TestUtils.linearize;
 
 public class RustAxumServerCodegenTest {
+    @DataProvider(name = "additionalPropertiesSpecs")
+    public Object[][] additionalPropertiesSpecs() {
+        return new Object[][] {
+                {"src/test/resources/3_0/rust-axum/additional-properties.yaml"},
+                {"src/test/resources/3_1/rust-axum/additional-properties.yaml"}
+        };
+    }
+
+    @Test(dataProvider = "additionalPropertiesSpecs")
+    public void testAdditionalPropertiesFalse(String inputSpec) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec(inputSpec)
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        for (String model : List.of("ClosedObject", "ClosedNested", "ClosedOptional")) {
+            TestUtils.assertFileContains(modelsPath, "#[serde(deny_unknown_fields)]\npub struct " + model + " {");
+        }
+        for (String model : List.of("OpenObject", "UnspecifiedObject", "TypedAdditionalProperties")) {
+            TestUtils.assertFileContains(modelsPath, "pub struct " + model + " {");
+            TestUtils.assertFileNotContains(modelsPath, "#[serde(deny_unknown_fields)]\npub struct " + model + " {");
+        }
+    }
+
     @Test
     public void testObjectStructFieldIsPublic() throws IOException {
         Path target = Files.createTempDirectory("test");
@@ -52,6 +83,43 @@ public class RustAxumServerCodegenTest {
                 ".with_state(api_impl)");
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, routerSpec);
+    }
+
+    @Test
+    public void testDefaultResponseCarriesStatus() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-default-response.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiPath = Path.of(target.toString(), "/src/apis/default.rs");
+        TestUtils.assertFileExists(apiPath);
+        // The status of a default response is chosen by the implementation
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16)");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16, models::Error)");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError { status: u16, body: models::Error,");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError { status: u16, x_request_id:");
+        TestUtils.assertFileContains(apiPath, "Status0_EventStream (u16, models::SSE)");
+        // Responses with an explicit status code are unchanged
+        TestUtils.assertFileContains(apiPath, "Status200_ThePet (models::Pet)");
+
+        Path serverPath = Path.of(target.toString(), "/src/server/mod.rs");
+        TestUtils.assertFileExists(serverPath);
+        TestUtils.assertFileContains(serverPath, "DeletePetResponse::Status0_UnexpectedError (status)");
+        TestUtils.assertFileContains(serverPath, "GetPetResponse::Status0_UnexpectedError (status, body)");
+        TestUtils.assertFileContains(serverPath, "ListPetsResponse::Status0_UnexpectedError { status, body,");
+        TestUtils.assertFileContains(serverPath, "AdoptPetResponse::Status0_UnexpectedError { status, x_request_id");
+        TestUtils.assertFileContains(serverPath, "StreamEventsResponse::Status0_EventStream (status, body)");
+        TestUtils.assertFileContains(serverPath, "let status = StatusCode::from_u16(status)");
+        // An invalid status is logged and answered with 500, also for SSE bodies
+        TestUtils.assertFileContains(serverPath, "error!(status, error = ?e);");
+        TestUtils.assertFileContains(serverPath, "parts.status = status;");
+        TestUtils.assertFileNotContains(serverPath, "parts.status = status.try_into()");
+        TestUtils.assertFileNotContains(serverPath, "response.status(0)");
     }
 
     @Test
@@ -152,5 +220,55 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileNotContains(modelsPath, "Person::_name_for_object_type");
         TestUtils.assertFileContains(modelsPath, "String::from(\"car\")");
         TestUtils.assertFileContains(Path.of(target.toString(), "/src/types.rs"), "macro_rules! impl_deserialize_tagged");
+    }
+
+    @Test
+    public void testRecursiveModelFieldsAreBoxed() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_1/rust-axum/rust-axum-recursive-models.yaml")
+                .addAdditionalProperty("boxRecursiveModels", true)
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        // Direct self reference
+        TestUtils.assertFileContains(modelsPath, "pub parent: Option<Box<models::Node>>,");
+        TestUtils.assertFileContains(modelsPath, "parent: intermediate_rep.parent.into_iter().next().map(Box::new),");
+        // Containers already add indirection
+        TestUtils.assertFileContains(modelsPath, "pub children: Option<Vec<models::Node>>,");
+        // Nullable self reference (anyOf/oneOf with null)
+        TestUtils.assertFileContains(modelsPath, "pub manager: Nullable<Box<models::Employee>>,");
+        TestUtils.assertFileContains(modelsPath, "pub mentor: Option<Nullable<Box<models::Employee>>>,");
+        TestUtils.assertFileContains(modelsPath, "pub fn new(name: String, manager: Nullable<Box<models::Employee>>, ) -> Employee {");
+        // Indirect cycle Employee -> Department -> Employee
+        TestUtils.assertFileContains(modelsPath, "pub department: Option<Box<models::Department>>,");
+        TestUtils.assertFileContains(modelsPath, "pub head: Option<Box<models::Employee>>,");
+        // Cycle through a oneOf variant Circle -> Shape -> Circle
+        TestUtils.assertFileContains(modelsPath, "pub inner: Option<Box<models::Shape>>,");
+        // Non-recursive references are left as they are
+        TestUtils.assertFileContains(modelsPath, "pub owner: Option<models::Owner>,");
+    }
+
+    @Test
+    public void testRecursiveModelFieldsAreNotBoxedByDefault() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_1/rust-axum/rust-axum-recursive-models.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path modelsPath = Path.of(target.toString(), "/src/models.rs");
+        TestUtils.assertFileExists(modelsPath);
+        TestUtils.assertFileContains(modelsPath, "pub parent: Option<models::Node>,");
+        TestUtils.assertFileContains(modelsPath, "pub manager: Nullable<models::Employee>,");
+        TestUtils.assertFileNotContains(modelsPath, "Box<models::");
     }
 }

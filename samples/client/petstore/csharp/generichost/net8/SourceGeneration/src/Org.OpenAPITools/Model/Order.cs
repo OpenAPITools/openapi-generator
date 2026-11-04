@@ -246,7 +246,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -416,8 +416,11 @@ namespace Org.OpenAPITools.Model
                                 JsonSerializer.Serialize(writer, order.ShipDateOption.Value!.Value, jsonSerializerOptions);
                             }
 
-            var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value);
-            writer.WriteString("status", statusRawValue);
+            if (order.StatusOption.IsSet)
+            {
+                var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value);
+                writer.WriteString("status", statusRawValue);
+            }
         }
     }
 
