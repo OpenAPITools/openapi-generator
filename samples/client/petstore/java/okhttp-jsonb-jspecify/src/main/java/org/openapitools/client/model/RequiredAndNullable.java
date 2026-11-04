@@ -40,7 +40,7 @@ import org.openapitools.client.JSON;
 /**
  * RequiredAndNullable
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class RequiredAndNullable {
   public static final String SERIALIZED_NAME_STR = "str";
   @JsonbProperty(SERIALIZED_NAME_STR)

@@ -40,7 +40,7 @@ import org.openapitools.client.JSON;
 /**
  * Object with allOf ref to double
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class AllOfRefToDouble {
   public static final String SERIALIZED_NAME_HEIGHT = "height";
   @JsonbProperty(SERIALIZED_NAME_HEIGHT)

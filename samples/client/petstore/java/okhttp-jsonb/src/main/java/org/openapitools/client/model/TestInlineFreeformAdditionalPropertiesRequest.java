@@ -40,7 +40,7 @@ import org.openapitools.client.JSON;
 /**
  * TestInlineFreeformAdditionalPropertiesRequest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String SERIALIZED_NAME_SOME_PROPERTY = "someProperty";
   @JsonbProperty(SERIALIZED_NAME_SOME_PROPERTY)

@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * PetUsingAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonPropertyOrder({
   PetUsingAllOf.JSON_PROPERTY_ID,
   PetUsingAllOf.JSON_PROPERTY_CATEGORY,

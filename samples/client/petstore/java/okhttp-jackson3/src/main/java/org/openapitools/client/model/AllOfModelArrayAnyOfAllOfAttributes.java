@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * AllOfModelArrayAnyOfAllOfAttributes
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonPropertyOrder({
   AllOfModelArrayAnyOfAllOfAttributes.JSON_PROPERTY_C
 })

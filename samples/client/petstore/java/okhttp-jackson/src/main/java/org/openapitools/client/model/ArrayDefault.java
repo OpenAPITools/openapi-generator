@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * ArrayDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonPropertyOrder({
   ArrayDefault.JSON_PROPERTY_WITH_DEFAULT_EMPTY_BRACKET,
   ArrayDefault.JSON_PROPERTY_WITHOUT_DEFAULT

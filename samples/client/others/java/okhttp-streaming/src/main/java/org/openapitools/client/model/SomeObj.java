@@ -44,7 +44,7 @@ import org.openapitools.client.JSON;
 /**
  * SomeObj
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class SomeObj implements Serializable {
   private static final long serialVersionUID = 1L;
 
@@ -52,7 +52,7 @@ public class SomeObj implements Serializable {
    * Gets or Sets $type
    */
   @JsonAdapter(TypeEnum.Adapter.class)
-    public enum TypeEnum {
+    public enum TypeEnum implements Serializable {
     SOMEOBJIDENTIFIER("SomeObjIdentifier");
 
     private String value;

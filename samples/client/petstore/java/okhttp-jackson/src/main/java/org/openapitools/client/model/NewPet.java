@@ -36,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * NewPet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonPropertyOrder({
   NewPet.JSON_PROPERTY_ID,
   NewPet.JSON_PROPERTY_CATEGORY_INLINE_ALLOF,

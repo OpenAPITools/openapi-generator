@@ -41,7 +41,7 @@ import org.openapitools.client.JSON;
 /**
  * Banana
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class Banana {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @JsonbProperty(SERIALIZED_NAME_LENGTH_CM)

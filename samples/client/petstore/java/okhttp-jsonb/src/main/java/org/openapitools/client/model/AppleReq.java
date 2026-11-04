@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
 /**
  * AppleReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class AppleReq {
   public static final String SERIALIZED_NAME_CULTIVAR = "cultivar";
   @JsonbProperty(SERIALIZED_NAME_CULTIVAR)
