@@ -165,7 +165,7 @@ public class PythonFlaskConnexionServerCodegenTest {
                 "Untagged operations should honor defaultController, not fall back to default_controller.py");
     }
 
-    @Test(description = "model examples in generated controller tests use the imported class name, not the package", enabled = false)
+    @Test(description = "model examples in generated controller tests use the imported class name, not the package")
     public void testControllerTestModelExampleUsesImportedName() throws IOException {
         final DefaultCodegen codegen = new PythonFlaskConnexionServerCodegen();
         final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-flask/model-typed-params.yaml");
@@ -176,11 +176,13 @@ public class PythonFlaskConnexionServerCodegenTest {
         assertFileContains(controllerTest,
                 "from openapi_server.models.filter import Filter",
                 "from openapi_server.models.trace import Trace",
-                "query_string = [('filter', Filter()),",
+                // a model-typed query parameter is sent as form/explode wire pairs, not a Filter() repr
+                "query_string = [('name', 'name_example'),",
                 "('filters', [Filter()]),",
                 "('filterMap', {'key': Filter()}),",
-                "filter = Filter()",
-                ": Trace(),");
+                "filter_ = Filter()",
+                // a model-typed header is sent as its simple-style wire value, not a Trace() repr
+                "'X-Trace': 'id,id_example',");
         // User-supplied examples that merely look like a constructor are kept verbatim.
         assertFileContains(controllerTest, "('label', 'openapi_server.Filter()')", "('count', openapi_server.int())");
         // A model-typed parameter with a default keeps the default as its example.
