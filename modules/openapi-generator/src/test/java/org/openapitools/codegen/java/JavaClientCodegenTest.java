@@ -5985,6 +5985,22 @@ public class JavaClientCodegenTest {
         verifyTaggedOneOfRuntime(output, java.resolve("model/Metadata.java"), fileModel);
     }
 
+    @Test(dataProvider = "taggedOneOfLibraries")
+    public void testTaggedOneOfAnnotations(String library) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty("serializationLibrary", "jackson")
+                .addAdditionalProperty("additionalOneOfTypeAnnotations", "@SuppressWarnings(\"unused\")")
+                .addAdditionalProperty("withXml", true)
+                .setInputSpec("src/test/resources/3_1/java/feign-jackson-tagged-oneof.yaml")
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Metadata.java")).content()
+                .contains("@SuppressWarnings(\"unused\")", "@XmlRootElement", "@XmlAccessorType", "@JacksonXmlRootElement");
+    }
+
     private static void verifyTaggedOneOfRuntime(Path output, Path generatedInterface, String fileModel) throws Exception {
         Path runtime = Files.createDirectory(output.resolve("tagged-oneof-runtime"));
         Path source = Files.createDirectories(runtime.resolve("org/openapitools/client/model"));

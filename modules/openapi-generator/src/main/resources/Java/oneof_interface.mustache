@@ -1,5 +1,5 @@
 {{#vendorExtensions.x-feign-tagged-oneof}}
-{{>generatedAnnotation}}
+{{>additionalOneOfTypeAnnotations}}{{>generatedAnnotation}}
 
 @com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY, property = "{{{vendorExtensions.x-feign-tag-name}}}", visible = true{{#vendorExtensions.x-feign-tag-default}}, defaultImpl = {{{modelPackage}}}.{{{vendorExtensions.x-feign-tag-default}}}.class{{/vendorExtensions.x-feign-tag-default}}{{^vendorExtensions.x-feign-tag-default}}, defaultImpl = {{classname}}.InvalidVariant.class{{/vendorExtensions.x-feign-tag-default}})
 @com.fasterxml.jackson.annotation.JsonSubTypes({
@@ -7,6 +7,7 @@
   @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = {{{modelPackage}}}.{{model}}.class, name = "{{{value}}}"){{^-last}},{{/-last}}
 {{/vendorExtensions.x-feign-tag-mappings}}
 })
+{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-class-extra-annotation}}
