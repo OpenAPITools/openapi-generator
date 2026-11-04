@@ -7292,21 +7292,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void postProcessEnumVars(List<EnumVarMap> enumVars) {
-        Collections.reverse(enumVars);
-        enumVars.forEach(v -> {
-            String name = (String) v.getEnumName();
-            long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
-            if (count > 1) {
-                String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
-                v.setEnumName(uniqueEnumName);
-            }
-        });
-        Collections.reverse(enumVars);
         // a new name can already be taken ("EtcGmt1" + "2" is "EtcGmt12"), so repeat until names are unique
-        if (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size()) {
-            postProcessEnumVars(enumVars);
-        }
+        do {
+            Collections.reverse(enumVars);
+            enumVars.forEach(v -> {
+                String name = (String) v.getEnumName();
+                long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
+                if (count > 1) {
+                    String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                    LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
+                    v.setEnumName(uniqueEnumName);
+                }
+            });
+            Collections.reverse(enumVars);
+        } while (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size());
     }
 
     private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {
