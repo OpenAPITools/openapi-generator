@@ -1239,8 +1239,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
-        if (isLibrary(FEIGN) && jackson && !useOneOfInterfaces) {
-            configureFeignJacksonTaggedOneOf(objs);
+        if ((isLibrary(FEIGN) || isLibrary(RESTTEMPLATE)) && jackson && !useOneOfInterfaces) {
+            configureJacksonTaggedOneOf(objs);
         }
         if (isLibrary(OKHTTP_GSON)) {
             // gson refuses a class whose hierarchy declares two fields bound to one JSON name, so
@@ -1264,7 +1264,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     }
 
     /** Preserve object oneOf variants that share a required single-value string tag. */
-    private void configureFeignJacksonTaggedOneOf(Map<String, ModelsMap> models) {
+    private void configureJacksonTaggedOneOf(Map<String, ModelsMap> models) {
         Map<String, CodegenModel> allModels = getAllModels(models);
         for (CodegenModel union : allModels.values()) {
             if (union.oneOf.size() < 2 || union.discriminator != null || union.isEnum

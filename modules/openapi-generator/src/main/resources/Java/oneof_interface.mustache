@@ -1,3 +1,27 @@
+{{#vendorExtensions.x-feign-tagged-oneof}}
+{{>generatedAnnotation}}
+
+@com.fasterxml.jackson.annotation.JsonTypeInfo(use = com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME, include = com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY, property = "{{{vendorExtensions.x-feign-tag-name}}}", visible = true{{#vendorExtensions.x-feign-tag-default}}, defaultImpl = {{{modelPackage}}}.{{{vendorExtensions.x-feign-tag-default}}}.class{{/vendorExtensions.x-feign-tag-default}}{{^vendorExtensions.x-feign-tag-default}}, defaultImpl = {{classname}}.InvalidVariant.class{{/vendorExtensions.x-feign-tag-default}})
+@com.fasterxml.jackson.annotation.JsonSubTypes({
+{{#vendorExtensions.x-feign-tag-mappings}}
+  @com.fasterxml.jackson.annotation.JsonSubTypes.Type(value = {{{modelPackage}}}.{{model}}.class, name = "{{{value}}}"){{^-last}},{{/-last}}
+{{/vendorExtensions.x-feign-tag-mappings}}
+})
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public interface {{classname}} {{#vendorExtensions.x-implements}}{{#-first}}extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.x-implements}}{
+  {{^vendorExtensions.x-feign-tag-default}}
+  class InvalidVariant implements {{classname}} {
+    @com.fasterxml.jackson.annotation.JsonCreator
+    public InvalidVariant() {
+      throw new IllegalArgumentException("Unknown or missing oneOf discriminator for {{classname}}");
+    }
+  }
+  {{/vendorExtensions.x-feign-tag-default}}
+}
+{{/vendorExtensions.x-feign-tagged-oneof}}
+{{^vendorExtensions.x-feign-tagged-oneof}}
 {{>additionalOneOfTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{^discriminator}}{{^useDeductionForOneOfInterfaces}}{{>typeInfoAnnotation}}{{/useDeductionForOneOfInterfaces}}{{/discriminator}}{{>deductionAnnotation}}{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
@@ -7,3 +31,4 @@ public {{>sealed}}interface {{classname}} {{#vendorExtensions.x-implements}}{{#-
     public {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
 }
+{{/vendorExtensions.x-feign-tagged-oneof}}
