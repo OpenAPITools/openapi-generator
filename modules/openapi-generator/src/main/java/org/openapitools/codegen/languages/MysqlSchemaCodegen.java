@@ -407,6 +407,30 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
     }
 
     /**
+     * Shared epilogue of the {@code process*TypeProperty} methods.
+     */
+    private void finishColumn(CodegenModel model, CodegenProperty property, ColumnContext column) {
+        Map<String, Object> columnDefinition = column.columnDefinition;
+        if (Boolean.TRUE.equals(property.getRequired())) {
+            columnDefinition.put("colNotNull", true);
+        } else {
+            columnDefinition.put("colNotNull", false);
+            try {
+                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(property.getDefaultValue(), (String) columnDefinition.get("colDataType")));
+            } catch (RuntimeException exception) {
+                LOGGER.warn(
+                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
+                        property.getBaseName(), model.getName());
+                columnDefinition.put("colDefault", null);
+            }
+        }
+
+        if (column.description != null) {
+            columnDefinition.put("colComment", column.description);
+        }
+    }
+
+    /**
      * Processes each model's property mapped to integer type and adds related vendor extensions
      *
      * @param model    model
@@ -419,15 +443,11 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
         String dataFormat = property.getDataFormat();
         String minimum = property.getMinimum();
         String maximum = property.getMaximum();
         boolean exclusiveMinimum = property.getExclusiveMinimum();
         boolean exclusiveMaximum = property.getIExclusiveMaximum();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
         boolean unsigned = false;
 
         if (property.isEnum) {
@@ -448,23 +468,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             }
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -480,12 +484,8 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
         String minimum = property.getMinimum();
         boolean exclusiveMinimum = property.getExclusiveMinimum();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
         boolean unsigned = false;
 
         if (property.isEnum) {
@@ -504,23 +504,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(9));
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -536,32 +520,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
         List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
-        String baseName = property.getBaseName();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
         columnDefinition.put("colDataType", "TINYINT");
         columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
         columnDataTypeArguments.add(toCodegenMysqlDataTypeArgument(1));
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -577,13 +541,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
         String dataType = property.getDataType();
         Integer minLength = property.getMinLength();
         Integer maxLength = property.getMaxLength();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
 
         if (property.isEnum) {
             putEnumType(property, columnDefinition);
@@ -599,23 +559,7 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             }
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -630,31 +574,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
-        Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
-        String dataType = property.getDataType();
-        Boolean required = property.getRequired();
-        String defaultValue = property.getDefaultValue();
-        columnDefinition.put("colDataType", dataType);
+        column.columnDefinition.put("colDataType", property.getDataType());
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -670,33 +592,12 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
         }
 
         Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
-        String dataType = property.getDataType();
-        Boolean required = property.getRequired();
-        String defaultValue = property.getDefaultValue();
-        columnDefinition.put("colDataType", dataType);
+        columnDefinition.put("colDataType", property.getDataType());
         if (Boolean.FALSE.equals(getJsonDataTypeEnabled())) {
             columnDefinition.put("colDataType", "TEXT");
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -712,30 +613,9 @@ public class MysqlSchemaCodegen extends DefaultCodegen implements CodegenConfig 
             return;
         }
 
-        Map<String, Object> columnDefinition = column.columnDefinition;
-        String description = column.description;
-        String baseName = property.getBaseName();
-        Boolean required = property.getRequired();
-        String defaultValue = property.getDefaultValue();
-        columnDefinition.put("colDataType", "TEXT");
+        column.columnDefinition.put("colDataType", "TEXT");
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault", toCodegenMysqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to MySQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
