@@ -1,0 +1,211 @@
+openapi: 3.1.0
+info:
+  title: Unique items test
+  version: 1.0.0
+paths:
+  /required-regular-object:
+    post:
+      operationId: regularObject
+      requestBody:
+        $ref: '#/components/requestBodies/RequiredRegularObject'
+      responses:
+        '200':
+          description: OK
+  /optional-regular-object:
+    post:
+      operationId: optionalRegularObject
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalRegularObject'
+      responses:
+        '200':
+          description: OK
+  /required-non-unique-array:
+    post:
+      operationId: requiredNonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/RequiredNonUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-non-unique-array:
+    post:
+      operationId: optionalNonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalNonUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-non-unique-nullable-array:
+    post:
+      operationId: optionalNonUniqueNullableArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalNonUniqueNullableArray'
+      responses:
+        '200':
+          description: OK
+  /required-unique-array:
+    post:
+      operationId: requiredUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/RequiredUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-unique-array:
+    post:
+      operationId: optionalUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-unique-nullable-array:
+    post:
+      operationId: optionalUniqueNullableArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalUniqueNullableArray'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    RequiredTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    RequiredArrayTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalArrayTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalNullableArrayTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    RequiredSetTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalSetTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OptionalNullableSetTestObject:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+  requestBodies:
+    RequiredRegularObject:
+      description: Request body that is a required plain object
+      required: true
+      content:
+        application/json:
+          schema:
+              $ref: '#/components/schemas/RequiredTestObject'
+    OptionalRegularObject:
+      description: Request body that is an optional plain object
+      required: false
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OptionalTestObject'
+    RequiredNonUniqueArray:
+      description: Request body that is a required non-unique array
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/RequiredArrayTestObject'
+    OptionalNonUniqueArray:
+      description: Request body that is an optional non-unique array
+      required: false
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/OptionalArrayTestObject'
+    OptionalNonUniqueNullableArray:
+      description: Request body that is an optional nullable array
+      required: false
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
+                items:
+                  $ref: "#/components/schemas/OptionalNullableArrayTestObject"
+    RequiredUniqueArray:
+      description: Request body that is a required set
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/RequiredSetTestObject'
+    OptionalUniqueArray:
+      description: Request body that is an optional set
+      required: false
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              $ref: '#/components/schemas/OptionalSetTestObject'
+    OptionalUniqueNullableArray:
+      description: Request body that is an optional nullable set
+      required: false
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
+                uniqueItems: true
+                items:
+                  $ref: '#/components/schemas/OptionalNullableSetTestObject'
