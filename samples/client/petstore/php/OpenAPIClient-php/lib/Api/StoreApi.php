@@ -1249,6 +1249,14 @@ class StoreApi
         RequestInterface $request,
         ResponseInterface $response
     ): array {
+        // HTTP 204: No Content
+        if ($response->getStatusCode() === 204) {
+            return [
+                null,
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+        }
         if ($dataType === '\SplFileObject') {
             $content = $response->getBody(); //stream goes to serializer
         } else {
