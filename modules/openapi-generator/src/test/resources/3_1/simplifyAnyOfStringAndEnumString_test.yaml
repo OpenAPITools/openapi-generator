@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /pet/{petId}:
+    get:
+      parameters:
+        - name: petId
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: getPet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/PetStatus'
+        tag:
+          $ref: '#/components/schemas/PetTag'
+        kind:
+          description: to test anyOf (string, inline enum string)
+          anyOf:
+            - type: string
+            - type: string
+              enum:
+                - cat
+                - dog
+    PetStatus:
+      description: to test anyOf (string, enum string)
+      anyOf:
+        - type: string
+        - $ref: '#/components/schemas/PetStatusEnum'
+    PetStatusEnum:
+      type: string
+      enum:
+        - available
+        - sold
+    PetTag:
+      description: to test anyOf (string, string) which should not be simplified
+      anyOf:
+        - type: string
+        - type: string
+          maxLength: 10
+    PetSize:
+      description: to test anyOf (enum string, enum string) which must keep all values
+      anyOf:
+        - type: string
+          enum:
+            - small
+            - medium
+        - type: string
+          enum:
+            - large
