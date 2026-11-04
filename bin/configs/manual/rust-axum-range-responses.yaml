@@ -1,0 +1,12 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/rust-axum-range-responses
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust-axum/rust-axum-range-responses.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: rust-axum-range-responses-test
+  homePageUrl: https://github.com/openapitools/openapi-generator
+globalProperties:
+  skipFormModel: false
+enablePostProcessFile: true
