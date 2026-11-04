@@ -24,8 +24,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * Counters
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Counters {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+public final class Counters {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private @Nullable String id;

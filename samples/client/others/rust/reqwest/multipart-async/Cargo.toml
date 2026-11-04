@@ -14,6 +14,7 @@ serde_repr = "^0.1"
 url = "^2.5"
 tokio = { version = "^1.46.0", features = ["fs"] }
 tokio-util = { version = "^0.7", features = ["codec"] }
+percent-encoding = "^2.3"
 reqwest = { version = "^0.12", default-features = false, features = ["json", "multipart", "stream"] }
 
 [dev-dependencies]

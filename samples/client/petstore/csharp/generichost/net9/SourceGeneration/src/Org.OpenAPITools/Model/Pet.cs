@@ -232,7 +232,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -396,8 +396,11 @@ namespace Org.OpenAPITools.Model
             if (pet.IdOption.IsSet)
                 writer.WriteNumber("id", pet.IdOption.Value!.Value);
 
-            var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);
-            writer.WriteString("status", statusRawValue);
+            if (pet.StatusOption.IsSet)
+            {
+                var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);
+                writer.WriteString("status", statusRawValue);
+            }
             if (pet.TagsOption.IsSet)
             {
                 writer.WritePropertyName("tags");

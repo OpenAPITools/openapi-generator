@@ -6,6 +6,8 @@ on:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/webclient-springBoot4-*/**
+      - samples/client/petstore/java/restclient/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
       - samples/client/petstore/java/apache-httpclient-jackson3/**
@@ -28,6 +30,8 @@ on:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/webclient-springBoot4-*/**
+      - samples/client/petstore/java/restclient/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
       - samples/client/petstore/java/apache-httpclient-jackson3/**

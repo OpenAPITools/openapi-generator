@@ -21,6 +21,6 @@ import java.util.*;
 import jakarta.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public interface Shape {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+public sealed interface Shape permits Circle, Square {
 }

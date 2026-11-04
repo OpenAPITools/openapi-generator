@@ -1,0 +1,59 @@
+# {{artifactId}}
+
+Kotlin MicroProfile Rest Client interfaces and Jackson models generated from {{appName}}.
+
+Requires a MicroProfile Rest Client {{microprofileRestClientVersion}} implementation.
+MicroProfile 3.0 uses Jakarta REST; 2.0 uses javax REST.
+{{#microprofileMutiny}}
+Reactive operations return SmallRye Mutiny `Uni<T>`. This requires a runtime with
+Mutiny support, such as Quarkus REST Client. Bodyless operations return `Uni<Void?>`.
+{{/microprofileMutiny}}
+
+Register `jackson-module-kotlin` with the runtime's Jackson mapper to support Kotlin
+constructors and reference-type nullability when deserializing models. Optional
+properties use nullable types; absent and explicit-null properties are not distinguished.
+Required properties, including nullable ones, must be present in JSON. A required
+nullable property accepts an explicit `null`, but not an omitted property.
+Required non-null properties reject explicit nulls, including primitive numbers.
+This does not replace OpenAPI validation; enable the Kotlin module's strict null
+checking when validating non-null collection elements.
+
+Discriminator-based `allOf` inheritance and discriminated `oneOf`/`anyOf` object
+unions are supported. Union models are marker interfaces implemented by their
+alternatives; properties specific to an alternative are accessed after a type check.
+This does not validate the full JSON Schema `oneOf`/`anyOf` constraints.
+Unions without a discriminator are not covered by this polymorphic mapping.
+
+Use `@RestClient` injection, or `RestClientBuilder`, to obtain an implementation.
+Configure the base URL using the generated interface's fully qualified name or
+`configKey`. Authentication, header propagation and exception mappers are configured
+using the MicroProfile runtime, `@RegisterClientHeaders` and `@RegisterProvider`.
+The runtime's default response exception mapper handles HTTP errors.
+
+When compiling generated sources in an existing project, enable JVM default methods
+(`-Xjvm-default=all`, or the equivalent `jvmDefault` compiler setting). This avoids
+Kotlin `DefaultImpls` classes that Quarkus REST Client cannot process.
+The generated Gradle build already enables this setting.
+
+The generated resources include `META-INF/beans.xml` so CDI runtimes, including
+Quarkus, discover the client when it is consumed as a separate JAR. Include
+`src/main/resources` when packaging the client with a custom build.
+
+The generated artifact does not bundle a REST implementation. Multipart operations
+are not supported. Optional parameters default to `null` (omitted); OpenAPI parameter
+defaults are left to the server.
+Query parameters support scalars and arrays of scalars using `style: form` with
+`explode: true` (the OpenAPI defaults). Other array formats, object query parameters
+and content-based query parameters are rejected rather than serialized incorrectly.
+
+{{#apiInfo}}
+{{#apis}}
+## {{classname}}
+
+{{#operations}}
+{{#operation}}
+- `{{nickname}}`: {{httpMethod}} {{path}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}

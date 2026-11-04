@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: Request form field inside a composed schema test
+  version: 1.0.0
+servers:
+  - url: /v1
+paths:
+  /things:
+    post:
+      operationId: create_thing
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    request:
+                      type: string
+      responses:
+        '200':
+          description: OK

@@ -1467,8 +1467,8 @@ components:
         password: password
         phone: phone
         userStatus: 6
-        arbitraryObject: "{}"
-        arbitraryNullableObject: "{}"
+        arbitraryObject: {}
+        arbitraryNullableObject: {}
         arbitraryTypeValue: ""
         arbitraryNullableTypeValue: ""
       properties:

@@ -36,9 +36,7 @@ import java.io.IOException
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
- *
- * @param id 
+ * @param id
  */
 
 

@@ -1,0 +1,102 @@
+openapi: 3.1.0
+
+info:
+  title: Webhook parameter typing test
+  version: 1.0.0
+
+paths:
+  /pets:
+    post:
+      operationId: createPathPet
+      tags:
+        - path_pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeaderArg'
+            example:
+              path: /from-path
+              recursive: false
+      responses:
+        '200':
+          description: ok
+
+webhooks:
+  itemEvent:
+    post:
+      operationId: itemEventPost
+      tags:
+        - hooks
+      parameters:
+        - name: filter
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: X-Json-Arg
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+      responses:
+        '200':
+          description: ok
+          # Multiple response content types trigger Connexion 3's multiple-produces @unittest.skip marker.
+          content:
+            application/json: {}
+            text/plain: {}
+  closeEvent:
+    post:
+      operationId: close
+      tags:
+        - hooks
+      security:
+        - api_key: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: ok
+  pets:
+    post:
+      operationId: onWebhookPet
+      tags:
+        - hooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeaderArg'
+            example:
+              path: /from-webhook
+              recursive: true
+      responses:
+        '200':
+          description: ok
+
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: X-Api-Key
+      in: header
+  schemas:
+    HeaderArg:
+      type: object
+      properties:
+        path:
+          type: string
+        recursive:
+          type: boolean

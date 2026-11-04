@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cctype>
 #include <locale>
+#include <nlohmann/json.hpp>
 
 // Project headers
 #include "StoreApi.h"

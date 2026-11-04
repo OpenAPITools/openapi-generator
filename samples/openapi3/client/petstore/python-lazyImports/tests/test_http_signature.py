@@ -254,8 +254,9 @@ class PetApiTests(unittest.TestCase):
         if not os.path.exists(cls.rsa4096_key_path):
             key = RSA.generate(4096)
             private_key = key.export_key(
+                format='PEM',
                 passphrase=cls.private_key_passphrase,
-                protection='PEM'
+                pkcs=1
             )
             with open(cls.rsa4096_key_path, "wb") as f:
                 f.write(private_key)
@@ -481,14 +482,16 @@ class PetApiTests(unittest.TestCase):
             'Exception message: {0}'.format(str(cm.exception)))
 
         # Private key passphrase is missing but key is encrypted.
-        with self.assertRaises(Exception) as cm:
+        with self.assertRaisesRegex(
+            ValueError,
+            r'Not a valid clear PKCS#8 structure|'
+            r'The private key is encrypted: a passphrase is required'
+        ):
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 signing_scheme=signing.SCHEME_HS2019,
                 private_key_path=self.ec_p521_key_path,
             )
-        self.assertTrue(re.match('Not a valid clear PKCS#8 structure', str(cm.exception)),
-            'Exception message: {0}'.format(str(cm.exception)))
 
         # File containing private key must exist.
         with self.assertRaises(Exception) as cm:

@@ -52,6 +52,7 @@ public class TypeScriptAngularClientOptionsProvider implements TypeScriptSharedC
                 .put(TypeScriptAngularClientCodegen.STRING_ENUMS, STRING_ENUMS_VALUE)
                 .put(TypeScriptAngularClientCodegen.WITH_INTERFACES, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.USE_SINGLE_REQUEST_PARAMETER, Boolean.FALSE.toString())
+                .put(TypeScriptAngularClientCodegen.WITH_HTTP_RESOURCE, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.PROVIDED_IN, PROVIDED_IN_LEVEL)
                 .put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, Boolean.FALSE.toString())
                 .put(TypeScriptAngularClientCodegen.NPM_REPOSITORY, NPM_REPOSITORY)

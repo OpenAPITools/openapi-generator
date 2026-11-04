@@ -1,0 +1,18 @@
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+
+import { test, expect } from '@playwright/test';
+{{#models}}
+{{#model}}
+import type { {{classname}} } from '../../models/index{{importFileExtension}}';
+
+test.describe('{{classname}}', () => {
+    test('type is exported', () => {
+        // A generated placeholder asserting the model type is importable and usable.
+        const instance = {} as unknown as {{classname}};
+        expect(instance).toBeDefined();
+    });
+});
+{{/model}}
+{{/models}}
