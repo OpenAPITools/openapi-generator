@@ -7303,6 +7303,10 @@ public class DefaultCodegen implements CodegenConfig {
             }
         });
         Collections.reverse(enumVars);
+        // a new name can already be taken ("EtcGmt1" + "2" is "EtcGmt12"), so repeat until names are unique
+        if (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size()) {
+            postProcessEnumVars(enumVars);
+        }
     }
 
     private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {

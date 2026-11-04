@@ -84,6 +84,22 @@ public class DefaultCodegenTest {
         Assert.assertEquals(enumVars.get(1).getEnumValue(), "\"_42\"");
     }
 
+    @Test
+    public void testPostProcessEnumVarsKeepsRenamedEntriesUnique() {
+        // typescript names of "Etc/GMT+12", "Etc/GMT+1", "Etc/GMT0", "Etc/GMT-1" and "Etc/GMT-12"
+        List<EnumVarMap> enumVars = new ArrayList<>();
+        for (String name : Arrays.asList("EtcGmt12", "EtcGmt1", "EtcGmt0", "EtcGmt1", "EtcGmt12")) {
+            EnumVarMap enumVar = new EnumVarMap();
+            enumVar.setEnumName(name);
+            enumVars.add(enumVar);
+        }
+
+        new DefaultCodegen().postProcessEnumVars(enumVars);
+
+        assertThat(enumVars).extracting(EnumVarMap::getEnumName)
+                .containsExactly("EtcGmt122", "EtcGmt1", "EtcGmt0", "EtcGmt12", "EtcGmt1222");
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testBuildEnumVarsRejectsMismatchedRawValues() {
         new DefaultCodegen().buildEnumVars(Collections.singletonList("value"), "string", Collections.emptyList());
