@@ -1015,6 +1015,51 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "statements in generated tests keep their 8-column indent whether or not the operation declares cookie params (an empty {{#cookieParams}} section must not leak the open line's indent into the next statement)")
+    public void testGeneratedTestsStatementIndentWithAndWithoutCookieParams() throws IOException {
+        // /ping declares no parameters at all: the empty cookieParams section
+        // must render nothing, so `response = ...` stays at the same indent as
+        // the statements around it — a mid-line {{#cookieParams}} tag used to
+        // leave its 8 leading spaces behind, which merged into the next
+        // statement and produced an unexpected-indent IndentationError
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(
+                "src/test/resources/3_0/python/info-title-special-chars.yaml").entrySet()) {
+            if (variant.getKey().startsWith("python-aiohttp")) {
+                // aiohttp's cookie block already opens the section on its own
+                // line and emits a `cookies = {...}` dict instead of a header
+                continue;
+            }
+            Path testFile = generatedTestPath(variant.getKey(), variant.getValue());
+            assertFileExists(testFile);
+            String ping = generatedTestMethodBody(testFile, "test_ping");
+            assertStatementIndent(ping, "response = self.client.open(", 8);
+            assertStatementIndent(ping, "self.assert200(response,", 8);
+        }
+
+        // get_cookie_only declares only cookie params: the Cookie statement
+        // must render at statement level too — flask mutates the headers dict,
+        // blueplanet appends a ('Cookie', ...) tuple (creating the list first
+        // when the operation has no header params to initialize it)
+        for (Map.Entry<String, Path> variant : generateConnexionVariants(
+                "src/test/resources/3_0/python/connexion-json-header-test-values.yaml").entrySet()) {
+            String variantKey = variant.getKey();
+            if (variantKey.startsWith("python-aiohttp")) {
+                continue;
+            }
+            Path testFile = generatedTestPath(variantKey, variant.getValue());
+            assertFileExists(testFile);
+            String cookieOnly = generatedTestMethodBody(testFile, "test_get_cookie_only");
+            if (isBlueplanetVariant(variantKey)) {
+                assertStatementIndent(cookieOnly, "headers = []", 8);
+                assertStatementIndent(cookieOnly, "headers += [('Cookie',", 8);
+            } else {
+                assertStatementIndent(cookieOnly, "headers['Cookie'] = '; '.join([", 8);
+            }
+            assertStatementIndent(cookieOnly, "response = self.client.open(", 8);
+            assertStatementIndent(cookieOnly, "self.assert200(response,", 8);
+        }
+    }
+
     @Test(description = "content (application/json) header/cookie params get X.from_dict() only for generated model classes; inline object schemas pass the json.loads result through")
     public void testJsonContentHeaderParamsConvertOnlyGeneratedModels() throws IOException {
         String specPath = "src/test/resources/3_0/python/connexion-json-header-test-values.yaml";
@@ -1274,6 +1319,28 @@ public class AbstractPythonConnexionServerCodegenTest {
                 "connexion[swagger-ui] <= 2.14.2; python_version>\"3.4\"",
                 "werkzeug == 0.16.1; python_version==\"3.5\" or python_version==\"3.4\"",
                 "swagger-ui-bundle >= 0.0.2");
+    }
+
+    /**
+     * Asserts every line in {@code text} containing {@code marker} starts
+     * with exactly {@code expectedIndent} spaces — a substring check cannot
+     * pin indentation, since a line indented too deeply still contains the
+     * marker.
+     */
+    private static void assertStatementIndent(String text, String marker, int expectedIndent) {
+        List<String> matching = text.lines()
+                .filter(line -> line.contains(marker))
+                .collect(Collectors.toList());
+        assertThat(matching).as("no generated line contains: %s", marker).isNotEmpty();
+        for (String line : matching) {
+            int indent = 0;
+            while (indent < line.length() && line.charAt(indent) == ' ') {
+                indent++;
+            }
+            assertThat(indent)
+                    .as("line must start at column %d: %s", expectedIndent, line.trim())
+                    .isEqualTo(expectedIndent);
+        }
     }
 
     /**
