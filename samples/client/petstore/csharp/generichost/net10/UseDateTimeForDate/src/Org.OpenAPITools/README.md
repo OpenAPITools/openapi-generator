@@ -83,6 +83,17 @@ namespace YourProject
     }
 }
 ```
+
+## Certificate validation
+
+To skip certificate validation for local development or testing, configure the generated HTTP clients as follows:
+
+```cs
+options.AddApiHttpClients(client => { }, builder => builder.SkipCertificateCheck());
+```
+
+Do not disable certificate validation in production.
+
 <a id="questions"></a>
 ## Questions
 
