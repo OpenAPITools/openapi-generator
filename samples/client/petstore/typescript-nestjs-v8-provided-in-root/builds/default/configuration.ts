@@ -1,5 +1,5 @@
 import type { HttpService } from '@nestjs/axios';
-import { ModuleMetadata, Type } from '@nestjs/common/interfaces';
+import { ModuleMetadata, Type } from '@nestjs/common';
 
 export interface ConfigurationParameters {
     apiKeys?: {[ key: string ]: string};
