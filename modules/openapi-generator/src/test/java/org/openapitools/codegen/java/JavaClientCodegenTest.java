@@ -4574,13 +4574,13 @@ public class JavaClientCodegenTest {
 
         validateJavaSourceFiles(files);
         final Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
-        assertThat(modelDir.resolve("OpenTaxIdType.java")).content()
+        assertThat(modelDir.resolve("OpenPetStatus.java")).content()
                 .contains(
-                        "public OpenTaxIdType(Object o) {",
-                        "public OpenTaxIdType(TaxIdType o) {",
-                        "public OpenTaxIdType(String o) {",
-                        "public boolean isTaxIdType() {",
-                        "return super.getActualInstance() instanceof TaxIdType;",
+                        "public OpenPetStatus(Object o) {",
+                        "public OpenPetStatus(PetStatus o) {",
+                        "public OpenPetStatus(String o) {",
+                        "public boolean isPetStatus() {",
+                        "return super.getActualInstance() instanceof PetStatus;",
                         "public boolean isString() {");
         assertThat(modelDir.resolve("Scalar.java")).content()
                 .contains(

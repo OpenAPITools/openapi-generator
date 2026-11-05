@@ -21,8 +21,8 @@ components:
     Composed:
       type: object
       properties:
-        taxIdType:
-          $ref: '#/components/schemas/OpenTaxIdType'
+        status:
+          $ref: '#/components/schemas/OpenPetStatus'
         scalar:
           $ref: '#/components/schemas/Scalar'
         petOrPets:
@@ -35,14 +35,15 @@ components:
           $ref: '#/components/schemas/PetOrFreeForm'
         nullablePetOrName:
           $ref: '#/components/schemas/NullablePetOrName'
-    TaxIdType:
+    PetStatus:
       type: string
       enum:
-        - USA_SSN
-        - CAN_SIN
-    OpenTaxIdType:
+        - available
+        - pending
+        - sold
+    OpenPetStatus:
       anyOf:
-        - $ref: '#/components/schemas/TaxIdType'
+        - $ref: '#/components/schemas/PetStatus'
         - type: string
     Scalar:
       oneOf:
