@@ -1166,7 +1166,7 @@ public final class GeneratorSettings implements Serializable {
         /**
          * Sets the {@code injectModelExtensions} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param injectModelExtensions the {@code injectModelExtensions} to set
+         * @param injectModelVendorExtensions the {@code injectModelExtensions} to set
          * @return a reference to this Builder
          */
         public Builder withInjectModelVendorExtensions(Map<String, String> injectModelVendorExtensions) {

@@ -86,6 +86,43 @@ public class RustAxumServerCodegenTest {
     }
 
     @Test
+    public void testDefaultResponseCarriesStatus() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-default-response.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path apiPath = Path.of(target.toString(), "/src/apis/default.rs");
+        TestUtils.assertFileExists(apiPath);
+        // The status of a default response is chosen by the implementation
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16)");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError (u16, models::Error)");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError { status: u16, body: models::Error,");
+        TestUtils.assertFileContains(apiPath, "Status0_UnexpectedError { status: u16, x_request_id:");
+        TestUtils.assertFileContains(apiPath, "Status0_EventStream (u16, models::SSE)");
+        // Responses with an explicit status code are unchanged
+        TestUtils.assertFileContains(apiPath, "Status200_ThePet (models::Pet)");
+
+        Path serverPath = Path.of(target.toString(), "/src/server/mod.rs");
+        TestUtils.assertFileExists(serverPath);
+        TestUtils.assertFileContains(serverPath, "DeletePetResponse::Status0_UnexpectedError (status)");
+        TestUtils.assertFileContains(serverPath, "GetPetResponse::Status0_UnexpectedError (status, body)");
+        TestUtils.assertFileContains(serverPath, "ListPetsResponse::Status0_UnexpectedError { status, body,");
+        TestUtils.assertFileContains(serverPath, "AdoptPetResponse::Status0_UnexpectedError { status, x_request_id");
+        TestUtils.assertFileContains(serverPath, "StreamEventsResponse::Status0_EventStream (status, body)");
+        TestUtils.assertFileContains(serverPath, "let status = StatusCode::from_u16(status)");
+        // An invalid status is logged and answered with 500, also for SSE bodies
+        TestUtils.assertFileContains(serverPath, "error!(status, error = ?e);");
+        TestUtils.assertFileContains(serverPath, "parts.status = status;");
+        TestUtils.assertFileNotContains(serverPath, "parts.status = status.try_into()");
+        TestUtils.assertFileNotContains(serverPath, "response.status(0)");
+    }
+
+    @Test
     public void testIntegerSchemaTypeMapping() {
         RustAxumServerCodegen codegen = new RustAxumServerCodegen();
         IntegerSchema schema = new IntegerSchema();
@@ -233,5 +270,38 @@ public class RustAxumServerCodegenTest {
         TestUtils.assertFileContains(modelsPath, "pub parent: Option<models::Node>,");
         TestUtils.assertFileContains(modelsPath, "pub manager: Nullable<models::Employee>,");
         TestUtils.assertFileNotContains(modelsPath, "Box<models::");
+    }
+
+    @Test
+    public void testRangeResponseCodes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-axum")
+                .setInputSpec("src/test/resources/3_0/rust-axum/rust-axum-range-responses.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // Range responses carry the concrete status code chosen by the implementation
+        Path apiPath = Path.of(target.toString(), "/src/apis/default.rs");
+        TestUtils.assertFileExists(apiPath);
+        TestUtils.assertFileContains(apiPath, "Status200_ThePet (models::Pet)");
+        TestUtils.assertFileContains(apiPath, "Status4XX_ClientError { status: u16, body: models::Error, }");
+        TestUtils.assertFileContains(apiPath, "Status5XX_ServerError { status: u16, retry_after: Option<");
+        TestUtils.assertFileContains(apiPath, "Status4XX_ClientError { status: u16, }");
+        TestUtils.assertFileContains(apiPath, "Status5XX_ServerError { status: u16, body: models::Error, x_request_id:");
+
+        Path serverPath = Path.of(target.toString(), "/src/server/mod.rs");
+        TestUtils.assertFileExists(serverPath);
+        TestUtils.assertFileContains(serverPath, "GetPetResponse::Status4XX_ClientError { status, body, } =>");
+        TestUtils.assertFileContains(serverPath, "DeletePetResponse::Status5XX_ServerError { status, body, x_request_id, } =>");
+        TestUtils.assertFileContains(serverPath, "let mut response = response.status(status);");
+        // An out-of-range status is rejected before it reaches the response builder
+        TestUtils.assertFileContains(serverPath, "let status = StatusCode::from_u16(status).map_err(");
+        TestUtils.assertFileContains(serverPath, "GetPetEventsResponse::Status2XX_PetEvents { status, body, x_stream_id, } =>");
+        TestUtils.assertFileContains(serverPath, "parts.status = StatusCode::from_u16(status).map_err(");
+        TestUtils.assertFileNotContains(serverPath, "parts.status = status.try_into()");
+        TestUtils.assertFileNotContains(serverPath, "body.code.parse()");
     }
 }

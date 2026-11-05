@@ -13,7 +13,7 @@ use crate::{models, types::*};
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUserResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation(u16),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -21,7 +21,7 @@ pub enum CreateUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithArrayInputResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation(u16),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -29,7 +29,7 @@ pub enum CreateUsersWithArrayInputResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum CreateUsersWithListInputResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation(u16),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -73,7 +73,7 @@ pub enum LoginUserResponse {
 #[allow(clippy::large_enum_variant)]
 pub enum LogoutUserResponse {
     /// successful operation
-    Status0_SuccessfulOperation,
+    Status0_SuccessfulOperation(u16),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]

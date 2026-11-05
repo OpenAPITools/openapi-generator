@@ -26,6 +26,7 @@ declare debug=${debug:-false}
 declare -a from_parts=()
 declare -a to_parts=()
 declare -ar inc=(major minor build snapshot)
+declare snapshot_to_snapshot=false
 
 USAGE="
 USAGE: $0 OPTIONS input_file
@@ -151,14 +152,26 @@ if [[ -z "${to}" ]]; then
     case ${increase} in
         major)
             to="$(( ${from_parts[0]} + 1 )).0.0"
+            if [[ true = "${from_parts[3]}" ]]; then
+                to="${to}-SNAPSHOT"
+                snapshot_to_snapshot=true
+            fi
             version "$to" to_parts
             ;;
         minor)
             to="${from_parts[0]}.$(( ${from_parts[1]} + 1 )).0"
+            if [[ true = "${from_parts[3]}" ]]; then
+                to="${to}-SNAPSHOT"
+                snapshot_to_snapshot=true
+            fi
             version "$to" to_parts
             ;;
         build)
             to="${from_parts[0]}.${from_parts[1]}.$(( ${from_parts[2]} + 1 ))"
+            if [[ true = "${from_parts[3]}" ]]; then
+                to="${to}-SNAPSHOT"
+                snapshot_to_snapshot=true
+            fi
             version "$to" to_parts
             ;;
         snapshot)
@@ -177,7 +190,7 @@ else
     version "${to}" to_parts
 fi
 
-if [[ ${from_parts[3]} = true && ${to_parts[3]} = true ]]; then
+if [[ ${from_parts[3]} = true && ${to_parts[3]} = true && ${snapshot_to_snapshot} = false ]]; then
     err "Moving from SNAPSHOT to SNAPSHOT is not supported."
 fi
 
@@ -194,7 +207,11 @@ trap 'rm -f sedscript.sed' EXIT
 sed_cross() {
   # Cross-platform sed invocation. OSX has no option to show a version number in sed.
   local target=$1
-  sed --version >/dev/null 2>&1 && sed -e -i '' -f sedscript.sed "$target" || sed -i '' -E -f sedscript.sed "$target"
+  if sed --version >/dev/null 2>&1; then
+    sed -i -E -f sedscript.sed "$target"
+  else
+    sed -i '' -E -f sedscript.sed "$target"
+  fi
 }
 
 update_file() {
@@ -220,4 +237,3 @@ update_file() {
 for filename in "${file[@]}"; do
     update_file ${filename}
 done
-

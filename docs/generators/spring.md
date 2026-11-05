@@ -68,7 +68,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
-|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
+|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. The match is case insensitive, like HTTP header names. Note: this parameter is ignored when implicitHeaders=true| |null|
 |includeHttpRequestContext|Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.| |true (reactive) / false (blocking)|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|

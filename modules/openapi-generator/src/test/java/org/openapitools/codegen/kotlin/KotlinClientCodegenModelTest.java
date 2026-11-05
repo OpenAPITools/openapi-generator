@@ -293,6 +293,30 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "Issue #25471: preserve nullability of items in nested arrays")
+    public void nestedNullableArrayItemsPreserveNullability() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .addAdditionalProperty("collectionType", "list")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                .setInputSpec("src/test/resources/bugs/kotlin/issue_25471_nested_nullable.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator()
+                .opts(configurator.toClientOptInput())
+                .generate();
+
+        Path boardModel = modelPath(output, "Board");
+
+        TestUtils.assertFileContains(boardModel,
+            "val column: kotlin.collections.List<Note?>",
+            "val grid: kotlin.collections.List<@Contextual kotlin.collections.List<Note?>>"
+        );
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema<?> schema = getMapSchema();

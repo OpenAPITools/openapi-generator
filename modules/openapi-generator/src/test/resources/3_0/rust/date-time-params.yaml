@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: date-time params
+  version: 1.0.0
+paths:
+  /orders/{since}:
+    get:
+      operationId: listOrders
+      parameters:
+        - name: since
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: createdAfter
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: createdBefore
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - name: day
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: X-Request-Time
+          in: header
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '204':
+          description: No content
+  /orders/{at}/nullable:
+    get:
+      operationId: listOrdersNullable
+      parameters:
+        - name: at
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: updatedAfter
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            nullable: true
+        - name: X-Updated-At
+          in: header
+          required: true
+          schema:
+            type: string
+            format: date-time
+            nullable: true
+      responses:
+        '204':
+          description: No content

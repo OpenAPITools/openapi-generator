@@ -4365,10 +4365,10 @@ public class DefaultCodegen implements CodegenConfig {
                 property.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                property.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                property.setMaximum(ModelUtils.formatNumericBound(original.getMaximum(), referencedSchema, false, property.getExclusiveMaximum()));
             }
             if (original.getMinimum() != null) {
-                property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                property.setMinimum(ModelUtils.formatNumericBound(original.getMinimum(), referencedSchema, true, property.getExclusiveMinimum()));
             }
             if (original.getTitle() != null) {
                 property.setTitle(original.getTitle());
@@ -7162,7 +7162,14 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(var, enumName);
+                if (!var.isEnum && ModelUtils.isRefToSchemaWithProperties(var.getRef())) {
+                    // A reference to another model's property does not declare an enum type here.
+                    // Preserve ordinary scalar defaults, but discard the unquoted discriminator
+                    // mapping value synthesized by setEnumDiscriminatorDefaultValue (#24874).
+                    var.defaultValue = var.isDiscriminator ? null : enumDefaultValue;
+                } else {
+                    var.defaultValue = toEnumDefaultValue(var, enumName);
+                }
             }
         }
     }
@@ -7285,17 +7292,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void postProcessEnumVars(List<EnumVarMap> enumVars) {
-        Collections.reverse(enumVars);
-        enumVars.forEach(v -> {
-            String name = (String) v.getEnumName();
-            long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
-            if (count > 1) {
-                String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
-                v.setEnumName(uniqueEnumName);
-            }
-        });
-        Collections.reverse(enumVars);
+        // a new name can already be taken ("EtcGmt1" + "2" is "EtcGmt12"), so repeat until names are unique
+        do {
+            Collections.reverse(enumVars);
+            enumVars.forEach(v -> {
+                String name = (String) v.getEnumName();
+                long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
+                if (count > 1) {
+                    String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                    LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
+                    v.setEnumName(uniqueEnumName);
+                }
+            });
+            Collections.reverse(enumVars);
+        } while (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size());
     }
 
     private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {
@@ -8419,6 +8429,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
         codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
         codegenParameter.description = escapeText(body.getDescription());
+        codegenParameter.unescapedDescription = body.getDescription();
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
         if (body.getExtensions() != null) {
@@ -8547,10 +8558,10 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                codegenParameter.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                codegenParameter.setMaximum(ModelUtils.formatNumericBound(original.getMaximum(), schema, false, codegenParameter.getExclusiveMaximum()));
             }
             if (original.getMinimum() != null) {
-                codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                codegenParameter.setMinimum(ModelUtils.formatNumericBound(original.getMinimum(), schema, true, codegenParameter.getExclusiveMinimum()));
             }
             /* comment out below as we don't store `title` in the codegen parametera the moment
             if (original.getTitle() != null) {
