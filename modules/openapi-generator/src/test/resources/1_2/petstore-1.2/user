@@ -244,7 +244,8 @@
               "description": "The password for login in clear text",
               "required": true,
               "type": "string",
-              "paramType": "query"
+              "paramType": "query",
+              "format": "password"
             }
           ],
           "responseMessages": [
@@ -278,7 +279,8 @@
           "type": "string"
         },
         "password": {
-          "type": "string"
+          "type": "string",
+          "format": "password"
         },
         "phone": {
           "type": "string"

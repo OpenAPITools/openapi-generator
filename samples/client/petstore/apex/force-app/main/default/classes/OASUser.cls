@@ -69,7 +69,7 @@ public class OASUser {
           user.firstName = '';
           user.lastName = '';
           user.email = '';
-          user.password = '';
+          user.password = 'password123';
           user.phone = '';
           user.userStatus = 0;
         return user;

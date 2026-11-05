@@ -671,6 +671,7 @@ components:
           type: string
         password:
           type: string
+          format: password
           minLength: 8
           maxLength: 256
         phone:

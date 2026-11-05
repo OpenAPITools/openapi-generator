@@ -845,6 +845,7 @@
             "type" : "string"
           },
           "password" : {
+            "format" : "password",
             "type" : "string"
           },
           "phone" : {

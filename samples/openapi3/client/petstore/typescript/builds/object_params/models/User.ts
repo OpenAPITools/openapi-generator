@@ -67,7 +67,7 @@ export class User {
             "name": "password",
             "baseName": "password",
             "type": "string",
-            "format": ""
+            "format": "password"
         },
         {
             "name": "phone",
