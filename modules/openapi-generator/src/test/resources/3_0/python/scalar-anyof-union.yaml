@@ -21,32 +21,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Holder'
-  /tax-id-type:
+  /pet-status:
     get:
-      operationId: getTaxIdType
+      operationId: getPetStatus
       parameters:
-        - name: type
+        - name: status
           in: query
           schema:
-            $ref: '#/components/schemas/OpenTaxIdType'
+            $ref: '#/components/schemas/OpenPetStatus'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OpenTaxIdType'
+                $ref: '#/components/schemas/OpenPetStatus'
 components:
   schemas:
-    TaxIdType:
+    PetStatus:
       type: string
       enum:
-        - USA_SSN
-        - CAN_SIN
-    OpenTaxIdType:
-      description: A TaxIdType, or any other string.
+        - available
+        - pending
+        - sold
+    OpenPetStatus:
+      description: A PetStatus, or any other string.
       anyOf:
-        - $ref: '#/components/schemas/TaxIdType'
+        - $ref: '#/components/schemas/PetStatus'
         - type: string
           maxLength: 32
     CountOrFlag:
@@ -58,10 +59,10 @@ components:
         - type: string
           format: date
         - type: string
-    NullableTaxIdType:
+    NullablePetStatus:
       nullable: true
       anyOf:
-        - $ref: '#/components/schemas/TaxIdType'
+        - $ref: '#/components/schemas/PetStatus'
         - type: string
     Pet:
       type: object
@@ -72,10 +73,10 @@ components:
       anyOf:
         - $ref: '#/components/schemas/Pet'
         - type: string
-    PetOrTaxIdType:
+    PetOrStatus:
       anyOf:
         - $ref: '#/components/schemas/Pet'
-        - $ref: '#/components/schemas/OpenTaxIdType'
+        - $ref: '#/components/schemas/OpenPetStatus'
     NamesOrName:
       anyOf:
         - type: array
@@ -85,29 +86,29 @@ components:
     Holder:
       type: object
       required:
-        - required_type
+        - required_status
       properties:
-        type:
-          $ref: '#/components/schemas/OpenTaxIdType'
-        required_type:
-          $ref: '#/components/schemas/OpenTaxIdType'
-        types:
+        status:
+          $ref: '#/components/schemas/OpenPetStatus'
+        required_status:
+          $ref: '#/components/schemas/OpenPetStatus'
+        statuses:
           type: array
           items:
-            $ref: '#/components/schemas/OpenTaxIdType'
-        types_by_name:
+            $ref: '#/components/schemas/OpenPetStatus'
+        statuses_by_name:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/OpenTaxIdType'
-        nullable_type:
-          $ref: '#/components/schemas/NullableTaxIdType'
+            $ref: '#/components/schemas/OpenPetStatus'
+        nullable_status:
+          $ref: '#/components/schemas/NullablePetStatus'
         count_or_flag:
           $ref: '#/components/schemas/CountOrFlag'
         date_or_text:
           $ref: '#/components/schemas/DateOrText'
         pet_or_name:
           $ref: '#/components/schemas/PetOrName'
-        pet_or_type:
-          $ref: '#/components/schemas/PetOrTaxIdType'
+        pet_or_status:
+          $ref: '#/components/schemas/PetOrStatus'
         names_or_name:
           $ref: '#/components/schemas/NamesOrName'
