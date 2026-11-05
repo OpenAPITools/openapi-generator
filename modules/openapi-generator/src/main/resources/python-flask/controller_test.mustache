@@ -32,7 +32,8 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
             {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}{{#isKeyInHeader}}'{{keyParamName}}': 'special-key',{{/isKeyInHeader}}{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'Basic Zm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}{{#vendorExtensions.x-test-apikey-cookie}}
             'Cookie': '{{{vendorExtensions.x-test-apikey-cookie}}}',{{/vendorExtensions.x-test-apikey-cookie}}
         }
-        {{#cookieParams}}{{#-first}}headers['Cookie'] = '; '.join([{{/-first}}'{{{vendorExtensions.x-python-connexion-quoted-name}}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}]){{/-last}}
+        {{#cookieParams}}
+        {{#-first}}headers['Cookie'] = '; '.join([{{/-first}}'{{{vendorExtensions.x-python-connexion-quoted-name}}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}]){{/-last}}
         {{/cookieParams}}
         {{#formParams}}
         {{#-first}}data = { {{/-first}}{{^-first}}            {{/-first}}'{{baseName}}': {{{example}}}{{^-last}},{{/-last}}{{#-last}} }{{/-last}}
