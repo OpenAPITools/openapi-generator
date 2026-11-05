@@ -215,6 +215,15 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
+    }
+
+    /**
      * Get the actual instance of `Map&lt;String, Object&gt;`. If the actual instance is not `Map&lt;String, Object&gt;`,
      * the ClassCastException will be thrown.
      *

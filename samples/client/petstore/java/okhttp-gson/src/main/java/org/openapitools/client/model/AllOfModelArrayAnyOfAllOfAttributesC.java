@@ -227,6 +227,15 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
     }
 
     /**
+     * Check if the actual instance is of the type `Pet`.
+     *
+     * @return true if the actual instance is of the type `Pet`
+     */
+    public boolean isPet() {
+        return super.getActualInstance() instanceof Pet;
+    }
+
+    /**
      * Get the actual instance of `Order`. If the actual instance is not `Order`,
      * the ClassCastException will be thrown.
      *
@@ -236,6 +245,15 @@ public class AllOfModelArrayAnyOfAllOfAttributesC extends AbstractOpenApiSchema 
     @SuppressWarnings("unchecked")
     public Order getOrder() throws ClassCastException {
         return (Order)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Order`.
+     *
+     * @return true if the actual instance is of the type `Order`
+     */
+    public boolean isOrder() {
+        return super.getActualInstance() instanceof Order;
     }
 
     /**

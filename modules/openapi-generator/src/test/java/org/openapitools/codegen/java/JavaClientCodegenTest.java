@@ -4578,23 +4578,30 @@ public class JavaClientCodegenTest {
                 .contains(
                         "public OpenTaxIdType(Object o) {",
                         "public OpenTaxIdType(TaxIdType o) {",
-                        "public OpenTaxIdType(String o) {");
+                        "public OpenTaxIdType(String o) {",
+                        "public boolean isTaxIdType() {",
+                        "return super.getActualInstance() instanceof TaxIdType;",
+                        "public boolean isString() {");
         assertThat(modelDir.resolve("Scalar.java")).content()
                 .contains(
                         "public Scalar(BigDecimal o) {",
                         "public Scalar(Integer o) {",
                         "public Scalar(Long o) {",
                         "public Scalar(Boolean o) {");
+        // instanceof can't tell List<Pet> from another list, so containers get no is method
         assertThat(modelDir.resolve("PetOrPets.java")).content()
-                .contains("public PetOrPets(Pet o) {", "public PetOrPets(List<Pet> o) {");
+                .contains("public PetOrPets(Pet o) {", "public PetOrPets(List<Pet> o) {", "public boolean isPet() {")
+                .doesNotContain("public boolean isList");
         // List<BigDecimal> and List<Integer> have the same erasure, so only the first gets a constructor.
         assertThat(modelDir.resolve("Numbers.java")).content()
                 .contains("public Numbers(List<BigDecimal> o) {")
                 .doesNotContain("public Numbers(List<Integer> o) {");
-        // A free-form member is an Object, which the existing constructor already accepts.
+        // A free-form member is an Object, which the existing constructor already accepts
+        // and which every instance would match.
         assertThat(modelDir.resolve("PetOrFreeForm.java")).content()
                 .containsOnlyOnce("public PetOrFreeForm(Object o) {")
-                .contains("public PetOrFreeForm(Pet o) {");
+                .contains("public PetOrFreeForm(Pet o) {", "public boolean isPet() {")
+                .doesNotContain("public boolean isObject() {");
         assertThat(modelDir.resolve("NullablePetOrName.java")).content()
                 .contains("public NullablePetOrName(Pet o) {", "public NullablePetOrName(String o) {");
     }

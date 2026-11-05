@@ -231,6 +231,15 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
     }
 
     /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
+    }
+
+    /**
      * Get the actual instance of `List&lt;String&gt;`. If the actual instance is not `List&lt;String&gt;`,
      * the ClassCastException will be thrown.
      *

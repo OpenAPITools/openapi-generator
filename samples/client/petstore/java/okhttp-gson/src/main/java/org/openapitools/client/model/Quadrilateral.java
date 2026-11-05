@@ -244,6 +244,15 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `SimpleQuadrilateral`.
+     *
+     * @return true if the actual instance is of the type `SimpleQuadrilateral`
+     */
+    public boolean isSimpleQuadrilateral() {
+        return super.getActualInstance() instanceof SimpleQuadrilateral;
+    }
+
+    /**
      * Get the actual instance of `ComplexQuadrilateral`. If the actual instance is not `ComplexQuadrilateral`,
      * the ClassCastException will be thrown.
      *
@@ -253,6 +262,15 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public ComplexQuadrilateral getComplexQuadrilateral() throws ClassCastException {
         return (ComplexQuadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `ComplexQuadrilateral`.
+     *
+     * @return true if the actual instance is of the type `ComplexQuadrilateral`
+     */
+    public boolean isComplexQuadrilateral() {
+        return super.getActualInstance() instanceof ComplexQuadrilateral;
     }
 
     /**

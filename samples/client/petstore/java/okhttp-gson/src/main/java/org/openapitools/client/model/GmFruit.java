@@ -217,6 +217,15 @@ public class GmFruit extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `Apple`.
+     *
+     * @return true if the actual instance is of the type `Apple`
+     */
+    public boolean isApple() {
+        return super.getActualInstance() instanceof Apple;
+    }
+
+    /**
      * Get the actual instance of `Banana`. If the actual instance is not `Banana`,
      * the ClassCastException will be thrown.
      *
@@ -225,6 +234,15 @@ public class GmFruit extends AbstractOpenApiSchema {
      */
     public Banana getBanana() throws ClassCastException {
         return (Banana)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Banana`.
+     *
+     * @return true if the actual instance is of the type `Banana`
+     */
+    public boolean isBanana() {
+        return super.getActualInstance() instanceof Banana;
     }
 
     /**

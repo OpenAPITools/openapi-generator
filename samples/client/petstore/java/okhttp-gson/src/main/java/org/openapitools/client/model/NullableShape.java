@@ -249,6 +249,15 @@ public class NullableShape extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `Triangle`.
+     *
+     * @return true if the actual instance is of the type `Triangle`
+     */
+    public boolean isTriangle() {
+        return super.getActualInstance() instanceof Triangle;
+    }
+
+    /**
      * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
      * the ClassCastException will be thrown.
      *
@@ -258,6 +267,15 @@ public class NullableShape extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public Quadrilateral getQuadrilateral() throws ClassCastException {
         return (Quadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Quadrilateral`.
+     *
+     * @return true if the actual instance is of the type `Quadrilateral`
+     */
+    public boolean isQuadrilateral() {
+        return super.getActualInstance() instanceof Quadrilateral;
     }
 
     /**

@@ -231,6 +231,15 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `Integer`.
+     *
+     * @return true if the actual instance is of the type `Integer`
+     */
+    public boolean isInteger() {
+        return super.getActualInstance() instanceof Integer;
+    }
+
+    /**
      * Get the actual instance of `List&lt;String&gt;`. If the actual instance is not `List&lt;String&gt;`,
      * the ClassCastException will be thrown.
      *

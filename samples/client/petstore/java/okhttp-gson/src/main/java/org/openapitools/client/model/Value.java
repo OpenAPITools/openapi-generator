@@ -231,6 +231,15 @@ public class Value extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `Scalar`.
+     *
+     * @return true if the actual instance is of the type `Scalar`
+     */
+    public boolean isScalar() {
+        return super.getActualInstance() instanceof Scalar;
+    }
+
+    /**
      * Get the actual instance of `List&lt;Scalar&gt;`. If the actual instance is not `List&lt;Scalar&gt;`,
      * the ClassCastException will be thrown.
      *

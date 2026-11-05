@@ -185,6 +185,15 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
+    }
+
+    /**
      * Validates the JSON Element and throws an exception if issues found
      *
      * @param jsonElement JSON Element

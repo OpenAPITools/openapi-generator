@@ -252,6 +252,15 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `OneOf1`.
+     *
+     * @return true if the actual instance is of the type `OneOf1`
+     */
+    public boolean isOneOf1() {
+        return super.getActualInstance() instanceof OneOf1;
+    }
+
+    /**
      * Validates the JSON Element and throws an exception if issues found
      *
      * @param jsonElement JSON Element

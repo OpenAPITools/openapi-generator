@@ -244,6 +244,15 @@ public class Pig extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `BasquePig`.
+     *
+     * @return true if the actual instance is of the type `BasquePig`
+     */
+    public boolean isBasquePig() {
+        return super.getActualInstance() instanceof BasquePig;
+    }
+
+    /**
      * Get the actual instance of `DanishPig`. If the actual instance is not `DanishPig`,
      * the ClassCastException will be thrown.
      *
@@ -253,6 +262,15 @@ public class Pig extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public DanishPig getDanishPig() throws ClassCastException {
         return (DanishPig)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `DanishPig`.
+     *
+     * @return true if the actual instance is of the type `DanishPig`
+     */
+    public boolean isDanishPig() {
+        return super.getActualInstance() instanceof DanishPig;
     }
 
     /**
