@@ -46,6 +46,9 @@
     "psr-4": { "OpenAPIServer\\": "tests/" }
   },
   "scripts": {
+    "post-install-cmd": [
+      "php -r \"chmod('./logs', 0777);\""
+    ],
     "test": [
       "phpunit"
     ],
