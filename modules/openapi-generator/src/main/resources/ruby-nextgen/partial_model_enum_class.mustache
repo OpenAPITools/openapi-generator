@@ -18,4 +18,11 @@
       def self.valid?(value)
         all.include?(value)
       end
+{{#enumUnknownDefaultCase}}
+
+      # A value this client does not know deserializes to the unknown default member.
+      def self.build(value)
+        value.nil? || valid?(value) ? value : {{#allowableValues}}{{#enumVars}}{{#-last}}{{{name}}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+      end
+{{/enumUnknownDefaultCase}}
     end
