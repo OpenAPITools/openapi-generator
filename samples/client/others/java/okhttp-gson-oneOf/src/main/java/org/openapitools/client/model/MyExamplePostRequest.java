@@ -129,6 +129,11 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public MyExamplePostRequest(String o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
     }
@@ -177,6 +182,15 @@ public class MyExamplePostRequest extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
     }
 
     /**

@@ -161,6 +161,16 @@ public class Value extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Value(Scalar o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Value(List<Scalar> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Scalar", Scalar.class);
         schemas.put("List<Scalar>", List.class);
@@ -218,6 +228,15 @@ public class Value extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public Scalar getScalar() throws ClassCastException {
         return (Scalar)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Scalar`.
+     *
+     * @return true if the actual instance is of the type `Scalar`
+     */
+    public boolean isScalar() {
+        return super.getActualInstance() instanceof Scalar;
     }
 
     /**

@@ -189,6 +189,26 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public ScalarAnyOf(UUID o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ScalarAnyOf(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ScalarAnyOf(BigDecimal o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ScalarAnyOf(Boolean o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("UUID", UUID.class);
         schemas.put("String", String.class);
@@ -257,6 +277,15 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `UUID`.
+     *
+     * @return true if the actual instance is of the type `UUID`
+     */
+    public boolean isUUID() {
+        return super.getActualInstance() instanceof UUID;
+    }
+
+    /**
      * Get the actual instance of `String`. If the actual instance is not `String`,
      * the ClassCastException will be thrown.
      *
@@ -265,6 +294,15 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
      */
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
     }
 
     /**
@@ -279,6 +317,15 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `BigDecimal`.
+     *
+     * @return true if the actual instance is of the type `BigDecimal`
+     */
+    public boolean isBigDecimal() {
+        return super.getActualInstance() instanceof BigDecimal;
+    }
+
+    /**
      * Get the actual instance of `Boolean`. If the actual instance is not `Boolean`,
      * the ClassCastException will be thrown.
      *
@@ -287,6 +334,15 @@ public class ScalarAnyOf extends AbstractOpenApiSchema {
      */
     public Boolean getBoolean() throws ClassCastException {
         return (Boolean)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Boolean`.
+     *
+     * @return true if the actual instance is of the type `Boolean`
+     */
+    public boolean isBoolean() {
+        return super.getActualInstance() instanceof Boolean;
     }
 
     /**

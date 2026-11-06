@@ -150,6 +150,16 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public SelfReferenceOneOf(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public SelfReferenceOneOf(Boolean o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Boolean", Boolean.class);
@@ -207,6 +217,15 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
+    }
+
+    /**
      * Get the actual instance of `Boolean`. If the actual instance is not `Boolean`,
      * the ClassCastException will be thrown.
      *
@@ -216,6 +235,15 @@ public class SelfReferenceOneOf extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public Boolean getBoolean() throws ClassCastException {
         return (Boolean)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Boolean`.
+     *
+     * @return true if the actual instance is of the type `Boolean`
+     */
+    public boolean isBoolean() {
+        return super.getActualInstance() instanceof Boolean;
     }
 
     /**

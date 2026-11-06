@@ -201,6 +201,21 @@ public class Mammal extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Mammal(Whale o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Mammal(Zebra o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Mammal(Pig o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Whale", Whale.class);
         schemas.put("Zebra", Zebra.class);
@@ -264,6 +279,15 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `Whale`.
+     *
+     * @return true if the actual instance is of the type `Whale`
+     */
+    public boolean isWhale() {
+        return super.getActualInstance() instanceof Whale;
+    }
+
+    /**
      * Get the actual instance of `Zebra`. If the actual instance is not `Zebra`,
      * the ClassCastException will be thrown.
      *
@@ -276,6 +300,15 @@ public class Mammal extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `Zebra`.
+     *
+     * @return true if the actual instance is of the type `Zebra`
+     */
+    public boolean isZebra() {
+        return super.getActualInstance() instanceof Zebra;
+    }
+
+    /**
      * Get the actual instance of `Pig`. If the actual instance is not `Pig`,
      * the ClassCastException will be thrown.
      *
@@ -285,6 +318,15 @@ public class Mammal extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public Pig getPig() throws ClassCastException {
         return (Pig)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Pig`.
+     *
+     * @return true if the actual instance is of the type `Pig`
+     */
+    public boolean isPig() {
+        return super.getActualInstance() instanceof Pig;
     }
 
     /**

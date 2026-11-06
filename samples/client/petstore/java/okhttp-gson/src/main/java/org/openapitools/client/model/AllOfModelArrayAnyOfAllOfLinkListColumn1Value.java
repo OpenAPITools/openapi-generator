@@ -151,6 +151,16 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
         setActualInstance(o);
     }
 
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(User o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public AllOfModelArrayAnyOfAllOfLinkListColumn1Value(Tag o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("User", User.class);
         schemas.put("Tag", Tag.class);
@@ -207,6 +217,15 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
     }
 
     /**
+     * Check if the actual instance is of the type `User`.
+     *
+     * @return true if the actual instance is of the type `User`
+     */
+    public boolean isUser() {
+        return super.getActualInstance() instanceof User;
+    }
+
+    /**
      * Get the actual instance of `Tag`. If the actual instance is not `Tag`,
      * the ClassCastException will be thrown.
      *
@@ -215,6 +234,15 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenA
      */
     public Tag getTag() throws ClassCastException {
         return (Tag)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Tag`.
+     *
+     * @return true if the actual instance is of the type `Tag`
+     */
+    public boolean isTag() {
+        return super.getActualInstance() instanceof Tag;
     }
 
     /**

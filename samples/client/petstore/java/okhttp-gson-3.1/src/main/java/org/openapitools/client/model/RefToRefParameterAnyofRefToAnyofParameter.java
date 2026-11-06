@@ -161,6 +161,16 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
         setActualInstance(o);
     }
 
+    public RefToRefParameterAnyofRefToAnyofParameter(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public RefToRefParameterAnyofRefToAnyofParameter(List<String> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("List<String>", List.class);
@@ -218,6 +228,15 @@ public class RefToRefParameterAnyofRefToAnyofParameter extends AbstractOpenApiSc
     @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
     }
 
     /**

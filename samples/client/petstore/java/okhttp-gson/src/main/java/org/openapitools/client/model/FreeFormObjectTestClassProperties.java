@@ -153,6 +153,11 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public FreeFormObjectTestClassProperties(String o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Map<String, Object>", Map.class);
@@ -207,6 +212,15 @@ public class FreeFormObjectTestClassProperties extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public String getString() throws ClassCastException {
         return (String)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
     }
 
     /**
