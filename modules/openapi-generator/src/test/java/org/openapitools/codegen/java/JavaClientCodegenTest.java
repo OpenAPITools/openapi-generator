@@ -6009,4 +6009,26 @@ public class JavaClientCodegenTest {
                 .contains("import org.springframework.beans.factory.annotation.Autowired;")
                 .contains("import org.springframework.stereotype.Component;");
     }
+
+    @Test
+    public void testOkHttpGsonParametersNamedLikeCallLocalsAreRenamed_issue25566() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_0/java/issue_25566.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .contains("String paramBasePath, @javax.annotation.Nullable String paramLocalBasePaths, @javax.annotation.Nullable String paramLocalCustomBaseUrl, @javax.annotation.Nullable String paramLocalHostIndex, final ApiCallback _callback)")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"basePath\", paramBasePath));")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"localBasePaths\", paramLocalBasePaths));")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"localCustomBaseUrl\", paramLocalCustomBaseUrl));")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"localHostIndex\", paramLocalHostIndex));");
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Item.java")).content()
+                .contains("private String basePath;")
+                .contains("public String getBasePath()");
+    }
 }

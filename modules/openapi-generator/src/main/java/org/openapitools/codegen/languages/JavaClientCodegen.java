@@ -100,6 +100,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String JERSEY3 = "jersey3";
     public static final String NATIVE = "native";
     public static final String OKHTTP_GSON = "okhttp-gson";
+    private static final Set<String> OKHTTP_GSON_CALL_LOCALS = Set.of("basePath", "localBasePaths", "localCustomBaseUrl", "localHostIndex");
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
     public static final String WEBCLIENT = "webclient";
@@ -1416,6 +1417,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        String paramName = super.toParamName(name);
+        // the okhttp-gson call methods declare or read these names next to their parameters
+        if (isLibrary(OKHTTP_GSON) && OKHTTP_GSON_CALL_LOCALS.contains(paramName)) {
+            return "param" + StringUtils.capitalize(paramName);
+        }
+        return paramName;
     }
 
     @Override
