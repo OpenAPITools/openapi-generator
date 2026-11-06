@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: kotlin vertx form-send regression fixture
+  version: 1.0.0
+paths:
+  /submit:
+    post:
+      operationId: submitForm
+      consumes:
+        - application/x-www-form-urlencoded
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: ok
+  /upload:
+    post:
+      operationId: uploadFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                myFile:
+                  type: string
+                  format: binary
+                note:
+                  type: string
+      responses:
+        '200':
+          description: ok

@@ -318,6 +318,34 @@ public class KotlinClientCodegenApiTest {
                 "exploded entries must be added after the declared query parameters");
     }
 
+    // jvm-vertx populated a `form` MultiMap for form params but dispatched the
+    // request via `.send()` only -- the form body was silently dropped. The
+    // form must be sent: sendForm for urlencoded, sendMultipartForm (with a
+    // MultipartForm + binaryFileUpload for file params) for multipart.
+    @Test
+    public void testJvmVertxFormBodyIsSent() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-vertx-form-send.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_VERTX);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        // the populated form must reach the wire
+        assertFileContains(defaultApi.toPath(),
+                ".sendForm(form)",
+                ".sendMultipartForm(form)");
+        // multipart: a MultipartForm, file content (not a path string), and
+        // urlencoded arrays as individual entries rather than a toString blob
+        assertFileContains(defaultApi.toPath(),
+                "io.vertx.ext.web.multipart.MultipartForm.create()",
+                "form.binaryFileUpload(\"myFile\"");
+        assertFileNotContains(defaultApi.toPath(),
+                "form.add(\"myFile\"");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }
