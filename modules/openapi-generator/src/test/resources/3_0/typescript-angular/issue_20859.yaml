@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: OpenAPI definition
+  version: v0
+paths:
+  /api/test/zoo:
+    get:
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zoo'
+components:
+  schemas:
+    Animal:
+      type: object
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          type: string
+      required:
+        - type
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            purrFrequency:
+              type: integer
+              format: int32
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            barkVolume:
+              type: integer
+              format: int32
+    Zoo:
+      type: array
+      items:
+        oneOf:
+          - $ref: '#/components/schemas/Cat'
+          - $ref: '#/components/schemas/Dog'
