@@ -223,6 +223,8 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            bool oneOfValueWritten = false;
+            _ = oneOfValueWritten;
             WriteProperties(writer, polymorphicProperty, jsonSerializerOptions);
             writer.WriteEndObject();
         }

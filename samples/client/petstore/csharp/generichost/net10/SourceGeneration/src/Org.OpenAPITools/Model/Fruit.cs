@@ -207,6 +207,50 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            bool oneOfValueWritten = false;
+            if (fruit.Apple != null)
+            {
+                if (oneOfValueWritten)
+                    throw new JsonException("Multiple oneOf variants are set for Fruit.");
+                oneOfValueWritten = true;
+                var variant = fruit.Apple;
+                var variantOptions = jsonSerializerOptions;
+                if (!jsonSerializerOptions.Converters.Any(c => c.CanConvert(variant.GetType())))
+                {
+                    variantOptions = new JsonSerializerOptions(jsonSerializerOptions);
+                    variantOptions.Converters.Add(new AppleJsonConverter());
+                }
+                using (JsonDocument document = JsonDocument.Parse(JsonSerializer.Serialize(variant, variant.GetType(), variantOptions)))
+                {
+                    if (document.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("The oneOf variant must serialize as an object.");
+                    foreach (JsonProperty property in document.RootElement.EnumerateObject())
+                        property.WriteTo(writer);
+                }
+            }
+
+            if (fruit.Banana != null)
+            {
+                if (oneOfValueWritten)
+                    throw new JsonException("Multiple oneOf variants are set for Fruit.");
+                oneOfValueWritten = true;
+                var variant = fruit.Banana;
+                var variantOptions = jsonSerializerOptions;
+                if (!jsonSerializerOptions.Converters.Any(c => c.CanConvert(variant.GetType())))
+                {
+                    variantOptions = new JsonSerializerOptions(jsonSerializerOptions);
+                    variantOptions.Converters.Add(new BananaJsonConverter());
+                }
+                using (JsonDocument document = JsonDocument.Parse(JsonSerializer.Serialize(variant, variant.GetType(), variantOptions)))
+                {
+                    if (document.RootElement.ValueKind != JsonValueKind.Object)
+                        throw new JsonException("The oneOf variant must serialize as an object.");
+                    foreach (JsonProperty property in document.RootElement.EnumerateObject())
+                        property.WriteTo(writer);
+                }
+            }
+
+            _ = oneOfValueWritten;
             WriteProperties(writer, fruit, jsonSerializerOptions);
             writer.WriteEndObject();
         }
