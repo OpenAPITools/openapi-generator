@@ -1,0 +1,25 @@
+openapi: 3.2.0
+info:
+  title: Responses Object extension fixture
+  version: 1.0.0
+paths:
+  /t:
+    get:
+      operationId: getT
+      responses:
+        '200': {description: ok}
+        # an Operation's "responses" member is a Responses Object, so
+        # x-note is a specification extension: opaque data, not a
+        # response, and no description may be injected into it
+        x-note: {hello: world}
+components:
+  responses:
+    # components.responses is a plain name -> Response map with no
+    # extension slots, so "x-component-response" is a real response
+    # name. The rewrite walks it like any response — the released
+    # parser then drops the member anyway, so the rewrite side is
+    # covered by a JSON-level test.
+    x-component-response:
+      content:
+        text/plain:
+          schema: {type: string}

@@ -1,0 +1,13 @@
+openapi: 3.2.0
+info: {title: cookie style, version: "1"}
+paths:
+  /c:
+    get:
+      operationId: getC
+      parameters:
+        - name: session
+          in: cookie
+          style: cookie
+          schema: {type: string}
+      responses:
+        '200': {description: ok}

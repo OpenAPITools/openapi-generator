@@ -23,7 +23,10 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.parser.core.models.ParseOptions;
+import org.openapitools.codegen.config.SpecLoader;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.Oas32Extensions;
 import org.testng.annotations.Test;
 
 import javax.tools.JavaCompiler;
@@ -918,6 +921,92 @@ public class OpenAPINormalizerTest {
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get(X_INTERNAL), false);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get(X_INTERNAL), true);
         assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get(X_INTERNAL), true);
+    }
+
+    @Test
+    public void testFilterAppliesToRestoredOas32Operations() {
+        // The 3.2 compatibility loader restores query/additionalOperations
+        // into x-oas32-* extension members of the parsed PathItem; the
+        // FILTER machinery (methodMap + apply) must see them like fixed
+        // operations. FILTER=operationId:listThings marks queryThings and
+        // purgeThings x-internal (which generation then drops).
+        String spec = "src/test/resources/3_2/oas32-compat.yaml";
+        OpenAPI openAPI = SpecLoader.forInputSpec(spec)
+                .load(spec, null, new ParseOptions()).getOpenAPI();
+        assertNotNull(openAPI);
+
+        Map<String, String> options = Map.of("FILTER", "operationId:listThings");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        PathItem things = openAPI.getPaths().get("/things");
+        assertEquals(things.getGet().getExtensions().get(X_INTERNAL), false);
+        Operation query = Oas32Extensions.operations(openAPI, things).get("QUERY");
+        Operation purge = Oas32Extensions.operations(openAPI, things).get("PURGE");
+        assertNotNull(query, "the restored QUERY operation must be present");
+        assertNotNull(purge, "the restored PURGE operation must be present");
+        assertEquals(query.getExtensions().get(X_INTERNAL), true,
+                "FILTER must mark the restored QUERY operation internal");
+        assertEquals(purge.getExtensions().get(X_INTERNAL), true,
+                "FILTER must mark the restored additionalOperations operation internal");
+    }
+
+    @Test
+    public void testFilterMethodMatchesRestoredOperationsByLowercaseName() {
+        // method: filters compare against the lowercase method name — the
+        // same rule the fixed methods use ("get", "put", ...) — so
+        // method:query must match the restored QUERY operation.
+        String spec = "src/test/resources/3_2/oas32-filter.yaml";
+        OpenAPI openAPI = SpecLoader.forInputSpec(spec)
+                .load(spec, null, new ParseOptions()).getOpenAPI();
+        assertNotNull(openAPI);
+
+        Map<String, String> options = Map.of("FILTER", "method:query");
+        new OpenAPINormalizer(openAPI, options).normalize();
+
+        PathItem t = openAPI.getPaths().get("/t");
+        Map<String, Operation> restored = Oas32Extensions.operations(openAPI, t);
+        assertEquals(restored.get("QUERY").getExtensions().get(X_INTERNAL), false,
+                "method:query must match the restored QUERY operation");
+        assertEquals(restored.get("PURGE").getExtensions().get(X_INTERNAL), true);
+        assertEquals(restored.get("get").getExtensions().get(X_INTERNAL), true);
+        assertEquals(t.getGet().getExtensions().get(X_INTERNAL), true);
+    }
+
+    @Test
+    public void testFilterWithAdditionalOperationSharingFixedMethodName() {
+        // Regression: an additionalOperations member keyed "get" used to
+        // overwrite the fixed GET's methodMap entry, so the fixed GET was
+        // never filtered at all (its x-internal stayed unset).
+        String spec = "src/test/resources/3_2/oas32-filter.yaml";
+
+        OpenAPI openAPI = SpecLoader.forInputSpec(spec)
+                .load(spec, null, new ParseOptions()).getOpenAPI();
+        new OpenAPINormalizer(openAPI, Map.of("FILTER", "operationId:queryT")).normalize();
+
+        PathItem t = openAPI.getPaths().get("/t");
+        Map<String, Operation> restored = Oas32Extensions.operations(openAPI, t);
+        assertEquals(t.getGet().getExtensions().get(X_INTERNAL), true,
+                "the fixed GET must be filtered even when an additional "
+                        + "operation is named 'get'");
+        assertEquals(restored.get("get").getExtensions().get(X_INTERNAL), true);
+        assertEquals(restored.get("QUERY").getExtensions().get(X_INTERNAL), false);
+        assertEquals(restored.get("PURGE").getExtensions().get(X_INTERNAL), true);
+
+        // method:get matches both the fixed GET and the additional
+        // operation literally named "get"
+        OpenAPI openAPI2 = SpecLoader.forInputSpec(spec)
+                .load(spec, null, new ParseOptions()).getOpenAPI();
+        new OpenAPINormalizer(openAPI2, Map.of("FILTER", "method:get")).normalize();
+
+        PathItem t2 = openAPI2.getPaths().get("/t");
+        Map<String, Operation> restored2 = Oas32Extensions.operations(openAPI2, t2);
+        assertEquals(t2.getGet().getExtensions().get(X_INTERNAL), false,
+                "method:get must match the fixed GET");
+        assertEquals(restored2.get("get").getExtensions().get(X_INTERNAL), false,
+                "method:get must also match the additional operation named 'get'");
+        assertEquals(restored2.get("QUERY").getExtensions().get(X_INTERNAL), true);
+        assertEquals(restored2.get("PURGE").getExtensions().get(X_INTERNAL), true);
     }
 
     static OpenAPINormalizer.Filter parseOperationsFilter(String filters) {

@@ -1,0 +1,14 @@
+openapi: 3.2.0
+info: {title: t, version: '1'}
+paths:
+  /things:
+    get:
+      operationId: listThings
+      responses:
+        '204': {}
+        default:
+          $ref: '#/components/responses/Fallback'
+components:
+  responses:
+    Fallback:
+      description: fallback
