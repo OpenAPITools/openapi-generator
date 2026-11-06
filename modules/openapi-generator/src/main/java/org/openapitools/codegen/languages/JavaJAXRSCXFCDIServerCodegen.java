@@ -67,6 +67,9 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         // jspecify support lives in the JavaJaxRS/spec templates; this generator uses its own
         // cxf-cdi template directory, so the option would be advertised but have no effect.
         removeOption(USE_JSPECIFY);
+
+        // Jackson 3 support lives in the JavaJaxRS/spec templates; the cxf-cdi pom is still Jackson 2.
+        removeOption(USE_JACKSON_3);
         // JSON-B support lives in the JavaJaxRS/spec templates as well; cxf-cdi always uses Jackson.
         removeOption(CodegenConstants.SERIALIZATION_LIBRARY);
     }
@@ -85,6 +88,9 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         additionalProperties.remove(USE_JSPECIFY);
         setUseJspecify(false);
         additionalProperties.remove(CodegenConstants.SERIALIZATION_LIBRARY);
+
+        additionalProperties.remove(USE_JACKSON_3);
+        setUseJackson3(false);
 
         super.processOpts();
 
