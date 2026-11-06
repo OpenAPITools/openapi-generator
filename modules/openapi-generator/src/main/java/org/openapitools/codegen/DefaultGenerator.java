@@ -684,6 +684,79 @@ public class DefaultGenerator implements Generator {
         return modelKeys;
     }
 
+    private Map<String, List<Tag>> buildTagsBySanitizedName(List<Tag> tags) {
+        Map<String, List<Tag>> tagsBySanitizedName = new LinkedHashMap<>();
+        if (tags != null) {
+            for (Tag tag : tags) {
+                if (tag.getName() != null) {
+                    tagsBySanitizedName.computeIfAbsent(config.sanitizeTag(tag.getName()), k -> new ArrayList<>()).add(tag);
+                }
+            }
+        }
+        return tagsBySanitizedName;
+    }
+
+    private Tag resolveTagBySanitizedName(String groupName, List<CodegenOperation> ops,
+                                          Map<String, List<Tag>> tagsBySanitizedName) {
+        List<Tag> declared = tagsBySanitizedName.get(groupName);
+        if (declared == null || declared.isEmpty()) {
+            return null;
+        }
+        if (declared.size() > 1 && ops != null) {
+            // several declared tags sanitize to the same key; prefer the one the
+            // group's operations actually reference
+            Map<String, Tag> byName = new HashMap<>();
+            for (Tag tag : declared) {
+                byName.put(tag.getName(), tag);
+            }
+            for (CodegenOperation op : ops) {
+                if (op.tags != null) {
+                    for (Tag tag : op.tags) {
+                        Tag match = byName.get(tag.getName());
+                        if (match != null) {
+                            return match;
+                        }
+                    }
+                }
+            }
+        }
+        return declared.get(0);
+    }
+
+    private void putOperationTagMetadata(Map<String, Object> operation, String groupName,
+                                         List<CodegenOperation> ops, List<Tag> openApiTags,
+                                         Map<String, List<Tag>> tagsBySanitizedName) {
+        List<Tag> tags = Optional.ofNullable(openApiTags).orElseGet(Collections::emptyList);
+        // historical lookup: name and description are chosen independently — the name from
+        // the first declared tag matching the group key ignoring case, the description from
+        // the first such tag that has one
+        tags.stream()
+                .map(Tag::getName)
+                .filter(Objects::nonNull)
+                .filter(groupName::equalsIgnoreCase)
+                .findFirst()
+                .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
+        operation.put("operationTagDescription", "");
+        tags.stream()
+                .filter(t -> groupName.equalsIgnoreCase(t.getName()))
+                .map(Tag::getDescription)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
+        if (!operation.containsKey("operationTagName")) {
+            // the group key was renamed by sanitizeTag (e.g. "pet-store" -> "PetStore"), so the
+            // case-insensitive name match above found nothing; resolve the declared tag
+            // through the sanitized name instead
+            Tag groupTag = resolveTagBySanitizedName(groupName, ops, tagsBySanitizedName);
+            if (groupTag != null) {
+                operation.put("operationTagName", config.escapeText(groupTag.getName()));
+                if (groupTag.getDescription() != null) {
+                    operation.put("operationTagDescription", config.escapeText(groupTag.getDescription()));
+                }
+            }
+        }
+    }
+
     void generateApis(List<File> files, List<OperationsMap> allOperations, List<ModelMap> allModels) {
         if (!generateApis) {
             // TODO: Process these anyway and present info via dryRun?
@@ -701,6 +774,7 @@ public class DefaultGenerator implements Generator {
             }
             paths = updatedPaths;
         }
+        Map<String, List<Tag>> tagsBySanitizedName = buildTagsBySanitizedName(openAPI.getTags());
         for (String tag : paths.keySet()) {
             try {
                 List<CodegenOperation> ops = paths.get(tag);
@@ -714,19 +788,7 @@ public class DefaultGenerator implements Generator {
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
-                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
-                        .map(Tag::getName)
-                        .filter(Objects::nonNull)
-                        .filter(tag::equalsIgnoreCase)
-                        .findFirst()
-                        .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
-                operation.put("operationTagDescription", "");
-                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
-                        .filter(t -> tag.equalsIgnoreCase(t.getName()))
-                        .map(Tag::getDescription)
-                        .filter(Objects::nonNull)
-                        .findFirst()
-                        .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
+                putOperationTagMetadata(operation, tag, ops, openAPI.getTags(), tagsBySanitizedName);
                 Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
                 operation.put("apiPackage", config.apiPackage());
                 operation.put("modelPackage", config.modelPackage());
@@ -863,6 +925,7 @@ public class DefaultGenerator implements Generator {
             }
             webhooks = Webhooks;
         }
+        Map<String, List<Tag>> tagsBySanitizedName = buildTagsBySanitizedName(openAPI.getTags());
         for (String tag : webhooks.keySet()) {
             try {
                 List<CodegenOperation> wks = webhooks.get(tag);
@@ -873,19 +936,7 @@ public class DefaultGenerator implements Generator {
                 operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
                 operation.put("contextPath", contextPath);
                 operation.put("baseName", tag);
-                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
-                        .map(Tag::getName)
-                        .filter(Objects::nonNull)
-                        .filter(tag::equalsIgnoreCase)
-                        .findFirst()
-                        .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
-                operation.put("operationTagDescription", "");
-                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
-                        .filter(t -> tag.equalsIgnoreCase(t.getName()))
-                        .map(Tag::getDescription)
-                        .filter(Objects::nonNull)
-                        .findFirst()
-                        .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
+                putOperationTagMetadata(operation, tag, wks, openAPI.getTags(), tagsBySanitizedName);
                 Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
                 operation.put("apiPackage", config.apiPackage());
                 operation.put("modelPackage", config.modelPackage());
