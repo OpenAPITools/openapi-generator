@@ -318,6 +318,41 @@ public class KotlinClientCodegenApiTest {
                 "exploded entries must be added after the declared query parameters");
     }
 
+    @DataProvider(name = "librariesWithDeepObjectWireKeys")
+    public static Object[][] librariesWithDeepObjectWireKeys() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_OKHTTP4}
+        };
+    }
+
+    // Two deepObject query parameters share the property instances of the same
+    // $ref'd schema (fromProperty cache). The per-parameter wire-key prefix must
+    // stay parameter-local: filter-a[...] must not be overwritten by filter-b's
+    // propagation. jvm-okhttp prefixes keys with the spec baseName (via
+    // x-kotlin-param-base-name), not the camelized paramName.
+    @Test(dataProvider = "librariesWithDeepObjectWireKeys")
+    public void testDeepObjectParamsKeepOwnWireKeyPrefix(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-deepobject-shared-vars.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File searchApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        if (library == ClientLibrary.JVM_KTOR) {
+            assertFileContains(searchApi.toPath(),
+                    "localVariableQuery[\"filter-a[field]\"]",
+                    "localVariableQuery[\"filter-b[field]\"]");
+        } else {
+            assertFileContains(searchApi.toPath(),
+                    "put(\"filter-a[field]\"",
+                    "put(\"filter-b[field]\"");
+        }
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }
