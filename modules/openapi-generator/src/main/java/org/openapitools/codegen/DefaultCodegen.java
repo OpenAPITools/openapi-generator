@@ -3645,7 +3645,7 @@ public class DefaultCodegen implements CodegenConfig {
                 addPropProp = fromProperty(getAdditionalPropertiesName(), new Schema(), false);
                 additionalPropertiesIsAnyType = true;
             }
-        } else {
+        } else if (!ModelUtils.isBooleanSchemaFalse(schema.getAdditionalProperties())) {
             // if additional properties is set (e.g. free form object, any type, string, etc)
             addPropProp = fromProperty(getAdditionalPropertiesName(), (Schema) schema.getAdditionalProperties(), false);
             additionalPropertiesIsAnyType = true;
@@ -8603,7 +8603,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (!found) {
                     LOGGER.warn("Property {} is not processed correctly (missing from getVars). Maybe it's a const (not yet supported) in openapi v3.1 spec.", requiredPropertyName);
                 }
-            } else if (schema.getAdditionalProperties() instanceof Boolean && Boolean.FALSE.equals(schema.getAdditionalProperties())) {
+            } else if (Boolean.FALSE.equals(schema.getAdditionalProperties()) || ModelUtils.isBooleanSchemaFalse(schema.getAdditionalProperties())) {
                 // TODO add processing for requiredPropertyName
                 // required property is not defined in properties, and additionalProperties is false, value is null
                 requiredVarsMap.put(usedRequiredPropertyName, null);

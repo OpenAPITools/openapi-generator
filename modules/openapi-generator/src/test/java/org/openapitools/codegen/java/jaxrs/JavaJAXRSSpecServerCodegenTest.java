@@ -1671,6 +1671,23 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     @Test
+    public void testClosedSchemaWithInlineMapPropertyHasNoAdditionalPropertiesAccessors_issue25430() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("jaxrs-spec")
+            .setInputSpec("src/test/resources/3_1/issue_25430.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path model = output.toPath().resolve("src/gen/java/org/openapitools/model/PatchRequest.java");
+        assertFileContains(model, "public class PatchRequest ", "private Map<String, Object> context");
+        assertFileNotContains(model, "extends HashMap", "putAdditionalProperty", "getAdditionalProperties");
+    }
+
+    @Test
     public void testJsonNullableContainerDefaultIsDeclared() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
