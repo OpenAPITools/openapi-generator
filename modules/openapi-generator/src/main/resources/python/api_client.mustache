@@ -21,7 +21,7 @@ from threading import Lock
 
 from urllib.parse import quote
 from typing import Any, Tuple, Optional, List, Dict, Union
-from pydantic import SecretStr
+from pydantic import SecretStr{{#generateScalarAnyOfAsUnion}}, TypeAdapter{{/generateScalarAnyOfAsUnion}}
 
 from {{packageName}}.configuration import Configuration
 from {{packageName}}.api_response import ApiResponse, T as ApiResponseT
@@ -653,6 +653,11 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
             return decimal.Decimal(data)
         elif klass is uuid.UUID:
             return uuid.UUID(data)
+{{#generateScalarAnyOfAsUnion}}
+        elif not isinstance(klass, type):
+            # a scalar anyOf type alias
+            return TypeAdapter(klass).validate_python(data)
+{{/generateScalarAnyOfAsUnion}}
         elif issubclass(klass, Enum):
             return self.__deserialize_enum(data, klass)
         else:

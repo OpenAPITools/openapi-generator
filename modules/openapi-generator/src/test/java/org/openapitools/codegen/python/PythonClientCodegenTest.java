@@ -2083,4 +2083,69 @@ public class PythonClientCodegenTest {
         final Path pyproject = Paths.get(output, "pyproject.toml");
         assertFileContains(pyproject, "{ include = \"openapi_client\", from = \"src\" },", "include = [\"src/openapi_client/py.typed\"]", "\"src/openapi_client\",");
     }
+
+    @Test(description = "generateScalarAnyOfAsUnion turns an anyOf of enums and single values into a Union type alias")
+    public void testGenerateScalarAnyOfAsUnion() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.additionalProperties().put(PythonClientCodegen.GENERATE_SCALAR_ANY_OF_AS_UNION, true);
+        final String output = generateFiles(codegen, "src/test/resources/3_0/python/scalar-anyof-union.yaml");
+        final Path models = Paths.get(output, "openapi_client", "models");
+
+        assertFileContains(models.resolve("open_pet_status.py"),
+                "from openapi_client.models.pet_status import PetStatus",
+                "OpenPetStatus = Annotated[Union[PetStatus, Annotated[str, Field(strict=True, max_length=32)]], Field(union_mode=\"left_to_right\")]");
+        TestUtils.assertFileNotContains(models.resolve("open_pet_status.py"),
+                "class OpenPetStatus", "actual_instance", "BaseModel", "Optional");
+        assertFileContains(models.resolve("count_or_flag.py"),
+                "CountOrFlag = Annotated[Union[StrictInt, StrictBool], Field(union_mode=\"left_to_right\")]");
+        assertFileContains(models.resolve("date_or_text.py"),
+                "from datetime import date",
+                "DateOrText = Annotated[Union[date, StrictStr], Field(union_mode=\"left_to_right\")]");
+        assertFileContains(models.resolve("nullable_pet_status.py"),
+                "NullablePetStatus = Annotated[Union[PetStatus, StrictStr, None], Field(union_mode=\"left_to_right\")]");
+        // anyOf schemas with an object or array member keep the wrapper model
+        assertFileContains(models.resolve("pet_or_name.py"), "class PetOrName(BaseModel):");
+        assertFileContains(models.resolve("names_or_name.py"), "class NamesOrName(BaseModel):");
+        assertFileContains(models.resolve("pet_or_status.py"),
+                "class PetOrStatus(BaseModel):",
+                "instance.anyof_schema_2_validator = json.loads(json_str)");
+
+        // properties hold the value itself instead of calling to_dict() and from_dict() on it
+        final Path holder = models.resolve("holder.py");
+        assertFileContains(holder,
+                "status: Optional[OpenPetStatus] = None",
+                "required_status: OpenPetStatus",
+                "statuses: Optional[List[OpenPetStatus]] = None",
+                "statuses_by_name: Optional[Dict[str, OpenPetStatus]] = None",
+                "\"status\": obj.get(\"status\"),",
+                "\"statuses\": obj.get(\"statuses\"),",
+                "\"statuses_by_name\": obj.get(\"statuses_by_name\"),",
+                "\"pet_or_name\": PetOrName.from_dict(obj[\"pet_or_name\"])");
+        TestUtils.assertFileNotContains(holder,
+                "OpenPetStatus.from_dict",
+                "self.status.to_dict()",
+                "_item_statuses.to_dict()");
+
+        assertFileContains(Paths.get(output, "openapi_client", "api_client.py"),
+                "from pydantic import SecretStr, TypeAdapter",
+                "return TypeAdapter(klass).validate_python(data)");
+        assertFileContains(Paths.get(output, "docs", "OpenPetStatus.md"),
+                "`OpenPetStatus` is a type alias",
+                "* [**PetStatus**](PetStatus.md)",
+                "* **str**");
+        assertFileContains(Paths.get(output, "docs", "Holder.md"),
+                "**status** | [**OpenPetStatus**](OpenPetStatus.md) |");
+    }
+
+    @Test(description = "scalar anyOf schemas keep the wrapper model unless generateScalarAnyOfAsUnion is set")
+    public void testScalarAnyOfWrapperByDefault() throws IOException {
+        PythonClientCodegen codegen = new PythonClientCodegen();
+        final String output = generateFiles(codegen, "src/test/resources/3_0/python/scalar-anyof-union.yaml");
+        final Path models = Paths.get(output, "openapi_client", "models");
+
+        assertFileContains(models.resolve("open_pet_status.py"), "class OpenPetStatus(BaseModel):");
+        assertFileContains(models.resolve("holder.py"),
+                "\"status\": OpenPetStatus.from_dict(obj[\"status\"]) if obj.get(\"status\") is not None else None,");
+        TestUtils.assertFileNotContains(Paths.get(output, "openapi_client", "api_client.py"), "TypeAdapter");
+    }
 }

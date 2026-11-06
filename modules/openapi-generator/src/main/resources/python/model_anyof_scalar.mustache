@@ -1,0 +1,14 @@
+from __future__ import annotations
+{{#vendorExtensions.x-py-other-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-other-imports}}
+{{#vendorExtensions.x-py-model-imports}}
+{{{.}}}
+{{/vendorExtensions.x-py-model-imports}}
+
+{{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ANY_OF_SCHEMAS = [{{#anyOf}}"{{.}}"{{^-last}}, {{/-last}}{{/anyOf}}]
+
+{{{classname}}} = Annotated[Union[{{#composedSchemas.anyOf}}{{{vendorExtensions.x-py-union-member-typing}}}{{^-last}}, {{/-last}}{{/composedSchemas.anyOf}}{{#isNullable}}, None{{/isNullable}}], Field(union_mode="left_to_right")]
+"""
+{{{description}}}{{^description}}{{{classname}}}{{/description}}
+"""
