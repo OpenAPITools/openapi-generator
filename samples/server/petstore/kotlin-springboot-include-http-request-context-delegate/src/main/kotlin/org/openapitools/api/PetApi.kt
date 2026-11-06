@@ -113,7 +113,7 @@ interface PetApi {
     fun findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().findPetsByStatus(status, exchange)
     }
 
@@ -138,7 +138,7 @@ interface PetApi {
     fun findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().findPetsByTags(tags, exchange)
     }
 
@@ -184,7 +184,7 @@ interface PetApi {
         produces = ["application/json"]
     )
     fun listAllPetsPaginated(@ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
-        @PageableDefault(page = 0, size = 20) @ApiParam(hidden = true) pageable: Pageable): ResponseEntity<Flow<Pet>> {
+        @PageableDefault(page = 0, size = 20) @ApiParam(hidden = true) pageable: Pageable): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listAllPetsPaginated(exchange, pageable)
     }
 
@@ -209,7 +209,7 @@ interface PetApi {
         @ApiParam(value = "Request ID for tracing") @RequestHeader(value = "X-Request-ID", required = false) xRequestID: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsByIdPaginated(xRequestID, exchange, pageable)
     }
 
@@ -235,7 +235,7 @@ interface PetApi {
         @ApiParam(value = "Include adopted pets - will be kept", defaultValue = "false") @Valid @RequestParam(value = "includeAdopted", required = false, defaultValue = "false") includeAdopted: kotlin.Boolean,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsByOwnerPaginated(ownerId, includeAdopted, exchange, pageable)
     }
 
@@ -263,7 +263,7 @@ interface PetApi {
         @ApiParam(value = "Include inactive pets") @Valid @RequestParam(value = "includeInactive", required = false) includeInactive: kotlin.Boolean?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsMixedParams(authorization, xTenantID, status, includeInactive, exchange, pageable)
     }
 
@@ -291,7 +291,7 @@ interface PetApi {
         @ApiParam(value = "Filter by tags - will be kept") @Valid @RequestParam(value = "tags", required = false) tags: kotlin.collections.List<kotlin.String>?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsMultipleParams(name, minAge, maxAge, tags, exchange, pageable)
     }
 
@@ -318,7 +318,7 @@ interface PetApi {
         @ApiParam(value = "Page size - will be KEPT (no x-spring-paginated)") @Valid @RequestParam(value = "size", required = false) size: kotlin.Int?,
         @ApiParam(value = "Sort order - will be KEPT (no x-spring-paginated)") @Valid @RequestParam(value = "sort", required = false) sort: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsNoPagination(status, page, size, sort, exchange)
     }
 
@@ -343,7 +343,7 @@ interface PetApi {
         @ApiParam(value = "Filter by status - will be kept") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsPartialPagination(status, exchange, pageable)
     }
 
@@ -369,7 +369,7 @@ interface PetApi {
         @ApiParam(value = "Filter by name - will be kept") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsWithFilterPaginated(status, name, exchange, pageable)
     }
 
@@ -395,7 +395,7 @@ interface PetApi {
         @ApiParam(value = "Filter by category - will be kept") @Valid @RequestParam(value = "category", required = false) category: kotlin.String?,
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<Flow<Pet>> {
+    ): ResponseEntity<Flow<@Valid Pet>> {
         return getDelegate().listPetsWithHeaderSize(size, category, exchange, pageable)
     }
 

@@ -54,7 +54,7 @@ interface FakeApi {
     )
     fun fakeCookieSuggestion(
         @NotNull @CookieValue(name = "category.history") categoryHistory: kotlin.String
-    ): ResponseEntity<List<Pet>> {
+    ): ResponseEntity<List<@Valid Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

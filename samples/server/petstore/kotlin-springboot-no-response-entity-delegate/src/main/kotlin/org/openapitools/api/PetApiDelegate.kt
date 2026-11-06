@@ -2,6 +2,15 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
+import javax.validation.Valid
+import javax.validation.constraints.DecimalMax
+import javax.validation.constraints.DecimalMin
+import javax.validation.constraints.Email
+import javax.validation.constraints.Max
+import javax.validation.constraints.Min
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.context.request.NativeWebRequest
@@ -39,7 +48,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#findPetsByStatus
      */
-    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet> {
+    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<@Valid Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -60,7 +69,7 @@ interface PetApiDelegate {
     /**
      * @see PetApi#findPetsByTags
      */
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet> {
+    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<@Valid Pet> {
         getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

@@ -68,7 +68,7 @@ interface PetApi {
     )
     fun findPetsByStatus(
         @NotNull @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
-    ): ResponseEntity<List<Pet>> {
+    ): ResponseEntity<List<@Valid Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -82,7 +82,7 @@ interface PetApi {
     )
     fun findPetsByTags(
         @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
-    ): ResponseEntity<List<Pet>> {
+    ): ResponseEntity<List<@Valid Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
