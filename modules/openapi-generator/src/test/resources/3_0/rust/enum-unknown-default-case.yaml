@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Enum unknown default case
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          $ref: '#/components/schemas/PetKind'
+        status:
+          type: string
+          enum:
+            - available
+            - sold
+        size:
+          type: integer
+          enum:
+            - 1
+            - 2
+    PetKind:
+      type: string
+      enum:
+        - cat
+        - dog

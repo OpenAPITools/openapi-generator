@@ -28,7 +28,8 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{#headerParams}}
         {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{{vendorExtensions.x-python-connexion-quoted-name}}}', {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}{{{example}}}{{/vendorExtensions.x-python-connexion-test-header-value}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/headerParams}}
-        {{#cookieParams}}{{#-first}}{{^headerParams}}headers = []
+        {{#cookieParams}}
+        {{#-first}}{{^headerParams}}headers = []
         {{/headerParams}}headers += [('Cookie', '; '.join([{{/-first}}'{{{vendorExtensions.x-python-connexion-quoted-name}}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}]))]{{/-last}}
         {{/cookieParams}}
         {{#formParams}}
