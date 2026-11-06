@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: union anyOf with properties regression test
+  version: 1.0.0
+paths:
+  /filter:
+    get:
+      operationId: getFilter
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterAny'
+components:
+  schemas:
+    FilterAny:
+      anyOf:
+      - $ref: '#/components/schemas/FilterTypeRegex'
+      - $ref: '#/components/schemas/FilterTypeRange'
+      discriminator:
+        mapping:
+          range: '#/components/schemas/FilterTypeRange'
+          set: '#/components/schemas/FilterTypeRegex'
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - set
+          - range
+          type: string
+        date:
+          type: string
+          format: date-time
+    FilterTypeRegex:
+      type: object
+      properties:
+        regex:
+          type: string
+      required:
+      - type
+    FilterTypeRange:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: string
+      required:
+      - type
