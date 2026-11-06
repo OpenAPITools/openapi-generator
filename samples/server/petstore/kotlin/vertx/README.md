@@ -2,7 +2,7 @@
 
 ## Requires
 
-* Kotlin 1.3.10
+* Kotlin 2.4.20
 * Maven 3.3
 
 ## Build

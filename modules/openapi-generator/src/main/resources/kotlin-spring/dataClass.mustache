@@ -83,7 +83,7 @@
             @JvmStatic
             @JsonCreator
             fun forValue(value: {{#isContainer}}{{#items}}{{{dataType}}}{{/items}}{{/isContainer}}{{^isContainer}}{{{dataType}}}{{/isContainer}}): {{{nameInPascalCase}}} {
-                return values().firstOrNull{ it.value == value }
+                return entries.firstOrNull{ it.value == value }
             {{#enumUnknownDefaultCase}}
             {{#allowableValues}}
             {{#enumVars}}

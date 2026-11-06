@@ -51,7 +51,7 @@ data class ApiError(
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.Int): ErrorCode {
-                return values().firstOrNull{ it.value == value }
+                return entries.firstOrNull{ it.value == value }
                                 ?: UNKNOWN_DEFAULT_OPEN_API
             }
         }
