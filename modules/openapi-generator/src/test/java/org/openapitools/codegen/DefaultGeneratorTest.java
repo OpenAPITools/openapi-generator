@@ -15,6 +15,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -1087,6 +1088,127 @@ public class DefaultGeneratorTest {
             GlobalSettings.reset();
             output.deleteOnExit();
         }
+    }
+
+    @Test
+    public void operationTagNameAndDescriptionReachApiGroupWhenTagNameIsSanitized() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/tag-sanitized-name.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(false);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<ModelMap> allModels = new ArrayList<>();
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas, aliasModels);
+        List<OperationsMap> allOperations = new ArrayList<>();
+        generator.generateApis(files, allOperations, allModels);
+
+        Assert.assertEquals(allOperations.size(), 1);
+        OperationsMap operations = allOperations.get(0);
+        Assert.assertEquals(operations.get("baseName"), "PetStore");
+        Assert.assertEquals(operations.get("operationTagName"), "pet-store");
+        Assert.assertEquals(operations.get("operationTagDescription"), "Everything about pets");
+    }
+
+    @Test
+    public void operationTagNameAndDescriptionReachWebhookGroupWhenTagNameIsSanitized() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/tag-sanitized-name.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(false);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<WebhooksMap> allWebhooks = new ArrayList<>();
+        generator.generateWebhooks(files, allWebhooks, new ArrayList<>());
+
+        Assert.assertEquals(allWebhooks.size(), 1);
+        WebhooksMap webhooks = allWebhooks.get(0);
+        Assert.assertEquals(webhooks.get("baseName"), "PetStore");
+        Assert.assertEquals(webhooks.get("operationTagName"), "pet-store");
+        Assert.assertEquals(webhooks.get("operationTagDescription"), "Everything about pets");
+    }
+
+    @Test
+    public void operationTagMetadataKeepsLegacySelectionWhenDeclaredNameMatchesIgnoringCase() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/tag-sanitized-name-legacy-match.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(false);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        List<ModelMap> allModels = new ArrayList<>();
+        List<ModelMap> aliasModels = new ArrayList<>();
+        generator.generateModels(files, allModels, filteredSchemas, aliasModels);
+        List<OperationsMap> allOperations = new ArrayList<>();
+        generator.generateApis(files, allOperations, allModels);
+
+        Assert.assertEquals(allOperations.size(), 3);
+        Map<String, OperationsMap> byBaseName = new HashMap<>();
+        for (OperationsMap operations : allOperations) {
+            byBaseName.put((String) operations.get("baseName"), operations);
+        }
+
+        // declared "pet" (no description) and "Pet" (with one): the name comes from the first
+        // declared tag matching the group key ignoring case ("pet"), the description from the
+        // first such tag that has one ("Pet") — for both the pet- and Pet-tagged operations
+        OperationsMap petGroup = byBaseName.get("Pet");
+        Assert.assertNotNull(petGroup);
+        Assert.assertEquals(petGroup.get("operationTagName"), "pet");
+        Assert.assertEquals(petGroup.get("operationTagDescription"), "Pet description");
+
+        // declared "pet-store" and "PetStore" both sanitize to the group key "PetStore"; the
+        // case-insensitive name match resolves "PetStore" and its description
+        OperationsMap petStoreGroup = byBaseName.get("PetStore");
+        Assert.assertNotNull(petStoreGroup);
+        Assert.assertEquals(petStoreGroup.get("operationTagName"), "PetStore");
+        Assert.assertEquals(petStoreGroup.get("operationTagDescription"), "PetStore description");
+
+        // the untagged operation is grouped under the synthetic "default" tag
+        OperationsMap defaultGroup = byBaseName.get("Default");
+        Assert.assertNotNull(defaultGroup);
+        Assert.assertEquals(defaultGroup.get("operationTagName"), "default");
+        Assert.assertEquals(defaultGroup.get("operationTagDescription"), "Default description");
+    }
+
+    @Test
+    public void operationTagMetadataKeepsLegacySelectionInWebhookGroup() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/tag-sanitized-name-legacy-match.yaml");
+        ClientOptInput opts = new ClientOptInput();
+        opts.openAPI(openAPI);
+        DefaultCodegen config = new DefaultCodegen();
+        config.setStrictSpecBehavior(false);
+        opts.config(config);
+        final DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(opts);
+        generator.configureGeneratorProperties();
+
+        List<File> files = new ArrayList<>();
+        List<WebhooksMap> allWebhooks = new ArrayList<>();
+        generator.generateWebhooks(files, allWebhooks, new ArrayList<>());
+
+        Assert.assertEquals(allWebhooks.size(), 1);
+        WebhooksMap webhooks = allWebhooks.get(0);
+        Assert.assertEquals(webhooks.get("baseName"), "Pet");
+        Assert.assertEquals(webhooks.get("operationTagName"), "pet");
+        Assert.assertEquals(webhooks.get("operationTagDescription"), "Pet description");
     }
 
     private DefaultGenerator generatorGenerateRecursiveDependentModelsBackwardCompatibility(String recursively) throws IOException {
