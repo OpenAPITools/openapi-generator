@@ -539,7 +539,7 @@ class FakeApi:
         # process the query parameters
         if enum_ref is not None:
             
-            _query_params.append(('enum_ref', enum_ref.value))
+            _query_params.append(('enum_ref', enum_ref))
             
         # process the header parameters
         # process the form parameters
