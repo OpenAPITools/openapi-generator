@@ -1239,6 +1239,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+        if ((isLibrary(FEIGN) || isLibrary(RESTTEMPLATE)) && jackson && !useOneOfInterfaces) {
+            configureJacksonTaggedOneOf(objs);
+        }
         if (isLibrary(OKHTTP_GSON)) {
             // gson refuses a class whose hierarchy declares two fields bound to one JSON name, so
             // the okhttp-gson additionalProperties bag is declared once, on the topmost ancestor
@@ -1258,6 +1261,107 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
         return objs;
+    }
+
+    /** Preserve object oneOf variants that share a required single-value string tag. */
+    private void configureJacksonTaggedOneOf(Map<String, ModelsMap> models) {
+        Map<String, CodegenModel> allModels = getAllModels(models);
+        for (CodegenModel union : allModels.values()) {
+            if (union.oneOf.size() < 2 || union.discriminator != null || union.isEnum
+                    || openAPI == null || openAPI.getComponents() == null
+                    || openAPI.getComponents().getSchemas() == null) {
+                continue;
+            }
+            Schema schema = openAPI.getComponents().getSchemas().get(union.schemaName);
+            if (schema == null || schema.getProperties() != null && !schema.getProperties().isEmpty()
+                    || schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+                continue;
+            }
+            List<CodegenModel> variants = new ArrayList<>();
+            for (String name : union.oneOf) {
+                CodegenModel variant = allModels.get(name);
+                if (variant == null || variant.isEnum || !variant.oneOf.isEmpty() || !variant.anyOf.isEmpty()) {
+                    break;
+                }
+                variants.add(variant);
+            }
+            if (variants.size() != union.oneOf.size()) {
+                continue;
+            }
+            Map<String, Map<String, String>> candidates = new LinkedHashMap<>();
+            Map<String, String> fallbackModels = new HashMap<>();
+            for (CodegenProperty first : variants.get(0).allVars) {
+                if (!first.required || !first.isString) continue;
+                Map<String, String> valuesByModel = new LinkedHashMap<>();
+                Set<String> excluded = null;
+                String fallback = null;
+                boolean valid = true;
+                for (CodegenModel variant : variants) {
+                    CodegenProperty property = variant.allVars.stream()
+                            .filter(p -> first.baseName.equals(p.baseName)).findFirst().orElse(null);
+                    if (property == null || !property.required || !property.isString) {
+                        valid = false;
+                        break;
+                    }
+                    Object values = property.isEnum && property.allowableValues != null
+                            ? property.allowableValues.get("values") : null;
+                    if (values instanceof List && ((List<?>) values).size() == 1
+                            && ((List<?>) values).get(0) instanceof String) {
+                        String value = (String) ((List<?>) values).get(0);
+                        if (valuesByModel.containsValue(value)) { valid = false; break; }
+                        valuesByModel.put(variant.classname, value);
+                    } else {
+                        CodegenProperty not = property.getComposedSchemas() == null
+                                ? null : property.getComposedSchemas().getNot();
+                        Object notValues = not == null || not.allowableValues == null
+                                ? null : not.allowableValues.get("values");
+                        if (fallback != null || !(notValues instanceof List)
+                                || ((List<?>) notValues).stream().anyMatch(v -> !(v instanceof String))) {
+                            valid = false;
+                            break;
+                        }
+                        fallback = variant.classname;
+                        excluded = new HashSet<>();
+                        for (Object value : (List<?>) notValues) excluded.add((String) value);
+                    }
+                }
+                if (valid && !valuesByModel.isEmpty()
+                        && (fallback == null || excluded.equals(new HashSet<>(valuesByModel.values())))) {
+                    candidates.put(first.baseName, valuesByModel);
+                    if (fallback != null) fallbackModels.put(first.baseName, fallback);
+                }
+            }
+            if (candidates.isEmpty()) {
+                continue;
+            }
+            String tagName = candidates.containsKey(".tag") ? ".tag" : candidates.keySet().iterator().next();
+            List<Map<String, String>> mappings = new ArrayList<>();
+            for (CodegenModel variant : variants) {
+                String value = candidates.get(tagName).get(variant.classname);
+                if (value != null) {
+                    Map<String, String> mapping = new HashMap<>();
+                    mapping.put("model", variant.classname);
+                    mapping.put("value", escapeText(value));
+                    mappings.add(mapping);
+                }
+                Object existing = variant.vendorExtensions.get(X_IMPLEMENTS);
+                List<String> interfaces = new ArrayList<>();
+                if (existing instanceof Collection) {
+                    for (Object item : (Collection<?>) existing) interfaces.add(String.valueOf(item));
+                } else if (existing instanceof String) {
+                    interfaces.add((String) existing);
+                }
+                if (!interfaces.contains(union.classname)) interfaces.add(union.classname);
+                variant.vendorExtensions.put(X_IMPLEMENTS, interfaces);
+            }
+            if (fallbackModels.containsKey(tagName)) {
+                union.vendorExtensions.put("x-feign-tag-default", fallbackModels.get(tagName));
+            }
+            union.vendorExtensions.put(X_IS_ONE_OF_INTERFACE, true);
+            union.vendorExtensions.put("x-feign-tagged-oneof", true);
+            union.vendorExtensions.put("x-feign-tag-name", escapeText(tagName));
+            union.vendorExtensions.put("x-feign-tag-mappings", mappings);
+        }
     }
 
     @Override

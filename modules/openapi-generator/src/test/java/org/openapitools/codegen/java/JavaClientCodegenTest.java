@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.java;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.body.FieldDeclaration;
@@ -52,8 +54,11 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,6 +70,7 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.tools.ToolProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
@@ -6009,4 +6015,81 @@ public class JavaClientCodegenTest {
                 .contains("import org.springframework.beans.factory.annotation.Autowired;")
                 .contains("import org.springframework.stereotype.Component;");
     }
+    @DataProvider(name = "taggedOneOfLibraries")
+    public static Object[][] taggedOneOfLibraries() {
+        return new Object[][]{{FEIGN}, {JavaClientCodegen.RESTTEMPLATE}};
+    }
+
+    @Test(dataProvider = "taggedOneOfLibraries")
+    public void testJacksonTaggedOneOf(String library) throws Exception {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty("serializationLibrary", "jackson")
+                .setInputSpec("src/test/resources/3_1/java/feign-jackson-tagged-oneof.yaml")
+                .setOutputDir(output.toString());
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+        Path java = output.resolve("src/main/java/org/openapitools/client");
+        String fileModel = FEIGN.equals(library) ? "File" : "ModelFile";
+        assertThat(java.resolve("model/Metadata.java")).content()
+                .contains("interface Metadata", "defaultImpl = Metadata.InvalidVariant.class",
+                        "class InvalidVariant implements Metadata",
+                        "Unknown or missing oneOf discriminator for Metadata",
+                        "org.openapitools.client.model." + fileModel + ".class, name = \"file\"",
+                        "org.openapitools.client.model.Folder.class, name = \"folder\"")
+                .doesNotContain("abstract class InvalidVariant");
+        assertThat(java.resolve("model/OpenMetadata.java")).content()
+                .contains("defaultImpl = org.openapitools.client.model.Other.class");
+        assertThat(java.resolve("model/" + fileModel + ".java")).content().contains("implements Metadata", "ModelClass", "OpenMetadata");
+        assertThat(java.resolve("model/ModelClass.java")).content()
+                .contains("JsonTypeInfo", "@Deprecated", "interface ModelClass extends java.io.Serializable");
+        verifyTaggedOneOfRuntime(output, java.resolve("model/Metadata.java"), fileModel);
+    }
+
+    @Test(dataProvider = "taggedOneOfLibraries")
+    public void testTaggedOneOfAnnotations(String library) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .addAdditionalProperty("serializationLibrary", "jackson")
+                .addAdditionalProperty("additionalOneOfTypeAnnotations", "@SuppressWarnings(\"unused\")")
+                .addAdditionalProperty("withXml", true)
+                .setInputSpec("src/test/resources/3_1/java/feign-jackson-tagged-oneof.yaml")
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Metadata.java")).content()
+                .contains("@SuppressWarnings(\"unused\")", "@XmlRootElement", "@XmlAccessorType", "@JacksonXmlRootElement");
+    }
+
+    private static void verifyTaggedOneOfRuntime(Path output, Path generatedInterface, String fileModel) throws Exception {
+        Path runtime = Files.createDirectory(output.resolve("tagged-oneof-runtime"));
+        Path source = Files.createDirectories(runtime.resolve("org/openapitools/client/model"));
+        // Compile the generated interface with minimal variants; the variants' unrelated fields are not needed here.
+        String metadata = Files.readString(generatedInterface)
+                .replaceAll("(?m)^@javax\\.annotation\\.Generated\\([^\\n]*\\)\\R", "");
+        Path metadataFile = Files.writeString(source.resolve("Metadata.java"), metadata);
+        String variant = "package org.openapitools.client.model; public class %s implements Metadata { "
+                + "@com.fasterxml.jackson.annotation.JsonProperty(\".tag\") public String tag; }";
+        Path file = Files.writeString(source.resolve(fileModel + ".java"), String.format(Locale.ROOT, variant, fileModel));
+        Path folder = Files.writeString(source.resolve("Folder.java"), String.format(Locale.ROOT, variant, "Folder"));
+        ByteArrayOutputStream diagnostics = new ByteArrayOutputStream();
+        int result = ToolProvider.getSystemJavaCompiler().run(null, diagnostics, diagnostics,
+                "-classpath", System.getProperty("java.class.path"), "-d", runtime.toString(),
+                metadataFile.toString(), file.toString(), folder.toString());
+        Assert.assertEquals(result, 0, diagnostics.toString(StandardCharsets.UTF_8));
+        try (URLClassLoader loader = new URLClassLoader(new URL[]{runtime.toUri().toURL()}, JavaClientCodegenTest.class.getClassLoader())) {
+            Class<?> type = loader.loadClass("org.openapitools.client.model.Metadata");
+            ObjectMapper mapper = new ObjectMapper();
+            Assert.assertEquals(mapper.readValue("{\".tag\":\"file\"}", type).getClass().getSimpleName(), fileModel);
+            Assert.assertEquals(mapper.readValue("{\".tag\":\"folder\"}", type).getClass().getSimpleName(), "Folder");
+            for (String json : List.of("{\".tag\":\"unknown\"}", "{}")) {
+                JsonMappingException error = Assert.expectThrows(JsonMappingException.class, () -> mapper.readValue(json, type));
+                assertThat(error.getMessage()).contains("Unknown or missing oneOf discriminator for Metadata");
+            }
+        }
+    }
+
 }
