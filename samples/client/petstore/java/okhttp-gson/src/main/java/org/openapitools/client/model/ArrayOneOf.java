@@ -84,8 +84,8 @@ public class ArrayOneOf extends AbstractOpenApiSchema {
                     }
                     // check if the actual instance is of the type `List<String>`
                     if (value.getActualInstance() instanceof List<?>) {
-                        JsonPrimitive primitive = adapterListString.toJsonTree((List<String>)value.getActualInstance()).getAsJsonPrimitive();
-                        elementAdapter.write(out, primitive);
+                        JsonArray array = adapterListString.toJsonTree((List<String>)value.getActualInstance()).getAsJsonArray();
+                        elementAdapter.write(out, array);
                         return;
                     }
                     throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: Integer, List<String>");
