@@ -120,7 +120,7 @@ class RESTClientObject:
 
         post_params = post_params or {}
         headers = httpx2.Headers(headers or {})
-        timeout = _request_timeout or 5 * 60
+        timeout = _request_timeout or httpx2.USE_CLIENT_DEFAULT
 
         if 'Content-Type' not in headers:
             headers['Content-Type'] = 'application/json'
@@ -196,6 +196,7 @@ class RESTClientObject:
         return httpx2.AsyncClient(
             limits=limits,
             proxy=proxy,
+            timeout=5 * 60,
             verify=self.ssl_context,
             trust_env=True
         )
