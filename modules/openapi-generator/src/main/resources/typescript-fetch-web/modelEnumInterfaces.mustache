@@ -1,0 +1,12 @@
+/**
+ * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
+ * @export
+ * @enum {string}
+ */
+export enum {{classname}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+}
