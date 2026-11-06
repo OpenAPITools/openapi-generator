@@ -2835,15 +2835,15 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
+                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithArrayOfString").hasReturnType("ResponseEntity<List<String>>")
                 .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<TestResponse>>")
+                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithSetOfStrings").hasReturnType("ResponseEntity<Set<String>>")
                 .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
+                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, @Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
@@ -3506,6 +3506,90 @@ public class SpringCodegenTest {
                 .assertParameter("body")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "2"));
+    }
+
+    @DataProvider
+    public Object[][] collectionResponseValidationOptions() {
+        return new Object[][] {
+                {true, false, true, false}, {false, false, true, false},
+                {true, false, false, false}, {false, false, false, false},
+                {true, true, true, false}, {false, true, true, false},
+                {true, true, false, false}, {false, true, false, false},
+                {true, false, true, true}, {false, false, true, true},
+                {true, false, false, true}, {false, false, false, true},
+                {true, true, true, true}, {false, true, true, true},
+                {true, true, false, true}, {false, true, false, true}
+        };
+    }
+
+    @Test(dataProvider = "collectionResponseValidationOptions")
+    public void validatesNonVoidReturnsAndObjectCollectionElements(boolean validation, boolean reactive,
+                                                                  boolean responseEntity, boolean mappedModel) throws IOException {
+        OpenAPI openAPI = new OpenAPIParser().readLocation(
+                "src/test/resources/3_0/spring/collection-response-validation.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(Files.createTempDirectory("collection-response-validation").toString());
+        codegen.additionalProperties().put(USE_TAGS, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_BEANVALIDATION, validation);
+        codegen.additionalProperties().put(REACTIVE, reactive);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, responseEntity);
+        if (mappedModel) {
+            codegen.schemaMapping().put("Pet", "com.example.ExternalPet");
+        }
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+        String api = Files.readString(files.get("CollectionApi.java").toPath());
+        String model = mappedModel ? "com.example.ExternalPet" : "Pet";
+        String element = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String list = reactive ? "Flux<" + model + ">" : "List<" + element + ">";
+        String set = reactive ? "Flux<" + model + ">" : "Set<" + element + ">";
+        String map = "Map<String, " + element + ">";
+        String strings = "List<String>";
+        String integers = reactive ? "Flux<Integer>" : "List<Integer>";
+        String stringMap = "Map<String, String>";
+        String pet = model;
+        String name = "String";
+        String noContent = responseEntity ? "ResponseEntity<Void>" : (reactive ? "Void" : "void");
+        if (responseEntity) {
+            list = "ResponseEntity<" + list + ">";
+            set = "ResponseEntity<" + set + ">";
+            map = "ResponseEntity<" + map + ">";
+            strings = "ResponseEntity<" + strings + ">";
+            integers = "ResponseEntity<" + integers + ">";
+            stringMap = "ResponseEntity<" + stringMap + ">";
+            pet = "ResponseEntity<" + pet + ">";
+            name = "ResponseEntity<" + name + ">";
+        }
+        if (reactive) {
+            if (responseEntity) {
+                list = "Mono<" + list + ">";
+                set = "Mono<" + set + ">";
+                integers = "Mono<" + integers + ">";
+            }
+            map = "Mono<" + map + ">";
+            strings = "Mono<" + strings + ">";
+            stringMap = "Mono<" + stringMap + ">";
+            pet = "Mono<" + pet + ">";
+            name = "Mono<" + name + ">";
+            noContent = "Mono<" + noContent + ">";
+        }
+        String annotation = validation ? "@Valid " : "";
+        assertThat(api).contains(annotation + list + " getPets(", annotation + set + " getUniquePets(",
+                annotation + map + " getPetsByName(", annotation + strings + " getNames(",
+                annotation + pet + " getPet(", annotation + integers + " getNumbers(",
+                annotation + stringMap + " getNamesById(", annotation + name + " getName(",
+                "default " + noContent + " getNothing(")
+                .doesNotContain("ResponseEntity<@Valid", "Mono<@Valid", "List<@Valid String", "Flux<@Valid",
+                        "Flux<com.example.@Valid",
+                        "ResponseEntity<com.example.@Valid", "Mono<com.example.@Valid",
+                        "@Valid " + noContent + " getNothing(");
+        if (!validation) {
+            assertThat(api).doesNotContain("@Valid");
+        }
     }
 
     @Test
@@ -5714,6 +5798,21 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testUrlEncodedFormArraysUseRequestParam() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_14866.yaml", SPRING_BOOT,
+                Map.of(INTERFACE_ONLY, "true"));
+        JavaFileAssert.assertThat(files.get("IssueApi.java"))
+                .assertMethod("reproduceIssue", "List<String>", "List<String>")
+                .assertParameter("listOfStrings").hasType("List<String>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"listOfStrings\"", "required", "false"))
+                .toParameter().toMethod()
+                .assertParameter("requiredStrings").hasType("List<String>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"requiredStrings\"", "required", "true"));
+    }
+
+    @Test
     public void testAllArgsConstructor_16797() throws IOException {
         final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
                 Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),
@@ -7034,7 +7133,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("getPetById").hasReturnType("Pet")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("List<Pet>");
+                .assertMethod("findPetsByStatus").hasReturnType("List<@Valid Pet>");
     }
 
     @Test
@@ -9082,7 +9181,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPets")
-                .hasReturnType("ResponseEntity<List<Pet>>");
+                .hasReturnType("ResponseEntity<List<@Valid Pet>>");
     }
 
     /** Common properties shared by all substituteGenericPagedModel tests. */
@@ -10730,6 +10829,8 @@ public class SpringCodegenTest {
     }
 
     private static final String RECORDS_SPEC = "src/test/resources/3_0/spring/records.yaml";
+    private static final String ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3 = "it has additionalProperties, which a record receives "
+            + "only through Jackson 2.18 or later, and Spring Boot 3 brings Jackson 2.17 (use useSpringBoot4)";
     private static final String RECORDS_FIELDS_SPEC = "src/test/resources/3_0/spring/records-fields.yaml";
     private static final String RECORDS_BUILDERS_SPEC = "src/test/resources/3_0/spring/records-builders.yaml";
 
@@ -11306,7 +11407,7 @@ public class SpringCodegenTest {
 
         assertThat(messages).contains(
                 "useRecords: model 'KidParent' is generated as a class: it has a parent (Base)",
-                "useRecords: model 'KidAdditional' is generated as a class: it has additionalProperties",
+                "useRecords: model 'KidAdditional' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3,
                 "useRecords: model 'KidFail' is generated as a class: property 's' uses the FAIL null policy",
                 "useRecords: model 'GrandParent' is generated as a class: it is nested in 'KidParent', a parameter object that is a class",
                 "useRecords: model 'GrandAdditional' is generated as a class: it is nested in 'KidAdditional', a parameter object that is a class",
@@ -11420,7 +11521,7 @@ public class SpringCodegenTest {
         assertThat(messages).contains(
                 "useRecords: model 'Car' is generated as a class: it has a parent (Vehicle)",
                 "useRecords: model 'Vehicle' is generated as a class: it has child models",
-                "useRecords: model 'Counters' is generated as a class: it has additionalProperties");
+                "useRecords: model 'Counters' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
         assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Owner'")
                 || m.contains("model 'Circle'") || m.contains("model 'Square'"));
     }
@@ -12347,6 +12448,161 @@ public class SpringCodegenTest {
         assertSource(files, "Holder.java").contains("      hollow = new Hollow();");
     }
 
+    private static final String RECORDS_ADDITIONAL_PROPERTIES_SPEC = "src/test/resources/3_0/spring/records-additional-properties.yaml";
+
+    @Test
+    public void useRecordsKeepsModelsWithAdditionalPropertiesAsClassesOnSpringBoot3() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of());
+                for (String name : List.of("Tagged", "Loose", "Typed", "Lists")) {
+                    assertSource(files, name + ".java").contains("public class " + name + " {", "@JsonAnySetter")
+                            .doesNotContain("public record");
+                }
+                assertSource(files, "Item.java").contains("public record Item(");
+                assertSource(files, "Holder.java").contains("public record Holder(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        for (String name : List.of("Tagged", "Loose", "Typed", "Lists")) {
+            assertThat(messages).contains("useRecords: model '" + name + "' is generated as a class: "
+                    + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
+        }
+    }
+
+    @Test
+    public void useRecordsKeepsAModelWithAdditionalPropertiesBoundFromRequestParametersAsAClass() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-additional-properties-query.yaml",
+                        Map.of(USE_SPRING_BOOT4, "true"));
+                assertSource(files, "QueryWithExtras.java").contains("public class QueryWithExtras {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'QueryWithExtras' is generated as a class: it has additionalProperties and is bound from request parameters");
+    }
+
+    @Test
+    public void useRecordsReceivesAdditionalPropertiesInAComponentOnSpringBoot4() throws IOException {
+        for (Map<String, Object> options : List.of(Map.<String, Object>of(USE_SPRING_BOOT4, "true"),
+                Map.<String, Object>of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"))) {
+            Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, options);
+
+            assertSource(files, "Tagged.java")
+                    .contains(
+                            "public record Tagged(",
+                            "String name,",
+                            "Integer count,",
+                            "String secret,",
+                            "    @JsonAnySetter\n    @JsonAnyGetter\n    Map<String, String> additionalProperties\n) {",
+                            "if (additionalProperties == null) {",
+                            "additionalProperties = new LinkedHashMap<>();",
+                            "public String getAdditionalProperty(String key) {",
+                            " * @param additionalProperties the additional (undeclared) properties, by name",
+                            "import com.fasterxml.jackson.annotation.JsonAnyGetter;",
+                            "import com.fasterxml.jackson.annotation.JsonAnySetter;")
+                    .doesNotContain("public class", "putAdditionalProperty", "Builder");
+            assertSource(files, "Loose.java").contains("public record Loose(", "Map<String, Object> additionalProperties");
+            assertSource(files, "Typed.java").contains("public record Typed(", "Map<String, Item> additionalProperties");
+            assertSource(files, "Lists.java").contains("public record Lists(", "Map<String, List> additionalProperties");
+        }
+    }
+
+    @Test
+    public void useRecordsCountsTheAdditionalPropertiesComponentAndLogsEachClassThatRemains() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of(USE_SPRING_BOOT4, "true"));
+                assertSource(files, "Child.java").contains("public class Child extends Base");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Child' is generated as a class: it has a parent (Base)");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Tagged'") || m.contains("model 'Loose'")
+                || m.contains("model 'Typed'") || m.contains("model 'Holder'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAModelWithAPropertyNamedAdditionalPropertiesAsAClass() throws IOException {
+        Path spec = Files.createTempFile("named-additional", ".yaml");
+        Files.writeString(spec, Files.readString(Path.of(RECORDS_ADDITIONAL_PROPERTIES_SPEC))
+                + "    Named:\n      type: object\n      properties:\n        additionalProperties:\n          type: string\n"
+                + "      additionalProperties:\n        type: string\n");
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Named.java")
+                        .contains("public class Named {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'Named' is generated as a class: property 'additionalProperties' clashes with the additionalProperties component");
+    }
+
+    @Test
+    public void useRecordsLimitsComponentsIncludingTheAdditionalPropertiesComponent() throws IOException {
+        Path spec = Files.createTempFile("many-additional", ".yaml");
+        String extra = "      additionalProperties:\n        type: string\n      properties:";
+        // 249 properties and the map are 250 components
+        Files.writeString(spec, specWithProperties(249).replace("      properties:", extra));
+        assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Many.java")
+                .contains("public record Many(");
+
+        Files.writeString(spec, specWithProperties(250).replace("      properties:", extra));
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Many.java")
+                        .contains("public class Many {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains("useRecords: model 'Many' is generated as a class: it has more than 250 properties");
+    }
+
+    @Test
+    public void useRecordsBuilderOfARecordWithAdditionalPropertiesHoldsTheMap() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC,
+                Map.of(USE_SPRING_BOOT4, "true", GENERATE_BUILDERS, "true"));
+
+        assertSource(files, "Tagged.java")
+                .contains(
+                        "private Map<String, String> additionalProperties;",
+                        "this.additionalProperties = value.additionalProperties() == null ? null : new LinkedHashMap<>(value.additionalProperties());",
+                        "public Tagged.Builder additionalProperties(Map<String, String> additionalProperties) {",
+                        "return new Tagged(this.name, this.count, this.note, this.secret, this.additionalProperties);");
+        assertSource(files, "Loose.java")
+                .contains("return new Loose(this.id, this.additionalProperties);");
+    }
+
+    @Test
+    public void useRecordsMasksThePasswordAndPrintsTheAdditionalProperties() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of(USE_SPRING_BOOT4, "true"));
+
+        assertSource(files, "Tagged.java").contains(
+                "+ \", secret=\" + \"*\"",
+                "+ \", additionalProperties=\" + additionalProperties");
+    }
+
+    @Test
+    public void useRecordsOffKeepsTheAdditionalPropertiesClassOnSpringBoot4() throws IOException {
+        Map<String, File> files = generateFromContract(RECORDS_ADDITIONAL_PROPERTIES_SPEC, SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, "true"));
+
+        assertSource(files, "Tagged.java").contains("public class Tagged {", "public Tagged putAdditionalProperty(String key, String value)")
+                .doesNotContain("public record");
+    }
+
     @Test
     public void useRecordsKeepsOriginalReasonOfModelThatAlreadyStaysClass() {
         List<String> messages = captureLogMessages(SpringCodegen.class, () -> {
@@ -12357,7 +12613,7 @@ public class SpringCodegenTest {
             }
         });
 
-        assertThat(messages).contains("useRecords: model 'LooseSub' is generated as a class: it has additionalProperties");
+        assertThat(messages).contains("useRecords: model 'LooseSub' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
         assertThat(messages).noneMatch(m -> m.contains("model 'LooseSub'") && m.contains("constructs it"));
     }
 
@@ -12419,5 +12675,25 @@ public class SpringCodegenTest {
         });
 
         assertThat(messages).noneMatch(m -> m.contains("model 'URI'"));
+    }
+
+    @Test
+    public void implicitHeadersRegexMatchesHeaderNamesCaseInsensitively_issue25475() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.IMPLICIT_HEADERS_REGEX, "API_KEY");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("deletePet", "Long");
+    }
+
+    @Test
+    public void implicitHeadersRegexKeepsHeadersItDoesNotMatch() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.IMPLICIT_HEADERS_REGEX, "API_KEY_2");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("deletePet", "Long", "String");
     }
 }

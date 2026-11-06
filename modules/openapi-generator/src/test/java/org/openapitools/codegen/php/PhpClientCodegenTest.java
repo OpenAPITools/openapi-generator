@@ -266,7 +266,7 @@ public class PhpClientCodegenTest {
             String composer = new String(Files.readAllBytes(composerPath), StandardCharsets.UTF_8);
             // psr7 < 2.10 Utils::modifyRequest() rebuilds a plain Request and
             // drops the verbatim subclass - pin the floor high enough
-            Assert.assertTrue(composer.contains("\"guzzlehttp/psr7\": \"^2.10\""),
+            Assert.assertTrue(composer.contains("\"guzzlehttp/psr7\": \"^2.10"),
                     "psr7 constraint must exclude versions that rebuild plain Requests");
         } finally {
             FileUtils.deleteDirectory(target.toFile());

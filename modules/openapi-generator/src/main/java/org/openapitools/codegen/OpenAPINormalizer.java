@@ -2810,8 +2810,7 @@ public class OpenAPINormalizer {
      * When set to true, remove "properties" attribute on schema other than "object"
      * since it should be ignored and may result in odd generated code
      *
-     * @param schema         Schema
-     * @return Schema
+     * @param schema the schema to normalize
      */
     protected void processNormalizeOtherThanObjectWithProperties(Schema schema) {
         if (getRule(REMOVE_PROPERTIES_FROM_TYPE_OTHER_THAN_OBJECT)) {

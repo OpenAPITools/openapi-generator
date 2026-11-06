@@ -345,6 +345,20 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 if (discriminator == null || discriminator.getMappedModels() == null) {
                     continue;
                 }
+                // a oneOf variant whose tag is an enum (inline or $ref) cannot default it after serde consumed it, and
+                // its copy would be written next to the tag: keep the tag in the content the variant deserializes
+                // from and serialize the variant as is, so the variant structs are untouched
+                if (!cm.oneOf.isEmpty() && cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null
+                        && discriminator.getMappedModels().stream()
+                        .map(CodegenDiscriminator.MappedModel::getModel)
+                        .filter(Objects::nonNull)
+                        .flatMap(m -> m.vars.stream())
+                        .anyMatch(v -> discriminator.getPropertyBaseName().equals(v.baseName) && v.getIsEnumOrRef())) {
+                    discriminator.getVendorExtensions().put("x-rust-tagged-content", true);
+                    // the variants' own vendorExtensions shadow the discriminator's inside their loop
+                    cm.getComposedSchemas().getOneOf().forEach(v -> v.vendorExtensions.put("x-rust-tagged-content", true));
+                    continue;
+                }
                 // a mapping that names the base itself leaves no struct to wrap, and an enum-typed tag would be
                 // written twice (the child's copy keeps its default): keep the inline variants
                 if (discriminator.getMappedModels().stream().anyMatch(m -> cm.name.equals(m.getSchemaName()))
@@ -816,6 +830,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
             parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, inFunctionIdentifier);
+        }
+
+        // chrono's `Display` for `DateTime` is not RFC 3339 (e.g. "2024-01-02 03:04:05 +00:00"),
+        // so path, query and header params of that type are serialized with `to_rfc3339()` instead.
+        if (parameter.isDateTime && parameter.dataType != null && parameter.dataType.startsWith("chrono::DateTime")) {
+            parameter.vendorExtensions.put("x-rust-chrono-date-time", true);
         }
     }
 
