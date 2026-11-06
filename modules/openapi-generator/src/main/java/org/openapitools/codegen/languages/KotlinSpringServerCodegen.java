@@ -22,8 +22,10 @@ import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
@@ -120,6 +122,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_SEALED_DISCRIMINATOR_INTERFACES = "useSealedDiscriminatorInterfaces";
     public static final String COMPANION_OBJECT = "companionObject";
     public static final String SUSPEND_FUNCTIONS = "suspendFunctions";
+    public static final String ADDITIONAL_ITEMS_ANNOTATIONS = "additionalItemsAnnotations";
+    static final String X_KOTLIN_ITEMS_ANNOTATIONS = "x-kotlin-items-annotations";
 
     @Getter
     public enum DeclarativeInterfaceReactiveMode {
@@ -158,6 +162,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private String serverPort = "8080";
     private String title = "OpenAPI Kotlin Spring";
     private boolean useBeanValidation = true;
+    @Getter @Setter private List<String> additionalItemsAnnotations = new ArrayList<>();
     @Setter private boolean skipDefaultInterface = false;
     @Setter private boolean skipDefaultApiInterface = false;
     @Setter private boolean skipDefaultDelegateInterface = false;
@@ -315,6 +320,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        cliOptions.add(CliOption.newString(ADDITIONAL_ITEMS_ANNOTATIONS, "Additional annotations for the element type of lists/sets, e.g. `List<@com.example.Audited Pet>`. List separated by semicolon(;) or new line (Linux or Windows). Element nullability is expressed by the Kotlin type (`?`), so `@NotNull` is not needed here. Annotations must be fully qualified or imported (e.g. via `x-extra-imports`). Note: the Kotlin compiler (checked with 1.9 and 2.2) only writes element-type annotations to bytecode, which runtime validation needs, when the `-Xemit-jvm-type-annotations` compiler flag is set."));
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces (Api interfaces or Delegate interfaces depending on the delegatePattern option)", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, INTERFACE_ONLY_DESC, interfaceOnly);
@@ -759,6 +765,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+
+        if (additionalProperties.containsKey(ADDITIONAL_ITEMS_ANNOTATIONS)) {
+            Object value = additionalProperties.get(ADDITIONAL_ITEMS_ANNOTATIONS);
+            List<String> annotations = value instanceof Collection
+                    ? getObjectAsStringList(value)
+                    : Arrays.asList(String.valueOf(value).trim().split("\\s*(;|\\r?\\n)\\s*"));
+            setAdditionalItemsAnnotations(annotations.stream()
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.toList()));
+        }
 
         if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
             this.setSkipDefaultInterface(convertPropertyToBoolean(SKIP_DEFAULT_INTERFACE));
@@ -1445,6 +1462,157 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // TODO: Handle tags
     }
 
+    /**
+     * Extra annotations for the element type of a list/set: {@code additionalItemsAnnotations} followed by
+     * {@code x-field-extra-annotation} declared on the items schema (string or list). Applied regardless of
+     * {@code useBeanValidation}, as in the Java generators.
+     */
+    @Override
+    protected String getExtraListAnnotation(Schema<?> items) {
+        List<String> customAnnotations = getObjectAsStringList(
+                VendorExtension.X_FIELD_EXTRA_ANNOTATION.getValue(items.getExtensions()));
+        if (additionalItemsAnnotations.isEmpty() && customAnnotations.isEmpty()) {
+            return "";
+        }
+        Set<String> annotations = new LinkedHashSet<>(additionalItemsAnnotations);
+        annotations.addAll(customAnnotations);
+        return String.join(" ", annotations);
+    }
+
+    /**
+     * Bean validation for the element type of a list/set, following the rules of
+     * {@code AbstractJavaCodegen#getBeanValidation} and rendered in the format of {@code beanValidationCore.mustache}.
+     */
+    @Override
+    protected String getItemsBeanValidation(Schema<?> items) {
+        if (!useBeanValidation || items == null) {
+            return "";
+        }
+        if (ModelUtils.isTypeObjectSchema(items)) {
+            // free-form or inline object: nothing to cascade into
+            return "";
+        }
+
+        String itemsRef = items.get$ref();
+        if (itemsRef == null && items.getAllOf() != null && items.getAllOf().size() == 1) {
+            // $ref with siblings is wrapped by the normalizer into allOf: [$ref]
+            itemsRef = items.getAllOf().get(0).get$ref();
+        }
+        if (itemsRef != null) {
+            Map<String, Schema> schemas = openAPI != null && openAPI.getComponents() != null
+                    ? openAPI.getComponents().getSchemas() : null;
+            String ref = ModelUtils.getSimpleRef(itemsRef);
+            if (ref != null) {
+                Schema<?> schema = schemas == null ? null : schemas.get(ref);
+                boolean composedModel = ModelUtils.isComposedSchema(schema) && !ModelUtils.isOneOfOfConsts(schema);
+                if (schema == null || ModelUtils.isObjectSchema(schema) || composedModel) {
+                    return "@Valid";
+                }
+                items = schema;
+            }
+        }
+
+        if (ModelUtils.isEnumSchema(items)) {
+            return "";
+        }
+        if (ModelUtils.isStringSchema(items)) {
+            return getItemsStringBeanValidation(items);
+        }
+        if (ModelUtils.isNumberSchema(items)) {
+            return getItemsDecimalBeanValidation(items);
+        }
+        if (ModelUtils.isLongSchema(items)) {
+            return getItemsIntegerBeanValidation(items, "L");
+        }
+        if (ModelUtils.isIntegerSchema(items)) {
+            return getItemsIntegerBeanValidation(items, "");
+        }
+        return "";
+    }
+
+    private String getItemsStringBeanValidation(Schema<?> items) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
+            return "";
+        }
+        List<String> annotations = new ArrayList<>();
+        if (ModelUtils.isEmailSchema(items)) {
+            annotations.add("@Email");
+        }
+        if (StringUtils.isNotEmpty(items.getPattern())) {
+            annotations.add("@Pattern(regexp=\"" + toRegularExpression(items.getPattern()) + "\""
+                    + validationMessage(items, "x-pattern-message") + ")");
+        }
+        if (ModelUtils.isDecimalSchema(items)) {
+            annotations.add(getItemsDecimalBeanValidation(items));
+        } else if (items.getMinLength() != null && items.getMaxLength() != null) {
+            annotations.add("@Size(min=" + items.getMinLength() + ",max=" + items.getMaxLength()
+                    + validationMessage(items, "x-size-message") + ")");
+        } else if (items.getMinLength() != null) {
+            annotations.add("@Size(min=" + items.getMinLength() + validationMessage(items, "x-size-message") + ")");
+        } else if (items.getMaxLength() != null) {
+            annotations.add("@Size(max=" + items.getMaxLength() + validationMessage(items, "x-size-message") + ")");
+        }
+        return joinAnnotations(annotations.toArray(new String[0]));
+    }
+
+    private String getItemsIntegerBeanValidation(Schema<?> items, String suffix) {
+        List<String> annotations = new ArrayList<>();
+        if (items.getMinimum() != null) {
+            annotations.add("@Min(value=" + items.getMinimum() + suffix + validationMessage(items, "x-minimum-message") + ")");
+        }
+        if (items.getMaximum() != null) {
+            annotations.add("@Max(value=" + items.getMaximum() + suffix + validationMessage(items, "x-maximum-message") + ")");
+        }
+        return String.join(" ", annotations);
+    }
+
+    private String getItemsDecimalBeanValidation(Schema<?> items) {
+        List<String> annotations = new ArrayList<>();
+        if (items.getMinimum() != null) {
+            annotations.add("@DecimalMin(value=\"" + items.getMinimum() + "\""
+                    + (Boolean.TRUE.equals(items.getExclusiveMinimum()) ? ", inclusive=false" : "")
+                    + validationMessage(items, "x-minimum-message") + ")");
+        }
+        if (items.getMaximum() != null) {
+            annotations.add("@DecimalMax(value=\"" + items.getMaximum() + "\""
+                    + (Boolean.TRUE.equals(items.getExclusiveMaximum()) ? ", inclusive=false" : "")
+                    + validationMessage(items, "x-maximum-message") + ")");
+        }
+        return String.join(" ", annotations);
+    }
+
+    private static String validationMessage(Schema<?> items, String extension) {
+        Object message = items.getExtensions() == null ? null : items.getExtensions().get(extension);
+        return message == null ? "" : ", message=\"" + escapeKotlinString(String.valueOf(message)) + "\"";
+    }
+
+    private static String escapeKotlinString(String value) {
+        return value.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("$", "\\$")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n")
+                .replace("\t", "\\t");
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        // Model templates render arrays of inline enums as `{{baseType}}<{{classname}}.{{nameInPascalCase}}>`
+        // instead of `{{dataType}}`, so expose the element annotations separately for that branch.
+        if (property != null && property.isArray && property.isEnum && p != null) {
+            Schema<?> schema = ModelUtils.getReferencedSchema(openAPI, p);
+            Schema<?> items = ModelUtils.getSchemaItems(schema);
+            if (items != null) {
+                String annotations = joinAnnotations(getExtraListAnnotation(items), getItemsBeanValidation(items));
+                if (!annotations.isEmpty()) {
+                    property.vendorExtensions.put(X_KOTLIN_ITEMS_ANNOTATIONS, annotations);
+                }
+            }
+        }
+        return property;
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -1959,11 +2127,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 // array-of-string operations to List<String> (with suspend).
                 // See https://github.com/spring-projects/spring-framework/issues/22662
                 // Note: check operation.returnType (set by doDataTypeAssignment) which holds the
-                // unwrapped inner type, e.g. "kotlin.String" for List<kotlin.String> arrays.
+                // unwrapped inner type, e.g. "kotlin.String" for List<kotlin.String> arrays
+                // (or "@Size(max=3) kotlin.String" when the items carry element annotations).
                 // The declarative-http-interface library forces useFlowForArrayReturnType=false,
                 // so this condition only fires for the spring-boot coroutines path.
-                if (reactive && useFlowForArrayReturnType
-                        && operation.isArray && "kotlin.String".equals(operation.returnType)) {
+                if (reactive && useFlowForArrayReturnType && operation.isArray && operation.returnType != null
+                        && ("kotlin.String".equals(operation.returnType) || operation.returnType.endsWith(" kotlin.String"))) {
                     operation.vendorExtensions.put("x-reactive-array-string-return", true);
                 }
 
@@ -2024,7 +2193,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // so the imports are scoped to exactly the API file(s) that render these operations. They are
         // exposed under a dedicated key (not the shared "imports" list) so that only templates which
         // render the related annotations (api.mustache / apiInterface.mustache) emit them, while
-        // delegate, controller-wrapper, service and test templates do not.
+        // delegate, controller-wrapper, service and test templates do not (unless they render custom
+        // element-type annotations, see elementTypeExtraImports).
         if (operations != null) {
             Set<String> operationExtraImports = new LinkedHashSet<>();
             for (CodegenOperation operation : operations.getOperation()) {
@@ -2053,10 +2223,37 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     extraImportList.add(item);
                 }
                 objs.put("operationExtraImports", extraImportList);
+                // Element-type annotations (List<@Foo T>) are also rendered in delegate, service and test
+                // signatures; emit the extra imports there only when such a custom annotation is present.
+                if (operations.getOperation().stream().anyMatch(KotlinSpringServerCodegen::hasCustomElementAnnotation)) {
+                    objs.put("elementTypeExtraImports", true);
+                }
             }
         }
 
         return objs;
+    }
+
+    private static final Set<String> BEAN_VALIDATION_ANNOTATIONS =
+            Set.of("Valid", "Size", "Pattern", "Email", "Min", "Max", "DecimalMin", "DecimalMax", "NotNull");
+    private static final java.util.regex.Pattern ELEMENT_ANNOTATION = java.util.regex.Pattern.compile("[<\\s]@([\\w.]+)");
+
+    private static boolean hasCustomElementAnnotation(CodegenOperation operation) {
+        List<String> types = new ArrayList<>();
+        types.add(operation.returnType == null ? null : " " + operation.returnType);
+        Stream.of(operation.allParams, operation.implicitHeadersParams)
+                .filter(Objects::nonNull)
+                .flatMap(List::stream)
+                .forEach(param -> types.add(param.dataType));
+        return types.stream().filter(Objects::nonNull).anyMatch(type -> {
+            Matcher matcher = ELEMENT_ANNOTATION.matcher(type);
+            while (matcher.find()) {
+                if (!BEAN_VALIDATION_ANNOTATIONS.contains(matcher.group(1))) {
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     @Override
