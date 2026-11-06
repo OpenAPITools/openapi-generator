@@ -8353,4 +8353,24 @@ public class KotlinSpringServerCodegenTest {
         // oneOf parent uses oneof_interface.mustache, not dataClass.mustache — flag has no effect on it
         assertFileContains(Paths.get(outputPath + "/Animal.kt"), "sealed interface Animal");
     }
+
+    @Test(description = "a map whose additionalProperties is an inline enum keeps its Map type (#25453)")
+    public void testMapOfInlineEnumKeepsMapType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/issue25453-map-of-inline-enum.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        Path todayKt = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model/Today.kt");
+
+        assertFileContains(todayKt, "val lessonStatus: kotlin.collections.Map<kotlin.String, Today.LessonStatus>");
+        assertFileContains(todayKt, "val previousStatus: kotlin.collections.Map<kotlin.String, Today.PreviousStatus>? = null");
+        assertFileContains(todayKt, "enum class LessonStatus(@get:JsonValue val value: kotlin.String)");
+        assertFileContains(todayKt, "enum class PreviousStatus(@get:JsonValue val value: kotlin.String)");
+    }
 }
