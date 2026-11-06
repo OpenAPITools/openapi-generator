@@ -1,0 +1,41 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Cats and Dogs",
+    "version": "1.0.0"
+  },
+  "components": {
+    "schemas": {
+      "Cat": {
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/CatFields/$defs/catName"
+          }
+        }
+      },
+      "CatFields": {
+        "$defs": {
+          "catName": {
+            "type": "string",
+            "title": "Given name"
+          }
+        }
+      },
+      "Dog": {
+        "properties": {
+          "nickname": {
+            "$ref": "#/components/schemas/DogFields/$defs/dogName"
+          }
+        }
+      },
+      "DogFields": {
+        "$defs": {
+          "dogName": {
+            "type": "string",
+            "title": "Given name"
+          }
+        }
+      }
+    }
+  }
+}
