@@ -85,7 +85,7 @@ import java.io.Serializable
 {{#discriminator}}
 {{>typeInfoAnnotation}}
 {{#vendorExtensions.x-discriminator-has-parent-properties}}
-sealed class {{classname}}(
+{{#x-inheritance-mode-abstract}}abstract class{{/x-inheritance-mode-abstract}}{{^x-inheritance-mode-abstract}}sealed class{{/x-inheritance-mode-abstract}} {{classname}}(
 {{#requiredVars}}
 {{>data_class_sealed_var}}{{^-last}},
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
@@ -94,7 +94,7 @@ sealed class {{classname}}(
 )
 {{/vendorExtensions.x-discriminator-has-parent-properties}}
 {{^vendorExtensions.x-discriminator-has-parent-properties}}
-sealed class {{classname}}
+{{#x-inheritance-mode-abstract}}abstract class{{/x-inheritance-mode-abstract}}{{^x-inheritance-mode-abstract}}sealed class{{/x-inheritance-mode-abstract}} {{classname}}
 {{/vendorExtensions.x-discriminator-has-parent-properties}}
 {{/discriminator}}
 {{^discriminator}}
