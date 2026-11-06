@@ -20,7 +20,8 @@ async def {{operationId}}({{connexionContextArgName}}: web.Request, {{#vendorExt
     {{notes}}
 
     {{#allParams}}
-    :param {{paramName}}: {{description}}
+        {{^vendorExtensions.x-python-connexion-form-field}}
+    :param {{paramName}}: {{description}}{{#vendorExtensions.x-python-connexion-form-body}}{{>form_fields_doc}}{{/vendorExtensions.x-python-connexion-form-body}}
         {{^isContainer}}
             {{#isPrimitiveType}}
     :type {{paramName}}: {{>param_type}}
@@ -34,7 +35,12 @@ async def {{operationId}}({{connexionContextArgName}}: web.Request, {{#vendorExt
                 {{/isFile}}
                 {{^isFile}}
                     {{^isUuid}}
+                        {{#vendorExtensions.x-python-connexion-form-body}}
+    :type {{paramName}}: dict
+                        {{/vendorExtensions.x-python-connexion-form-body}}
+                        {{^vendorExtensions.x-python-connexion-form-body}}
     :type {{paramName}}: dict | bytes
+                        {{/vendorExtensions.x-python-connexion-form-body}}
                     {{/isUuid}}
                 {{/isFile}}
             {{/isPrimitiveType}}
@@ -59,10 +65,17 @@ async def {{operationId}}({{connexionContextArgName}}: web.Request, {{#vendorExt
                 {{/isPrimitiveType}}
             {{/items}}
         {{/isMap}}
+        {{/vendorExtensions.x-python-connexion-form-field}}
     {{/allParams}}
 
     """
     {{#allParams}}
+        {{#vendorExtensions.x-python-connexion-form-dict-init}}
+    {{vendorExtensions.x-python-connexion-form-dict-local}} = {{{vendorExtensions.x-python-connexion-form-dict-init}}}
+        {{/vendorExtensions.x-python-connexion-form-dict-init}}
+        {{#vendorExtensions.x-python-connexion-form-field}}
+    {{paramName}} = {{vendorExtensions.x-python-connexion-form-dict-local}}.get({{{vendorExtensions.x-python-connexion-form-field-key}}})
+        {{/vendorExtensions.x-python-connexion-form-field}}
         {{#isHeaderParam}}
     {{paramName}} = {{connexionContextArgName}}.headers.get('{{{vendorExtensions.x-python-connexion-quoted-name}}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{#vendorExtensions.x-python-connexion-object-style}}
