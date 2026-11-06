@@ -45,7 +45,7 @@ export class BaseService {
                 httpParams,
             );
         } else if (paramStyle === QueryParamStyle.Json) {
-            return httpParams.append(key, JSON.stringify(value));
+            return httpParams.append(key, JSON.stringify(value, (_, v) => v instanceof Set ? Array.from(v) : v));
         } else {
             // Form-style, SpaceDelimited or PipeDelimited
 

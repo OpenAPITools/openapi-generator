@@ -15,6 +15,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Filter'
+        - in: query
+          name: tags
+          description: Tags
+          required: false
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                uniqueItems: true
 
       responses:
         '200':
