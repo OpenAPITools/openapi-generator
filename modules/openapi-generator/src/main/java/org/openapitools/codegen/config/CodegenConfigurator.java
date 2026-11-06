@@ -65,11 +65,12 @@ public class CodegenConfigurator {
     // the first (e.g. "attribute paths.'/tasks'.'x-custom'.nested is unexpected", which the
     // parser produces when the path template itself contains a quote) does NOT match -- such
     // a nested member is not a dropped operation. The attribute name is likewise restricted
-    // to a single simple token so this does NOT match a typo'd key nested one level down
+    // to a single simple token (dots allowed: RFC 9110 tchar permits them in custom method
+    // names such as "M.FOO") so this does NOT match a typo'd key nested one level down
     // (e.g. a path-level parameter or server object), which is reported under the same
     // "paths.'X'." prefix but is not itself a dropped operation.
     private static final Pattern UNEXPECTED_PATH_ITEM_ATTRIBUTE =
-            Pattern.compile("attribute paths\\.'([^']+)'\\.([^.\\[\\]()'\\s]+) is unexpected");
+            Pattern.compile("attribute paths\\.'([^']+)'\\.([^\\[\\]()'\\s]+) is unexpected");
 
     private GeneratorSettings.Builder generatorSettingsBuilder = GeneratorSettings.newBuilder();
     private WorkflowSettings.Builder workflowSettingsBuilder = WorkflowSettings.newBuilder();
