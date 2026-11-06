@@ -11,6 +11,18 @@ Another approach to find breaking changes is to look at issue and pull requests 
 * link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28with%20fallback%29[Breaking change (with fallback)]
 * link:https://github.com/OpenAPITools/openapi-generator/labels/Breaking%20change%20%28without%20fallback%29[Breaking change (without fallback)]
 
+=== Removal of nose test-runner support
+
+The `python-flask`, `python-aiohttp`, and `python-blueplanet` generators now always generate their existing pytest requirements and tox commands. The `useNose` option has been removed without a deprecation period or fallback. Existing pytest/plugin version constraints, Python settings, and generated test styles are preserved; this change does not standardize or upgrade the testing dependencies.
+
+Remove `useNose` from generator configurations. Additional properties still accept arbitrary keys, so a stale `useNose=true` setting does not produce a special error or warning, but it no longer selects nose with the bundled templates. Custom templates can still read caller-supplied properties and must be migrated separately.
+
+Custom Java extensions must remove references to `AbstractPythonConnexionServerCodegen.USE_NOSE`, its protected `useNose` field, and `setUseNose(String)`. Removing these members is a source and binary compatibility break.
+
+Generated Flask Travis jobs now install runtime and test requirements and run pytest. Update user-owned CI commands, nose-specific plugins, imports, and tests when migrating an existing generated project. The generated unittest-style Flask and BluePlanet tests and tox remain supported. No user files or installed packages are automatically migrated; regeneration follows the existing overwrite and ignore rules.
+
+Obsolete `nosetests.xml` ignore entries have been removed. The R, R-httr2, and R-httr2-wrapper sample Maven execution IDs have been renamed from `nose-test` to `r-package-check`; automation selecting `exec:exec@nose-test` must use the new ID. These executions continue to run R package checks and do not use pytest.
+
 === From 7.24.x to 7.25.0 (java-spring / kotlin-spring)
 
 Version `7.24.0` (link:https://github.com/OpenAPITools/openapi-generator/pull/23993[#23993]) started emitting field-level Jackson annotations on model properties for the `spring` and `kotlin-spring` generators:

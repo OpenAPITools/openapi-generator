@@ -35,7 +35,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |testsUsePythonSrcRoot|generates test under the pythonSrcRoot folder.| |false|
-|useNose|use the nose test framework| |false|
 |usePythonSrcRootInImports|include pythonSrcRoot in import namespaces.| |false|
 
 ## IMPORT MAPPING

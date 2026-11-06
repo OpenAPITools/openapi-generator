@@ -8,9 +8,7 @@ deps=-r{toxinidir}/requirements.txt
      {toxinidir}
 
 commands=
-   {{^useNose}}pytest --cov={{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}
-{{^useNose}}
+   pytest --cov={{{packageName}}}
 
 [pytest]
 asyncio_mode = auto
-{{/useNose}}
