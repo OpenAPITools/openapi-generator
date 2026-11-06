@@ -45,9 +45,7 @@ components:
       nullable: true
       oneOf:
       - type: integer
-      - description: to test oneOf
-        nullable: true
-        type: string
+      - type: string
     SingleAnyOfTest:
       description: to test anyOf (enum string only)
       enum:
@@ -70,7 +68,6 @@ components:
       additionalProperties: {}
       properties:
         anyof_nullable_string:
-          description: to test oneOf
           nullable: true
           type: string
         anyof_nullable_number:
@@ -89,12 +86,8 @@ components:
       type: string
     AnyOfStringArrayOfString:
       anyOf:
-      - description: to test oneOf
-        nullable: true
-        type: string
+      - type: string
       - items:
-          description: to test oneOf
-          nullable: true
           type: string
         type: array
         default: null
