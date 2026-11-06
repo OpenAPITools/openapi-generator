@@ -1,0 +1,28 @@
+openapi: 3.2.0
+info:
+  title: querystring object content test
+  version: '1.0'
+paths:
+  /pets:
+    get:
+      operationId: findPets
+      parameters:
+        - name: filter
+          in: querystring
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/PetFilter'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    PetFilter:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: integer

@@ -115,7 +115,7 @@ open class DefaultApi(basePath: kotlin.String = defaultBasePath, client: Call.Fa
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/{ids}".replace("{"+"ids"+"}", encodeURIComponent(ids.joinToString(","))),
+            path = "/{ids}".replace("{"+"ids"+"}", this@DefaultApi.encodeURIComponent(ids.joinToString(","))),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

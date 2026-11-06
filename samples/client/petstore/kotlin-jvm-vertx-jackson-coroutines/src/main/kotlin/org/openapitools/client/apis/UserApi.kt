@@ -61,18 +61,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun createUser(user: User) : Unit {
-        return createUserWithHttpInfo(user = user).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return createUserWithHttpInfo(user = user).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -89,31 +89,31 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUserWithHttpInfo(user: User) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/user"))
 
         
         
         
-                    request.putHeader("Content-Type", "application/json")
+                    localVariableRequest.putHeader("Content-Type", "application/json")
         
         
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
-            .sendBuffer(responseBody(user))
+        return localVariableRequest
+            .sendBuffer(this.responseBody(user))
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -131,18 +131,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun createUsersWithArrayInput(user: kotlin.collections.List<User>) : Unit {
-        return createUsersWithArrayInputWithHttpInfo(user = user).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return createUsersWithArrayInputWithHttpInfo(user = user).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -159,31 +159,31 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUsersWithArrayInputWithHttpInfo(user: kotlin.collections.List<User>) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user/createWithArray"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/user/createWithArray"))
 
         
         
         
-                    request.putHeader("Content-Type", "application/json")
+                    localVariableRequest.putHeader("Content-Type", "application/json")
         
         
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
-            .sendBuffer(responseBody(user))
+        return localVariableRequest
+            .sendBuffer(this.responseBody(user))
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -201,18 +201,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun createUsersWithListInput(user: kotlin.collections.List<User>) : Unit {
-        return createUsersWithListInputWithHttpInfo(user = user).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return createUsersWithListInputWithHttpInfo(user = user).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -229,31 +229,31 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUsersWithListInputWithHttpInfo(user: kotlin.collections.List<User>) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user/createWithList"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/user/createWithList"))
 
         
         
         
-                    request.putHeader("Content-Type", "application/json")
+                    localVariableRequest.putHeader("Content-Type", "application/json")
         
         
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
-            .sendBuffer(responseBody(user))
+        return localVariableRequest
+            .sendBuffer(this.responseBody(user))
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -271,18 +271,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun deleteUser(username: kotlin.String) : Unit {
-        return deleteUserWithHttpInfo(username = username).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return deleteUserWithHttpInfo(username = username).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -299,8 +299,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun deleteUserWithHttpInfo(username: kotlin.String) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("${this.basePath}/user/{username}".replace("{"+"username"+"}", this.encodeURIComponent(username.toString()))))
 
         
         
@@ -309,19 +309,19 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -340,18 +340,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun getUserByName(username: kotlin.String) : User {
-        return getUserByNameWithHttpInfo(username = username).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as User
+        return getUserByNameWithHttpInfo(username = username).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as User
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -369,22 +369,22 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getUserByNameWithHttpInfo(username: kotlin.String) : Future<ApiResponse<User?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/user/{username}".replace("{"+"username"+"}", this.encodeURIComponent(username.toString()))))
 
         
         
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
 
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<User?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<User?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -404,18 +404,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun loginUser(username: kotlin.String, password: kotlin.String) : kotlin.String {
-        return loginUserWithHttpInfo(username = username, password = password).map { localVarResponse ->
-            when (localVarResponse.responseType) {
-                ResponseType.Success -> (localVarResponse as Success<*>).data as kotlin.String
+        return loginUserWithHttpInfo(username = username, password = password).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
+                ResponseType.Success -> (localVariableResponse as Success<*>).data as kotlin.String
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -434,24 +434,24 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : Future<ApiResponse<kotlin.String?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/login"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/user/login"))
 
         
         
         
-        request.putHeader("Accept", "application/xml, application/json")
+        localVariableRequest.putHeader("Accept", "application/xml, application/json")
 
 
-        username.let { request.queryParams().add("username", listOf(it.toString())) }
-        password.let { request.queryParams().add("password", listOf(it.toString())) }
+        username.let { localVariableRequest.queryParams().add("username", listOf(it.toString())) }
+        password.let { localVariableRequest.queryParams().add("password", listOf(it.toString())) }
 
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<kotlin.String?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<kotlin.String?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -468,18 +468,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun logoutUser() : Unit {
-        return logoutUserWithHttpInfo().map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return logoutUserWithHttpInfo().map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -495,8 +495,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun logoutUserWithHttpInfo() : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/logout"))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/user/logout"))
 
         
         
@@ -505,19 +505,19 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
+        return localVariableRequest
             .send()
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 
@@ -536,18 +536,18 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
     suspend fun updateUser(username: kotlin.String, user: User) : Unit {
-        return updateUserWithHttpInfo(username = username, user = user).map { localVarResponse ->
-            when (localVarResponse.responseType) {
+        return updateUserWithHttpInfo(username = username, user = user).map { localVariableResponse ->
+            when (localVariableResponse.responseType) {
                 ResponseType.Success -> Unit
                 ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
                 ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
                 ResponseType.ClientError -> {
-                    val localVarError = localVarResponse as ClientError<*>
-                    throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ClientError<*>
+                    throw ClientException("Client error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
                 ResponseType.ServerError -> {
-                    val localVarError = localVarResponse as ServerError<*>
-                    throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                    val localVariableError = localVariableResponse as ServerError<*>
+                    throw ServerException("Server error : ${localVariableError.statusCode} ${localVariableError.message.orEmpty()}", localVariableError.statusCode, localVariableResponse)
                 }
             }
         }.coAwait()
@@ -565,31 +565,31 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun updateUserWithHttpInfo(username: kotlin.String, user: User) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
+        val localVariableClient = WebClient.create(this.vertx)
+        val localVariableRequest = localVariableClient.requestAbs(HttpMethod.PUT, UriTemplate.of("${this.basePath}/user/{username}".replace("{"+"username"+"}", this.encodeURIComponent(username.toString()))))
 
         
         
         
-                    request.putHeader("Content-Type", "application/json")
+                    localVariableRequest.putHeader("Content-Type", "application/json")
         
         
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                localVariableRequest.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                localVariableRequest.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
-        return request
-            .sendBuffer(responseBody(user))
+        return localVariableRequest
+            .sendBuffer(this.responseBody(user))
             .map {
-                val apiResponse: ApiResponse<Unit?> = handleResponse(it)
-                apiResponse
+                val localVariableApiResponse: ApiResponse<Unit?> = this.handleResponse(it)
+                localVariableApiResponse
             }
     }
 

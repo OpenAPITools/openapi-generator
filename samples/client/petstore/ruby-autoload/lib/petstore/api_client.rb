@@ -298,9 +298,12 @@ module Petstore
     end
 
     def build_request_url(path, opts = {})
-      # Add leading and trailing slashes to path
-      path = "/#{path}".gsub(/\/+/, '/')
-      @config.base_url(opts[:operation]) + path
+      # Add leading and trailing slashes to path. An OpenAPI 3.2
+      # `in: querystring` value is appended verbatim to `path`, so only the
+      # part before '?' may have its slashes collapsed.
+      path_only, sep, query = path.partition('?')
+      path_only = "/#{path_only}".gsub(/\/+/, '/')
+      @config.base_url(opts[:operation]) + path_only + sep + query
     end
 
     # Update header and query params based on authentication settings.

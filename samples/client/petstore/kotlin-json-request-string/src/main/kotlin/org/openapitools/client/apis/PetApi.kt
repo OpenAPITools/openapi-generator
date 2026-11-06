@@ -195,7 +195,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
 
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", this@PetApi.encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -346,7 +346,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
                 if (lastUpdated != null) {
-                    put("lastUpdated", listOf(parseDateToQueryString<java.time.OffsetDateTime>(lastUpdated)))
+                    put("lastUpdated", listOf(this@PetApi.parseDateToQueryString<java.time.OffsetDateTime>(lastUpdated)))
                 }
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -427,7 +427,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", this@PetApi.encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -578,7 +578,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}".replace("{"+"petId"+"}", this@PetApi.encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -659,7 +659,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", this@PetApi.encodeURIComponent(petId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

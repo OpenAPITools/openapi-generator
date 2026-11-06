@@ -91,7 +91,7 @@ interface QueryApi {
      * @return [kotlin.String]
      */
     @GET("query/style_form/explode_true/array_string")
-    suspend fun testQueryStyleFormExplodeTrueArrayString(@Query("values") values: kotlin.collections.List<kotlin.String>? = null): Response<kotlin.String>
+    suspend fun testQueryStyleFormExplodeTrueArrayString(@Query("values") propertyValues: kotlin.collections.List<kotlin.String>? = null): Response<kotlin.String>
 
     /**
      * GET query/style_form/explode_true/object

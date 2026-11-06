@@ -53,7 +53,7 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun deleteOrderWithHttpInfo(orderId: kotlin.String): ResponseEntity<Unit> {
         val localVariableConfig = deleteOrderRequestConfig(orderId = orderId)
-        return request<Unit, Unit>(
+        return this.request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -64,14 +64,14 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
             "orderId" to orderId,
         )
 
         return RequestConfig(
             method = RequestMethod.DELETE,
             path = "/store/order/{orderId}",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -82,14 +82,14 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getInventory(): kotlin.collections.Map<kotlin.String, kotlin.Int> {
-        val result = getInventoryWithHttpInfo()
-        return result.body!!
+        val localVariableResult = getInventoryWithHttpInfo()
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun getInventoryWithHttpInfo(): ResponseEntity<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
         val localVariableConfig = getInventoryRequestConfig()
-        return request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
+        return this.request<Unit, kotlin.collections.Map<kotlin.String, kotlin.Int>>(
             localVariableConfig
         )
     }
@@ -100,13 +100,13 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/store/inventory",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -117,14 +117,14 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getOrderById(orderId: kotlin.Long): Order {
-        val result = getOrderByIdWithHttpInfo(orderId = orderId)
-        return result.body!!
+        val localVariableResult = getOrderByIdWithHttpInfo(orderId = orderId)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun getOrderByIdWithHttpInfo(orderId: kotlin.Long): ResponseEntity<Order> {
         val localVariableConfig = getOrderByIdRequestConfig(orderId = orderId)
-        return request<Unit, Order>(
+        return this.request<Unit, Order>(
             localVariableConfig
         )
     }
@@ -135,14 +135,14 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
             "orderId" to orderId,
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/store/order/{orderId}",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -153,14 +153,14 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun placeOrder(order: Order): Order {
-        val result = placeOrderWithHttpInfo(order = order)
-        return result.body!!
+        val localVariableResult = placeOrderWithHttpInfo(order = order)
+        return localVariableResult.body!!
     }
 
     @Throws(RestClientResponseException::class)
     fun placeOrderWithHttpInfo(order: Order): ResponseEntity<Order> {
         val localVariableConfig = placeOrderRequestConfig(order = order)
-        return request<Order, Order>(
+        return this.request<Order, Order>(
             localVariableConfig
         )
     }
@@ -172,13 +172,13 @@ open class StoreApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/store/order",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

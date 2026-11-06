@@ -523,6 +523,14 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 final Operation operation = methodOperation.getValue();
                 final PathItem.HttpMethod method = methodOperation.getKey();
+
+                // HttpMethod.QUERY is in the enum map too - skip it for
+                // generators that cannot emit the 3.2 operations
+                if (method == PathItem.HttpMethod.QUERY && !supportsAdditionalOperations()) {
+                    LOGGER.warn("Path '{}' declares OpenAPI 3.2 query/additionalOperations but generator '{}' does not support them; those operations will be missing from the generated output", path, getName());
+                    continue;
+                }
+
                 OptionalInt operationGroupingOrder = OptionalInt.empty();
 
                 String operationId = operation.getOperationId();
@@ -706,7 +714,13 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
                 );
             }
 
-            addOrUpdateRequestGroup(requestGroups, groupName, pathVariables.get(groupName), requests);
+            // a path whose operations were all skipped (e.g. only an
+            // unsupported `query` operation) must not leave an empty group
+            // behind
+            if (!requests.isEmpty() || requestGroups.containsKey(groupName)) {
+                addOrUpdateRequestGroup(requestGroups, groupName,
+                        pathVariables.getOrDefault(groupName, variables), requests);
+            }
         }
 
         for (HTTPRequestGroup requestGroup : requestGroups.values()) {
@@ -935,6 +949,13 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
                 final PathItem.HttpMethod method = methodOperation.getKey();
                 final Operation operation = methodOperation.getValue();
+
+                // HttpMethod.QUERY is in the enum map too - skip it for
+                // generators that cannot emit the 3.2 operations
+                if (method == PathItem.HttpMethod.QUERY && !supportsAdditionalOperations()) {
+                    continue;
+                }
+
                 final CodegenOperation cgOperation = super.fromOperation(path, method.name(), operation, null);
 
                 if (cgOperation.getHasVendorExtensions()

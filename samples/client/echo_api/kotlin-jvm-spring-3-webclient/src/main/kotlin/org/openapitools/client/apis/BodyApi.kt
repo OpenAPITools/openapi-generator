@@ -59,7 +59,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBinaryGifWithHttpInfo(): Mono<ResponseEntity<java.io.File>> {
         val localVariableConfig = testBinaryGifRequestConfig()
-        return request<Unit, java.io.File>(
+        return this.request<Unit, java.io.File>(
             localVariableConfig
         )
     }
@@ -70,13 +70,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "image/gif"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/binary/gif",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -94,7 +94,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBodyApplicationOctetstreamBinaryWithHttpInfo(body: java.io.File? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testBodyApplicationOctetstreamBinaryRequestConfig(body = body)
-        return request<java.io.File, kotlin.String>(
+        return this.request<java.io.File, kotlin.String>(
             localVariableConfig
         )
     }
@@ -106,13 +106,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/octet-stream"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/binary",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -130,7 +130,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBodyMultipartFormdataArrayOfBinaryWithHttpInfo(files: kotlin.collections.List<java.io.File>): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testBodyMultipartFormdataArrayOfBinaryRequestConfig(files = files)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return this.request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
         )
     }
@@ -142,13 +142,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/array_of_binary",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -166,7 +166,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile: java.io.File? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testBodyMultipartFormdataSingleBinaryRequestConfig(myFile = myFile)
-        return request<Map<String, PartConfig<*>>, kotlin.String>(
+        return this.request<Map<String, PartConfig<*>>, kotlin.String>(
             localVariableConfig
         )
     }
@@ -178,13 +178,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/body/application/octetstream/single_binary",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -202,7 +202,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body: kotlin.Any? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEchoBodyFreeFormObjectResponseStringRequestConfig(body = body)
-        return request<kotlin.Any, kotlin.String>(
+        return this.request<kotlin.Any, kotlin.String>(
             localVariableConfig
         )
     }
@@ -214,13 +214,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/FreeFormObject/response_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -238,7 +238,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyPetWithHttpInfo(pet: Pet? = null): Mono<ResponseEntity<Pet>> {
         val localVariableConfig = testEchoBodyPetRequestConfig(pet = pet)
-        return request<Pet, Pet>(
+        return this.request<Pet, Pet>(
             localVariableConfig
         )
     }
@@ -250,13 +250,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/json"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Pet",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -274,7 +274,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyPetResponseStringWithHttpInfo(pet: Pet? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEchoBodyPetResponseStringRequestConfig(pet = pet)
-        return request<Pet, kotlin.String>(
+        return this.request<Pet, kotlin.String>(
             localVariableConfig
         )
     }
@@ -286,13 +286,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Pet/response_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -310,7 +310,7 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun testEchoBodyTagResponseStringWithHttpInfo(tag: Tag? = null): Mono<ResponseEntity<kotlin.String>> {
         val localVariableConfig = testEchoBodyTagResponseStringRequestConfig(tag = tag)
-        return request<Tag, kotlin.String>(
+        return this.request<Tag, kotlin.String>(
             localVariableConfig
         )
     }
@@ -322,13 +322,13 @@ open class BodyApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "text/plain"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/echo/body/Tag/response_string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  title: prepend collision
+  version: 1.0.0
+paths:
+  /prepend-collide:
+    post:
+      operationId: prependCollide
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - param_query
+              properties:
+                param_query:
+                  type: string
+      responses:
+        '200':
+          description: ok

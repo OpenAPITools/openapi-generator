@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.callbacks.Callback;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -1241,6 +1242,122 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void callbacksInsideAdditionalOperations() {
+        // OpenAPI 3.2: callbacks attached to an additionalOperations entry must be
+        // discovered for inline model flattening just like fixed-method operations
+        Operation callbackPost = new Operation()
+                .operationId("hookReceive")
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType()
+                                .schema(new ObjectSchema()
+                                        .addProperties("id", new StringSchema())))))
+                .responses(new ApiResponses().addApiResponse("200",
+                        new ApiResponse().description("ok")));
+        // an additionalOperations entry *inside* a callback PathItem must be flattened too
+        Operation callbackRetry = new Operation()
+                .operationId("hookRetry")
+                .requestBody(new RequestBody().content(new Content()
+                        .addMediaType("application/json", new MediaType()
+                                .schema(new ObjectSchema()
+                                        .addProperties("retryId", new StringSchema())))))
+                .responses(new ApiResponses().addApiResponse("200",
+                        new ApiResponse().description("ok")));
+        Callback hook = new Callback().addPathItem("{$request.body#/url}",
+                new PathItem().post(callbackPost)
+                        .addAdditionalOperation("RETRY", callbackRetry));
+        Operation notifyOp = new Operation()
+                .operationId("notifyOp")
+                .responses(new ApiResponses().addApiResponse("200",
+                        new ApiResponse().description("ok")))
+                .addCallback("hook", hook);
+        OpenAPI openAPI = new OpenAPI()
+                .paths(new Paths().addPathItem("/pets", new PathItem()
+                        .addAdditionalOperation("NOTIFY", notifyOp)));
+
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody callbackRequestBody = openAPI.getPaths().get("/pets")
+                .getAdditionalOperations().get("NOTIFY")
+                .getCallbacks().get("hook")
+                .get("{$request.body#/url}")
+                .getPost().getRequestBody();
+        Schema<?> schema = callbackRequestBody.getContent().get("application/json").getSchema();
+        assertNotNull(schema.get$ref());
+        assertTrue("inline callback schema in an additionalOperations entry must be extracted",
+                schema.get$ref().startsWith("#/components/schemas/"));
+        Schema<?> resolved = openAPI.getComponents().getSchemas()
+                .get(ModelUtils.getSimpleRef(schema.get$ref()));
+        assertNotNull(resolved);
+        assertTrue(resolved.getProperties().get("id") instanceof StringSchema);
+
+        Schema<?> retrySchema = openAPI.getPaths().get("/pets")
+                .getAdditionalOperations().get("NOTIFY")
+                .getCallbacks().get("hook")
+                .get("{$request.body#/url}")
+                .getAdditionalOperations().get("RETRY")
+                .getRequestBody().getContent().get("application/json").getSchema();
+        assertNotNull(retrySchema.get$ref());
+        assertTrue("inline schema of a callback's additionalOperations entry must be extracted",
+                retrySchema.get$ref().startsWith("#/components/schemas/"));
+        Schema<?> resolvedRetry = openAPI.getComponents().getSchemas()
+                .get(ModelUtils.getSimpleRef(retrySchema.get$ref()));
+        assertNotNull(resolvedRetry);
+        assertTrue(resolvedRetry.getProperties().get("retryId") instanceof StringSchema);
+    }
+
+    @Test
+    public void callbacksOn32OperationsSkippedWhenUnsupported() {
+        // OpenAPI 3.2: when the target generator does not support
+        // query/additionalOperations those operations are dropped, so callbacks
+        // attached to them must not have their inline schemas flattened either
+        Operation queryOp = new Operation()
+                .operationId("queryPets")
+                .responses(new ApiResponses().addApiResponse("200",
+                        new ApiResponse().description("ok")))
+                .addCallback("hook", callbackWithInlineBody("queryHookReceive"));
+        Operation notifyOp = new Operation()
+                .operationId("notifyPets")
+                .responses(new ApiResponses().addApiResponse("200",
+                        new ApiResponse().description("ok")))
+                .addCallback("hook", callbackWithInlineBody("notifyHookReceive"));
+        // a fixed-method operation's callback must still be discovered
+        Operation getOp = new Operation()
+                .operationId("getPets")
+                .responses(new ApiResponses().addApiResponse("200",
+                        new ApiResponse().description("ok")))
+                .addCallback("hook", callbackWithInlineBody("getHookReceive"));
+        OpenAPI openAPI = new OpenAPI()
+                .paths(new Paths().addPathItem("/pets", new PathItem()
+                        .get(getOp)
+                        .query(queryOp)
+                        .addAdditionalOperation("NOTIFY", notifyOp)));
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        resolver.setCodegen(new DefaultCodegen()); // default: supportsAdditionalOperations() == false
+        resolver.flatten(openAPI);
+
+        // the QUERY/additionalOperations callbacks keep their inline schema
+        assertNull(openAPI.getPaths().get("/pets").getQuery()
+                .getCallbacks().get("hook").get("{$request.body#/url}")
+                .getPost().getRequestBody().getContent().get("application/json")
+                .getSchema().get$ref());
+        assertNull(openAPI.getPaths().get("/pets").getAdditionalOperations().get("NOTIFY")
+                .getCallbacks().get("hook").get("{$request.body#/url}")
+                .getPost().getRequestBody().getContent().get("application/json")
+                .getSchema().get$ref());
+        // the GET callback's inline schema is still extracted to components
+        Schema<?> getCallbackSchema = openAPI.getPaths().get("/pets").getGet()
+                .getCallbacks().get("hook").get("{$request.body#/url}")
+                .getPost().getRequestBody().getContent().get("application/json").getSchema();
+        assertNotNull(getCallbackSchema.get$ref());
+        assertTrue(getCallbackSchema.get$ref().startsWith("#/components/schemas/"));
+        Schema<?> resolved = openAPI.getComponents().getSchemas()
+                .get(ModelUtils.getSimpleRef(getCallbackSchema.get$ref()));
+        assertNotNull(resolved);
+        assertTrue(resolved.getProperties().get("id") instanceof StringSchema);
+    }
+
+    @Test
     public void testInlineSchemaNameMapping() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         InlineModelResolver resolver = new InlineModelResolver();
@@ -1634,6 +1751,19 @@ public class InlineModelResolverTest {
 
     private static Schema refToDuplicate() {
         return new Schema<>().$ref("#/components/schemas/Duplicate");
+    }
+
+    /** A callback whose single POST operation has an inline request-body schema. */
+    private static Callback callbackWithInlineBody(String operationId) {
+        return new Callback().addPathItem("{$request.body#/url}",
+                new PathItem().post(new Operation()
+                        .operationId(operationId)
+                        .requestBody(new RequestBody().content(new Content()
+                                .addMediaType("application/json", new MediaType()
+                                        .schema(new ObjectSchema()
+                                                .addProperties("id", new StringSchema())))))
+                        .responses(new ApiResponses().addApiResponse("200",
+                                new ApiResponse().description("ok")))));
     }
 
     private static void assertRewritten(String carrier, Schema schema) {
