@@ -318,7 +318,17 @@
 
       {{/allParams}}
       {{#headerParams}}
+      {{#isDate}}
+      header_params["{{baseName}}"] <- if (is.null(`{{paramName}}`)) NULL else as.character(`{{paramName}}`)
+      {{/isDate}}
+      {{#isDateTime}}
+      header_params["{{baseName}}"] <- if (is.null(`{{paramName}}`)) NULL else .format_datetime(`{{paramName}}`)
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       header_params["{{baseName}}"] <- `{{paramName}}`
+      {{/isDateTime}}
+      {{/isDate}}
 
       {{/headerParams}}
       {{#queryParams}}
@@ -354,6 +364,12 @@
           {{/useRlangExceptionHandling}}
         }
         {{/isEnum}}
+        {{#isDate}}
+        query_item <- as.character(query_item)
+        {{/isDate}}
+        {{#isDateTime}}
+        query_item <- .format_datetime(query_item)
+        {{/isDateTime}}
         {{/items}}
         query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
       }
@@ -378,7 +394,17 @@
       }
       {{/isEnum}}
       {{/items}}
+      {{#items.isDate}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(as.character(`{{{paramName}}}`), URLencode, reserved = TRUE), collapse = ","))
+      {{/items.isDate}}
+      {{#items.isDateTime}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(.format_datetime(`{{{paramName}}}`), URLencode, reserved = TRUE), collapse = ","))
+      {{/items.isDateTime}}
+      {{^items.isDate}}
+      {{^items.isDateTime}}
       query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/items.isDateTime}}
+      {{/items.isDate}}
       {{/isExplode}}
       {{/uniqueItems}}
       {{^uniqueItems}}
@@ -400,6 +426,12 @@
           {{/useRlangExceptionHandling}}
         }
         {{/isEnum}}
+        {{#isDate}}
+        query_item <- as.character(query_item)
+        {{/isDate}}
+        {{#isDateTime}}
+        query_item <- .format_datetime(query_item)
+        {{/isDateTime}}
         {{/items}}
         query_params[["{{{baseName}}}"]] <- c(query_params[["{{{baseName}}}"]], list(`{{{baseName}}}` = query_item))
       }
@@ -424,7 +456,17 @@
       }
       {{/isEnum}}
       {{/items}}
+      {{#items.isDate}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(as.character(`{{{paramName}}}`), URLencode, reserved = TRUE), collapse = ","))
+      {{/items.isDate}}
+      {{#items.isDateTime}}
+      query_params[["{{{baseName}}}"]] <- I(paste(lapply(.format_datetime(`{{{paramName}}}`), URLencode, reserved = TRUE), collapse = ","))
+      {{/items.isDateTime}}
+      {{^items.isDate}}
+      {{^items.isDateTime}}
       query_params[["{{{baseName}}}"]] <- I(paste(lapply(`{{{paramName}}}`, URLencode, reserved = TRUE), collapse = ","))
+      {{/items.isDateTime}}
+      {{/items.isDate}}
       {{/isExplode}}
       {{/uniqueItems}}
       {{/isArray}}
@@ -442,7 +484,17 @@
         {{/useRlangExceptionHandling}}
       }
       {{/isEnum}}
+      {{#isDate}}
+      query_params[["{{baseName}}"]] <- if (is.null(`{{paramName}}`)) NULL else as.character(`{{paramName}}`)
+      {{/isDate}}
+      {{#isDateTime}}
+      query_params[["{{baseName}}"]] <- if (is.null(`{{paramName}}`)) NULL else .format_datetime(`{{paramName}}`)
+      {{/isDateTime}}
+      {{^isDate}}
+      {{^isDateTime}}
       query_params[["{{baseName}}"]] <- `{{paramName}}`
+      {{/isDateTime}}
+      {{/isDate}}
       {{/isArray}}
 
       {{/queryParams}}
