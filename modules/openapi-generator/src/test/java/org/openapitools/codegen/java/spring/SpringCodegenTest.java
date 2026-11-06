@@ -11100,6 +11100,73 @@ public class SpringCodegenTest {
         assertThat(sourceOf(skip.get("Defaults.java"))).contains("public record Defaults(", "@JsonSetter(nulls = Nulls.SKIP)");
     }
 
+    private static final String RECORDS_ANNOTATION_CLASH_SPEC = "src/test/resources/3_0/spring/records-annotation-clash.yaml";
+
+    @Test
+    public void useRecordsKeepsModelsWhoseAnnotationsWouldClashOnAComponentAsClasses() throws IOException {
+        // a class spreads the annotations over a field, a getter and a setter; a record has one component
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ANNOTATION_CLASH_SPEC, Map.of());
+                for (String name : List.of("ClashViews", "ClashJsonProperty", "ClashSchema", "ClashDeserialize",
+                        "ClashDeprecated", "ClashValidation", "NullableOptional", "ClashListAndQualified", "ClashParam", "ClashInner",
+                        "Argument", "NestedArgument")) {
+                    JavaFileAssert.assertThat(files.get(name + ".java")).isNormalClass();
+                }
+                // an annotation that clashes with nothing and text that is no annotation at all leave the model
+                // a record; a name inside an argument or a string counts as written, which keeps the model a class
+                assertThat(sourceOf(files.get("Quiet.java"))).contains("public record Quiet(");
+                // an @ inside a string argument is read as a name too; no clash here, and the text stays as written
+                assertThat(sourceOf(files.get("Literal.java"))).contains("public record Literal(", "@Tagged(\"a@b.c\")", "@Mailed(to = \"x@y.z\")");
+                assertThat(sourceOf(files.get("Odd.java"))).contains("public record Odd(");
+                // a repeatable constraint written twice compiles; @Nullable is written on an optional property only
+                assertThat(sourceOf(files.get("Repeatable.java"))).contains("public record Repeatable(");
+                assertThat(sourceOf(files.get("NullableRequired.java"))).contains("public record NullableRequired(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'ClashViews' is generated as a class: property 'p': x-setter-extra-annotation repeats @JsonView on one record component",
+                "useRecords: model 'ClashJsonProperty' is generated as a class: property 'p': x-field-extra-annotation repeats @JsonProperty on one record component",
+                "useRecords: model 'ClashSchema' is generated as a class: property 'p': x-field-extra-annotation repeats @Schema on one record component",
+                "useRecords: model 'ClashDeserialize' is generated as a class: property 'p': x-setter-extra-annotation repeats @JsonDeserialize on one record component",
+                "useRecords: model 'ClashDeprecated' is generated as a class: property 'p': x-field-extra-annotation repeats @Deprecated on one record component",
+                "useRecords: model 'ClashValidation' is generated as a class: property 'p': x-field-extra-annotation repeats @Valid on one record component",
+                "useRecords: model 'ClashListAndQualified' is generated as a class: property 'p': x-extra-annotation repeats @Masked on one record component",
+                "useRecords: model 'ClashParam' is generated as a class: property 'p': x-setter-extra-annotation repeats @JsonView on one record component",
+                "useRecords: model 'NullableOptional' is generated as a class: property 'p': x-field-extra-annotation repeats @Nullable on one record component",
+                "useRecords: model 'ClashInner' is generated as a class: it is nested in 'ClashParam', a parameter object that is a class",
+                "useRecords: model 'Argument' is generated as a class: property 'q': x-extra-annotation repeats @Masked on one record component",
+                "useRecords: model 'NestedArgument' is generated as a class: property 's': x-extra-annotation repeats @Masked on one record component");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Quiet'") || m.contains("model 'Odd'") || m.contains("model 'Literal'")
+                || m.contains("model 'Repeatable'") || m.contains("model 'NullableRequired'"));
+    }
+
+    @Test
+    public void useRecordsReadsAVeryLongAnnotationNameWithoutOverflowingTheStack() throws IOException {
+        // the first pattern recursed once per dotted segment: about 3000 segments overflowed the stack
+        File spec = Files.createTempFile("long-annotation-name", ".yaml").toFile();
+        Files.writeString(spec.toPath(), "openapi: 3.0.3\ninfo:\n  title: t\n  version: 1.0.0\npaths: {}\ncomponents:\n  schemas:\n    Dotted:\n"
+                + "      type: object\n      properties:\n        p:\n          type: string\n"
+                + "          x-extra-annotation: '@" + "a.".repeat(5000) + "b'\n");
+        Map<String, File> files = generateRecords(spec.getAbsolutePath(), Map.of());
+        assertThat(sourceOf(files.get("Dotted.java"))).contains("public record Dotted(");
+    }
+
+    @Test
+    public void useRecordsComparesAnnotationsOnlyWithWhatTheOptionsWrite() throws IOException {
+        // the bean validation annotations and @Schema are written only when their options are on
+        Map<String, File> files = generateRecords(RECORDS_ANNOTATION_CLASH_SPEC, Map.of(
+                SpringCodegen.USE_BEANVALIDATION, "false",
+                DocumentationProviderFeatures.ANNOTATION_LIBRARY, "none",
+                DocumentationProviderFeatures.DOCUMENTATION_PROVIDER, "none"));
+        assertThat(sourceOf(files.get("ClashValidation.java"))).contains("public record ClashValidation(");
+        assertThat(sourceOf(files.get("ClashSchema.java"))).contains("public record ClashSchema(");
+        // the annotations of two extensions clash whatever the options are
+        JavaFileAssert.assertThat(files.get("ClashViews.java")).isNormalClass();
+    }
+
     @Test
     public void useRecordsMakesParameterObjectsRecordsExceptListAndMapElements() throws IOException {
         List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {

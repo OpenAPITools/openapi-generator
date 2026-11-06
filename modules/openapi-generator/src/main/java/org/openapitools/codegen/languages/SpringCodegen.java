@@ -329,7 +329,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
                         + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties (a record gets them only with useSpringBoot4, Jackson 2.18 or later), "
                         + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
-                        + "property name a record cannot have, or a request-parameter model that Spring's data binder cannot fill as a record. "
+                        + "property name a record cannot have, extra annotations of a property that would repeat on one component, or a request-parameter model that Spring's data binder cannot fill as a record. "
                         + "Not supported with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
 
         CliOption optionalNonNullPropertyJsonIncludeOpt = CliOption.newString(CodegenConstants.OPTIONAL_NON_NULL_PROPERTY_JSON_INCLUDE,
@@ -1879,8 +1879,15 @@ public class SpringCodegen extends AbstractJavaCodegen
     private static final Set<String> RECORD_FORBIDDEN_COMPONENT_NAMES = new HashSet<>(Arrays.asList(
             "clone", "finalize", "getClass", "hashCode", "notify", "notifyAll", "toString", "wait"));
 
+    /** The extensions of a property that carry annotation texts, in the order of the targets of a class: field, getter, setter. */
+    private static final List<String> RECORD_EXTRA_ANNOTATION_EXTENSIONS = Collections.unmodifiableList(Arrays.asList(
+            "x-field-extra-annotation", "x-extra-annotation", "x-setter-extra-annotation"));
+
     /** A constructor call in a default value, as {@code toDefaultValue} writes it: {@code new Sub()}, {@code new Sub().x("a")}. */
     private static final Pattern RECORD_DEFAULT_CONSTRUCTOR_CALL = Pattern.compile("(?<![\\w.])new (\\w+)\\(");
+
+    /** An annotation in an extension text: {@code @Name} or {@code @pkg.Name}, group 1 is the dotted name, the simple name is its last segment; a match inside an argument or a string only keeps a model a class. */
+    private static final Pattern RECORD_ANNOTATION_NAME = Pattern.compile("@([\\p{L}\\p{N}_$.]+)");
 
     /**
      * Decides for every model whether it is generated as a record and stores the decision in the vendor
@@ -2322,6 +2329,10 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (Boolean.TRUE.equals(cp.vendorExtensions.get("x-has-json-setter-nulls-fail"))) {
                 return "property '" + cp.name + "' uses the FAIL null policy";
             }
+            String annotationClash = reasonForAnnotationClash(cm, cp, parameterObjects);
+            if (annotationClash != null) {
+                return annotationClash;
+            }
             if (parameterObjects.boundByName.contains(cm.schemaName)) {
                 String reason = reasonForParameterObjectComponent(cp);
                 if (reason != null) {
@@ -2363,6 +2374,74 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "property '" + cp.name + "' is a model with a default, which the data binder fills in place only in a class";
         }
         return null;
+    }
+
+    /**
+     * A class spreads the annotation texts of {@code x-field-extra-annotation}, {@code x-extra-annotation} and
+     * {@code x-setter-extra-annotation} over a field, a getter and a setter; {@code record.mustache} puts all of them,
+     * and the annotations the templates write, on one component, where an annotation type that is not repeatable
+     * cannot appear twice. Returns the reason when a simple name occurs twice, or null.
+     */
+    private String reasonForAnnotationClash(CodegenModel cm, CodegenProperty cp, ParameterObjects parameterObjects) {
+        Set<String> onTheComponent = annotationsWrittenOnComponent(cm, cp, parameterObjects);
+        for (String extension : RECORD_EXTRA_ANNOTATION_EXTENSIONS) {
+            Set<String> names = new LinkedHashSet<>();
+            Matcher annotation = RECORD_ANNOTATION_NAME.matcher(String.valueOf(cp.vendorExtensions.get(extension)));
+            while (annotation.find()) {
+                String name = annotation.group(1);
+                name = name.substring(name.lastIndexOf('.') + 1);
+                if (!name.isEmpty()) {
+                    names.add(name);
+                }
+            }
+            for (String name : names) {
+                if (onTheComponent.contains(name)) {
+                    return "property '" + cp.name + "': " + extension + " repeats @" + name + " on one record component";
+                }
+            }
+            onTheComponent.addAll(names);
+        }
+        return null;
+    }
+
+    /**
+     * The simple names of the annotation types that {@code record.mustache} writes on the component of this property,
+     * apart from the three extensions: those of the options that are on, and of the property features that turn an
+     * annotation on where the template condition is a single flag. Only the annotations that are not {@code @Repeatable}
+     * matter: a second {@code @NotNull}, {@code @Size}, {@code @Pattern}, {@code @Email}, {@code @Min}, {@code @Max},
+     * {@code @DecimalMin} or {@code @DecimalMax} compiles, {@code @Valid} does not. A repeatable annotation, or two types of
+     * one simple name, may still send a model back to a class, which is safe. The set is new on every call; the caller may add to it.
+     */
+    private Set<String> annotationsWrittenOnComponent(CodegenModel cm, CodegenProperty cp, ParameterObjects parameterObjects) {
+        Set<String> written = new HashSet<>();
+        if (!cp.required || (useJspecify && cp.isNullable)) { // nullableAnnotation.mustache
+            written.add("Nullable");
+        }
+        if (jackson) {
+            written.add("JsonProperty");
+            if (isNotEmpty(String.valueOf(cp.vendorExtensions.getOrDefault("x-jackson-json-include-policy", "")))) {
+                written.add("JsonInclude");
+            }
+            if (Boolean.TRUE.equals(cp.vendorExtensions.get("x-has-json-setter-nulls-skip"))) {
+                written.add("JsonSetter");
+            }
+        }
+        if (cp.deprecated) {
+            written.add("Deprecated");
+        }
+        if (!cp.isContainer && (cp.isDate || cp.isDateTime)) {
+            written.add("DateTimeFormat");
+        }
+        if (parameterObjects.boundByName.contains(cm.schemaName) && !cp.baseName.equals(cp.name)) {
+            written.add("BindParam");
+        }
+        if (useBeanValidation) {
+            written.add("Valid"); // the constraints of beanValidation.mustache are @Repeatable, @Valid is not
+        }
+        if (getAnnotationLibrary() == AnnotationLibrary.SWAGGER2) {
+            written.add("Schema");
+        }
+        return written;
     }
 
     /**
