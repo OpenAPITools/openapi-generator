@@ -3135,4 +3135,32 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         ADD_PROPS_UNCHANGED_VALUES.forEach((model, value) -> JavaFileAssert.assertThat(files.get(model + ".java"))
                 .fileContains("public class " + model + " extends HashMap<String, " + value + ">"));
     }
+
+
+    @Test
+    public void arrayAliasParentImportsNestedGenericArgumentInParent() throws IOException {
+        Map<String, File> files = generateAddPropsValueModels(new HashMap<>(Map.of("dateLibrary", "java8", "generateAliasAsModel", "true")));
+        List<String> failures = new java.util.ArrayList<>();
+
+        collectFailure(failures, "AliasArr2", () -> JavaFileAssert.assertThat(files.get("AliasArr2.java"))
+                .fileContains("extends ArrayList<List<OffsetDateTime>>")
+                .hasImports("java.util.ArrayList", "java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        org.assertj.core.api.Assertions.assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
+
+    @Test
+    public void mapParentImportsItsGenericArgumentInParent() throws IOException {
+        Map<String, File> files = generateAddPropsValueModels(new HashMap<>(Map.of("dateLibrary", "java8", "generateAliasAsModel", "true")));
+        List<String> failures = new java.util.ArrayList<>();
+
+        collectFailure(failures, "MapOfDateLists parent", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .fileContains("extends HashMap<String, List<OffsetDateTime>>"));
+        collectFailure(failures, "MapOfDateLists imports", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .hasImports("java.util.HashMap", "java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        org.assertj.core.api.Assertions.assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
 }

@@ -116,3 +116,30 @@ components:
       type: object
       properties:
         id: {type: string}
+    Ext:
+      type: object
+      properties:
+        e: {type: string}
+    AliasDates:
+      type: array
+      items:
+        type: string
+        format: date-time
+    AliasExts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Ext'
+    MapOfDateLists:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          format: date-time
+    AliasArr2:
+      type: array
+      items:
+        type: array
+        items:
+          type: string
+          format: date-time

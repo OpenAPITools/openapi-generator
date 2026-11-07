@@ -12873,4 +12873,27 @@ public class SpringCodegenTest {
         assertSource(files, "AddPropsMapInts.java")
                 .contains("Map<String, Map<String, List<Integer>>> additionalProperties");
     }
+
+
+    @Test
+    public void arrayAliasParentImportsItsGenericArgumentInSpringModels() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, SPRING_BOOT, properties,
+                configurator -> configurator.addImportMapping("Ext", "com.example.Ext"));
+        List<String> failures = new ArrayList<>();
+
+        collectFailure(failures, "AliasDates", () -> JavaFileAssert.assertThat(files.get("AliasDates.java"))
+                .fileContains("extends ArrayList<OffsetDateTime>")
+                .hasImports("java.util.ArrayList", "java.time.OffsetDateTime"));
+        collectFailure(failures, "AliasArr2", () -> JavaFileAssert.assertThat(files.get("AliasArr2.java"))
+                .fileContains("extends ArrayList<List<OffsetDateTime>>")
+                .hasImports("java.util.ArrayList", "java.util.List", "java.time.OffsetDateTime"));
+        collectFailure(failures, "AliasExts", () -> JavaFileAssert.assertThat(files.get("AliasExts.java"))
+                .fileContains("extends ArrayList<Ext>")
+                .hasImports("java.util.ArrayList", "com.example.Ext"));
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
 }
