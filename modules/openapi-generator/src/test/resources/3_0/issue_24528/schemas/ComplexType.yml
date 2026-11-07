@@ -1,0 +1,12 @@
+type: object
+properties:
+  prop1:
+    $ref: '../swagger.yml#/components/schemas/SimpleType'
+  prop2:
+    type: array
+    items:
+      $ref: '../swagger.yml#/components/schemas/SimpleType'
+  prop3:
+    nullable: true
+    anyOf:
+      - $ref: '../swagger.yml#/components/schemas/SimpleType'
