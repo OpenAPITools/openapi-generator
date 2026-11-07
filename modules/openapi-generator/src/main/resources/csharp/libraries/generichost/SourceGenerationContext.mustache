@@ -5,7 +5,11 @@
 {{/nrt}}
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
+{{#models}}
+{{#-first}}
 using {{packageName}}.{{modelPackage}};
+{{/-first}}
+{{/models}}
 
 {{#models}}
 {{#-first}}
