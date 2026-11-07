@@ -1122,6 +1122,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return toModelName(name);
     }
 
+    /**
+     * Set while a type is declared for the additional properties of a model: the declaration keeps
+     * the generic arguments but adds no validation annotation to its type arguments.
+     */
+    private boolean omitTypeArgumentValidation = false;
+
+    private String getTypeDeclarationWithoutValidation(Schema<?> schema) {
+        boolean previous = omitTypeArgumentValidation;
+        omitTypeArgumentValidation = true;
+        try {
+            return getTypeDeclaration(schema);
+        } finally {
+            omitTypeArgumentValidation = previous;
+        }
+    }
+
     @Override
     public String getTypeDeclaration(Schema p) {
         Schema<?> schema = unaliasSchema(p);
@@ -1130,7 +1146,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             Schema<?> items = getSchemaItems(schema);
             String typeDeclaration = getTypeDeclarationWithBeanValidation(items);
             // add custom annotations on List<>
-            String extraAnnotation = getExtraListAnnotation(items);
+            String extraAnnotation = omitTypeArgumentValidation ? "" : getExtraListAnnotation(items);
             String annotations = typeDeclaration;
             if (!extraAnnotation.isEmpty()) {
                 annotations = extraAnnotation + " " + typeDeclaration;
@@ -1183,6 +1199,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     protected String getTypeDeclarationWithBeanValidation(Schema<?> items) {
         String typeDeclaration = getTypeDeclaration(items);
+        if (omitTypeArgumentValidation) {
+            return typeDeclaration;
+        }
 
         String beanValidation = getBeanValidation(items);
         if (StringUtils.isEmpty(beanValidation)) {
@@ -2888,8 +2907,50 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema s = ModelUtils.getAdditionalProperties(schema);
         // 's' may be null if 'additionalProperties: false' in the OpenAPI schema.
         if (s != null) {
-            codegenModel.additionalPropertiesType = getSchemaType(s);
-            addImport(codegenModel, codegenModel.additionalPropertiesType);
+            // the full type declaration, so that the generic arguments of a container value
+            // (e.g. List<Integer>) are kept, as they are for the properties of a model
+            codegenModel.additionalPropertiesType = getTypeDeclarationWithoutValidation(s);
+            // import the container and every inner type that the declaration names;
+            // a declaration such as List<Integer> is not a type that can be imported
+            addImportsForPropertyType(codegenModel, fromProperty("additionalProperties", s, false));
+        }
+    }
+
+    /**
+     * Keeps the generic arguments of the map value (or of the array item) in the instantiation
+     * type, e.g. {@code HashMap<String, List<Integer>>} or {@code ArrayList<List<Integer>>},
+     * which is used as the parent of map and array alias models.
+     */
+    @Override
+    public String toInstantiationType(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
+            Schema<?> additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            if (additionalProperties == null) {
+                return super.toInstantiationType(schema);
+            }
+            String inner = getTypeDeclarationWithoutValidation(additionalProperties);
+            String mapInstantiation = instantiationTypes.get("map");
+            return mapInstantiation == null ? inner : mapInstantiation + "<String, " + inner + ">";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            String inner = getTypeDeclarationWithoutValidation(ModelUtils.getSchemaItems(schema));
+            String parentType = ModelUtils.isSet(schema) ? "set" : "array";
+            return instantiationTypes.get(parentType) + "<" + inner + ">";
+        }
+        return super.toInstantiationType(schema);
+    }
+
+    @Override
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        super.addParentFromContainer(model, schema);
+        // the parent names the item/value type with its generic arguments: import all of them
+        Schema<?> inner = null;
+        if (ModelUtils.isMapSchema(schema)) {
+            inner = ModelUtils.getAdditionalProperties(schema);
+        } else if (ModelUtils.isArraySchema(schema)) {
+            inner = ModelUtils.getSchemaItems(schema);
+        }
+        if (inner != null) {
+            addImportsForPropertyType(model, fromProperty("item", inner, false));
         }
     }
 

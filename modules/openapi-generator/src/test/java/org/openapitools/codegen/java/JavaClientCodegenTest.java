@@ -6009,4 +6009,184 @@ public class JavaClientCodegenTest {
                 .contains("import org.springframework.beans.factory.annotation.Autowired;")
                 .contains("import org.springframework.stereotype.Component;");
     }
+
+    // additionalProperties value schema -> expected Java value type, from the schemas in
+    // 3_0/java-additional-properties-value-generics.yaml (the same types a property of that schema gets)
+    private static final String ADD_PROPS_VALUE_SPEC = "src/test/resources/3_0/java-additional-properties-value-generics.yaml";
+    private static final Map<String, String> ADD_PROPS_GENERIC_VALUES = new java.util.LinkedHashMap<>();
+    private static final Map<String, String> ADD_PROPS_UNCHANGED_VALUES = new java.util.LinkedHashMap<>();
+
+    static {
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsInts", "List<Integer>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsUnique", "Set<Integer>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsRefs", "List<Item>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsDates", "List<OffsetDateTime>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsNested", "List<List<Integer>>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsMapStr", "Map<String, String>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsMapInts", "Map<String, List<Integer>>");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsTrue", "Object");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsEmpty", "Object");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsString", "String");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsItem", "Item");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsLong", "Long");
+    }
+
+    private static String shortFailure(AssertionError e) {
+        String message = String.valueOf(e.getMessage());
+        return message.lines().findFirst().orElse(message);
+    }
+
+    /** Runs the check and records the first line of its failure, so one run reports every shape. */
+    private static void collectFailure(List<String> failures, String what, Runnable check) {
+        try {
+            check.run();
+        } catch (AssertionError e) {
+            failures.add(what + " -> " + shortFailure(e));
+        }
+    }
+
+    private static void collectAccessors(List<String> failures, Map<String, File> files, String model, String value) {
+        collectFailure(failures, model + " accessors for " + value, () -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                .fileContains(
+                        "public " + model + " putAdditionalProperty(String key, " + value + " value) {",
+                        "public Map<String, " + value + "> getAdditionalProperties() {",
+                        "public " + value + " getAdditionalProperty(String key) {"));
+    }
+
+    private static void collectNoGenericImports(List<String> failures, Map<String, File> files) {
+        files.forEach((name, file) -> {
+            if (!name.endsWith(".java")) {
+                return;
+            }
+            try {
+                for (String line : Files.readAllLines(file.toPath())) {
+                    if (line.startsWith("import ") && line.contains("<")) {
+                        failures.add(name + " has a generic import: " + line);
+                    }
+                }
+            } catch (IOException e) {
+                throw new java.io.UncheckedIOException(e);
+            }
+        });
+    }
+
+    @Test
+    public void additionalPropertiesValueKeepsGenericsInNativeClient() {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.NATIVE);
+        List<String> failures = new ArrayList<>();
+
+        ADD_PROPS_GENERIC_VALUES.forEach((model, value) -> {
+            collectFailure(failures, model + " field for " + value, () -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                    .fileContains("private Map<String, " + value + "> additionalProperties;"));
+            collectAccessors(failures, files, model, value);
+        });
+        collectFailure(failures, "AddPropsInts imports", () -> JavaFileAssert.assertThat(files.get("AddPropsInts.java"))
+                .hasImports("java.util.List", "java.util.Map"));
+        collectFailure(failures, "AddPropsUnique imports", () -> JavaFileAssert.assertThat(files.get("AddPropsUnique.java"))
+                .hasImports("java.util.Set"));
+        collectFailure(failures, "AddPropsDates imports", () -> JavaFileAssert.assertThat(files.get("AddPropsDates.java"))
+                .hasImports("java.util.List", "java.time.OffsetDateTime"));
+        collectFailure(failures, "AddPropsMapInts imports", () -> JavaFileAssert.assertThat(files.get("AddPropsMapInts.java"))
+                .hasImports("java.util.Map", "java.util.List"));
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic value types lost").isEmpty();
+    }
+
+    @Test
+    public void additionalPropertiesValueOfPlainTypesIsUnchangedInNativeClient() {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.NATIVE);
+
+        ADD_PROPS_UNCHANGED_VALUES.forEach((model, value) -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                .fileContains(
+                        "private Map<String, " + value + "> additionalProperties;",
+                        "public " + model + " putAdditionalProperty(String key, " + value + " value) {",
+                        "public Map<String, " + value + "> getAdditionalProperties() {",
+                        "public " + value + " getAdditionalProperty(String key) {"));
+        // additionalProperties false and absent: no map at all
+        JavaFileAssert.assertThat(files.get("AddPropsFalse.java")).fileDoesNotContain("putAdditionalProperty");
+        JavaFileAssert.assertThat(files.get("AddPropsAbsent.java")).fileDoesNotContain("putAdditionalProperty");
+    }
+
+    @Test
+    public void additionalPropertiesValueExtendsHashMapWithGenericsInApacheHttpClient() {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.APACHE);
+        List<String> failures = new ArrayList<>();
+
+        ADD_PROPS_GENERIC_VALUES.forEach((model, value) -> {
+            collectFailure(failures, model + " parent for " + value, () -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                    .fileContains("public class " + model + " extends HashMap<String, " + value + "> {"));
+            collectAccessors(failures, files, model, value);
+        });
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic value types lost").isEmpty();
+    }
+
+    @Test
+    public void additionalPropertiesValueOfPlainTypesIsUnchangedInApacheHttpClient() {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.APACHE);
+
+        ADD_PROPS_UNCHANGED_VALUES.forEach((model, value) -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                .fileContains("public class " + model + " extends HashMap<String, " + value + "> {"));
+    }
+
+    @Test
+    public void arrayAliasParentImportsItsGenericArgumentInJavaClient() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.NATIVE, properties,
+                configurator -> configurator.addImportMapping("Ext", "com.example.Ext"));
+        List<String> failures = new ArrayList<>();
+
+        collectFailure(failures, "AliasDates", () -> JavaFileAssert.assertThat(files.get("AliasDates.java"))
+                .fileContains("extends ArrayList<OffsetDateTime>")
+                .hasImports("java.util.ArrayList", "java.time.OffsetDateTime"));
+        collectFailure(failures, "AliasArr2", () -> JavaFileAssert.assertThat(files.get("AliasArr2.java"))
+                .fileContains("extends ArrayList<List<OffsetDateTime>>")
+                .hasImports("java.util.ArrayList", "java.util.List", "java.time.OffsetDateTime"));
+        collectFailure(failures, "AliasExts", () -> JavaFileAssert.assertThat(files.get("AliasExts.java"))
+                .fileContains("extends ArrayList<Ext>")
+                .hasImports("java.util.ArrayList", "com.example.Ext"));
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
+
+    @Test
+    public void mapParentImportsItsGenericArgumentInApacheHttpClient() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.APACHE, properties);
+        List<String> failures = new ArrayList<>();
+
+        collectFailure(failures, "MapOfDateLists parent", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .fileContains("extends HashMap<String, List<OffsetDateTime>>"));
+        collectFailure(failures, "MapOfDateLists imports", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .hasImports("java.util.HashMap", "java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
+
+    @Test
+    public void additionalPropertiesValueIsObjectInOkHttpGsonByTemplateDesign() {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.OKHTTP_GSON);
+
+        JavaFileAssert.assertThat(files.get("AddPropsInts.java"))
+                .fileContains("private Map<String, Object> additionalProperties;");
+    }
+
+    @Test
+    public void arrayAliasModelExtendsArrayListWithItemGenerics() {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.NATIVE, new HashMap<>(),
+                configurator -> configurator.addAdditionalProperty(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true));
+
+        JavaFileAssert.assertThat(files.get("ArrArr.java"))
+                .fileContains("extends ArrayList<List<Integer>>")
+                .hasImports("java.util.ArrayList", "java.util.List");
+        List<String> failures = new ArrayList<>();
+        collectNoGenericImports(failures, files);
+        assertThat(failures).isEmpty();
+    }
 }

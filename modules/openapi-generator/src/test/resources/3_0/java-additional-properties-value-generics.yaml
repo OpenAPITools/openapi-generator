@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Java additionalProperties value types keep their generics
+  version: "1.0"
+paths: {}
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        n:
+          type: string
+    ArrArr:
+      type: array
+      items:
+        type: array
+        items:
+          type: integer
+    AddPropsInts:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: array
+        items:
+          type: integer
+    AddPropsUnique:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: array
+        uniqueItems: true
+        items:
+          type: integer
+    AddPropsRefs:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/Item'
+    AddPropsDates:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          format: date-time
+    AddPropsNested:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: array
+        items:
+          type: array
+          items:
+            type: integer
+    AddPropsMapStr:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: string
+    AddPropsMapInts:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            type: integer
+    AddPropsTrue:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties: true
+    AddPropsEmpty:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties: {}
+    AddPropsString:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: string
+    AddPropsItem:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        $ref: '#/components/schemas/Item'
+    AddPropsLong:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties:
+        type: integer
+        format: int64
+    AddPropsFalse:
+      type: object
+      properties:
+        id: {type: string}
+      additionalProperties: false
+    AddPropsAbsent:
+      type: object
+      properties:
+        id: {type: string}
+    Ext:
+      type: object
+      properties:
+        e: {type: string}
+    AliasDates:
+      type: array
+      items:
+        type: string
+        format: date-time
+    AliasExts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Ext'
+    MapOfDateLists:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          type: string
+          format: date-time
+    AliasArr2:
+      type: array
+      items:
+        type: array
+        items:
+          type: string
+          format: date-time
