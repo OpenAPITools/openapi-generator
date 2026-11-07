@@ -2,24 +2,15 @@
 import { parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime{{importFileExtension}}';
 {{/isDateLibraryString}}
 {{#hasImports}}
-{{#oneOfArrays}}
-import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
+{{#oneOfImports}}
+import type { {{{classname}}} } from './{{filename}}{{importFileExtension}}';
 import {
-    instanceOf{{{.}}},
-    {{{.}}}FromJSON,
-    {{{.}}}FromJSONTyped,
-    {{{.}}}ToJSON,
-} from './{{.}}{{importFileExtension}}';
-{{/oneOfArrays}}
-{{#oneOfModels}}
-import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
-import {
-    instanceOf{{{.}}},
-    {{{.}}}FromJSON,
-    {{{.}}}FromJSONTyped,
-    {{{.}}}ToJSON,
-} from './{{.}}{{importFileExtension}}';
-{{/oneOfModels}}
+    instanceOf{{{classname}}},
+    {{{classname}}}FromJSON,
+    {{{classname}}}FromJSONTyped,
+    {{{classname}}}ToJSON,
+} from './{{filename}}{{importFileExtension}}';
+{{/oneOfImports}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
