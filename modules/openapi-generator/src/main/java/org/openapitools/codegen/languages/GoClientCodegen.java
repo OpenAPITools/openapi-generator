@@ -568,7 +568,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 imports.add(createMapping("import", "fmt"));
                 addedFmtImport = true;
 
-                if (generateUnmarshalJSON && !useOneOfDiscriminatorLookup) {
+                if (generateUnmarshalJSON && (!useOneOfDiscriminatorLookup
+                        || (model.discriminator != null && !model.discriminator.getMappedModels().isEmpty()))) {
                     imports.add(createMapping("import", "gopkg.in/validator.v2"));
                     additionalProperties.put(IMPORT_VALIDATOR, true);
                 }
@@ -608,7 +609,36 @@ public class GoClientCodegen extends AbstractGoCodegen {
             return objs;
         }
 
-        // Scope allowed-enum checks to oneOf variants whose sibling excludes values of the same property.
+        // Validator traverses nested models and collections, so include transitive patterns.
+        for (ModelsMap models : objs.values()) {
+            for (ModelMap modelMap : models.getModels()) {
+                CodegenModel union = modelMap.getModel();
+                if (!hasOneOf(union) || (useOneOfDiscriminatorLookup
+                        && (union.discriminator == null || union.discriminator.getMappedModels().isEmpty()))) {
+                    continue;
+                }
+                Set<CodegenModel> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+                Set<String> variants = new LinkedHashSet<>(union.oneOf);
+                if (useOneOfDiscriminatorLookup && union.discriminator != null) {
+                    for (CodegenDiscriminator.MappedModel mapped : union.discriminator.getMappedModels()) {
+                        variants.add(mapped.getSchemaName());
+                    }
+                }
+                for (String name : variants) {
+                    if (hasNullablePattern(ModelUtils.getModelByName(name, objs), objs, visited)) {
+                        union.vendorExtensions.put("x-go-has-nullable-pattern", true);
+                        if (union.discriminator != null) {
+                            union.discriminator.getVendorExtensions().put("x-go-has-nullable-pattern", true);
+                        }
+                        models.getImports().add(createMapping("import", "regexp"));
+                        models.getImports().sort(Comparator.comparing(i -> i.get("import")));
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Enforce string enums on oneOf variants to distinguish their accepted values.
         Map<CodegenModel, Set<String>> allowedOneOfProperties = new IdentityHashMap<>();
         for (ModelsMap models : objs.values()) {
             for (ModelMap modelMap : models.getModels()) {
@@ -619,6 +649,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         continue;
                     }
                     for (CodegenProperty excludedProperty : effectiveVars(excludedMember).values()) {
+                        if (stringEnumComparison(excludedProperty, false) != null) {
+                            allowedOneOfProperties.computeIfAbsent(excludedMember, ignored -> new HashSet<>())
+                                    .add(excludedProperty.baseName);
+                        }
                         CodegenProperty not = excludedProperty.getComposedSchemas() == null
                                 ? null : excludedProperty.getComposedSchemas().getNot();
                         if (stringEnumComparison(not, true) == null) {
@@ -707,6 +741,38 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
         }
         return objs;
+    }
+
+    private static boolean hasNullablePattern(CodegenModel model, Map<String, ModelsMap> models,
+                                              Set<CodegenModel> visited) {
+        if (model == null || !visited.add(model)) {
+            return false;
+        }
+        for (CodegenProperty property : effectiveVars(model).values()) {
+            if (hasNullablePattern(property, models, visited)) {
+                return true;
+            }
+        }
+        for (String name : Iterables.concat(model.oneOf, model.anyOf)) {
+            if (hasNullablePattern(ModelUtils.getModelByName(name, models), models, visited)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean hasNullablePattern(CodegenProperty property, Map<String, ModelsMap> models,
+                                              Set<CodegenModel> visited) {
+        if (property == null) {
+            return false;
+        }
+        if (property.pattern != null && property.isNullable && property.isString) {
+            return true;
+        }
+        return hasNullablePattern(property.items, models, visited)
+                || hasNullablePattern(property.additionalProperties, models, visited)
+                || (property.complexType != null
+                    && hasNullablePattern(ModelUtils.getModelByName(property.complexType, models), models, visited));
     }
 
     /** Returns properties used for validation, including inherited allOf properties when present. */
