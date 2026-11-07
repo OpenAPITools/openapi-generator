@@ -1,0 +1,152 @@
+package main
+
+import (
+	"context"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
+	"sync"
+	"testing"
+
+	sw "go-petstore"
+)
+
+// recorder is the redirect target: it keeps the headers and query of every
+// request it receives and answers with an empty JSON object.
+type recorder struct {
+	mu   sync.Mutex
+	seen map[string]*http.Request
+}
+
+func (rec *recorder) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	rec.mu.Lock()
+	rec.seen[r.URL.Path] = r.Clone(context.Background())
+	rec.mu.Unlock()
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(`{}`))
+}
+
+func (rec *recorder) get(path string) *http.Request {
+	rec.mu.Lock()
+	defer rec.mu.Unlock()
+	return rec.seen[path]
+}
+
+// redirecting answers every request with a 302 to target, keeping path and
+// query, so anything the client puts on the request would reach the target.
+func redirecting(target string) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, target+"/landed"+r.URL.Path+"?"+r.URL.RawQuery, http.StatusFound)
+	})
+}
+
+// Server A is addressed as localhost and server B as 127.0.0.1, both on
+// loopback: for net/http that is a cross-host redirect, whereas two servers
+// addressed by their URLs would both be 127.0.0.1 and nothing would be stripped.
+func newClientAgainst(t *testing.T, serverURL string) *sw.APIClient {
+	t.Helper()
+	u, err := url.Parse(serverURL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	cfg := sw.NewConfiguration()
+	cfg.Servers = sw.ServerConfigurations{{URL: "http://localhost:" + u.Port()}}
+	cfg.AddDefaultHeader("X-Default-Secret", "DEFAULT_MUST_NOT_LEAK")
+	return sw.NewAPIClient(cfg)
+}
+
+func apiKeyContext() context.Context {
+	return context.WithValue(context.Background(), sw.ContextAPIKeys, map[string]sw.APIKey{
+		"api_key":       {Key: "HEADER_KEY_MUST_NOT_LEAK"},
+		"api_key_query": {Key: "QUERY_KEY_MUST_NOT_LEAK"},
+	})
+}
+
+func TestCredentialsDoNotFollowCrossOriginRedirect(t *testing.T) {
+	rec := &recorder{seen: map[string]*http.Request{}}
+	target := httptest.NewServer(rec)
+	defer target.Close()
+	origin := httptest.NewServer(redirecting(target.URL))
+	defer origin.Close()
+
+	client := newClientAgainst(t, origin.URL)
+	ctx := apiKeyContext()
+
+	// api_key travels in a header on this operation.
+	client.PetAPI.GetPetById(ctx, 1).Execute()
+	got := rec.get("/landed/pet/1")
+	if got == nil {
+		t.Fatal("the redirect target was not reached")
+	}
+	if v := got.Header.Get("api_key"); v != "" {
+		t.Errorf("api_key header followed a cross-origin redirect: %q", v)
+	}
+	if v := got.Header.Get("X-Default-Secret"); v != "" {
+		t.Errorf("default header followed a cross-origin redirect: %q", v)
+	}
+	if got.Header.Get("User-Agent") == "" {
+		t.Errorf("non-credential headers must still follow the redirect")
+	}
+
+	// api_key_query travels in the query on this operation.
+	client.FakeClassnameTags123API.TestClassname(ctx).Client(sw.Client{}).Execute()
+	got = rec.get("/landed/fake_classname_test")
+	if got == nil {
+		t.Fatal("the redirect target was not reached")
+	}
+	if v := got.URL.Query().Get("api_key_query"); v != "" {
+		t.Errorf("api_key_query followed a cross-origin redirect: %q", v)
+	}
+}
+
+func TestCredentialsFollowSameOriginRedirect(t *testing.T) {
+	rec := &recorder{seen: map[string]*http.Request{}}
+	mux := http.NewServeMux()
+	mux.Handle("/landed/", rec)
+	var self *httptest.Server
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// redirect within the same origin the client was configured with
+		u, _ := url.Parse(self.URL)
+		http.Redirect(w, r, "http://localhost:"+u.Port()+"/landed"+r.URL.Path+"?"+r.URL.RawQuery, http.StatusFound)
+	})
+	self = httptest.NewServer(mux)
+	defer self.Close()
+
+	client := newClientAgainst(t, self.URL)
+	ctx := apiKeyContext()
+
+	client.PetAPI.GetPetById(ctx, 1).Execute()
+	got := rec.get("/landed/pet/1")
+	if got == nil {
+		t.Fatal("the redirect target was not reached")
+	}
+	if v := got.Header.Get("api_key"); v != "HEADER_KEY_MUST_NOT_LEAK" {
+		t.Errorf("api_key header must follow a same-origin redirect, got %q", v)
+	}
+	if v := got.Header.Get("X-Default-Secret"); v != "DEFAULT_MUST_NOT_LEAK" {
+		t.Errorf("default header must follow a same-origin redirect, got %q", v)
+	}
+
+	client.FakeClassnameTags123API.TestClassname(ctx).Client(sw.Client{}).Execute()
+	got = rec.get("/landed/fake_classname_test")
+	if got == nil {
+		t.Fatal("the redirect target was not reached")
+	}
+	if v := got.URL.Query().Get("api_key_query"); v != "QUERY_KEY_MUST_NOT_LEAK" {
+		t.Errorf("api_key_query must follow a same-origin redirect, got %q", v)
+	}
+}
+
+func TestCustomHTTPClientKeepsItsOwnRedirectPolicy(t *testing.T) {
+	cfg := sw.NewConfiguration()
+	called := false
+	cfg.HTTPClient = &http.Client{CheckRedirect: func(*http.Request, []*http.Request) error {
+		called = true
+		return http.ErrUseLastResponse
+	}}
+	client := sw.NewAPIClient(cfg)
+	if client.GetConfig().HTTPClient.CheckRedirect == nil {
+		t.Fatal("a supplied http.Client must be used as given")
+	}
+	_ = called
+}

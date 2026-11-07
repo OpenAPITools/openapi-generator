@@ -64,14 +64,21 @@ type service struct {
 
 // NewAPIClient creates a new API client. Requires a userAgent string describing your application.
 // optionally a custom http.Client to allow for advanced features such as caching.
+//
+// When no http.Client is supplied, the client follows redirects like
+// http.DefaultClient does, but a redirect that leaves the origin (scheme, host
+// and port) of the original request is followed without the client's
+// credentials: the API keys of this API, Authorization, Cookie and the
+// configured DefaultHeader values are removed from the redirected request.
+// Supply an http.Client with its own CheckRedirect to use another policy.
 func NewAPIClient(cfg *Configuration) *APIClient {
-	if cfg.HTTPClient == nil {
-		cfg.HTTPClient = http.DefaultClient
-	}
-
 	c := &APIClient{}
 	c.cfg = cfg
 	c.common.client = c
+
+	if cfg.HTTPClient == nil {
+		cfg.HTTPClient = &http.Client{CheckRedirect: c.checkRedirect}
+	}
 
 {{#apiInfo}}
 	// API Services
@@ -83,6 +90,78 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 {{/apiInfo}}
 
 	return c
+}
+
+// credentialHeaders are the request headers that carry this client's
+// credentials. They do not follow a redirect to another origin.
+var credentialHeaders = []string{"Authorization", "Cookie"{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}, "{{keyParamName}}"{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}}
+
+// credentialQueryParams are the query parameters that carry this client's
+// credentials. They do not follow a redirect to another origin.
+var credentialQueryParams = []string{ {{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}"{{keyParamName}}", {{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}}
+
+// checkRedirect is the redirect policy of the http.Client built by NewAPIClient
+// when none is supplied. It keeps net/http's limit of 10 redirects and lets a
+// redirect within the origin of the original request through unchanged. A
+// redirect to another origin is still followed, but without the credentials
+// this client adds to every request. net/http drops Authorization on a
+// cross-host redirect by itself; it knows nothing about API keys sent in other
+// headers or in the query, nor about the configured default headers, and the
+// check is made against the original request so that a chain which left the
+// origin and comes back does not regain them.
+func (c *APIClient) checkRedirect(req *http.Request, via []*http.Request) error {
+	if len(via) >= 10 {
+		return errors.New("stopped after 10 redirects")
+	}
+	if sameOrigin(via[0].URL, req.URL) {
+		return nil
+	}
+	for _, name := range credentialHeaders {
+		deleteHeader(req.Header, name)
+	}
+	for name := range c.cfg.DefaultHeader {
+		deleteHeader(req.Header, name)
+	}
+	if len(credentialQueryParams) > 0 {
+		query := req.URL.Query()
+		for _, name := range credentialQueryParams {
+			query.Del(name)
+		}
+		req.URL.RawQuery = query.Encode()
+	}
+	return nil
+}
+
+// deleteHeader removes every entry of h whose name equals name ignoring
+// case. Header.Del only removes the canonical spelling, and header names
+// that net/http does not canonicalize (such as names containing an
+// underscore) are stored as given.
+func deleteHeader(h http.Header, name string) {
+	for key := range h {
+		if strings.EqualFold(key, name) {
+			delete(h, key)
+		}
+	}
+}
+
+// sameOrigin reports whether two URLs share scheme, host and effective port.
+func sameOrigin(a, b *url.URL) bool {
+	return strings.EqualFold(a.Scheme, b.Scheme) &&
+		strings.EqualFold(a.Hostname(), b.Hostname()) &&
+		portOrDefault(a) == portOrDefault(b)
+}
+
+func portOrDefault(u *url.URL) string {
+	if port := u.Port(); port != "" {
+		return port
+	}
+	switch strings.ToLower(u.Scheme) {
+	case "http":
+		return "80"
+	case "https":
+		return "443"
+	}
+	return ""
 }
 
 func atoi(in string) (int, error) {
