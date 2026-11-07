@@ -1,0 +1,44 @@
+openapi: 3.1.1
+info:
+  title: oneOf and discriminator and allOf
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Lizard'
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: Dog
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            name:
+              type: string
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            bark:
+              type: string
+    Lizard:
+      x-discriminator-value: lizard
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            lovesRocks:
+              type: boolean

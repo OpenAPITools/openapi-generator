@@ -83,6 +83,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.TestUtils.*;
+import static org.openapitools.codegen.java.assertions.JavaFileAssert.JAVA_17;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
 import static org.openapitools.codegen.languages.JavaClientCodegen.USE_SPRING_BOOT4;
@@ -9494,6 +9495,70 @@ public class SpringCodegenTest {
                 .doesNotImplementInterfaces("GeoJsonObject")
                 .fileContains("List<Double> coordinates")
                 .fileDoesNotContain("@JsonSubTypes");
+    }
+
+    @DataProvider(name = "issue25505")
+    public Object[][] issue25505() {
+        return new Object[][]{
+                {"/3_1/oneOf_issue_25505.yaml",  "interface", new String[] {"REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR", "REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING"}},
+                {"/3_1/oneOf_issue_25505.yaml",  "interface", new String[] {"REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR"}},
+                {"/3_1/oneOf_issue_25505.yaml",  "class",     new String[] {"REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING"}},
+
+                {"/3_1/oneOf_issue_25505_2.yaml", "interface", new String[] {"REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR"}},
+                {"/3_1/oneOf_issue_25505_2.yaml", "class",     new String[] {"REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR", "REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING"}},
+                {"/3_1/oneOf_issue_25505_2.yaml", "class",     new String[] {"REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING"}},
+        };
+    }
+
+    @Test(dataProvider = "issue25505" )
+    void issue_25505(String file, String generationAssertion, String[] normalizers) throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources" + file, SPRING_BOOT,
+                Map.of(GENERATE_MODEL_DOCS, false, GENERATE_APIS, false, INTERFACE_ONLY, true, USE_SEALED,true),
+                codegen -> {
+                    for (String normalizer : normalizers) {
+                        codegen.addOpenapiNormalizer(normalizer, "true");
+                    }
+                });
+
+        if ("class".equals(generationAssertion)) {
+            assert25505Class(files);
+        } else {
+            assert25505Interface(files);
+        }
+    }
+
+    private void assert25505Interface(Map<String, File> files) {
+        JavaFileAssert.assertThat(JAVA_17, files.get("Pet.java"))
+                .isInterface()
+                .hasSealedAndPermits("Cat", "Dog", "Lizard")
+                .fileContains("public String getPetType();")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("include", "JsonTypeInfo.As.PROPERTY", "property", "\"petType\""))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Cat.class", "name", "\"Cat\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Dog.class", "name", "\"dog\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Lizard.class", "name", "\"lizard\""));
+
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .implementsInterfaces("Pet")
+                .fileDoesNotContain("extends");
+    }
+
+    private void assert25505Class(Map<String, File> files) {
+        JavaFileAssert.assertThat(JAVA_17, files.get("Pet.java"))
+                .isNormalClass()
+                .hasSealedAndPermits("Cat", "Dog", "Lizard")
+                .fileContains("public String getPetType() {")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("include", "JsonTypeInfo.As.PROPERTY", "property", "\"petType\""))
+                .containsWithName("JsonSubTypes")
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Cat.class", "name", "\"Cat\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Dog.class", "name", "\"dog\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Lizard.class", "name", "\"lizard\""));
+
+        JavaFileAssert.assertThat(files.get("Dog.java"))
+                .extendsClass("Pet")
+                .fileDoesNotContain("implements");
     }
 
     @Test

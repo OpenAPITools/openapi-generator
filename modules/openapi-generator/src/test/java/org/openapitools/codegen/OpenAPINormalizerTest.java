@@ -2132,6 +2132,67 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testRemoveAllOfToParentWithOneOfAndDiscriminator() {
+        Map<String, String> expectedMapping = Map.of(
+                "Cat", "#/components/schemas/Cat",
+                "dog", "#/components/schemas/Dog",
+                "lizard", "#/components/schemas/Lizard");
+
+        for (String fixture : List.of("oneOf_issue_25505.yaml", "oneOf_issue_25505_2.yaml")) {
+            assertIssue25505Normalization(fixture,
+                    Map.of("REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR", "true"),
+                    expectedMapping,
+                    true,
+                    false);
+        }
+    }
+
+    @Test
+    public void testRemoveAllOfToParentWithOneOfAndDiscriminatorCombinedWithReplaceOneOf() {
+        assertIssue25505Normalization("oneOf_issue_25505.yaml",
+                Map.of(
+                        "REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR", "true",
+                        "REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"),
+                Map.of(
+                        "Cat", "#/components/schemas/Cat",
+                        "dog", "#/components/schemas/Dog",
+                        "lizard", "#/components/schemas/Lizard"),
+                true,
+                false);
+
+        assertIssue25505Normalization("oneOf_issue_25505_2.yaml",
+                Map.of(
+                        "REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR", "true",
+                        "REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true"),
+                Map.of(
+                        "Cat", "#/components/schemas/Cat",
+                        "dog", "#/components/schemas/Dog",
+                        "lizard", "#/components/schemas/Lizard"),
+                false,
+                false);
+    }
+
+    private void assertIssue25505Normalization(String fixture, Map<String, String> rules,
+                                               Map<String, String> expectedMapping, boolean expectOneOf,
+                                               boolean expectParentReference) {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/" + fixture);
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, rules);
+        openAPINormalizer.normalize();
+
+        Schema pet = openAPI.getComponents().getSchemas().get("Pet");
+        assertEquals(pet.getOneOf() != null, expectOneOf);
+        if (expectOneOf) {
+            assertEquals(pet.getOneOf().size(), 3);
+        }
+        assertEquals(pet.getDiscriminator().getMapping(), expectedMapping);
+
+        for (String childName : List.of("Cat", "Dog", "Lizard")) {
+            Schema child = openAPI.getComponents().getSchemas().get(childName);
+            assertEquals(refsParent(child), expectParentReference, childName + " parent reference");
+        }
+    }
+
+    @Test
     public void testIssue14769() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOf_issue_14769.yaml");
         Map<String, String> inputRules = Map.of("REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING", "true");
@@ -2264,4 +2325,3 @@ public class OpenAPINormalizerTest {
     }
 
 }
-

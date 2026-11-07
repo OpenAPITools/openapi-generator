@@ -701,6 +701,51 @@ index 6f27abd..146c61c 100644
          type:
            type: string
 ```
+This simplifies inheritance using classes.
+The value of the discriminator mapping can be set in the children using x-discriminator-value, a constant or a single enum.
+
+- `REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR`: when set to true, allOf is removed to parent having a oneOf and discriminator.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/oneOf_issue_23527.yaml -o /tmp/java/ --openapi-normalizer REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR=true
+```
+
+Here is what the change in the spec looks like:
+
+```diff
+diff --git a/api/openapi.yaml b/api/openapi.yaml
+index 6f27abd..146c61c 100644
+--- a/api/openapi.yaml
++++ b/api/openapi.yaml
+@@ -9,10 +9,10 @@ components:
+   schemas:
+     GeoJsonObject:
+       discriminator:
++        mapping:
++          MultiPolygon: "#/components/schemas/Multi-Polygon"
++          Polygon: "#/components/schemas/Polygon"
+         propertyName: type
+      oneOf:
+      - $ref: "#/components/schemas/Polygon"
+      - $ref: "#/components/schemas/Multi-Polygon"
+       properties:
+         type:
+           type: string
+    Polygon:
+      allOf:
+-        - $ref: '#/components/schemas/GeoJsonObject'
+        - type: object
+    Multi-Polygon:
+      allOf:
+-        - $ref: '#/components/schemas/GeoJsonObject'
+         - type: object                   
+```
+This simplifies inheritance using interfaces.
+The value of the discriminator mapping can be set in the children using x-discriminator-value, a constant or a single enum.
+
+if both REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR and REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING are set to true, the result will be the same as if only REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR is set to true. then
+the REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR is used if the parent contains only the discriminator and no other properties.
 
 - `FILTER`
 
