@@ -137,16 +137,57 @@ func TestCredentialsFollowSameOriginRedirect(t *testing.T) {
 	}
 }
 
+// A chain that leaves the origin and comes back must not regain the
+// credentials: net/http rebuilds every redirected request from the original.
+func TestCredentialsStayStrippedWhenChainReturnsToOrigin(t *testing.T) {
+	rec := &recorder{seen: map[string]*http.Request{}}
+	var origin, other *httptest.Server
+	originMux := http.NewServeMux()
+	originMux.Handle("/landed/", rec)
+	originMux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, other.URL+"/bounce"+r.URL.Path+"?"+r.URL.RawQuery, http.StatusFound)
+	})
+	origin = httptest.NewServer(originMux)
+	defer origin.Close()
+	other = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		u, _ := url.Parse(origin.URL)
+		http.Redirect(w, r, "http://localhost:"+u.Port()+"/landed"+r.URL.Path[len("/bounce"):]+"?"+r.URL.RawQuery, http.StatusFound)
+	}))
+	defer other.Close()
+
+	client := newClientAgainst(t, origin.URL)
+	ctx := apiKeyContext()
+
+	client.PetAPI.GetPetById(ctx, 1).Execute()
+	got := rec.get("/landed/pet/1")
+	if got == nil {
+		t.Fatal("the chain did not come back to the origin")
+	}
+	if v := got.Header.Get("api_key"); v != "" {
+		t.Errorf("api_key came back with the chain: %q", v)
+	}
+	if v := got.Header.Get("X-Default-Secret"); v != "" {
+		t.Errorf("default header came back with the chain: %q", v)
+	}
+
+	client.FakeClassnameTags123API.TestClassname(ctx).Client(sw.Client{}).Execute()
+	got = rec.get("/landed/fake_classname_test")
+	if got == nil {
+		t.Fatal("the chain did not come back to the origin")
+	}
+	if v := got.URL.Query().Get("api_key_query"); v != "" {
+		t.Errorf("api_key_query came back with the chain: %q", v)
+	}
+}
+
 func TestCustomHTTPClientKeepsItsOwnRedirectPolicy(t *testing.T) {
 	cfg := sw.NewConfiguration()
-	called := false
-	cfg.HTTPClient = &http.Client{CheckRedirect: func(*http.Request, []*http.Request) error {
-		called = true
+	custom := &http.Client{CheckRedirect: func(*http.Request, []*http.Request) error {
 		return http.ErrUseLastResponse
 	}}
+	cfg.HTTPClient = custom
 	client := sw.NewAPIClient(cfg)
-	if client.GetConfig().HTTPClient.CheckRedirect == nil {
+	if client.GetConfig().HTTPClient != custom {
 		t.Fatal("a supplied http.Client must be used as given")
 	}
-	_ = called
 }

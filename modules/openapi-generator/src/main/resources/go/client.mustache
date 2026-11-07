@@ -77,7 +77,11 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	if cfg.HTTPClient == nil {
-		cfg.HTTPClient = &http.Client{CheckRedirect: c.checkRedirect}
+		// Start from http.DefaultClient so that a Transport, Jar or Timeout set
+		// on it process-wide is kept; only the redirect policy differs.
+		httpClient := *http.DefaultClient
+		httpClient.CheckRedirect = c.checkRedirect
+		cfg.HTTPClient = &httpClient
 	}
 
 {{#apiInfo}}
@@ -94,7 +98,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 // credentialHeaders are the request headers that carry this client's
 // credentials. They do not follow a redirect to another origin.
-var credentialHeaders = []string{"Authorization", "Cookie"{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}, "{{keyParamName}}"{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}}
+var credentialHeaders = []string{"Authorization", "Cookie"{{#withAWSV4Signature}}, "X-Amz-Security-Token"{{/withAWSV4Signature}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}}, "{{keyParamName}}"{{/isKeyInHeader}}{{/isApiKey}}{{/authMethods}}}
 
 // credentialQueryParams are the query parameters that carry this client's
 // credentials. They do not follow a redirect to another origin.
@@ -106,14 +110,12 @@ var credentialQueryParams = []string{ {{#authMethods}}{{#isApiKey}}{{#isKeyInQue
 // redirect to another origin is still followed, but without the credentials
 // this client adds to every request. net/http drops Authorization on a
 // cross-host redirect by itself; it knows nothing about API keys sent in other
-// headers or in the query, nor about the configured default headers, and the
-// check is made against the original request so that a chain which left the
-// origin and comes back does not regain them.
+// headers or in the query, nor about the configured default headers.
 func (c *APIClient) checkRedirect(req *http.Request, via []*http.Request) error {
 	if len(via) >= 10 {
 		return errors.New("stopped after 10 redirects")
 	}
-	if sameOrigin(via[0].URL, req.URL) {
+	if !leftOrigin(via, req) {
 		return nil
 	}
 	for _, name := range credentialHeaders {
@@ -122,25 +124,55 @@ func (c *APIClient) checkRedirect(req *http.Request, via []*http.Request) error 
 	for name := range c.cfg.DefaultHeader {
 		deleteHeader(req.Header, name)
 	}
-	if len(credentialQueryParams) > 0 {
-		query := req.URL.Query()
-		for _, name := range credentialQueryParams {
-			query.Del(name)
-		}
-		req.URL.RawQuery = query.Encode()
-	}
+	deleteQueryParams(req.URL, credentialQueryParams)
 	return nil
 }
 
+// leftOrigin reports whether req, or any redirect before it, is on another
+// origin than the original request. net/http rebuilds every redirected
+// request from the original one, so once a chain has left the origin the
+// credentials must stay off even on a hop that comes back, as net/http does
+// for Authorization since CVE-2024-45336.
+func leftOrigin(via []*http.Request, req *http.Request) bool {
+	origin := via[0].URL
+	for _, hop := range via[1:] {
+		if !sameOrigin(origin, hop.URL) {
+			return true
+		}
+	}
+	return !sameOrigin(origin, req.URL)
+}
+
 // deleteHeader removes every entry of h whose name equals name ignoring
-// case. Header.Del only removes the canonical spelling, and header names
-// that net/http does not canonicalize (such as names containing an
-// underscore) are stored as given.
+// case. Header.Del removes the canonical spelling only; a name that reached
+// the request in another spelling would survive it.
 func deleteHeader(h http.Header, name string) {
 	for key := range h {
 		if strings.EqualFold(key, name) {
 			delete(h, key)
 		}
+	}
+}
+
+// deleteQueryParams removes the named query parameters, compared ignoring
+// case. The query is re-encoded only when something was removed, so a
+// signed or pre-signed URL keeps its exact encoding otherwise.
+func deleteQueryParams(u *url.URL, names []string) {
+	if len(names) == 0 || u.RawQuery == "" {
+		return
+	}
+	query := u.Query()
+	removed := false
+	for key := range query {
+		for _, name := range names {
+			if strings.EqualFold(key, name) {
+				delete(query, key)
+				removed = true
+			}
+		}
+	}
+	if removed {
+		u.RawQuery = query.Encode()
 	}
 }
 
