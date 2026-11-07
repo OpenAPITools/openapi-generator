@@ -8471,10 +8471,11 @@ public class KotlinSpringServerCodegenTest {
         Path controller = files.get("PetsApiController.kt").toPath();
         assertFileContains(controller,
                 "@Valid @RequestBody pet: kotlin.collections.List<@Valid Pet>",
-                "): ResponseEntity<List<@Size(max=10) kotlin.String>> {",
                 "tags: kotlin.collections.List<@Size(max=10) kotlin.String>?",
-                // map-of-arrays return type keeps the full, comma-containing value type
-                "): ResponseEntity<Map<String, kotlin.collections.List<@Size(min=1,max=3) kotlin.String>>> {");
+                // return types are left unannotated (Hibernate Validator cannot look inside ResponseEntity)
+                "): ResponseEntity<List<kotlin.String>> {",
+                "): ResponseEntity<Map<String, kotlin.collections.List<kotlin.String>>> {");
+        assertFileNotContains(controller, "ResponseEntity<List<@", "ResponseEntity<Map<String, kotlin.collections.List<@");
         for (String file : List.of("PetsApiController.kt", "PetsApiService.kt", "PetsApiServiceImpl.kt", "PetsApiTest.kt")) {
             assertFileContains(files.get(file).toPath(),
                     "import jakarta.validation.Valid", "import jakarta.validation.constraints.Size");
@@ -8484,7 +8485,41 @@ public class KotlinSpringServerCodegenTest {
                 new HashMap<>(Map.of(USE_BEANVALIDATION, true, DELEGATE_PATTERN, true, "useJakartaEe", false)));
         assertFileContains(delegate.get("PetsApiDelegate.kt").toPath(),
                 "import javax.validation.Valid", "import javax.validation.constraints.Size",
-                "fun addPets(pet: kotlin.collections.List<@Valid Pet>): ResponseEntity<List<@Size(max=10) kotlin.String>> {");
+                "fun addPets(pet: kotlin.collections.List<@Valid Pet>): ResponseEntity<List<kotlin.String>> {");
+    }
+
+    @Test
+    public void elementTypeValidationImportsAreOnlyAddedWhereUsed() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, SERVICE_IMPLEMENTATION, true, USE_SPRING_BOOT3, true)));
+
+        Path petsService = files.get("PetsApiService.kt").toPath();
+        assertFileContains(petsService, "import jakarta.validation.Valid", "import jakarta.validation.constraints.Size");
+        assertFileNotContains(petsService, "constraints.Pattern", "constraints.Email", "constraints.NotNull", "constraints.Min");
+        for (String file : List.of("StatusApiService.kt", "StatusApiServiceImpl.kt", "StatusApiTest.kt")) {
+            assertFileNotContains(files.get(file).toPath(), "import jakarta.validation");
+        }
+    }
+
+    @Test
+    public void buildFilesEmitJvmTypeAnnotationsOnlyWithBeanValidation() throws IOException {
+        List<Map<String, Object>> springBootVersions = List.of(Map.of(), Map.of(USE_SPRING_BOOT3, true), Map.of(USE_SPRING_BOOT4, true));
+        for (Map<String, Object> springBootVersion : springBootVersions) {
+            for (boolean useBeanValidation : new boolean[]{true, false}) {
+                Map<String, Object> properties = new HashMap<>(springBootVersion);
+                properties.put(USE_BEANVALIDATION, useBeanValidation);
+                Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC, properties);
+                Path pom = files.get("pom.xml").toPath();
+                Path gradle = files.get("build.gradle.kts").toPath();
+                if (useBeanValidation) {
+                    assertFileContains(pom, "<arg>-Xemit-jvm-type-annotations</arg>");
+                    assertFileContains(gradle, "\"-Xemit-jvm-type-annotations\"");
+                } else {
+                    assertFileNotContains(pom, "-Xemit-jvm-type-annotations");
+                    assertFileNotContains(gradle, "-Xemit-jvm-type-annotations");
+                }
+            }
+        }
     }
 
     @Test
@@ -8493,7 +8528,7 @@ public class KotlinSpringServerCodegenTest {
                 new HashMap<>(Map.of(USE_BEANVALIDATION, true, REACTIVE, true, DELEGATE_PATTERN, true)));
 
         assertFileContains(files.get("PetsApiDelegate.kt").toPath(),
-                "suspend fun addPets(pet: Flow<Pet>): ResponseEntity<List<@Size(max=10) kotlin.String>> {");
+                "suspend fun addPets(pet: Flow<Pet>): ResponseEntity<List<kotlin.String>> {");
     }
 
     @Test

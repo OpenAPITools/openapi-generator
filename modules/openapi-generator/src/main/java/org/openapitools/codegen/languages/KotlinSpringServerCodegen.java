@@ -23,6 +23,7 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -320,7 +321,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
         addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
-        cliOptions.add(CliOption.newString(ADDITIONAL_ITEMS_ANNOTATIONS, "Additional annotations for the element type of lists/sets, e.g. `List<@com.example.Audited Pet>`. List separated by semicolon(;) or new line (Linux or Windows). Element nullability is expressed by the Kotlin type (`?`), so `@NotNull` is not needed here. Annotations must be fully qualified or imported (e.g. via `x-extra-imports`). Note: the Kotlin compiler (checked with 1.9 and 2.2) only writes element-type annotations to bytecode, which runtime validation needs, when the `-Xemit-jvm-type-annotations` compiler flag is set."));
+        cliOptions.add(CliOption.newString(ADDITIONAL_ITEMS_ANNOTATIONS, "Additional annotations for the element type of lists/sets, e.g. `List<@com.example.Audited Pet>`. List separated by semicolon(;) or new line (Linux or Windows). Element nullability is expressed by the Kotlin type (`?`) and enforced by the compiler and by Jackson 3 when deserializing; add `@NotNull` here only if Bean Validation itself must reject null items (e.g. with Jackson 2). Annotations must be fully qualified or imported (e.g. via `x-extra-imports`). Note: the Kotlin compiler only writes element-type annotations to bytecode, which runtime validation needs, with the `-Xemit-jvm-type-annotations` flag. The generated Gradle and Maven builds set it when `useBeanValidation` is enabled; add it yourself if you use your own build."));
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces (Api interfaces or Delegate interfaces depending on the delegatePattern option)", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, INTERFACE_ONLY_DESC, interfaceOnly);
@@ -1463,12 +1464,45 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     /**
+     * Element annotations are left out of response types. Return values are wrapped (ResponseEntity, Mono,
+     * Flow), and once the annotations are in the bytecode Hibernate Validator rejects such signatures
+     * with HV000197 because it has no value extractor for those wrappers.
+     */
+    private boolean renderingResponseType = false;
+
+    @Override
+    protected void handleMethodResponse(Operation operation, Map<String, Schema> schemas, CodegenOperation op,
+                                        ApiResponse methodResponse, Map<String, String> schemaMappings) {
+        boolean previous = renderingResponseType;
+        renderingResponseType = true;
+        try {
+            super.handleMethodResponse(operation, schemas, op, methodResponse, schemaMappings);
+        } finally {
+            renderingResponseType = previous;
+        }
+    }
+
+    @Override
+    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
+        boolean previous = renderingResponseType;
+        renderingResponseType = true;
+        try {
+            return super.fromResponse(responseCode, response);
+        } finally {
+            renderingResponseType = previous;
+        }
+    }
+
+    /**
      * Extra annotations for the element type of a list/set: {@code additionalItemsAnnotations} followed by
      * {@code x-field-extra-annotation} declared on the items schema (string or list). Applied regardless of
      * {@code useBeanValidation}, as in the Java generators.
      */
     @Override
     protected String getExtraListAnnotation(Schema<?> items) {
+        if (renderingResponseType) {
+            return "";
+        }
         List<String> customAnnotations = getObjectAsStringList(
                 VendorExtension.X_FIELD_EXTRA_ANNOTATION.getValue(items.getExtensions()));
         if (additionalItemsAnnotations.isEmpty() && customAnnotations.isEmpty()) {
@@ -1485,7 +1519,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      */
     @Override
     protected String getItemsBeanValidation(Schema<?> items) {
-        if (!useBeanValidation || items == null) {
+        if (!useBeanValidation || items == null || renderingResponseType) {
             return "";
         }
         if (ModelUtils.isTypeObjectSchema(items)) {
@@ -2127,12 +2161,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 // array-of-string operations to List<String> (with suspend).
                 // See https://github.com/spring-projects/spring-framework/issues/22662
                 // Note: check operation.returnType (set by doDataTypeAssignment) which holds the
-                // unwrapped inner type, e.g. "kotlin.String" for List<kotlin.String> arrays
-                // (or "@Size(max=3) kotlin.String" when the items carry element annotations).
+                // unwrapped inner type, e.g. "kotlin.String" for List<kotlin.String> arrays.
                 // The declarative-http-interface library forces useFlowForArrayReturnType=false,
                 // so this condition only fires for the spring-boot coroutines path.
-                if (reactive && useFlowForArrayReturnType && operation.isArray && operation.returnType != null
-                        && ("kotlin.String".equals(operation.returnType) || operation.returnType.endsWith(" kotlin.String"))) {
+                if (reactive && useFlowForArrayReturnType
+                        && operation.isArray && "kotlin.String".equals(operation.returnType)) {
                     operation.vendorExtensions.put("x-reactive-array-string-return", true);
                 }
 
@@ -2196,6 +2229,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         // delegate, controller-wrapper, service and test templates do not (unless they render custom
         // element-type annotations, see elementTypeExtraImports).
         if (operations != null) {
+            Set<String> elementAnnotations = operations.getOperation().stream()
+                    .flatMap(operation -> elementAnnotationNames(operation).stream())
+                    .collect(Collectors.toCollection(TreeSet::new));
             Set<String> operationExtraImports = new LinkedHashSet<>();
             for (CodegenOperation operation : operations.getOperation()) {
                 collectExtraImports(operation.vendorExtensions, operationExtraImports);
@@ -2225,9 +2261,20 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 objs.put("operationExtraImports", extraImportList);
                 // Element-type annotations (List<@Foo T>) are also rendered in delegate, service and test
                 // signatures; emit the extra imports there only when such a custom annotation is present.
-                if (operations.getOperation().stream().anyMatch(KotlinSpringServerCodegen::hasCustomElementAnnotation)) {
+                if (elementAnnotations.stream().anyMatch(name -> !BEAN_VALIDATION_ANNOTATIONS.contains(name))) {
                     objs.put("elementTypeExtraImports", true);
                 }
+            }
+            // Delegate, service and test templates import only the validation annotations their element types use.
+            List<Map<String, String>> elementValidationImports = elementAnnotations.stream()
+                    .filter(BEAN_VALIDATION_ANNOTATIONS::contains)
+                    .map(name -> additionalProperties.get(JAVAX_PACKAGE) + ".validation."
+                            + ("Valid".equals(name) ? "" : "constraints.") + name)
+                    .sorted()
+                    .map(fullName -> Map.of("import", fullName))
+                    .collect(Collectors.toList());
+            if (!elementValidationImports.isEmpty()) {
+                objs.put("elementTypeValidationImports", elementValidationImports);
             }
         }
 
@@ -2238,22 +2285,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             Set.of("Valid", "Size", "Pattern", "Email", "Min", "Max", "DecimalMin", "DecimalMax", "NotNull");
     private static final java.util.regex.Pattern ELEMENT_ANNOTATION = java.util.regex.Pattern.compile("[<\\s]@([\\w.]+)");
 
-    private static boolean hasCustomElementAnnotation(CodegenOperation operation) {
+    /** Names of the annotations rendered on collection element types in an operation's signature. */
+    private static Set<String> elementAnnotationNames(CodegenOperation operation) {
         List<String> types = new ArrayList<>();
         types.add(operation.returnType == null ? null : " " + operation.returnType);
         Stream.of(operation.allParams, operation.implicitHeadersParams)
                 .filter(Objects::nonNull)
                 .flatMap(List::stream)
                 .forEach(param -> types.add(param.dataType));
-        return types.stream().filter(Objects::nonNull).anyMatch(type -> {
+        Set<String> names = new TreeSet<>();
+        types.stream().filter(Objects::nonNull).forEach(type -> {
             Matcher matcher = ELEMENT_ANNOTATION.matcher(type);
             while (matcher.find()) {
-                if (!BEAN_VALIDATION_ANNOTATIONS.contains(matcher.group(1))) {
-                    return true;
-                }
+                names.add(matcher.group(1));
             }
-            return false;
         });
+        return names;
     }
 
     @Override

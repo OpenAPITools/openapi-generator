@@ -1,11 +1,3 @@
-{{#useBeanValidation}}
-import {{javaxPackage}}.validation.Valid
-import {{javaxPackage}}.validation.constraints.DecimalMax
-import {{javaxPackage}}.validation.constraints.DecimalMin
-import {{javaxPackage}}.validation.constraints.Email
-import {{javaxPackage}}.validation.constraints.Max
-import {{javaxPackage}}.validation.constraints.Min
-import {{javaxPackage}}.validation.constraints.NotNull
-import {{javaxPackage}}.validation.constraints.Pattern
-import {{javaxPackage}}.validation.constraints.Size
-{{/useBeanValidation}}
+{{#elementTypeValidationImports}}
+import {{import}}
+{{/elementTypeValidationImports}}

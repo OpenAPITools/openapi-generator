@@ -55,6 +55,16 @@ paths:
                     type: string
                     minLength: 1
                     maxLength: 3
+  /status:
+    get:
+      operationId: getStatus
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
 components:
   schemas:
     Pet:
