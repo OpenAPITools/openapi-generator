@@ -48,19 +48,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
-        [DataMember(Name = "number", EmitDefaultValue = false)]
+        [DataMember(Name = "number", EmitDefaultValue = true)]
         public decimal Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Float
         /// </summary>
-        [DataMember(Name = "float", EmitDefaultValue = false)]
+        [DataMember(Name = "float", EmitDefaultValue = true)]
         public float Float { get; set; }
 
         /// <summary>
         /// Gets or Sets Double
         /// </summary>
-        [DataMember(Name = "double", EmitDefaultValue = false)]
+        [DataMember(Name = "double", EmitDefaultValue = true)]
         public double Double { get; set; }
 
         /// <summary>
