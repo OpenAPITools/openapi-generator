@@ -85,6 +85,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String MICROPROFILE_MUTINY = "microprofileMutiny";
     public static final String MICROPROFILE_GLOBAL_EXCEPTION_MAPPER = "microprofileGlobalExceptionMapper";
     public static final String MICROPROFILE_REGISTER_EXCEPTION_MAPPER = "microprofileRegisterExceptionMapper";
+    public static final String MICROPROFILE_REGISTER_REST_CLIENT = "microprofileRegisterRestClient";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
     public static final String DYNAMIC_OPERATIONS = "dynamicOperations";
     public static final String SUPPORT_STREAMING = "supportStreaming";
@@ -152,6 +153,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean microprofileMutiny = false;
     @Setter protected boolean microProfileGlobalExceptionMapper = true;
     @Setter protected boolean microProfileRegisterExceptionMapper = true;
+    @Setter protected boolean microprofileRegisterRestClient = true;
     @Setter protected String configKey = null;
     @Setter(AccessLevel.PRIVATE) protected boolean configKeyFromClassName = false;
     @Setter protected boolean asyncNative = false;
@@ -277,6 +279,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(MICROPROFILE_MUTINY, "Whether to use async types for microprofile (currently only Smallrye Mutiny is supported)."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, "Should generated API Clients be annotated with @RegisterProvider(ApiExceptionMapper.class).").defaultValue("true"));
         cliOptions.add(CliOption.newString(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, "Should ApiExceptionMapper be annotated with @Provider making it a global exception mapper").defaultValue("true"));
+        cliOptions.add(CliOption.newBoolean(MICROPROFILE_REGISTER_REST_CLIENT, "Whether to add the @RegisterRestClient annotation (and its import) to the generated MicroProfile API interfaces. Set to false to omit the annotation, e.g. when using the generated interfaces as base contracts extended by application-owned clients. Only `microprofile` library supports this option.").defaultValue("true"));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate, webclient, restclient, libraries"));
         cliOptions.add(CliOption.newBoolean(DYNAMIC_OPERATIONS, "Generate operations dynamically at runtime from an OAS", this.dynamicOperations));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint (beta)", this.supportStreaming));
@@ -487,7 +490,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, this::setMicroProfileGlobalExceptionMapper);
         convertPropertyToBooleanAndWriteBack(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, this::setMicroProfileRegisterExceptionMapper);
+        convertPropertyToBooleanAndWriteBack(MICROPROFILE_REGISTER_REST_CLIENT, this::setMicroprofileRegisterRestClient);
 
+        additionalProperties.put(MICROPROFILE_REGISTER_REST_CLIENT, microprofileRegisterRestClient);
         additionalProperties.put(MICROPROFILE_REGISTER_EXCEPTION_MAPPER, microProfileRegisterExceptionMapper);
         additionalProperties.put(MICROPROFILE_GLOBAL_EXCEPTION_MAPPER, microProfileGlobalExceptionMapper);
 
