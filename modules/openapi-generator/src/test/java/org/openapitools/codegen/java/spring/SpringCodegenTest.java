@@ -12759,4 +12759,118 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("deletePet", "Long", "String");
     }
+
+    // additionalProperties value schema -> expected Java value type, from the schemas in
+    // 3_0/java-additional-properties-value-generics.yaml (the same types a property of that schema gets)
+    private static final String ADD_PROPS_VALUE_SPEC = "src/test/resources/3_0/java-additional-properties-value-generics.yaml";
+    private static final Map<String, String> ADD_PROPS_GENERIC_VALUES = new java.util.LinkedHashMap<>();
+    private static final Map<String, String> ADD_PROPS_UNCHANGED_VALUES = new java.util.LinkedHashMap<>();
+
+    static {
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsInts", "List<Integer>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsUnique", "Set<Integer>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsRefs", "List<Item>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsDates", "List<OffsetDateTime>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsNested", "List<List<Integer>>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsMapStr", "Map<String, String>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsMapInts", "Map<String, List<Integer>>");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsTrue", "Object");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsEmpty", "Object");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsString", "String");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsItem", "Item");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsLong", "Long");
+    }
+
+    private static String shortFailure(AssertionError e) {
+        String message = String.valueOf(e.getMessage());
+        return message.lines().findFirst().orElse(message);
+    }
+
+    /** Runs the check and records the first line of its failure, so one run reports every shape. */
+    private static void collectFailure(List<String> failures, String what, Runnable check) {
+        try {
+            check.run();
+        } catch (AssertionError e) {
+            failures.add(what + " -> " + shortFailure(e));
+        }
+    }
+
+    private static void collectAccessors(List<String> failures, Map<String, File> files, String model, String value) {
+        collectFailure(failures, model + " accessors for " + value, () -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                .fileContains(
+                        "public " + model + " putAdditionalProperty(String key, " + value + " value) {",
+                        "public Map<String, " + value + "> getAdditionalProperties() {",
+                        "public " + value + " getAdditionalProperty(String key) {"));
+    }
+
+    private static void collectNoGenericImports(List<String> failures, Map<String, File> files) {
+        files.forEach((name, file) -> {
+            if (!name.endsWith(".java")) {
+                return;
+            }
+            try {
+                for (String line : Files.readAllLines(file.toPath())) {
+                    if (line.startsWith("import ") && line.contains("<")) {
+                        failures.add(name + " has a generic import: " + line);
+                    }
+                }
+            } catch (IOException e) {
+                throw new java.io.UncheckedIOException(e);
+            }
+        });
+    }
+
+    @Test
+    public void additionalPropertiesValueKeepsGenericsInSpringModels() throws IOException {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, SPRING_BOOT);
+        List<String> failures = new ArrayList<>();
+
+        ADD_PROPS_GENERIC_VALUES.forEach((model, value) -> {
+            collectFailure(failures, model + " field for " + value, () -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                    .fileContains("private Map<String, " + value + "> additionalProperties;"));
+            collectAccessors(failures, files, model, value);
+        });
+        collectFailure(failures, "AddPropsInts imports", () -> JavaFileAssert.assertThat(files.get("AddPropsInts.java"))
+                .hasImports("java.util.List", "java.util.Map"));
+        collectFailure(failures, "AddPropsUnique imports", () -> JavaFileAssert.assertThat(files.get("AddPropsUnique.java"))
+                .hasImports("java.util.Set"));
+        collectFailure(failures, "AddPropsDates imports", () -> JavaFileAssert.assertThat(files.get("AddPropsDates.java"))
+                .hasImports("java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic value types lost").isEmpty();
+    }
+
+    @Test
+    public void additionalPropertiesValueOfPlainTypesIsUnchangedInSpringModels() throws IOException {
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, SPRING_BOOT);
+
+        ADD_PROPS_UNCHANGED_VALUES.forEach((model, value) -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                .fileContains(
+                        "private Map<String, " + value + "> additionalProperties;",
+                        "public " + model + " putAdditionalProperty(String key, " + value + " value) {",
+                        "public Map<String, " + value + "> getAdditionalProperties() {",
+                        "public " + value + " getAdditionalProperty(String key) {"));
+        JavaFileAssert.assertThat(files.get("AddPropsFalse.java")).fileDoesNotContain("putAdditionalProperty");
+        JavaFileAssert.assertThat(files.get("AddPropsAbsent.java")).fileDoesNotContain("putAdditionalProperty");
+    }
+
+    @Test
+    public void useRecordsKeepsGenericsOfAdditionalPropertiesValue() throws IOException {
+        // options of bin/configs/spring-boot-4-records.yaml
+        Map<String, Object> options = new HashMap<>();
+        options.put("documentationProvider", "springdoc");
+        options.put("useSpringBoot4", "true");
+        options.put("useJackson3", "true");
+        options.put("openApiNullable", "false");
+        options.put("generateBuilders", "true");
+        Map<String, File> files = generateRecords(ADD_PROPS_VALUE_SPEC, options);
+
+        assertSource(files, "AddPropsInts.java")
+                .contains("public record AddPropsInts(",
+                        "Map<String, List<Integer>> additionalProperties",
+                        "public List<Integer> getAdditionalProperty(String key) {");
+        assertSource(files, "AddPropsMapInts.java")
+                .contains("Map<String, Map<String, List<Integer>>> additionalProperties");
+    }
 }
