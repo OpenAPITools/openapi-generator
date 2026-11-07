@@ -74,7 +74,8 @@ type service struct {
 // http.DefaultClient does, but a redirect that leaves the origin (scheme, host
 // and port) of the original request is followed without the client's
 // credentials: the API keys of this API, Authorization, Cookie and the
-// configured DefaultHeader values are removed from the redirected request.
+// configured DefaultHeader values are removed from the redirected request,
+// as is the Referer naming the previous URL.
 // Supply an http.Client with its own CheckRedirect to use another policy.
 func NewAPIClient(cfg *Configuration) *APIClient {
 	c := &APIClient{}
@@ -114,7 +115,8 @@ var credentialQueryParams = []string{ "api_key_query", }
 // redirect to another origin is still followed, but without the credentials
 // this client adds to every request. net/http drops Authorization on a
 // cross-host redirect by itself; it knows nothing about API keys sent in other
-// headers or in the query, nor about the configured default headers.
+// headers or in the query, nor about the configured default headers, and the
+// Referer it adds names the previous URL, query string included.
 func (c *APIClient) checkRedirect(req *http.Request, via []*http.Request) error {
 	if len(via) >= 10 {
 		return errors.New("stopped after 10 redirects")
@@ -128,6 +130,10 @@ func (c *APIClient) checkRedirect(req *http.Request, via []*http.Request) error 
 	for name := range c.cfg.DefaultHeader {
 		deleteHeader(req.Header, name)
 	}
+	// net/http fills in Referer with the previous request's URL, query string
+	// included, before it calls this policy; on another origin it would carry
+	// a credential query parameter along.
+	deleteHeader(req.Header, "Referer")
 	deleteQueryParams(req.URL, credentialQueryParams)
 	return nil
 }

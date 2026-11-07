@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"net/http"
+	"net/http/cookiejar"
 	"net/http/httptest"
 	"net/url"
 	"sync"
@@ -97,6 +98,10 @@ func TestCredentialsDoNotFollowCrossOriginRedirect(t *testing.T) {
 	if v := got.URL.Query().Get("api_key_query"); v != "" {
 		t.Errorf("api_key_query followed a cross-origin redirect: %q", v)
 	}
+	// net/http names the previous URL, query string included, in Referer.
+	if v := got.Header.Get("Referer"); v != "" {
+		t.Errorf("Referer followed a cross-origin redirect: %q", v)
+	}
 }
 
 func TestCredentialsFollowSameOriginRedirect(t *testing.T) {
@@ -134,6 +139,9 @@ func TestCredentialsFollowSameOriginRedirect(t *testing.T) {
 	}
 	if v := got.URL.Query().Get("api_key_query"); v != "QUERY_KEY_MUST_NOT_LEAK" {
 		t.Errorf("api_key_query must follow a same-origin redirect, got %q", v)
+	}
+	if got.Header.Get("Referer") == "" {
+		t.Errorf("Referer must follow a same-origin redirect")
 	}
 }
 
@@ -202,6 +210,53 @@ func TestOnlyTheCredentialLeavesTheQuery(t *testing.T) {
 	}
 	if want := "z=%2F&bad=%zz&flag"; got.URL.RawQuery != want {
 		t.Errorf("query reached the target as %q, want %q", got.URL.RawQuery, want)
+	}
+}
+
+// A cookie jar set on http.DefaultClient is kept by the client built here.
+// net/http consults the jar after the redirect policy ran, but a jar hands
+// out only the cookies of the request's host, so the origin's cookies do not
+// follow a redirect to another host.
+func TestJarCookiesStayOnTheirHost(t *testing.T) {
+	jar, err := cookiejar.New(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	saved := http.DefaultClient.Jar
+	http.DefaultClient.Jar = jar
+	defer func() { http.DefaultClient.Jar = saved }()
+
+	rec := &recorder{seen: map[string]*http.Request{}}
+	target := httptest.NewServer(rec)
+	defer target.Close()
+	var mu sync.Mutex
+	originSaw := ""
+	origin := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		mu.Lock()
+		originSaw = r.Header.Get("Cookie")
+		mu.Unlock()
+		http.Redirect(w, r, target.URL+"/landed"+r.URL.Path, http.StatusFound)
+	}))
+	defer origin.Close()
+
+	u, _ := url.Parse(origin.URL)
+	originURL, _ := url.Parse("http://localhost:" + u.Port())
+	jar.SetCookies(originURL, []*http.Cookie{{Name: "session", Value: "JAR_COOKIE_MUST_NOT_LEAK"}})
+
+	client := newClientAgainst(t, origin.URL)
+	client.PetAPI.GetPetById(context.Background(), 1).Execute()
+
+	mu.Lock()
+	defer mu.Unlock()
+	if originSaw != "session=JAR_COOKIE_MUST_NOT_LEAK" {
+		t.Fatalf("the jar did not send its cookie to the origin, got %q", originSaw)
+	}
+	got := rec.get("/landed/pet/1")
+	if got == nil {
+		t.Fatal("the redirect target was not reached")
+	}
+	if v := got.Header.Get("Cookie"); v != "" {
+		t.Errorf("jar cookie followed a cross-origin redirect: %q", v)
 	}
 }
 
