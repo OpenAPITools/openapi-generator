@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: composed nullable enum must not emit primitive Assert helpers
+paths:
+  /thing:
+    post:
+      operationId: createThing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    Mode:
+      type: string
+      enum: [On, Off]
+    Thing:
+      type: object
+      properties:
+        mode:
+          nullable: true
+          oneOf:
+            - $ref: '#/components/schemas/Mode'
+            - enum: [null]
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mode'
+            nullable: true

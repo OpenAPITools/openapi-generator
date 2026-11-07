@@ -45,15 +45,20 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>float32</li>
 <li>float64</li>
 <li>int</li>
+<li>int16</li>
 <li>int32</li>
 <li>int64</li>
+<li>int8</li>
 <li>interface{}</li>
 <li>map[string]interface{}</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>
+<li>uint16</li>
 <li>uint32</li>
 <li>uint64</li>
+<li>uint8</li>
+<li>uintptr</li>
 </ul>
 
 ## RESERVED WORDS
