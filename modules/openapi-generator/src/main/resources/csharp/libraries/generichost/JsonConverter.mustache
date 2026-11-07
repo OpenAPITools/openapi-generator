@@ -418,7 +418,6 @@
             {{/composedSchemas.oneOf}}
             {{/model.hasDiscriminatorWithNonEmptyMapping}}
             {{/model.discriminator}}
-            {{^model.discriminator}}
             {{#composedSchemas}}
             {{#anyOf}}
             if ({{#lambda.joinWithAmpersand}}{{^required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet  {{/required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null{{/lambda.joinWithAmpersand}})
@@ -448,7 +447,6 @@
 
             {{/anyOf}}
             {{/composedSchemas}}
-            {{/model.discriminator}}
             WriteProperties(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}, jsonSerializerOptions);
             writer.WriteEndObject();
             {{/lambda.trimLineBreaks}}
