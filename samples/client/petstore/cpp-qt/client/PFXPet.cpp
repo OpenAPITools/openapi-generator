@@ -89,22 +89,22 @@ QString PFXPet::asJson() const {
 
 QJsonObject PFXPet::asJsonObject() const {
     QJsonObject obj;
-    if (m_id_isSet) {
+    if (true && m_id_isSet) {
         obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
-    if (m_category.isSet()) {
+    if (true && m_category.isSet()) {
         obj.insert(QString("category"), ::test_namespace::toJsonValue(m_category));
     }
-    if (m_name_isSet) {
+    if (true) {
         obj.insert(QString("name"), ::test_namespace::toJsonValue(m_name));
     }
-    if (m_photo_urls.size() > 0) {
+    if (true) {
         obj.insert(QString("photoUrls"), ::test_namespace::toJsonValue(m_photo_urls));
     }
-    if (m_tags.size() > 0) {
+    if (true && m_tags.size() > 0) {
         obj.insert(QString("tags"), ::test_namespace::toJsonValue(m_tags));
     }
-    if (m_status_isSet) {
+    if (true && m_status_isSet) {
         obj.insert(QString("status"), ::test_namespace::toJsonValue(m_status));
     }
     return obj;
