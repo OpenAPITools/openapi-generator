@@ -5397,6 +5397,7 @@ public class JavaClientCodegenTest {
         JavaFileAssert.assertThat(files.get("Extensible.java"))
                 .fileContains(
                         "private Map<String, String> additionalProperties;",
+                        "public Map<String, String> getAdditionalProperties()",
                         "public String getAdditionalProperty(String key)",
                         "public boolean equals(Object o)",
                         "String toIndentedString(Object o)");
