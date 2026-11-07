@@ -2856,6 +2856,53 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testInheritedInlineEnumIsDroppedFromChildModel() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setInputSpec("src/test/resources/3_0/inherited_inline_enum.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+
+        // parent keeps the full enum
+        assertFileContains(modelDir.resolve("Animal.java"),
+                "public enum StatusEnum", "ACTIVE(String.valueOf(\"ACTIVE\"))", "INACTIVE(String.valueOf(\"INACTIVE\"))");
+
+        // child inherits from parent and must not redeclare identical status enum/property
+        assertFileContains(modelDir.resolve("Cat.java"), "public class Cat extends Animal", "private String mood;");
+        assertFileNotContains(modelDir.resolve("Cat.java"), "public enum StatusEnum", "private StatusEnum status", "JSON_PROPERTY_STATUS");
+    }
+
+    @Test
+    public void testInheritedInlineEnumThatIsNarrowedIsKeptInChildModel() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setInputSpec("src/test/resources/3_0/inherited_inline_enum.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+
+        // parent retains the broader discriminator enum
+        assertFileContains(modelDir.resolve("Animal.java"),
+                "public enum TypeEnum", "CAT(String.valueOf(\"cat\"))", "DOG(String.valueOf(\"dog\"))");
+
+        // narrowed child enum must be kept in child model
+        assertFileContains(modelDir.resolve("Dog.java"),
+                "public class Dog extends Animal", "public enum TypeEnum", "DOG(String.valueOf(\"dog\"))", "private TypeEnum type");
+        assertFileNotContains(modelDir.resolve("Dog.java"), "CAT(String.valueOf(\"cat\"))");
+    }
+
+    @Test
     public void testRestTemplateWithUseBeanValidationEnabled() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
