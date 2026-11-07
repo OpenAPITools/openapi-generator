@@ -12,7 +12,7 @@ import java.util.Map;
  * AdditionalPropertiesObject
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
-public class AdditionalPropertiesObject extends HashMap<String, Map>  {
+public class AdditionalPropertiesObject extends HashMap<String, Map<String, Object>>  {
   @JsonProperty("name")
   private String name;
 
