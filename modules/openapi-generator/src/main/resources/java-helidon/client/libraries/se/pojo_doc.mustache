@@ -8,9 +8,9 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-{{#vars}}|**{{name}}** | {{#isEnum}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/isEnum}}{{^isEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isModel}}[{{/isModel}}{{/items}}**{{baseType}}{{#items}}&lt;{{dataType}}&gt;**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{#isModel}}[{{/isModel}}**Map&lt;String, {{dataType}}&gt;**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isModel}}[{{/isModel}}**{{dataType}}**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/isContainer}}{{/isEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}} |
+{{#vars}}|**{{name}}** | {{#isInnerEnum}}[**{{datatypeWithEnum}}**](#{{datatypeWithEnum}}){{/isInnerEnum}}{{^isInnerEnum}}{{#isContainer}}{{#isArray}}{{#items}}{{#isModel}}[{{/isModel}}{{/items}}**{{baseType}}{{#items}}&lt;{{dataType}}&gt;**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/items}}{{/isArray}}{{#isMap}}{{#items}}{{#isModel}}[{{/isModel}}**Map&lt;String, {{dataType}}&gt;**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/items}}{{/isMap}}{{/isContainer}}{{^isContainer}}{{#isModel}}[{{/isModel}}**{{dataType}}**{{#isModel}}]({{^baseType}}{{dataType}}{{/baseType}}{{baseType}}.md){{/isModel}}{{/isContainer}}{{/isInnerEnum}} | {{description}} | {{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}} |
 {{/vars}}
-{{#vars}}{{#isEnum}}
+{{#vars}}{{#isInnerEnum}}
 
 
 ## Enum: {{datatypeWithEnum}}
@@ -18,7 +18,7 @@
 | Name | Value |
 |---- | -----|{{#allowableValues}}{{#enumVars}}
 | {{name}} | {{value}} |{{/enumVars}}{{/allowableValues}}
-{{/isEnum}}{{/vars}}
+{{/isInnerEnum}}{{/vars}}
 {{#vendorExtensions.x-implements.0}}
 
 ## Implemented Interfaces

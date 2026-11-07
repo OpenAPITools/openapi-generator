@@ -1,5 +1,12 @@
 {{>additionalOneOfTypeAnnotations}}{{>generatedAnnotation}}{{>typeInfoAnnotation}}{{>xmlAnnotation}}
 public interface {{classname}} {{#vendorExtensions.x-implements}}{{#-first}}extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {
+    {{#vars}}
+    {{#isEnum}}
+    {{#isDiscriminator}}
+{{>enumClass}}
+    {{/isDiscriminator}}
+    {{/isEnum}}
+    {{/vars}}
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
