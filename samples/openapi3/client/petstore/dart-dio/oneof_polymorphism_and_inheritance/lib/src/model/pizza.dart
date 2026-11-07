@@ -51,6 +51,8 @@ extension PizzaBuilderDiscriminatorExt on PizzaBuilder {
     }
 }
 
+
+
 class _$PizzaSerializer implements PrimitiveSerializer<Pizza> {
   @override
   final Iterable<Type> types = const [Pizza];

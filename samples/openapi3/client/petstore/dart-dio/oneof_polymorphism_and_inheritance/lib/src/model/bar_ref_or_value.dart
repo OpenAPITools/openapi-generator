@@ -71,6 +71,8 @@ extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
     }
 }
 
+
+
 class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
   @override
   final Iterable<Type> types = const [BarRefOrValue, _$BarRefOrValue];

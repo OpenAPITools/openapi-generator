@@ -68,6 +68,8 @@ extension FruitBuilderDiscriminatorExt on FruitBuilder {
     }
 }
 
+
+
 class _$FruitSerializer implements PrimitiveSerializer<Fruit> {
   @override
   final Iterable<Type> types = const [Fruit, _$Fruit];
