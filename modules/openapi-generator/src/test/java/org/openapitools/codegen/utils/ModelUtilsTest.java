@@ -700,32 +700,92 @@ public class ModelUtilsTest {
     public void simplifyOneOfAnyOfWithOnlyOneNonNullSubSchemaKeepsParentDescription() {
         OpenAPI openAPI = new OpenAPI();
 
-        Schema anyOfParent = new Schema().description("Access token");
-        anyOfParent.setAnyOf(new ArrayList<>(Arrays.asList(
+        Schema anyOfParent = anyOfSchema(
+                "Access token",
                 new StringSchema(),
                 new Schema<>().type("null")
-        )));
+        );
         Schema anyOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfParent, anyOfParent.getAnyOf());
         assertEquals(anyOfSchema.getDescription(), "Access token");
 
-        Schema oneOfParent = new Schema().description("Expires at");
-        oneOfParent.setOneOf(new ArrayList<>(Arrays.asList(
+        Schema oneOfParent = oneOfSchema(
+                "Expires at",
                 new IntegerSchema(),
                 new Schema<>().type("null")
-        )));
+        );
         Schema oneOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfParent, oneOfParent.getOneOf());
         assertEquals(oneOfSchema.getDescription(), "Expires at");
 
-        Schema anyOfParentWithChildDescription = new Schema().description("Parent description");
-        anyOfParentWithChildDescription.setAnyOf(new ArrayList<>(Arrays.asList(
+        Schema anyOfParentWithChildDescription = anyOfSchema(
+                "Parent description",
                 new StringSchema().description("Child description"),
                 new Schema<>().type("null")
-        )));
+        );
         Schema anyOfSchemaWithChildDescription = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
                 openAPI,
                 anyOfParentWithChildDescription,
                 anyOfParentWithChildDescription.getAnyOf());
         assertEquals(anyOfSchemaWithChildDescription.getDescription(), "Child description");
+
+        Schema oneOfParentWithChildDescription = oneOfSchema(
+                "Parent description",
+                new StringSchema().description("Child description"),
+                new Schema<>().type("null")
+        );
+        Schema oneOfSchemaWithChildDescription = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                openAPI,
+                oneOfParentWithChildDescription,
+                oneOfParentWithChildDescription.getOneOf());
+        assertEquals(oneOfSchemaWithChildDescription.getDescription(), "Child description");
+    }
+
+    @Test
+    public void simplifySingleRefOneOfAnyOfDropsParentDescriptionToKeepAlias() {
+        OpenAPI openAPI = new OpenAPI();
+
+        Schema refSchema = new Schema().$ref("#/components/schemas/IntegerRef");
+
+        Schema oneOfParent = oneOfSchema("Expires at", refSchema);
+        Schema oneOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfParent, oneOfParent.getOneOf());
+
+        assertNull(oneOfSchema.getDescription());
+        assertEquals(oneOfSchema.get$ref(), "#/components/schemas/IntegerRef");
+
+        Schema anyOfParent = anyOfSchema("Expires at", refSchema);
+        Schema anyOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfParent, anyOfParent.getAnyOf());
+
+        assertNull(anyOfSchema.getDescription());
+        assertEquals(anyOfSchema.get$ref(), "#/components/schemas/IntegerRef");
+
+        Schema nullableOneOfParent = oneOfSchema("Expires at", refSchema);
+        nullableOneOfParent.setNullable(true);
+        Schema nullableOneOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, nullableOneOfParent, nullableOneOfParent.getOneOf());
+
+        assertEquals(nullableOneOfSchema.getDescription(), "Expires at");
+        assertEquals(nullableOneOfSchema.get$ref(), "#/components/schemas/IntegerRef");
+
+        Schema nullableAnyOfParent = anyOfSchema("Expires at", refSchema);
+        nullableAnyOfParent.setNullable(true);
+        Schema nullableAnyOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, nullableAnyOfParent, nullableAnyOfParent.getAnyOf());
+
+        assertEquals(nullableAnyOfSchema.getDescription(), "Expires at");
+        assertEquals(nullableAnyOfSchema.get$ref(), "#/components/schemas/IntegerRef");
+    }
+
+    @Test
+    public void simplifySingleInlineOneOfAnyOfKeepsParentDescription() {
+        OpenAPI openAPI = new OpenAPI();
+
+        Schema oneOfParent = oneOfSchema("Expires at");
+        Schema oneOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, oneOfParent, oneOfParent.getOneOf());
+
+        assertEquals(oneOfSchema.getDescription(), "Expires at");
+        assertNull(oneOfSchema.get$ref());
+
+        Schema anyOfParent = anyOfSchema("Expires at");
+        Schema anyOfSchema = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, anyOfParent, anyOfParent.getAnyOf());
+
+        assertEquals(anyOfSchema.getDescription(), "Expires at");
     }
 
     @Test
@@ -1425,6 +1485,30 @@ public class ModelUtilsTest {
         schema.setType("string");
         schema.setNullable(true);
         return schema;
+    }
+
+    private static Schema<?> oneOfSchema(String description) {
+        return oneOfSchema(description, new IntegerSchema());
+    }
+
+    private static Schema<?> oneOfSchema(String description, Schema<?>... alternatives) {
+        Schema<?> oneOfSchema = new Schema<>().description(description);
+        oneOfSchema.setOneOf(new ArrayList<>(Arrays.asList(
+                alternatives
+        )));
+        return oneOfSchema;
+    }
+
+    private static Schema<?> anyOfSchema(String description) {
+        return anyOfSchema(description, new IntegerSchema());
+    }
+
+    private static Schema<?> anyOfSchema(String description, Schema<?>... alternatives) {
+        Schema<?> anyOfSchema = new Schema<>().description(description);
+        anyOfSchema.setAnyOf(new ArrayList<>(Arrays.asList(
+                alternatives
+        )));
+        return anyOfSchema;
     }
 
 }
