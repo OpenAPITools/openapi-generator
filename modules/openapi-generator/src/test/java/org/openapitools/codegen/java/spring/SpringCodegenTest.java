@@ -1090,11 +1090,11 @@ public class SpringCodegenTest {
                 .assertMethod("getAdditionalProperty", "String").hasReturnType("Object");
 
         JavaFileAssert.assertThat(files.get("AdditionalPropertiesArray.java"))
-                .assertProperty("additionalProperties").withType("Map<String, List>")
+                .assertProperty("additionalProperties").withType("Map<String, List<Object>>")
                 .toType()
-                .assertMethod("putAdditionalProperty", "String", "List")
+                .assertMethod("putAdditionalProperty", "String", "List<Object>")
                 .toFileAssert()
-                .assertMethod("getAdditionalProperty", "String").hasReturnType("List");
+                .assertMethod("getAdditionalProperty", "String").hasReturnType("List<Object>");
 
         JavaFileAssert.assertThat(files.get("AdditionalPropertiesInteger.java"))
                 .assertProperty("additionalProperties").withType("Map<String, Integer>")
@@ -12510,7 +12510,7 @@ public class SpringCodegenTest {
                     .doesNotContain("public class", "putAdditionalProperty", "Builder");
             assertSource(files, "Loose.java").contains("public record Loose(", "Map<String, Object> additionalProperties");
             assertSource(files, "Typed.java").contains("public record Typed(", "Map<String, Item> additionalProperties");
-            assertSource(files, "Lists.java").contains("public record Lists(", "Map<String, List> additionalProperties");
+            assertSource(files, "Lists.java").contains("public record Lists(", "Map<String, List<Integer>> additionalProperties");
         }
     }
 
