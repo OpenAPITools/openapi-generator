@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using {{packageName}}.{{clientPackage}};
 using {{packageName}}.{{apiPackage}};
+{{#useSourceGeneration}}
+using {{packageName}}.{{modelPackage}};
+{{/useSourceGeneration}}
 using {{packageName}}.Extensions;
 using Xunit;
 
@@ -160,6 +163,24 @@ namespace {{packageName}}.Test.{{apiPackage}}
             })
             .Build();
 
+        {{#useSourceGeneration}}
+        /// <summary>
+        /// Test that the shared source-generation context contains every generated model contract.
+        /// </summary>
+        [Fact]
+        public void SourceGenerationContextContainsAllModelContracts()
+        {
+            {{#models}}
+            {{#model}}
+            {{#vendorExtensions.x-json-serializable-types}}
+            Assert.NotNull(OpenApiSerializationContext.Default.GetTypeInfo(typeof({{{dataType}}})));
+            {{/vendorExtensions.x-json-serializable-types}}
+            Assert.NotNull(OpenApiSerializationContext.Default.GetTypeInfo(typeof(global::{{packageName}}.{{modelPackage}}.{{classname}})));
+            {{/model}}
+            {{/models}}
+        }
+
+        {{/useSourceGeneration}}
         /// <summary>
         /// Test dependency injection when using the configure method
         /// </summary>

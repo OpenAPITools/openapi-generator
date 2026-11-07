@@ -61,6 +61,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
     protected static final String SUPPORTS_UWP = "supportsUWP";
     protected static final String SUPPORTS_RETRY = "supportsRetry";
+    private static final String X_JSON_SERIALIZABLE_TYPES = "x-json-serializable-types";
 
     protected static final String NET_STANDARD = "netStandard";
 
@@ -365,7 +366,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 this.equatable);
 
         addSwitch("useSourceGeneration",
-                "Use source generation where available (only `generichost` library supports this option).",
+                "Use a shared source-generated JSON serialization context (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
 
         addSwitch(CodegenConstants.USE_VIRTUAL_FOR_HOOKS,
@@ -1168,6 +1169,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponse`1.mustache", clientPackageDir, "ApiResponse`1.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
+        if (useSourceGeneration) {
+            supportingFiles.add(new SupportingFile("SourceGenerationContext.mustache", clientPackageDir, "OpenApiSerializationContext.cs"));
+        }
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
         supportingFiles.add(new SupportingFile("DateTimeFormatHelper.mustache", clientPackageDir, "DateTimeFormatHelper.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
@@ -1718,6 +1722,106 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         } else {
             super.patchVendorExtensionNullableValueTypeLegacy(parameter);
         }
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+        if (!GENERICHOST.equals(getLibrary()) || !useSourceGeneration) {
+            return processed;
+        }
+
+        List<CodegenModel> models = processed.values().stream()
+                .flatMap(modelsMap -> modelsMap.getModels().stream())
+                .map(ModelMap::getModel)
+                .sorted(Comparator.comparing(model -> model.classname))
+                .collect(Collectors.toList());
+        Set<String> typeInfoPropertyNames = models.stream()
+                .map(model -> model.classname.replace("@", ""))
+                .collect(Collectors.toCollection(HashSet::new));
+        Set<String> serializableTypeNames = new HashSet<>();
+
+        for (CodegenModel model : models) {
+            List<Map<String, String>> serializableTypes = new ArrayList<>();
+
+            for (CodegenProperty property : model.vars) {
+                if (property.isEnum && !property.isContainer && property.complexType == null) {
+                    addSerializableEnumTypes(model, property, property, serializableTypes,
+                            serializableTypeNames, typeInfoPropertyNames);
+                }
+                if (property.items != null && property.items.isEnum
+                        && !property.items.isContainer && property.items.complexType == null) {
+                    addSerializableEnumTypes(model, property, property.items, serializableTypes,
+                            serializableTypeNames, typeInfoPropertyNames);
+                }
+            }
+
+            model.vendorExtensions.put(X_JSON_SERIALIZABLE_TYPES, serializableTypes);
+        }
+
+        return processed;
+    }
+
+    private void addSerializableEnumTypes(CodegenModel model,
+                                          CodegenProperty declaringProperty,
+                                          CodegenProperty enumProperty,
+                                          List<Map<String, String>> serializableTypes,
+                                          Set<String> serializableTypeNames,
+                                          Set<String> typeInfoPropertyNames) {
+        if (isEmpty(enumProperty.datatypeWithEnum)) {
+            return;
+        }
+
+        String enumName = model.classname.replace("@", "") + enumProperty.datatypeWithEnum.replace("@", "");
+        String enumType = "global::" + packageName + "." + modelPackage() + "."
+                + model.classname + "." + enumProperty.datatypeWithEnum;
+        addSerializableType(enumType, enumName, serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+
+        String nullableEnumType = "global::System.Nullable<" + enumType + ">";
+        addSerializableType(nullableEnumType, "Nullable" + enumName,
+                serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+
+        if (!declaringProperty.required) {
+            String optionalEnumType = "global::" + packageName + "." + clientPackage
+                    + ".Option<" + nullableEnumType + ">";
+            addSerializableType(optionalEnumType, "OptionNullable" + enumName,
+                    serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+        }
+
+        if (declaringProperty.isContainer) {
+            String containerName = model.classname.replace("@", "")
+                    + declaringProperty.name.replace("@", "") + "Collection";
+            addSerializableType(declaringProperty.datatypeWithEnum, containerName,
+                    serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+
+            if (!declaringProperty.required) {
+                String optionalContainerType = "global::" + packageName + "." + clientPackage
+                        + ".Option<" + declaringProperty.datatypeWithEnum + ">";
+                addSerializableType(optionalContainerType, "Option" + containerName,
+                        serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+            }
+        }
+    }
+
+    private void addSerializableType(String dataType,
+                                     String basePropertyName,
+                                     List<Map<String, String>> serializableTypes,
+                                     Set<String> serializableTypeNames,
+                                     Set<String> typeInfoPropertyNames) {
+        if (!serializableTypeNames.add(dataType)) {
+            return;
+        }
+
+        String propertyName = basePropertyName;
+        int suffix = 2;
+        while (!typeInfoPropertyNames.add(propertyName)) {
+            propertyName = basePropertyName + suffix++;
+        }
+
+        Map<String, String> serializableType = new LinkedHashMap<>();
+        serializableType.put("dataType", dataType);
+        serializableType.put("typeInfoPropertyName", propertyName);
+        serializableTypes.add(serializableType);
     }
 
     @Override
