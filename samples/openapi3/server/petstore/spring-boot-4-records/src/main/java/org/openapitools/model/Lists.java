@@ -35,7 +35,7 @@ public record Lists(
 
     @JsonAnySetter
     @JsonAnyGetter
-    Map<String, List> additionalProperties
+    Map<String, List<Integer>> additionalProperties
 ) {
 
   public Lists {
@@ -47,7 +47,7 @@ public record Lists(
   /**
    * Return the additional (undeclared) property with the specified name.
    */
-  public List getAdditionalProperty(String key) {
+  public List<Integer> getAdditionalProperty(String key) {
     return additionalProperties.get(key);
   }
 
@@ -59,7 +59,7 @@ public record Lists(
 
     private String id;
 
-    private Map<String, List> additionalProperties;
+    private Map<String, List<Integer>> additionalProperties;
 
     public Builder() {
     }
@@ -75,7 +75,7 @@ public record Lists(
       return this;
     }
 
-    public Lists.Builder additionalProperties(Map<String, List> additionalProperties) {
+    public Lists.Builder additionalProperties(Map<String, List<Integer>> additionalProperties) {
       this.additionalProperties = additionalProperties;
       return this;
     }

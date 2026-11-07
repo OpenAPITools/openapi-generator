@@ -33,7 +33,7 @@ import javax.annotation.Generated;
 @JsonTypeName("AdditionalPropertiesArray")
 @Generated(value="org.openapitools.codegen.languages.JavaMicronautClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @Introspected
-public class AdditionalPropertiesArray extends HashMap<String, List> {
+public class AdditionalPropertiesArray extends HashMap<String, List<Object>> {
     public static final String JSON_PROPERTY_NAME = "name";
     private String name;
 
