@@ -4,15 +4,6 @@ import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
-import javax.validation.Valid
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Email
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -49,14 +40,14 @@ interface PetApiDelegate {
      * @see PetApi#findPetsByStatus
      */
     fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>,
-        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Flow<@Valid Pet>>
+        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Flow<Pet>>
 
 
     /**
      * @see PetApi#findPetsByTags
      */
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>,
-        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Flow<@Valid Pet>>
+        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -70,7 +61,7 @@ interface PetApiDelegate {
      * @see PetApi#listAllPetsPaginated
      */
     fun listAllPetsPaginated(exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -78,7 +69,7 @@ interface PetApiDelegate {
      */
     fun listPetsByIdPaginated(xRequestID: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -87,7 +78,7 @@ interface PetApiDelegate {
     fun listPetsByOwnerPaginated(ownerId: kotlin.Long,
         includeAdopted: kotlin.Boolean,
         exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -98,7 +89,7 @@ interface PetApiDelegate {
         status: kotlin.String?,
         includeInactive: kotlin.Boolean?,
         exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -109,7 +100,7 @@ interface PetApiDelegate {
         maxAge: kotlin.Int?,
         tags: kotlin.collections.List<kotlin.String>?,
         exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -119,7 +110,7 @@ interface PetApiDelegate {
         page: kotlin.Int?,
         size: kotlin.Int?,
         sort: kotlin.String?,
-        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Flow<@Valid Pet>>
+        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -127,7 +118,7 @@ interface PetApiDelegate {
      */
     fun listPetsPartialPagination(status: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -136,7 +127,7 @@ interface PetApiDelegate {
     fun listPetsWithFilterPaginated(status: kotlin.String?,
         name: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**
@@ -145,7 +136,7 @@ interface PetApiDelegate {
     fun listPetsWithHeaderSize(size: kotlin.String?,
         category: kotlin.String?,
         exchange: org.springframework.web.server.ServerWebExchange,
-        pageable: Pageable): ResponseEntity<Flow<@Valid Pet>>
+        pageable: Pageable): ResponseEntity<Flow<Pet>>
 
 
     /**

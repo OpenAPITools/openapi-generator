@@ -53,7 +53,7 @@ interface PetApi {
         @Valid @RequestParam(value = "page", required = false, defaultValue = "0") page: kotlin.Int,
         @Valid @RequestParam(value = "size", required = false, defaultValue = "20") size: kotlin.Int,
         @Valid @RequestParam(value = "sort", required = false) sort: kotlin.String?
-    ): ResponseEntity<List<@Valid Pet>> {
+    ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -66,7 +66,7 @@ interface PetApi {
     )
     fun findPetsNonPaginatedWithSortEnum(
         @Valid @RequestParam(value = "sort", required = false) sort: kotlin.String?
-    ): ResponseEntity<List<@Valid Pet>> {
+    ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -77,7 +77,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_ALL_DEFAULTS],
         produces = ["application/json"]
     )
-    fun findPetsWithAllDefaults(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC), SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithAllDefaults(@PageableDefault(page = 0, size = 10) @SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC), SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -88,7 +88,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_ARRAY_SORT_ENUM],
         produces = ["application/json"]
     )
-    fun findPetsWithArraySortEnum(@ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithArraySortEnum(@ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -99,7 +99,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_ARRAY_SORT_REF_ENUM],
         produces = ["application/json"]
     )
-    fun findPetsWithArraySortRefEnum(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithArraySortRefEnum(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -110,7 +110,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_DEFAULT_FROM_ALL_OF_REF],
         produces = ["application/json"]
     )
-    fun findPetsWithDefaultFromAllOfRef(pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithDefaultFromAllOfRef(pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -121,7 +121,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_EXTERNAL_PARAM_REF_ARRAY_SORT],
         produces = ["application/json"]
     )
-    fun findPetsWithExternalParamRefArraySort(@ValidSort(allowedValues = ["name,asc", "name,desc", "id,asc", "id,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithExternalParamRefArraySort(@ValidSort(allowedValues = ["name,asc", "name,desc", "id,asc", "id,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -132,7 +132,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF],
         produces = ["application/json"]
     )
-    fun findPetsWithMinSizeConstraintFromAllOfRef(@ValidPageable(minSize = 5) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithMinSizeConstraintFromAllOfRef(@ValidPageable(minSize = 5) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -143,7 +143,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS],
         produces = ["application/json"]
     )
-    fun findPetsWithMixedSortDefaults(@SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC), SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithMixedSortDefaults(@SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC), SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -154,7 +154,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_NON_EXPLODED_EXTERNAL_PARAM_REF_ARRAY_SORT],
         produces = ["application/json"]
     )
-    fun findPetsWithNonExplodedExternalParamRefArraySort(@ValidSort(allowedValues = ["name,asc", "name,desc", "id,asc", "id,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithNonExplodedExternalParamRefArraySort(@ValidSort(allowedValues = ["name,asc", "name,desc", "id,asc", "id,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -165,7 +165,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT],
         produces = ["application/json"]
     )
-    fun findPetsWithPageAndSizeConstraint(@ValidPageable(maxSize = 50, maxPage = 999) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithPageAndSizeConstraint(@ValidPageable(maxSize = 50, maxPage = 999) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -176,7 +176,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY],
         produces = ["application/json"]
     )
-    fun findPetsWithPageSizeDefaultsOnly(@PageableDefault(page = 0, size = 25) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithPageSizeDefaultsOnly(@PageableDefault(page = 0, size = 25) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -187,7 +187,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_REF_SORT],
         produces = ["application/json"]
     )
-    fun findPetsWithRefSort(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithRefSort(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -198,7 +198,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_SIZE_CONSTRAINT],
         produces = ["application/json"]
     )
-    fun findPetsWithSizeConstraint(@ValidPageable(maxSize = 100) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithSizeConstraint(@ValidPageable(maxSize = 100) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -209,7 +209,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF],
         produces = ["application/json"]
     )
-    fun findPetsWithSizeConstraintFromAllOfRef(@ValidPageable(maxSize = 75) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithSizeConstraintFromAllOfRef(@ValidPageable(maxSize = 75) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -220,7 +220,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_SORT_DEFAULT_ASC],
         produces = ["application/json"]
     )
-    fun findPetsWithSortDefaultAsc(@SortDefault.SortDefaults(SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithSortDefaultAsc(@SortDefault.SortDefaults(SortDefault(sort = ["id"], direction = Sort.Direction.ASC)) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -231,7 +231,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_SORT_DEFAULT_ONLY],
         produces = ["application/json"]
     )
-    fun findPetsWithSortDefaultOnly(@SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC)) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithSortDefaultOnly(@SortDefault.SortDefaults(SortDefault(sort = ["name"], direction = Sort.Direction.DESC)) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -245,7 +245,7 @@ interface PetApi {
     fun findPetsWithSortEnum(
         @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
         @ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>> {
+    ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -256,7 +256,7 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITHOUT_SORT_ENUM],
         produces = ["application/json"]
     )
-    fun findPetsWithoutSortEnum(@PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<@Valid Pet>> {
+    fun findPetsWithoutSortEnum(@PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

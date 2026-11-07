@@ -2,13 +2,6 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
-import jakarta.validation.Valid
-import jakarta.validation.constraints.DecimalMax
-import jakarta.validation.constraints.DecimalMin
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 import org.junit.jupiter.api.Test
@@ -60,10 +53,10 @@ class PetApiTest {
      */
     @Test
     fun findPetsByStatusTest() {
-        val status: kotlin.collections.List<@NotNull kotlin.String> = TODO()
+        val status: kotlin.collections.List<kotlin.String> = TODO()
         
         
-        val response: ResponseEntity<List<@NotNull @Valid Pet>> = api.findPetsByStatus(status)
+        val response: ResponseEntity<List<Pet>> = api.findPetsByStatus(status)
 
         // TODO: test validations
     }
@@ -76,10 +69,10 @@ class PetApiTest {
      */
     @Test
     fun findPetsByTagsTest() {
-        val tags: kotlin.collections.List<@NotNull @Pattern(regexp="^[a-z0-9]+$") @Size(max=20) kotlin.String> = TODO()
+        val tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+$") @Size(max=20) kotlin.String> = TODO()
         
         
-        val response: ResponseEntity<List<@NotNull @Valid Pet>> = api.findPetsByTags(tags)
+        val response: ResponseEntity<List<Pet>> = api.findPetsByTags(tags)
 
         // TODO: test validations
     }

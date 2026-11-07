@@ -2,15 +2,6 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
-import javax.validation.Valid
-import javax.validation.constraints.DecimalMax
-import javax.validation.constraints.DecimalMin
-import javax.validation.constraints.Email
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
 
 interface PetApiService {
 
@@ -42,7 +33,7 @@ interface PetApiService {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<@Valid Pet>
+    fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet>
 
     /**
      * GET /pet/findByTags : Finds Pets by tags
@@ -55,7 +46,7 @@ interface PetApiService {
      * @see PetApi#findPetsByTags
      */
     @Deprecated(message="Operation is deprecated")
-    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<@Valid Pet>
+    fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): List<Pet>
 
     /**
      * GET /pet/{petId} : Find pet by ID

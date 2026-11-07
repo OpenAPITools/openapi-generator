@@ -106,7 +106,7 @@ interface PetApi {
     fun findPetsByStatus(
         @NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -129,7 +129,7 @@ interface PetApi {
     fun findPetsByTags(
         @NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -171,7 +171,7 @@ interface PetApi {
         produces = ["application/json"]
     )
     fun listAllPetsPaginated(@ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
-        @PageableDefault(page = 0, size = 20) @ApiParam(hidden = true) pageable: Pageable): ResponseEntity<List<@Valid Pet>>
+        @PageableDefault(page = 0, size = 20) @ApiParam(hidden = true) pageable: Pageable): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -194,7 +194,7 @@ interface PetApi {
         @ApiParam(value = "Request ID for tracing") @RequestHeader(value = "X-Request-ID", required = false) xRequestID: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -218,7 +218,7 @@ interface PetApi {
         @ApiParam(value = "Include adopted pets - will be kept", defaultValue = "false") @Valid @RequestParam(value = "includeAdopted", required = false, defaultValue = "false") includeAdopted: kotlin.Boolean,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -244,7 +244,7 @@ interface PetApi {
         @ApiParam(value = "Include inactive pets") @Valid @RequestParam(value = "includeInactive", required = false) includeInactive: kotlin.Boolean?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -270,7 +270,7 @@ interface PetApi {
         @ApiParam(value = "Filter by tags - will be kept") @Valid @RequestParam(value = "tags", required = false) tags: kotlin.collections.List<kotlin.String>?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -295,7 +295,7 @@ interface PetApi {
         @ApiParam(value = "Page size - will be KEPT (no x-spring-paginated)") @Valid @RequestParam(value = "size", required = false) size: kotlin.Int?,
         @ApiParam(value = "Sort order - will be KEPT (no x-spring-paginated)") @Valid @RequestParam(value = "sort", required = false) sort: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -318,7 +318,7 @@ interface PetApi {
         @ApiParam(value = "Filter by status - will be kept") @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -342,7 +342,7 @@ interface PetApi {
         @ApiParam(value = "Filter by name - will be kept") @Valid @RequestParam(value = "name", required = false) name: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(
@@ -366,7 +366,7 @@ interface PetApi {
         @ApiParam(value = "Filter by category - will be kept") @Valid @RequestParam(value = "category", required = false) category: kotlin.String?,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest,
         @ApiParam(hidden = true) pageable: Pageable
-    ): ResponseEntity<List<@Valid Pet>>
+    ): ResponseEntity<List<Pet>>
 
 
     @ApiOperation(

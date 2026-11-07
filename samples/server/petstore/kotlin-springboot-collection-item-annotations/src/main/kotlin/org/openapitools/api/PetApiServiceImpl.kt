@@ -2,13 +2,6 @@ package org.openapitools.api
 
 import org.openapitools.model.ModelApiResponse
 import org.openapitools.model.Pet
-import jakarta.validation.Valid
-import jakarta.validation.constraints.DecimalMax
-import jakarta.validation.constraints.DecimalMin
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import jakarta.validation.constraints.Size
 import org.springframework.stereotype.Service
@@ -23,11 +16,11 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<@Valid Pet> {
+    override fun findPetsByStatus(status: kotlin.collections.List<kotlin.String>): List<Pet> {
         TODO("Implement me")
     }
 
-    override fun findPetsByTags(tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+$") @Size(max=20) kotlin.String>): List<@Valid Pet> {
+    override fun findPetsByTags(tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+$") @Size(max=20) kotlin.String>): List<Pet> {
         TODO("Implement me")
     }
 

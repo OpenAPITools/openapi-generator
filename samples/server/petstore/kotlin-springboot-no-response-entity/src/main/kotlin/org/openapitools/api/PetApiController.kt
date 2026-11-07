@@ -63,7 +63,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     fun findPetsByStatus(
         @NotNull @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
-    ): List<@Valid Pet> {
+    ): List<Pet> {
         return service.findPetsByStatus(status)
     }
 
@@ -77,7 +77,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     fun findPetsByTags(
         @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
-    ): List<@Valid Pet> {
+    ): List<Pet> {
         return service.findPetsByTags(tags)
     }
 

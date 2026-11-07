@@ -94,7 +94,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     fun findPetsByStatus(
         @NotNull @Parameter(description = "Status values that need to be considered for filter", required = true, schema = Schema(allowableValues = ["available", "pending", "sold"])) @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
-    ): ResponseEntity<Flow<@Valid Pet>> {
+    ): ResponseEntity<Flow<Pet>> {
         return ResponseEntity(service.findPetsByStatus(status), HttpStatus.valueOf(200))
     }
 
@@ -116,7 +116,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
     )
     fun findPetsByTags(
         @NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
-    ): ResponseEntity<Flow<@Valid Pet>> {
+    ): ResponseEntity<Flow<Pet>> {
         return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
     }
 

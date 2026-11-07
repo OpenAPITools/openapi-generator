@@ -2,14 +2,6 @@ package org.openapitools.api
 
 import org.openapitools.model.User
 import jakarta.validation.Valid
-import jakarta.validation.constraints.DecimalMax
-import jakarta.validation.constraints.DecimalMin
-import jakarta.validation.constraints.Email
-import jakarta.validation.constraints.Max
-import jakarta.validation.constraints.Min
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
-import jakarta.validation.constraints.Size
 import org.junit.jupiter.api.Test
 import org.springframework.http.ResponseEntity
 
@@ -42,7 +34,7 @@ class UserApiTest {
      */
     @Test
     fun createUsersWithArrayInputTest() {
-        val user: kotlin.collections.List<@NotNull @Valid User> = TODO()
+        val user: kotlin.collections.List<@Valid User> = TODO()
         
         
         val response: ResponseEntity<Unit> = api.createUsersWithArrayInput(user)
@@ -58,7 +50,7 @@ class UserApiTest {
      */
     @Test
     fun createUsersWithListInputTest() {
-        val user: kotlin.collections.List<@NotNull @Valid User> = TODO()
+        val user: kotlin.collections.List<@Valid User> = TODO()
         
         
         val response: ResponseEntity<Unit> = api.createUsersWithListInput(user)

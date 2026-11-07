@@ -42,7 +42,7 @@ interface PetApi {
         value = [PATH_FIND_PETS],
         produces = ["application/json"]
     )
-    fun findPets(): ResponseEntity<List<@Valid Pet>> {
+    fun findPets(): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 

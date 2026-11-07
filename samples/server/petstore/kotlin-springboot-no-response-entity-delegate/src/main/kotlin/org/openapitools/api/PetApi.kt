@@ -69,7 +69,7 @@ interface PetApi {
     )
     fun findPetsByStatus(
         @NotNull @Valid @RequestParam(value = "status", required = true) status: kotlin.collections.List<kotlin.String>
-    ): List<@Valid Pet> {
+    ): List<Pet> {
         return getDelegate().findPetsByStatus(status)
     }
 
@@ -83,7 +83,7 @@ interface PetApi {
     )
     fun findPetsByTags(
         @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>
-    ): List<@Valid Pet> {
+    ): List<Pet> {
         return getDelegate().findPetsByTags(tags)
     }
 
