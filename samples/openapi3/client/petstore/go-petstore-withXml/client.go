@@ -144,25 +144,43 @@ func deleteHeader(h http.Header, name string) {
 }
 
 // deleteQueryParams removes the named query parameters, compared ignoring
-// case. The query is re-encoded only when something was removed, so a
-// signed or pre-signed URL keeps its exact encoding otherwise.
+// case, from the raw query. The other segments are kept byte for byte and in
+// order, so a signed or pre-signed URL keeps its exact encoding, and a segment
+// that url.ParseQuery would reject is left alone rather than dropped.
 func deleteQueryParams(u *url.URL, names []string) {
 	if len(names) == 0 || u.RawQuery == "" {
 		return
 	}
-	query := u.Query()
-	removed := false
-	for key := range query {
-		for _, name := range names {
-			if strings.EqualFold(key, name) {
-				delete(query, key)
-				removed = true
-			}
+	parts := strings.Split(u.RawQuery, "&")
+	kept := make([]string, 0, len(parts))
+	for _, part := range parts {
+		if isCredentialQueryParam(part, names) {
+			continue
+		}
+		kept = append(kept, part)
+	}
+	if len(kept) != len(parts) {
+		u.RawQuery = strings.Join(kept, "&")
+	}
+}
+
+// isCredentialQueryParam reports whether a raw key=value segment names one of
+// the credential parameters. The key is compared decoded, as the server reads
+// it, and as given when it does not decode.
+func isCredentialQueryParam(segment string, names []string) bool {
+	key := segment
+	if i := strings.IndexByte(segment, '='); i >= 0 {
+		key = segment[:i]
+	}
+	if decoded, err := url.QueryUnescape(key); err == nil {
+		key = decoded
+	}
+	for _, name := range names {
+		if strings.EqualFold(key, name) {
+			return true
 		}
 	}
-	if removed {
-		u.RawQuery = query.Encode()
-	}
+	return false
 }
 
 // sameOrigin reports whether two URLs share scheme, host and effective port.

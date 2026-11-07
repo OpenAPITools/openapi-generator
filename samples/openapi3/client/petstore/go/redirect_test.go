@@ -180,6 +180,31 @@ func TestCredentialsStayStrippedWhenChainReturnsToOrigin(t *testing.T) {
 	}
 }
 
+// Only the credential leaves the query. The other segments reach the target
+// byte for byte and in order, including one that url.ParseQuery would reject,
+// so a signed URL is not re-encoded behind the caller's back.
+func TestOnlyTheCredentialLeavesTheQuery(t *testing.T) {
+	rec := &recorder{seen: map[string]*http.Request{}}
+	target := httptest.NewServer(rec)
+	defer target.Close()
+	origin := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// a Location whose query mixes the credential with segments that
+		// url.Values.Encode would re-order, re-escape or drop
+		http.Redirect(w, r, target.URL+"/landed"+r.URL.Path+"?z=%2F&"+r.URL.RawQuery+"&bad=%zz&flag", http.StatusFound)
+	}))
+	defer origin.Close()
+
+	client := newClientAgainst(t, origin.URL)
+	client.FakeClassnameTags123API.TestClassname(apiKeyContext()).Client(sw.Client{}).Execute()
+	got := rec.get("/landed/fake_classname_test")
+	if got == nil {
+		t.Fatal("the redirect target was not reached")
+	}
+	if want := "z=%2F&bad=%zz&flag"; got.URL.RawQuery != want {
+		t.Errorf("query reached the target as %q, want %q", got.URL.RawQuery, want)
+	}
+}
+
 func TestCustomHTTPClientKeepsItsOwnRedirectPolicy(t *testing.T) {
 	cfg := sw.NewConfiguration()
 	custom := &http.Client{CheckRedirect: func(*http.Request, []*http.Request) error {
