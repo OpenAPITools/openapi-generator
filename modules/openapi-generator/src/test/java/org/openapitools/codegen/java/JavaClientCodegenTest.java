@@ -6132,6 +6132,44 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void arrayAliasParentImportsItsGenericArgumentInJavaClient() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.NATIVE, properties,
+                configurator -> configurator.addImportMapping("Ext", "com.example.Ext"));
+        List<String> failures = new ArrayList<>();
+
+        collectFailure(failures, "AliasDates", () -> JavaFileAssert.assertThat(files.get("AliasDates.java"))
+                .fileContains("extends ArrayList<OffsetDateTime>")
+                .hasImports("java.util.ArrayList", "java.time.OffsetDateTime"));
+        collectFailure(failures, "AliasArr2", () -> JavaFileAssert.assertThat(files.get("AliasArr2.java"))
+                .fileContains("extends ArrayList<List<OffsetDateTime>>")
+                .hasImports("java.util.ArrayList", "java.util.List", "java.time.OffsetDateTime"));
+        collectFailure(failures, "AliasExts", () -> JavaFileAssert.assertThat(files.get("AliasExts.java"))
+                .fileContains("extends ArrayList<Ext>")
+                .hasImports("java.util.ArrayList", "com.example.Ext"));
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
+
+    @Test
+    public void mapParentImportsItsGenericArgumentInApacheHttpClient() {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, "true");
+        Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.APACHE, properties);
+        List<String> failures = new ArrayList<>();
+
+        collectFailure(failures, "MapOfDateLists parent", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .fileContains("extends HashMap<String, List<OffsetDateTime>>"));
+        collectFailure(failures, "MapOfDateLists imports", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .hasImports("java.util.HashMap", "java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
+
+    @Test
     public void additionalPropertiesValueIsObjectInOkHttpGsonByTemplateDesign() {
         Map<String, File> files = generateFromContract(ADD_PROPS_VALUE_SPEC, JavaClientCodegen.OKHTTP_GSON);
 
