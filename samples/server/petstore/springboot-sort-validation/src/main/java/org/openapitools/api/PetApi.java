@@ -184,6 +184,22 @@ public interface PetApi {
     );
 
 
+    String PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS = "/pet/findWithMinSortBounds";
+    /**
+     * GET /pet/findWithMinSortBounds : Find pets with array sort param requiring at least 2 sort orders (no maximum)
+     *
+     * @return successful operation (status code 200)
+     */
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = PetApi.PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS,
+        produces = { "application/json" }
+    )
+    @Valid ResponseEntity<List<@Valid Pet>> findPetsWithMinSortBounds(
+        @ValidSort(allowedValues = {"id,asc", "id,desc", "name,asc", "name,desc"}, minItems = 2) @PageableDefault(page = 0, size = 20)  final Pageable pageable
+    );
+
+
     String PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS = "/pet/findWithMixedSortDefaults";
     /**
      * GET /pet/findWithMixedSortDefaults : Find pets — multiple sort defaults with mixed directions (array sort param)

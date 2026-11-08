@@ -216,6 +216,29 @@ class PetApiValidationTest {
             .andReturn().assertViolation("[expected at most 1 sort order(s), got 2]")
     }
 
+    @Test
+    fun `ValidSort bounds - below minItems returns 400`() {
+        // /pet/findWithMinSortBounds requires at least 2 sort orders, no maximum
+        val path = "${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS}"
+        mockMvc.get(path) {
+            param("sort", "id,asc")
+        }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[expected at least 2 sort order(s), got 1]")
+        mockMvc.get(path) {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+        }.andExpect { status { isOk() } }
+        mockMvc.get(path).andExpect { status { isOk() } }
+    }
+
+    @Test
+    fun `ValidSort - invalid property is escaped in message`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_SORT_ENUM}") {
+            param("sort", "{jakarta.validation.constraints.NotNull.message},asc")
+        }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[{jakarta.validation.constraints.NotNull.message}]")
+    }
+
     private fun MvcResult.assertViolation(expected: String) {
         val message = resolvedException?.message.orEmpty()
         assertTrue(expected in message) { "expected '$expected' in '$message'" }

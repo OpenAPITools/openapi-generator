@@ -1051,6 +1051,59 @@ paths:
       - application/json
       x-tags:
       - tag: pet
+  /pet/findWithMinSortBounds:
+    get:
+      operationId: findPetsWithMinSortBounds
+      parameters:
+      - explode: true
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 0
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: size
+        required: false
+        schema:
+          default: 20
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          items:
+            enum:
+            - "id,asc"
+            - "id,desc"
+            - "name,asc"
+            - "name,desc"
+            type: string
+          minItems: 2
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Pet"
+                type: array
+          description: successful operation
+      summary: Find pets with array sort param requiring at least 2 sort orders (no
+        maximum)
+      tags:
+      - pet
+      x-spring-paginated: true
+      x-accepts:
+      - application/json
+      x-tags:
+      - tag: pet
 components:
   parameters:
     PetSortParam:

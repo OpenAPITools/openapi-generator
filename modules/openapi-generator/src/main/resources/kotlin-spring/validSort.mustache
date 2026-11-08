@@ -29,11 +29,11 @@ import org.springframework.data.domain.Pageable
  * once at least one sort order is present.
  *
  * @property allowedValues The allowed sort strings (e.g. `["id,asc", "id,desc"]`)
- * @property minItems The minimum number of sort orders (default: unbounded)
- * @property maxItems The maximum number of sort orders (default: unbounded)
  * @property groups Validation groups (optional)
  * @property payload Additional payload (optional)
  * @property message Validation error message (default: "Invalid sort column")
+ * @property minItems The minimum number of sort orders (default: unbounded)
+ * @property maxItems The maximum number of sort orders (default: unbounded)
  */
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
@@ -41,11 +41,11 @@ import org.springframework.data.domain.Pageable
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ValidSort(
     val allowedValues: Array<String>,
-    val minItems: Int = 0,
-    val maxItems: Int = Int.MAX_VALUE,
     val groups: Array<kotlin.reflect.KClass<*>> = [],
     val payload: Array<kotlin.reflect.KClass<out Payload>> = [],
-    val message: String = "Invalid sort column"
+    val message: String = "Invalid sort column",
+    val minItems: Int = 0,
+    val maxItems: Int = Int.MAX_VALUE
 )
 
 class SortValidator : ConstraintValidator<ValidSort, Pageable> {
@@ -66,6 +66,11 @@ class SortValidator : ConstraintValidator<ValidSort, Pageable> {
     private companion object {
         val DIRECTION_ASC_SUFFIX = Regex(",ASC$", RegexOption.IGNORE_CASE)
         val DIRECTION_DESC_SUFFIX = Regex(",DESC$", RegexOption.IGNORE_CASE)
+        val MESSAGE_TEMPLATE_SPECIAL_CHARS = Regex("""[\\{}$]""")
+
+        /** Escapes user input so the message interpolator treats it as literal text. */
+        fun escapeMessageTemplate(value: String): String =
+            MESSAGE_TEMPLATE_SPECIAL_CHARS.replace(value) { "\\" + it.value }
     }
 
     override fun isValid(pageable: Pageable?, context: ConstraintValidatorContext): Boolean {
@@ -100,7 +105,7 @@ class SortValidator : ConstraintValidator<ValidSort, Pageable> {
         }
         invalid.forEach { (index, property) ->
             context.buildConstraintViolationWithTemplate(
-                "${context.defaultConstraintMessageTemplate} [$property]"
+                "${context.defaultConstraintMessageTemplate} [${escapeMessageTemplate(property)}]"
             )
                 .addPropertyNode("sort")
                 .addPropertyNode("property")

@@ -268,4 +268,29 @@ class PetApiValidationTest {
                 .andExpect(result -> assertThat(result.getResolvedException().getMessage())
                         .contains("[expected at most 1 sort order(s), got 2]"));
     }
+
+    @Test
+    void validSortBounds_belowMinItemsReturns400() throws Exception {
+        // /pet/findWithMinSortBounds requires at least 2 sort orders, no maximum
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS)
+                        .param("sort", "id,asc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertThat(result.getResolvedException().getMessage())
+                        .contains("[expected at least 2 sort order(s), got 1]"));
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS)
+                        .param("sort", "id,asc")
+                        .param("sort", "name,desc"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void validSort_invalidPropertyIsEscapedInMessage() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_SORT_ENUM)
+                        .param("sort", "{jakarta.validation.constraints.NotNull.message},asc"))
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertThat(result.getResolvedException().getMessage())
+                        .contains("[{jakarta.validation.constraints.NotNull.message}]"));
+    }
 }

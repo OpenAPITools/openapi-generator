@@ -150,6 +150,17 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
+        // "/pet/findWithMinSortBounds"
+        value = [PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS],
+        produces = ["application/json"]
+    )
+    fun findPetsWithMinSortBounds(@ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"], minItems = 2) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
         // "/pet/findWithMixedSortDefaults"
         value = [PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS],
         produces = ["application/json"]
@@ -294,6 +305,7 @@ interface PetApi {
         const val PATH_FIND_PETS_WITH_DEFAULT_FROM_ALL_OF_REF: String = "/pet/findWithDefaultFromAllOfRef"
         const val PATH_FIND_PETS_WITH_EXTERNAL_PARAM_REF_ARRAY_SORT: String = "/pet/findWithExternalParamRefArraySort"
         const val PATH_FIND_PETS_WITH_MIN_SIZE_CONSTRAINT_FROM_ALL_OF_REF: String = "/pet/findWithMinSizeConstraintFromAllOfRef"
+        const val PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS: String = "/pet/findWithMinSortBounds"
         const val PATH_FIND_PETS_WITH_MIXED_SORT_DEFAULTS: String = "/pet/findWithMixedSortDefaults"
         const val PATH_FIND_PETS_WITH_NON_EXPLODED_EXTERNAL_PARAM_REF_ARRAY_SORT: String = "/pet/findWithNonExplodedExternalParamRefArraySort"
         const val PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT: String = "/pet/findWithPageAndSizeConstraint"

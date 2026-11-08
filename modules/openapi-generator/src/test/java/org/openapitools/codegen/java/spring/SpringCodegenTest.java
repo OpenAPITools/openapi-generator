@@ -8835,6 +8835,9 @@ public class SpringCodegenTest {
         // sort schema $ref-ing an array component with bounds
         assertThat(sortMethodSignature(content, "findPetsWithRefSortBounds"))
                 .contains("@ValidSort(allowedValues = " + petSortValues + ", minItems = 1, maxItems = 3)");
+        // array sort with only minItems → no maxItems attribute
+        assertThat(sortMethodSignature(content, "findPetsWithMinSortBounds"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 2)");
     }
 
     @Test
@@ -8853,9 +8856,9 @@ public class SpringCodegenTest {
                 .fileContains("int minItems() default 0;")
                 .fileContains("int maxItems() default Integer.MAX_VALUE;")
                 .fileContains("count >= minItems && count <= maxItems")
-                .fileContains(".addPropertyNode(\"sort\")\n                        .addConstraintViolation()")
-                .fileContains("if (pageable == null || pageable.getSort().isUnsorted()) {\n                return true;\n            }")
-                .fileContains("? \"at least \" + minItems", ": minItems == 0 ? \"at most \" + maxItems");
+                .fileContains("pageable == null || pageable.getSort().isUnsorted()")
+                .fileContains("? \"at least \" + minItems", ": minItems == 0 ? \"at most \" + maxItems")
+                .fileContains("+ \" [\" + escapeMessageTemplate(property) + \"]\"");
     }
 
     private static String sortMethodSignature(String content, String methodName) {

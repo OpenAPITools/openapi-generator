@@ -4966,6 +4966,9 @@ public class KotlinSpringServerCodegenTest {
         // sort schema $ref-ing an array component with bounds
         Assert.assertTrue(kotlinParamBlock(content, "findPetsWithRefSortBounds")
                 .contains("@ValidSort(allowedValues = " + petSortValues + ", minItems = 1, maxItems = 3)"));
+        // array sort with only minItems → no maxItems attribute
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithMinSortBounds")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 2)"));
     }
 
     @Test
@@ -4979,8 +4982,9 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
 
         Path validSort = files.get("ValidSort.kt").toPath();
-        assertFileContains(validSort, "val minItems: Int = 0");
-        assertFileContains(validSort, "val maxItems: Int = Int.MAX_VALUE");
+        // new parameters come after message so existing positional usages still compile
+        assertFileContains(validSort, "val message: String = \"Invalid sort column\",\n    val minItems: Int = 0,\n    val maxItems: Int = Int.MAX_VALUE\n)");
+        assertFileContains(validSort, "[${escapeMessageTemplate(property)}]");
         assertFileContains(validSort, "count in minItems..maxItems");
         assertFileContains(validSort, ".addPropertyNode(\"sort\")\n                .addConstraintViolation()");
         assertFileContains(validSort, "if (pageable == null || pageable.sort.isUnsorted) return true");

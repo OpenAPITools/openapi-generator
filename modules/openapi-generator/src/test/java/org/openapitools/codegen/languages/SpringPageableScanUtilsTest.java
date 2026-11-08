@@ -11,8 +11,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.OpenAPINormalizer;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -528,6 +529,27 @@ public class SpringPageableScanUtilsTest {
 
         assertThat(ModelUtils.resolveMinItems(openAPI, ref)).isEqualTo(2);
         assertThat(ModelUtils.resolveMaxItems(openAPI, ref)).isEqualTo(4);
+    }
+
+    @Test
+    public void scanSortValidationEnums_refWithSiblingBounds_mergedAfterNormalization() {
+        // OAS 3.1 allows constraints next to $ref; OpenAPINormalizer rewrites them into allOf
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort")
+                .schema(new Schema<>().$ref("#/components/schemas/SortList").maxItems(2)));
+        openAPI.setComponents(new io.swagger.v3.oas.models.Components()
+                .addSchemas("SortList", new ArraySchema().items(items).minItems(1).maxItems(5)));
+        new OpenAPINormalizer(openAPI, Collections.emptyMap()) {
+            {
+                normalize(); // protected; as run by DefaultGenerator before preprocessOpenAPI
+            }
+        };
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.allowedValues).containsExactly("name,asc", "name,desc");
+        assertThat(data.minItems).isEqualTo(1);
+        assertThat(data.maxItems).isEqualTo(2);
     }
 
     @Test

@@ -119,7 +119,8 @@ public @interface ValidSort {
             }
             invalid.forEach((i, property) ->
                     context.buildConstraintViolationWithTemplate(
-                                    context.getDefaultConstraintMessageTemplate() + " [" + property + "]")
+                                    context.getDefaultConstraintMessageTemplate()
+                                            + " [" + escapeMessageTemplate(property) + "]")
                             .addPropertyNode("sort")
                             .addPropertyNode("property")
                             .inIterable()
@@ -127,6 +128,11 @@ public @interface ValidSort {
                             .addConstraintViolation());
 
             return countValid && invalid.isEmpty();
+        }
+
+        /** Escapes user input so the message interpolator treats it as literal text. */
+        private static String escapeMessageTemplate(String value) {
+            return value.replaceAll("[\\\\{}$]", "\\\\$0");
         }
     }
 }
