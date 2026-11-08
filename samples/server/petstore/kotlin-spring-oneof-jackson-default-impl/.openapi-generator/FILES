@@ -2,6 +2,7 @@ README.md
 build.gradle.kts
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
+gradle/wrapper/gradle.properties
 gradlew
 gradlew.bat
 pom.xml
