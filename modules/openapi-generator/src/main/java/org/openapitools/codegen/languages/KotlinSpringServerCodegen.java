@@ -1006,6 +1006,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
                 supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
@@ -1014,8 +1015,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
                 supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
-                supportingFiles.add(new SupportingFile("gradle.properties.mustache",
-                        gradleWrapperPackage.replace(".", File.separator), "gradle.properties"));
             }
 
             if (!this.interfaceOnly) {
@@ -1058,6 +1057,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
                 supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
@@ -1066,8 +1066,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
                 supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
-                supportingFiles.add(new SupportingFile("gradle.properties.mustache",
-                        gradleWrapperPackage.replace(".", File.separator), "gradle.properties"));
             }
 
             // @RequestMapping not supported with spring cloud openfeign.
@@ -1099,6 +1097,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
                 supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
@@ -1107,8 +1106,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
                 supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
-                supportingFiles.add(new SupportingFile("gradle.properties.mustache",
-                        gradleWrapperPackage.replace(".", File.separator), "gradle.properties"));
             }
 
             apiTemplateFiles.put("apiInterface.mustache", ".kt");
