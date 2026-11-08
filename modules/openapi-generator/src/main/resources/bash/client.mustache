@@ -857,7 +857,9 @@ call_{{operationId}}() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #

@@ -60,7 +60,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>UInt64</li>
 <li>UInt8</li>
 <li>Vector</li>
-<li>Vector{UInt8}</li>
+<li>Vector&#123;UInt8&#125;</li>
 <li>ZonedDateTime</li>
 </ul>
 

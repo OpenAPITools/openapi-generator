@@ -56,7 +56,7 @@ public class SpringPageableScanUtils {
 
     /**
      * The three Spring Data Web query-parameter names that together signal a
-     * {@link org.springframework.data.domain.Pageable} operation:
+     * Spring Data {@code Pageable} operation:
      * {@code page}, {@code size}, and {@code sort}.
      *
      * <p>Use this constant instead of repeating {@code Arrays.asList("page", "size", "sort")}
@@ -399,7 +399,7 @@ public class SpringPageableScanUtils {
      * {@code size}, {@code sort}) from the given codegen operation's parameter lists.
      *
      * <p>When an operation is marked with {@code x-spring-paginated}, Spring injects a single
-     * {@link org.springframework.data.domain.Pageable} parameter that internally handles
+     * Spring Data {@code Pageable} parameter that internally handles
      * {@code page}, {@code size}, and {@code sort}. The individual query parameters must
      * therefore be removed from the generated method signature.</p>
      *

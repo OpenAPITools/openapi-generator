@@ -6,6 +6,9 @@ title: Generators List
 The following generators are available:
 
 ## CLIENT generators
+
+<div className="generators-list">
+
 * [ada](generators/ada.md)  
 * [android](generators/android.md)  
 * [apex](generators/apex.md)  
@@ -88,8 +91,13 @@ The following generators are available:
 * [xojo-client](generators/xojo-client.md)  
 * [zapier (beta)](generators/zapier.md)  
 
+</div>
+
 
 ## SERVER generators
+
+<div className="generators-list">
+
 * [ada-server](generators/ada-server.md)  
 * [aspnet-fastendpoints](generators/aspnet-fastendpoints.md)  
 * [aspnetcore](generators/aspnetcore.md)  
@@ -164,8 +172,13 @@ The following generators are available:
 * [spring](generators/spring.md)  
 * [typescript-nestjs-server (beta)](generators/typescript-nestjs-server.md)  
 
+</div>
+
 
 ## DOCUMENTATION generators
+
+<div className="generators-list">
+
 * [asciidoc](generators/asciidoc.md)  
 * [cwiki](generators/cwiki.md)  
 * [dynamic-html](generators/dynamic-html.md)  
@@ -176,8 +189,13 @@ The following generators are available:
 * [openapi-yaml](generators/openapi-yaml.md)  
 * [plantuml (beta)](generators/plantuml.md)  
 
+</div>
+
 
 ## SCHEMA generators
+
+<div className="generators-list">
+
 * [avro-schema (beta)](generators/avro-schema.md)  
 * [graphql-schema](generators/graphql-schema.md)  
 * [ktorm-schema (beta)](generators/ktorm-schema.md)  
@@ -187,9 +205,16 @@ The following generators are available:
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
 * [wsdl-schema (beta)](generators/wsdl-schema.md)  
 
+</div>
+
 
 ## CONFIG generators
+
+<div className="generators-list">
+
 * [apache2](generators/apache2.md)  
+
+</div>
 
 
 
