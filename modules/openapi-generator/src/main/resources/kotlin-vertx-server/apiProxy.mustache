@@ -72,8 +72,8 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                     {{#isArray}}
                     val {{paramName}}Param = ApiHandlerUtils.searchJsonArrayInJson(params,"{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{baseName}}{{/isBodyParam}}")
                         {{#required}}
-                    if({{paramName}}Param == null){
-                         throw IllegalArgumentException("{{paramName}} is required")
+                    requireNotNull({{paramName}}Param) {
+                        "{{paramName}} is required"
                     }
                     val {{paramName}}:{{{dataType}}} = Gson().fromJson({{paramName}}Param.encode()
                             , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
@@ -88,8 +88,8 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                         {{#isFile}}
                     val {{paramName}}Param = context.extra.getJsonArray("files")
                             {{#required}}
-                    if ({{paramName}}Param == null) {
-                         throw IllegalArgumentException("{{paramName}} is required")
+                    requireNotNull({{paramName}}Param) {
+                        "{{paramName}} is required"
                     }
                     val {{paramName}} = {{paramName}}Param.map{ java.io.File(it as String) }
                             {{/required}}
@@ -135,16 +135,16 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                     val {{paramName}} = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{/isFreeFormObject}}
                             {{#required}}
-                    if({{paramName}} == null){
-                        throw IllegalArgumentException("{{paramName}} is required")
+                    requireNotNull({{paramName}}) {
+                        "{{paramName}} is required"
                     }
                             {{/required}}
                         {{/isPrimitiveType}}
                         {{^isPrimitiveType}}
                     val {{paramName}}Param = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
                             {{#required}}
-                    if ({{paramName}}Param == null) {
-                        throw IllegalArgumentException("{{paramName}} is required")
+                    requireNotNull({{paramName}}Param) {
+                        "{{paramName}} is required"
                     }
                     val {{paramName}} = Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
                             {{/required}}
