@@ -9,7 +9,7 @@ import io.vertx.ext.web.api.generator.ApiHandlerUtils
 import io.vertx.serviceproxy.ProxyHandler
 import io.vertx.serviceproxy.ServiceException
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import io.vertx.kotlin.coroutines.dispatcher
 import io.vertx.core.json.Json
@@ -154,7 +154,7 @@ class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val servi
                         {{/isPrimitiveType}}
                     {{/isArray}}
                 {{/allParams}}
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}},{{/allParams}}{{/hasParams}}context)
                     {{#isArray}}
                         val payload = JsonArray(Json.encode(result.payload)).toBuffer()
