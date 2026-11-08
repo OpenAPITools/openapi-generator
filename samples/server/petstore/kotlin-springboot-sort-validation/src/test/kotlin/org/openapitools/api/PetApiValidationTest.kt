@@ -174,4 +174,41 @@ class PetApiValidationTest {
         mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ALL_DEFAULTS}")
             .andExpect { status { isOk() } }
     }
+
+    // ── @ValidSort minItems / maxItems ────────────────────────────────────────
+    // /pet/findWithArraySortBounds allows 1..2 sort orders; the scalar /pet/findByStatusWithSort allows 1
+
+    @Test
+    fun `ValidSort bounds - within bounds returns 200`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS}") {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+        }.andExpect { status { isOk() } }
+    }
+
+    @Test
+    fun `ValidSort bounds - too many sorts returns 400`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS}") {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+            param("sort", "name,asc")
+        }.andExpect { status { isBadRequest() } }
+    }
+
+    @Test
+    fun `ValidSort bounds - absent sort is valid even with minItems`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS}")
+            .andExpect { status { isOk() } }
+    }
+
+    @Test
+    fun `ValidSort bounds - scalar sort allows only one sort`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_SORT_ENUM}") {
+            param("sort", "id,asc")
+        }.andExpect { status { isOk() } }
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_SORT_ENUM}") {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+        }.andExpect { status { isBadRequest() } }
+    }
 }

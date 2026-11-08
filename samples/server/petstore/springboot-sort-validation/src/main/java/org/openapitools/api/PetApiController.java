@@ -54,6 +54,16 @@ public class PetApiController implements PetApi {
     }
 
     @Override
+    public ResponseEntity<List<Pet>> findPetsWithArraySortBounds(Pageable pageable) {
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @Override
+    public ResponseEntity<List<Pet>> findPetsWithRefSortBounds(Pageable pageable) {
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @Override
     public ResponseEntity<List<Pet>> findPetsWithExternalParamRefArraySort(Pageable pageable) {
         return ResponseEntity.ok(Collections.emptyList());
     }

@@ -24,7 +24,12 @@ import org.springframework.data.domain.Pageable
  * Both formats may be mixed freely. For example `["id", "name,desc"]` allows `id` in any
  * direction but restricts `name` to descending only.
  *
+ * The number of sort orders can additionally be bounded with [minItems] and [maxItems]. An unsorted
+ * [Pageable] is always valid: presence of `sort` is governed by `required`, not by `minItems`.
+ *
  * @property allowedValues The allowed sort strings (e.g. `["id,asc", "id,desc"]`)
+ * @property minItems The minimum number of sort orders (default: unbounded)
+ * @property maxItems The maximum number of sort orders (default: unbounded)
  * @property groups Validation groups (optional)
  * @property payload Additional payload (optional)
  * @property message Validation error message (default: "Invalid sort column")
@@ -35,6 +40,8 @@ import org.springframework.data.domain.Pageable
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class ValidSort(
     val allowedValues: Array<String>,
+    val minItems: Int = 0,
+    val maxItems: Int = Int.MAX_VALUE,
     val groups: Array<kotlin.reflect.KClass<*>> = [],
     val payload: Array<kotlin.reflect.KClass<out Payload>> = [],
     val message: String = "Invalid sort column"
@@ -43,12 +50,16 @@ annotation class ValidSort(
 class SortValidator : ConstraintValidator<ValidSort, Pageable> {
 
     private lateinit var allowedValues: Set<String>
+    private var minItems: Int = 0
+    private var maxItems: Int = Int.MAX_VALUE
 
     override fun initialize(constraintAnnotation: ValidSort) {
         allowedValues = constraintAnnotation.allowedValues.map { entry ->
             DIRECTION_ASC_SUFFIX.replace(entry, ",asc")
                 .let { DIRECTION_DESC_SUFFIX.replace(it, ",desc") }
         }.toSet()
+        minItems = constraintAnnotation.minItems
+        maxItems = constraintAnnotation.maxItems
     }
 
     private companion object {
@@ -59,6 +70,9 @@ class SortValidator : ConstraintValidator<ValidSort, Pageable> {
     override fun isValid(pageable: Pageable?, context: ConstraintValidatorContext): Boolean {
         if (pageable == null || pageable.sort.isUnsorted) return true
 
+        val count = pageable.sort.count()
+        val countValid = count in minItems..maxItems
+
         val invalid = pageable.sort
             .foldIndexed(emptyMap<Int, String>()) { index, acc, order ->
                 val sortValue = "${order.property},${order.direction.name.lowercase()}"
@@ -68,20 +82,27 @@ class SortValidator : ConstraintValidator<ValidSort, Pageable> {
             }
             .toSortedMap()
 
-        if (invalid.isNotEmpty()) {
+        if (!countValid || invalid.isNotEmpty()) {
             context.disableDefaultConstraintViolation()
-            invalid.forEach { (index, property) ->
-                context.buildConstraintViolationWithTemplate(
-                    "${context.defaultConstraintMessageTemplate} [$property]"
-                )
-                    .addPropertyNode("sort")
-                    .addPropertyNode("property")
-                    .inIterable()
-                    .atIndex(index)
-                    .addConstraintViolation()
-            }
+        }
+        if (!countValid) {
+            context.buildConstraintViolationWithTemplate(
+                "${context.defaultConstraintMessageTemplate} [expected $minItems..$maxItems sort values, got $count]"
+            )
+                .addPropertyNode("sort")
+                .addConstraintViolation()
+        }
+        invalid.forEach { (index, property) ->
+            context.buildConstraintViolationWithTemplate(
+                "${context.defaultConstraintMessageTemplate} [$property]"
+            )
+                .addPropertyNode("sort")
+                .addPropertyNode("property")
+                .inIterable()
+                .atIndex(index)
+                .addConstraintViolation()
         }
 
-        return invalid.isEmpty()
+        return countValid && invalid.isEmpty()
     }
 }

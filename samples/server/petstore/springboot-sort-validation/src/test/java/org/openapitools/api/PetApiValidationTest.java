@@ -226,4 +226,41 @@ class PetApiValidationTest {
         mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_ALL_DEFAULTS))
                 .andExpect(status().isOk());
     }
+
+    // ── @ValidSort minItems / maxItems ────────────────────────────────────────
+    // /pet/findWithArraySortBounds allows 1..2 sort orders; the scalar /pet/findByStatusWithSort allows 1
+
+    @Test
+    void validSortBounds_withinBoundsReturns200() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS)
+                        .param("sort", "id,asc")
+                        .param("sort", "name,desc"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void validSortBounds_tooManySortsReturns400() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS)
+                        .param("sort", "id,asc")
+                        .param("sort", "name,desc")
+                        .param("sort", "name,asc"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void validSortBounds_absentSortIsValidEvenWithMinItems() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void validSortBounds_scalarSortAllowsOnlyOneSort() throws Exception {
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_SORT_ENUM)
+                        .param("sort", "id,asc"))
+                .andExpect(status().isOk());
+        mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_SORT_ENUM)
+                        .param("sort", "id,asc")
+                        .param("sort", "name,desc"))
+                .andExpect(status().isBadRequest());
+    }
 }

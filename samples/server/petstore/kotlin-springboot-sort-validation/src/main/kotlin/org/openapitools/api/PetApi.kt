@@ -84,6 +84,17 @@ interface PetApi {
 
     @RequestMapping(
         method = [RequestMethod.GET],
+        // "/pet/findWithArraySortBounds"
+        value = [PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS],
+        produces = ["application/json"]
+    )
+    fun findPetsWithArraySortBounds(@ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"], minItems = 1, maxItems = 2) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
         // "/pet/findWithArraySortEnum"
         value = [PATH_FIND_PETS_WITH_ARRAY_SORT_ENUM],
         produces = ["application/json"]
@@ -187,7 +198,18 @@ interface PetApi {
         value = [PATH_FIND_PETS_WITH_REF_SORT],
         produces = ["application/json"]
     )
-    fun findPetsWithRefSort(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+    fun findPetsWithRefSort(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"], maxItems = 1) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
+        return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+    }
+
+
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/findWithRefSortBounds"
+        value = [PATH_FIND_PETS_WITH_REF_SORT_BOUNDS],
+        produces = ["application/json"]
+    )
+    fun findPetsWithRefSortBounds(@ValidSort(allowedValues = ["id,asc", "id,desc", "createdAt,asc", "createdAt,desc"], minItems = 1, maxItems = 3) @PageableDefault(page = 0, size = 20) pageable: Pageable): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -244,7 +266,7 @@ interface PetApi {
     )
     fun findPetsWithSortEnum(
         @Valid @RequestParam(value = "status", required = false) status: kotlin.String?,
-        @ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"]) @PageableDefault(page = 0, size = 20) pageable: Pageable
+        @ValidSort(allowedValues = ["id,asc", "id,desc", "name,asc", "name,desc"], maxItems = 1) @PageableDefault(page = 0, size = 20) pageable: Pageable
     ): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -266,6 +288,7 @@ interface PetApi {
         const val PATH_FIND_PETS_AUTO_DETECTED_WITH_SORT: String = "/pet/findAutoDetectedWithSort"
         const val PATH_FIND_PETS_NON_PAGINATED_WITH_SORT_ENUM: String = "/pet/findNonPaginatedWithSortEnum"
         const val PATH_FIND_PETS_WITH_ALL_DEFAULTS: String = "/pet/findWithAllDefaults"
+        const val PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS: String = "/pet/findWithArraySortBounds"
         const val PATH_FIND_PETS_WITH_ARRAY_SORT_ENUM: String = "/pet/findWithArraySortEnum"
         const val PATH_FIND_PETS_WITH_ARRAY_SORT_REF_ENUM: String = "/pet/findWithArraySortRefEnum"
         const val PATH_FIND_PETS_WITH_DEFAULT_FROM_ALL_OF_REF: String = "/pet/findWithDefaultFromAllOfRef"
@@ -276,6 +299,7 @@ interface PetApi {
         const val PATH_FIND_PETS_WITH_PAGE_AND_SIZE_CONSTRAINT: String = "/pet/findWithPageAndSizeConstraint"
         const val PATH_FIND_PETS_WITH_PAGE_SIZE_DEFAULTS_ONLY: String = "/pet/findWithPageSizeDefaultsOnly"
         const val PATH_FIND_PETS_WITH_REF_SORT: String = "/pet/findWithRefSort"
+        const val PATH_FIND_PETS_WITH_REF_SORT_BOUNDS: String = "/pet/findWithRefSortBounds"
         const val PATH_FIND_PETS_WITH_SIZE_CONSTRAINT: String = "/pet/findWithSizeConstraint"
         const val PATH_FIND_PETS_WITH_SIZE_CONSTRAINT_FROM_ALL_OF_REF: String = "/pet/findWithSizeConstraintFromAllOfRef"
         const val PATH_FIND_PETS_WITH_SORT_DEFAULT_ASC: String = "/pet/findWithSortDefaultAsc"

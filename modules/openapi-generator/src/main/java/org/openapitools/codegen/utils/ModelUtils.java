@@ -1038,6 +1038,80 @@ public class ModelUtils {
                   .reduce(result, ResolvedMinBound::getLargerMinBound);
     }
 
+    /**
+     * Like {@link #getReferencedSchema(OpenAPI, Schema)}, but follows a chain of {@code $ref}s
+     * (e.g. an alias schema that only references another schema) until a schema without
+     * {@code $ref} is reached. Cyclic chains stop at the last schema before the cycle.
+     *
+     * @param openAPI specification being checked
+     * @param schema  potentially containing a '$ref'
+     * @return the final referenced schema, or {@code null} if a reference cannot be resolved
+     */
+    @Nullable
+    public static Schema<?> getReferencedSchemaChain(OpenAPI openAPI, Schema<?> schema) {
+        Set<String> visited = new HashSet<>();
+        while (schema != null && !StringUtils.isEmpty(schema.get$ref()) && visited.add(schema.get$ref())) {
+            Schema<?> next = getReferencedSchema(openAPI, schema);
+            if (next == schema) {
+                break;
+            }
+            schema = next;
+        }
+        return schema;
+    }
+
+    /**
+     * Returns the effective {@code minItems} for the given schema, resolving through a chain of
+     * {@code $ref}s and walking any {@code allOf} items. The most restrictive (largest) value wins.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective minimum item count, or {@code null} if none is defined
+     */
+    @Nullable
+    public static Integer resolveMinItems(OpenAPI openAPI, Schema<?> schema) {
+        schema = getReferencedSchemaChain(openAPI, schema);
+        if (schema == null) return null;
+
+        Integer result = schema.getMinItems();
+        if (!hasAllOf(schema)) {
+            return result;
+        }
+        for (Schema<?> allOfItem : schema.getAllOf()) {
+            Integer nested = resolveMinItems(openAPI, allOfItem);
+            if (nested != null && (result == null || nested > result)) {
+                result = nested;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns the effective {@code maxItems} for the given schema, resolving through a chain of
+     * {@code $ref}s and walking any {@code allOf} items. The most restrictive (smallest) value wins.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective maximum item count, or {@code null} if none is defined
+     */
+    @Nullable
+    public static Integer resolveMaxItems(OpenAPI openAPI, Schema<?> schema) {
+        schema = getReferencedSchemaChain(openAPI, schema);
+        if (schema == null) return null;
+
+        Integer result = schema.getMaxItems();
+        if (!hasAllOf(schema)) {
+            return result;
+        }
+        for (Schema<?> allOfItem : schema.getAllOf()) {
+            Integer nested = resolveMaxItems(openAPI, allOfItem);
+            if (nested != null && (result == null || nested < result)) {
+                result = nested;
+            }
+        }
+        return result;
+    }
+
     public static boolean hasValidation(Schema sc) {
         return (
                 sc.getMaxItems() != null ||
