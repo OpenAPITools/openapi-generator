@@ -22,6 +22,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,8 +67,20 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+        postProcessConnexion3OperationMap(objs.getOperations());
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessWebhooksWithModels(objs, allModels);
+        postProcessConnexion3OperationMap(objs.getWebhooks());
+        return objs;
+    }
+
+    private void postProcessConnexion3OperationMap(OperationMap operations) {
         if (!useConnexion3) {
-            return objs;
+            return;
         }
 
         // Connexion 3 requires the handler to explicitly say which content
@@ -81,7 +94,6 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
         // generated test for these the same way the parent class already
         // skips tests for other known Connexion limitations (unsupported
         // consumes, etc.) above.
-        OperationMap operations = objs.getOperations();
         for (CodegenOperation operation : operations.getOperation()) {
             if (operation.vendorExtensions.containsKey("x-skip-test")) {
                 continue;
@@ -116,7 +128,6 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
                 operation.vendorExtensions.put("x-skip-test", skipTests);
             }
         }
-        return objs;
     }
 
     @Override

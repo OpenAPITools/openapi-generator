@@ -29,6 +29,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -625,22 +626,33 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     @Override
     public OperationsMap postProcessOperationsWithModels(
             OperationsMap objs, List<ModelMap> allModels) {
-        List<CodegenOperation> operations = objs.getOperations().getOperation();
+        postProcessClientOperations(objs, objs.getOperations().getOperation());
+        return super.postProcessOperationsWithModels(objs, allModels);
+    }
 
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(
+            WebhooksMap objs, List<ModelMap> allModels) {
+        postProcessClientOperations(objs, objs.getWebhooks().getOperation());
+        return super.postProcessWebhooksWithModels(objs, allModels);
+    }
+
+    private void postProcessClientOperations(
+            Map<String, Object> objs, List<CodegenOperation> operations) {
         if (useIndependentImplicitClients) {
             renameIndependentClientOperationMembers(operations);
         }
 
-        boolean hasJsonHeader = operations.stream()
+        if (hasJsonHeaderParameter(operations)) {
+            objs.put("x-python-has-json-header", true);
+        }
+    }
+
+    private boolean hasJsonHeaderParameter(List<CodegenOperation> operations) {
+        return operations.stream()
                 .flatMap(operation -> operation.headerParams.stream())
                 .anyMatch(parameter ->
                         parameter.vendorExtensions.containsKey("x-python-json-header"));
-
-        if (hasJsonHeader) {
-            objs.put("x-python-has-json-header", true);
-        }
-
-        return super.postProcessOperationsWithModels(objs, allModels);
     }
 
     private void renameIndependentClientOperationMembers(
