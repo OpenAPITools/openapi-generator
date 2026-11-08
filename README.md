@@ -720,6 +720,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GoDaddy](https://godaddy.com)
 - [Gumtree](https://gumtree.com)
 - [Here](https://developer.here.com/)
+- [Hypha by Demeter Mycolabs](https://hyphaapp.com/)
 - [IBM](https://www.ibm.com/)
 - [Instana](https://www.instana.com)
 - [Interxion](https://www.interxion.com)
