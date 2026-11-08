@@ -4,18 +4,21 @@ This Kotlin based [Spring Boot](https://spring.io/projects/spring-boot) applicat
 
 ## Getting Started
 
-This document assumes you have either maven or gradle available, either via the wrapper or otherwise. This does not come with a gradle / maven wrapper checked in.
-
-By default a [`pom.xml`](pom.xml) file will be generated. If you specified `gradleBuildFile=true` when generating this project, a `build.gradle.kts` will also be generated. Note this uses [Gradle Kotlin DSL](https://github.com/gradle/kotlin-dsl).
+This project comes with a [`pom.xml`](pom.xml) file and a `build.gradle.kts` file using the [Gradle Kotlin DSL](https://github.com/gradle/kotlin-dsl). A gradle wrapper (`gradlew`) is included; a maven wrapper is not, so maven has to be installed to use the `pom.xml`.
 
 To build the project using maven, run:
 ```bash
 mvn package && java -jar target/kotlin-spring-oneof-jackson-default-impl-1.0.0.jar
 ```
 
-To build the project using gradle, run:
+To build the project using gradle on Linux or macOS, run:
 ```bash
-gradle build && java -jar build/libs/kotlin-spring-oneof-jackson-default-impl-1.0.0.jar
+sh ./gradlew build && java -jar build/libs/kotlin-spring-oneof-jackson-default-impl-1.0.0.jar
+```
+
+On Windows Command Prompt, run:
+```bat
+gradlew.bat build && java -jar build\libs\kotlin-spring-oneof-jackson-default-impl-1.0.0.jar
 ```
 
 If all builds successfully, the server should run on [http://localhost:8080/](http://localhost:8080/)
