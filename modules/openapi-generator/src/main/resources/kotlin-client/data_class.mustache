@@ -304,7 +304,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
-                "The required field `$requiredField` is not found in the JSON string: $jsonElement.toString()"
+                "The required field `$requiredField` is not found in the JSON string: ${jsonElement}"
               }
             }
             {{/-first}}
@@ -319,14 +319,13 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#items.isModel}}
             {{#required}}
             // ensure the json data is an array
-            if (!jsonObj.get("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").isJsonArray) {
+            if (!jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonArray) {
               throw IllegalArgumentException("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`")
             }
 
             // validate the required field `{{{baseName}}}` (array)
-            for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
-              {{{items.dataType}}}.validateJsonElement(jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").get(i))
-            }
+            jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
+                .forEach { {{{items.dataType}}}.validateJsonElement(it) }
             {{/required}}
             {{^required}}
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
@@ -337,8 +336,9 @@ import {{packageName}}.infrastructure.ITransformForStorage
                 }
 
                 // validate the optional field `{{{baseName}}}` (array)
-                for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
-                  {{{items.dataType}}}.validateJsonElement(jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").get(i))
+                jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
+                .forEach {
+                    {{{items.dataType}}}.validateJsonElement(it)
                 }
               }
             }
@@ -365,12 +365,10 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#items.isPrimitiveType}}
             {{^items.isArray}}
             // ensure the items in json array are primitive
-            if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null) {
-              for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
-                require(jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").get(i).isJsonPrimitive) {
-                  "Expected the property in array `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be primitive"
+            jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]?.asJsonArray?.forEach {
+                require(it.isJsonPrimitive) {
+                    "Expected the property in array `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be primitive"
                 }
-              }
             }
             {{/items.isArray}}
             {{/items.isPrimitiveType}}
@@ -380,7 +378,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#isString}}
             {{#notRequiredOrIsNullable}}
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
-              require(jsonObj.get("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").isJsonPrimitive) {
+              require(jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonPrimitive) {
                 "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be a primitive type in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
               }
             }
