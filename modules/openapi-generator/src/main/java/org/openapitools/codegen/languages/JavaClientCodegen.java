@@ -1368,15 +1368,23 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
-        if (isLibrary(OKHTTP_GSON)) {
+        if (isLibrary(OKHTTP_GSON) || isLibrary(OKHTTP)) {
             // gson refuses a class whose hierarchy declares two fields bound to one JSON name, so
-            // the okhttp-gson additionalProperties bag is declared once, on the topmost ancestor
+            // the okhttp-gson and okhttp additionalProperties bag is declared once, on the topmost ancestor
             // that has one; every descendant inherits it instead of declaring its own copy.
-            // A oneOf/anyOf wrapper extends AbstractOpenApiSchema, not its own parent, and has no
-            // bag, so nothing is inherited through it
+            // An okhttp-gson oneOf/anyOf wrapper extends AbstractOpenApiSchema, not its own parent,
+            // and has no bag, so nothing is inherited through it. The okhttp wrapper does declare the
+            // bag (it records the properties the matched schema did not consume), so there the walk
+            // continues through it like through any other ancestor
+            final boolean composedParentHasNoBag = isLibrary(OKHTTP_GSON);
             for (CodegenModel cm : getAllModels(objs).values()) {
+                if (!composedParentHasNoBag && !rendersAsPojo(cm)) {
+                    // an okhttp wrapper extends AbstractOpenApiSchema, so it cannot inherit a bag from
+                    // its allOf parent; it keeps declaring its own
+                    continue;
+                }
                 for (CodegenModel ancestor = cm.getParentModel(); ancestor != null; ancestor = ancestor.getParentModel()) {
-                    if (!ancestor.oneOf.isEmpty() || !ancestor.anyOf.isEmpty()) {
+                    if (composedParentHasNoBag && (!ancestor.oneOf.isEmpty() || !ancestor.anyOf.isEmpty())) {
                         break;
                     }
                     if (ancestor.isAdditionalPropertiesTrue) {

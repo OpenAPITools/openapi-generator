@@ -2365,9 +2365,14 @@ public class JavaClientCodegenTest {
                 .content().contains("public class AnotherChild {");
     }
 
-    @Test
-    public void testAdditionalPropertiesFieldIsDeclaredOncePerHierarchyForGson() {
-        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/allOf_extension_parent.yaml");
+    @DataProvider
+    Object[][] librariesDeclaringTheGsonBagOncePerHierarchy() {
+        return new Object[][]{{Library.OKHTTP_GSON}, {Library.OKHTTP}};
+    }
+
+    @Test(dataProvider = "librariesDeclaringTheGsonBagOncePerHierarchy")
+    public void testAdditionalPropertiesFieldIsDeclaredOncePerHierarchyForGson(Library library) {
+        final Path output = generateWithAdditionalProperties(library, "src/test/resources/3_0/allOf_extension_parent.yaml");
 
         // exactly one class per hierarchy declares the bag; descendants inherit it
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Person.java"))
@@ -2382,9 +2387,9 @@ public class JavaClientCodegenTest {
                 .content().contains("private Map<String, Object> additionalProperties;");
     }
 
-    @Test
-    public void testAdditionalPropertiesFieldIsDeclaredOnceAcrossMultiLevelAllOfForGson() {
-        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/java/okhttp-gson-additional-properties-allof-chain.yaml");
+    @Test(dataProvider = "librariesDeclaringTheGsonBagOncePerHierarchy")
+    public void testAdditionalPropertiesFieldIsDeclaredOnceAcrossMultiLevelAllOfForGson(Library library) {
+        final Path output = generateWithAdditionalProperties(library, "src/test/resources/3_0/java/okhttp-gson-additional-properties-allof-chain.yaml");
 
         // exactly one class per hierarchy declares the bag, also across Root <- Middle <- Leaf
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Root.java"))
@@ -2403,7 +2408,7 @@ public class JavaClientCodegenTest {
 
     @Test
     public void testAdditionalPropertiesFieldIsDeclaredBelowOneOfAndAnyOfParentsForGson() {
-        final Path output = generateOkHttpGsonWithAdditionalProperties("src/test/resources/3_0/java/okhttp-gson-additional-properties-composed-parent.yaml");
+        final Path output = generateWithAdditionalProperties(Library.OKHTTP_GSON, "src/test/resources/3_0/java/okhttp-gson-additional-properties-composed-parent.yaml");
 
         // a oneOf/anyOf wrapper has no bag to inherit, so its allOf children declare their own
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/Pet.java"))
@@ -2426,11 +2431,38 @@ public class JavaClientCodegenTest {
                 .doesNotContain("Map<String, Object> additionalProperties;");
     }
 
-    private Path generateOkHttpGsonWithAdditionalProperties(String inputSpec) {
+    @Test
+    public void testAdditionalPropertiesFieldIsInheritedFromOneOfAndAnyOfParentsForOkHttp() {
+        final Path output = generateWithAdditionalProperties(Library.OKHTTP, "src/test/resources/3_0/java/okhttp-gson-additional-properties-composed-parent.yaml");
+
+        // unlike okhttp-gson, the okhttp oneOf/anyOf wrapper declares the bag (it keeps the properties the
+        // matched schema did not consume), so it is the topmost holder and its allOf children inherit it
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Pet.java"))
+                .content()
+                .contains("public class Pet extends AbstractOpenApiSchema")
+                .contains("private Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedPet.java"))
+                .content()
+                .contains("public class ExtendedPet extends Pet {")
+                .contains("public ExtendedPet putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedShape.java"))
+                .content()
+                .contains("public class ExtendedShape extends Shape {")
+                .contains("public ExtendedShape putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ExtendedPetLeaf.java"))
+                .content()
+                .contains("public class ExtendedPetLeaf extends ExtendedPet {")
+                .contains("public ExtendedPetLeaf putAdditionalProperty(String key, Object value) {")
+                .doesNotContain("Map<String, Object> additionalProperties;");
+    }
+
+    private Path generateWithAdditionalProperties(Library library, String inputSpec) {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName(JAVA_GENERATOR)
-                // use default `okhttp-gson`
+                .setLibrary(library.value)
                 .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
                 .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
                 .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
