@@ -1,4 +1,3 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.4.20"
     //id("com.squareup.wire") version "5.2.1"
