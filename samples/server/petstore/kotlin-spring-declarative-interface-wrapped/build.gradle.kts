@@ -25,6 +25,9 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
+extra["kotlin.version"] = "2.4.20"
+
+
 tasks.getByName("bootJar") {
     enabled = false
 }

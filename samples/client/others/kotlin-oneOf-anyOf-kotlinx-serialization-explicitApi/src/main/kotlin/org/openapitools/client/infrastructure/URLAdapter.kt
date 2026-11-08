@@ -6,7 +6,6 @@ import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.SerialDescriptor
-import java.net.URI
 import java.net.URL
 
 public object URLAdapter : KSerializer<URL> {
@@ -14,7 +13,7 @@ public object URLAdapter : KSerializer<URL> {
         encoder.encodeString(value.toExternalForm())
     }
 
-    override fun deserialize(decoder: Decoder): URL = URI(decoder.decodeString()).toURL()
+    override fun deserialize(decoder: Decoder): URL = URL(decoder.decodeString())
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("URL", PrimitiveKind.STRING)
 }

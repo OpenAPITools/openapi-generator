@@ -33,7 +33,7 @@ class HttpBearerAuth(
     }
 
     private fun upperCaseBearer(): String {
-        return if (schema.equals("bearer") ignoreCase = true) "Bearer" else schema
+        return if (scheme.equals("Bearer", ignoreCase = true)) "Bearer" else scheme
     }
 
 }

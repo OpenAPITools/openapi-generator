@@ -16,7 +16,7 @@ repositories {
     mavenCentral()
 }
 
-java.sourceCompatability = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 kotlin {
     compilerOptions {
@@ -32,6 +32,9 @@ plugins {
     id("org.springframework.boot") version "2.6.7"
     id("io.spring.dependency-management") version "1.1.7"
 }
+
+extra["kotlin.version"] = "2.4.20"
+
 
 tasks.getByName("bootJar") {
     enabled = false

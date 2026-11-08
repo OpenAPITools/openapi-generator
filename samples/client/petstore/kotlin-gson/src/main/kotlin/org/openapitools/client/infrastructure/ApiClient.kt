@@ -297,7 +297,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
             val contentDisposition = response.header("Content-Disposition")
 
             // Get filename from the Content-Disposition header.
-            val fileName = contentDisposition.
+            val fileName = contentDisposition
                 ?.let { Regex("filename=['\"]?([^'\"\\s]+)['\"]?").find(it) }
                 ?.groupValues?.get(1)
                 ?.replace(Regex(".*[/\\\\]"), "")
@@ -419,7 +419,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
 
         val response = client.newCall(request).execute()
 
-        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
+        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase()
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")
