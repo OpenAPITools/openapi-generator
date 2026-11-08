@@ -13,7 +13,7 @@ mvn package && java -jar target/openapi-spring-1.0.0.jar
 
 To build the project using gradle, run:
 ```bash
-./gradlew build && java -jar build/libs/openapi-spring-1.0.0.jar
+sh ./gradlew build && java -jar build/libs/openapi-spring-1.0.0.jar
 ```
 
 If all builds successfully, the server should run on [http://localhost:8080/](http://localhost:8080/)
