@@ -147,6 +147,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (oneOfString.String != null)
+            {
+                JsonSerializer.Serialize(writer, oneOfString.String, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             WriteProperties(writer, oneOfString, jsonSerializerOptions);
