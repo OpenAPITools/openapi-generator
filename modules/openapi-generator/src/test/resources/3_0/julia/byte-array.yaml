@@ -1,0 +1,13 @@
+openapi: 3.0.3
+info:
+  title: Julia byte array types
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Payload:
+      type: object
+      properties:
+        encoded:
+          type: string
+          format: byte
