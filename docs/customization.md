@@ -740,7 +740,7 @@ components:
     Multi-Polygon:
       allOf:
 -        - $ref: '#/components/schemas/GeoJsonObject'
-        - type: object                   
+        - type: object
 ```
 This simplifies inheritance using interfaces.
 The value of the discriminator mapping can be set in the children using x-discriminator-value, a constant or a single enum.
