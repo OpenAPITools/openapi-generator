@@ -11,9 +11,14 @@ To build the project using maven, run:
 mvn package && java -jar target/openapi-spring-1.0.0.jar
 ```
 
-To build the project using gradle, run:
+To build the project using gradle on Linux or macOS, run:
 ```bash
 sh ./gradlew build && java -jar build/libs/openapi-spring-1.0.0.jar
+```
+
+On Windows Command Prompt, run:
+```bat
+gradlew.bat build && java -jar build\libs\openapi-spring-1.0.0.jar
 ```
 
 If all builds successfully, the server should run on [http://localhost:8080/](http://localhost:8080/)

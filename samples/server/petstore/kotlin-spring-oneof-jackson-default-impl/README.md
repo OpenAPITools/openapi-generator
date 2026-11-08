@@ -11,9 +11,14 @@ To build the project using maven, run:
 mvn package && java -jar target/kotlin-spring-oneof-jackson-default-impl-1.0.0.jar
 ```
 
-To build the project using gradle, run:
+To build the project using gradle on Linux or macOS, run:
 ```bash
 sh ./gradlew build && java -jar build/libs/kotlin-spring-oneof-jackson-default-impl-1.0.0.jar
+```
+
+On Windows Command Prompt, run:
+```bat
+gradlew.bat build && java -jar build\libs\kotlin-spring-oneof-jackson-default-impl-1.0.0.jar
 ```
 
 If all builds successfully, the server should run on [http://localhost:8080/](http://localhost:8080/)
