@@ -49,7 +49,6 @@ import java.util.stream.Collectors;
 public class SpringPageableScanUtils {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    private static final Logger STATIC_LOGGER = LoggerFactory.getLogger(SpringPageableScanUtils.class);
 
     public static final String PAGE = "page";
     public static final String SIZE = "size";
@@ -686,7 +685,7 @@ public class SpringPageableScanUtils {
                         minItems = ModelUtils.resolveMinItems(openAPI, paramSchema);
                         maxItems = ModelUtils.resolveMaxItems(openAPI, paramSchema);
                         if (minItems != null && maxItems != null && minItems > maxItems) {
-                            STATIC_LOGGER.warn("Ignoring contradictory minItems ({}) > maxItems ({}) of the sort "
+                            LoggerFactory.getLogger(SpringPageableScanUtils.class).warn("Ignoring contradictory minItems ({}) > maxItems ({}) of the sort "
                                     + "parameter of operation '{}'", minItems, maxItems, operationId);
                             minItems = null;
                             maxItems = null;
