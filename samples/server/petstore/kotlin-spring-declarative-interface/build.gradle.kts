@@ -17,7 +17,7 @@ tasks.withType<KotlinCompile>().configureEach {
 }
 
 plugins {
-    val kotlinVersion = "2.4.20"
+    val kotlinVersion = providers.gradleProperty("kotlinVersion").get()
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
@@ -25,7 +25,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-extra["kotlin.version"] = "2.4.20"
+extra["kotlin.version"] = providers.gradleProperty("kotlinVersion").get()
 
 
 tasks.getByName("bootJar") {

@@ -23,7 +23,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-extra["kotlin.version"] = "2.4.20"
+extra["kotlin.version"] = providers.gradleProperty("kotlinVersion").get()
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
