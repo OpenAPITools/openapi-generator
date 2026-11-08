@@ -40,7 +40,7 @@ dependencyManagement {
 
 dependencies {
 {{#reactive}}    val kotlinxCoroutinesVersion = "1.11.0"
-{{/reactive}}    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+{{/reactive}}    implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect"){{^reactive}}
     implementation("org.springframework.boot:spring-boot-starter-web"){{/reactive}}{{#reactive}}
     implementation("org.springframework.boot:spring-boot-starter-webflux")
