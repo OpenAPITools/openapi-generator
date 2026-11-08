@@ -718,7 +718,7 @@ diff --git a/api/openapi.yaml b/api/openapi.yaml
 index 6f27abd..146c61c 100644
 --- a/api/openapi.yaml
 +++ b/api/openapi.yaml
-@@ -14,1 -18,1 +5,3 @@
+@@ -14,19 +14,20 @@
 components:
    schemas:
      GeoJsonObject:
