@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.jackson.nullable.JsonNullable;
+import javax.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.javax.Present;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;

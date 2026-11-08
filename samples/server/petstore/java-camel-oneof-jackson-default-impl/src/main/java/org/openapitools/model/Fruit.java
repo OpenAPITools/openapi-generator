@@ -11,6 +11,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Apple;
 import org.openapitools.model.Banana;
 import org.openapitools.jackson.nullable.JsonNullable;
+import javax.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.javax.Present;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
