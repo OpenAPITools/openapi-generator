@@ -9,7 +9,7 @@ import io.vertx.ext.web.api.generator.ApiHandlerUtils
 import io.vertx.serviceproxy.ProxyHandler
 import io.vertx.serviceproxy.ServiceException
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import io.vertx.kotlin.coroutines.dispatcher
 import io.vertx.core.json.Json
@@ -67,10 +67,10 @@ class StoreApiVertxProxyHandler(private val vertx: Vertx, private val service: S
                 "deleteOrder" -> {
                     val params = context.params
                     val orderId = ApiHandlerUtils.searchStringInJson(params,"orderId")
-                    if(orderId == null){
-                        throw IllegalArgumentException("orderId is required")
+                    requireNotNull(orderId) {
+                        "orderId is required"
                     }
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.deleteOrder(orderId,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -86,10 +86,10 @@ class StoreApiVertxProxyHandler(private val vertx: Vertx, private val service: S
                 "getOrderById" -> {
                     val params = context.params
                     val orderId = ApiHandlerUtils.searchLongInJson(params,"orderId")
-                    if(orderId == null){
-                        throw IllegalArgumentException("orderId is required")
+                    requireNotNull(orderId) {
+                        "orderId is required"
                     }
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.getOrderById(orderId,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -102,11 +102,11 @@ class StoreApiVertxProxyHandler(private val vertx: Vertx, private val service: S
                 "placeOrder" -> {
                     val params = context.params
                     val bodyParam = ApiHandlerUtils.searchJsonObjectInJson(params,"body")
-                    if (bodyParam == null) {
-                        throw IllegalArgumentException("body is required")
+                    requireNotNull(bodyParam) {
+                        "body is required"
                     }
                     val body = Gson().fromJson(bodyParam.encode(), Order::class.java)
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.placeOrder(body,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)

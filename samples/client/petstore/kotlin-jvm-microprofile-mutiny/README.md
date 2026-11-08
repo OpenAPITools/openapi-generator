@@ -29,7 +29,7 @@ using the MicroProfile runtime, `@RegisterClientHeaders` and `@RegisterProvider`
 The runtime's default response exception mapper handles HTTP errors.
 
 When compiling generated sources in an existing project, enable JVM default methods
-(`-Xjvm-default=all`, or the equivalent `jvmDefault` compiler setting). This avoids
+(`jvmDefault=JvmDefaultMode.NO_COMPATABILITY`, or the equivalent `-jvm-default=no-compatability` compiler setting). This avoids
 Kotlin `DefaultImpls` classes that Quarkus REST Client cannot process.
 The generated Gradle build already enables this setting.
 

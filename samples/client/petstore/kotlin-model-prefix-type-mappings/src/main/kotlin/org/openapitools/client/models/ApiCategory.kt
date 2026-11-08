@@ -101,13 +101,13 @@ data class ApiCategory (
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                String.format("The required field(s) %s in ApiCategory is not found in the empty JSON string", ApiCategory.openapiRequiredFields.toString())
+                "The required field(s) ${openapiRequiredFields} in ApiCategory is not found in the empty JSON string"
               }
             }
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["name"] != null && !jsonObj["name"].isJsonNull) {
-              require(jsonObj.get("name").isJsonPrimitive) {
-                String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj["name"].toString())
+              require(jsonObj["name"].isJsonPrimitive) {
+                "Expected the field `name` to be a primitive type in the JSON string but got `${jsonObj["name"]}`"
               }
             }
         }

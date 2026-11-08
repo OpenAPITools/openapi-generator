@@ -23,7 +23,7 @@ open class ApiClient(val basePath: kotlin.String = defaultBasePath, val accessTo
     protected inline fun <reified T: Any?> handleResponse(response: io.vertx.ext.web.client.HttpResponse<Buffer>): ApiResponse<T?> {
         val code = response.statusCode()
         val headers = response.headers().associate { it.key to listOf(it.value) }
-        val contentType = headers["Content-Type"]?.firstOrNull()?.substringBefore(";")?.lowercase(java.util.Locale.getDefault())
+        val contentType = headers["Content-Type"]?.firstOrNull()?.substringBefore(";")?.lowercase()
 
         return when (code) {
             in 100..199 -> Informational(

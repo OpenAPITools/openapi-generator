@@ -51,14 +51,13 @@ kotlin {
 
         jvmMain {
             dependencies {
-                implementation(kotlin("stdlib-jdk7"))
                 implementation("io.ktor:ktor-client-cio-jvm:$ktor_version")
             }
         }
 
         jvmTest {
             dependencies {
-                implementation(kotlin("test-junit"))
+                implementation(kotlin("test"))
             }
         }
 
