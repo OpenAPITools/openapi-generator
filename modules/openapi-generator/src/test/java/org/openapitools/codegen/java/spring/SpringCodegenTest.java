@@ -9539,9 +9539,11 @@ public class SpringCodegenTest {
                 .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Dog.class", "name", "\"dog\""))
                 .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "Lizard.class", "name", "\"lizard\""));
 
-        JavaFileAssert.assertThat(files.get("Dog.java"))
-                .implementsInterfaces("Pet")
-                .fileDoesNotContain("extends");
+        for (String fileName : List.of("Cat.java", "Dog.java", "Lizard.java")) {
+            JavaFileAssert.assertThat(files.get(fileName))
+                    .implementsInterfaces("Pet")
+                    .fileDoesNotContain("extends");
+        }
     }
 
     private void assert25505Class(Map<String, File> files) {

@@ -873,10 +873,6 @@ public class OpenAPINormalizer {
 
                 // normalize the schemas
                 schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
-
-//                if (getRule(REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING)) {
-//                    ensureInheritanceForDiscriminatorMappings(schema, schemaName);
-//                }
             }
         }
     }
@@ -1814,10 +1810,15 @@ public class OpenAPINormalizer {
         if (discriminator == null) {
             return parent;
         }
+        boolean inlineSchema = isInlineSchema(parent);
+        if (inlineSchema) {
+            LOGGER.warn("Inline oneOf schema not supported by REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING normalization");
+            return parent;
+        }
         if (getRule(REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR)) {
             // only use this rule if there are more properties
             Set<String> allProperties = getAllProperties(parent, new LinkedHashSet<>());
-            if (allProperties.size() == 1 || !allProperties.contains(discriminator.getPropertyName())) {
+            if (allProperties.size() == 1 && allProperties.contains(discriminator.getPropertyName())) {
                 return parent;
             }
         }
@@ -2038,7 +2039,7 @@ public class OpenAPINormalizer {
         }
         if (ModelUtils.hasAllOf(schema)) {
             for (Schema s: (List<Schema>)schema.getAllOf()) {
-                properties.addAll(getAllProperties(s, visitedSchema));
+                properties.addAll(getAllProperties(ModelUtils.getReferencedSchema(openAPI, s), visitedSchema));
             }
         }
         return properties;

@@ -704,7 +704,7 @@ index 6f27abd..146c61c 100644
 This simplifies inheritance using classes.
 The value of the discriminator mapping can be set in the children using x-discriminator-value, a constant or a single enum.
 
-- `REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR`: when set to true, allOf is removed to parent having a oneOf and discriminator.
+- `REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR`: when set to true, remove redundant parent references from child schemas' `allOf` when the parent has a `oneOf` and discriminator.
 
 Example:
 ```
@@ -744,9 +744,7 @@ index 6f27abd..146c61c 100644
 This simplifies inheritance using interfaces.
 The value of the discriminator mapping can be set in the children using x-discriminator-value, a constant or a single enum.
 
-if both REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR and REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING are set to true, the result will be the same as if only REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR is set to true. then
-the REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR is used if the parent contains only the discriminator and no other properties.
-
+When both REMOVE_ALLOF_TO_PARENT_WITH_ONEOF_AND_DISCRIMINATOR and REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING are true, this rule applies only when the parent contains no properties besides the discriminator; otherwise REPLACE_ONE_OF_BY_DISCRIMINATOR_MAPPING takes precedence.
 - `FILTER`
 
 The `FILTER` parameter allows selective inclusion of API operations based on specific criteria. It applies the `x-internal: true` property to operations that do **not** match the specified values, preventing them from being generated. Multiple filters can be separated by a semicolon.
