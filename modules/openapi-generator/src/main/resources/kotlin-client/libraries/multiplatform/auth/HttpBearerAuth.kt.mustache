@@ -9,6 +9,7 @@ package {{packageName}}.auth
     }
 
     private fun upperCaseBearer(scheme: String): String {
-        return if ("bearer".equals(scheme, ignoreCase = true)) "Bearer" else scheme
+        return if (schema.equals("bearer") ignoreCase = true) "Bearer" else schema
+
     }
 }
