@@ -1014,6 +1014,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
                 supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle.properties"));
             }
 
             if (!this.interfaceOnly) {
@@ -1064,6 +1066,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
                 supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle.properties"));
             }
 
             // @RequestMapping not supported with spring cloud openfeign.
@@ -1103,6 +1107,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
                 supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache",
+                        gradleWrapperPackage.replace(".", File.separator), "gradle.properties"));
             }
 
             apiTemplateFiles.put("apiInterface.mustache", ".kt");
