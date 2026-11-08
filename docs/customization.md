@@ -718,7 +718,8 @@ diff --git a/api/openapi.yaml b/api/openapi.yaml
 index 6f27abd..146c61c 100644
 --- a/api/openapi.yaml
 +++ b/api/openapi.yaml
-@@ -9,10 +9,10 @@ components:
+@@ -14,1 -18,1 +5,3 @@
+components:
    schemas:
      GeoJsonObject:
        discriminator:
@@ -739,7 +740,7 @@ index 6f27abd..146c61c 100644
     Multi-Polygon:
       allOf:
 -        - $ref: '#/components/schemas/GeoJsonObject'
-         - type: object                   
+        - type: object                   
 ```
 This simplifies inheritance using interfaces.
 The value of the discriminator mapping can be set in the children using x-discriminator-value, a constant or a single enum.
