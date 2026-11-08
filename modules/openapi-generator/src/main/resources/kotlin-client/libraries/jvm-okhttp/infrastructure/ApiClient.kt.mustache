@@ -352,20 +352,12 @@ import com.squareup.moshi.adapter
             // return tempFile
             val contentDisposition = response.header("Content-Disposition")
 
-            val fileName = if (contentDisposition != null) {
-                // Get filename from the Content-Disposition header.
-                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
-                val matcher = pattern.matcher(contentDisposition)
-                if (matcher.find()) {
-                    matcher.group(1)
-                        ?.replace(".*[/\\\\]", "")
-                        ?.replace(";", "")
-                } else {
-                    null
-                }
-            } else {
-                null
-            }
+            // Get filename from the Content-Disposition header.
+            val fileName = contentDisposition.
+                ?.let { Regex("filename=['\"]?([^'\"\\s]+)['\"]?").find(it) }
+                ?.groupValues?.get(1)
+                ?.replace(Regex(".*[/\\\\]"), "")
+                ?.replace(";", "")
 
             var prefix: String?
             val suffix: String?
@@ -395,8 +387,7 @@ import com.squareup.moshi.adapter
             val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             } else {
-                @Suppress("DEPRECATION")
-                createTempFile(prefix, suffix)
+                File.createTempFile(prefix, suffix)
             }
             {{/supportAndroidApiLevel25AndBelow}}
             tempFile.deleteOnExit()
