@@ -161,7 +161,7 @@ import java.io.IOException
                 {{classname}}.{{#fnToOneOfWrapperName}}{{mappingName}}{{/fnToOneOfWrapperName}}(decoded)
             }
 {{/discriminator.mappedModels}}
-            else -> throw SerializationException("Unknown {{classname}} {{discriminator.propertyBaseName}}: $discriminatorValue")
+            else -> throw SerializationException("Unknown {{classname}} {{discriminator.propertyBaseName}}: ${discriminatorValue}")
         }
     }
 }
@@ -467,7 +467,7 @@ import java.io.IOException
                         return ret
                     }
 
-                    throw IOException("Failed deserialization for {{classname}}: $match classes match result, expected 1. Detailed failure message for oneOf schemas: $errorMessages. JSON: ${jsonElement}")
+                    throw IOException("Failed deserialization for {{classname}}: ${match} classes match result, expected 1. Detailed failure message for oneOf schemas: ${errorMessages}. JSON: ${jsonElement}")
                 }
             }.nullSafe() as TypeAdapter<T>
         }
@@ -563,7 +563,7 @@ import java.io.IOException
             {{/composedSchemas}}
 
             if (match != 1) {
-                throw IOException("Failed validation for {{classname}}: $match classes match result, expected 1. Detailed failure message for oneOf schemas: $errorMessages. JSON: ${jsonElement}")
+                throw IOException("Failed validation for {{classname}}: ${match} classes match result, expected 1. Detailed failure message for oneOf schemas: ${errorMessages}. JSON: ${jsonElement}")
             }
         }
     }

@@ -406,7 +406,7 @@ import java.io.IOException
                     {{/anyOf}}
                     {{/composedSchemas}}
 
-                    throw IOException("Failed deserialization for {{classname}}: no schema match result. Detailed failure message for anyOf schemas: $errorMessages. JSON: ${jsonElement}")
+                    throw IOException("Failed deserialization for {{classname}}: no schema match result. Detailed failure message for anyOf schemas: ${errorMessages}. JSON: ${jsonElement}")
                 }
             }.nullSafe() as TypeAdapter<T>
         }
@@ -502,7 +502,7 @@ import java.io.IOException
             {{/composedSchemas}}
 
             if (match != 1) {
-                throw IOException("Failed validation for {{classname}}: $match classes match result, expected 1. Detailed failure message for oneOf schemas: $errorMessages. JSON: ${jsonElement}")
+                throw IOException("Failed validation for {{classname}}: ${match} classes match result, expected 1. Detailed failure message for oneOf schemas: ${errorMessages}. JSON: ${jsonElement}")
             }
         }
     }

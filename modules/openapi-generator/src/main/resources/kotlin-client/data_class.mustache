@@ -219,7 +219,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
         override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
             val value = decoder.decodeSerializableValue({{dataType}}.serializer())
             return {{nameInPascalCase}}.entries.firstOrNull { it.value == value }
-                ?: throw IllegalArgumentException("Unknown enum value: $value")
+                ?: throw IllegalArgumentException("Unknown enum value: ${value}")
         }
 
         override fun serialize(encoder: Encoder, value: {{nameInPascalCase}}) {
@@ -294,7 +294,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                "The required field(s) $openapiRequiredFields in {{{classname}}} is not found in the empty JSON string"
+                "The required field(s) ${openapiRequiredFields} in {{{classname}}} is not found in the empty JSON string"
               }
             }
             {{^hasChildren}}
@@ -304,7 +304,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
-                "The required field `$requiredField` is not found in the JSON string: ${jsonElement}"
+                "The required field `${requiredField}` is not found in the JSON string: ${jsonElement}"
               }
             }
             {{/-first}}
