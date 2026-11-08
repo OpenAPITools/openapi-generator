@@ -94,6 +94,13 @@ public class ListGenerators extends OpenApiGeneratorCommand {
             }
             sb.append(System.lineSeparator());
 
+            if (docusaurus) {
+                sb.append(System.lineSeparator());
+                sb.append("<div className=\"generators-list\">");
+                sb.append(System.lineSeparator());
+                sb.append(System.lineSeparator());
+            }
+
             list.forEach(generator -> {
                 GeneratorMetadata meta = generator.getGeneratorMetadata();
                 if (docusaurus || githubNestedIndex) {
@@ -120,6 +127,12 @@ public class ListGenerators extends OpenApiGeneratorCommand {
                 }
                 sb.append(System.lineSeparator());
             });
+
+            if (docusaurus) {
+                sb.append(System.lineSeparator());
+                sb.append("</div>");
+                sb.append(System.lineSeparator());
+            }
 
             sb.append(System.lineSeparator());
             sb.append(System.lineSeparator());
