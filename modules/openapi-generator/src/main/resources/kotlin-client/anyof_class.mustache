@@ -383,7 +383,7 @@ import java.io.IOException
                         //log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'")
                     } catch (e: Exception) {
                         // deserialization failed, continue
-                        errorMessages.add("Deserialization for {{{dataType}}} failed with `$e.message`.")
+                        errorMessages.add("Deserialization for {{{dataType}}} failed with `${e.message}`.")
                         //log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e)
                     }
                     {{/hasVars}}
@@ -398,7 +398,7 @@ import java.io.IOException
                         return ret
                     } catch (e: Exception) {
                         // deserialization failed, continue
-                        errorMessages.add("Deserialization for {{{.}}} failed with `$e.message`.")
+                        errorMessages.add("Deserialization for {{{.}}} failed with `${e.message}`.")
                         //log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e)
                     }
                     {{/hasVars}}
@@ -483,7 +483,7 @@ import java.io.IOException
                 match++
             } catch (e: Exception) {
                 // Validation failed, continue
-                errorMessages.add("Validation for {{{dataType}}} failed with `$e.message`.")
+                errorMessages.add("Validation for {{{dataType}}} failed with `${e.message}`.")
             }
             {{/hasVars}}
             {{#hasVars}}
@@ -494,7 +494,7 @@ import java.io.IOException
                 match++
             } catch (e: Exception) {
                 // validation failed, continue
-                errorMessages.add("Validation for {{{.}}} failed with `$e.message`.")
+                errorMessages.add("Validation for {{{.}}} failed with `${e.message}`.")
             }
             {{/hasVars}}
             {{/vendorExtensions.x-duplicated-data-type}}
