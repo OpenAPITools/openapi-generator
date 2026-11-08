@@ -353,7 +353,7 @@ import com.squareup.moshi.adapter
             val contentDisposition = response.header("Content-Disposition")
 
             // Get filename from the Content-Disposition header.
-            val fileName = contentDisposition.
+            val fileName = contentDisposition
                 ?.let { Regex("filename=['\"]?([^'\"\\s]+)['\"]?").find(it) }
                 ?.groupValues?.get(1)
                 ?.replace(Regex(".*[/\\\\]"), "")
@@ -557,7 +557,7 @@ import com.squareup.moshi.adapter
         val response = client.newCall(request).execute()
         {{/useCoroutines}}
 
-        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
+        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase()
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")
