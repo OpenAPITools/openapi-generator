@@ -19,7 +19,7 @@ mvn package && java -jar target/{{artifactId}}-{{artifactVersion}}.jar
 {{#gradleBuildFile}}
 To build the project using gradle, run:
 ```bash
-./gradlew build && java -jar build/libs/{{artifactId}}-{{artifactVersion}}.jar
+sh ./gradlew build && java -jar build/libs/{{artifactId}}-{{artifactVersion}}.jar
 ```
 {{/gradleBuildFile}}
 
