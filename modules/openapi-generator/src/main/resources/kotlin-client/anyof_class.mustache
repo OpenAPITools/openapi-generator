@@ -324,7 +324,7 @@ import java.io.IOException
                     {{^isArray}}
                     {{#isNumber}}
                         require(jsonElement.getAsJsonPrimitive().isNumber()) {
-                            String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
+                            "Expected json element to be of type Number in the JSON string but got `$jsonElement.toString()`", 
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
                         ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
@@ -333,7 +333,7 @@ import java.io.IOException
                     {{^isNumber}}
                     {{#isPrimitiveType}}
                         require(jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
-                            String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
+                            "Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `$jsonElement.toString()`"
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
                         ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
@@ -351,7 +351,7 @@ import java.io.IOException
                     {{/isArray}}
                     {{#isArray}}
                         require(jsonElement.isJsonArray) {
-                            String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString())
+                            "Expected json element to be a array type in the JSON string but got `$jsonElement.toString()`"
                         }
 
                         // validate array items
@@ -359,13 +359,13 @@ import java.io.IOException
                         {{#items}}
                         {{#isNumber}}
                             require(element.getAsJsonPrimitive().isNumber) {
-                                String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
+                                "Expected json element to be of type Number in the JSON string but got `$jsonElement.toString()`"
                             }
                         {{/isNumber}}
                         {{^isNumber}}
                         {{#isPrimitiveType}}
                             require(element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}) {
-                                String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
+                                "Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `$jsonElement.toString()`"
                             }
                         {{/isPrimitiveType}}
                         {{/isNumber}}
@@ -383,7 +383,7 @@ import java.io.IOException
                         //log.log(Level.FINER, "Input data matches schema '{{{dataType}}}'")
                     } catch (e: Exception) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for {{{dataType}}} failed with `%s`.", e.message))
+                        errorMessages.add("Deserialization for {{{dataType}}} failed with `$e.message`.")
                         //log.log(Level.FINER, "Input data does not match schema '{{{dataType}}}'", e)
                     }
                     {{/hasVars}}
@@ -398,7 +398,7 @@ import java.io.IOException
                         return ret
                     } catch (e: Exception) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for {{{.}}} failed with `%s`.", e.message))
+                        errorMessages.add("Deserialization for {{{.}}} failed with `$e.message`.")
                         //log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e)
                     }
                     {{/hasVars}}
@@ -406,7 +406,7 @@ import java.io.IOException
                     {{/anyOf}}
                     {{/composedSchemas}}
 
-                    throw IOException(String.format("Failed deserialization for {{classname}}: no schema match result. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()))
+                    throw IOException("Failed deserialization for {{classname}}: no schema match result. Detailed failure message for anyOf schemas: $errorMessages. JSON: $jsonElement.toString()")
                 }
             }.nullSafe() as TypeAdapter<T>
         }
@@ -436,13 +436,13 @@ import java.io.IOException
             {{^isArray}}
             {{#isNumber}}
                 require(jsonElement.getAsJsonPrimitive().isNumber()) {
-                    String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
+                    "Expected json element to be of type Number in the JSON string but got `$jsonElement.toString()`" 
                 }
             {{/isNumber}}
             {{^isNumber}}
             {{#isPrimitiveType}}
                 require(jsonElement.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}()) {
-                    String.format("Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
+                    "Expected json element to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `$jsonElement.toString()`"
                 }
             {{/isPrimitiveType}}
             {{/isNumber}}
@@ -454,7 +454,7 @@ import java.io.IOException
             {{/isArray}}
             {{#isArray}}
                 require(jsonElement.isJsonArray) {
-                    String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString())
+                    "Expected json element to be a array type in the JSON string but got `$jsonElement.toString()`"
                 }
 
                 // validate array items
@@ -462,13 +462,13 @@ import java.io.IOException
                 {{#items}}
                 {{#isNumber}}
                     require(element.getAsJsonPrimitive().isNumber) {
-                        String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString())
+                        "Expected json element to be of type Number in the JSON string but got `$jsonElement.toString()`"
                     }
                 {{/isNumber}}
                 {{^isNumber}}
                 {{#isPrimitiveType}}
                     require(element.getAsJsonPrimitive().is{{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}}) {
-                        String.format("Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `%s`", jsonElement.toString())
+                        "Expected array items to be of type {{#isBoolean}}Boolean{{/isBoolean}}{{#isString}}String{{/isString}}{{^isString}}{{^isBoolean}}Number{{/isBoolean}}{{/isString}} in the JSON string but got `$jsonElement.toString()`"
                     }
                 {{/isPrimitiveType}}
                 {{/isNumber}}
@@ -483,7 +483,7 @@ import java.io.IOException
                 match++
             } catch (e: Exception) {
                 // Validation failed, continue
-                errorMessages.add(String.format("Validation for {{{dataType}}} failed with `%s`.", e.message))
+                errorMessages.add("Validation for {{{dataType}}} failed with `$e.message`.")
             }
             {{/hasVars}}
             {{#hasVars}}
@@ -494,7 +494,7 @@ import java.io.IOException
                 match++
             } catch (e: Exception) {
                 // validation failed, continue
-                errorMessages.add(String.format("Validation for {{{.}}} failed with `%s`.", e.message))
+                errorMessages.add("Validation for {{{.}}} failed with `$e.message`.")
             }
             {{/hasVars}}
             {{/vendorExtensions.x-duplicated-data-type}}
@@ -502,7 +502,7 @@ import java.io.IOException
             {{/composedSchemas}}
 
             if (match != 1) {
-                throw IOException(String.format("Failed validation for {{classname}}: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
+                throw IOException("Failed validation for {{classname}}: $match classes match result, expected 1. Detailed failure message for oneOf schemas: $errorMessages. JSON: $jsonElement.toString()")
             }
         }
     }
