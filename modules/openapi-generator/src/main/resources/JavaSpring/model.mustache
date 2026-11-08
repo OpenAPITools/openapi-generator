@@ -6,6 +6,8 @@ import java.util.Objects;
 {{/imports}}
 {{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
+import {{javaxPackage}}.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.{{javaxPackage}}.Present;
 {{/openApiNullable}}
 {{#serializableModel}}
 import java.io.Serializable;

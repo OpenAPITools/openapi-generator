@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
+import jakarta.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.jakarta.Present;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -66,7 +68,7 @@ public class RequiredAndNullable {
    * Get str
    * @return str
    */
-  /* @Present */ 
+  @Present(payload = Unwrapping.Skip.class)
   @Schema(name = "str", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("str")
   @JacksonXmlProperty(localName = "str")
@@ -90,7 +92,7 @@ public class RequiredAndNullable {
    * Get file
    * @return file
    */
-  /* @Present */ @Valid 
+  @Present(payload = Unwrapping.Skip.class)@Valid 
   @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("file")
   @JacksonXmlProperty(localName = "file")
@@ -114,7 +116,7 @@ public class RequiredAndNullable {
    * Get color
    * @return color
    */
-  /* @Present */ 
+  @Present(payload = Unwrapping.Skip.class)
   @Schema(name = "color", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
@@ -170,7 +172,7 @@ public class RequiredAndNullable {
    * Get _list
    * @return _list
    */
-  /* @Present */ 
+  @Present(payload = Unwrapping.Skip.class)
   @Schema(name = "list", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("list")
   @JacksonXmlProperty(localName = "list")

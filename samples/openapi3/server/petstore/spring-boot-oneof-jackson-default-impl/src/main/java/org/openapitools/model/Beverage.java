@@ -12,6 +12,8 @@ import org.openapitools.model.Soda;
 import org.openapitools.model.Water;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
+import jakarta.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.jakarta.Present;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;

@@ -10,6 +10,8 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
 import java.util.NoSuchElementException;
 import org.openapitools.jackson.nullable.JsonNullable;
+import jakarta.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.jakarta.Present;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
@@ -80,7 +82,7 @@ public class NullableModel implements Serializable {
    * Get requiredNullable
    * @return requiredNullable
    */
-  /* @Present */ 
+  @Present(payload = Unwrapping.Skip.class)
   @JsonProperty("requiredNullable")
   public JsonNullable<String> getRequiredNullable() {
     return requiredNullable;

@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import org.openapitools.model.PageMeta;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
+import jakarta.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.jakarta.Present;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;

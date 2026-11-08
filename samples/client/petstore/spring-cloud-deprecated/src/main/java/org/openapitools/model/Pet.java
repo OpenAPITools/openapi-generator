@@ -13,6 +13,8 @@ import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
+import jakarta.validation.valueextraction.Unwrapping;
+import org.openapitools.jackson.nullable.jakarta.Present;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -149,7 +151,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  /* @Present */ 
+  @Present(payload = Unwrapping.Skip.class)
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("name")
   public JsonNullable<String> getName() {
