@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -244,7 +245,9 @@ class PetApiValidationTest {
                         .param("sort", "id,asc")
                         .param("sort", "name,desc")
                         .param("sort", "name,asc"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertThat(result.getResolvedException().getMessage())
+                        .contains("[expected 1..2 sort order(s), got 3]"));
     }
 
     @Test
@@ -261,6 +264,8 @@ class PetApiValidationTest {
         mockMvc.perform(get(PetApi.PATH_FIND_PETS_WITH_SORT_ENUM)
                         .param("sort", "id,asc")
                         .param("sort", "name,desc"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(result -> assertThat(result.getResolvedException().getMessage())
+                        .contains("[expected at most 1 sort order(s), got 2]"));
     }
 }

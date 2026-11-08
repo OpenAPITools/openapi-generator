@@ -4983,9 +4983,9 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(validSort, "val maxItems: Int = Int.MAX_VALUE");
         assertFileContains(validSort, "count in minItems..maxItems");
         assertFileContains(validSort, ".addPropertyNode(\"sort\")\n                .addConstraintViolation()");
-        // unsorted pageable is valid before any count check
-        String content = Files.readString(validSort);
-        Assert.assertTrue(content.indexOf("pageable.sort.isUnsorted") < content.indexOf("count in minItems..maxItems"));
+        assertFileContains(validSort, "if (pageable == null || pageable.sort.isUnsorted) return true");
+        assertFileContains(validSort, "maxItems == Int.MAX_VALUE -> \"at least $minItems\"",
+                "minItems == 0 -> \"at most $maxItems\"");
     }
 
     private static String kotlinParamBlock(String content, String methodName) {

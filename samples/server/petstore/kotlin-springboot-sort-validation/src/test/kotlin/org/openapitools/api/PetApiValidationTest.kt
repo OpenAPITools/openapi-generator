@@ -1,10 +1,12 @@
 package org.openapitools.api
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.get
 
 /**
@@ -193,6 +195,7 @@ class PetApiValidationTest {
             param("sort", "name,desc")
             param("sort", "name,asc")
         }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[expected 1..2 sort order(s), got 3]")
     }
 
     @Test
@@ -210,5 +213,11 @@ class PetApiValidationTest {
             param("sort", "id,asc")
             param("sort", "name,desc")
         }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[expected at most 1 sort order(s), got 2]")
+    }
+
+    private fun MvcResult.assertViolation(expected: String) {
+        val message = resolvedException?.message.orEmpty()
+        assertTrue(expected in message) { "expected '$expected' in '$message'" }
     }
 }

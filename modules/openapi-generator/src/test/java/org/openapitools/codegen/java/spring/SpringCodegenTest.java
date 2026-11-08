@@ -8853,10 +8853,9 @@ public class SpringCodegenTest {
                 .fileContains("int minItems() default 0;")
                 .fileContains("int maxItems() default Integer.MAX_VALUE;")
                 .fileContains("count >= minItems && count <= maxItems")
-                .fileContains(".addPropertyNode(\"sort\")\n                        .addConstraintViolation()");
-        // unsorted pageable is valid before any count check
-        String content = Files.readString(files.get("ValidSort.java").toPath());
-        assertThat(content.indexOf("isUnsorted()")).isLessThan(content.indexOf("count >= minItems"));
+                .fileContains(".addPropertyNode(\"sort\")\n                        .addConstraintViolation()")
+                .fileContains("if (pageable == null || pageable.getSort().isUnsorted()) {\n                return true;\n            }")
+                .fileContains("? \"at least \" + minItems", ": minItems == 0 ? \"at most \" + maxItems");
     }
 
     private static String sortMethodSignature(String content, String methodName) {

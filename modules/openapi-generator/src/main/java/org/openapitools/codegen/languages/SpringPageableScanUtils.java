@@ -663,13 +663,17 @@ public class SpringPageableScanUtils {
                         continue;
                     }
                     List<Schema<?>> arraySchemas = new ArrayList<>();
-                    collectArraySchemas(openAPI, schema, arraySchemas, Collections.newSetFromMap(new IdentityHashMap<>()));
+                    collectArraySchemas(openAPI, schema, arraySchemas,
+                            Collections.newSetFromMap(new IdentityHashMap<>()));
                     boolean isArray = !arraySchemas.isEmpty();
-                    // If the sort is an array, the enum lives on the items of one of its (allOf) array schemas
+                    // If the sort is an array, the enum lives on the items of one of its
+                    // (allOf) array schemas
                     Schema<?> enumSchema = isArray
                             ? arraySchemas.stream()
-                                    .map(array -> ModelUtils.getReferencedSchemaChain(openAPI, array.getItems()))
-                                    .filter(items -> items != null && items.getEnum() != null && !items.getEnum().isEmpty())
+                                    .map(array -> ModelUtils.getReferencedSchemaChain(
+                                            openAPI, array.getItems()))
+                                    .filter(items -> items != null && items.getEnum() != null
+                                            && !items.getEnum().isEmpty())
                                     .findFirst()
                                     .orElse(null)
                             : schema;
@@ -685,8 +689,10 @@ public class SpringPageableScanUtils {
                         minItems = ModelUtils.resolveMinItems(openAPI, paramSchema);
                         maxItems = ModelUtils.resolveMaxItems(openAPI, paramSchema);
                         if (minItems != null && maxItems != null && minItems > maxItems) {
-                            LoggerFactory.getLogger(SpringPageableScanUtils.class).warn("Ignoring contradictory minItems ({}) > maxItems ({}) of the sort "
-                                    + "parameter of operation '{}'", minItems, maxItems, operationId);
+                            LoggerFactory.getLogger(SpringPageableScanUtils.class).warn(
+                                    "Ignoring contradictory minItems ({}) > maxItems ({}) of the "
+                                            + "sort parameter of operation '{}'",
+                                    minItems, maxItems, operationId);
                             minItems = null;
                             maxItems = null;
                         }

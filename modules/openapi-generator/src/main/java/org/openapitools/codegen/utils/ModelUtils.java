@@ -59,6 +59,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_NULLABLE;
@@ -1045,7 +1046,8 @@ public class ModelUtils {
      *
      * @param openAPI specification being checked
      * @param schema  potentially containing a '$ref'
-     * @return the final referenced schema, or {@code null} if a reference cannot be resolved
+     * @return the last schema reached; for an unresolvable {@code $ref} that is the {@code $ref}
+     *         schema itself. {@code null} only for {@code null} input
      */
     @Nullable
     public static Schema<?> getReferencedSchemaChain(OpenAPI openAPI, Schema<?> schema) {
@@ -1070,20 +1072,8 @@ public class ModelUtils {
      */
     @Nullable
     public static Integer resolveMinItems(OpenAPI openAPI, Schema<?> schema) {
-        schema = getReferencedSchemaChain(openAPI, schema);
-        if (schema == null) return null;
-
-        Integer result = schema.getMinItems();
-        if (!hasAllOf(schema)) {
-            return result;
-        }
-        for (Schema<?> allOfItem : schema.getAllOf()) {
-            Integer nested = resolveMinItems(openAPI, allOfItem);
-            if (nested != null && (result == null || nested > result)) {
-                result = nested;
-            }
-        }
-        return result;
+        return resolveItemsBound(openAPI, schema, Schema::getMinItems, true,
+                Collections.newSetFromMap(new IdentityHashMap<>()));
     }
 
     /**
@@ -1096,16 +1086,26 @@ public class ModelUtils {
      */
     @Nullable
     public static Integer resolveMaxItems(OpenAPI openAPI, Schema<?> schema) {
-        schema = getReferencedSchemaChain(openAPI, schema);
-        if (schema == null) return null;
+        return resolveItemsBound(openAPI, schema, Schema::getMaxItems, false,
+                Collections.newSetFromMap(new IdentityHashMap<>()));
+    }
 
-        Integer result = schema.getMaxItems();
+    @Nullable
+    private static Integer resolveItemsBound(OpenAPI openAPI, Schema<?> schema,
+                                             Function<Schema<?>, Integer> getter, boolean largestWins,
+                                             Set<Schema<?>> visited) {
+        schema = getReferencedSchemaChain(openAPI, schema);
+        // visited guards against cyclic allOf/$ref graphs
+        if (schema == null || !visited.add(schema)) {
+            return null;
+        }
+        Integer result = getter.apply(schema);
         if (!hasAllOf(schema)) {
             return result;
         }
         for (Schema<?> allOfItem : schema.getAllOf()) {
-            Integer nested = resolveMaxItems(openAPI, allOfItem);
-            if (nested != null && (result == null || nested < result)) {
+            Integer nested = resolveItemsBound(openAPI, allOfItem, getter, largestWins, visited);
+            if (nested != null && (result == null || (largestWins ? nested > result : nested < result))) {
                 result = nested;
             }
         }

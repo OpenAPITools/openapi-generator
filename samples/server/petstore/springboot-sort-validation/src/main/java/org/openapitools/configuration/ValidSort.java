@@ -40,8 +40,8 @@ import java.util.stream.Collectors;
  * in any direction but restricts {@code name} to descending only.
  *
  * <p>The number of sort orders can additionally be bounded with {@link #minItems()} and
- * {@link #maxItems()}. An unsorted {@link Pageable} is always valid: presence of {@code sort} is
- * governed by {@code required}, not by {@code minItems}.
+ * {@link #maxItems()}. An unsorted {@link Pageable} (no sort given) is always accepted, even when
+ * {@code minItems > 0}; the bounds only apply once at least one sort order is present.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -108,9 +108,12 @@ public @interface ValidSort {
                 context.disableDefaultConstraintViolation();
             }
             if (!countValid) {
+                String range = maxItems == Integer.MAX_VALUE ? "at least " + minItems
+                        : minItems == 0 ? "at most " + maxItems
+                        : minItems + ".." + maxItems;
                 context.buildConstraintViolationWithTemplate(
                                 context.getDefaultConstraintMessageTemplate()
-                                        + " [expected " + minItems + ".." + maxItems + " sort values, got " + count + "]")
+                                        + " [expected " + range + " sort order(s), got " + count + "]")
                         .addPropertyNode("sort")
                         .addConstraintViolation();
             }

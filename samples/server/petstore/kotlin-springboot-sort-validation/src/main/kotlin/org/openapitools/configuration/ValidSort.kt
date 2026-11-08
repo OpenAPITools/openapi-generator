@@ -25,7 +25,8 @@ import org.springframework.data.domain.Pageable
  * direction but restricts `name` to descending only.
  *
  * The number of sort orders can additionally be bounded with [minItems] and [maxItems]. An unsorted
- * [Pageable] is always valid: presence of `sort` is governed by `required`, not by `minItems`.
+ * [Pageable] (no sort given) is always accepted, even when `minItems > 0`; the bounds only apply
+ * once at least one sort order is present.
  *
  * @property allowedValues The allowed sort strings (e.g. `["id,asc", "id,desc"]`)
  * @property minItems The minimum number of sort orders (default: unbounded)
@@ -86,8 +87,13 @@ class SortValidator : ConstraintValidator<ValidSort, Pageable> {
             context.disableDefaultConstraintViolation()
         }
         if (!countValid) {
+            val range = when {
+                maxItems == Int.MAX_VALUE -> "at least $minItems"
+                minItems == 0 -> "at most $maxItems"
+                else -> "$minItems..$maxItems"
+            }
             context.buildConstraintViolationWithTemplate(
-                "${context.defaultConstraintMessageTemplate} [expected $minItems..$maxItems sort values, got $count]"
+                "${context.defaultConstraintMessageTemplate} [expected $range sort order(s), got $count]"
             )
                 .addPropertyNode("sort")
                 .addConstraintViolation()

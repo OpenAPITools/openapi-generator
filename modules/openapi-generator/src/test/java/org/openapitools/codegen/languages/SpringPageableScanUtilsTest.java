@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.TestUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -493,6 +494,40 @@ public class SpringPageableScanUtilsTest {
         assertThat(data.allowedValues).containsExactly("name,asc", "name,desc");
         assertThat(data.minItems).isEqualTo(1);
         assertThat(data.maxItems).isEqualTo(5);
+    }
+
+    @Test
+    public void scanSortValidationEnums_cyclicAllOf_terminatesAndKeepsBounds() {
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        // SortA: allOf [array(enum, 1..5), $ref SortB]; SortB: allOf [$ref SortA], maxItems 3
+        Schema<?> sortA = new Schema<>()
+                .addAllOfItem(new ArraySchema().items(items).minItems(1).maxItems(5))
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/SortB"));
+        Schema<?> sortB = new Schema<>().maxItems(3)
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/SortA"));
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort")
+                .schema(new Schema<>().$ref("#/components/schemas/SortA")));
+        openAPI.setComponents(new io.swagger.v3.oas.models.Components()
+                .addSchemas("SortA", sortA)
+                .addSchemas("SortB", sortB));
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.allowedValues).containsExactly("name,asc", "name,desc");
+        assertThat(data.minItems).isEqualTo(1);
+        assertThat(data.maxItems).isEqualTo(3);
+    }
+
+    @Test
+    public void resolveItemBounds_selfCycle_terminates() {
+        Schema<?> self = new ArraySchema().items(new StringSchema()).minItems(2).maxItems(4)
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/Self"));
+        OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Self", self));
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/Self");
+
+        assertThat(ModelUtils.resolveMinItems(openAPI, ref)).isEqualTo(2);
+        assertThat(ModelUtils.resolveMaxItems(openAPI, ref)).isEqualTo(4);
     }
 
     @Test
