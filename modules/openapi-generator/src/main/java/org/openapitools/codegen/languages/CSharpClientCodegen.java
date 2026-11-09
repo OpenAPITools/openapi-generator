@@ -1686,6 +1686,32 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        List<CodegenModel> codegenModels = processed.values().stream()
+                .flatMap(modelsMap -> modelsMap.getModels().stream())
+                .map(ModelMap::getModel)
+                .collect(Collectors.toList());
+
+        Set<String> unionClassnames = codegenModels.stream()
+                .filter(this::isUnion)
+                .map(cm -> cm.classname)
+                .collect(Collectors.toSet());
+
+        // a union member that is itself a union is written and read by its own converter, which may produce any JSON value
+        for (CodegenModel cm : codegenModels) {
+            if (!isUnion(cm)) {
+                continue;
+            }
+            List<CodegenProperty> members = new ArrayList<>();
+            Optional.ofNullable(cm.getComposedSchemas().getOneOf()).ifPresent(members::addAll);
+            Optional.ofNullable(cm.getComposedSchemas().getAnyOf()).ifPresent(members::addAll);
+            for (CodegenProperty member : members) {
+                if (member.complexType != null && unionClassnames.contains(member.complexType)) {
+                    member.vendorExtensions.put(X_IS_UNION, true);
+                }
+            }
+        }
+
         if (!GENERICHOST.equals(getLibrary()) || !useSourceGeneration) {
             return processed;
         }
@@ -1819,38 +1845,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 if (cm.allVars.stream().noneMatch(v -> v.baseName.equals(cp.baseName))) {
                     LOGGER.debug("Property " + cp.baseName + " was found in readWriteVars but not in allVars. Adding it back to allVars");
                     cm.allVars.add(cp);
-                }
-            }
-        }
-
-        return objs;
-    }
-
-    @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        objs = super.postProcessAllModels(objs);
-
-        List<CodegenModel> models = objs.values().stream()
-                .flatMap(modelsMap -> modelsMap.getModels().stream())
-                .map(ModelMap::getModel)
-                .collect(Collectors.toList());
-
-        Set<String> unionClassnames = models.stream()
-                .filter(this::isUnion)
-                .map(cm -> cm.classname)
-                .collect(Collectors.toSet());
-
-        // a union member that is itself a union is written and read by its own converter, which may produce any JSON value
-        for (CodegenModel cm : models) {
-            if (!isUnion(cm)) {
-                continue;
-            }
-            List<CodegenProperty> members = new ArrayList<>();
-            Optional.ofNullable(cm.getComposedSchemas().getOneOf()).ifPresent(members::addAll);
-            Optional.ofNullable(cm.getComposedSchemas().getAnyOf()).ifPresent(members::addAll);
-            for (CodegenProperty member : members) {
-                if (member.complexType != null && unionClassnames.contains(member.complexType)) {
-                    member.vendorExtensions.put(X_IS_UNION, true);
                 }
             }
         }
