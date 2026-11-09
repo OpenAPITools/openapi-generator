@@ -22,8 +22,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -114,6 +116,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Getter
     @Setter
     private Boolean delegatePatternEnabled = false;
+    private String inheritanceMode;
 
     /**
      * Constructs an instance of `KotlinServerCodegen`.
@@ -189,6 +192,17 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
         addSwitch(Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE, Constants.FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC, fixJacksonJsonTypeInfoInheritance);
         addSwitch(Constants.DELEGATE_PATTERN, Constants.DELEGATE_PATTERN_DESC, getDelegatePatternEnabled());
+        addOption(Constants.INHERITANCE_MODE, Constants.INHERITANCE_MODE_DESC,
+                defaultInheritanceModeForLibrary(DEFAULT_LIBRARY), buildInheritanceModeOptions());
+    }
+
+    private Map<String, String> buildInheritanceModeOptions() {
+        Map<String, String> options = new LinkedHashMap<>();
+        options.put(Constants.INHERITANCE_MODE_NONE, "Flat models without polymorphic deserialization");
+        options.put(Constants.INHERITANCE_MODE_SEALED, "Sealed/interface oriented inheritance (not supported by jaxrs-spec)");
+        options.put(Constants.INHERITANCE_MODE_ABSTRACT, "Abstract base classes and concrete children");
+        options.put(Constants.INHERITANCE_MODE_COMPOSITION, "Composition wrappers, not wire-compatible polymorphic models");
+        return options;
     }
 
     @Override
@@ -275,6 +289,37 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             additionalProperties.put(CodegenConstants.LIBRARY, DEFAULT_LIBRARY);
             LOGGER.info("`library` option is empty. Default to {}", DEFAULT_LIBRARY);
         }
+
+        inheritanceMode = defaultInheritanceModeForLibrary(library);
+        if (additionalProperties.containsKey(Constants.INHERITANCE_MODE)) {
+            String configuredInheritanceMode = String.valueOf(additionalProperties.get(Constants.INHERITANCE_MODE));
+            if (!isValidInheritanceMode(configuredInheritanceMode)) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "Invalid %s value '%s'. Supported values are: %s, %s, %s, %s",
+                        Constants.INHERITANCE_MODE,
+                        configuredInheritanceMode,
+                        Constants.INHERITANCE_MODE_NONE,
+                        Constants.INHERITANCE_MODE_SEALED,
+                        Constants.INHERITANCE_MODE_ABSTRACT,
+                        Constants.INHERITANCE_MODE_COMPOSITION));
+            }
+            inheritanceMode = configuredInheritanceMode;
+        }
+
+        if (Constants.JAXRS_SPEC.equals(library) && Constants.INHERITANCE_MODE_SEALED.equals(inheritanceMode)) {
+            throw new IllegalArgumentException(String.format(Locale.ROOT,
+                    "Library '%s' does not support inheritanceMode '%s'. Use '%s', '%s', or '%s'.",
+                    Constants.JAXRS_SPEC,
+                    Constants.INHERITANCE_MODE_SEALED,
+                    Constants.INHERITANCE_MODE_NONE,
+                    Constants.INHERITANCE_MODE_ABSTRACT,
+                    Constants.INHERITANCE_MODE_COMPOSITION));
+        }
+        additionalProperties.put(Constants.INHERITANCE_MODE, inheritanceMode);
+        additionalProperties.put(Constants.X_INHERITANCE_MODE_NONE, Constants.INHERITANCE_MODE_NONE.equals(inheritanceMode));
+        additionalProperties.put(Constants.X_INHERITANCE_MODE_SEALED, Constants.INHERITANCE_MODE_SEALED.equals(inheritanceMode));
+        additionalProperties.put(Constants.X_INHERITANCE_MODE_ABSTRACT, Constants.INHERITANCE_MODE_ABSTRACT.equals(inheritanceMode));
+        additionalProperties.put(Constants.X_INHERITANCE_MODE_COMPOSITION, Constants.INHERITANCE_MODE_COMPOSITION.equals(inheritanceMode));
 
         if (isKtor()) {
             typeMapping.put("date-time", "kotlin.String");
@@ -435,16 +480,40 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
         public static final String IS_KTOR = "isKtor";
         public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE = "fixJacksonJsonTypeInfoInheritance";
-        public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), ensures Jackson polymorphism works correctly by: (1) always setting visible=true on @JsonTypeInfo, and (2) adding the discriminator property to child models with appropriate default values. When false, visible is only set to true if all children already define the discriminator property.";
+        public static final String FIX_JACKSON_JSON_TYPE_INFO_INHERITANCE_DESC = "When true (default), always sets visible=true on @JsonTypeInfo and adds discriminator properties for oneOf/anyOf hierarchies with appropriate child defaults. When false, visible is true for allOf inheritance and false for oneOf/anyOf unions.";
         public static final String USE_TAGS = "useTags";
         public static final String USE_TAGS_DESC = "use tags for creating interface and controller classnames.";
         public static final String DELEGATE_PATTERN = "delegatePattern";
         public static final String DELEGATE_PATTERN_DESC = "Whether to generate the server files using the delegate pattern. This option is currently supported only when using ktor library.";
+        public static final String INHERITANCE_MODE = "inheritanceMode";
+        public static final String INHERITANCE_MODE_DESC = "Strategy for model inheritance generation. Defaults to abstract for jaxrs-spec and sealed for other libraries. See docs/kotlin-server-jaxrs-spec.md for JAX-RS semantics and limitations.";
+        public static final String INHERITANCE_MODE_NONE = "none";
+        public static final String INHERITANCE_MODE_SEALED = "sealed";
+        public static final String INHERITANCE_MODE_ABSTRACT = "abstract";
+        public static final String INHERITANCE_MODE_COMPOSITION = "composition";
+        public static final String X_INHERITANCE_MODE_NONE = "x-inheritance-mode-none";
+        public static final String X_INHERITANCE_MODE_SEALED = "x-inheritance-mode-sealed";
+        public static final String X_INHERITANCE_MODE_ABSTRACT = "x-inheritance-mode-abstract";
+        public static final String X_INHERITANCE_MODE_COMPOSITION = "x-inheritance-mode-composition";
     }
 
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
+
+        if (Constants.INHERITANCE_MODE_NONE.equals(inheritanceMode)) {
+            flattenInheritanceForNoneMode(objs);
+            return objs;
+        }
+
+        if (Constants.INHERITANCE_MODE_COMPOSITION.equals(inheritanceMode)) {
+            applyCompositionMode(objs);
+            return objs;
+        }
+
+        if (!isInheritancePostProcessingEnabled()) {
+            return objs;
+        }
 
         // For libraries that use Jackson, set up parent-child relationships for discriminator children
         // This enables proper polymorphism support with @JsonTypeInfo and @JsonSubTypes annotations
@@ -508,7 +577,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
 
                     if (parentName != null) {
                         // This model is a child of a discriminator parent
-                        CodegenModel parentModel = allModelsMap.get(parentName);
+                        // Discriminator mappings may include descendants; forward the immediate parent's constructor.
+                        CodegenModel parentModel = allModelsMap.get(model.getParent() != null ? model.getParent() : parentName);
 
                         // Set parent if not already set
                         if (model.getParent() == null) {
@@ -719,6 +789,15 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             }
         }
 
+        if (Constants.JAXRS_SPEC.equals(library)) {
+            for (ModelsMap modelsMap : objs.values()) {
+                for (ModelMap modelMap : modelsMap.getModels()) {
+                    CodegenModel model = modelMap.getModel();
+                    model.vendorExtensions.put("x-jaxrs-polymorphic-model", model.discriminator != null);
+                }
+            }
+        }
+
         return objs;
     }
 
@@ -920,5 +999,116 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             builder.append("/").append(parts1[i]);
         }
         return builder.toString();
+    }
+
+    private static String defaultInheritanceModeForLibrary(String currentLibrary) {
+        return Constants.JAXRS_SPEC.equals(currentLibrary)
+                ? Constants.INHERITANCE_MODE_ABSTRACT
+                : Constants.INHERITANCE_MODE_SEALED;
+    }
+
+    private static boolean isValidInheritanceMode(String value) {
+        return Constants.INHERITANCE_MODE_NONE.equals(value)
+                || Constants.INHERITANCE_MODE_SEALED.equals(value)
+                || Constants.INHERITANCE_MODE_ABSTRACT.equals(value)
+                || Constants.INHERITANCE_MODE_COMPOSITION.equals(value);
+    }
+
+    private static void flattenInheritanceForNoneMode(Map<String, ModelsMap> objs) {
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+
+                model.setDiscriminator(null);
+                model.setParent(null);
+                model.oneOf.clear();
+                model.anyOf.clear();
+                model.allOf.clear();
+                model.getVendorExtensions().remove("x-parent-ctor-args");
+                model.getVendorExtensions().remove("x-discriminator-has-parent-properties");
+                model.getVendorExtensions().remove("x-discriminator-visible-true");
+
+                if (model.interfaces != null) {
+                    model.interfaces.clear();
+                }
+
+                for (CodegenProperty prop : model.getAllVars()) {
+                    prop.isInherited = false;
+                }
+                for (CodegenProperty prop : model.getVars()) {
+                    prop.isInherited = false;
+                }
+                for (CodegenProperty prop : model.getRequiredVars()) {
+                    prop.isInherited = false;
+                }
+                for (CodegenProperty prop : model.getOptionalVars()) {
+                    prop.isInherited = false;
+                }
+            }
+        }
+    }
+
+    private static void applyCompositionMode(Map<String, ModelsMap> objs) {
+        Set<String> discriminatorOwners = new HashSet<>();
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model.getDiscriminator() != null
+                        && model.getDiscriminator().getMappedModels() != null
+                        && !model.getDiscriminator().getMappedModels().isEmpty()) {
+                    discriminatorOwners.add(model.getClassname());
+                }
+            }
+        }
+
+        flattenInheritanceForNoneMode(objs);
+
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (discriminatorOwners.contains(model.getClassname())) {
+                    replaceWithCompositionWrapper(model);
+                }
+            }
+        }
+    }
+
+    private static void replaceWithCompositionWrapper(CodegenModel model) {
+        CodegenProperty wrapperValue = new CodegenProperty();
+        wrapperValue.baseName = "value";
+        wrapperValue.name = "value";
+        wrapperValue.dataType = "kotlin.Any";
+        wrapperValue.datatypeWithEnum = "kotlin.Any";
+        wrapperValue.required = true;
+        wrapperValue.isNullable = false;
+        wrapperValue.isReadOnly = false;
+
+        model.getVars().clear();
+        model.getAllVars().clear();
+        model.getRequiredVars().clear();
+        model.getOptionalVars().clear();
+        model.getMandatory().clear();
+        model.getAllMandatory().clear();
+        model.oneOf.clear();
+        model.anyOf.clear();
+        model.allOf.clear();
+
+        model.getVars().add(wrapperValue);
+        model.getAllVars().add(wrapperValue);
+        model.getRequiredVars().add(wrapperValue);
+        model.getMandatory().add("value");
+        model.getAllMandatory().add("value");
+
+        model.hasVars = true;
+        model.hasRequired = true;
+        model.hasOptional = false;
+        model.emptyVars = false;
+        model.getVendorExtensions().put("x-composition-wrapper", true);
+    }
+
+    private boolean isInheritancePostProcessingEnabled() {
+        // `none` and `composition` are handled in dedicated short-circuit paths.
+        return !Constants.INHERITANCE_MODE_NONE.equals(inheritanceMode)
+                && !Constants.INHERITANCE_MODE_COMPOSITION.equals(inheritanceMode);
     }
 }

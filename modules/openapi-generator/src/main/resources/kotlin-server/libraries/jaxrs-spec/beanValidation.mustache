@@ -1,4 +1,4 @@
     @field:Valid
-{{#required}}
+{{#required}}{{^isNullable}}
     @field:NotNull
-{{/required}}
+{{/isNullable}}{{/required}}
