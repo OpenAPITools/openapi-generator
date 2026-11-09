@@ -3063,7 +3063,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda)
                 .put("escapeJavaDoc", new EscapeJavaDocLambda())
-                .put("organizeImports", new OrganizeImportsLambda(false));
+                .put("organizeImports", new OrganizeImportsLambda());
 
     }
 
