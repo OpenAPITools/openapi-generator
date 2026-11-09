@@ -394,6 +394,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return ({{{dataType}}})super.getActualInstance();
     }
 
+    {{^vendorExtensions.x-is-method-inherited}}
     {{^isContainer}}
     {{^isAnyType}}
     {{^isFreeFormObject}}
@@ -409,6 +410,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     {{/isFreeFormObject}}
     {{/isAnyType}}
     {{/isContainer}}
+    {{/vendorExtensions.x-is-method-inherited}}
     {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/oneOf}}
     {{/composedSchemas}}

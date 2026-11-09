@@ -46,6 +46,7 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
@@ -1254,6 +1255,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         cm.vendorExtensions.put("x-inherits-additional-properties", true);
                         break;
                     }
+                }
+                // AbstractOpenApiSchema already declares Boolean isNullable(), so a oneOf/anyOf
+                // member named Nullable gets no is<Member>() check
+                if (cm.getComposedSchemas() != null) {
+                    Stream.of(cm.getComposedSchemas().getOneOf(), cm.getComposedSchemas().getAnyOf())
+                            .filter(Objects::nonNull)
+                            .flatMap(List::stream)
+                            .filter(member -> "Nullable".equals(sanitizeDataType(member.dataType)))
+                            .forEach(member -> member.vendorExtensions.put("x-is-method-inherited", true));
                 }
             }
         }

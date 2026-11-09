@@ -35,6 +35,10 @@ components:
           $ref: '#/components/schemas/PetOrFreeForm'
         nullablePetOrName:
           $ref: '#/components/schemas/NullablePetOrName'
+        petOrNullable:
+          $ref: '#/components/schemas/PetOrNullable'
+        nullableOrName:
+          $ref: '#/components/schemas/NullableOrName'
     PetStatus:
       type: string
       enum:
@@ -75,7 +79,7 @@ components:
     PetOrAnything:
       anyOf:
         - $ref: '#/components/schemas/Pet'
-        - {}
+        - description: Any value
     PetOrFreeForm:
       oneOf:
         - $ref: '#/components/schemas/Pet'
@@ -84,4 +88,17 @@ components:
       nullable: true
       oneOf:
         - $ref: '#/components/schemas/Pet'
+        - type: string
+    Nullable:
+      type: object
+      properties:
+        reason:
+          type: string
+    PetOrNullable:
+      oneOf:
+        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/Nullable'
+    NullableOrName:
+      anyOf:
+        - $ref: '#/components/schemas/Nullable'
         - type: string
