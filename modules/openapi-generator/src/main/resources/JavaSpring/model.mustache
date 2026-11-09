@@ -1,13 +1,25 @@
 package {{package}};
 
+{{#lambda.organizeImports}}
 import java.net.URI;
 import java.util.Objects;
 {{#imports}}import {{import}};
 {{/imports}}
 {{#openApiNullable}}
+{{!only add @Present import once if there is any model with a nullable and required property}}
+{{#models}}
+{{#model}}
+{{#allVars}}
+{{#isNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
+{{#required}}
 import {{javaxPackage}}.validation.valueextraction.Unwrapping;
 import org.openapitools.jackson.nullable.{{javaxPackage}}.Present;
+{{/required}}
+{{/isNullable}}
+{{/allVars}}
+{{/model}}
+{{/models}}
 {{/openApiNullable}}
 {{#serializableModel}}
 import java.io.Serializable;
@@ -51,6 +63,12 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 {{/additionalPropertiesType}}
+{{/model}}
+{{/models}}
+{{/lambda.organizeImports}}
+
+{{#models}}
+{{#model}}
 {{#isEnum}}
 {{>enumOuterClass}}
 

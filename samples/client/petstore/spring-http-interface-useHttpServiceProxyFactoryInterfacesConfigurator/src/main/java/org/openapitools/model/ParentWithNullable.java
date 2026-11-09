@@ -1,29 +1,24 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
-import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
-import jakarta.validation.valueextraction.Unwrapping;
-import org.openapitools.jackson.nullable.jakarta.Present;
-import java.time.OffsetDateTime;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
-
-
+import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import org.hibernate.validator.constraints.*;
+import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 
 /**
  * ParentWithNullable

@@ -1,22 +1,17 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.Objects;
 import org.openapitools.model.OuterEnum;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import jakarta.validation.valueextraction.Unwrapping;
-import org.openapitools.jackson.nullable.jakarta.Present;
-import java.time.OffsetDateTime;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * EnumTest
