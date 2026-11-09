@@ -59,6 +59,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
+    protected static final String X_IS_UNION = "x-is-union";
     protected static final String SUPPORTS_UWP = "supportsUWP";
     protected static final String SUPPORTS_RETRY = "supportsRetry";
 
@@ -1761,6 +1762,44 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         return objs;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        List<CodegenModel> models = objs.values().stream()
+                .flatMap(modelsMap -> modelsMap.getModels().stream())
+                .map(ModelMap::getModel)
+                .collect(Collectors.toList());
+
+        Set<String> unionClassnames = models.stream()
+                .filter(this::isUnion)
+                .map(cm -> cm.classname)
+                .collect(Collectors.toSet());
+
+        // a union member that is itself a union is written and read by its own converter, which may produce any JSON value
+        for (CodegenModel cm : models) {
+            if (!isUnion(cm)) {
+                continue;
+            }
+            List<CodegenProperty> members = new ArrayList<>();
+            Optional.ofNullable(cm.getComposedSchemas().getOneOf()).ifPresent(members::addAll);
+            Optional.ofNullable(cm.getComposedSchemas().getAnyOf()).ifPresent(members::addAll);
+            for (CodegenProperty member : members) {
+                if (member.complexType != null && unionClassnames.contains(member.complexType)) {
+                    member.vendorExtensions.put(X_IS_UNION, true);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    private boolean isUnion(CodegenModel cm) {
+        return cm.getComposedSchemas() != null
+                && ((cm.getComposedSchemas().getOneOf() != null && !cm.getComposedSchemas().getOneOf().isEmpty())
+                || (cm.getComposedSchemas().getAnyOf() != null && !cm.getComposedSchemas().getAnyOf().isEmpty()));
     }
 
 
