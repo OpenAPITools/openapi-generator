@@ -1687,10 +1687,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
-        if (!GENERICHOST.equals(getLibrary()) || !useSourceGeneration) {
-            return processed;
-        }
-
         List<CodegenModel> codegenModels = processed.values().stream()
                 .flatMap(modelsMap -> modelsMap.getModels().stream())
                 .map(ModelMap::getModel)
@@ -1714,6 +1710,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                     member.vendorExtensions.put(X_IS_UNION, true);
                 }
             }
+        }
+
+        if (!GENERICHOST.equals(getLibrary()) || !useSourceGeneration) {
+            return processed;
         }
 
         List<CodegenModel> models = processed.values().stream()
