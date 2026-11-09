@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Map of an inline enum
+  version: 1.0.0
+paths:
+  /today:
+    get:
+      operationId: getToday
+      responses:
+        "200":
+          description: Each lesson's status, keyed by lesson ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Today"
+components:
+  schemas:
+    Today:
+      type: object
+      required:
+        - lessonStatus
+      properties:
+        lessonStatus:
+          type: object
+          additionalProperties:
+            type: string
+            enum: [ready, generating, failed]
+        previousStatus:
+          type: object
+          additionalProperties:
+            type: string
+            enum: [ready, generating, failed]
