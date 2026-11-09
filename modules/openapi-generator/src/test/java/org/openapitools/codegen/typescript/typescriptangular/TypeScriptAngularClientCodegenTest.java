@@ -80,6 +80,15 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void toEnumVarNameWithoutLatinCharacters() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("À", "string"), "À");
+        Assert.assertEquals(codegen.toEnumVarName("Москва", "string"), "Москва");
+        Assert.assertEquals(codegen.toEnumVarName("Нур-Султан", "string"), "НурСултан");
+    }
+
+    @Test
     public void testModelSuffix() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
