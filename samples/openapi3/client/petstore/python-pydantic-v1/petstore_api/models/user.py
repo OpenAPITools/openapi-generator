@@ -19,7 +19,7 @@ import json
 
 
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field, StrictInt, StrictStr
+from pydantic import BaseModel, Field, SecretStr, StrictInt, StrictStr
 
 class User(BaseModel):
     """
@@ -30,7 +30,7 @@ class User(BaseModel):
     first_name: Optional[StrictStr] = Field(default=None, alias="firstName")
     last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
     email: Optional[StrictStr] = None
-    password: Optional[StrictStr] = None
+    password: Optional[SecretStr] = None
     phone: Optional[StrictStr] = None
     user_status: Optional[StrictInt] = Field(default=None, alias="userStatus", description="User Status")
     additional_properties: Dict[str, Any] = {}

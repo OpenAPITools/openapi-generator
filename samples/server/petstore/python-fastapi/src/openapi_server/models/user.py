@@ -20,7 +20,7 @@ import json
 
 
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, SecretStr, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
@@ -36,7 +36,7 @@ class User(BaseModel):
     first_name: Optional[StrictStr] = Field(default=None, alias="firstName")
     last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
     email: Optional[StrictStr] = None
-    password: Optional[StrictStr] = None
+    password: Optional[SecretStr] = None
     phone: Optional[StrictStr] = None
     user_status: Optional[StrictInt] = Field(default=None, description="User Status", alias="userStatus")
     __properties: ClassVar[List[str]] = ["id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus"]

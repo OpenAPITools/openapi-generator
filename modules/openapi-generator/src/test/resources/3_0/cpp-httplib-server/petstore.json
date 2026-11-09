@@ -260,7 +260,7 @@
           "firstName": { "type": "string" },
           "lastName": { "type": "string" },
           "email": { "type": "string", "format": "email" },
-          "password": { "type": "string" },
+          "password": { "type": "string", "format": "password" },
           "phone": { "type": "string" },
           "userStatus": { "type": "integer", "format": "int32", "enum": [0, 1, 2], "description": "User status (0=inactive, 1=active, 2=admin)" }
         }

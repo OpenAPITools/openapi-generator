@@ -79,7 +79,7 @@ class User implements ModelInterface, ArrayAccess, JsonSerializable
         'first_name' => null,
         'last_name' => null,
         'email' => null,
-        'password' => null,
+        'password' => 'password',
         'phone' => null,
         'user_status' => 'int32'
     ];
