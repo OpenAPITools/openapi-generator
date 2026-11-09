@@ -17,13 +17,10 @@ part 'additional_properties_class.g.dart';
   explicitToJson: true,
 )
 class AdditionalPropertiesClass {
-  /// Returns a new [AdditionalPropertiesClass] instance.
+/// Returns a new [AdditionalPropertiesClass] instance.
   AdditionalPropertiesClass({
-
      this.mapProperty,
-
      this.mapOfMapProperty,
-
      this.mapOfArrayInteger,
   });
 
@@ -67,6 +64,7 @@ class AdditionalPropertiesClass {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is AdditionalPropertiesClass &&
+    runtimeType == other.runtimeType &&
       other.mapProperty == mapProperty &&
       other.mapOfMapProperty == mapOfMapProperty &&
       other.mapOfArrayInteger == mapOfArrayInteger;
