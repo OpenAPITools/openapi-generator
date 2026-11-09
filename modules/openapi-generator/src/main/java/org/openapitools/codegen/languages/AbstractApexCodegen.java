@@ -574,48 +574,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         return op;
     }
 
-    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
-        // This generator uses inline classes to define enums, which breaks when
-        // dealing with models that have subTypes. To clean this up, we will analyze
-        // the parent and child models, look for enums that match, and remove
-        // them from the child models and leave them in the parent.
-        // Because the child models extend the parents, the enums will be available via the parent.
-
-        // Only bother with reconciliation if the parent model has enums.
-        if (!parentCodegenModel.hasEnums) {
-            return codegenModel;
-        }
-
-        // Get the properties for the parent and child models
-        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
-        List<CodegenProperty> codegenProperties = codegenModel.vars;
-
-        // Iterate over all of the parent model properties
-        boolean removedChildEnum = false;
-        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-            // Look for enums
-            if (parentModelCodegenProperty.isEnum) {
-                // Now that we have found an enum in the parent class,
-                // and search the child class for the same enum.
-                Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-                while (iterator.hasNext()) {
-                    CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
-                        // We found an enum in the child class that is
-                        // a duplicate of the one in the parent, so remove it.
-                        iterator.remove();
-                        removedChildEnum = true;
-                    }
-                }
-            }
-        }
-
-        if (removedChildEnum) {
-            codegenModel.vars = codegenProperties;
-        }
-        return codegenModel;
-    }
-
     private static String sanitizePackageName(String packageName) {
         packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
