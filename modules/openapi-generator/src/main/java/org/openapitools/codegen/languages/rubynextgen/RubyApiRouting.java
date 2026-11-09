@@ -161,6 +161,9 @@ public final class RubyApiRouting {
                 sb.append(underscore(lit));
             }
             if (sb.length() > 0) {
+                if (Character.isDigit(sb.charAt(0))) {
+                    sb.insert(0, '_');
+                }
                 return sb.toString();
             }
         }
