@@ -2,6 +2,11 @@ package {{package}}
 
 {{#imports}}import {{import}}
 {{/imports}}
+{{>beanValidationImports}}
+{{#elementTypeExtraImports}}
+{{#operationExtraImports}}import {{{import}}}
+{{/operationExtraImports}}
+{{/elementTypeExtraImports}}
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 {{#useResponseEntity}}

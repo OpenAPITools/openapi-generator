@@ -426,6 +426,66 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     /**
+     * Renders the element type of an array/set including its type-use annotations, e.g.
+     * {@code @Valid Pet?} or {@code @Size(max=3) kotlin.String}. Extra annotations come first,
+     * then bean validation, then the (possibly nullable) type.
+     *
+     * @param items the array/set items schema
+     * @return the annotated element type declaration
+     */
+    protected String getAnnotatedItemsTypeDeclaration(Schema<?> items) {
+        String typeDeclaration = getItemsTypeDeclaration(items);
+        String prefix = joinAnnotations(getExtraListAnnotation(items), getItemsBeanValidation(items));
+        return prefix.isEmpty() ? typeDeclaration : prefix + " " + typeDeclaration;
+    }
+
+    /**
+     * Joins annotation fragments with a single space, skipping blank fragments.
+     *
+     * @param annotations annotation fragments (may be null or blank)
+     * @return the joined annotations, or an empty string if none
+     */
+    protected static String joinAnnotations(String... annotations) {
+        return Arrays.stream(annotations)
+                .filter(StringUtils::isNotBlank)
+                .map(String::trim)
+                .collect(Collectors.joining(" "));
+    }
+
+    /**
+     * Bean validation annotations for the element type of an array/set (type argument), e.g.
+     * {@code @Valid} or {@code @Size(max=3)}. Generators supporting bean validation override this;
+     * the default emits nothing so that generated code is unchanged.
+     *
+     * @param items the array/set items schema
+     * @return the annotations, or an empty string if none
+     */
+    protected String getItemsBeanValidation(Schema<?> items) {
+        return "";
+    }
+
+    /**
+     * Extra (custom) annotations for the element type of an array/set, e.g. from
+     * {@code x-field-extra-annotation} on the items schema. The default emits nothing.
+     *
+     * @param items the array/set items schema
+     * @return the annotations, or an empty string if none
+     */
+    protected String getExtraListAnnotation(Schema<?> items) {
+        return "";
+    }
+
+    /**
+     * Whether map value types receive element annotations (like array/set items do).
+     * Not supported yet; reserved for generators that opt in.
+     *
+     * @return {@code false} by default
+     */
+    protected boolean useBeanValidationOnMapValueType() {
+        return false;
+    }
+
+    /**
      * Output the type declaration of the property
      *
      * @param p OpenAPI Property object
@@ -437,7 +497,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = ModelUtils.getSchemaItems(schema);
-            return getSchemaType(target) + "<" + getItemsTypeDeclaration(items) + ">";
+            return getSchemaType(target) + "<" + getAnnotatedItemsTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -447,7 +507,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 inner = new StringSchema().description("TODO default missing map inner type to string");
                 p.setAdditionalProperties(inner);
             }
-            return getSchemaType(target) + "<kotlin.String, " + getItemsTypeDeclaration(inner) + ">";
+            String valueDeclaration = useBeanValidationOnMapValueType()
+                    ? getAnnotatedItemsTypeDeclaration(inner)
+                    : getItemsTypeDeclaration(inner);
+            return getSchemaType(target) + "<kotlin.String, " + valueDeclaration + ">";
         }
         return super.getTypeDeclaration(target);
     }
