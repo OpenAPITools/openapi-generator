@@ -46,6 +46,15 @@ class PetApiImpl : PetApi {
     override fun findPetsWithArraySortEnum(pageable: Pageable): ResponseEntity<List<Pet>> =
         ResponseEntity.ok(emptyList())
 
+    override fun findPetsWithArraySortBounds(pageable: Pageable): ResponseEntity<List<Pet>> =
+        ResponseEntity.ok(emptyList())
+
+    override fun findPetsWithRefSortBounds(pageable: Pageable): ResponseEntity<List<Pet>> =
+        ResponseEntity.ok(emptyList())
+
+    override fun findPetsWithMinSortBounds(pageable: Pageable): ResponseEntity<List<Pet>> =
+        ResponseEntity.ok(emptyList())
+
     override fun findPetsWithArraySortRefEnum(pageable: Pageable): ResponseEntity<List<Pet>> =
         ResponseEntity.ok(emptyList())
 
