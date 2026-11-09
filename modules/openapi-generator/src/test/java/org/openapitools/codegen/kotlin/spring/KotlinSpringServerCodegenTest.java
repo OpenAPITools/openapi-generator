@@ -1332,7 +1332,7 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String,",
                 "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
                 "@get:JsonProperty(\"category\") override val category: Category? = null,",
-                "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<Tag>? = null,",
+                "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<@Valid Tag>? = null,",
                 "@get:JsonProperty(\"color\") override val color: Color? = null",
                 ") : Pet, com.some.pack.Canine, com.some.pack.Fetchable, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
@@ -1347,7 +1347,7 @@ public class KotlinSpringServerCodegenTest {
                 "val petType: kotlin.String",
                 "override val id: kotlin.Long?",
                 "override val category: Category?",
-                "val tags: kotlin.collections.List<Tag>?",
+                "val tags: kotlin.collections.List<@Valid Tag>?",
                 "val color: Color?",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
@@ -8352,5 +8352,214 @@ public class KotlinSpringServerCodegenTest {
 
         // oneOf parent uses oneof_interface.mustache, not dataClass.mustache — flag has no effect on it
         assertFileContains(Paths.get(outputPath + "/Animal.kt"), "sealed interface Animal");
+    }
+
+    // ========== COLLECTION ELEMENT-TYPE ANNOTATION TESTS ==========
+
+    private static final String COLLECTION_ITEM_ANNOTATIONS_SPEC = "src/test/resources/3_0/kotlin/collection-item-annotations.yaml";
+
+    @Test
+    public void collectionItemsGetBeanValidationOnElementType() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true)));
+        Path holder = files.get("Holder.kt").toPath();
+
+        // model / composed $ref items -> @Valid (incl. normalizer allOf:[$ref] wrapping)
+        assertFileContains(holder,
+                "val pets: kotlin.collections.List<@Valid Pet>? = null",
+                "val oneOfPets: kotlin.collections.List<@Valid PetOneOf>? = null",
+                "val allOfPets: kotlin.collections.List<@Valid PetAllOf>? = null",
+                "val wrappedPets: kotlin.collections.List<@Valid Pet>? = null");
+        // string / number constraints
+        assertFileContains(holder,
+                "val names: kotlin.collections.List<@Size(max=10) kotlin.String>,",
+                "val codes: kotlin.collections.List<@Pattern(regexp=\"^[A-Z]{2}$\") kotlin.String>? = null",
+                "val emails: kotlin.collections.List<@Email kotlin.String>? = null",
+                "val sizes: kotlin.collections.List<@Size(min=1,max=3) kotlin.String>? = null",
+                "val ints: kotlin.collections.List<@Min(value=1) @Max(value=10) kotlin.Int>? = null",
+                "val longs: kotlin.collections.List<@Min(value=1L) @Max(value=10L) kotlin.Long>? = null",
+                "val decimals: kotlin.collections.List<@DecimalMin(value=\"0.5\") @DecimalMax(value=\"9.5\", inclusive=false) java.math.BigDecimal>? = null");
+        // uniqueItems -> Set
+        assertFileContains(holder, "val uniqueNames: kotlin.collections.Set<@Size(max=5) kotlin.String>? = null");
+        // enums, free-form objects, unconstrained items -> nothing
+        assertFileContains(holder,
+                "val colors: kotlin.collections.List<Color>? = null",
+                "val inlineEnums: kotlin.collections.List<Holder.InlineEnums>? = null",
+                "val freeForm: kotlin.collections.List<kotlin.Any>? = null",
+                "val plainStrings: kotlin.collections.List<kotlin.String>? = null");
+        // nullable items keep the trailing '?'
+        assertFileContains(holder,
+                "val nullablePets: kotlin.collections.List<@Valid Pet?>? = null",
+                "val nullableNames: kotlin.collections.List<@Size(max=3) kotlin.String?>? = null");
+        // nested arrays -> annotation on the innermost element
+        assertFileContains(holder,
+                "val nested: kotlin.collections.List<kotlin.collections.List<@Size(max=3) kotlin.String>>? = null");
+        // map values are out of scope
+        assertFileContains(holder, "val petMap: kotlin.collections.Map<kotlin.String, Pet>? = null");
+        // container-level annotations are unchanged
+        assertFileContains(holder, "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"pets\")");
+    }
+
+    @Test
+    public void collectionItemsGetExtraAnnotationFromItemsVendorExtension() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true)));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder,
+                "val extraString: kotlin.collections.List<@com.example.Foo kotlin.String>? = null",
+                // extra annotations come before bean validation
+                "val extraList: kotlin.collections.List<@com.example.Foo @com.example.Bar @Size(max=3) kotlin.String>? = null",
+                // enum items rendered via the inline-enum branch keep the extension
+                "val enumExtra: kotlin.collections.List<@com.example.Foo Holder.EnumExtra>? = null");
+    }
+
+    @Test
+    public void additionalItemsAnnotationsAreAddedToEveryCollectionElementType() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux;@com.example.Baz")));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder,
+                "val pets: kotlin.collections.List<@com.example.Qux @com.example.Baz @Valid Pet>? = null",
+                "val plainStrings: kotlin.collections.List<@com.example.Qux @com.example.Baz kotlin.String>? = null",
+                "val colors: kotlin.collections.List<@com.example.Qux @com.example.Baz Color>? = null",
+                "val inlineEnums: kotlin.collections.List<@com.example.Qux @com.example.Baz Holder.InlineEnums>? = null",
+                "val nested: kotlin.collections.List<@com.example.Qux @com.example.Baz kotlin.collections.List<@com.example.Qux @com.example.Baz @Size(max=3) kotlin.String>>? = null",
+                // combined with x-field-extra-annotation
+                "val extraList: kotlin.collections.List<@com.example.Qux @com.example.Baz @com.example.Foo @com.example.Bar @Size(max=3) kotlin.String>? = null",
+                "val enumExtra: kotlin.collections.List<@com.example.Qux @com.example.Baz @com.example.Foo Holder.EnumExtra>? = null",
+                // nullable items keep the annotations; nullability stays in the Kotlin type
+                "val nullableNames: kotlin.collections.List<@com.example.Qux @com.example.Baz @Size(max=3) kotlin.String?>? = null",
+                "val nullablePets: kotlin.collections.List<@com.example.Qux @com.example.Baz @Valid Pet?>? = null");
+        // map values are out of scope
+        assertFileContains(holder, "val petMap: kotlin.collections.Map<kotlin.String, Pet>? = null");
+    }
+
+    @Test
+    public void additionalItemsAnnotationsAcceptsNewLinesAndLists() throws IOException {
+        Map<String, File> newLines = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux\r\n@com.example.Baz\n")));
+        Map<String, File> list = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, List.of("@com.example.Qux", "@com.example.Baz"))));
+
+        for (Map<String, File> files : List.of(newLines, list)) {
+            assertFileContains(files.get("Holder.kt").toPath(),
+                    "val plainStrings: kotlin.collections.List<@com.example.Qux @com.example.Baz kotlin.String>? = null");
+        }
+    }
+
+    @Test
+    public void collectionItemsWithoutBeanValidationOnlyGetExtraAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, false, KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux")));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder,
+                "val pets: kotlin.collections.List<@com.example.Qux Pet>? = null",
+                "val names: kotlin.collections.List<@com.example.Qux kotlin.String>,",
+                "val extraList: kotlin.collections.List<@com.example.Qux @com.example.Foo @com.example.Bar kotlin.String>? = null",
+                "val nullableNames: kotlin.collections.List<@com.example.Qux kotlin.String?>? = null");
+        assertFileNotContains(holder, "@Valid", "@Size", "@Pattern", "@Email", "@Min", "@Max", "@DecimalMin", "@DecimalMax");
+    }
+
+    @Test
+    public void collectionItemAnnotationsReachApiSignaturesWithImports() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, SERVICE_IMPLEMENTATION, true, USE_SPRING_BOOT3, true)));
+
+        Path controller = files.get("PetsApiController.kt").toPath();
+        assertFileContains(controller,
+                "@Valid @RequestBody pet: kotlin.collections.List<@Valid Pet>",
+                "tags: kotlin.collections.List<@Size(max=10) kotlin.String>?",
+                // return types are left unannotated (Hibernate Validator cannot look inside ResponseEntity)
+                "): ResponseEntity<List<kotlin.String>> {",
+                "): ResponseEntity<Map<String, kotlin.collections.List<kotlin.String>>> {");
+        assertFileNotContains(controller, "ResponseEntity<List<@", "ResponseEntity<Map<String, kotlin.collections.List<@");
+        for (String file : List.of("PetsApiController.kt", "PetsApiService.kt", "PetsApiServiceImpl.kt", "PetsApiTest.kt")) {
+            assertFileContains(files.get(file).toPath(),
+                    "import jakarta.validation.Valid", "import jakarta.validation.constraints.Size");
+        }
+
+        Map<String, File> delegate = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, DELEGATE_PATTERN, true, "useJakartaEe", false)));
+        assertFileContains(delegate.get("PetsApiDelegate.kt").toPath(),
+                "import javax.validation.Valid", "import javax.validation.constraints.Size",
+                "fun addPets(pet: kotlin.collections.List<@Valid Pet>): ResponseEntity<List<kotlin.String>> {");
+    }
+
+    @Test
+    public void elementTypeValidationImportsAreOnlyAddedWhereUsed() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, SERVICE_IMPLEMENTATION, true, USE_SPRING_BOOT3, true)));
+
+        Path petsService = files.get("PetsApiService.kt").toPath();
+        assertFileContains(petsService, "import jakarta.validation.Valid", "import jakarta.validation.constraints.Size");
+        assertFileNotContains(petsService, "constraints.Pattern", "constraints.Email", "constraints.NotNull", "constraints.Min");
+        for (String file : List.of("StatusApiService.kt", "StatusApiServiceImpl.kt", "StatusApiTest.kt")) {
+            assertFileNotContains(files.get(file).toPath(), "import jakarta.validation");
+        }
+    }
+
+    @Test
+    public void buildFilesEmitJvmTypeAnnotationsOnlyWithBeanValidation() throws IOException {
+        List<Map<String, Object>> springBootVersions = List.of(Map.of(), Map.of(USE_SPRING_BOOT3, true), Map.of(USE_SPRING_BOOT4, true));
+        for (Map<String, Object> springBootVersion : springBootVersions) {
+            for (boolean useBeanValidation : new boolean[]{true, false}) {
+                Map<String, Object> properties = new HashMap<>(springBootVersion);
+                properties.put(USE_BEANVALIDATION, useBeanValidation);
+                Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC, properties);
+                Path pom = files.get("pom.xml").toPath();
+                Path gradle = files.get("build.gradle.kts").toPath();
+                if (useBeanValidation) {
+                    assertFileContains(pom, "<arg>-Xemit-jvm-type-annotations</arg>");
+                    assertFileContains(gradle, "\"-Xemit-jvm-type-annotations\"");
+                } else {
+                    assertFileNotContains(pom, "-Xemit-jvm-type-annotations");
+                    assertFileNotContains(gradle, "-Xemit-jvm-type-annotations");
+                }
+            }
+        }
+    }
+
+    @Test
+    public void reactiveStringArrayReturnWorkaroundStillAppliesWithItemAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, REACTIVE, true, DELEGATE_PATTERN, true)));
+
+        assertFileContains(files.get("PetsApiDelegate.kt").toPath(),
+                "suspend fun addPets(pet: Flow<Pet>): ResponseEntity<List<kotlin.String>> {");
+    }
+
+    @Test
+    public void otherKotlinGeneratorsDoNotAnnotateCollectionItems() throws IOException {
+        for (String[] generatorAndLibrary : new String[][]{{"kotlin", "jvm-okhttp4"}, {"kotlin-server", "ktor"}}) {
+            Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                    new HashMap<>(Map.of(USE_BEANVALIDATION, true, KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@NotNull")),
+                    new HashMap<>(),
+                    configurator -> configurator.setGeneratorName(generatorAndLibrary[0]).setLibrary(generatorAndLibrary[1]));
+            Path holder = files.get("Holder.kt").toPath();
+
+            assertFileContains(holder, "kotlin.collections.List<Pet>", "kotlin.collections.List<kotlin.String>");
+            assertFileNotContains(holder, "<@");
+        }
+    }
+
+    @Test
+    public void collectionItemsReviewEdgeCases() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, SERVICE_IMPLEMENTATION, true,
+                        KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux")));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder, "val refNullablePets: kotlin.collections.List<@com.example.Qux @Valid NullablePet?>? = null");
+        // validation messages are escaped as Kotlin string literals
+        assertFileContains(holder,
+                "val messages: kotlin.collections.List<@com.example.Qux @Size(max=3, message=\"Must be \\\"small\\\" \\$x \\\\ ok\") kotlin.String>? = null");
+        // x-extra-imports reach every file whose signatures render the custom element annotation
+        for (String file : List.of("PetsApiController.kt", "PetsApiService.kt", "PetsApiServiceImpl.kt", "PetsApiTest.kt")) {
+            assertFileContains(files.get(file).toPath(), "import com.example.Foo");
+        }
+        assertFileContains(files.get("PetsApiService.kt").toPath(), "labels: kotlin.collections.List<@com.example.Qux @Foo kotlin.String>?");
     }
 }

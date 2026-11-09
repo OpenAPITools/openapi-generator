@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -245,11 +244,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("uuid", result.Uuid);
         }
     }
-
-    /// <summary>
-    /// The ResultSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Result))]
-    public partial class ResultSerializationContext : JsonSerializerContext { }
 }

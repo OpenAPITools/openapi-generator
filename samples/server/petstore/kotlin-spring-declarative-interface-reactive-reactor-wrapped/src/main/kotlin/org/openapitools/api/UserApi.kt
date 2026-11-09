@@ -44,7 +44,7 @@ interface UserApi {
         method = "POST"
     )
     fun createUsersWithArrayInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
     ): Mono<ResponseEntity<Unit>>
 
 
@@ -54,7 +54,7 @@ interface UserApi {
         method = "POST"
     )
     fun createUsersWithListInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
     ): Mono<ResponseEntity<Unit>>
 
 

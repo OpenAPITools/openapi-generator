@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
+|additionalItemsAnnotations|Additional annotations for the element type of lists/sets, e.g. `List&lt;@com.example.Audited Pet&gt;`. List separated by semicolon(;) or new line (Linux or Windows). Element nullability is expressed by the Kotlin type (`?`) and enforced by the compiler and by Jackson 3 when deserializing; add `@NotNull` here only if Bean Validation itself must reject null items (e.g. with Jackson 2). Annotations must be fully qualified or imported (e.g. via `x-extra-imports`). Note: the Kotlin compiler only writes element-type annotations to bytecode, which runtime validation needs, with the `-Xemit-jvm-type-annotations` flag. The generated Gradle and Maven builds set it when `useBeanValidation` is enabled; add it yourself if you use your own build.| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiPackage|api package for generated code| |org.openapitools.api|
@@ -94,7 +95,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-discriminator-value|Used with model inheritance to specify value for discriminator that identifies current model|MODEL|
-|x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-field-extra-annotation|Custom annotation(s) to be added to property; on an array `items` schema, generators that support element-type annotations add it to the element type instead (e.g. `List<@Foo T>`); accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
 |x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 |x-operation-extra-annotation|Custom annotation(s) to be added to operation; accepts a string or list of strings|OPERATION|null
 |x-extra-imports|Custom import(s) to add to the generated file that declares the annotated model, property, operation, or parameter (e.g. so custom annotations can be referenced by their short name); accepts a string or list of strings. Values are emitted verbatim (Kotlin alias imports supported) and only exact duplicates are removed|MODEL, FIELD, OPERATION, OPERATION_PARAMETER|null

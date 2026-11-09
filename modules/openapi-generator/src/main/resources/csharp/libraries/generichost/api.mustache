@@ -393,9 +393,12 @@ namespace {{packageName}}.{{apiPackage}}
                     {{#servers}}
                     {{#-first}}
                     Uri urlLocalVar = httpRequestMessageLocalVar.RequestUri = new Uri("{{url}}");
-                    uriBuilderLocalVar.Host = urlLocalVar.Authority;
+                    uriBuilderLocalVar.Host = urlLocalVar.Host;
+                    uriBuilderLocalVar.Port = urlLocalVar.Port;
                     uriBuilderLocalVar.Scheme = urlLocalVar.Scheme;
-                    uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
+                    uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath == "/"
+                        ? "{{{path}}}"
+                        : string.Concat(urlLocalVar.AbsolutePath.TrimEnd('/'), "{{{path}}}");
                     {{/-first}}
                     {{/servers}}
                     {{#constantParams}}
