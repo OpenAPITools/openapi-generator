@@ -2,6 +2,9 @@
 
 
 import datetime
+{{#generateScalarAnyOfAsUnion}}
+import functools
+{{/generateScalarAnyOfAsUnion}}
 from dateutil.parser import parse
 from enum import Enum
 import decimal
@@ -49,6 +52,13 @@ from {{packageName}}._legacy_model_helpers import _get_openapi_to_dict
 
 {{/compatibleWithPythonLegacy}}
 RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
+{{#generateScalarAnyOfAsUnion}}
+
+@functools.lru_cache(maxsize=None)
+def _type_adapter(alias: Any) -> TypeAdapter[Any]:
+    """Returns a TypeAdapter for a scalar anyOf type alias, building each one once."""
+    return TypeAdapter(alias)
+{{/generateScalarAnyOfAsUnion}}
 
 class ApiClient:
     """Generic API client for OpenAPI client library builds.
@@ -656,7 +666,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 {{#generateScalarAnyOfAsUnion}}
         elif not isinstance(klass, type):
             # a scalar anyOf type alias
-            return TypeAdapter(klass).validate_python(data)
+            return _type_adapter(klass).validate_python(data)
 {{/generateScalarAnyOfAsUnion}}
         elif issubclass(klass, Enum):
             return self.__deserialize_enum(data, klass)

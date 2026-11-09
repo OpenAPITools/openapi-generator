@@ -2101,6 +2101,11 @@ public class PythonClientCodegenTest {
         assertFileContains(models.resolve("date_or_text.py"),
                 "from datetime import date",
                 "DateOrText = Annotated[Union[date, StrictStr], Field(union_mode=\"left_to_right\")]");
+        assertFileContains(models.resolve("number_or_text.py"),
+                "NumberOrText = Annotated[Union[Union[StrictFloat, StrictInt], StrictStr], Field(union_mode=\"left_to_right\")]");
+        assertFileContains(models.resolve("id_or_text.py"),
+                "from uuid import UUID",
+                "IdOrText = Annotated[Union[UUID, StrictStr], Field(union_mode=\"left_to_right\")]");
         assertFileContains(models.resolve("nullable_pet_status.py"),
                 "NullablePetStatus = Annotated[Union[PetStatus, StrictStr, None], Field(union_mode=\"left_to_right\")]");
         // anyOf schemas with an object or array member keep the wrapper model
@@ -2127,8 +2132,10 @@ public class PythonClientCodegenTest {
                 "_item_statuses.to_dict()");
 
         assertFileContains(Paths.get(output, "openapi_client", "api_client.py"),
+                "import functools",
                 "from pydantic import SecretStr, TypeAdapter",
-                "return TypeAdapter(klass).validate_python(data)");
+                "@functools.lru_cache(maxsize=None)\ndef _type_adapter(alias: Any) -> TypeAdapter[Any]:",
+                "return _type_adapter(klass).validate_python(data)");
         assertFileContains(Paths.get(output, "docs", "OpenPetStatus.md"),
                 "`OpenPetStatus` is a type alias",
                 "* [**PetStatus**](PetStatus.md)",
@@ -2146,6 +2153,6 @@ public class PythonClientCodegenTest {
         assertFileContains(models.resolve("open_pet_status.py"), "class OpenPetStatus(BaseModel):");
         assertFileContains(models.resolve("holder.py"),
                 "\"status\": OpenPetStatus.from_dict(obj[\"status\"]) if obj.get(\"status\") is not None else None,");
-        TestUtils.assertFileNotContains(Paths.get(output, "openapi_client", "api_client.py"), "TypeAdapter");
+        TestUtils.assertFileNotContains(Paths.get(output, "openapi_client", "api_client.py"), "TypeAdapter", "functools");
     }
 }

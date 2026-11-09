@@ -59,6 +59,15 @@ components:
         - type: string
           format: date
         - type: string
+    NumberOrText:
+      anyOf:
+        - type: number
+        - type: string
+    IdOrText:
+      anyOf:
+        - type: string
+          format: uuid
+        - type: string
     NullablePetStatus:
       nullable: true
       anyOf:
@@ -106,6 +115,10 @@ components:
           $ref: '#/components/schemas/CountOrFlag'
         date_or_text:
           $ref: '#/components/schemas/DateOrText'
+        number_or_text:
+          $ref: '#/components/schemas/NumberOrText'
+        id_or_text:
+          $ref: '#/components/schemas/IdOrText'
         pet_or_name:
           $ref: '#/components/schemas/PetOrName'
         pet_or_status:
