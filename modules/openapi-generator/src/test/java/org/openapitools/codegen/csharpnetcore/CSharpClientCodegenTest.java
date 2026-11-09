@@ -123,6 +123,59 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testGenericHostUsesSingleSourceGenerationContextWithUniqueInnerEnumNames() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components()
+                .addSchemas("Asset", new ObjectSchema()
+                        .addProperty("image", new Schema<>().$ref("#/components/schemas/ImageAsset"))
+                        .addProperty("document", new Schema<>().$ref("#/components/schemas/DocumentAsset")))
+                .addSchemas("ImageAsset", new ObjectSchema()
+                        .addProperty("type", new StringSchema()._enum(List.of("image"))))
+                .addSchemas("DocumentAsset", new ObjectSchema()
+                        .addProperty("type", new StringSchema()._enum(List.of("document")))));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("targetFramework", "net10.0");
+        codegen.additionalProperties().put("useSourceGeneration", true);
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File context = files.get(Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Client", "OpenApiSerializationContext.cs").toString());
+        assertNotNull(context);
+        assertFileContains(context.toPath(),
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.DocumentAsset.TypeEnum), TypeInfoPropertyName = \"DocumentAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::System.Nullable<global::Org.OpenAPITools.Model.DocumentAsset.TypeEnum>), TypeInfoPropertyName = \"NullableDocumentAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Client.Option<global::System.Nullable<global::Org.OpenAPITools.Model.DocumentAsset.TypeEnum>>), TypeInfoPropertyName = \"OptionNullableDocumentAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.ImageAsset.TypeEnum), TypeInfoPropertyName = \"ImageAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::System.Nullable<global::Org.OpenAPITools.Model.ImageAsset.TypeEnum>), TypeInfoPropertyName = \"NullableImageAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Client.Option<global::System.Nullable<global::Org.OpenAPITools.Model.ImageAsset.TypeEnum>>), TypeInfoPropertyName = \"OptionNullableImageAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.Asset))]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.DocumentAsset))]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.ImageAsset))]",
+                "public partial class OpenApiSerializationContext : JsonSerializerContext");
+
+        File hostConfiguration = files.get(Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Client", "HostConfiguration.cs").toString());
+        assertNotNull(hostConfiguration);
+        assertFileContains(hostConfiguration.toPath(), "new OpenApiSerializationContext()");
+        assertFileNotContains(hostConfiguration.toPath(),
+                "AssetSerializationContext",
+                "DocumentAssetSerializationContext",
+                "ImageAssetSerializationContext");
+
+        assertFileNotContains(getGeneratedModel(files, output, "Asset").toPath(), "JsonSerializerContext");
+        assertFileNotContains(getGeneratedModel(files, output, "DocumentAsset").toPath(), "JsonSerializerContext");
+        assertFileNotContains(getGeneratedModel(files, output, "ImageAsset").toPath(), "JsonSerializerContext");
+    }
+
+    @Test
     public void testGenericHostWritesUnsetAndNullInnerStringEnums() throws IOException {
         OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("Pet",
                 new ObjectSchema()
