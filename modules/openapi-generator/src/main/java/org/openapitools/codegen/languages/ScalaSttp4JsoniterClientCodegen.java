@@ -635,8 +635,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     public static class PackageProperty extends StringProperty {
 
         public PackageProperty() {
-            super("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', " +
-                    "'invokerPackage'", DEFAULT_PACKAGE_NAME);
+            super("mainPackage", "Top-level package name, which defines `apiPackage`, `modelPackage`, " +
+                    "`invokerPackage`", DEFAULT_PACKAGE_NAME);
         }
 
         @Override
