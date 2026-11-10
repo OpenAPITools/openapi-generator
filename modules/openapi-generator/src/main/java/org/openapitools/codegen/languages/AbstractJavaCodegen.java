@@ -163,7 +163,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     protected enum ENUM_PROPERTY_NAMING_TYPE {MACRO_CASE, legacy, original}
 
-    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: 'MACRO_CASE', 'legacy' and 'original'";
+    protected static final String ENUM_PROPERTY_NAMING_DESC = "Naming convention for enum properties: `MACRO_CASE`, `legacy` and `original`";
     @Getter protected ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = ENUM_PROPERTY_NAMING_TYPE.MACRO_CASE;
 
     /**
