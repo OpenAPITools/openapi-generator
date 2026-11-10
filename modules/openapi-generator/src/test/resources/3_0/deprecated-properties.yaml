@@ -57,3 +57,4 @@ components:
         color:
           type: string
           default: red
+          deprecated: true
