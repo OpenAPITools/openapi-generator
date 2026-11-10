@@ -30,11 +30,11 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |`json4sVersion`|The version of json4s library| |`4.0.6`|
 |`jsonLibrary`|Json library to use. Possible values are: json4s and circe.| |`json4s`|
 |`legacyDiscriminatorBehavior`|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|`true`|
-|`mainPackage`|Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'| |`org.openapitools.client`|
+|`mainPackage`|Top-level package name, which defines `apiPackage`, `modelPackage`, `invokerPackage`| |`org.openapitools.client`|
 |`modelPackage`|package for generated models| |`null`|
 |`modelPropertyNaming`|Naming convention for the property: `camelCase`, `PascalCase`, `snake_case` and `original`, which keeps the original name| |`camelCase`|
 |`prependFormOrBodyParameters`|Add form or body parameters to the beginning of the parameter list.| |`false`|
-|`separateErrorChannel`|Whether to return response as F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten response's error raising them through enclosing monad (F[ReturnType]).| |`true`|
+|`separateErrorChannel`|Whether to return response as `F[Either[ResponseError[ErrorType], ReturnType]]]` or to flatten response's error raising them through enclosing monad (`F[ReturnType]`).| |`true`|
 |`sortModelPropertiesByRequiredFlag`|Sort model properties to place required parameters before optional parameters.| |`true`|
 |`sortParamsByRequiredFlag`|Sort method arguments to place required parameters before optional parameters.| |`true`|
 |`sourceFolder`|source folder for generated code| |`null`|
