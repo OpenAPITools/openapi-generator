@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info: {title: t, version: '1'}
+paths:
+  /m:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AdditionalPropertiesModel'}
+components:
+  schemas:
+    AdditionalPropertiesModel:
+      type: object
+      properties:
+        name: {type: string}
+      additionalProperties: true
