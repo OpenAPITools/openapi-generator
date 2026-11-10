@@ -50,6 +50,16 @@ public class OpenAPINormalizerTest {
     private static final String X_INTERNAL = "x-internal";
 
     @Test
+    public void testAdditionalPropertiesWithoutRefIsNotTreatedAsSelfReference() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_25604.yaml");
+
+        List<String> messages = TestUtils.captureLogMessages(ModelUtils.class,
+                () -> new OpenAPINormalizer(openAPI, new HashMap<>()).normalize());
+
+        assertFalse(messages.stream().anyMatch(message -> message.contains("Failed to get the schema name")));
+    }
+
+    @Test
     public void testAllOfMemberWithValidationAndPropertiesIsKept() {
         // A schema carrying `properties` but omitting `type: object`, next to a validation keyword,
         // is a model -- not "validation without a type". It used to be classified as unsupported and
