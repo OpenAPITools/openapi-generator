@@ -34,7 +34,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |`modelPackage`|package for generated models| |`null`|
 |`modelPropertyNaming`|Naming convention for the property: `camelCase`, `PascalCase`, `snake_case` and `original`, which keeps the original name| |`camelCase`|
 |`prependFormOrBodyParameters`|Add form or body parameters to the beginning of the parameter list.| |`false`|
-|`separateErrorChannel`|Whether to return response as `F[Either[ResponseError[ErrorType], ReturnType]]]` or to flatten response's error raising them through enclosing monad (`F[ReturnType]`).| |`true`|
+|`separateErrorChannel`|Whether to return response as `F[Either[ResponseError[ErrorType], ReturnType]]` or to flatten response's error raising them through enclosing monad (`F[ReturnType]`).| |`true`|
 |`sortModelPropertiesByRequiredFlag`|Sort model properties to place required parameters before optional parameters.| |`true`|
 |`sortParamsByRequiredFlag`|Sort method arguments to place required parameters before optional parameters.| |`true`|
 |`sourceFolder`|source folder for generated code| |`null`|

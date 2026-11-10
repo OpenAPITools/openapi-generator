@@ -46,7 +46,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             "sttp client", "3.3.18");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
-                    "`F[Either[ResponseError[ErrorType], ReturnType]]]` or to flatten " +
+                    "`F[Either[ResponseError[ErrorType], ReturnType]]` or to flatten " +
                     "response's error raising them through enclosing monad (`F[ReturnType]`).", true);
     private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
             "joda-time library", "2.10.13");
