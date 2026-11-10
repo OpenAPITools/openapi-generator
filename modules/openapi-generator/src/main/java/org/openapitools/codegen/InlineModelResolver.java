@@ -416,12 +416,8 @@ public class InlineModelResolver {
                         continue;
                     }
 
-                    String schemaName = resolveModelName(prop.getTitle(), modelPrefix + "_" + propName);
-                    // Recurse to create $refs for inner models
-                    gatherInlineModels(prop, schemaName);
-                    if (isModelNeeded(prop)) {
-                        // If this schema should be split into its own model, do so
-                        Schema refSchema = this.makeSchemaInComponents(schemaName, prop);
+                    Schema refSchema = extractInlineModel(prop, prop.getTitle(), modelPrefix + "_" + propName);
+                    if (refSchema != null) {
                         props.put(propName, refSchema);
                     } else if (ModelUtils.isComposedSchema(prop)) {
                         if (prop.getAllOf() != null && prop.getAllOf().size() == 1 &&
@@ -439,12 +435,8 @@ public class InlineModelResolver {
                 if (schema.getAdditionalProperties() instanceof Schema) {
                     Schema inner = (Schema) schema.getAdditionalProperties();
                     if (inner != null) {
-                        String schemaName = resolveModelName(inner.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
-                        // Recurse to create $refs for inner models
-                        gatherInlineModels(inner, schemaName);
-                        if (isModelNeeded(inner)) {
-                            // If this schema should be split into its own model, do so
-                            Schema refSchema = this.makeSchemaInComponents(schemaName, inner);
+                        Schema refSchema = extractInlineModel(inner, inner.getTitle(), modelPrefix + this.inlineSchemaOptions.get("MAP_ITEM_SUFFIX"));
+                        if (refSchema != null) {
                             schema.setAdditionalProperties(refSchema);
                         }
                     }
@@ -476,14 +468,9 @@ public class InlineModelResolver {
                 LOGGER.debug("prefixItems in array schema is not supported at the moment: {}", schema.toString());
                 return;
             }
-            String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("ARRAY_ITEM_SUFFIX"));
-
-            // Recurse to create $refs for inner models
-            gatherInlineModels(items, schemaName);
-
-            if (isModelNeeded(items)) {
-                // If this schema should be split into its own model, do so
-                schema.setItems(this.makeSchemaInComponents(schemaName, items));
+            Schema refSchema = extractInlineModel(items, items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("ARRAY_ITEM_SUFFIX"));
+            if (refSchema != null) {
+                schema.setItems(refSchema);
             }
         }
         // Check allOf, anyOf, oneOf for inline models
@@ -529,14 +516,8 @@ public class InlineModelResolver {
                     if (inner == null) {
                         continue;
                     }
-                    String schemaName = resolveModelName(((Schema) inner).getTitle(), modelPrefix + "_anyOf");
-                    // Recurse to create $refs for inner models
-                    gatherInlineModels((Schema) inner, schemaName);
-                    if (isModelNeeded((Schema) inner)) {
-                        newAnyOf.add(this.makeSchemaInComponents(schemaName, (Schema) inner)); // replace with ref
-                    } else {
-                        newAnyOf.add((Schema) inner);
-                    }
+                    Schema refSchema = extractInlineModel((Schema) inner, ((Schema) inner).getTitle(), modelPrefix + "_anyOf");
+                    newAnyOf.add(refSchema != null ? refSchema : (Schema) inner); // replace with ref when extracted
                 }
                 schema.setAnyOf(newAnyOf);
             }
@@ -546,14 +527,8 @@ public class InlineModelResolver {
                     if (inner == null) {
                         continue;
                     }
-                    String schemaName = resolveModelName(((Schema) inner).getTitle(), modelPrefix + "_oneOf");
-                    // Recurse to create $refs for inner models
-                    gatherInlineModels((Schema) inner, schemaName);
-                    if (isModelNeeded((Schema) inner)) {
-                        newOneOf.add(this.makeSchemaInComponents(schemaName, (Schema) inner)); // replace with ref
-                    } else {
-                        newOneOf.add((Schema) inner);
-                    }
+                    Schema refSchema = extractInlineModel((Schema) inner, ((Schema) inner).getTitle(), modelPrefix + "_oneOf");
+                    newOneOf.add(refSchema != null ? refSchema : (Schema) inner); // replace with ref when extracted
                 }
                 schema.setOneOf(newOneOf);
             }
@@ -562,15 +537,29 @@ public class InlineModelResolver {
         if (schema.getNot() != null) {
             Schema not = schema.getNot();
             if (not != null) {
-                String schemaName = resolveModelName(schema.getTitle(), modelPrefix + "_not");
-                // Recurse to create $refs for inner models
-                gatherInlineModels(not, schemaName);
-                if (isModelNeeded(not)) {
-                    Schema refSchema = this.makeSchemaInComponents(schemaName, not);
+                Schema refSchema = extractInlineModel(not, schema.getTitle(), modelPrefix + "_not");
+                if (refSchema != null) {
                     schema.setNot(refSchema);
                 }
             }
         }
+    }
+
+    /**
+     * Names an inline schema, flattens the inline models inside it, and moves it to the
+     * components when it needs a model of its own.
+     *
+     * @param schema       the inline schema
+     * @param title        the title to name the model after
+     * @param fallbackName the name {@link #resolveModelName(String, String)} falls back to
+     *                     when the title is unusable
+     * @return the $ref schema that replaces {@code schema}, or null when it stays inline
+     */
+    private Schema extractInlineModel(Schema schema, String title, String fallbackName) {
+        String schemaName = resolveModelName(title, fallbackName);
+        // Recurse to create $refs for inner models
+        gatherInlineModels(schema, schemaName);
+        return isModelNeeded(schema) ? this.makeSchemaInComponents(schemaName, schema) : null;
     }
 
     /**
@@ -593,13 +582,9 @@ public class InlineModelResolver {
             if (schema == null) {
                 continue;
             }
-            String schemaName = resolveModelName(schema.getTitle(), name); // name example: testPost_request
-            // Recursively gather/make inline models within this schema if any
-            gatherInlineModels(schema, schemaName);
-            if (isModelNeeded(schema)) {
-                // If this schema should be split into its own model, do so
-                //Schema refSchema = this.makeSchema(schemaName, schema);
-                mediaType.setSchema(this.makeSchemaInComponents(schemaName, schema));
+            Schema refSchema = extractInlineModel(schema, schema.getTitle(), name); // name example: testPost_request
+            if (refSchema != null) {
+                mediaType.setSchema(refSchema);
             }
         }
     }
@@ -657,13 +642,10 @@ public class InlineModelResolver {
             if (parameterSchema == null) {
                 continue;
             }
-            String schemaName = resolveModelName(parameterSchema.getTitle(),
+            Schema refSchema = extractInlineModel(parameterSchema, parameterSchema.getTitle(),
                     (operationId == null ? modelName : operationId) + "_" + parameter.getName() + "_parameter");
-            // Recursively gather/make inline models within this schema if any
-            gatherInlineModels(parameterSchema, schemaName);
-            if (isModelNeeded(parameterSchema)) {
-                // If this schema should be split into its own model, do so
-                parameter.setSchema(this.makeSchemaInComponents(schemaName, parameterSchema));
+            if (refSchema != null) {
+                parameter.setSchema(refSchema);
             }
         }
     }
