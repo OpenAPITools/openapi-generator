@@ -72,7 +72,7 @@ import java.text.DateFormat
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -105,7 +105,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -139,7 +139,7 @@ import java.text.DateFormat
             requiresAuthentication = false,
             )
 
-            return request(
+            return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -172,7 +172,7 @@ import java.text.DateFormat
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

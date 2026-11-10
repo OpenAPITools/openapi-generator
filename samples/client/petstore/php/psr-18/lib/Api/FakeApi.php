@@ -4623,31 +4623,31 @@ class FakeApi
     /**
      * Operation testBodyWithQueryParams
      *
-     * @param  string $query query (required)
+     * @param  string $param_query param_query (required)
      * @param  \OpenAPI\Client\Model\User $user user (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testBodyWithQueryParams($query, $user)
+    public function testBodyWithQueryParams($param_query, $user)
     {
-        $this->testBodyWithQueryParamsWithHttpInfo($query, $user);
+        $this->testBodyWithQueryParamsWithHttpInfo($param_query, $user);
     }
 
     /**
      * Operation testBodyWithQueryParamsWithHttpInfo
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyWithQueryParamsWithHttpInfo($query, $user)
+    public function testBodyWithQueryParamsWithHttpInfo($param_query, $user)
     {
-        $request = $this->testBodyWithQueryParamsRequest($query, $user);
+        $request = $this->testBodyWithQueryParamsRequest($param_query, $user);
 
         try {
             try {
@@ -4689,15 +4689,15 @@ class FakeApi
     /**
      * Operation testBodyWithQueryParamsAsync
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \InvalidArgumentException
      * @return Promise
      */
-    public function testBodyWithQueryParamsAsync($query, $user)
+    public function testBodyWithQueryParamsAsync($param_query, $user)
     {
-        return $this->testBodyWithQueryParamsAsyncWithHttpInfo($query, $user)
+        return $this->testBodyWithQueryParamsAsyncWithHttpInfo($param_query, $user)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4708,16 +4708,16 @@ class FakeApi
     /**
      * Operation testBodyWithQueryParamsAsyncWithHttpInfo
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \InvalidArgumentException
      * @return Promise
      */
-    public function testBodyWithQueryParamsAsyncWithHttpInfo($query, $user)
+    public function testBodyWithQueryParamsAsyncWithHttpInfo($param_query, $user)
     {
         $returnType = '';
-        $request = $this->testBodyWithQueryParamsRequest($query, $user);
+        $request = $this->testBodyWithQueryParamsRequest($param_query, $user);
 
         return $this->httpAsyncClient->sendAsyncRequest($request)
             ->then(
@@ -4744,18 +4744,18 @@ class FakeApi
     /**
      * Create request for operation 'testBodyWithQueryParams'
      *
-     * @param  string $query (required)
+     * @param  string $param_query (required)
      * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \InvalidArgumentException
      * @return RequestInterface
      */
-    public function testBodyWithQueryParamsRequest($query, $user)
+    public function testBodyWithQueryParamsRequest($param_query, $user)
     {
-        // verify the required parameter 'query' is set
-        if ($query === null || (is_array($query) && count($query) === 0)) {
+        // verify the required parameter 'param_query' is set
+        if ($param_query === null || (is_array($param_query) && count($param_query) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $query when calling testBodyWithQueryParams'
+                'Missing the required parameter $param_query when calling testBodyWithQueryParams'
             );
         }
         // verify the required parameter 'user' is set
@@ -4773,14 +4773,14 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if ($query !== null) {
-            if('form' === 'form' && is_array($query)) {
-                foreach($query as $key => $value) {
+        if ($param_query !== null) {
+            if('form' === 'form' && is_array($param_query)) {
+                foreach($param_query as $key => $value) {
                     $queryParams[$key] = $value;
                 }
             }
             else {
-                $queryParams['query'] = $query;
+                $queryParams['query'] = $param_query;
             }
         }
 

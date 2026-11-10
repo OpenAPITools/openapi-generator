@@ -71,7 +71,7 @@ import java.text.DateFormat
             requiresAuthentication = false,
             )
 
-            return jsonRequest(
+            return this.jsonRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -93,10 +93,10 @@ import java.text.DateFormat
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
             val localVariableBody = 
-                        ParametersBuilder().also {
-                        name?.apply { it.append("name", name) }
-                        status?.apply { it.append("status", status.toString()) }
-                        status2?.apply { it.append("status2", status2.toString()) }
+                        ParametersBuilder().also { localVariableBuilder ->
+                        name?.apply { localVariableBuilder.append("name", name) }
+                        status?.apply { localVariableBuilder.append("status", status.toString()) }
+                        status2?.apply { localVariableBuilder.append("status2", status2.toString()) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
@@ -111,7 +111,7 @@ import java.text.DateFormat
             requiresAuthentication = true,
             )
 
-            return urlEncodedFormRequest(
+            return this.urlEncodedFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames

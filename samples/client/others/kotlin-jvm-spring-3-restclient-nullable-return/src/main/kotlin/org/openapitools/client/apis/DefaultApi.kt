@@ -53,7 +53,7 @@ open class DefaultApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     fun returnNothingWithHttpInfo(): ResponseEntity<Unit> {
         val localVariableConfig = returnNothingRequestConfig()
-        return request<Unit, Unit>(
+        return this.request<Unit, Unit>(
             localVariableConfig
         )
     }
@@ -64,13 +64,13 @@ open class DefaultApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/always-empty",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -81,14 +81,14 @@ open class DefaultApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun returnNullableString(pingRequest: PingRequest): kotlin.String? {
-        val result = returnNullableStringWithHttpInfo(pingRequest = pingRequest)
-        return result.body
+        val localVariableResult = returnNullableStringWithHttpInfo(pingRequest = pingRequest)
+        return localVariableResult.body
     }
 
     @Throws(RestClientResponseException::class)
     fun returnNullableStringWithHttpInfo(pingRequest: PingRequest): ResponseEntity<kotlin.String?> {
         val localVariableConfig = returnNullableStringRequestConfig(pingRequest = pingRequest)
-        return request<PingRequest, kotlin.String?>(
+        return this.request<PingRequest, kotlin.String?>(
             localVariableConfig
         )
     }
@@ -100,13 +100,13 @@ open class DefaultApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "text/html"
 
-        val params = mutableMapOf<String, Any>(
+        val localVariableParams = mutableMapOf<String, Any>(
         )
 
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/nullable-string",
-            params = params,
+            params = localVariableParams,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

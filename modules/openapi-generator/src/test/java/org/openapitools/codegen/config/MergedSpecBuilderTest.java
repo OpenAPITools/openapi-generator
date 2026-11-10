@@ -1170,4 +1170,47 @@ public class MergedSpecBuilderTest {
             }
         }
     }
+
+    /**
+     * Root-level security must reach OpenAPI 3.2 {@code additionalOperations} too: the propagation
+     * relies on {@code PathItem.readOperations()}, which in the 3.2 model includes
+     * {@code additionalOperations} values — this test pins that contract.
+     */
+    @Test
+    public void shouldPropagateRootSecurityToAdditionalOperations() {
+        io.swagger.v3.oas.models.security.SecurityRequirement req =
+                new io.swagger.v3.oas.models.security.SecurityRequirement().addList("apiKeyAuth");
+
+        OpenAPI spec1 = new OpenAPI().openapi("3.2.0")
+                .info(new Info().title("s1").version("1.0.0"))
+                .security(Collections.singletonList(req));
+        spec1.setPaths(new io.swagger.v3.oas.models.Paths());
+        spec1.setComponents(new Components());
+        PathItem path = new PathItem()
+                .get(new io.swagger.v3.oas.models.Operation().operationId("getA"));
+        path.addAdditionalOperation("REPORT",
+                new io.swagger.v3.oas.models.Operation().operationId("reportA"));
+        spec1.getPaths().addPathItem("/a", path);
+
+        // Same path URL in a second spec forces mergePathItem (the addAdditionalOperation branch)
+        OpenAPI spec2 = new OpenAPI().openapi("3.2.0")
+                .info(new Info().title("s2").version("1.0.0"));
+        spec2.setPaths(new io.swagger.v3.oas.models.Paths());
+        spec2.setComponents(new Components());
+        spec2.getPaths().addPathItem("/a", new PathItem()
+                .post(new io.swagger.v3.oas.models.Operation().operationId("postA")));
+
+        MergedSpecBuilder builder = new MergedSpecBuilder("dummy", "_merged")
+                .withMergeMode(MergedSpecBuilder.MergeMode.DEEP);
+        OpenAPI merged = builder.mergeSpecs(Arrays.asList(spec1, spec2), Collections.emptyList());
+
+        PathItem mergedPath = merged.getPaths().get("/a");
+        assertNotNull(mergedPath.getAdditionalOperations(), "additionalOperations must survive the merge");
+        io.swagger.v3.oas.models.Operation report = mergedPath.getAdditionalOperations().get("REPORT");
+        assertNotNull(report, "REPORT operation must be present after merge");
+        assertNotNull(report.getSecurity(),
+                "Root security must be propagated to additionalOperations");
+        assertTrue(report.getSecurity().stream().anyMatch(r -> r.containsKey("apiKeyAuth")),
+                "apiKeyAuth requirement must be present on the additionalOperation");
+    }
 }

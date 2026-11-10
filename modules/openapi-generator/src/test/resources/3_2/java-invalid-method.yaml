@@ -1,0 +1,40 @@
+openapi: 3.2.0
+info:
+  title: invalid method name test
+  version: '1.0'
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+    additionalOperations:
+      # valid RFC 9110 tokens - must be generated verbatim
+      SEARCH:
+        operationId: searchPets
+        responses:
+          '204':
+            description: done
+      "CHECK&FETCH":
+        operationId: checkFetchPets
+        responses:
+          '204':
+            description: done
+      # not valid RFC 9110 tokens - must be skipped with a warning;
+      # '"' would also break the emitted Java string literal
+      "BAD METHOD":
+        operationId: badMethod
+        responses:
+          '204':
+            description: done
+      "A\"B":
+        operationId: quotedMethod
+        responses:
+          '204':
+            description: done
+      "ÄÖ":
+        operationId: unicodeMethod
+        responses:
+          '204':
+            description: done

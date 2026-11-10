@@ -628,7 +628,12 @@ public class MergedSpecBuilder {
             if (pathItem == null || pathItem.readOperationsMap() == null) {
                 continue;
             }
-            for (Map.Entry<PathItem.HttpMethod, Operation> opEntry : pathItem.readOperationsMap().entrySet()) {
+            Map<String, Operation> allOperations = new LinkedHashMap<>();
+            pathItem.readOperationsMap().forEach((method, operation) -> allOperations.put(method.name(), operation));
+            if (pathItem.getAdditionalOperations() != null) {
+                allOperations.putAll(pathItem.getAdditionalOperations());
+            }
+            for (Map.Entry<String, Operation> opEntry : allOperations.entrySet()) {
                 Operation operation = opEntry.getValue();
                 String operationId = operation.getOperationId();
                 if (operationId == null || operationId.isEmpty()) {
@@ -721,6 +726,27 @@ public class MergedSpecBuilder {
             }
             existing.operation(method, operation);
         });
+
+        // Merge OpenAPI 3.2 additionalOperations (arbitrary HTTP method names that
+        // cannot appear in the enum-keyed readOperationsMap)
+        if (incoming.getAdditionalOperations() != null) {
+            incoming.getAdditionalOperations().forEach((method, operation) -> {
+                if (existing.getAdditionalOperations() != null && existing.getAdditionalOperations().containsKey(method)) {
+                    String message = String.format(Locale.ROOT,
+                            "Path+method conflict during spec merge: %s %s is defined in multiple specs. " +
+                            "Unlike schema reuse, duplicate HTTP methods on the same path are not valid — " +
+                            "check that your spec files do not overlap. Keeping the first definition.",
+                            method, pathKey);
+                    if (conflictStrategy == MergeConflictStrategy.FAIL) {
+                        throw new RuntimeException(message);
+                    }
+                    LOGGER.warn(message);
+                    // WARN: keep the first (existing) operation, skip the incoming one.
+                    return;
+                }
+                existing.addAdditionalOperation(method, operation);
+            });
+        }
 
         // Merge path-level parameters (first wins on conflict). Identity is the $ref value when the
         // parameter is a reference; otherwise name+in. Without this, multiple distinct $ref

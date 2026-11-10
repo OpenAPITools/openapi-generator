@@ -51,6 +51,11 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
      */
     public boolean queryIsJsonMimeType;
     /**
+     * OpenAPI 3.2 {@code in: querystring} parameter: the parameter value describes
+     * the entire query string (via {@code content}), not a single name=value pair.
+     */
+    public boolean isQueryStringParam;
+    /**
      * True when a header parameter uses a JSON media type in Parameter.content.
      */
     public boolean headerIsJsonMimeType;
@@ -274,6 +279,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         output.isArray = this.isArray;
         output.isMap = this.isMap;
         output.queryIsJsonMimeType = this.queryIsJsonMimeType;
+        output.isQueryStringParam = this.isQueryStringParam;
         output.headerIsJsonMimeType = this.headerIsJsonMimeType;
         output.isOptional = this.isOptional;
         output.isExplode = this.isExplode;
@@ -299,7 +305,8 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
                 isFormStyle, isSpaceDelimited, isPipeDelimited,
                 jsonSchema, isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isDecimal,
                 isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid, isUri, isEmail, isPassword,
-                isFreeFormObject, isAnyType, isArray, isMap, queryIsJsonMimeType, headerIsJsonMimeType, isOptional,
+                isFreeFormObject, isAnyType, isArray, isMap, queryIsJsonMimeType, headerIsJsonMimeType, isQueryStringParam,
+                isOptional,
                 isFile, isEnum, isEnumRef, _enum, allowableValues, items, mostInnerItems, additionalProperties, vars,
                 requiredVars, vendorExtensions, hasValidation, getMaxProperties(), getMinProperties(), isNullable,
                 isDeprecated, required, getMaximum(), getExclusiveMaximum(), getMinimum(), getExclusiveMinimum(),
@@ -317,6 +324,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         CodegenParameter that = (CodegenParameter) o;
         return isFormParam == that.isFormParam &&
                 isQueryParam == that.isQueryParam &&
+                isQueryStringParam == that.isQueryStringParam &&
                 isPathParam == that.isPathParam &&
                 isHeaderParam == that.isHeaderParam &&
                 isCookieParam == that.isCookieParam &&
@@ -435,6 +443,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
         final StringBuilder sb = new StringBuilder("CodegenParameter{");
         sb.append("isFormParam=").append(isFormParam);
         sb.append(", isQueryParam=").append(isQueryParam);
+        sb.append(", isQueryStringParam=").append(isQueryStringParam);
         sb.append(", isPathParam=").append(isPathParam);
         sb.append(", isHeaderParam=").append(isHeaderParam);
         sb.append(", isCookieParam=").append(isCookieParam);

@@ -79,7 +79,7 @@ open class BirdApi : ApiClient {
             requiresAuthentication = false,
         )
 
-        return request(
+        return this.request(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
@@ -116,7 +116,7 @@ open class BirdApi : ApiClient {
             requiresAuthentication = false,
         )
 
-        return multipartFormRequest(
+        return this.multipartFormRequest(
             localVariableConfig,
             localVariableBody,
             localVariableAuthNames
