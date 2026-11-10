@@ -74,7 +74,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -95,7 +95,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

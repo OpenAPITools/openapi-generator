@@ -982,8 +982,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             varName = varName.replaceAll("\\+", "_plus_");
             varName = varName.replaceAll("_+", "_");
         }
-        varName = sanitizeName(varName);
-        varName = varName.replaceFirst("^_", "");
+        String sanitizedName = sanitizeName(varName);
+        if (sanitizedName.replace("_", "").isEmpty()) {
+            // nothing is left of non-latin values like "Москва", keep their letters as TypeScript allows them
+            sanitizedName = sanitizeName(varName, "(?U)\\W");
+        }
+        varName = sanitizedName.replaceFirst("^_", "");
         varName = varName.replaceFirst("_$", "");
 
         varName = getNameUsingEnumPropertyNaming(varName);

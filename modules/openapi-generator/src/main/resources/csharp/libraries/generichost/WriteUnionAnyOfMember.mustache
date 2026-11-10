@@ -1,0 +1,6 @@
+            if ({{#lambda.joinWithAmpersand}}{{^required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet  {{/required}}{{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null{{/lambda.joinWithAmpersand}})
+            {
+                JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}}, jsonSerializerOptions);
+                return;
+            }
+

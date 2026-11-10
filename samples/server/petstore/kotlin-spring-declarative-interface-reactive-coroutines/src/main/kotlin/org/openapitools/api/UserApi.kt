@@ -44,7 +44,7 @@ interface UserApi {
         method = "POST"
     )
     suspend fun createUsersWithArrayInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
     ): Unit
 
     @ResponseStatus(HttpStatus.OK)
@@ -54,7 +54,7 @@ interface UserApi {
         method = "POST"
     )
     suspend fun createUsersWithListInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<User>
+        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
     ): Unit
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

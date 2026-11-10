@@ -1,0 +1,12 @@
+generatorName: kotlin-spring
+outputDir: samples/server/petstore/kotlin-springboot-collection-item-annotations
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore-collection-item-annotations.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
+additionalProperties:
+  documentationProvider: none
+  annotationLibrary: none
+  useSwaggerUI: "false"
+  serviceImplementation: "true"
+  useBeanValidation: "true"
+  useSpringBoot3: "true"
