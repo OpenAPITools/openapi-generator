@@ -303,6 +303,27 @@
             <version>2.10.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- runtime dependencies of the generated okhttp-gson JSON factory, so that
+             JavaOkHttpGsonNullAdditionalPropertiesTest can compile and run generated
+             client sources (JSON.java + model) with the client's configured Gson -->
+        <dependency>
+            <groupId>io.gsonfire</groupId>
+            <artifactId>gson-fire</artifactId>
+            <version>1.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okio</groupId>
+            <artifactId>okio</artifactId>
+            <version>3.4.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
