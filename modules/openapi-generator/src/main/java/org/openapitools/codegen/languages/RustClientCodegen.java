@@ -505,7 +505,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         String cmd = System.getenv("RUST_POST_PROCESS_FILE");
         if (StringUtils.isEmpty(cmd)) {
             cmd = "rustfmt";
-            command = new String[]{cmd, "--edition", "2021", fileName};
+            final String quotedFileName = "\"" + fileName + "\"";
+            command = new String[]{cmd, "--edition", "2021", quotedFileName};
         } else {
             command = new String[]{cmd, fileName};
         }
