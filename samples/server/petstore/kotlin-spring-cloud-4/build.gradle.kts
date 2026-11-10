@@ -11,6 +11,8 @@ repositories {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
+        // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
+        freeCompilerArgs.add("-Xemit-jvm-type-annotations")
     }
 }
 

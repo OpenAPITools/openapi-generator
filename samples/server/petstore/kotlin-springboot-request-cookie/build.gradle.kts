@@ -10,10 +10,10 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "17"
+    // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
+    kotlinOptions.freeCompilerArgs += "-Xemit-jvm-type-annotations"
 }
 
 tasks.bootJar {

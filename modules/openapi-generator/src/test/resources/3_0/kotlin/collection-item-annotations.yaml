@@ -1,0 +1,248 @@
+openapi: 3.0.1
+info:
+  title: Collection item annotations
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  maxLength: 10
+    get:
+      operationId: findPets
+      parameters:
+        - name: tags
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              maxLength: 10
+        - name: labels
+          in: query
+          x-extra-imports: com.example.Foo
+          schema:
+            type: array
+            items:
+              type: string
+              x-field-extra-annotation: '@Foo'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: array
+                  items:
+                    type: string
+                    minLength: 1
+                    maxLength: 3
+  /status:
+    get:
+      operationId: getStatus
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    Cat:
+      type: object
+      properties:
+        meow:
+          type: boolean
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: boolean
+    PetOneOf:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    PetAllOf:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            lives:
+              type: integer
+    NullablePet:
+      type: object
+      nullable: true
+      properties:
+        name:
+          type: string
+    Color:
+      type: string
+      enum: [red, green]
+    Holder:
+      type: object
+      required:
+        - names
+      properties:
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+        oneOfPets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetOneOf'
+        allOfPets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PetAllOf'
+        wrappedPets:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Pet'
+            description: a wrapped pet
+        nullablePets:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Pet'
+            nullable: true
+        refNullablePets:
+          type: array
+          items:
+            $ref: '#/components/schemas/NullablePet'
+        messages:
+          type: array
+          items:
+            type: string
+            maxLength: 3
+            x-size-message: 'Must be "small" $x \ ok'
+        names:
+          type: array
+          items:
+            type: string
+            maxLength: 10
+        codes:
+          type: array
+          items:
+            type: string
+            pattern: '^[A-Z]{2}$'
+        emails:
+          type: array
+          items:
+            type: string
+            format: email
+        sizes:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 3
+        ints:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+            maximum: 10
+        longs:
+          type: array
+          items:
+            type: integer
+            format: int64
+            minimum: 1
+            maximum: 10
+        decimals:
+          type: array
+          items:
+            type: number
+            minimum: 0.5
+            maximum: 9.5
+            exclusiveMaximum: true
+        uniqueNames:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            maxLength: 5
+        colors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Color'
+        inlineEnums:
+          type: array
+          items:
+            type: string
+            enum: [a, b]
+        freeForm:
+          type: array
+          items:
+            type: object
+        nullableNames:
+          type: array
+          items:
+            type: string
+            maxLength: 3
+            nullable: true
+        nested:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 3
+        extraString:
+          type: array
+          items:
+            type: string
+            x-field-extra-annotation: '@com.example.Foo'
+        extraList:
+          type: array
+          items:
+            type: string
+            maxLength: 3
+            x-field-extra-annotation:
+              - '@com.example.Foo'
+              - '@com.example.Bar'
+        enumExtra:
+          type: array
+          items:
+            type: string
+            enum: [x, y]
+            x-field-extra-annotation: '@com.example.Foo'
+        plainStrings:
+          type: array
+          items:
+            type: string
+        nullableStrings:
+          type: array
+          items:
+            type: string
+            nullable: true
+        petMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Pet'

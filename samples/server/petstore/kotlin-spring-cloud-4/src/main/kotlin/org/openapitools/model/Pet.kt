@@ -42,7 +42,7 @@ data class Pet(
 
     @field:Valid
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @Deprecated(message = "")
     @param:JsonProperty("status")

@@ -85,7 +85,7 @@ data class Dog(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") override val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @field:Valid
     @ApiModelProperty(value = "")

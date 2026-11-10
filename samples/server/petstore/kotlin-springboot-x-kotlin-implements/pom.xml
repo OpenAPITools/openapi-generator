@@ -44,6 +44,10 @@
                         <plugin>spring</plugin>
                     </compilerPlugins>
                     <jvmTarget>11</jvmTarget>
+                    <args>
+                        <!-- emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime -->
+                        <arg>-Xemit-jvm-type-annotations</arg>
+                    </args>
                 </configuration>
                 <executions>
                     <execution>

@@ -27,7 +27,7 @@ data class UserList(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("content")
-    @get:JsonProperty("content") val content: kotlin.collections.List<User>? = null,
+    @get:JsonProperty("content") val content: kotlin.collections.List<@Valid User>? = null,
 
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)

@@ -1,6 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import javax.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -30,7 +31,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithArrayInput(user: kotlin.collections.List<@Valid User>): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
@@ -39,7 +40,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): ResponseEntity<Unit> {
+    fun createUsersWithListInput(user: kotlin.collections.List<@Valid User>): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
 
     }
