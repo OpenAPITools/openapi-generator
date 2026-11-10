@@ -3109,7 +3109,18 @@ public class JavaClientCodegenTest {
                         + " public Boolean getDeclawed() {", // deprecated getter
                 "@Deprecated\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
                         + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
-                        + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {" // deprecated setter
+                        + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated setter
+                "@Deprecated\n @Override\n public BigDog color(@javax.annotation.Nullable String color) {", // deprecated inherited property, fluent setter override
+                "@Override\n public BigDog className(@javax.annotation.Nonnull String className) {" // inherited non-deprecated property, fluent setter override
+        );
+        // the fluent setter override of an inherited non-deprecated property stays unannotated
+        assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @Override\n public BigDog className(@javax.annotation.Nonnull String className) {"
+        );
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/Dog.java"),
+                "@Deprecated\n @Override\n public Dog color(@javax.annotation.Nullable String color) {" // deprecated inherited property, fluent setter override
         );
     }
 
@@ -3159,7 +3170,18 @@ public class JavaClientCodegenTest {
                         + " public Boolean getDeclawed() {", // deprecated getter
                 "@Deprecated\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
                         + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
-                        + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {" // deprecated setter
+                        + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated setter
+                "@Deprecated\n @Override\n public BigDog color(@javax.annotation.Nullable String color) {", // deprecated inherited property, fluent setter override
+                "@Override\n public BigDog className(@javax.annotation.Nonnull String className) {" // inherited non-deprecated property, fluent setter override
+        );
+        // the fluent setter override of an inherited non-deprecated property stays unannotated
+        assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @Override\n public BigDog className(@javax.annotation.Nonnull String className) {"
+        );
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/Dog.java"),
+                "@Deprecated\n @Override\n public Dog color(@javax.annotation.Nullable String color) {" // deprecated inherited property, fluent setter override
         );
     }
 

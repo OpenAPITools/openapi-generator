@@ -270,6 +270,9 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#parent}}
   {{#allVars}}
   {{#isOverridden}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   @Override
   public {{classname}} {{name}}({{>nullableArgumentWithEnum}} {{name}}) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
