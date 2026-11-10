@@ -45,14 +45,17 @@ public class ObjectWithDeprecatedFields  {
   protected String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
+  @Deprecated
   
   protected BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
+  @Deprecated
   
   protected DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
+  @Deprecated
   
   protected List<String> bars = null;
 
@@ -96,12 +99,14 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set id
    */
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(BigDecimal id) {
     this.id = id;
   }
 
+  @Deprecated
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     this.id = id;
     return this;
@@ -122,12 +127,14 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set deprecatedRef
    */
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
+  @Deprecated
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
@@ -148,12 +155,14 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set bars
    */
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_BARS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBars(List<String> bars) {
     this.bars = bars;
   }
 
+  @Deprecated
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     this.bars = bars;
     return this;
