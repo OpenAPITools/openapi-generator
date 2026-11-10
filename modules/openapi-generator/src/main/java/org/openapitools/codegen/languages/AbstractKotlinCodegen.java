@@ -319,7 +319,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 "Naming convention for enum properties: `camelCase`, `PascalCase`, `snake_case`," +
                 " `UPPERCASE`, `original`, and `bestEffortBacktick` (like `original`" +
                 " but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays" +
-                " `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)");
+                " `name,asc` rather than becoming `nameCommaAsc`; useful for sort/order enums)");
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
