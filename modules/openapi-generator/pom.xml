@@ -305,7 +305,11 @@
         </dependency>
         <!-- runtime dependencies of the generated okhttp-gson JSON factory, so that
              JavaOkHttpGsonNullAdditionalPropertiesTest can compile and run generated
-             client sources (JSON.java + model) with the client's configured Gson -->
+             client sources (JSON.java + model) with the client's configured Gson.
+             javax.annotation.Nullable (jsr305) is intentionally NOT declared here:
+             a direct test-scope declaration would mediate the transitive
+             compile-scope jsr305 from guava down to test scope and break the
+             main-compile classpath. -->
         <dependency>
             <groupId>io.gsonfire</groupId>
             <artifactId>gson-fire</artifactId>
@@ -316,12 +320,6 @@
             <groupId>com.squareup.okio</groupId>
             <artifactId>okio</artifactId>
             <version>3.4.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
