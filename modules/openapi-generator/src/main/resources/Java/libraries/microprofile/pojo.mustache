@@ -45,6 +45,9 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
   * {{{.}}}
   */
 {{/description}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   {{^withXml}}
   {{#jsonb}}{{^isDiscriminator}}@JsonbProperty("{{baseName}}"){{/isDiscriminator}}{{#isDiscriminator}}{{#jsonbPolymorphism}}@JsonbTransient{{/jsonbPolymorphism}}{{^jsonbPolymorphism}}@JsonbProperty("{{baseName}}"){{/jsonbPolymorphism}}{{/isDiscriminator}}{{/jsonb}}
   {{/withXml}}
@@ -119,11 +122,17 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#ve
   /**
    * Set {{name}}
    */
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
 {{#vendorExtensions.x-setter-extra-annotation}}  {{{vendorExtensions.x-setter-extra-annotation}}}
 {{/vendorExtensions.x-setter-extra-annotation}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}  public void {{setter}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
     this.{{name}} = {{name}};
   }
 
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   public {{classname}} {{name}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
     this.{{name}} = {{name}};
     return this;

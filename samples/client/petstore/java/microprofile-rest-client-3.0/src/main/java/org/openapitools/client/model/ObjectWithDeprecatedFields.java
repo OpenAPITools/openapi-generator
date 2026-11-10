@@ -42,12 +42,15 @@ public class ObjectWithDeprecatedFields  {
   @JsonbProperty("uuid")
   protected String uuid;
 
+  @Deprecated
   @JsonbProperty("id")
   protected BigDecimal id;
 
+  @Deprecated
   @JsonbProperty("deprecatedRef")
   protected DeprecatedObject deprecatedRef;
 
+  @Deprecated
   @JsonbProperty("bars")
   protected List<String> bars = null;
 
@@ -85,10 +88,12 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set id
    */
+  @Deprecated
   public void setId(BigDecimal id) {
     this.id = id;
   }
 
+  @Deprecated
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     this.id = id;
     return this;
@@ -107,10 +112,12 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set deprecatedRef
    */
+  @Deprecated
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
 
+  @Deprecated
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
@@ -129,10 +136,12 @@ public class ObjectWithDeprecatedFields  {
   /**
    * Set bars
    */
+  @Deprecated
   public void setBars(List<String> bars) {
     this.bars = bars;
   }
 
+  @Deprecated
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     this.bars = bars;
     return this;
