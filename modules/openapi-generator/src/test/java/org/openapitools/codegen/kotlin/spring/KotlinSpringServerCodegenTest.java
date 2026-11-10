@@ -1574,8 +1574,29 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(converter.toPath(), "tools.jackson", "**/");
         assertFileContains(files.get("README.md").toPath(),
                 "## Enum arguments",
-                "org.openapitools.configuration.JsonValueEnumToStringConverter",
+                "import org.openapitools.configuration.JsonValueEnumToStringConverter",
+                "import org.springframework.format.support.DefaultFormattingConversionService",
+                "import org.springframework.web.client.support.RestClientAdapter",
+                "import org.springframework.web.service.invoker.HttpServiceProxyFactory",
+                "HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient))",
                 "src/main/kotlin/org/openapitools/configuration/JsonValueEnumToStringConverter.kt");
+        assertFileNotContains(files.get("README.md").toPath(), "WebClientAdapter");
+    }
+
+    @Test
+    public void generateReactiveHttpInterfaceReadmeRegistersConverterWithWebClientAdapter() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.REACTIVE, true);
+        props.put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        Path readme = files.get("README.md").toPath();
+        assertFileContains(readme,
+                "import org.springframework.web.reactive.function.client.support.WebClientAdapter",
+                "HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient))");
+        assertFileNotContains(readme, "RestClientAdapter");
     }
 
     @Test

@@ -10,13 +10,18 @@ This generates Spring 6+ declarative HTTP interfaces that can be used to easily 
 ## Enum arguments
 
 By default, Spring's HTTP interface client sends enum query, path, header, cookie and form arguments using the enum constant name (for example `NAME_COMMA_ASC`), not the value declared in the OpenAPI specification (for example `name,asc`).
-The generated `org.openapitools.configuration.JsonValueEnumToStringConverter` sends the `@JsonValue` value instead. Register it with the `HttpServiceProxyFactory`:
+The generated `org.openapitools.configuration.JsonValueEnumToStringConverter` sends the `@JsonValue` value instead. Register it with the `HttpServiceProxyFactory` (Spring Framework 6.1+):
 
 ```kotlin
+import org.openapitools.configuration.JsonValueEnumToStringConverter
+import org.springframework.format.support.DefaultFormattingConversionService
+import org.springframework.web.reactive.function.client.support.WebClientAdapter
+import org.springframework.web.service.invoker.HttpServiceProxyFactory
+
 val conversionService = DefaultFormattingConversionService().apply {
     addConverter(JsonValueEnumToStringConverter())
 }
-val factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient))
+val factory = HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient))
     .conversionService(conversionService)
     .build()
 ```
