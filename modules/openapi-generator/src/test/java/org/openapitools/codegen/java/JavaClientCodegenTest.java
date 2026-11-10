@@ -5409,6 +5409,47 @@ public class JavaClientCodegenTest {
         };
     }
 
+    @DataProvider(name = "jspecifyAdditionalPropertiesLibraries")
+    public Object[][] jspecifyAdditionalPropertiesLibraries() {
+        return new Object[][]{{RESTCLIENT}, {WEBCLIENT}, {RESTTEMPLATE}, {NATIVE}, {MICROPROFILE}};
+    }
+
+    @Test(dataProvider = "jspecifyAdditionalPropertiesLibraries")
+    public void testJspecifyNullableAdditionalPropertiesAndObjectParameters(String library) {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify-additional-properties.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        ANNOTATION_LIBRARY, "none"),
+                codegenConfigurator -> codegenConfigurator.addTypeMapping("DateTime", "java.time.Instant"));
+
+        JavaFileAssert.assertThat(files.get("Extensible.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "private @Nullable Map<String, String> additionalProperties;",
+                        "public @Nullable Map<String, String> getAdditionalProperties()",
+                        "public @Nullable String getAdditionalProperty(String key)",
+                        "public boolean equals(@Nullable Object o)",
+                        "String toIndentedString(@Nullable Object o)");
+        // a qualified type takes the annotation on its simple name
+        JavaFileAssert.assertThat(files.get("ExtensibleWithTimestamps.java"))
+                .fileContains("public java.time.@Nullable Instant getAdditionalProperty(String key)");
+    }
+
+    @Test(dataProvider = "jspecifyAdditionalPropertiesLibraries")
+    public void testNullableAdditionalPropertiesOnlyWithJspecify(String library) {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify-additional-properties.yaml", library,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        ANNOTATION_LIBRARY, "none"));
+
+        JavaFileAssert.assertThat(files.get("Extensible.java"))
+                .fileContains(
+                        "private Map<String, String> additionalProperties;",
+                        "public Map<String, String> getAdditionalProperties()",
+                        "public String getAdditionalProperty(String key)",
+                        "public boolean equals(Object o)",
+                        "String toIndentedString(Object o)");
+    }
+
     @Test(dataProvider = "jspecifyLibraries")
     public void testJspecify(String library, int springBootVersion, boolean hasJspecifyDependency) throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
