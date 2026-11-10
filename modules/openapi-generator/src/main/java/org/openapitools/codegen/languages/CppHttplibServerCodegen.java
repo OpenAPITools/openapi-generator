@@ -207,8 +207,14 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
         typeMapping.put("date", "std::string");
         typeMapping.put("date-time", "std::string");
         typeMapping.put("password", "std::string");
+        // DefaultCodegen maps these to Java type names (UUID, URI, BigDecimal) that do not exist in C++
+        typeMapping.put("UUID", "std::string");
+        typeMapping.put("URI", "std::string");
+        typeMapping.put("decimal", "std::string");
         typeMapping.put("object", "nlohmann::json");
         typeMapping.put("array", "std::vector");
+        // uniqueItems arrays: DefaultCodegen maps "set" to "Set", which would be emitted as #include "Set.h"
+        typeMapping.put("set", "std::vector");
         typeMapping.put("file", "std::string");
         typeMapping.put("oas_any_type_not_mapped", "nlohmann::json");
 
@@ -1110,6 +1116,21 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                         model.vars = new ArrayList<>(model.allVars);
                     }
 
+                    // Constructor initializer list: only members with an initializer, so that the
+                    // template's -first marks the first emitted entry (where the ':' goes)
+                    List<Map<String, String>> memberInitializers = new ArrayList<>();
+                    if (model.vars != null) {
+                        for (CodegenProperty var : model.vars) {
+                            if (var.defaultValue != null) {
+                                Map<String, String> init = new HashMap<>();
+                                init.put("name", var.nameInCamelCase);
+                                init.put("value", var.defaultValue);
+                                memberInitializers.add(init);
+                            }
+                        }
+                    }
+                    model.vendorExtensions.put("memberInitializers", memberInitializers);
+
                     // After processing variables, check if any use optional or variant
                     // (processModelVariable may wrap types in std::optional)
                     boolean hasOptional = false;
@@ -1296,8 +1317,10 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
                 // Handle enum default values based on required status and schema default
                 if (!hasExplicitDefault) {
                     if (!var.required) {
-                        // Optional enum: wrap in std::optional and default to std::nullopt
-                        if (!var.dataType.startsWith("std::optional<")) {
+                        // Optional enum: wrap in std::optional and default to std::nullopt.
+                        // Check datatypeWithEnum (the declared member type): for a nullable enum, dataType
+                        // was already wrapped above while datatypeWithEnum was not.
+                        if (!var.datatypeWithEnum.startsWith("std::optional<")) {
                             var.dataType = "std::optional<" + var.datatypeWithEnum + ">";
                             var.datatypeWithEnum = var.dataType;
                         }
@@ -1334,7 +1357,10 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             }
             // Set default values
             if (var.defaultValue == null) {
-                var.defaultValue = getDefaultValueForType(var.dataType, var.isNullable);
+                // Derive the initializer from the declared member type (datatypeWithEnum), not from
+                // dataType/isNullable: nullable members are declared unwrapped, so std::nullopt would not compile
+                var.defaultValue = getDefaultValueForType(
+                        var.datatypeWithEnum != null ? var.datatypeWithEnum : var.dataType);
             }
             // Set primitive flags for mustache
             if (var.dataType.equals("int") || var.dataType.equals("int32_t") || var.dataType.equals("int64_t")
@@ -1381,17 +1407,14 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
     }
 
     /**
-     * Generates appropriate default values for C++ types based on the data type and nullability.
+     * Generates the constructor initializer for a member of the given declared C++ type.
+     * {@code std::nullopt} is only returned for members actually declared as {@code std::optional<T>}.
      *
-     * @param dataType   the C++ data type
-     * @param isNullable whether the type is nullable
-     * @return the appropriate default value string
+     * @param dataType the declared C++ member type
+     * @return the initializer expression, or null to let the member default-construct
+     *         (models, and nlohmann::json which default-constructs to JSON null)
      */
-    private String getDefaultValueForType(String dataType, boolean isNullable) {
-        if (isNullable) {
-            return "std::nullopt";
-        }
-
+    private String getDefaultValueForType(String dataType) {
         if (dataType.equals("std::string")) {
             return "\"\"";
         } else if (dataType.equals("bool")) {
