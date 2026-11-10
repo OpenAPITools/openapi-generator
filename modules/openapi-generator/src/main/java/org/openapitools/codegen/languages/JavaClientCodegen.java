@@ -66,6 +66,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
+    // Container variants may capture both a type token and an adapter.
+    private static final int GSON_ONEOF_FIELD_THRESHOLD = 100;
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
@@ -1247,6 +1249,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // A oneOf/anyOf wrapper extends AbstractOpenApiSchema, not its own parent, and has no
             // bag, so nothing is inherited through it
             for (CodegenModel cm : getAllModels(objs).values()) {
+                if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null
+                        && cm.getComposedSchemas().getOneOf().size() > GSON_ONEOF_FIELD_THRESHOLD) {
+                    cm.vendorExtensions.put("x-gson-large-oneof", true);
+                    for (CodegenProperty variant : cm.getComposedSchemas().getOneOf()) {
+                        variant.vendorExtensions.put("x-gson-large-oneof", true);
+                    }
+                }
                 for (CodegenModel ancestor = cm.getParentModel(); ancestor != null; ancestor = ancestor.getParentModel()) {
                     if (!ancestor.oneOf.isEmpty() || !ancestor.anyOf.isEmpty()) {
                         break;
