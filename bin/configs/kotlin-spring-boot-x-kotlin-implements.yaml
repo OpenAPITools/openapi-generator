@@ -19,6 +19,7 @@ additionalProperties:
     Pet: com.some.pack.WithId
     Category: [ com.some.pack.CategoryInterface ]
     Dog: [ com.some.pack.Canine ]
+    Order: [ "com.some.pack.BoundedRepo<kotlin.Long>", "com.some.pack.VariantSource<kotlin.collections.List<Tag>>", "com.some.pack.TwoBounds<kotlin.Int>" ]
   schemaImplementsFields:
     Pet: id
     Category: [ name, id ]

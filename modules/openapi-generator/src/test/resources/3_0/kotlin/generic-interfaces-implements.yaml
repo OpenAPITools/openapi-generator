@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Generic interfaces
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Cat:
+      type: object
+      x-kotlin-implements:
+        - com.some.pack.Repo<Dog>
+        - "com.some.pack.Pair<kotlin.String, com.other.pack.Bar>"
+      properties:
+        name:
+          type: string
+    Dog:
+      type: object
+      properties:
+        name:
+          type: string
+    Bird:
+      type: object
+      properties:
+        name:
+          type: string
+    Fish:
+      type: object
+      properties:
+        name:
+          type: string

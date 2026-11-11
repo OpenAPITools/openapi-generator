@@ -968,6 +968,7 @@ components:
           type: string
     Tag:
       type: object
+      x-kotlin-implements: [ "com.some.pack.GenericRepo<Category>", "com.some.pack.GenericPair<kotlin.String, org.openapitools.model.Category>" ]
       properties:
         id:
           type: integer

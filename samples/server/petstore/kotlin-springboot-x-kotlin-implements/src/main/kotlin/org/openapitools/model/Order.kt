@@ -64,7 +64,7 @@ data class Order(
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("complete")
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-) : java.io.Serializable {
+) : com.some.pack.BoundedRepo<kotlin.Long>, com.some.pack.TwoBounds<kotlin.Int>, com.some.pack.VariantSource<kotlin.collections.List<Tag>>, java.io.Serializable {
 
     /**
     * 
