@@ -684,6 +684,16 @@ public class DefaultGenerator implements Generator {
         return modelKeys;
     }
 
+    /**
+     * Groups the specification's declared tags by their sanitized name, as produced by
+     * {@link CodegenConfig#sanitizeTag(String)}. Tags whose name is {@code null} are
+     * skipped. The map preserves declaration order, so tags that sanitize to the same
+     * key are listed in the order they are declared.
+     *
+     * @param tags the declared tags of the OpenAPI document, may be {@code null}
+     * @return a map from each sanitized tag name to the declared tags sharing it,
+     * never {@code null}
+     */
     private Map<String, List<Tag>> buildTagsBySanitizedName(List<Tag> tags) {
         Map<String, List<Tag>> tagsBySanitizedName = new LinkedHashMap<>();
         if (tags != null) {
@@ -696,6 +706,18 @@ public class DefaultGenerator implements Generator {
         return tagsBySanitizedName;
     }
 
+    /**
+     * Resolves the declared tag for an operation group whose key is a sanitized tag
+     * name. When several declared tags sanitize to the same key, the one whose
+     * original (unsanitized) name is referenced by one of the group's operations is
+     * preferred; otherwise the first declared tag is used.
+     *
+     * @param groupName the operation group's tag key, already sanitized
+     * @param ops the group's operations, used to disambiguate same-key tags; may be {@code null}
+     * @param tagsBySanitizedName declared tags keyed by sanitized name, as built by
+     * {@link #buildTagsBySanitizedName(List)}
+     * @return the matching declared tag, or {@code null} if none is declared under the key
+     */
     private Tag resolveTagBySanitizedName(String groupName, List<CodegenOperation> ops,
                                           Map<String, List<Tag>> tagsBySanitizedName) {
         List<Tag> declared = tagsBySanitizedName.get(groupName);
@@ -723,6 +745,24 @@ public class DefaultGenerator implements Generator {
         return declared.get(0);
     }
 
+    /**
+     * Sets {@code operationTagName} and {@code operationTagDescription} on the operation
+     * map. The name is taken from the first declared tag matching the group key ignoring
+     * case; the description is chosen independently, from the first such tag that has one
+     * (an empty string when none does). Only when no name is found that way — which
+     * happens when {@code sanitizeTag} renamed the group key so it no longer matches any
+     * declared tag name (e.g. {@code pet-store} becomes {@code PetStore}) — is the
+     * declared tag resolved through the sanitized name and used for both values instead.
+     * Emitted values are passed through {@link CodegenConfig#escapeText(String)}.
+     *
+     * @param operation the operation's template data map, modified in place
+     * @param groupName the operation group's tag key
+     * @param ops the group's operations, forwarded to
+     * {@link #resolveTagBySanitizedName(String, List, Map)}
+     * @param openApiTags the declared tags of the OpenAPI document, may be {@code null}
+     * @param tagsBySanitizedName declared tags keyed by sanitized name, as built by
+     * {@link #buildTagsBySanitizedName(List)}
+     */
     private void putOperationTagMetadata(Map<String, Object> operation, String groupName,
                                          List<CodegenOperation> ops, List<Tag> openApiTags,
                                          Map<String, List<Tag>> tagsBySanitizedName) {
