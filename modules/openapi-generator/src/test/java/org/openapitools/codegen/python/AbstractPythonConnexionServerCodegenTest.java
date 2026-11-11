@@ -357,6 +357,109 @@ public class AbstractPythonConnexionServerCodegenTest {
         }
     }
 
+    @Test(description = "property, parameter, and apiKey names must be emitted losslessly (not HTML-escaped) inside generated Python string literals")
+    public void testEscapedNamesInAttributeMapAndApiKeyHeaders() throws IOException {
+        String specPath = "src/test/resources/3_0/python-flask/escaped-names.yaml";
+
+        Path flaskDir = generateOutputDir("python-flask", Collections.emptyMap(), specPath);
+        Path flaskModel = flaskDir.resolve(Paths.get("openapi_server", "models", "escaped_names.py"));
+        assertFileExists(flaskModel);
+        assertFileContains(flaskModel,
+                "'ab': 'a&b'",
+                "'ok': 'o\\'k'",
+                "'back_slash': 'back\\\\slash'",
+                "'dqx': 'dq\"x'",
+                "'unicode': 'unicodeé'");
+        assertFileNotContains(flaskModel, "&amp;", "&#39;", "&quot;");
+        Path flaskTest = flaskDir.resolve(Paths.get("openapi_server", "test", "test_default_controller.py"));
+        assertFileExists(flaskTest);
+        // an apiKey-in-header must send its keyParamName (X-A&B'Key), not the security
+        // scheme name (apiKeyAuth); an apiKey-in-query must not be added to headers at
+        // all; a query parameter must send its original name (q&we's), not the
+        // sanitized Python parameter name (qwes)
+        assertFileContains(flaskTest,
+                "'X-A&B\\'Key': 'special-key'",
+                "('q&we\\'s',",
+                "('api_query_token', 'special-key')");
+        assertFileNotContains(flaskTest,
+                "'apiKeyAuth'", "'apiQueryAuth'", "('qwes',");
+        // the 'X-A&amp;B&#39;Head' headerParam line emitted here stays HTML-escaped on
+        // purpose: flask/aiohttp test and controller headerParam names are owned by the
+        // object-params work (x-python-connexion-quoted-name), not by this change
+
+        Path aiohttpDir = generateOutputDir("python-aiohttp", Collections.emptyMap(), specPath);
+        Path aiohttpModel = aiohttpDir.resolve(Paths.get("openapi_server", "models", "escaped_names.py"));
+        assertFileExists(aiohttpModel);
+        assertFileContains(aiohttpModel,
+                "'ab': 'a&b'",
+                "'ok': 'o\\'k'",
+                "'back_slash': 'back\\\\slash'",
+                "'dqx': 'dq\"x'",
+                "'unicode': 'unicodeé'");
+        assertFileNotContains(aiohttpModel, "&amp;", "&#39;", "&quot;");
+        Path aiohttpTest = aiohttpDir.resolve(Paths.get("tests", "test_default_controller.py"));
+        assertFileExists(aiohttpTest);
+        assertFileContains(aiohttpTest,
+                "'X-A&B\\'Key': 'special-key'",
+                "('q&we\\'s',",
+                "('api_query_token', 'special-key')");
+        assertFileNotContains(aiohttpTest,
+                "'apiKeyAuth'", "'apiQueryAuth'", "('qwes',");
+
+        Path blueplanetDir = generateOutputDir("python-blueplanet", Collections.emptyMap(), specPath);
+        Path blueplanetModel = blueplanetDir.resolve(Paths.get("app", "openapi_server", "models", "escaped_names.py"));
+        assertFileExists(blueplanetModel);
+        assertFileContains(blueplanetModel,
+                "'ab': 'a&b'",
+                "'ok': 'o\\'k'",
+                "'back_slash': 'back\\\\slash'",
+                "'dqx': 'dq\"x'",
+                "'unicode': 'unicodeé'");
+        assertFileNotContains(blueplanetModel, "&amp;", "&#39;", "&quot;");
+        Path blueplanetTest = blueplanetDir.resolve(Paths.get("app", "openapi_server", "test", "test_default_controller.py"));
+        assertFileExists(blueplanetTest);
+        // blueplanet's test header list must send the original header name, escaped for
+        // a single-quoted Python literal
+        assertFileContainsTrimmedLine(blueplanetTest, "headers = [('X-A&B\\'Head', 'x_ab_head_example')]");
+        assertFileContainsTrimmedLine(blueplanetTest,
+                "headers += [('Cookie', '; '.join(['X-C&oo\\'kie=' + str('x_cookie_example')]))]");
+        assertFileNotContains(blueplanetTest, "('x_ab_head',", "&amp;", "&#39;");
+        // the query parameter must be sent under its wire name too, not the sanitized
+        // Python parameter name
+        assertFileContainsTrimmedLine(blueplanetTest, "query_string = [('q&we\\'s', 'qwes_example')]");
+        assertFileNotContains(blueplanetTest, "('qwes',");
+        Path blueplanetController = blueplanetDir.resolve(Paths.get("app", "openapi_server", "controllers", "default_controller.py"));
+        assertFileExists(blueplanetController);
+        // the controller must read header and cookie parameters under their original
+        // names, escaped for a single-quoted Python literal rather than HTML-escaped
+        assertFileContainsTrimmedLine(blueplanetController,
+                "x_ab_head = connexion.request.headers.get('X-A&B\\'Head')");
+        assertFileContainsTrimmedLine(blueplanetController,
+                "x_cookie = connexion.request.cookies.get('X-C&oo\\'kie')");
+        assertFileNotContains(blueplanetController, "&amp;", "&#39;");
+        // an unescaped quote would leave a broken literal like 'X-A&B'Head' in the
+        // file; pin that no such unterminated form is emitted (replaces the former
+        // `python3 -m py_compile` syntax check, which must not be required by the
+        // unit tests — see #25556)
+        assertFileNotContains(blueplanetTest, "'X-A&B'Head'", "'q&we's'", "'X-C&oo'kie'");
+        assertFileNotContains(blueplanetController, "'X-A&B'Head'", "'X-C&oo'kie'");
+    }
+
+    @Test(description = "escapeForPythonSingleQuotedLiteral is lossless: it escapes backslash, single quote, and control characters so the literal evaluates back to the original name")
+    public void testEscapeForPythonSingleQuotedLiteralIsLossless() {
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("a&b")).isEqualTo("a&b");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("o'k")).isEqualTo("o\\'k");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("back\\slash")).isEqualTo("back\\\\slash");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("dq\"x")).isEqualTo("dq\"x");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("unicode\u00e9")).isEqualTo("unicode\u00e9");
+        // escapeTextInSingleQuotes folds \t, \n, \r to a space and rewrites "'''"; this conversion must not
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("a\tb\nc\rd")).isEqualTo("a\\tb\\nc\\rd");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("x'''y")).isEqualTo("x\\'\\'\\'y");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("a\u000bb")).isEqualTo("a\\x0bb");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral("a\u007fb")).isEqualTo("a\\x7fb");
+        assertThat(AbstractPythonConnexionServerCodegen.escapeForPythonSingleQuotedLiteral(null)).isNull();
+    }
+
     @Test(description = "pythonic_params generators get Connexion-style argument names (id_, filter_) while python-blueplanet keeps the parent naming")
     public void testPythonicParamsArgumentNamesPerGenerator() throws IOException {
         String specPath = "src/test/resources/3_0/python-flask/builtin-param-names.yaml";
