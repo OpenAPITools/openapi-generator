@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
@@ -1179,5 +1180,39 @@ public class CSharpClientCodegenTest {
         File model = files.get(path);
         assertNotNull(model, "Could not find generated model: " + path);
         return model;
+    }
+
+    @Test
+    public void testGenerichostWebhookModelGetsPublicCtor() throws IOException {
+        // the AnimalChoice schema is referenced only by a webhook operation;
+        // models reachable only via openAPI.getWebhooks() must still be marked
+        // as operation inputs or their ctor stays `internal`
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_1/csharp/webhook-only-model.yaml");
+        // the fixture omits `paths` entirely (a webhooks-only 3.1 document),
+        // so this test also covers the getPaths() == null branch
+        assertNull(openAPI.getPaths());
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "AnimalChoice.cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: AnimalChoice");
+        assertFileContains(file.toPath(), "public AnimalChoice(");
+        assertFileNotContains(file.toPath(), "internal AnimalChoice(");
     }
 }
