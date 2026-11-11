@@ -287,6 +287,38 @@ public class CodegenConfiguratorTest {
 
     // https://github.com/OpenAPITools/openapi-generator/issues/24212
     @Test
+    public void shouldNotFalsePositiveOnNestedServerVariableTypo() {
+        ch.qos.logback.classic.Logger logger =
+                (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
+        ListAppender<ILoggingEvent> listAppender = attachListAppenderCapturingCurrentThread(logger);
+
+        try {
+            @SuppressWarnings("unchecked") Context<OpenAPI> context = (Context<OpenAPI>) new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_24212_server_variable_typo.yaml")
+                    .setGeneratorName("java")
+                    .setValidateSpec(false)
+                    .toContext();
+
+            // generation still proceeds despite the typo'd server variable field
+            Assertions.assertNotNull(context.getSpecDocument().getPaths().get("/tasks").getGet());
+
+            // swagger-parser reports the typo with a dotted member name,
+            // "attribute paths.'/tasks'.variables.env.descripton is unexpected" -- the same
+            // shape as a custom method containing a dot, but it is a nested member of a
+            // path-level server object, not a dropped operation
+            List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
+                    .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .filter(e -> e.getFormattedMessage().contains("MISSING"))
+                    .collect(Collectors.toList());
+            assertTrue(missingWarnLogs.isEmpty(),
+                    "A nested server-variable typo must not be reported as a dropped path-item operation");
+        } finally {
+            logger.detachAppender(listAppender);
+        }
+    }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24212
+    @Test
     public void shouldNotFalsePositiveOnNestedQuotedPathItemMemberTypo() {
         ch.qos.logback.classic.Logger logger =
                 (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(CodegenConfigurator.class);
