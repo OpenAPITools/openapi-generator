@@ -9,7 +9,7 @@
     <description>server</description>
     <properties>
         <kotlin.code.style>official</kotlin.code.style>
-        <kotlin_version>2.3.0</kotlin_version>
+        <kotlin_version>2.4.20</kotlin_version>
         <ktor_version>3.4.3</ktor_version>
         <logback_version>1.4.14</logback_version>
         <slf4j_version>2.0.9</slf4j_version>

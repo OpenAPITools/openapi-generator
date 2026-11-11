@@ -20,7 +20,7 @@ enum class {{classname}}(val value: {{dataType}}) {
          * @throws IllegalArgumentException if no enum individual is associated with the [value] passed as parameter.
          */
         fun fromValue(value: {{{dataType}}}): {{classname}} =
-            values().firstOrNull { it.value == value } ?: throw IllegalArgumentException("No enum constant {{classname}}.$value")
+            entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("No enum constant {{classname}}.$value")
     }
 {{/delegatePattern}}
 }

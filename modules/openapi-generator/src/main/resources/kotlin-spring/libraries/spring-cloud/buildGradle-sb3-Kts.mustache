@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 group = "{{groupId}}"
 version = "{{artifactVersion}}"
@@ -9,22 +9,28 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
-{{#useBeanValidation}}
-    // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
-    kotlinOptions.freeCompilerArgs += "-Xemit-jvm-type-annotations"
-{{/useBeanValidation}}
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+
+        {{#useBeanValidation}}
+        // Emit type annotations such as List<@Valid Pet>
+        // so Bean Validation can see them at runtime.
+        freeCompilerArgs.add("-Xemit-jvm-type-annotations")
+        {{/useBeanValidation}}
+    }
 }
 
 plugins {
-    val kotlinVersion = "1.9.25"
-    id("org.jetbrains.kotlin.jvm") version kotlinVersion
-    id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
-    id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.plugin.jpa")
+    id("org.jetbrains.kotlin.plugin.spring")
     id("org.springframework.boot") version "3.3.13"
     id("io.spring.dependency-management") version "1.1.7"
 }
+
+extra["kotlin.version"] = providers.gradleProperty("kotlinVersion").get()
+
 
 tasks.getByName("bootJar") {
     enabled = false
@@ -41,8 +47,8 @@ dependencyManagement {
 }
 
 dependencies {
-{{#reactive}}    val kotlinxCoroutinesVersion = "1.6.1"
-{{/reactive}}    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+{{#reactive}}    val kotlinxCoroutinesVersion = "1.11.0"
+{{/reactive}}    implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect"){{^reactive}}
     implementation("org.springframework.boot:spring-boot-starter-web"){{/reactive}}{{#reactive}}
     implementation("org.springframework.boot:spring-boot-starter-webflux")

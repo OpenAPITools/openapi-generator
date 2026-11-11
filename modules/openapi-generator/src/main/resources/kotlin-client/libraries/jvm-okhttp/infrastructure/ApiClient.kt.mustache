@@ -31,7 +31,6 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
 {{/threetenbp}}
-import java.util.Locale
 import java.util.regex.Pattern
 {{#useCoroutines}}
 import kotlin.coroutines.resume
@@ -353,20 +352,12 @@ import com.squareup.moshi.adapter
             // return tempFile
             val contentDisposition = response.header("Content-Disposition")
 
-            val fileName = if (contentDisposition != null) {
-                // Get filename from the Content-Disposition header.
-                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
-                val matcher = pattern.matcher(contentDisposition)
-                if (matcher.find()) {
-                    matcher.group(1)
-                        ?.replace(".*[/\\\\]", "")
-                        ?.replace(";", "")
-                } else {
-                    null
-                }
-            } else {
-                null
-            }
+            // Get filename from the Content-Disposition header.
+            val fileName = contentDisposition
+                ?.let { Regex("filename=['\"]?([^'\"\\s]+)['\"]?").find(it) }
+                ?.groupValues?.get(1)
+                ?.replace(Regex(".*[/\\\\]"), "")
+                ?.replace(";", "")
 
             var prefix: String?
             val suffix: String?
@@ -396,8 +387,7 @@ import com.squareup.moshi.adapter
             val tempFile = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 java.nio.file.Files.createTempFile(prefix, suffix).toFile()
             } else {
-                @Suppress("DEPRECATION")
-                createTempFile(prefix, suffix)
+                File.createTempFile(prefix, suffix)
             }
             {{/supportAndroidApiLevel25AndBelow}}
             tempFile.deleteOnExit()
@@ -523,7 +513,7 @@ import com.squareup.moshi.adapter
 
         val contentType = if (headers[CONTENT_TYPE] != null) {
             // TODO: support multiple contentType options here.
-            (headers[CONTENT_TYPE] as String).substringBefore(";").lowercase(Locale.US)
+            (headers[CONTENT_TYPE] as String).substringBefore(";").lowercase()
         } else {
             null
         }
@@ -567,7 +557,7 @@ import com.squareup.moshi.adapter
         val response = client.newCall(request).execute()
         {{/useCoroutines}}
 
-        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
+        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase()
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")

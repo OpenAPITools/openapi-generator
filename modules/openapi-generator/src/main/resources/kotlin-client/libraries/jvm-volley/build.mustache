@@ -5,7 +5,7 @@ project.version = '{{artifactVersion}}'
 
 buildscript {
 
-    ext.kotlin_version = '1.5.20'
+    ext.kotlin_version = '2.4.20'
     ext.swagger_annotations_version = "1.6.2"
     ext.gson_version = "2.8.6"
     ext.volley_version = "1.2.0"
@@ -23,7 +23,7 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.5.2'
         {{#useAndroidMavenGradlePlugin}}
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         {{/useAndroidMavenGradlePlugin}}
@@ -44,6 +44,9 @@ apply plugin: 'com.github.dcendents.android-maven'
 {{/useAndroidMavenGradlePlugin}}
 
 android {
+
+    namespace '{{packageName}}'
+
     compileSdkVersion 30
     defaultConfig {
         minSdkVersion 21
@@ -93,7 +96,7 @@ afterEvaluate {
         task.description = "Create jar artifact for ${variant.name}"
         task.dependsOn variant.javaCompile
         task.from variant.javaCompile.destinationDirectory
-        task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
+        task.destinationDirectory = project.layout.buildDirectory.dir("outputs/jar")
         task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
         artifacts.add('archives', task);
     }

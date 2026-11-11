@@ -138,34 +138,32 @@ data class ApiPet (
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                String.format("The required field(s) %s in ApiPet is not found in the empty JSON string", ApiPet.openapiRequiredFields.toString())
+                "The required field(s) ${openapiRequiredFields} in ApiPet is not found in the empty JSON string"
               }
             }
 
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
-                String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
+                "The required field `${requiredField}` is not found in the JSON string: ${jsonElement}"
               }
             }
             val jsonObj = jsonElement!!.getAsJsonObject()
             require(jsonObj["name"].isJsonPrimitive) {
-              String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj["name"].toString())
+              "Expected the field `name` to be a primitive type in the JSON string but got `${jsonObj["name"]}`"
             }
             // ensure the required json array is present
             requireNotNull(jsonObj["photoUrls"]) {
               "Expected the field `photoUrls` to be an array in the JSON string but got `null`"
             }
             require(jsonObj["photoUrls"].isJsonArray()) {
-              String.format("Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj["photoUrls"].toString())
+              "Expected the field `photoUrls` to be an array in the JSON string but got `${jsonObj["photoUrls"]}`"
             }
             // ensure the items in json array are primitive
-            if (jsonObj["photoUrls"] != null) {
-              for (i in 0 until jsonObj.getAsJsonArray("photoUrls").size()) {
-                require(jsonObj.getAsJsonArray("photoUrls").get(i).isJsonPrimitive) {
-                  String.format("Expected the property in array `photoUrls` to be primitive")
+            jsonObj["photoUrls"]?.asJsonArray?.forEach {
+                require(it.isJsonPrimitive) {
+                    "Expected the property in array `photoUrls` to be primitive"
                 }
-              }
             }
             // validate the optional field `category`
             if (jsonObj["category"] != null && !jsonObj["category"].isJsonNull) {
@@ -175,24 +173,25 @@ data class ApiPet (
               if (jsonObj.getAsJsonArray("tags") != null) {
                 // ensure the json data is an array
                 require(jsonObj["tags"].isJsonArray) {
-                  String.format("Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj["tags"].toString())
+                  "Expected the field `tags` to be an array in the JSON string but got `${jsonObj["tags"]}`"
                 }
 
                 // validate the optional field `tags` (array)
-                for (i in 0 until jsonObj.getAsJsonArray("tags").size()) {
-                  ApiTag.validateJsonElement(jsonObj.getAsJsonArray("tags").get(i))
+                jsonObj.getAsJsonArray("tags")
+                .forEach {
+                    ApiTag.validateJsonElement(it)
                 }
               }
             }
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-              require(jsonObj.get("status").isJsonPrimitive) {
-                String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj["status"].toString())
+              require(jsonObj["status"].isJsonPrimitive) {
+                "Expected the field `status` to be a primitive type in the JSON string but got `${jsonObj["status"]}`"
               }
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
                 require(Status.entries.any { it.value == jsonObj["status"].asString }) {
-                    String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
+                    "Expected the field `status` to be valid `Status` enum value in the JSON string but got `${jsonObj["status"]}`"
                 }
             }
         }

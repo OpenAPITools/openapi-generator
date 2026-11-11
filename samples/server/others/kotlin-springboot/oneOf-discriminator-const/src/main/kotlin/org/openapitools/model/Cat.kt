@@ -49,7 +49,7 @@ data class Cat(
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): HuntingSkill {
-                return values().firstOrNull{ it.value == value }
+                return entries.firstOrNull{ it.value == value }
                     ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'HuntingSkill'")
             }
         }

@@ -72,7 +72,7 @@ class ClientConfiguration {
 
         fun getBearerToken(): String {
             val accessToken = getAccessToken()
-            return String.format(java.util.Locale.ROOT, "%s %s", accessToken.tokenType?.value, accessToken.tokenValue)
+            return "${accessToken.tokenType?.value} ${accessToken.tokenValue}"
         }
     }
 

@@ -219,7 +219,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
         override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
             val value = decoder.decodeSerializableValue({{dataType}}.serializer())
             return {{nameInPascalCase}}.entries.firstOrNull { it.value == value }
-                ?: throw IllegalArgumentException("Unknown enum value: $value")
+                ?: throw IllegalArgumentException("Unknown enum value: ${value}")
         }
 
         override fun serialize(encoder: Encoder, value: {{nameInPascalCase}}) {
@@ -294,7 +294,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                String.format("The required field(s) %s in {{{classname}}} is not found in the empty JSON string", {{classname}}.openapiRequiredFields.toString())
+                "The required field(s) ${openapiRequiredFields} in {{{classname}}} is not found in the empty JSON string"
               }
             }
             {{^hasChildren}}
@@ -304,7 +304,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
-                String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
+                "The required field `${requiredField}` is not found in the JSON string: ${jsonElement}"
               }
             }
             {{/-first}}
@@ -319,26 +319,26 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#items.isModel}}
             {{#required}}
             // ensure the json data is an array
-            if (!jsonObj.get("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").isJsonArray) {
-              throw IllegalArgumentException(String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString()))
+            if (!jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonArray) {
+              throw IllegalArgumentException("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`")
             }
 
             // validate the required field `{{{baseName}}}` (array)
-            for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
-              {{{items.dataType}}}.validateJsonElement(jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").get(i))
-            }
+            jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
+                .forEach { {{{items.dataType}}}.validateJsonElement(it) }
             {{/required}}
             {{^required}}
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
               if (jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}") != null) {
                 // ensure the json data is an array
                 require(jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonArray) {
-                  String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+                  "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
                 }
 
                 // validate the optional field `{{{baseName}}}` (array)
-                for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
-                  {{{items.dataType}}}.validateJsonElement(jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").get(i))
+                jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
+                .forEach {
+                    {{{items.dataType}}}.validateJsonElement(it)
                 }
               }
             }
@@ -349,7 +349,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
             // ensure the optional json data is an array if present
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
               require(jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonArray()) {
-                String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+                "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
               }
             }
             {{/required}}
@@ -359,18 +359,16 @@ import {{packageName}}.infrastructure.ITransformForStorage
               "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `null`"
             }
             require(jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonArray()) {
-              String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+              "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be an array in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
             }
             {{/required}}
             {{#items.isPrimitiveType}}
             {{^items.isArray}}
             // ensure the items in json array are primitive
-            if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null) {
-              for (i in 0 until jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").size()) {
-                require(jsonObj.getAsJsonArray("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").get(i).isJsonPrimitive) {
-                  String.format("Expected the property in array `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be primitive")
+            jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]?.asJsonArray?.forEach {
+                require(it.isJsonPrimitive) {
+                    "Expected the property in array `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be primitive"
                 }
-              }
             }
             {{/items.isArray}}
             {{/items.isPrimitiveType}}
@@ -380,14 +378,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#isString}}
             {{#notRequiredOrIsNullable}}
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
-              require(jsonObj.get("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}").isJsonPrimitive) {
-                String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be a primitive type in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+              require(jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonPrimitive) {
+                "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be a primitive type in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
               }
             }
             {{/notRequiredOrIsNullable}}
             {{^notRequiredOrIsNullable}}
             require(jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonPrimitive) {
-              String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be a primitive type in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+              "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be a primitive type in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
             }
             {{/notRequiredOrIsNullable}}
             {{/isString}}
@@ -407,14 +405,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#required}}
             // validate the required field `{{{baseName}}}`
             require({{{datatypeWithEnum}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
-                String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+                "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
                 require({{{datatypeWithEnum}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
-                    String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+                    "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{datatypeWithEnum}}}` enum value in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
                 }
             }
             {{/required}}
@@ -423,14 +421,14 @@ import {{packageName}}.infrastructure.ITransformForStorage
             {{#required}}
             // validate the required field `{{{baseName}}}`
             require({{{dataType}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
-                String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+                "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
             }
             {{/required}}
             {{^required}}
             // validate the optional field `{{{baseName}}}`
             if (jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] != null && !jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].isJsonNull) {
                 require({{{dataType}}}.entries.any { it.value == jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].asString }) {
-                    String.format("Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `%s`", jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"].toString())
+                    "Expected the field `{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}` to be valid `{{{dataType}}}` enum value in the JSON string but got `${jsonObj["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"]}`"
                 }
             }
             {{/required}}

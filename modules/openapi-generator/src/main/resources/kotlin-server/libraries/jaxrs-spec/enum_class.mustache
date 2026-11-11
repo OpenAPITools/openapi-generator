@@ -54,10 +54,9 @@ import kotlinx.serialization.Serializable
         /**
          * Returns a valid [{{classname}}] for [data], null otherwise.
          */
-        @OptIn(ExperimentalStdlibApi::class)
         fun decode(data: Any?): {{classname}}? = data?.let {
           val normalizedData = "$it".lowercase()
-          values().firstOrNull { value ->
+          entries.firstOrNull { value ->
             it == value || normalizedData == "$value".lowercase()
           }
         }

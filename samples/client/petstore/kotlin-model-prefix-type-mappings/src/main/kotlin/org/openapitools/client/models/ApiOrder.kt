@@ -141,19 +141,19 @@ data class ApiOrder (
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                String.format("The required field(s) %s in ApiOrder is not found in the empty JSON string", ApiOrder.openapiRequiredFields.toString())
+                "The required field(s) ${openapiRequiredFields} in ApiOrder is not found in the empty JSON string"
               }
             }
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
-              require(jsonObj.get("status").isJsonPrimitive) {
-                String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj["status"].toString())
+              require(jsonObj["status"].isJsonPrimitive) {
+                "Expected the field `status` to be a primitive type in the JSON string but got `${jsonObj["status"]}`"
               }
             }
             // validate the optional field `status`
             if (jsonObj["status"] != null && !jsonObj["status"].isJsonNull) {
                 require(Status.entries.any { it.value == jsonObj["status"].asString }) {
-                    String.format("Expected the field `status` to be valid `Status` enum value in the JSON string but got `%s`", jsonObj["status"].toString())
+                    "Expected the field `status` to be valid `Status` enum value in the JSON string but got `${jsonObj["status"]}`"
                 }
             }
         }

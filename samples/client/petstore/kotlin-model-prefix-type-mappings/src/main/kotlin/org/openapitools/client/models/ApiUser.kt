@@ -134,43 +134,43 @@ data class ApiUser (
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                String.format("The required field(s) %s in ApiUser is not found in the empty JSON string", ApiUser.openapiRequiredFields.toString())
+                "The required field(s) ${openapiRequiredFields} in ApiUser is not found in the empty JSON string"
               }
             }
 
             // check to make sure all required properties/fields are present in the JSON string
             for (requiredField in openapiRequiredFields) {
               requireNotNull(jsonElement!!.getAsJsonObject()[requiredField]) {
-                String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString())
+                "The required field `${requiredField}` is not found in the JSON string: ${jsonElement}"
               }
             }
             val jsonObj = jsonElement!!.getAsJsonObject()
             require(jsonObj["username"].isJsonPrimitive) {
-              String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj["username"].toString())
+              "Expected the field `username` to be a primitive type in the JSON string but got `${jsonObj["username"]}`"
             }
             if (jsonObj["firstName"] != null && !jsonObj["firstName"].isJsonNull) {
-              require(jsonObj.get("firstName").isJsonPrimitive) {
-                String.format("Expected the field `firstName` to be a primitive type in the JSON string but got `%s`", jsonObj["firstName"].toString())
+              require(jsonObj["firstName"].isJsonPrimitive) {
+                "Expected the field `firstName` to be a primitive type in the JSON string but got `${jsonObj["firstName"]}`"
               }
             }
             if (jsonObj["lastName"] != null && !jsonObj["lastName"].isJsonNull) {
-              require(jsonObj.get("lastName").isJsonPrimitive) {
-                String.format("Expected the field `lastName` to be a primitive type in the JSON string but got `%s`", jsonObj["lastName"].toString())
+              require(jsonObj["lastName"].isJsonPrimitive) {
+                "Expected the field `lastName` to be a primitive type in the JSON string but got `${jsonObj["lastName"]}`"
               }
             }
             if (jsonObj["email"] != null && !jsonObj["email"].isJsonNull) {
-              require(jsonObj.get("email").isJsonPrimitive) {
-                String.format("Expected the field `email` to be a primitive type in the JSON string but got `%s`", jsonObj["email"].toString())
+              require(jsonObj["email"].isJsonPrimitive) {
+                "Expected the field `email` to be a primitive type in the JSON string but got `${jsonObj["email"]}`"
               }
             }
             if (jsonObj["password"] != null && !jsonObj["password"].isJsonNull) {
-              require(jsonObj.get("password").isJsonPrimitive) {
-                String.format("Expected the field `password` to be a primitive type in the JSON string but got `%s`", jsonObj["password"].toString())
+              require(jsonObj["password"].isJsonPrimitive) {
+                "Expected the field `password` to be a primitive type in the JSON string but got `${jsonObj["password"]}`"
               }
             }
             if (jsonObj["phone"] != null && !jsonObj["phone"].isJsonNull) {
-              require(jsonObj.get("phone").isJsonPrimitive) {
-                String.format("Expected the field `phone` to be a primitive type in the JSON string but got `%s`", jsonObj["phone"].toString())
+              require(jsonObj["phone"].isJsonPrimitive) {
+                "Expected the field `phone` to be a primitive type in the JSON string but got `${jsonObj["phone"]}`"
               }
             }
         }

@@ -94,7 +94,7 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
                         //log.log(Level.FINER, "Input data matches schema 'ApiUser'")
                     } catch (e: Exception) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for ApiUser failed with `%s`.", e.message))
+                        errorMessages.add("Deserialization for ApiUser failed with `${e.message}`.")
                         //log.log(Level.FINER, "Input data does not match schema 'ApiUser'", e)
                     }
                     // deserialize ApiPet
@@ -106,7 +106,7 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
                         //log.log(Level.FINER, "Input data matches schema 'ApiPet'")
                     } catch (e: Exception) {
                         // deserialization failed, continue
-                        errorMessages.add(String.format("Deserialization for ApiPet failed with `%s`.", e.message))
+                        errorMessages.add("Deserialization for ApiPet failed with `${e.message}`.")
                         //log.log(Level.FINER, "Input data does not match schema 'ApiPet'", e)
                     }
 
@@ -116,7 +116,7 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
                         return ret
                     }
 
-                    throw IOException(String.format("Failed deserialization for ApiUserOrPet: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
+                    throw IOException("Failed deserialization for ApiUserOrPet: ${match} classes match result, expected 1. Detailed failure message for oneOf schemas: ${errorMessages}. JSON: ${jsonElement}")
                 }
             }.nullSafe() as TypeAdapter<T>
         }
@@ -143,7 +143,7 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
                 match++
             } catch (e: Exception) {
                 // Validation failed, continue
-                errorMessages.add(String.format("Validation for ApiUser failed with `%s`.", e.message))
+                errorMessages.add("Validation for ApiUser failed with `${e.message}`.")
             }
             // validate the json string with ApiPet
             try {
@@ -152,11 +152,11 @@ data class ApiUserOrPet(var actualInstance: Any? = null) {
                 match++
             } catch (e: Exception) {
                 // Validation failed, continue
-                errorMessages.add(String.format("Validation for ApiPet failed with `%s`.", e.message))
+                errorMessages.add("Validation for ApiPet failed with `${e.message}`.")
             }
 
             if (match != 1) {
-                throw IOException(String.format("Failed validation for ApiUserOrPet: %d classes match result, expected 1. Detailed failure message for oneOf schemas: %s. JSON: %s", match, errorMessages, jsonElement.toString()))
+                throw IOException("Failed validation for ApiUserOrPet: ${match} classes match result, expected 1. Detailed failure message for oneOf schemas: ${errorMessages}. JSON: ${jsonElement}")
             }
         }
     }
