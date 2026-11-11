@@ -23,6 +23,16 @@ paths:
           description: Deleted
         '404':
           description: Not Found
+  /no-content-with-body:
+    delete:
+      operationId: deleteItemWithBody
+      responses:
+        '204':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
   /ok:
     get:
       operationId: getItem

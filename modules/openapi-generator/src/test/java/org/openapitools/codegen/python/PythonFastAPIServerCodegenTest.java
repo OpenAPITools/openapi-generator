@@ -334,8 +334,10 @@ public class PythonFastAPIServerCodegenTest {
                 "@router.delete(\n    \"/no-content\",\n    status_code=204,\n    responses={");
         // the lowest 2xx code wins, as for the return type
         assertFileContains(api, "@router.post(\n    \"/multiple\",\n    status_code=201,\n    responses={");
-        // 200 is FastAPI's default, a 2XX range or a default response has no exact code to declare
+        // 200 is FastAPI's default, a 2XX range or a default response has no exact code to declare, and FastAPI
+        // rejects a 204 route that has a response model
         assertFileContains(api,
+                "@router.delete(\n    \"/no-content-with-body\",\n    responses={",
                 "@router.get(\n    \"/ok\",\n    responses={",
                 "@router.get(\n    \"/range\",\n    responses={",
                 "@router.get(\n    \"/default-only\",\n    responses={");

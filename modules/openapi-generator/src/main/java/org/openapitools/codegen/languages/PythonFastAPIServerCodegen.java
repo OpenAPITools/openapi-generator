@@ -65,6 +65,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final String X_FASTAPI_REQUEST_BODY_EXAMPLE = "x-python-fastapi-request-body-example";
     private static final String X_FASTAPI_STATUS_CODE = "x-python-fastapi-status-code";
     private static final String FASTAPI_DEFAULT_STATUS_CODE = "200";
+    // FastAPI refuses to register a route that declares one of these status codes together with a response model
+    private static final Set<String> FASTAPI_NO_BODY_STATUS_CODES = new HashSet<>(Arrays.asList("204", "205"));
 
     private String implPackage;
     private boolean useExternalImplementationPackage = false;
@@ -354,7 +356,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
      * <p>
      * The lowest explicit {@code 2xx} code is used, which is also the response the return type is derived from.
      * Nothing is set when that code is {@code 200} (FastAPI's default) or when the specification only documents
-     * a range ({@code 2XX}) or a {@code default} response.
+     * a range ({@code 2XX}) or a {@code default} response. A {@code 204} or {@code 205} code is not declared
+     * either when the response unexpectedly defines a body, because FastAPI rejects such a route at import time.
      *
      * @param operation the operation whose success status code is looked up
      */
@@ -371,9 +374,13 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             }
         }
 
-        if (statusCode != null && !FASTAPI_DEFAULT_STATUS_CODE.equals(statusCode)) {
-            operation.vendorExtensions.put(X_FASTAPI_STATUS_CODE, statusCode);
+        if (statusCode == null || FASTAPI_DEFAULT_STATUS_CODE.equals(statusCode)) {
+            return;
         }
+        if (operation.returnType != null && FASTAPI_NO_BODY_STATUS_CODES.contains(statusCode)) {
+            return;
+        }
+        operation.vendorExtensions.put(X_FASTAPI_STATUS_CODE, statusCode);
     }
 
     /**
