@@ -31,11 +31,13 @@ import static org.testng.Assert.*;
 public class JavaOkHttpGsonLargeOneOfTest {
     @DataProvider
     public Object[][] variantCounts() {
-        return new Object[][]{{2}, {100}, {101}, {260}};
+        return new Object[][]{
+                {2, "okhttp-gson"}, {100, "okhttp-gson"}, {101, "okhttp-gson"}, {260, "okhttp-gson"},
+                {2, "okhttp"}, {100, "okhttp"}, {101, "okhttp"}, {260, "okhttp"}};
     }
 
     @Test(dataProvider = "variantCounts")
-    public void testOneOfAdapterLoadsAndRoundTrips(int count) throws Exception {
+    public void testOneOfAdapterLoadsAndRoundTrips(int count, String library) throws Exception {
         Path output = newTempFolder();
         Path spec = output.resolve("oneof.yaml");
         StringBuilder yaml = new StringBuilder("openapi: 3.0.3\ninfo: {title: OneOf, version: '1'}\npaths: {}\ncomponents:\n  schemas:\n    Union:\n      oneOf:\n");
@@ -46,7 +48,7 @@ public class JavaOkHttpGsonLargeOneOfTest {
         }
         for (int i = 0; i < count; i++) yaml.append("    Variant").append(i).append(":\n      type: object\n      properties:\n        kind: {type: string}\n");
         Files.writeString(spec, yaml.toString());
-        CodegenConfigurator config = new CodegenConfigurator().setGeneratorName("java").setLibrary("okhttp-gson")
+        CodegenConfigurator config = new CodegenConfigurator().setGeneratorName("java").setLibrary(library)
                 .setInputSpec(spec.toString()).setOutputDir(output.toString())
                 .addGlobalProperty("models", "").addGlobalProperty("modelDocs", "false")
                 .addGlobalProperty("modelTests", "false");

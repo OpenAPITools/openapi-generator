@@ -1573,8 +1573,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public String toParamName(String name) {
         String paramName = super.toParamName(name);
-        // the okhttp-gson call methods declare or read these names next to their parameters
-        if (isLibrary(OKHTTP_GSON) && OKHTTP_GSON_CALL_LOCALS.contains(paramName)) {
+        // the okhttp-gson and okhttp call methods declare or read these names next to their parameters
+        if ((isLibrary(OKHTTP_GSON) || isLibrary(OKHTTP)) && OKHTTP_GSON_CALL_LOCALS.contains(paramName)) {
             return "param" + StringUtils.capitalize(paramName);
         }
         return paramName;

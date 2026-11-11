@@ -6515,12 +6515,17 @@ public class JavaClientCodegenTest {
                 .contains("import org.springframework.stereotype.Component;");
     }
 
-    @Test
-    public void testOkHttpGsonParametersNamedLikeCallLocalsAreRenamed_issue25566() {
+    @DataProvider
+    Object[][] librariesSharingTheOkHttpCallTemplate() {
+        return new Object[][]{{Library.OKHTTP_GSON}, {Library.OKHTTP}};
+    }
+
+    @Test(dataProvider = "librariesSharingTheOkHttpCallTemplate")
+    public void testOkHttpGsonParametersNamedLikeCallLocalsAreRenamed_issue25566(Library library) {
         Path output = newTempFolder();
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName(JAVA_GENERATOR)
-                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setLibrary(library.value)
                 .setInputSpec("src/test/resources/3_0/java/issue_25566.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
 
