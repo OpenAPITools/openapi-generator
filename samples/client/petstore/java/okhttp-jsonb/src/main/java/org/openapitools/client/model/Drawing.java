@@ -19,15 +19,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.client.model.Fruit;
-import org.openapitools.client.model.NullableShape;
-import org.openapitools.client.model.Shape;
-import org.openapitools.client.model.ShapeOrNull;
 
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import jakarta.json.bind.Jsonb;

@@ -2,12 +2,10 @@
 
 package {{modelPackage}};
 
-import {{invokerPackage}}.ApiException;
 {{#isJackson}}
 import com.fasterxml.jackson.annotation.JsonValue;
 {{/isJackson}}
 import java.util.Objects;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 /**

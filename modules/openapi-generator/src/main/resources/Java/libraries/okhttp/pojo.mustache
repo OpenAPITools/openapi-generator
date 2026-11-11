@@ -1,13 +1,7 @@
 {{#isGson}}
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 {{! TypeAdapter, JsonReader, JsonWriter, JsonAdapter and SerializedName are contributed via
@@ -27,9 +21,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 {{/isJackson}}
 {{#isJsonb}}
 import jakarta.json.bind.annotation.JsonbProperty;
+{{#hasEnums}}
 import jakarta.json.bind.adapter.JsonbAdapter;
+{{/hasEnums}}
+{{#isAdditionalPropertiesTrue}}
+{{^vendorExtensions.x-inherits-additional-properties}}
 import jakarta.json.bind.annotation.JsonbTransient;
+{{/vendorExtensions.x-inherits-additional-properties}}
+{{/isAdditionalPropertiesTrue}}
+{{#hasEnums}}
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+{{/hasEnums}}
 {{#hasChildren}}
 import jakarta.json.JsonObject;
 import jakarta.json.bind.JsonbException;
@@ -572,7 +574,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
         if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `{{{baseName}}}` to be an array in the JSON string but got `%s`", jsonObj.get("{{{baseName}}}").toString()));
         }
-        JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+        com.google.gson.JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
         // validate the required field `{{{baseName}}}` (array)
         for (int i = 0; i < jsonArray{{name}}.size(); i++) {
           {{{items.dataType}}}.validateJsonElement(jsonArray{{name}}.get(i));
@@ -581,7 +583,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       {{/required}}
       {{^required}}
       if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
-        JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
+        com.google.gson.JsonArray jsonArray{{name}} = jsonObj.getAsJsonArray("{{{baseName}}}");
         if (jsonArray{{name}} != null) {
           // ensure the json data is an array
           if (!jsonObj.get("{{{baseName}}}").isJsonArray()) {
@@ -727,7 +729,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
                    if (jsonElement.isJsonNull()) {
-                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                     obj.add(entry.getKey(), com.google.gson.JsonNull.INSTANCE);
                    } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {

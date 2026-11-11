@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 
-import java.io.IOException;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 

@@ -39,7 +39,6 @@ import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -47,13 +46,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 
 /**
@@ -968,8 +965,9 @@ public class ApiClient {
      * @param response HTTP response
      * @param returnType The type of the Java object
      * @return The deserialized Java object
-     * @throws org.openapitools.client.ApiException If fail to deserialize response body, i.e. cannot read response body
-     *   or the Content-Type of the response is not supported.
+     * @throws org.openapitools.client.ApiException If fail to deserialize response body, i.e. cannot read response body,
+     *   the body does not match the return type, or the Content-Type of the response is not supported.
+     *   The exception carries the status code and headers of the response.
      */
     @SuppressWarnings("unchecked")
     public <T> T deserialize(Response response, Type returnType) throws ApiException {
@@ -982,7 +980,7 @@ public class ApiClient {
             try {
                 return (T) response.body().bytes();
             } catch (IOException e) {
-                throw new ApiException(e);
+                throw new ApiException(e.getMessage(), e, response.code(), response.headers().toMultimap());
             }
         } else if (returnType.equals(File.class)) {
             // Handle file downloading.
@@ -1026,8 +1024,17 @@ public class ApiClient {
                     response.headers().toMultimap(),
                     response.body().string());
             }
-        } catch (IOException e) {
-            throw new ApiException(e);
+        } catch (IOException | RuntimeException e) {
+            // The body could not be read or does not match the expected type. Serializers report
+            // that differently, some with an unchecked exception and some with an IOException,
+            // so it is always surfaced as an ApiException
+            // that keeps the status and headers of the response it belongs to. The body itself
+            // was consumed as a stream and is not available any more.
+            throw new ApiException(
+                "Failed to deserialize the response body as " + returnType + ": " + e.getMessage(),
+                e,
+                response.code(),
+                response.headers().toMultimap());
         }
     }
 

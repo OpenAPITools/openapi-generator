@@ -13,10 +13,8 @@
 
 package org.openapitools.client.model;
 
-import org.openapitools.client.ApiException;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 /**

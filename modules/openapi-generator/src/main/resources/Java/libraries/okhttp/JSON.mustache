@@ -2,7 +2,9 @@
 
 package {{invokerPackage}};
 
+{{^isJackson}}
 import {{modelPackage}}.AbstractOpenApiSchema;
+{{/isJackson}}
 
 {{#isGson}}
 import com.google.gson.Gson;
@@ -14,12 +16,10 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.google.gson.JsonElement;
 import io.gsonfire.GsonFireBuilder;
-import io.gsonfire.TypeSelector;
 {{/isGson}}
 {{#isJackson}}
 import {{jacksonPackage}}.core.JsonGenerator;
 import {{jacksonPackage}}.core.JsonParser;
-import {{jacksonPackage}}.core.JsonToken;
 {{#useJackson3}}
 import {{jacksonPackage}}.core.JacksonException;
 import {{jacksonPackage}}.core.json.JsonReadFeature;
@@ -75,27 +75,56 @@ import okio.ByteString;
 
 import java.io.IOException;
 import java.io.InputStream;
+{{#isGson}}
 import java.io.InputStreamReader;
 import java.io.StringReader;
+{{/isGson}}
+{{#isJsonb}}
 import java.lang.reflect.ParameterizedType;
+{{/isJsonb}}
 import java.lang.reflect.Type;
+{{#isGson}}
 import java.nio.charset.StandardCharsets;
+{{/isGson}}
 import java.text.DateFormat;
+{{^isJackson}}
 import java.text.ParseException;
+{{/isJackson}}
+{{#isJackson}}
+{{#legacyDates}}
+import java.text.ParseException;
+{{/legacyDates}}
+{{/isJackson}}
+{{#isGson}}
 import java.text.ParsePosition;
+{{/isGson}}
 {{#jsr310}}
 import java.time.LocalDate;
+{{^isJackson}}
 import java.time.LocalDateTime;
+{{/isJackson}}
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+{{#isGson}}
 import java.time.format.DateTimeParseException;
+{{/isGson}}
 {{/jsr310}}
+{{^isJackson}}
 import java.util.Date;
+{{/isJackson}}
+{{#isJackson}}
+{{#legacyDates}}
+import java.util.Date;
+{{/legacyDates}}
 import java.util.HashSet;
+{{/isJackson}}
 import java.util.Set;
-import java.util.Locale;
+{{^isJsonb}}
 import java.util.Map;
+{{/isJsonb}}
+{{#isJackson}}
 import java.util.HashMap;
+{{/isJackson}}
 
 /*
  * A JSON utility class
@@ -162,14 +191,14 @@ public class JSON {
         {{#models}}
         {{#model}}
         {{#discriminator}}
-        fireBuilder.registerTypeSelector({{modelPackage}}.{{classname}}.class, new TypeSelector<{{modelPackage}}.{{classname}}>() {
+        fireBuilder.registerTypeSelector({{modelPackage}}.{{classname}}.class, new io.gsonfire.TypeSelector<{{modelPackage}}.{{classname}}>() {
             @Override
             public Class<? extends {{modelPackage}}.{{classname}}> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 {{#mappedModels}}
-                classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelPackage}}.{{modelName}}.class);
+                classByDiscriminatorValue.put("{{mappingName}}"{{^discriminatorCaseSensitive}}.toUpperCase(java.util.Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelPackage}}.{{modelName}}.class);
                 {{/mappedModels}}
-                classByDiscriminatorValue.put("{{name}}"{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelPackage}}.{{classname}}.class);
+                classByDiscriminatorValue.put("{{name}}"{{^discriminatorCaseSensitive}}.toUpperCase(java.util.Locale.ROOT){{/discriminatorCaseSensitive}}, {{modelPackage}}.{{classname}}.class);
                 return getClassByDiscriminator(classByDiscriminatorValue,
                         getDiscriminatorValue(readElement, "{{{propertyBaseName}}}"));
             }
@@ -277,7 +306,7 @@ public class JSON {
     }
 
     private static Class getClassByDiscriminator(Map classByDiscriminatorValue, String discriminatorValue) {
-        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue{{^discriminatorCaseSensitive}}.toUpperCase(Locale.ROOT){{/discriminatorCaseSensitive}});
+        Class clazz = (Class) classByDiscriminatorValue.get(discriminatorValue{{^discriminatorCaseSensitive}}.toUpperCase(java.util.Locale.ROOT){{/discriminatorCaseSensitive}});
         if (null == clazz) {
             throw new IllegalArgumentException("cannot determine model class of name: <" + discriminatorValue + ">");
         }

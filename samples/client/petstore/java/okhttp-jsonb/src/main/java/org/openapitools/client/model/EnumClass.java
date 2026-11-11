@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 
-import java.io.IOException;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 

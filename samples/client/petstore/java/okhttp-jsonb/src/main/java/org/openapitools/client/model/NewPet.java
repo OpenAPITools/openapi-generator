@@ -19,9 +19,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.client.model.Category;
-import org.openapitools.client.model.NewPetCategoryInlineAllof;
-import org.openapitools.client.model.Tag;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;

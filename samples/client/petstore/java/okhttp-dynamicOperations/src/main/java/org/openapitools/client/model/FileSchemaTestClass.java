@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -25,17 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.openapitools.client.model.ModelFile;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import java.util.HashSet;
@@ -184,7 +176,7 @@ public class FileSchemaTestClass {
         ModelFile.validateJsonElement(jsonObj.get("file"));
       }
       if (jsonObj.get("files") != null && !jsonObj.get("files").isJsonNull()) {
-        JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
+        com.google.gson.JsonArray jsonArrayfiles = jsonObj.getAsJsonArray("files");
         if (jsonArrayfiles != null) {
           // ensure the json data is an array
           if (!jsonObj.get("files").isJsonArray()) {

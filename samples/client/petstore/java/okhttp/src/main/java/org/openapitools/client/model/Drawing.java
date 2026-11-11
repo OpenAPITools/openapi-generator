@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -26,20 +25,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.openapitools.client.model.Fruit;
-import org.openapitools.client.model.NullableShape;
-import org.openapitools.client.model.Shape;
-import org.openapitools.client.model.ShapeOrNull;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import java.util.HashSet;
@@ -288,7 +277,7 @@ public class Drawing {
         NullableShape.validateJsonElement(jsonObj.get("nullableShape"));
       }
       if (jsonObj.get("shapes") != null && !jsonObj.get("shapes").isJsonNull()) {
-        JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
+        com.google.gson.JsonArray jsonArrayshapes = jsonObj.getAsJsonArray("shapes");
         if (jsonArrayshapes != null) {
           // ensure the json data is an array
           if (!jsonObj.get("shapes").isJsonArray()) {
@@ -333,7 +322,7 @@ public class Drawing {
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
                    if (jsonElement.isJsonNull()) {
-                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                     obj.add(entry.getKey(), com.google.gson.JsonNull.INSTANCE);
                    } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {

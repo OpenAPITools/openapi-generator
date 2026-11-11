@@ -16,12 +16,8 @@ package org.openapitools.client.model;
 import java.util.Objects;
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Map;
 
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.adapter.JsonbAdapter;
-import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import jakarta.json.bind.Jsonb;

@@ -17,15 +17,11 @@ import org.openapitools.client.ApiCallback;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
-import org.openapitools.client.JSON;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
-import org.openapitools.client.ProgressRequestBody;
-import org.openapitools.client.ProgressResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.io.IOException;
 
 
 import org.openapitools.client.model.DataQuery;

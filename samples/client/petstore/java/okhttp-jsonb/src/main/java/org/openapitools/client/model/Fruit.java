@@ -14,14 +14,11 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.client.model.Apple;
-import org.openapitools.client.model.Banana;
 
 
 import jakarta.json.bind.annotation.JsonbTransient;
@@ -36,11 +33,8 @@ import jakarta.json.stream.JsonParser;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import java.lang.reflect.Type;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.StringJoiner;
 
 import org.openapitools.client.JSON;
 

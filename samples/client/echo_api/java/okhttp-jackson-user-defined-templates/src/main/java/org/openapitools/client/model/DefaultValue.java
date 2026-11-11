@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.openapitools.client.model.StringEnumRef;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 

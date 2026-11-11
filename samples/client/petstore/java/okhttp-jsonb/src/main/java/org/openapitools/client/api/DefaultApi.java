@@ -20,11 +20,8 @@ import org.openapitools.client.ApiResponse;
 import org.openapitools.client.JSON;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
-import org.openapitools.client.ProgressRequestBody;
-import org.openapitools.client.ProgressResponseBody;
 
 
-import java.io.IOException;
 
 
 import org.openapitools.client.model.FakeAnyOfWIthSameErasureGet200Response;

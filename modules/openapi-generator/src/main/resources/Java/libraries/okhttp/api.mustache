@@ -9,11 +9,11 @@ import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiOperation;
 {{/dynamicOperations}}
 import {{invokerPackage}}.ApiResponse;
+{{#isJsonb}}
 import {{invokerPackage}}.JSON;
+{{/isJsonb}}
 import {{invokerPackage}}.Configuration;
 import {{invokerPackage}}.Pair;
-import {{invokerPackage}}.ProgressRequestBody;
-import {{invokerPackage}}.ProgressResponseBody;
 {{#performBeanValidation}}
 import {{invokerPackage}}.BeanValidationException;
 {{/performBeanValidation}}
@@ -29,7 +29,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
 {{/dynamicOperations}}
 
-import java.io.IOException;
 
 {{#useBeanValidation}}
 import {{javaxPackage}}.validation.constraints.*;

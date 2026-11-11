@@ -17,13 +17,9 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfAttributes;
-import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfLinkListColumn1;
 
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.json.bind.annotation.JsonbTransient;
-import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import jakarta.json.bind.Jsonb;

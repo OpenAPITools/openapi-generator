@@ -26,20 +26,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.openapitools.client.model.Category;
-import org.openapitools.client.model.Tag;
 import android.os.Parcelable;
 import android.os.Parcel;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import java.util.HashSet;
@@ -405,7 +397,7 @@ public class Pet implements Parcelable {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `photoUrls` to be an array in the JSON string but got `%s`", jsonObj.get("photoUrls").toString()));
       }
       if (jsonObj.get("tags") != null && !jsonObj.get("tags").isJsonNull()) {
-        JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
+        com.google.gson.JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
         if (jsonArraytags != null) {
           // ensure the json data is an array
           if (!jsonObj.get("tags").isJsonArray()) {

@@ -1,19 +1,12 @@
 {{#isGson}}
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.JsonPrimitive;
 {{! TypeAdapter, JsonAdapter, SerializedName, JsonReader and JsonWriter are contributed via
     model.imports by JavaClientCodegen; emitting them here as well produced duplicates. }}
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
 {{/isGson}}
 {{#isJackson}}
 {{#isAdditionalPropertiesTrue}}
@@ -30,7 +23,9 @@ import {{jacksonPackage}}.databind.DeserializationContext;
 import {{jacksonPackage}}.databind.JsonMappingException;
 {{/useJackson3}}
 import {{jacksonPackage}}.databind.JsonNode;
+{{^useJackson3}}
 import {{jacksonPackage}}.databind.MapperFeature;
+{{/useJackson3}}
 {{^useJackson3}}
 import {{jacksonPackage}}.databind.SerializerProvider;
 {{/useJackson3}}
@@ -38,7 +33,6 @@ import {{jacksonPackage}}.databind.annotation.JsonDeserialize;
 import {{jacksonPackage}}.databind.annotation.JsonSerialize;
 import {{jacksonPackage}}.databind.deser.std.StdDeserializer;
 import {{jacksonPackage}}.databind.ser.std.StdSerializer;
-import {{jacksonPackage}}.databind.JavaType;
 {{#useJackson3}}
 import {{jacksonPackage}}.core.JacksonException;
 import {{jacksonPackage}}.databind.DatabindException;
@@ -66,13 +60,21 @@ import jakarta.json.JsonValue;
     also where codegen imports them for container properties. Emitting them here as well
     produced duplicate import lines. The rest have no Java importMapping entry and are not
     duplicated, so they stay. }}
+{{^isJackson}}
 import java.lang.reflect.Type;
+{{/isJackson}}
+{{^isJsonb}}
 import java.util.logging.Level;
+{{/isJsonb}}
 import java.util.logging.Logger;
+{{#isJackson}}
 import java.util.Collections;
+{{/isJackson}}
 import java.util.HashSet;
 {{! java.util.Objects is already imported by model.mustache for every model it renders. }}
+{{#supportUrlQuery}}
 import java.util.StringJoiner;
+{{/supportUrlQuery}}
 
 import {{invokerPackage}}.JSON;
 

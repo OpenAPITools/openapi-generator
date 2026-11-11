@@ -26,18 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.openapitools.client.model.Category;
-import org.openapitools.client.model.Tag;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import java.util.HashSet;
@@ -413,7 +405,7 @@ public class PetWithRequiredTags {
         if (!jsonObj.get("tags").isJsonArray()) {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `tags` to be an array in the JSON string but got `%s`", jsonObj.get("tags").toString()));
         }
-        JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
+        com.google.gson.JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
         // validate the required field `tags` (array)
         for (int i = 0; i < jsonArraytags.size(); i++) {
           Tag.validateJsonElement(jsonArraytags.get(i));
@@ -458,7 +450,7 @@ public class PetWithRequiredTags {
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
                    if (jsonElement.isJsonNull()) {
-                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                     obj.add(entry.getKey(), com.google.gson.JsonNull.INSTANCE);
                    } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {

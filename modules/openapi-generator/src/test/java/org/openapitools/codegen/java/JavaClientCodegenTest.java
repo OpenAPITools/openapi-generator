@@ -6332,8 +6332,8 @@ public class JavaClientCodegenTest {
                 .doesNotContain("import java.util.Map;");
         // byte[] equals/hashCode
         assertThat(files.get("FormatTest.java")).content().contains("import java.util.Arrays;");
-        // JsonNullable hashCodeNullable helper
-        assertThat(files.get("NullableClass.java")).content().contains("import java.util.Arrays;");
+        // openApiNullable is off for okhttp, so no JsonNullable hash helper is emitted and nothing here uses Arrays
+        assertThat(files.get("NullableClass.java")).content().doesNotContain("import java.util.Arrays;");
     }
 
     @Test(description = "composed oneOf models must keep okhttp-gson's fromJson/toJson helpers "
@@ -6357,7 +6357,7 @@ public class JavaClientCodegenTest {
 
         assertThat(files.get("NullableClass.java")).content()
                 .contains("if (jsonElement.isJsonNull()) {")
-                .contains("obj.add(entry.getKey(), JsonNull.INSTANCE);");
+                .contains("obj.add(entry.getKey(), com.google.gson.JsonNull.INSTANCE);");
         // null is not an instance of anything: non-nullable oneOf must reject it
         assertThat(files.get("JSON.java")).content()
                 .doesNotContain("if (instance == null) {\n            return true;");
@@ -6540,5 +6540,81 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("src/main/java/org/openapitools/client/model/Item.java")).content()
                 .contains("private String basePath;")
                 .contains("public String getBasePath()");
+    }
+
+    @DataProvider
+    Object[][] okHttpSerializers() {
+        return new Object[][]{{"gson", false}, {"jackson", false}, {"jackson", true}, {"jsonb", false}};
+    }
+
+    private Path generateOkHttpPetstore(String serializer, boolean jackson3) {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP)
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, serializer)
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, jackson3)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
+    }
+
+    /**
+     * A 2xx response whose body does not match the declared type used to surface differently per
+     * serializer (unchecked Gson/JSON-B/Jackson 3 exceptions, an ApiException with code 0 for
+     * Jackson 2). The okhttp ApiClient reports all of them as an ApiException that keeps the
+     * status and headers of the response.
+     */
+    @Test(dataProvider = "okHttpSerializers")
+    public void testOkHttpReportsDeserializationFailuresAsApiException(String serializer, boolean jackson3) {
+        Path output = generateOkHttpPetstore(serializer, jackson3);
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java")).content()
+                .contains("} catch (IOException | RuntimeException e) {")
+                .contains("\"Failed to deserialize the response body as \" + returnType + \": \" + e.getMessage(),");
+    }
+
+    @Test(dataProvider = "okHttpSerializers")
+    public void testOkHttpModelsAndApisImportOnlyWhatTheyUse(String serializer, boolean jackson3) {
+        Path output = generateOkHttpPetstore(serializer, jackson3);
+        Path model = output.resolve("src/main/java/org/openapitools/client/model");
+
+        // Category has no enum, no container and no sibling reference
+        assertThat(model.resolve("Category.java")).content()
+                .doesNotContain("import com.google.gson.GsonBuilder;")
+                .doesNotContain("import com.google.gson.JsonArray;")
+                .doesNotContain("import com.google.gson.JsonNull;")
+                .doesNotContain("import com.google.gson.annotations.JsonAdapter;")
+                .doesNotContain("import com.fasterxml.jackson.annotation.JsonCreator;")
+                .doesNotContain("import com.fasterxml.jackson.annotation.JsonValue;")
+                .doesNotContain("import jakarta.json.bind.adapter.JsonbAdapter;")
+                .doesNotContain("import jakarta.json.bind.annotation.JsonbTypeAdapter;")
+                .doesNotContain("import java.util.List;");
+        // Pet declares the status enum, so the enum annotations stay; its siblings need no import
+        assertThat(model.resolve("Pet.java")).content()
+                .doesNotContain("import org.openapitools.client.model.Category;")
+                .doesNotContain("import org.openapitools.client.model.Tag;")
+                .contains("import java.util.List;");
+        if ("gson".equals(serializer)) {
+            assertThat(model.resolve("Pet.java")).content().contains("import com.google.gson.annotations.JsonAdapter;");
+        } else if ("jackson".equals(serializer)) {
+            assertThat(model.resolve("Pet.java")).content()
+                    .contains("import com.fasterxml.jackson.annotation.JsonCreator;")
+                    .contains("import com.fasterxml.jackson.annotation.JsonValue;");
+            assertThat(model.resolve("Category.java")).content().doesNotContain("import java.util.Arrays;");
+        } else {
+            assertThat(model.resolve("Pet.java")).content()
+                    .contains("import jakarta.json.bind.adapter.JsonbAdapter;")
+                    .contains("import jakarta.json.bind.annotation.JsonbTypeAdapter;");
+            assertThat(model.resolve("Category.java")).content().doesNotContain("import java.util.Map;");
+        }
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/PetApi.java")).content()
+                .doesNotContain("import org.openapitools.client.ProgressRequestBody;")
+                .doesNotContain("import org.openapitools.client.ProgressResponseBody;")
+                .doesNotContain("import java.io.IOException;");
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiCallback.java")).content()
+                .doesNotContain("import java.io.IOException;");
     }
 }

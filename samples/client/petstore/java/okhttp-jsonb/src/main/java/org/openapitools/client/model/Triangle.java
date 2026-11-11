@@ -14,14 +14,10 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.client.model.EquilateralTriangle;
-import org.openapitools.client.model.IsoscelesTriangle;
-import org.openapitools.client.model.ScaleneTriangle;
 
 
 import jakarta.json.bind.annotation.JsonbTransient;
@@ -36,11 +32,8 @@ import jakarta.json.stream.JsonParser;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
 import java.lang.reflect.Type;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.StringJoiner;
 
 import org.openapitools.client.JSON;
 

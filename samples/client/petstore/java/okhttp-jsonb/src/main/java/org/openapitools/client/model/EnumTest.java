@@ -17,10 +17,6 @@ import java.util.Objects;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import org.openapitools.client.model.OuterEnum;
-import org.openapitools.client.model.OuterEnumDefaultValue;
-import org.openapitools.client.model.OuterEnumInteger;
-import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.adapter.JsonbAdapter;

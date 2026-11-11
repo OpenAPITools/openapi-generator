@@ -13,11 +13,9 @@
 
 package org.openapitools.client;
 
-import org.openapitools.client.model.AbstractOpenApiSchema;
 
 import tools.jackson.core.JsonGenerator;
 import tools.jackson.core.JsonParser;
-import tools.jackson.core.JsonToken;
 import tools.jackson.core.JacksonException;
 import tools.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.annotation.*;
@@ -31,23 +29,13 @@ import tools.jackson.databind.cfg.EnumFeature;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 

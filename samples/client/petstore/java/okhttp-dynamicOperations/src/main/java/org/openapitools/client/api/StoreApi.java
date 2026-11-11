@@ -18,17 +18,13 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiOperation;
 import org.openapitools.client.ApiResponse;
-import org.openapitools.client.JSON;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
-import org.openapitools.client.ProgressRequestBody;
-import org.openapitools.client.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
 
-import java.io.IOException;
 
 
 import org.openapitools.client.model.Order;

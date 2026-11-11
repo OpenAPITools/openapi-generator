@@ -1339,7 +1339,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 codegenModel.imports.add("HashMap");
                 codegenModel.imports.add("List");
                 codegenModel.imports.add("Map");
-                codegenModel.imports.add("IOException"); // the (de)serializer signatures
+                if (gson || (additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON) && !useJackson3)) {
+                    // the Gson adapter and the Jackson 2 (de)serializer signatures; Jackson 3 and
+                    // JSON-B declare unchecked exceptions only
+                    codegenModel.imports.add("IOException");
+                }
                 if (gson) {
                     codegenModel.imports.add("SerializedName");
                     codegenModel.imports.add("TypeAdapter");
@@ -1404,7 +1408,93 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
         }
+        if (isLibrary(OKHTTP)) {
+            pruneUnusedOkHttpModelImports(objs);
+        }
         return objs;
+    }
+
+    /**
+     * Drops the serializer annotation imports that {@link #postProcessModelProperty} and
+     * {@link AbstractJavaCodegen} add to every model but that the okhttp templates only reference
+     * from an enum: {@code @JsonAdapter} (Gson) and {@code @JsonValue}/{@code @JsonCreator}
+     * (Jackson) are emitted by modelEnum/modelInnerEnum, and {@code @JsonCreator} additionally by
+     * the constructor that populates read-only properties. A oneOf/anyOf wrapper has no annotated
+     * fields, so it needs neither {@code @JsonAdapter} nor {@code @SerializedName}.
+     * <p>
+     * The collection imports follow the same idea: {@code Arrays}, {@code List} and {@code Map}
+     * are added for every container property or by the blanket rules in {@link #fromModel}, but
+     * the pojo template only names them for a byte array, a declared property of that type, or the
+     * additionalProperties holder. Imports of sibling models are dropped as well, since every
+     * model lives in the model package.
+     *
+     * @param objs all models, as handed to {@link #postProcessAllModels}
+     */
+    private void pruneUnusedOkHttpModelImports(Map<String, ModelsMap> objs) {
+        for (ModelsMap modelsMap : objs.values()) {
+            final Set<String> unused = new HashSet<>();
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                final CodegenModel cm = modelMap.getModel();
+                if (cm.isEnum) {
+                    continue;
+                }
+                final boolean pojo = rendersAsPojo(cm);
+                if (!cm.hasEnums || !pojo) {
+                    unused.add(importMapping.get("JsonAdapter"));
+                    unused.add(importMapping.get("JsonValue"));
+                    if (!pojo || !cm.vendorExtensions.containsKey("x-has-readonly-properties")) {
+                        unused.add(importMapping.get("JsonCreator"));
+                    }
+                }
+                if (!pojo) {
+                    unused.add(importMapping.get("SerializedName"));
+                    continue;
+                }
+                final boolean gson = additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON);
+                final boolean jackson = additionalProperties.containsKey(SERIALIZATION_LIBRARY_JACKSON);
+                if (jackson && cm.vars.stream().noneMatch(v -> v.isByteArray || (v.defaultValue != null && v.defaultValue.contains("Arrays.")))
+                        && !cm.vendorExtensions.containsKey("x-jackson-optional-nullable-helpers")) {
+                    // not a byte[] property and not an array default built with Arrays.asList; Gson and
+                    // JSON-B models always need it for their field lists
+                    unused.add("java.util.Arrays");
+                }
+                if (!cm.isAdditionalPropertiesTrue) {
+                    if (gson && !declaresPropertyOfType(cm, "List")) {
+                        unused.add("java.util.List");
+                    }
+                    if (!gson && !declaresPropertyOfType(cm, "Map")) {
+                        unused.add("java.util.Map");
+                    }
+                }
+            }
+            if (modelsMap.getImports() != null) {
+                // a sibling model needs no import: models share one package
+                final String siblingPrefix = modelPackage() + ".";
+                modelsMap.getImports().removeIf(item -> {
+                    final String imported = item.get("import");
+                    return imported != null && imported.startsWith(siblingPrefix)
+                            && imported.indexOf('.', siblingPrefix.length()) < 0;
+                });
+            }
+            if (!unused.isEmpty() && modelsMap.getImports() != null) {
+                modelsMap.getImports().removeIf(item -> unused.contains(item.get("import")));
+            }
+        }
+    }
+
+    /**
+     * Whether a declared or inherited property of the model names the given collection type, as
+     * the property itself or nested in its generic arguments.
+     *
+     * @param cm the model
+     * @param simpleName the simple name of the collection type, e.g. {@code List}
+     * @return true when the rendered model source refers to the type through one of its properties
+     */
+    private static boolean declaresPropertyOfType(CodegenModel cm, String simpleName) {
+        final java.util.regex.Pattern type = java.util.regex.Pattern.compile("(^|[^A-Za-z0-9_.])" + simpleName + "\\b");
+        return java.util.stream.Stream.concat(cm.vars.stream(), cm.allVars.stream())
+                .anyMatch(v -> (v.dataType != null && type.matcher(v.dataType).find())
+                        || (v.datatypeWithEnum != null && type.matcher(v.datatypeWithEnum).find()));
     }
 
     @Override

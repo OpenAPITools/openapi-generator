@@ -21,10 +21,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
 import java.util.Map;
-import org.openapitools.client.model.OuterEnum;
-import org.openapitools.client.model.OuterEnumDefaultValue;
-import org.openapitools.client.model.OuterEnumInteger;
-import org.openapitools.client.model.OuterEnumIntegerDefaultValue;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;

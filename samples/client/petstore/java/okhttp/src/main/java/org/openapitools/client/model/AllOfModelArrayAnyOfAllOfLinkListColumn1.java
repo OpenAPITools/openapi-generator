@@ -15,7 +15,6 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -26,17 +25,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfLinkListColumn1Value;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import java.util.HashSet;
@@ -202,7 +194,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
         if (!jsonObj.get("value").isJsonArray()) {
           throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `value` to be an array in the JSON string but got `%s`", jsonObj.get("value").toString()));
         }
-        JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
+        com.google.gson.JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
         // validate the required field `value` (array)
         for (int i = 0; i < jsonArrayvalue.size(); i++) {
           AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
@@ -240,7 +232,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
                  else {
                    JsonElement jsonElement = gson.toJsonTree(entry.getValue());
                    if (jsonElement.isJsonNull()) {
-                     obj.add(entry.getKey(), JsonNull.INSTANCE);
+                     obj.add(entry.getKey(), com.google.gson.JsonNull.INSTANCE);
                    } else if (jsonElement.isJsonArray()) {
                      obj.add(entry.getKey(), jsonElement.getAsJsonArray());
                    } else {

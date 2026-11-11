@@ -24,7 +24,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.google.gson.JsonElement;
 import io.gsonfire.GsonFireBuilder;
-import io.gsonfire.TypeSelector;
 
 
 import okio.ByteString;
@@ -33,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -45,11 +43,8 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.Locale;
 import java.util.Map;
-import java.util.HashMap;
 
 /*
  * A JSON utility class
@@ -79,10 +74,10 @@ public class JSON {
             return;
         }
         GsonFireBuilder fireBuilder = new GsonFireBuilder();
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Animal.class, new TypeSelector<org.openapitools.client.model.Animal>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Animal.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Animal>() {
             @Override
             public Class<? extends org.openapitools.client.model.Animal> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Cat", org.openapitools.client.model.Cat.class);
                 classByDiscriminatorValue.put("Dog", org.openapitools.client.model.Dog.class);
                 classByDiscriminatorValue.put("Animal", org.openapitools.client.model.Animal.class);
@@ -90,47 +85,47 @@ public class JSON {
                         getDiscriminatorValue(readElement, "className"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Cat.class, new TypeSelector<org.openapitools.client.model.Cat>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Cat.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Cat>() {
             @Override
             public Class<? extends org.openapitools.client.model.Cat> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Cat", org.openapitools.client.model.Cat.class);
                 return getClassByDiscriminator(classByDiscriminatorValue,
                         getDiscriminatorValue(readElement, "className"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Dog.class, new TypeSelector<org.openapitools.client.model.Dog>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Dog.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Dog>() {
             @Override
             public Class<? extends org.openapitools.client.model.Dog> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Dog", org.openapitools.client.model.Dog.class);
                 return getClassByDiscriminator(classByDiscriminatorValue,
                         getDiscriminatorValue(readElement, "className"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.EnumStringDiscriminator.class, new TypeSelector<org.openapitools.client.model.EnumStringDiscriminator>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.EnumStringDiscriminator.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.EnumStringDiscriminator>() {
             @Override
             public Class<? extends org.openapitools.client.model.EnumStringDiscriminator> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("EnumStringDiscriminator", org.openapitools.client.model.EnumStringDiscriminator.class);
                 return getClassByDiscriminator(classByDiscriminatorValue,
                         getDiscriminatorValue(readElement, "enum_str_type"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.GrandparentAnimal.class, new TypeSelector<org.openapitools.client.model.GrandparentAnimal>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.GrandparentAnimal.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.GrandparentAnimal>() {
             @Override
             public Class<? extends org.openapitools.client.model.GrandparentAnimal> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("ParentPet", org.openapitools.client.model.ParentPet.class);
                 classByDiscriminatorValue.put("GrandparentAnimal", org.openapitools.client.model.GrandparentAnimal.class);
                 return getClassByDiscriminator(classByDiscriminatorValue,
                         getDiscriminatorValue(readElement, "pet_type"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Mammal.class, new TypeSelector<org.openapitools.client.model.Mammal>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Mammal.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Mammal>() {
             @Override
             public Class<? extends org.openapitools.client.model.Mammal> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
                 classByDiscriminatorValue.put("whale", org.openapitools.client.model.Whale.class);
                 classByDiscriminatorValue.put("zebra", org.openapitools.client.model.Zebra.class);
@@ -139,10 +134,10 @@ public class JSON {
                         getDiscriminatorValue(readElement, "className"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.MammalAnyof.class, new TypeSelector<org.openapitools.client.model.MammalAnyof>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.MammalAnyof.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.MammalAnyof>() {
             @Override
             public Class<? extends org.openapitools.client.model.MammalAnyof> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
                 classByDiscriminatorValue.put("whale", org.openapitools.client.model.Whale.class);
                 classByDiscriminatorValue.put("zebra", org.openapitools.client.model.Zebra.class);
@@ -151,10 +146,10 @@ public class JSON {
                         getDiscriminatorValue(readElement, "className"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.NullableShape.class, new TypeSelector<org.openapitools.client.model.NullableShape>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.NullableShape.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.NullableShape>() {
             @Override
             public Class<? extends org.openapitools.client.model.NullableShape> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
                 classByDiscriminatorValue.put("Triangle", org.openapitools.client.model.Triangle.class);
                 classByDiscriminatorValue.put("NullableShape", org.openapitools.client.model.NullableShape.class);
@@ -162,19 +157,19 @@ public class JSON {
                         getDiscriminatorValue(readElement, "shapeType"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.ParentPet.class, new TypeSelector<org.openapitools.client.model.ParentPet>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.ParentPet.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.ParentPet>() {
             @Override
             public Class<? extends org.openapitools.client.model.ParentPet> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("ParentPet", org.openapitools.client.model.ParentPet.class);
                 return getClassByDiscriminator(classByDiscriminatorValue,
                         getDiscriminatorValue(readElement, "pet_type"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Pig.class, new TypeSelector<org.openapitools.client.model.Pig>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Pig.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Pig>() {
             @Override
             public Class<? extends org.openapitools.client.model.Pig> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("BasquePig", org.openapitools.client.model.BasquePig.class);
                 classByDiscriminatorValue.put("DanishPig", org.openapitools.client.model.DanishPig.class);
                 classByDiscriminatorValue.put("Pig", org.openapitools.client.model.Pig.class);
@@ -182,10 +177,10 @@ public class JSON {
                         getDiscriminatorValue(readElement, "className"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Quadrilateral.class, new TypeSelector<org.openapitools.client.model.Quadrilateral>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Quadrilateral.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Quadrilateral>() {
             @Override
             public Class<? extends org.openapitools.client.model.Quadrilateral> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("ComplexQuadrilateral", org.openapitools.client.model.ComplexQuadrilateral.class);
                 classByDiscriminatorValue.put("SimpleQuadrilateral", org.openapitools.client.model.SimpleQuadrilateral.class);
                 classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
@@ -193,10 +188,10 @@ public class JSON {
                         getDiscriminatorValue(readElement, "quadrilateralType"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Shape.class, new TypeSelector<org.openapitools.client.model.Shape>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Shape.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Shape>() {
             @Override
             public Class<? extends org.openapitools.client.model.Shape> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
                 classByDiscriminatorValue.put("Triangle", org.openapitools.client.model.Triangle.class);
                 classByDiscriminatorValue.put("Shape", org.openapitools.client.model.Shape.class);
@@ -204,10 +199,10 @@ public class JSON {
                         getDiscriminatorValue(readElement, "shapeType"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.ShapeOrNull.class, new TypeSelector<org.openapitools.client.model.ShapeOrNull>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.ShapeOrNull.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.ShapeOrNull>() {
             @Override
             public Class<? extends org.openapitools.client.model.ShapeOrNull> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("Quadrilateral", org.openapitools.client.model.Quadrilateral.class);
                 classByDiscriminatorValue.put("Triangle", org.openapitools.client.model.Triangle.class);
                 classByDiscriminatorValue.put("ShapeOrNull", org.openapitools.client.model.ShapeOrNull.class);
@@ -215,10 +210,10 @@ public class JSON {
                         getDiscriminatorValue(readElement, "shapeType"));
             }
         });
-        fireBuilder.registerTypeSelector(org.openapitools.client.model.Triangle.class, new TypeSelector<org.openapitools.client.model.Triangle>() {
+        fireBuilder.registerTypeSelector(org.openapitools.client.model.Triangle.class, new io.gsonfire.TypeSelector<org.openapitools.client.model.Triangle>() {
             @Override
             public Class<? extends org.openapitools.client.model.Triangle> getClassForElement(JsonElement readElement) {
-                Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+                Map<String, Class> classByDiscriminatorValue = new java.util.HashMap<String, Class>();
                 classByDiscriminatorValue.put("EquilateralTriangle", org.openapitools.client.model.EquilateralTriangle.class);
                 classByDiscriminatorValue.put("IsoscelesTriangle", org.openapitools.client.model.IsoscelesTriangle.class);
                 classByDiscriminatorValue.put("ScaleneTriangle", org.openapitools.client.model.ScaleneTriangle.class);
