@@ -317,4 +317,31 @@ public class PythonFastAPIServerCodegenTest {
                 "examples=[{\"path\": \"/from-path\", \"recursive\": False}]");
         assertFileNotContains(pathPetsApi, "/from-webhook");
     }
+
+    @Test(description = "route decorators declare the documented success status code")
+    public void testSuccessStatusCodeInRouteDecorator() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_0/python-fastapi/success-status-codes.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/default_api.py");
+        final Path apiTest = Paths.get(outputPath + "tests/test_default_api.py");
+
+        assertFileExists(api);
+        assertFileExists(apiTest);
+
+        // a single non-200 success code is declared on the route
+        assertFileContains(api,
+                "@router.post(\n    \"/created\",\n    status_code=201,\n    responses={",
+                "@router.delete(\n    \"/no-content\",\n    status_code=204,\n    responses={");
+        // the lowest 2xx code wins, as for the return type
+        assertFileContains(api, "@router.post(\n    \"/multiple\",\n    status_code=201,\n    responses={");
+        // 200 is FastAPI's default, a 2XX range or a default response has no exact code to declare
+        assertFileContains(api,
+                "@router.get(\n    \"/ok\",\n    responses={",
+                "@router.get(\n    \"/range\",\n    responses={",
+                "@router.get(\n    \"/default-only\",\n    responses={");
+        assertFileNotContains(api, "status_code=200", "status_code=202");
+
+        // the generated test stubs expect the same status code
+        assertFileContains(apiTest, "#assert response.status_code == 204", "#assert response.status_code == 200");
+    }
 }

@@ -1,0 +1,66 @@
+openapi: 3.0.1
+info:
+  title: Success status codes
+  version: 1.0.0
+paths:
+  /created:
+    post:
+      operationId: createItem
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '400':
+          description: Bad Request
+  /no-content:
+    delete:
+      operationId: deleteItem
+      responses:
+        '204':
+          description: Deleted
+        '404':
+          description: Not Found
+  /ok:
+    get:
+      operationId: getItem
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /multiple:
+    post:
+      operationId: submitItem
+      responses:
+        '202':
+          description: Accepted
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /range:
+    get:
+      operationId: getRange
+      responses:
+        2XX:
+          description: Any success
+  /default-only:
+    get:
+      operationId: getDefaultOnly
+      responses:
+        default:
+          description: Whatever
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        name:
+          type: string
