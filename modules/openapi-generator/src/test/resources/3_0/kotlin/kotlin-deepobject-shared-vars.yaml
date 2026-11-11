@@ -27,5 +27,5 @@ components:
     Filter:
       type: object
       properties:
-        field:
+        status:
           type: string

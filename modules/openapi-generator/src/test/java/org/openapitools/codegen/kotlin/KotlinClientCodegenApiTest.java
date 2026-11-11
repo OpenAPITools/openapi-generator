@@ -342,14 +342,16 @@ public class KotlinClientCodegenApiTest {
         List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
         File searchApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
 
+        // the wire key must be paired with the value of the parameter it names:
+        // filter-a[status] must read filterA's property, filter-b[status] filterB's
         if (library == ClientLibrary.JVM_KTOR) {
             assertFileContains(searchApi.toPath(),
-                    "localVariableQuery[\"filter-a[field]\"]",
-                    "localVariableQuery[\"filter-b[field]\"]");
+                    "filterA?.status?.let { localVariableQuery[\"filter-a[status]\"] = listOf(\"$it\") }",
+                    "filterB?.status?.let { localVariableQuery[\"filter-b[status]\"] = listOf(\"$it\") }");
         } else {
             assertFileContains(searchApi.toPath(),
-                    "put(\"filter-a[field]\"",
-                    "put(\"filter-b[field]\"");
+                    "put(\"filter-a[status]\", listOf(filterA.status.toString()))",
+                    "put(\"filter-b[status]\", listOf(filterB.status.toString()))");
         }
     }
 
