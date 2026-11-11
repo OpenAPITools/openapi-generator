@@ -452,7 +452,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
                 + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
-                + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. "
+                + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec."
+                + " The number of sort orders is bounded too: a scalar 'sort' allows at most one (maxItems = 1), an array 'sort' uses the minItems/maxItems its schema defines (none defined = unbounded). An unsorted Pageable is always accepted. "
                 + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generateSortValidation));
         cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION,

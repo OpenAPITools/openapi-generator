@@ -8805,6 +8805,69 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void generateSortValidationEmitsItemCountBounds() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        String content = Files.readString(files.get("PetApi.java").toPath());
+        String petSortValues = "{\"id,asc\", \"id,desc\", \"createdAt,asc\", \"createdAt,desc\"}";
+        String inlineValues = "{\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"}";
+
+        // scalar enum sort → at most one sort order
+        assertThat(sortMethodSignature(content, "findPetsWithSortEnum"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", maxItems = 1)");
+        // scalar $ref enum sort → at most one sort order
+        assertThat(sortMethodSignature(content, "findPetsWithRefSort"))
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", maxItems = 1)");
+        // array sort with minItems/maxItems → both emitted
+        assertThat(sortMethodSignature(content, "findPetsWithArraySortBounds"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 1, maxItems = 2)");
+        // array sort without bounds → no bound attributes
+        assertThat(sortMethodSignature(content, "findPetsWithArraySortEnum"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ")");
+        // sort schema $ref-ing an array component with bounds
+        assertThat(sortMethodSignature(content, "findPetsWithRefSortBounds"))
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", minItems = 1, maxItems = 3)");
+        // array sort with only minItems → no maxItems attribute
+        assertThat(sortMethodSignature(content, "findPetsWithMinSortBounds"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 2)");
+    }
+
+    @Test
+    public void generateSortValidationValidatorChecksItemCount() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("ValidSort.java"))
+                .fileContains("int minItems() default 0;")
+                .fileContains("int maxItems() default Integer.MAX_VALUE;")
+                .fileContains("count >= minItems && count <= maxItems")
+                .fileContains("pageable == null || pageable.getSort().isUnsorted()")
+                .fileContains("? \"at least \" + minItems", ": minItems == 0 ? \"at most \" + maxItems")
+                .fileContains("+ \" [\" + escapeMessageTemplate(property) + \"]\"");
+    }
+
+    private static String sortMethodSignature(String content, String methodName) {
+        int start = content.indexOf(" " + methodName + "(");
+        assertThat(start).as(methodName + " should exist").isGreaterThanOrEqualTo(0);
+        return content.substring(start, Math.min(content.length(), start + 800));
+    }
+
+    @Test
     public void generateSortValidationWorksForArraySortRefEnum() throws IOException {
         Map<String, Object> props = new HashMap<>();
         props.put(INTERFACE_ONLY, "true");

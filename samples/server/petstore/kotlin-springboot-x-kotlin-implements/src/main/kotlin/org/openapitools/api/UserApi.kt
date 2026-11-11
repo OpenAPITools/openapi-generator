@@ -76,7 +76,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
-        @ApiParam(value = "", required = true) @Valid @RequestBody user: kotlin.collections.List<User>,
+        @ApiParam(value = "", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<Unit>
 
@@ -96,7 +96,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
-        @ApiParam(value = "", required = true) @Valid @RequestBody user: kotlin.collections.List<User>,
+        @ApiParam(value = "", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<Unit>
 

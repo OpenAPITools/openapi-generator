@@ -11,7 +11,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.OpenAPINormalizer;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -362,7 +364,7 @@ public class SpringPageableScanUtilsTest {
                 .doesNotThrowAnyException();
 
         // and returns empty map
-        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+        Map<String, SpringPageableScanUtils.SortValidationData> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
         assertThat(result).isEmpty();
     }
 
@@ -389,11 +391,14 @@ public class SpringPageableScanUtilsTest {
         Parameter sortParam = new Parameter().name("sort").schema(sortSchema);
         OpenAPI openAPI = buildPageableOperation(sortParam);
 
-        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+        Map<String, SpringPageableScanUtils.SortValidationData> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
         assertThat(result)
                 .containsKey("listItems")
-                .satisfies(m -> assertThat(m.get("listItems"))
-                        .containsExactly("name,asc", "name,desc", "id,asc"));
+                .satisfies(m -> {
+                    assertThat(m.get("listItems").allowedValues).containsExactly("name,asc", "name,desc", "id,asc");
+                    assertThat(m.get("listItems").minItems).isNull();
+                    assertThat(m.get("listItems").maxItems).isNull();
+                });
     }
 
     /**
@@ -412,10 +417,167 @@ public class SpringPageableScanUtilsTest {
         Parameter sortParam = new Parameter().name("sort").schema(sortSchema);
         OpenAPI openAPI = buildPageableOperation(sortParam);
 
-        Map<String, List<String>> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
+        Map<String, SpringPageableScanUtils.SortValidationData> result = SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE);
         assertThat(result)
                 .containsKey("listItems")
-                .satisfies(m -> assertThat(m.get("listItems")).containsExactly("id,asc", "id,desc"));
+                .satisfies(m -> {
+                    assertThat(m.get("listItems").allowedValues).containsExactly("id,asc", "id,desc");
+                    assertThat(m.get("listItems").minItems).isNull();
+                    assertThat(m.get("listItems").maxItems).isEqualTo(1);
+                });
+    }
+
+    @Test
+    public void scanSortValidationEnums_arraySchemaWithBounds_returnsMinAndMaxItems() {
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        Schema<?> sortSchema = new ArraySchema().items(items).minItems(1).maxItems(2);
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort").schema(sortSchema));
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.minItems).isEqualTo(1);
+        assertThat(data.maxItems).isEqualTo(2);
+    }
+
+    @Test
+    public void scanSortValidationEnums_refAndAllOfSortSchema_resolvesBounds() {
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        Schema<?> sortList = new ArraySchema().items(items).minItems(1).maxItems(5);
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort")
+                .schema(new Schema<>().$ref("#/components/schemas/SortList")));
+        openAPI.setComponents(new io.swagger.v3.oas.models.Components().addSchemas("SortList", sortList));
+
+        SpringPageableScanUtils.SortValidationData refData = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(refData.minItems).isEqualTo(1);
+        assertThat(refData.maxItems).isEqualTo(5);
+
+        // allOf wrapper: the tighter maxItems of the sibling wins
+        Schema<?> wrapper = new Schema<>()
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/SortList"))
+                .addAllOfItem(new ArraySchema().maxItems(2));
+        openAPI.getPaths().values().iterator().next().readOperations().get(0).getParameters().get(0).setSchema(wrapper);
+
+        SpringPageableScanUtils.SortValidationData allOfData = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(allOfData.allowedValues).containsExactly("name,asc", "name,desc");
+        assertThat(allOfData.minItems).isEqualTo(1);
+        assertThat(allOfData.maxItems).isEqualTo(2);
+    }
+
+    @Test
+    public void scanSortValidationEnums_allOfWithBoundsOnlyArrayFirst_findsEnumOnLaterMember() {
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort").schema(new Schema<>()
+                .addAllOfItem(new ArraySchema().items(new StringSchema()).maxItems(2))
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/SortList"))));
+        openAPI.setComponents(new io.swagger.v3.oas.models.Components()
+                .addSchemas("SortList", new ArraySchema().items(items).minItems(1).maxItems(5)));
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.allowedValues).containsExactly("name,asc", "name,desc");
+        assertThat(data.minItems).isEqualTo(1);
+        assertThat(data.maxItems).isEqualTo(2);
+    }
+
+    @Test
+    public void scanSortValidationEnums_refChain_resolvesBounds() {
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort")
+                .schema(new Schema<>().$ref("#/components/schemas/SortAlias")));
+        openAPI.setComponents(new io.swagger.v3.oas.models.Components()
+                .addSchemas("SortAlias", new Schema<>().$ref("#/components/schemas/SortList"))
+                .addSchemas("SortList", new ArraySchema().items(items).minItems(1).maxItems(5)));
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.allowedValues).containsExactly("name,asc", "name,desc");
+        assertThat(data.minItems).isEqualTo(1);
+        assertThat(data.maxItems).isEqualTo(5);
+    }
+
+    @Test
+    public void scanSortValidationEnums_cyclicAllOf_terminatesAndKeepsBounds() {
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        // SortA: allOf [array(enum, 1..5), $ref SortB]; SortB: allOf [$ref SortA], maxItems 3
+        Schema<?> sortA = new Schema<>()
+                .addAllOfItem(new ArraySchema().items(items).minItems(1).maxItems(5))
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/SortB"));
+        Schema<?> sortB = new Schema<>().maxItems(3)
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/SortA"));
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort")
+                .schema(new Schema<>().$ref("#/components/schemas/SortA")));
+        openAPI.setComponents(new io.swagger.v3.oas.models.Components()
+                .addSchemas("SortA", sortA)
+                .addSchemas("SortB", sortB));
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.allowedValues).containsExactly("name,asc", "name,desc");
+        assertThat(data.minItems).isEqualTo(1);
+        assertThat(data.maxItems).isEqualTo(3);
+    }
+
+    @Test
+    public void resolveItemBounds_selfCycle_terminates() {
+        Schema<?> self = new ArraySchema().items(new StringSchema()).minItems(2).maxItems(4)
+                .addAllOfItem(new Schema<>().$ref("#/components/schemas/Self"));
+        OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Self", self));
+        Schema<?> ref = new Schema<>().$ref("#/components/schemas/Self");
+
+        assertThat(ModelUtils.resolveMinItems(openAPI, ref)).isEqualTo(2);
+        assertThat(ModelUtils.resolveMaxItems(openAPI, ref)).isEqualTo(4);
+    }
+
+    @Test
+    public void scanSortValidationEnums_refWithSiblingBounds_mergedAfterNormalization() {
+        // OAS 3.1 allows constraints next to $ref; OpenAPINormalizer rewrites them into allOf
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc", "name,desc"));
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort")
+                .schema(new Schema<>().$ref("#/components/schemas/SortList").maxItems(2)));
+        openAPI.setComponents(new io.swagger.v3.oas.models.Components()
+                .addSchemas("SortList", new ArraySchema().items(items).minItems(1).maxItems(5)));
+        new OpenAPINormalizer(openAPI, Collections.emptyMap()) {
+            {
+                normalize(); // protected; as run by DefaultGenerator before preprocessOpenAPI
+            }
+        };
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.allowedValues).containsExactly("name,asc", "name,desc");
+        assertThat(data.minItems).isEqualTo(1);
+        assertThat(data.maxItems).isEqualTo(2);
+    }
+
+    @Test
+    public void scanSortValidationEnums_contradictoryBounds_areDropped() {
+        Schema<?> items = new StringSchema()._enum(List.of("name,asc"));
+        Schema<?> sortSchema = new ArraySchema().items(items).minItems(3).maxItems(1);
+        OpenAPI openAPI = buildPageableOperation(new Parameter().name("sort").schema(sortSchema));
+
+        SpringPageableScanUtils.SortValidationData data = SpringPageableScanUtils
+                .scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE).get("listItems");
+        assertThat(data.minItems).isNull();
+        assertThat(data.maxItems).isNull();
+    }
+
+    @Test
+    public void applyPageableAnnotations_emitsOnlyKnownItemBounds() {
+        for (Object[] c : new Object[][]{
+                {null, null, "@ValidSort(allowedValues = {\"id,asc\"})"},
+                {null, 1, "@ValidSort(allowedValues = {\"id,asc\"}, maxItems = 1)"},
+                {2, null, "@ValidSort(allowedValues = {\"id,asc\"}, minItems = 2)"},
+                {1, 3, "@ValidSort(allowedValues = {\"id,asc\"}, minItems = 1, maxItems = 3)"}}) {
+            CodegenOperation op = minimalOp("listItems");
+            SpringPageableScanUtils utils = new SpringPageableScanUtils();
+            utils.sortValidationEnums = Collections.singletonMap("listItems",
+                    new SpringPageableScanUtils.SortValidationData(List.of("id,asc"), (Integer) c[0], (Integer) c[1]));
+            utils.applyPageableAnnotations(op, false, true, true, SpringPageableScanUtils.AnnotationSyntax.JAVA);
+            assertThat((List<String>) op.vendorExtensions.get("x-pageable-extra-annotation")).containsExactly((String) c[2]);
+        }
     }
 
     /**
@@ -566,7 +728,8 @@ public class SpringPageableScanUtilsTest {
         assertThat(constraints.get("listItems").maxSize).isEqualTo(100);
 
         assertThat(SpringPageableScanUtils.scanSortValidationEnums(openAPI, SpringPageableScanUtils.AutoPaginationMode.PAGE_SIZE_SORT))
-                .containsEntry("listItems", List.of("name,asc", "name,desc"));
+                .extractingByKey("listItems")
+                .satisfies(d -> assertThat(d.allowedValues).containsExactly("name,asc", "name,desc"));
     }
 
     @Test
@@ -762,8 +925,8 @@ public class SpringPageableScanUtilsTest {
     @Test
     public void applyPageableAnnotations_validSort_javaSyntax_usesCurlyBraces() {
         CodegenOperation op = minimalOp("listItems");
-        Map<String, List<String>> sortEnums = Collections.singletonMap("listItems",
-                List.of("name,asc", "name,desc"));
+        Map<String, SpringPageableScanUtils.SortValidationData> sortEnums = Collections.singletonMap("listItems",
+                new SpringPageableScanUtils.SortValidationData(List.of("name,asc", "name,desc"), null, null));
 
         SpringPageableScanUtils.applyPageableAnnotations(op, false, true, Collections.emptyMap(),
                 true, sortEnums, Collections.emptyMap(),
@@ -779,8 +942,8 @@ public class SpringPageableScanUtilsTest {
     @Test
     public void applyPageableAnnotations_validSort_kotlinSyntax_usesSquareBrackets() {
         CodegenOperation op = minimalOp("listItems");
-        Map<String, List<String>> sortEnums = Collections.singletonMap("listItems",
-                List.of("name,asc", "name,desc"));
+        Map<String, SpringPageableScanUtils.SortValidationData> sortEnums = Collections.singletonMap("listItems",
+                new SpringPageableScanUtils.SortValidationData(List.of("name,asc", "name,desc"), null, null));
 
         SpringPageableScanUtils.applyPageableAnnotations(op, false, true, Collections.emptyMap(),
                 true, sortEnums, Collections.emptyMap(),
@@ -863,8 +1026,8 @@ public class SpringPageableScanUtilsTest {
 
         Map<String, SpringPageableScanUtils.PageableConstraintsData> constraintsRegistry =
                 Collections.singletonMap("list-items", new SpringPageableScanUtils.PageableConstraintsData(50, 100, -1, -1));
-        Map<String, List<String>> sortValidationRegistry =
-                Collections.singletonMap("list-items", List.of("id,asc", "name,desc"));
+        Map<String, SpringPageableScanUtils.SortValidationData> sortValidationRegistry =
+                Collections.singletonMap("list-items", new SpringPageableScanUtils.SortValidationData(List.of("id,asc", "name,desc"), null, null));
         Map<String, SpringPageableScanUtils.PageableDefaultsData> defaultsRegistry =
                 Collections.singletonMap("list-items", new SpringPageableScanUtils.PageableDefaultsData(
                         0, 25, List.of(new SpringPageableScanUtils.SortFieldDefault("name", "DESC"))));
@@ -888,7 +1051,7 @@ public class SpringPageableScanUtilsTest {
         SpringPageableScanUtils.applyPageableAnnotations(op, true, true,
                 Collections.singletonMap("differentOp", new SpringPageableScanUtils.PageableConstraintsData(10, 5, 0, 1)),
                 true,
-                Collections.singletonMap("differentOp", List.of("id,asc")),
+                Collections.singletonMap("differentOp", new SpringPageableScanUtils.SortValidationData(List.of("id,asc"), null, null)),
                 Collections.singletonMap("differentOp", new SpringPageableScanUtils.PageableDefaultsData(0, 10, Collections.emptyList())),
                 SpringPageableScanUtils.AnnotationSyntax.JAVA);
 
@@ -966,7 +1129,7 @@ public class SpringPageableScanUtilsTest {
         utils.scanAll(openAPI, SpringPageableScanUtils.AutoPaginationMode.NONE); // auto-detect disabled; x-spring-paginated already set
 
         assertThat(utils.sortValidationEnums).containsKey("listItems");
-        assertThat(utils.sortValidationEnums.get("listItems")).containsExactly("name,asc", "name,desc");
+        assertThat(utils.sortValidationEnums.get("listItems").allowedValues).containsExactly("name,asc", "name,desc");
         // No page/size defaults or constraints in this spec
         assertThat(utils.pageableDefaultsRegistry).doesNotContainKey("listItems");
         assertThat(utils.pageableConstraintsRegistry).doesNotContainKey("listItems");
@@ -975,7 +1138,8 @@ public class SpringPageableScanUtilsTest {
     @Test
     public void instanceApplyPageableAnnotations_usesStoredMaps() {
         CodegenOperation op = minimalOp("listItems");
-        Map<String, List<String>> sortEnums = Collections.singletonMap("listItems", List.of("id,asc"));
+        Map<String, SpringPageableScanUtils.SortValidationData> sortEnums = Collections.singletonMap(
+                "listItems", new SpringPageableScanUtils.SortValidationData(List.of("id,asc"), null, null));
 
         SpringPageableScanUtils utils = new SpringPageableScanUtils();
         utils.sortValidationEnums = sortEnums;

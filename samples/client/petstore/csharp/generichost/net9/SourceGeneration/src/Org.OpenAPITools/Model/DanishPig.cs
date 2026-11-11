@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -174,11 +173,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", danishPig.ClassName);
         }
     }
-
-    /// <summary>
-    /// The DanishPigSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(DanishPig))]
-    public partial class DanishPigSerializationContext : JsonSerializerContext { }
 }

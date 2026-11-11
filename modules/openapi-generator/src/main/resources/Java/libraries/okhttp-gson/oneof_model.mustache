@@ -44,29 +44,34 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             if (!{{classname}}.class.isAssignableFrom(type.getRawType())) {
                 return null; // this class only serializes '{{classname}}' and its subtypes
             }
+            {{#vendorExtensions.x-gson-large-oneof}}
+            return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+            {{/vendorExtensions.x-gson-large-oneof}}
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
             {{#composedSchemas}}
             {{#oneOf}}
             {{^isArray}}
             {{^isMap}}
             {{^vendorExtensions.x-duplicated-data-type}}
-            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}.class));
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = gson.getDelegateAdapter({{#vendorExtensions.x-gson-large-oneof}}CustomTypeAdapterFactory.this{{/vendorExtensions.x-gson-large-oneof}}{{^vendorExtensions.x-gson-large-oneof}}this{{/vendorExtensions.x-gson-large-oneof}}, TypeToken.get({{{dataType}}}.class));
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/isMap}}
             {{/isArray}}
             {{#isArray}}
 
             final Type typeInstance{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = new TypeToken<{{{dataType}}}>(){}.getType();
-            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter({{#vendorExtensions.x-gson-large-oneof}}CustomTypeAdapterFactory.this{{/vendorExtensions.x-gson-large-oneof}}{{^vendorExtensions.x-gson-large-oneof}}this{{/vendorExtensions.x-gson-large-oneof}}, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
             {{/isArray}}
             {{#isMap}}
             final Type typeInstance{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = new TypeToken<{{{dataType}}}>(){}.getType();
-            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
+            final TypeAdapter<{{{dataType}}}> adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}} = (TypeAdapter<{{{dataType}}}>) gson.getDelegateAdapter({{#vendorExtensions.x-gson-large-oneof}}CustomTypeAdapterFactory.this{{/vendorExtensions.x-gson-large-oneof}}{{^vendorExtensions.x-gson-large-oneof}}this{{/vendorExtensions.x-gson-large-oneof}}, TypeToken.get(typeInstance{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}));
             {{/isMap}}
             {{/oneOf}}
             {{/composedSchemas}}
 
+            {{^vendorExtensions.x-gson-large-oneof}}
             return (TypeAdapter<T>) new TypeAdapter<{{classname}}>() {
+            {{/vendorExtensions.x-gson-large-oneof}}
                 @Override
                 public void write(JsonWriter out, {{classname}} value) throws IOException {
                     if (value == null || value.getActualInstance() == null) {
@@ -81,9 +86,16 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     if (value.getActualInstance() instanceof {{#isArray}}List<?>{{/isArray}}{{#isMap}}Map<?, ?>{{/isMap}}{{^isMap}}{{^isArray}}{{{dataType}}}{{/isArray}}{{/isMap}}) {
                     {{#isPrimitiveType}}
                     {{^isMap}}
+                    {{#isArray}}
+                        JsonArray array = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonArray();
+                        elementAdapter.write(out, array);
+                        return;
+                    {{/isArray}}
+                    {{^isArray}}
                         JsonPrimitive primitive = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonPrimitive();
                         elementAdapter.write(out, primitive);
                         return;
+                    {{/isArray}}
                     {{/isMap}}
                     {{#isMap}}
                         JsonObject object = adapter{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}.toJsonTree(({{{dataType}}})value.getActualInstance()).getAsJsonObject();
