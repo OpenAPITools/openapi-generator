@@ -526,5 +526,126 @@ public class CppHttplibServerCodegenModelTest {
         Assert.assertEquals(dataTypeMap.get("dateValue"), "std::string");
         Assert.assertEquals(dataTypeMap.get("dateTimeValue"), "std::string");
     }
+
+    @Test(description = "string formats uuid, uri and decimal must map to std::string, not to the "
+            + "Java type names UUID, URI and BigDecimal inherited from DefaultCodegen")
+    public void stringFormatsMapToStdStringTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        ObjectSchema schema = new ObjectSchema();
+        schema.addProperty("uuidValue", new UUIDSchema());
+        schema.addProperty("uriValue", new StringSchema().format("uri"));
+        schema.addProperty("decimalString", new StringSchema().format("decimal"));
+        schema.addProperty("decimalNumber", new NumberSchema().format("decimal"));
+        schema.addRequiredItem("uuidValue");
+
+        final CodegenModel model = codegen.fromModel("FormatModel", schema);
+
+        Map<String, String> dataTypeMap = new HashMap<>();
+        for (CodegenProperty var : model.vars) {
+            dataTypeMap.put(var.baseName, var.dataType);
+        }
+
+        Assert.assertEquals(dataTypeMap.get("uuidValue"), "std::string");
+        Assert.assertEquals(dataTypeMap.get("uriValue"), "std::string");
+        Assert.assertEquals(dataTypeMap.get("decimalString"), "std::string");
+        Assert.assertEquals(dataTypeMap.get("decimalNumber"), "double");
+        // The import names are resolved through typeMapping, so they must yield the std::string include
+        // rather than a non-existent model header such as "UUID.h"
+        final String stringInclude = codegen.toModelImport("string");
+        for (String javaTypeName : new String[]{"UUID", "URI", "decimal"}) {
+            Assert.assertEquals(codegen.toModelImport(javaTypeName), stringInclude,
+                    javaTypeName + " must resolve to the std::string include");
+        }
+    }
+
+    @Test(description = "std::nullopt must only initialize members declared as std::optional: free-form {} "
+            + "properties, nullable models and nullable enums used to get std::nullopt on a non-optional member")
+    public void nullOptInitializerOnlyForOptionalMembersTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+
+        ObjectSchema child = new ObjectSchema();
+        child.addProperty("a", new StringSchema());
+
+        StringSchema nullableEnum = new StringSchema();
+        nullableEnum.setEnum(java.util.Arrays.asList("a", "b"));
+        nullableEnum.setNullable(true);
+
+        ComposedSchema nullableChild = new ComposedSchema();
+        nullableChild.addAllOfItem(new Schema<>().$ref("#/components/schemas/Child"));
+        nullableChild.setNullable(true);
+
+        ObjectSchema schema = new ObjectSchema();
+        schema.addProperty("optAny", new Schema<>());
+        schema.addProperty("reqAny", new Schema<>());
+        schema.addProperty("nullableObject", new ObjectSchema().nullable(true));
+        schema.addProperty("nullableChild", nullableChild);
+        schema.addProperty("nullableEnum", nullableEnum);
+        schema.addRequiredItem("reqAny");
+
+        OpenAPI openAPI = new OpenAPI().components(new io.swagger.v3.oas.models.Components()
+                .addSchemas("Child", child)
+                .addSchemas("Holder", schema));
+        codegen.setOpenAPI(openAPI);
+        codegen.processOpts();
+
+        final CodegenModel model = codegen.fromModel("Holder", schema);
+        final CodegenModel processed = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels(codegen, "Holder", model))
+                .get("Holder").getModels().get(0).getModel();
+
+        Map<String, CodegenProperty> byName = new HashMap<>();
+        for (CodegenProperty var : processed.vars) {
+            byName.put(var.baseName, var);
+            if ("std::nullopt".equals(var.defaultValue)) {
+                Assert.assertTrue(var.datatypeWithEnum.startsWith("std::optional<"),
+                        var.baseName + " is initialized with std::nullopt but declared as " + var.datatypeWithEnum);
+            }
+        }
+
+        // nlohmann::json and model members default-construct (JSON null / default object): no initializer
+        Assert.assertEquals(byName.get("optAny").datatypeWithEnum, "nlohmann::json");
+        Assert.assertNull(byName.get("optAny").defaultValue);
+        Assert.assertNull(byName.get("reqAny").defaultValue);
+        Assert.assertNull(byName.get("nullableObject").defaultValue);
+        Assert.assertNull(byName.get("nullableChild").defaultValue);
+
+        // A nullable, optional enum takes the std::optional<Enum> path like any other optional enum
+        CodegenProperty enumProp = byName.get("nullableEnum");
+        Assert.assertEquals(enumProp.vendorExtensions.get("isOptionalEnum"), Boolean.TRUE);
+        Assert.assertEquals(enumProp.defaultValue, "std::nullopt");
+        Assert.assertTrue(enumProp.datatypeWithEnum.startsWith("std::optional<"), enumProp.datatypeWithEnum);
+
+        // The constructor initializer list must skip members without an initializer, so the first
+        // emitted entry (which gets the ':') is the first member that has one
+        @SuppressWarnings("unchecked")
+        List<Map<String, String>> inits = (List<Map<String, String>>) processed.vendorExtensions.get("memberInitializers");
+        Assert.assertNotNull(inits);
+        Assert.assertEquals(inits.size(), 1, "only nullableEnum has an initializer: " + inits);
+        Assert.assertEquals(inits.get(0).get("name"), enumProp.nameInCamelCase);
+        Assert.assertEquals(inits.get(0).get("value"), "std::nullopt");
+    }
+
+    @Test(description = "a uniqueItems array must render as std::vector and must not emit #include \"Set.h\"")
+    public void uniqueItemsArrayDoesNotIncludeSetHeaderTest() {
+        final CppHttplibServerCodegen codegen = new CppHttplibServerCodegen();
+        codegen.processOpts();
+
+        ObjectSchema schema = new ObjectSchema();
+        schema.addProperty("tags", new ArraySchema().items(new StringSchema()).uniqueItems(true));
+
+        final CodegenModel model = codegen.fromModel("TaggedModel", schema);
+        Assert.assertEquals(model.vars.get(0).dataType, "std::vector<std::string>");
+
+        Map<String, ModelsMap> processed = codegen.postProcessAllModels(
+                wrapForPostProcessAllModels(codegen, "TaggedModel", model));
+        @SuppressWarnings("unchecked")
+        List<String> includes = (List<String>) processed.get("TaggedModel").getModels().get(0)
+                .getModel().vendorExtensions.get("filteredImports");
+        Assert.assertNotNull(includes, "filteredImports must be set");
+        Assert.assertFalse(includes.contains("#include \"Set.h\""), "unexpected includes: " + includes);
+        Assert.assertTrue(includes.contains("#include <vector>"), "missing <vector> include: " + includes);
+    }
 }
 

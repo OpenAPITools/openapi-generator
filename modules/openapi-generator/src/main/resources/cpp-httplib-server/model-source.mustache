@@ -15,11 +15,9 @@
 namespace {{vendorExtensions.modelNamespace}} {
 
 {{vendorExtensions.modelClassName}}::{{vendorExtensions.modelClassName}}()
-{{#vars}}
-{{#defaultValue}}
-{{#-first}}:{{/-first}}{{^-first}},{{/-first}} {{nameInCamelCase}}({{{defaultValue}}})
-{{/defaultValue}}
-{{/vars}}
+{{#vendorExtensions.memberInitializers}}
+{{#-first}}:{{/-first}}{{^-first}},{{/-first}} {{name}}({{{value}}})
+{{/vendorExtensions.memberInitializers}}
 {
 }
 // =========================================
