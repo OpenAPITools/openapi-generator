@@ -1265,6 +1265,13 @@ end:
             listEntry->data = NULL;
         }
         {{/isNumeric}}
+        {{#isBoolean}}
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, {{{name}}}List) {
+            free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        {{/isBoolean}}
         {{/items}}
         list_freeList({{{name}}}List);
         {{{name}}}List = NULL;

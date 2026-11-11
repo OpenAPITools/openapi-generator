@@ -123,6 +123,11 @@ flags_t *flags_parseFromJSON(cJSON *flagsJSON){
     return flags_local_var;
 end:
     if (bitsList) {
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, bitsList) {
+            free(listEntry->data);
+            listEntry->data = NULL;
+        }
         list_freeList(bitsList);
         bitsList = NULL;
     }

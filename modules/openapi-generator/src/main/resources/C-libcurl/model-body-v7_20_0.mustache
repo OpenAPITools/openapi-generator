@@ -1028,6 +1028,10 @@ fail:
         {{/vars}}
         );
 
+    if (!{{classname}}_local_var) {
+        goto end;
+    }
+
     return {{classname}}_local_var;
 end:
     {{#vars}}
@@ -1072,6 +1076,13 @@ end:
             listEntry->data = NULL;
         }
         {{/isNumeric}}
+        {{#isBoolean}}
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, {{{name}}}List) {
+            free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        {{/isBoolean}}
         {{/items}}
         list_freeList({{{name}}}List);
         {{{name}}}List = NULL;

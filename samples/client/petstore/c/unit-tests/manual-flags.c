@@ -30,6 +30,13 @@ int main(void) {
     flags_free(f);
     cJSON_Delete(out);
     cJSON_Delete(in);
+
+    // parse fails after the first item was stored: must not leak it
+    cJSON *bad = cJSON_Parse("{\"bits\":[true,\"x\"]}");
+    assert(bad);
+    assert(flags_parseFromJSON(bad) == NULL);
+    cJSON_Delete(bad);
+
     printf("manual-flags: OK\n");
     return 0;
 }
