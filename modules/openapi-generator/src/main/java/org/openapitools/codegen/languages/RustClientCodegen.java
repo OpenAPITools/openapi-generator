@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -503,17 +504,37 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         String[] command;
 
         String cmd = System.getenv("RUST_POST_PROCESS_FILE");
-        if (StringUtils.isEmpty(cmd)) {
-            cmd = "rustfmt";
-                        command = new String[]{cmd, "--edition", "2021", fileName};
-        } else {
+        if (!StringUtils.isEmpty(cmd)) {
             command = new String[]{cmd, fileName};
+        } else {
+            return;
         }
 
         // only process files with .rs extension
         if ("rs".equals(FilenameUtils.getExtension(fileName))) {
             this.executePostProcessor(command);
         }
+    }
+
+    @Override 
+    public void postProcess() {
+        if (isEnablePostProcessFile()) {
+            File cargoToml = Paths.get(outputFolder(), "Cargo.toml").toFile();
+            if (cargoToml.exists()) {
+                final String[] clippyFix = {
+                    "cargo", "clippy", "--fix",
+                    "--allow-dirty",
+                    "--manifest-path", cargoToml.toString(),
+                };
+                executePostProcessor(clippyFix);
+                final String[] cargoFmt = {
+                    "cargo", "fmt",
+                    "--manifest-path", cargoToml.toString(),
+                };
+                executePostProcessor(cargoFmt);
+            }
+        }
+        super.postProcess();
     }
 
     @Override
@@ -646,15 +667,15 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-                supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
+        supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
 
-                supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
-supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
             supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
-supportingFiles.add(new SupportingFile("model_mod.mustache", modelFolder, "mod.rs"));
+        supportingFiles.add(new SupportingFile("model_mod.mustache", modelFolder, "mod.rs"));
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
 
         // add lambda for sanitize version (e.g. v1.2.3-beta => 1.2.3-beta)
