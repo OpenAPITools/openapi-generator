@@ -94,7 +94,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
         
         
-        
                     request.putHeader("Content-Type", "application/json")
         
         
@@ -164,7 +163,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
         
         
-        
                     request.putHeader("Content-Type", "application/json")
         
         
@@ -232,7 +230,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user/createWithList"))
 
-        
         
         
                     request.putHeader("Content-Type", "application/json")
@@ -305,7 +302,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
         
         
         
-        
 
 
 
@@ -374,7 +370,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
         
         
-        
         request.putHeader("Accept", "application/xml, application/json")
 
 
@@ -439,7 +434,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
         
         
-        
         request.putHeader("Accept", "application/xml, application/json")
 
 
@@ -498,7 +492,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/logout"))
 
-        
         
         
         
@@ -568,7 +561,6 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
 
-        
         
         
                     request.putHeader("Content-Type", "application/json")

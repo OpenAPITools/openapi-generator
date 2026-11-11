@@ -140,7 +140,6 @@ import {{packageName}}.infrastructure.*
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
 
-        {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
         {{^hasFormParams}}{{#hasConsumes}}
             {{#consumes}}

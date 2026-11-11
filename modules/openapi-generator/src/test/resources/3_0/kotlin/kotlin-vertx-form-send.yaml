@@ -6,8 +6,6 @@ paths:
   /submit:
     post:
       operationId: submitForm
-      consumes:
-        - application/x-www-form-urlencoded
       requestBody:
         required: true
         content:
@@ -21,6 +19,24 @@ paths:
                   type: array
                   items:
                     type: string
+      responses:
+        '200':
+          description: ok
+  /submit-charset:
+    post:
+      operationId: submitCharsetForm
+      # a media type carrying a parameter must still be treated as a form:
+      # sendForm() supplies its own Content-Type, so a putHeader for this
+      # operation would throw IllegalStateException on Vert.x 5.1.5
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded; charset=UTF-8:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
       responses:
         '200':
           description: ok
@@ -39,6 +55,10 @@ paths:
                   format: binary
                 note:
                   type: string
+                labels:
+                  type: array
+                  items:
+                    type: string
       responses:
         '200':
           description: ok

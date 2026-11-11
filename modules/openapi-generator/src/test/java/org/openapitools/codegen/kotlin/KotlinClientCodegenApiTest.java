@@ -344,6 +344,24 @@ public class KotlinClientCodegenApiTest {
                 "form.binaryFileUpload(\"myFile\"");
         assertFileNotContains(defaultApi.toPath(),
                 "form.add(\"myFile\"");
+
+        // sendForm()/sendMultipartForm() set Content-Type themselves; emitting
+        // putHeader("Content-Type", ...) on a form operation makes Vert.x 5.1.5
+        // throw IllegalStateException for media types with parameters such as
+        // "application/x-www-form-urlencoded; charset=UTF-8"
+        assertFileNotContains(defaultApi.toPath(),
+                "putHeader(\"Content-Type\"");
+        // the charset-parametrized operation is still generated as a form
+        assertFileContains(defaultApi.toPath(),
+                "form.add(\"token\"");
+
+        // urlencoded array: serialized via toMultiValue per collectionFormat
+        // (the default "csv" joins into a single entry)
+        assertFileContains(defaultApi.toPath(),
+                "form.add(\"tags\", toMultiValue(it.toList(), \"csv\"))");
+        // multipart array: each item from toMultiValue becomes a form attribute
+        assertFileContains(defaultApi.toPath(),
+                "form.attribute(\"labels\", it)");
     }
 
     private static void assertFileContainsLine(List<String> lines, String line) {

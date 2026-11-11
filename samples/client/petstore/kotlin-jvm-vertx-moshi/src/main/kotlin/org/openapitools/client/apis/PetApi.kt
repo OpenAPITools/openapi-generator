@@ -92,7 +92,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
                     request.putHeader("Content-Type", "application/json")
                     request.putHeader("Content-Type", "application/xml")
         
@@ -159,7 +158,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        
         apiKey?.apply { request.putHeader("api_key", this.toString())}
         
         
@@ -236,7 +234,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
         request.putHeader("Accept", "application/xml, application/json")
 
 
@@ -305,7 +302,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
         request.putHeader("Accept", "application/xml, application/json")
 
 
@@ -370,7 +366,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        
         
         
         request.putHeader("Accept", "application/xml, application/json")
@@ -442,7 +437,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
                     request.putHeader("Content-Type", "application/json")
                     request.putHeader("Content-Type", "application/xml")
         
@@ -511,7 +505,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        request.putHeader("Content-Type", "application/x-www-form-urlencoded")
         
         
         
@@ -584,7 +577,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        request.putHeader("Content-Type", "multipart/form-data")
         
         
         request.putHeader("Accept", "application/json")

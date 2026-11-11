@@ -95,7 +95,6 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
         
         
         
-        
 
 
 
@@ -153,7 +152,6 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/store/inventory"))
 
-        
         
         
         request.putHeader("Accept", "application/json")
@@ -225,7 +223,6 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
 
         
         
-        
         request.putHeader("Accept", "application/xml, application/json")
 
 
@@ -286,7 +283,6 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/store/order"))
 
-        
         
         
                     request.putHeader("Content-Type", "application/json")
