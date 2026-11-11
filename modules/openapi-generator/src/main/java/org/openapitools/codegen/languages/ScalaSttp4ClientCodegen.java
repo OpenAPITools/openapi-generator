@@ -46,8 +46,8 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
             "sttp client", "4.0.15");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
-                    "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
-                    "response's error raising them through enclosing monad (F[ReturnType]).", true);
+                    "`F[Either[ResponseError[ErrorType], ReturnType]]` or to flatten " +
+                    "response's error raising them through enclosing monad (`F[ReturnType]`).", true);
     private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
             "joda-time library", "2.10.13");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
@@ -782,8 +782,8 @@ public class ScalaSttp4ClientCodegen extends AbstractScalaCodegen implements Cod
     public static class PackageProperty extends StringProperty {
 
         public PackageProperty() {
-            super("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', " +
-                    "'invokerPackage'", DEFAULT_PACKAGE_NAME);
+            super("mainPackage", "Top-level package name, which defines `apiPackage`, `modelPackage`, " +
+                    "`invokerPackage`", DEFAULT_PACKAGE_NAME);
         }
 
         @Override

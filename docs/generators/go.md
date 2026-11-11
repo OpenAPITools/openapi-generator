@@ -18,24 +18,24 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
-|enumClassPrefix|Prefix enum with class name| |false|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
-|generateInterfaces|Generate interfaces for api classes| |false|
-|generateMarshalJSON|Generate MarshalJSON method| |true|
-|generateUnmarshalJSON|Generate UnmarshalJSON method| |true|
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|isGoSubmodule|whether the generated Go module is a submodule| |false|
-|packageName|Go package name (convention: lowercase).| |openapi|
-|packageVersion|Go package version.| |1.0.0|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|structPrefix|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |false|
-|useDefaultValuesForRequiredVars|Use default values for required variables when available| |false|
-|useHttpHeaderSet|When setting HTTP request headers, use http.Header.Set with canonicalized header names| |false|
-|useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |false|
-|withAWSV4Signature|whether to include AWS v4 signature support| |false|
-|withGoMod|Generate go.mod and go.sum| |true|
-|withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|`disallowAdditionalPropertiesIfNotPresent`|If false, the `additionalProperties` implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that `additionalProperties` is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|`true`|
+|`enumClassPrefix`|Prefix enum with class name| |`false`|
+|`enumUnknownDefaultCase`|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, `unknown_default_open_api`, so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|`false`|
+|`generateInterfaces`|Generate interfaces for api classes| |`false`|
+|`generateMarshalJSON`|Generate MarshalJSON method| |`true`|
+|`generateUnmarshalJSON`|Generate UnmarshalJSON method| |`true`|
+|`hideGenerationTimestamp`|Hides the generation timestamp when files are generated.| |`true`|
+|`isGoSubmodule`|whether the generated Go module is a submodule| |`false`|
+|`packageName`|Go package name (convention: lowercase).| |`openapi`|
+|`packageVersion`|Go package version.| |`1.0.0`|
+|`prependFormOrBodyParameters`|Add form or body parameters to the beginning of the parameter list.| |`false`|
+|`structPrefix`|whether to prefix struct with the class name. e.g. DeletePetOpts =&gt; PetApiDeletePetOpts| |`false`|
+|`useDefaultValuesForRequiredVars`|Use default values for required variables when available| |`false`|
+|`useHttpHeaderSet`|When setting HTTP request headers, use http.Header.Set with canonicalized header names| |`false`|
+|`useOneOfDiscriminatorLookup`|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and only one match in oneOf's schemas) will be skipped.| |`false`|
+|`withAWSV4Signature`|whether to include AWS v4 signature support| |`false`|
+|`withGoMod`|Generate go.mod and go.sum| |`true`|
+|`withXml`|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |`false`|
 
 ## IMPORT MAPPING
 

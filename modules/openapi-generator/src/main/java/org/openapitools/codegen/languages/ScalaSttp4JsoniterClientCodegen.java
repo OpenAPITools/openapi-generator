@@ -50,8 +50,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
             "4.0.27");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
-                    "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
-                    "response's error raising them through enclosing monad (F[ReturnType]).",
+                    "`F[Either[ResponseError[ErrorType], ReturnType]]` or to flatten " +
+                    "response's error raising them through enclosing monad (`F[ReturnType]`).",
             true);
     private static final StringProperty JSONITER_VERSION = new StringProperty("jsoniterVersion",
             "The version of jsoniter-scala " +
@@ -635,8 +635,8 @@ public class ScalaSttp4JsoniterClientCodegen extends AbstractScalaCodegen implem
     public static class PackageProperty extends StringProperty {
 
         public PackageProperty() {
-            super("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', " +
-                    "'invokerPackage'", DEFAULT_PACKAGE_NAME);
+            super("mainPackage", "Top-level package name, which defines `apiPackage`, `modelPackage`, " +
+                    "`invokerPackage`", DEFAULT_PACKAGE_NAME);
         }
 
         @Override

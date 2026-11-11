@@ -142,7 +142,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
 
-        cliOptions.add(new CliOption("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', 'invokerPackage'").defaultValue("org.openapitools.client"));
+        cliOptions.add(new CliOption("mainPackage", "Top-level package name, which defines `apiPackage`, `modelPackage`, `invokerPackage`").defaultValue("org.openapitools.client"));
     }
 
     @Override

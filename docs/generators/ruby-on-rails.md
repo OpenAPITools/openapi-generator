@@ -18,7 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|databaseAdapter|The adapter for database (e.g. mysql, sqlite). Default: sqlite| |sqlite|
+|`databaseAdapter`|The adapter for database (e.g. mysql, sqlite). Default: sqlite| |`sqlite`|
 
 ## IMPORT MAPPING
 

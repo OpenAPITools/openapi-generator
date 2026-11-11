@@ -18,33 +18,33 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
-|apiPackage|package for generated api classes| |null|
-|disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
-|emitJSDoc|generate JSDoc comments| |true|
-|emitModelMethods|generate getters and setters for model properties| |false|
-|ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
-|hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|invokerPackage|root package for generated code| |null|
-|legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|library|library template (sub-template)|<dl><dt>**javascript**</dt><dd>JavaScript client library</dd><dt>**apollo**</dt><dd>Apollo REST DataSource</dd></dl>|javascript|
-|licenseName|name of the license the project uses (Default: using info.license.name)| |null|
-|modelPackage|package for generated models| |null|
-|modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name| |camelCase|
-|moduleName|module name for AMD, Node or globals (Default: generated from &lt;projectName&gt;)| |null|
-|npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
-|prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
-|projectDescription|description of the project (Default: using info.description or &quot;Client library of &lt;projectName&gt;&quot;)| |null|
-|projectName|name of the project (Default: generated from info.title or &quot;openapi-js-client&quot;)| |null|
-|projectVersion|version of the project (Default: using info.version or &quot;1.0.0&quot;)| |null|
-|skipDefaultUserAgent|Skip setting default user-agent in ApiClient.js| |false|
-|sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sourceFolder|source folder for generated code| |src|
-|useInheritance|use JavaScript prototype chains &amp; delegation for inheritance| |true|
-|usePromises|use Promises as return values from the client API, instead of superagent callbacks| |false|
-|useURLSearchParams|use JS build-in UrlSearchParams, instead of deprecated npm lib 'querystring'| |true|
+|`allowUnicodeIdentifiers`|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |`false`|
+|`apiPackage`|package for generated api classes| |`null`|
+|`disallowAdditionalPropertiesIfNotPresent`|If false, the `additionalProperties` implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that `additionalProperties` is set to false by default.|<dl><dt>**false**</dt><dd>The `additionalProperties` implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that `additionalProperties` is set to false by default.</dd></dl>|`true`|
+|`emitJSDoc`|generate JSDoc comments| |`true`|
+|`emitModelMethods`|generate getters and setters for model properties| |`false`|
+|`ensureUniqueParams`|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |`true`|
+|`enumUnknownDefaultCase`|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, `unknown_default_open_api`, so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, `unknown_default_open_api`, so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|`false`|
+|`hideGenerationTimestamp`|Hides the generation timestamp when files are generated.| |`true`|
+|`invokerPackage`|root package for generated code| |`null`|
+|`legacyDiscriminatorBehavior`|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|`true`|
+|`library`|library template (sub-template)|<dl><dt>**javascript**</dt><dd>JavaScript client library</dd><dt>**apollo**</dt><dd>Apollo REST DataSource</dd></dl>|`javascript`|
+|`licenseName`|name of the license the project uses (Default: using info.license.name)| |`null`|
+|`modelPackage`|package for generated models| |`null`|
+|`modelPropertyNaming`|Naming convention for the property: `camelCase`, `PascalCase`, `snake_case` and `original`, which keeps the original name| |`camelCase`|
+|`moduleName`|module name for AMD, Node or globals (Default: generated from &lt;projectName&gt;)| |`null`|
+|`npmRepository`|Use this property to set an url your private npmRepo in the package.json| |`null`|
+|`prependFormOrBodyParameters`|Add form or body parameters to the beginning of the parameter list.| |`false`|
+|`projectDescription`|description of the project (Default: using info.description or &quot;Client library of &lt;projectName&gt;&quot;)| |`null`|
+|`projectName`|name of the project (Default: generated from info.title or &quot;openapi-js-client&quot;)| |`null`|
+|`projectVersion`|version of the project (Default: using info.version or &quot;1.0.0&quot;)| |`null`|
+|`skipDefaultUserAgent`|Skip setting default user-agent in ApiClient.js| |`false`|
+|`sortModelPropertiesByRequiredFlag`|Sort model properties to place required parameters before optional parameters.| |`true`|
+|`sortParamsByRequiredFlag`|Sort method arguments to place required parameters before optional parameters.| |`true`|
+|`sourceFolder`|source folder for generated code| |`src`|
+|`useInheritance`|use JavaScript prototype chains &amp; delegation for inheritance| |`true`|
+|`usePromises`|use Promises as return values from the client API, instead of superagent callbacks| |`false`|
+|`useURLSearchParams`|use JS build-in UrlSearchParams, instead of deprecated npm lib 'querystring'| |`true`|
 
 ## IMPORT MAPPING
 

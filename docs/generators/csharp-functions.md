@@ -18,37 +18,37 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|aspNetCoreIntegration|For the isolated worker (azureFunctionsVersion=v4-isolated) only: use ASP.NET Core integration (HttpRequest/IActionResult). Set false for the built-in model (HttpRequestData/HttpResponseData). Ignored for the in-process model.| |true|
-|azureFunctionsVersion|Azure functions version: v4, v3|<dl><dt>**v4**</dt><dd>Azure Functions v4 (in-process model)</dd><dt>**v4-isolated**</dt><dd>Azure Functions v4 (.NET isolated worker model, net10.0)</dd><dt>**v3**</dt><dd>Azure Functions v3</dd></dl>|v4|
-|buildTarget|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|program|
-|classModifier|Class Modifier for function classes: Empty string or abstract.| ||
-|enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
-|enumValueSuffix|Suffix that will be appended to all enum values.| |Enum|
-|generateBody|Generates method body.| |true|
-|generateOpenApiAttributes|For the isolated worker (azureFunctionsVersion=v4-isolated) only: emit OpenAPI metadata attributes ([OpenApiOperation], [OpenApiParameter], [OpenApiRequestBody], [OpenApiResponseWithBody]) on the generated functions. Requires the Microsoft.Azure.Functions.Worker.Extensions.OpenApi package.| |false|
-|licenseName|The name of the license| |NoLicense|
-|licenseUrl|The URL of the license| |http://localhost|
-|modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
-|netCoreVersion|.NET Core version: 6.0, 5.0, 3.1, 3.0|<dl><dt>**3.0**</dt><dd>.NET Core 3.0</dd><dt>**3.1**</dt><dd>.NET Core 3.1</dd><dt>**5.0**</dt><dd>.NET Core 5.0</dd><dt>**6.0**</dt><dd>.NET Core 6.0</dd><dt>**10.0**</dt><dd>.NET 10.0 (isolated worker only)</dd></dl>|3.1|
-|newtonsoftVersion|Version for Newtonsoft.Json for .NET Core 3.0+| |3.0.0|
-|nullableReferenceTypes|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.| |false|
-|operationIsAsync|Set methods to async or sync (default).| |false|
-|operationModifier|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|virtual|
-|operationResultTask|Set methods result to Task&lt;&gt;.| |false|
-|packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
-|packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
-|packageDescription|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |A library generated from a OpenAPI doc|
-|packageGuid|The GUID that will be associated with the C# project| |null|
-|packageName|C# package name (convention: Title.Case).| |Org.OpenAPITools|
-|packageTitle|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |OpenAPI Library|
-|packageVersion|C# package version.| |1.0.0|
-|returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
-|sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sourceFolder|source folder for generated code| |src|
-|useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
-|useDateTimeForDate|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |false|
-|useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
-|useNewtonsoft|Uses the Newtonsoft JSON library.| |true|
+|`aspNetCoreIntegration`|For the isolated worker (azureFunctionsVersion=v4-isolated) only: use ASP.NET Core integration (HttpRequest/IActionResult). Set false for the built-in model (HttpRequestData/HttpResponseData). Ignored for the in-process model.| |`true`|
+|`azureFunctionsVersion`|Azure functions version: v4, v3|<dl><dt>**v4**</dt><dd>Azure Functions v4 (in-process model)</dd><dt>**v4-isolated**</dt><dd>Azure Functions v4 (.NET isolated worker model, net10.0)</dd><dt>**v3**</dt><dd>Azure Functions v3</dd></dl>|`v4`|
+|`buildTarget`|Target to build an application or library|<dl><dt>**program**</dt><dd>Generate code for a standalone server</dd><dt>**library**</dt><dd>Generate code for a server abstract class library</dd></dl>|`program`|
+|`classModifier`|Class Modifier for function classes: Empty string or abstract.| |``|
+|`enumNameSuffix`|Suffix that will be appended to all enum names.| |`Enum`|
+|`enumValueSuffix`|Suffix that will be appended to all enum values.| |`Enum`|
+|`generateBody`|Generates method body.| |`true`|
+|`generateOpenApiAttributes`|For the isolated worker (azureFunctionsVersion=v4-isolated) only: emit OpenAPI metadata attributes ([OpenApiOperation], [OpenApiParameter], [OpenApiRequestBody], [OpenApiResponseWithBody]) on the generated functions. Requires the Microsoft.Azure.Functions.Worker.Extensions.OpenApi package.| |`false`|
+|`licenseName`|The name of the license| |`NoLicense`|
+|`licenseUrl`|The URL of the license| |`http://localhost`|
+|`modelClassModifier`|Model Class Modifier can be nothing or partial| |`partial`|
+|`netCoreVersion`|.NET Core version: 6.0, 5.0, 3.1, 3.0|<dl><dt>**3.0**</dt><dd>.NET Core 3.0</dd><dt>**3.1**</dt><dd>.NET Core 3.1</dd><dt>**5.0**</dt><dd>.NET Core 5.0</dd><dt>**6.0**</dt><dd>.NET Core 6.0</dd><dt>**10.0**</dt><dd>.NET 10.0 (isolated worker only)</dd></dl>|`3.1`|
+|`newtonsoftVersion`|Version for Newtonsoft.Json for .NET Core 3.0+| |`3.0.0`|
+|`nullableReferenceTypes`|Use nullable annotations in the project. Only supported on C# 8 / ASP.NET Core 3.1 or newer.| |`false`|
+|`operationIsAsync`|Set methods to async or sync (default).| |`false`|
+|`operationModifier`|Operation Modifier can be virtual or abstract|<dl><dt>**virtual**</dt><dd>Keep method virtual</dd><dt>**abstract**</dt><dd>Make method abstract</dd></dl>|`virtual`|
+|`operationResultTask`|Set methods result to Task&lt;&gt;.| |`false`|
+|`packageAuthors`|Specifies Authors property in the .NET Core project file.| |`OpenAPI`|
+|`packageCopyright`|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |`No Copyright`|
+|`packageDescription`|Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |`A library generated from a OpenAPI doc`|
+|`packageGuid`|The GUID that will be associated with the C# project| |`null`|
+|`packageName`|C# package name (convention: Title.Case).| |`Org.OpenAPITools`|
+|`packageTitle`|Specifies an AssemblyTitle for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |`OpenAPI Library`|
+|`packageVersion`|C# package version.| |`1.0.0`|
+|`returnICollection`|Return ICollection&lt;T&gt; instead of the concrete type.| |`false`|
+|`sortParamsByRequiredFlag`|Sort method arguments to place required parameters before optional parameters.| |`true`|
+|`sourceFolder`|source folder for generated code| |`src`|
+|`useCollection`|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |`false`|
+|`useDateTimeForDate`|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |`false`|
+|`useDateTimeOffset`|Use DateTimeOffset to model date-time properties| |`false`|
+|`useNewtonsoft`|Uses the Newtonsoft JSON library.| |`true`|
 
 ## SUPPORTED VENDOR EXTENSIONS
 

@@ -17,14 +17,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|folderStrategy|whether to create folders according to the spec&rsquo;s paths or tags| |null|
-|pathParamsAsVariables|whether to create Postman variables for path parameters| |false|
-|postmanGuid|whether to convert placeholders (i.e. {{UNIQUE_REFERENCE}}) into Postman formula {{$guid}}| |null|
-|postmanGuidPlaceholderName|name of the placeholder (i.e. {{UNIQUE_REFERENCE}}) to replace with Postman formula {{$guid}}| |null|
-|postmanIsoTimestamp|whether to convert placeholders (i.e. {{ISO_TIMESTAMP}}) into Postman formula {{$isoTimestamp}}| |null|
-|postmanIsoTimestampPlaceholderName|name of the placeholder (i.e. {{ISO_TIMESTAMP}}) to replace with Postman formula {{$isoTimestamp}}| |null|
-|postmanVariables|whether to convert placeholders (i.e. {{VAR_1}}) into Postman variables| |null|
-|requestParameterGeneration|whether to generate the request parameters based on the schema or the examples| |null|
+|`folderStrategy`|whether to create folders according to the spec&rsquo;s paths or tags| |`null`|
+|`pathParamsAsVariables`|whether to create Postman variables for path parameters| |`false`|
+|`postmanGuid`|whether to convert placeholders (i.e. {{UNIQUE_REFERENCE}}) into Postman formula {{$guid}}| |`null`|
+|`postmanGuidPlaceholderName`|name of the placeholder (i.e. {{UNIQUE_REFERENCE}}) to replace with Postman formula {{$guid}}| |`null`|
+|`postmanIsoTimestamp`|whether to convert placeholders (i.e. {{ISO_TIMESTAMP}}) into Postman formula {{$isoTimestamp}}| |`null`|
+|`postmanIsoTimestampPlaceholderName`|name of the placeholder (i.e. {{ISO_TIMESTAMP}}) to replace with Postman formula {{$isoTimestamp}}| |`null`|
+|`postmanVariables`|whether to convert placeholders (i.e. {{VAR_1}}) into Postman variables| |`null`|
+|`requestParameterGeneration`|whether to generate the request parameters based on the schema or the examples| |`null`|
 
 ## IMPORT MAPPING
 

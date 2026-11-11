@@ -18,12 +18,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|apiNamePrefix|Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet =&gt; Pet.| |null|
-|apiPackage|package for generated api classes| |null|
-|checkRequiredParamsNotNull|Iff true null-checks are performed for required parameters.| |null|
-|checkSuperfluousBodyProps|Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification.| |null|
-|generateDefaultApiExecuter|Iff true a default implementation of the api executer interface is generated.| |null|
-|modelPackage|package for generated models| |null|
+|`apiNamePrefix`|Prefix that will be appended to all API names (`tags`). Default: empty string. e.g. Pet =&gt; Pet.| |`null`|
+|`apiPackage`|package for generated api classes| |`null`|
+|`checkRequiredParamsNotNull`|Iff true null-checks are performed for required parameters.| |`null`|
+|`checkSuperfluousBodyProps`|Iff true a new copy of the given body object is transmitted. This copy only contains those properties defined in its model specification.| |`null`|
+|`generateDefaultApiExecuter`|Iff true a default implementation of the api executer interface is generated.| |`null`|
+|`modelPackage`|package for generated models| |`null`|
 
 ## IMPORT MAPPING
 

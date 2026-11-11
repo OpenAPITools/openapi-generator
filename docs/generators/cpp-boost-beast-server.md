@@ -18,13 +18,13 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|addApiImplStubs|Generate API implementation stubs that answer 501 problem+json and a sample main.cpp for quick start| |false|
-|apiPackage|C++ namespace for apis (convention: name.space.api).| |org.openapitools.server.api|
-|compileWithValidation|Emit schema-validation IR and kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to omit the IR.| |true|
-|modelPackage|C++ namespace for models (convention: name.space.model).| |org.openapitools.server.model|
-|packageName|C++ package and library name.| |CppBoostBeastServer|
-|preserveAdditionalProperties|Retain undeclared JSON object members in generated object models and re-emit them; set to false for strict handling.| |false|
-|tolerateNonNullableNulls|Treat explicit JSON null values as absent for generated model properties whose schemas do not allow null. Enabled by default; set to false for strict schema decoding.| |true|
+|`addApiImplStubs`|Generate API implementation stubs that answer 501 problem+json and a sample main.cpp for quick start| |`false`|
+|`apiPackage`|C++ namespace for apis (convention: name.space.api).| |`org.openapitools.server.api`|
+|`compileWithValidation`|Emit schema-validation IR and kValidateOnDecode=true in generated ValidationTypes.h (default). Set to false to omit the IR.| |`true`|
+|`modelPackage`|C++ namespace for models (convention: name.space.model).| |`org.openapitools.server.model`|
+|`packageName`|C++ package and library name.| |`CppBoostBeastServer`|
+|`preserveAdditionalProperties`|Retain undeclared JSON object members in generated object models and re-emit them; set to false for strict handling.| |`false`|
+|`tolerateNonNullableNulls`|Treat explicit JSON null values as absent for generated model properties whose schemas do not allow null. Enabled by default; set to false for strict schema decoding.| |`true`|
 
 ## IMPORT MAPPING
 

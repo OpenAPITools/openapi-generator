@@ -18,8 +18,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
-|exportModels|Whether to generate code to export model names.| |false|
-|packageName|Julia server package name.| |APIServer|
+|`exportModels`|Whether to generate code to export model names.| |`false`|
+|`packageName`|Julia server package name.| |`APIServer`|
 
 ## IMPORT MAPPING
 

@@ -257,7 +257,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public static final String MODEL_PROPERTY_NAMING_DESC_WITH_WARNING = CodegenConstants.MODEL_PROPERTY_NAMING_DESC
             + ". Only change it if you provide your own run-time code for (de-)serialization of models";
     public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR = "enumPropertyNamingReplaceSpecialChar";
-    public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC = "Set to true to replace '-' and '+' symbols with 'minus_' and 'plus_' in enum of type string";
+    public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_DESC = "Set to`true` to replace `-` and `+` symbols with `minus_` and `plus_` in enum of type string";
 
 
     public static final String NULL_SAFE_ADDITIONAL_PROPS = "nullSafeAdditionalProps";

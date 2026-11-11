@@ -316,10 +316,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         addOption(CodegenConstants.ARTIFACT_VERSION, "Generated artifact's package version.", artifactVersion);
 
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING,
-                "Naming convention for enum properties: 'camelCase', 'PascalCase', 'snake_case'," +
-                " 'UPPERCASE', 'original', and 'bestEffortBacktick' (like 'original'" +
+                "Naming convention for enum properties: `camelCase`, `PascalCase`, `snake_case`," +
+                " `UPPERCASE`, `original`, and `bestEffortBacktick` (like `original`" +
                 " but tries to wrap values in backticks before falling back to sanitizing, e.g. `name,asc` stays" +
-                " `name,asc` rather than becoming nameCommaAsc; useful for sort/order enums)");
+                " `name,asc` rather than becoming `nameCommaAsc`; useful for sort/order enums)");
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
@@ -637,10 +637,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("KOTLIN_POST_PROCESS_FILE"))) {
-            LOGGER.info("Environment variable KOTLIN_POST_PROCESS_FILE not defined so the Kotlin code may not be properly formatted. To define it, try 'export KOTLIN_POST_PROCESS_FILE=\"/usr/local/bin/ktlint -F\"' (Linux/Mac)");
-            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info("Environment variable KOTLIN_POST_PROCESS_FILE not defined so the Kotlin code may not be properly formatted. To define it, try `export KOTLIN_POST_PROCESS_FILE=\"/usr/local/bin/ktlint -F\"` (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, `enablePostProcessFile` must be set to `true` (--enable-post-process-file for CLI).");
         } else if (!this.isEnablePostProcessFile()) {
-            LOGGER.info("Warning: Environment variable 'KOTLIN_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info("Warning: Environment variable `KOTLIN_POST_PROCESS_FILE` is set but file post-processing is not enabled. To enable file post-processing, `enablePostProcessFile` must be set to `true` (--enable-post-process-file for CLI).");
         }
 
         if (additionalProperties.containsKey(MODEL_MUTABLE)) {
@@ -911,12 +911,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         String nameWithPrefixSuffix = sanitizeKotlinSpecificNames(modifiedName);
         if (!StringUtils.isEmpty(modelNamePrefix)) {
-            // add '_' so that model name can be camelized correctly
+            // add `_` so that model name can be camelized correctly
             nameWithPrefixSuffix = modelNamePrefix + "_" + nameWithPrefixSuffix;
         }
 
         if (!StringUtils.isEmpty(modelNameSuffix)) {
-            // add '_' so that model name can be camelized correctly
+            // add `_` so that model name can be camelized correctly
             nameWithPrefixSuffix = nameWithPrefixSuffix + "_" + modelNameSuffix;
         }
 
@@ -1199,7 +1199,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return parameterNameMapping.get(name);
         }
 
-        // to avoid conflicts with 'callback' parameter for async call
+        // to avoid conflicts with `callback` parameter for async call
         if ("callback".equals(name)) {
             return "paramCallback";
         }
@@ -1436,7 +1436,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
         }
-        // process 'additionalProperties'
+        // process `additionalProperties`
         setAddProps(schema, m);
     }
 
