@@ -736,6 +736,7 @@ public class TypeScriptAngularClientCodegenTest {
         assertThat(operationBody(service, "getPetNames")).contains(wildcardBranch + "                responseType_ = 'json';");
         assertThat(operationBody(service, "getPetName")).contains(wildcardBranch + "                responseType_ = 'text';");
         assertThat(operationBody(service, "getPetPhoto")).doesNotContain(wildcardBranch).contains("responseType: \"blob\"");
+        assertThat(operationBody(service, "getPetDownload")).doesNotContain(wildcardBranch);
         assertThat(operationBody(service, "getPetJson")).doesNotContain(wildcardBranch);
     }
 
@@ -750,6 +751,7 @@ public class TypeScriptAngularClientCodegenTest {
         assertThat(operationBody(service, "getPetNamesResource")).contains("return httpResource<Array<string>>(");
         assertThat(operationBody(service, "getPetNameResource")).contains("return httpResource.text<string>(");
         assertThat(operationBody(service, "getPetPhotoResource")).contains("return httpResource.blob<Blob>(");
+        assertThat(operationBody(service, "getPetDownloadResource")).contains("return httpResource.blob<Blob>(");
     }
 
     /** The implementation of the given method: from its last overload signature to the next method. */

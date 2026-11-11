@@ -46,6 +46,17 @@ paths:
               schema:
                 type: string
                 format: binary
+  /pet/download:
+    get:
+      operationId: getPetDownload
+      responses:
+        default:
+          description: a file declared only under default stays a blob
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
   /pet/json:
     get:
       operationId: getPetJson

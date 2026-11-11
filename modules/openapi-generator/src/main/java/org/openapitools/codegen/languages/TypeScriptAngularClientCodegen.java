@@ -555,7 +555,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     private static String wildcardResponseType(CodegenOperation op) {
-        if (op.returnType == null || op.isResponseFile) {
+        // isResponseFile is only set for 2xx responses, so a file declared only under default shows up as Blob
+        if (op.returnType == null || op.isResponseFile || "Blob".equals(op.returnType)) {
             return null;
         }
         return "string".equals(op.returnType) ? "text" : "json";
@@ -603,7 +604,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         } else if (accept == null || JSON_MIME_PATTERN.matcher(accept).matches()) {
             factory = "";
             type = op.returnType != null ? op.returnType : "any";
-        } else if (WILDCARD_MIME.equals(accept) && op.returnType != null) {
+        } else if (WILDCARD_MIME.equals(accept) && wildcardResponseType(op) != null) {
             factory = "text".equals(wildcardResponseType(op)) ? ".text" : "";
             type = op.returnType;
         } else {
