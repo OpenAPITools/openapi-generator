@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -356,5 +357,148 @@ public class KotlinClientCodegenApiTest {
         codegen.additionalProperties().put(KotlinClientCodegen.USE_SPRING_BOOT3, "true");
         codegen.additionalProperties().put(KotlinClientCodegen.DATE_LIBRARY, "kotlinx-datetime");
         return codegen;
+    }
+
+    @DataProvider(name = "librariesWithDollarWireNames")
+    public static Object[][] librariesWithDollarWireNames() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_OKHTTP4},
+                {ClientLibrary.JVM_SPRING_WEBCLIENT},
+                {ClientLibrary.JVM_SPRING_RESTCLIENT},
+                {ClientLibrary.JVM_RETROFIT2},
+                {ClientLibrary.MULTIPLATFORM},
+                {ClientLibrary.JVM_VOLLEY},
+                {ClientLibrary.JVM_VERTX}
+        };
+    }
+
+    // Wire names containing `$` (OData-style `$filter`/`$top`) must be emitted
+    // as escaped Kotlin string literals (`"\$filter"`); unescaped, Kotlin
+    // string interpolation turns the wire key into the same-named parameter's
+    // value — or fails compilation outright when no such variable exists
+    // (`"$top"`). The same applies to `{{{path}}}` segments (`/odata/$count`),
+    // path-param placeholders (`{$id}`), header names, deepObject keys,
+    // multipart field names and apiKey names. Assertions stay within the
+    // lines this change actually escapes: vertx keeps master's header and
+    // form emission, and the retrofit2 exploded-property argument keeps its
+    // raw baseName identifier (only the @Query wire string is escaped).
+    @Test(dataProvider = "librariesWithDollarWireNames")
+    void testDollarWireNamesAreEscaped(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-dollar-wire-name.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        String outputPath = codegen.getOutputDir().replace('\\', '/');
+        ClientOptInput input = createClientOptInput(openAPI, codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        // ktor/multiplatform/retrofit2/okhttp4 put the apiKey name inside
+        // ApiClient.kt, a supporting file; the other libraries don't emit it
+        // at all (vertx wires the key in the api file itself)
+        boolean apiKeyInApiClient = library == ClientLibrary.JVM_KTOR
+                || library == ClientLibrary.MULTIPLATFORM
+                || library == ClientLibrary.JVM_RETROFIT2
+                || library == ClientLibrary.JVM_OKHTTP4;
+        if (apiKeyInApiClient) {
+            // keep supporting files for ApiClient.kt; disabling models
+            // without enabling apis would switch api generation off too
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_TESTS, "false");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "false");
+        } else {
+            enableOnlyApiGeneration(generator);
+        }
+        generator.opts(input).generate();
+
+        Path apiFile = Paths.get(outputPath + "/src/" + library.getSourceRoot() + "/org/openapitools/client/apis/DefaultApi.kt");
+        String api = new String(Files.readAllBytes(apiFile), StandardCharsets.UTF_8);
+        // every library escapes the literal path and the {param} placeholder
+        assertFileContains(apiFile, "odata/\\$count", "\\$id", "dollarId");
+        // "$top" unescaped could only come from the wire key — no `top`
+        // variable exists in scope, so it cannot be a legitimate interpolation
+        // ("$filter" appears legitimately as the `filter` param's value-side
+        // interpolation). The KDoc comment shows the path without a closing
+        // quote (`GET /odata/$count`), so `odata/$count"` means an unescaped
+        // string literal.
+        assertFileNotContains(apiFile, "\"$top\"", "odata/$count\"");
+
+        switch (library) {
+            case JVM_KTOR:
+                assertFileContains(apiFile,
+                        "localVariableQuery[\"\\$filter\"]",
+                        "localVariableQuery[\"\\$top\"]",
+                        "localVariableQuery[\"\\$a\"]",
+                        "localVariableQuery[\"\\$dobj[\\$f]\"]",
+                        "localVariableHeaders[\"\\$x-head\"]",
+                        "append(\"\\$fprop\"");
+                break;
+            case JVM_OKHTTP4:
+                assertFileContains(apiFile,
+                        "put(\"\\$filter\"",
+                        "put(\"\\$top\"",
+                        "put(\"\\$a\"",
+                        "[\\$f]",
+                        "localVariableHeaders[\"\\$x-head\"]");
+                break;
+            case JVM_RETROFIT2:
+                assertFileContains(apiFile,
+                        "@Query(\"\\$filter\")",
+                        "@Query(\"\\$top\")",
+                        "@Query(\"\\$a\")",
+                        "@Header(\"\\$x-head\")",
+                        "@Path(\"\\$id\")",
+                        "@Part(\"\\$fprop\")");
+                break;
+            case MULTIPLATFORM:
+                assertFileContains(apiFile,
+                        "localVariableQuery[\"\\$filter\"]",
+                        "localVariableQuery[\"\\$top\"]",
+                        "localVariableQuery[\"\\$dobj\"]",
+                        "localVariableHeaders[\"\\$x-head\"]",
+                        "append(\"\\$fprop\"");
+                break;
+            case JVM_VERTX:
+                assertFileContains(apiFile,
+                        "add(\"\\$filter\"",
+                        "add(\"\\$top\"",
+                        "add(\"\\$dobj\"",
+                        "apiKey[\"\\$api_key\"]",
+                        "putHeader(\"\\$api_key\"");
+                break;
+            case JVM_VOLLEY:
+                assertFileContains(apiFile,
+                        "\"\\$filter\" to",
+                        "\"\\$top\" to",
+                        "\"\\$x-head\" to",
+                        "\"\\$dobj\" to",
+                        "\"\\$fprop\" to");
+                break;
+            case JVM_SPRING_WEBCLIENT:
+            case JVM_SPRING_RESTCLIENT:
+                assertFileContains(apiFile,
+                        "put(\"\\$filter\"",
+                        "put(\"\\$top\"",
+                        "localVariableHeaders[\"\\$x-head\"]",
+                        "\"\\$fprop\" to PartConfig");
+                break;
+            default:
+                Assert.fail("unexpected library " + library);
+        }
+
+        // retrofit2 expands the exploded object's properties into @Query args,
+        // so the `opts` parameter itself does not appear in its api file
+        if (library != ClientLibrary.JVM_RETROFIT2) {
+            Assert.assertTrue(api.contains("opts"),
+                    library + ": object query param must still be emitted");
+        }
+
+        if (apiKeyInApiClient) {
+            Path apiClient = Paths.get(outputPath + "/src/" + library.getSourceRoot()
+                    + "/org/openapitools/client/infrastructure/ApiClient.kt");
+            assertFileContains(apiClient, "\\$api_key");
+        }
     }
 }
