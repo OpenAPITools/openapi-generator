@@ -1739,4 +1739,136 @@ public class InlineModelResolverTest {
         assertRewritten("encoding headers", response.getContent().get("application/json")
                 .getEncoding().get("ok").getHeaders().get("X-Encoding").getSchema());
     }
+
+
+    @Test
+    public void testIssue24817DuplicatePropertyTitleDoesNotRewriteRefToNonexistentClass() throws Exception {
+        org.openapitools.codegen.config.CodegenConfigurator configurator = new org.openapitools.codegen.config.CodegenConfigurator();
+        configurator.setInputSpec("src/test/resources/3_1/issue_24817.json");
+        configurator.setGeneratorName("java");
+        configurator.setLibrary("microprofile");
+        configurator.addAdditionalProperty("rootJavaEEPackage", "jakarta");
+        configurator.addAdditionalProperty("serializationLibrary", "jsonb");
+        configurator.setModelPackage("com.github.bvschaik.generated.models");
+        configurator.setPackageName("com.github.bvschaik.generated");
+        java.nio.file.Path tempDir = java.nio.file.Files.createTempDirectory("codegen-24817");
+        try {
+            configurator.setOutputDir(tempDir.toFile().getAbsolutePath());
+
+            ClientOptInput input = configurator.toClientOptInput();
+            OpenAPI openAPI = input.getOpenAPI();
+
+            new InlineModelResolver().flatten(openAPI);
+
+            Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+            assertNotNull("catName schema must not be removed", schemas.get("catName"));
+            assertNotNull("dogName schema must not be removed by deduplicateComponents (#24817)", schemas.get("dogName"));
+
+            DefaultGenerator generator = new DefaultGenerator();
+            generator.opts(input);
+            Map<String, java.io.File> files = generator.generate().stream()
+                    .collect(java.util.stream.Collectors.toMap(java.io.File::getName, f -> f));
+
+            assertTrue("Dog.java must be generated", files.containsKey("Dog.java"));
+            String dogContent = java.nio.file.Files.readString(files.get("Dog.java").toPath());
+            assertTrue("Dog.java must define nickname as String", dogContent.contains("protected String nickname"));
+            assertFalse("Dog.java must not reference non-existent DogName class", dogContent.contains("DogName"));
+        } finally {
+            org.apache.commons.io.FileUtils.deleteDirectory(tempDir.toFile());
+        }
+    }
+
+    @Test
+    public void deduplicateComponentsDeduplicatesTitledAllOfRefModels() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        Schema baseModel = new ObjectSchema()
+                .title("Base")
+                .addProperty("id", new StringSchema());
+        openapi.getComponents().addSchemas("Base", baseModel);
+
+        ComposedSchema canonical = new ComposedSchema();
+        canonical.setTitle("UserRef");
+        canonical.addAllOfItem(new Schema<>().$ref("#/components/schemas/Base"));
+
+        ComposedSchema duplicate = new ComposedSchema();
+        duplicate.setTitle("UserRef");
+        duplicate.addAllOfItem(new Schema<>().$ref("#/components/schemas/Base"));
+
+        openapi.getComponents().addSchemas("UserRef", canonical);
+        openapi.getComponents().addSchemas("UserRef_1", duplicate);
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Canonical UserRef must survive", schemas.get("UserRef"));
+        assertNull("Duplicate UserRef_1 must be removed", schemas.get("UserRef_1"));
+    }
+
+    @Test
+    public void deduplicateComponentsDeduplicatesNumberedDuplicateEnums() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        StringSchema canonical = new StringSchema();
+        canonical.setTitle("Status");
+        canonical.setDescription("Status description");
+        canonical.setEnum(java.util.Arrays.asList("A", "B"));
+
+        StringSchema duplicate = new StringSchema();
+        duplicate.setTitle("Status");
+        duplicate.setDescription("Status description");
+        duplicate.setEnum(java.util.Arrays.asList("A", "B"));
+
+        openapi.getComponents().addSchemas("Status", canonical);
+        openapi.getComponents().addSchemas("Status_1", duplicate);
+
+        InlineModelResolver resolver = new InlineModelResolver();
+        Map<String, String> options = new HashMap<>();
+        options.put("RESOLVE_INLINE_ENUMS", "true");
+        resolver.setInlineSchemaOptions(options);
+        resolver.flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Canonical Status must survive", schemas.get("Status"));
+        assertNull("Duplicate Status_1 must be removed", schemas.get("Status_1"));
+    }
+
+    @Test
+    public void deduplicateComponentsDoesNotDeduplicateBareObjectSchemasOrPrimitiveAllOfSchemas() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.setPaths(new Paths());
+
+        // Bare ObjectSchema without properties sharing a title
+        ObjectSchema bareObjA = new ObjectSchema();
+        bareObjA.setTitle("GenericObject");
+        ObjectSchema bareObjB = new ObjectSchema();
+        bareObjB.setTitle("GenericObject");
+
+        openapi.getComponents().addSchemas("GenericObjectA", bareObjA);
+        openapi.getComponents().addSchemas("GenericObjectB", bareObjB);
+
+        // ComposedSchema allOf containing only primitive string schemas
+        ComposedSchema allOfPrimA = new ComposedSchema();
+        allOfPrimA.setTitle("StringConstraint");
+        allOfPrimA.addAllOfItem(new StringSchema());
+        ComposedSchema allOfPrimB = new ComposedSchema();
+        allOfPrimB.setTitle("StringConstraint");
+        allOfPrimB.addAllOfItem(new StringSchema());
+
+        openapi.getComponents().addSchemas("StringConstraintA", allOfPrimA);
+        openapi.getComponents().addSchemas("StringConstraintB", allOfPrimB);
+
+        new InlineModelResolver().flatten(openapi);
+
+        Map<String, Schema> schemas = openapi.getComponents().getSchemas();
+        assertNotNull("Bare object A must not be removed", schemas.get("GenericObjectA"));
+        assertNotNull("Bare object B must not be removed", schemas.get("GenericObjectB"));
+        assertNotNull("Primitive allOf A must not be removed", schemas.get("StringConstraintA"));
+        assertNotNull("Primitive allOf B must not be removed", schemas.get("StringConstraintB"));
+    }
 }
