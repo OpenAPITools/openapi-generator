@@ -521,7 +521,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         
         
 
-        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap()
         name?.let { form.add("name", name) }
         status?.let { form.add("status", status) }
 
@@ -531,7 +531,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         }
 
         return request
-            .send()
+            .sendForm(form)
             .map {
                 val apiResponse: ApiResponse<Unit?> = handleResponse(it)
                 apiResponse
@@ -594,9 +594,9 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         
         request.putHeader("Accept", "application/json")
 
-        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
-        additionalMetadata?.let { form.add("additionalMetadata", additionalMetadata) }
-        file?.let { form.add("file", file.toString()) }
+        val form = io.vertx.ext.web.multipart.MultipartForm.create()
+        additionalMetadata?.let { form.attribute("additionalMetadata", additionalMetadata) }
+        file?.let { form.binaryFileUpload("file", it.name, it.absolutePath, "application/octet-stream") }
 
 
         accessToken?.let { accessToken ->
@@ -604,7 +604,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         }
 
         return request
-            .send()
+            .sendMultipartForm(form)
             .map {
                 val apiResponse: ApiResponse<ModelApiResponse?> = handleResponse(it)
                 apiResponse
