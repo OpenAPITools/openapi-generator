@@ -1,0 +1,365 @@
+openapi: 3.0.0
+info:
+  title: internal variable collision test
+  version: '1.0'
+paths:
+  /use-this:
+    # `this` is not a legal parameter name in PHP; master generates
+    # `function useThis($this)` which fails with "Cannot use $this as parameter"
+    get:
+      operationId: useThis
+      parameters:
+        - name: this
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /with-servers:
+    # operations with servers get `?int $hostIndex = null, array $variables = []`
+    # appended to the signature; a spec `variables` duplicates it under the
+    # default snake_case convention, `hostIndex` duplicates it under camelCase
+    get:
+      operationId: opWithServers
+      servers:
+        - url: 'https://a.example.com/{v1}'
+          variables:
+            v1:
+              default: x
+      parameters:
+        - name: variables
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: hostIndex
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ok
+  /no-servers:
+    # without servers nothing is appended to the signature, so `variables` and
+    # `hostIndex` must keep their names in every naming convention; `contentType`
+    # still collides with the appended `string $contentType` under camelCase
+    get:
+      operationId: noServers
+      parameters:
+        - name: variables
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: hostIndex
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: contentType
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /locals:
+    # xxxRequest() initializes these locals before reading the params; under
+    # camelCase the spec params keep their names and get overwritten, under
+    # snake_case only `multipart` still collides
+    get:
+      operationId: locals
+      parameters:
+        - name: resourcePath
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: formParams
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: queryParams
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: headerParams
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: httpBody
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: multipart
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /group-assoc:
+    # the x-group-parameters unboxing re-assigns $associative_array before the
+    # remaining keys are read
+    post:
+      operationId: groupAssoc
+      x-group-parameters: true
+      parameters:
+        - name: associative_array
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /no-group-assoc:
+    # without x-group-parameters `associative_array` is an ordinary query
+    # parameter and must keep its name
+    get:
+      operationId: noGroupAssoc
+      parameters:
+        - name: associative_array
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /group-ret-type:
+    # under x-group-parameters the parameter stays inside $associative_array
+    # and is unboxed only within xxxRequest(), so the $returnType assignment
+    # in xxxAsyncWithHttpInfo() does not reach it and it must keep its name
+    get:
+      operationId: groupRetType
+      x-group-parameters: true
+      parameters:
+        - name: returnType
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /group-content-type:
+    # under x-group-parameters guzzle re-reads $contentType from
+    # $associative_array['contentType'] after the spec param unboxing, so a
+    # param named `contentType` (camelCase) still collides
+    get:
+      operationId: groupContentType
+      x-group-parameters: true
+      parameters:
+        - name: contentType
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /body-headers:
+    # a body param named `headers` is read by isset($headers) after $headers
+    # already holds the headerSelector result
+    post:
+      operationId: bodyHeaders
+      requestBody:
+        required: true
+        x-codegen-request-body-name: headers
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: ok
+  /query-headers:
+    # a query param named `headers` is consumed before $headers is assigned
+    # and must keep its name
+    get:
+      operationId: queryHeaders
+      parameters:
+        - name: headers
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /form-proc:
+    # a form field named `formDataProcessor` is read inside prepare([...])
+    # after $formDataProcessor = new FormDataProcessor() overwrote it
+    # (camelCase only); a form field named `headers` is consumed before
+    # $headers is assigned and must keep its name
+    post:
+      operationId: formProc
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                formDataProcessor:
+                  type: string
+                headers:
+                  type: string
+      responses:
+        '200':
+          description: ok
+  /query-form-proc:
+    # a query param named `formDataProcessor` is consumed before the local is
+    # assigned and must keep its name in every convention
+    get:
+      operationId: queryFormProc
+      parameters:
+        - name: formDataProcessor
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /ret-type:
+    # xxxAsyncWithHttpInfo() assigns $returnType before forwarding the params
+    # to xxxRequest(); collides only under camelCase
+    get:
+      operationId: retType
+      parameters:
+        - name: returnType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /sig-content-type:
+    # `string $contentType` is appended to every signature; collides only under
+    # camelCase/original conventions
+    get:
+      operationId: sigContentType
+      parameters:
+        - name: contentType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /key-value:
+    # `key`/`value` only clashed with the psr-18 explode foreach loop
+    # variables; the guzzle template has no such loop so they must keep their
+    # names
+    get:
+      operationId: keyValue
+      parameters:
+        - name: key
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /dup-rename:
+    # the renamed `multipart` must not reuse the name an existing
+    # `param_multipart` spec param already has; it is numbered instead
+    get:
+      operationId: dupRename
+      parameters:
+        - name: param_multipart
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: multipart
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /safe-params:
+    # these names appear as locals only after the caller's value was consumed;
+    # they must NOT be renamed
+    get:
+      operationId: safeParams
+      parameters:
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: request
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: options
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: response
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: statusCode
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: data
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: content
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: e
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: exception
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
