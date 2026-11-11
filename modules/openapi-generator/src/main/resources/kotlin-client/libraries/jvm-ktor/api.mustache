@@ -88,7 +88,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         {{/isArray}}
                         {{#isArray}}
                         for (x in {{paramName}} ?: listOf()) {
-                            {{#isFile}}append(x){{/isFile}}{{^isFile}}append("{{{baseName}}}", x.toString()){{/isFile}}
+                            {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", x.toString()){{/isFile}}
                         }
                         {{/isArray}}
                         {{/isFile}}

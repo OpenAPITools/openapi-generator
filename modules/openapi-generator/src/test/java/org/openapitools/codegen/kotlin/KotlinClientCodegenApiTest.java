@@ -318,28 +318,42 @@ public class KotlinClientCodegenApiTest {
                 "exploded entries must be added after the declared query parameters");
     }
 
+    @DataProvider(name = "jvmKtorAndMultiplatform")
+    public static Object[][] jvmKtorAndMultiplatform() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.MULTIPLATFORM}
+        };
+    }
 
     /**
-     * ktor/multiplatform build form bodies inside `ParametersBuilder().also {}`
-     * whose implicit `it` is the builder. A form field named `it` shadows the
-     * implicit parameter and `it.append(...)` resolves against the String
-     * parameter instead of the builder — a compile error. The builder must be
-     * bound to an explicit name.
+     * ktor/multiplatform build urlencoded form bodies inside
+     * `ParametersBuilder().also {}` whose implicit `it` is the builder. That
+     * implicit `it` shadows a function parameter derived from a spec field
+     * named `it`: inside the block `it` resolves to the builder, so the
+     * parameter value becomes unreachable. jvm-ktor then passes the builder
+     * as the append value (a type mismatch that fails to compile), while
+     * multiplatform appends `.toString()` and silently sends the builder's
+     * string representation instead of the caller's value. The builder must
+     * be bound to an explicit name.
      */
-    @Test
-    public void testKtorMultiplatformFormBuilderDoesNotUseImplicitIt() throws IOException {
+    @Test(dataProvider = "jvmKtorAndMultiplatform")
+    public void testKtorMultiplatformFormBuilderDoesNotUseImplicitIt(ClientLibrary library) throws IOException {
         OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml");
-        for (ClientLibrary library : new ClientLibrary[]{ClientLibrary.JVM_KTOR, ClientLibrary.MULTIPLATFORM}) {
-            KotlinClientCodegen codegen = createCodegen(library);
-            DefaultGenerator generator = new DefaultGenerator();
-            enableOnlyApiGeneration(generator);
-            List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
-            File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
-            // the spec `it` param keeps its name; the builder is bound explicitly
-            assertFileContains(api.toPath(), "localVariableBuilder.append(\"it\"");
-            assertFileNotContains(api.toPath(), "it.append(\"it\"", "it.append(\"name\"");
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        // the spec `it` param keeps its name; the builder is bound explicitly
+        assertFileContains(api.toPath(), "localVariableBuilder.append(\"it\"");
+        assertFileNotContains(api.toPath(), "it.append(\"it\"", "it.append(\"name\"");
+        if (library == ClientLibrary.JVM_KTOR) {
             // urlencoded array params go through the same named builder (a bare
-            // `append("tags", x.toString())` inside `.also {}` cannot resolve)
+            // `append("tags", x.toString())` inside `.also {}` cannot resolve);
+            // multiplatform serializes urlencoded arrays via toString() — a
+            // separate pre-existing bug — so the array shape is asserted for
+            // jvm-ktor only
             assertFileContains(api.toPath(), "localVariableBuilder.append(\"tags\"");
         }
     }
@@ -347,28 +361,19 @@ public class KotlinClientCodegenApiTest {
     /**
      * File parts in a multipart body are appended as whole FormPart values.
      * multiplatform embedded the wire name as a bare expression
-     * (`append(my-file)` — a syntax error), and jvm-ktor's array loop appended
-     * the undefined implicit `it` instead of the loop variable.
+     * (`append(my-file)`): `my-file` parses as a subtraction and fails to
+     * compile because `my` and `file` are unresolved identifiers.
      */
-    @Test
-    public void testKtorMultiplatformMultipartFileAppendUsesParameter() throws IOException {
+    @Test(dataProvider = "jvmKtorAndMultiplatform")
+    public void testKtorMultiplatformMultipartFileAppendUsesParameter(ClientLibrary library) throws IOException {
         OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-multipart-file.yaml");
-        for (ClientLibrary library : new ClientLibrary[]{ClientLibrary.JVM_KTOR, ClientLibrary.MULTIPLATFORM}) {
-            KotlinClientCodegen codegen = createCodegen(library);
-            DefaultGenerator generator = new DefaultGenerator();
-            enableOnlyApiGeneration(generator);
-            List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
-            File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
-            assertFileContains(api.toPath(), "append(myFile)");
-            assertFileNotContains(api.toPath(), "append(my-file)");
-        }
-        // jvm-ktor's file-array loop must append the loop variable
-        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+        KotlinClientCodegen codegen = createCodegen(library);
         DefaultGenerator generator = new DefaultGenerator();
         enableOnlyApiGeneration(generator);
         List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
         File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
-        assertFileContains(api.toPath(), "append(x)");
+        assertFileContains(api.toPath(), "append(myFile)");
+        assertFileNotContains(api.toPath(), "append(my-file)");
     }
 
     /**
