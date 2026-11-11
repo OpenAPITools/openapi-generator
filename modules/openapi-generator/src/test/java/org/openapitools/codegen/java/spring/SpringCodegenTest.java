@@ -7165,6 +7165,44 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldDocumentExplicitArrayAliasDefaultWithAndWithoutAliasAsModel_issue23988() throws IOException {
+        // generateAliasAsModel=false: the alias is inlined, so the explicit default values are kept.
+        JavaFileAssert.assertThat(generateIssue23988DefaultModel(false).get("MyObject.java"))
+                .fileContains("private List<String> itemArray = new ArrayList<>(Arrays.asList(\"hello\"));");
+
+        // generateAliasAsModel=true: known limitation. The generated alias model only has a no-arg
+        // constructor, so the explicit default values cannot be expressed in a field initializer and
+        // the field falls back to an empty alias instance (previously model generation failed here).
+        JavaFileAssert.assertThat(generateIssue23988DefaultModel(true).get("MyObject.java"))
+                .fileContains("private ItemArray itemArray = new ItemArray();");
+    }
+
+    private Map<String, File> generateIssue23988DefaultModel(boolean generateAliasAsModel) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_23988_default.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, String.valueOf(generateAliasAsModel));
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+
+        return generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+    }
+
+    @Test
     public void testClientRegistrationIdAnnotation() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary("spring-http-interface");
