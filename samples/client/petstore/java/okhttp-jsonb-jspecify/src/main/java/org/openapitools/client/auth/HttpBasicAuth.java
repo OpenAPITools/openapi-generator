@@ -19,6 +19,7 @@ import org.openapitools.client.ApiException;
 import okhttp3.Credentials;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.List;
 
@@ -49,6 +50,8 @@ public class HttpBasicAuth implements Authentication {
     if (username == null && password == null) {
       return;
     }
-    headerParams.put("Authorization", Credentials.basic(username == null ? "" : username, password == null ? "" : password));
+    // UTF-8 explicitly: Credentials.basic defaults to ISO-8859-1, which turns every character
+    // outside Latin-1 into '?'. The other Java client libraries encode the credentials as UTF-8 too.
+    headerParams.put("Authorization", Credentials.basic(username == null ? "" : username, password == null ? "" : password, StandardCharsets.UTF_8));
   }
 }

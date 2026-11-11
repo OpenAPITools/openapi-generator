@@ -58,13 +58,23 @@ public class ProgressResponseBody extends ResponseBody {
     private Source source(Source source) {
         return new ForwardingSource(source) {
             long totalBytesRead = 0L;
+            boolean done = false;
 
             @Override
             public long read(Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
                 // read() returns the number of bytes read, or -1 if this source is exhausted.
-                totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                callback.onDownloadProgress(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                if (bytesRead == -1) {
+                    // an exhausted source keeps answering -1 to every further read (a buffered
+                    // reader probes it more than once), so completion is reported only once
+                    if (!done) {
+                        done = true;
+                        callback.onDownloadProgress(totalBytesRead, responseBody.contentLength(), true);
+                    }
+                    return bytesRead;
+                }
+                totalBytesRead += bytesRead;
+                callback.onDownloadProgress(totalBytesRead, responseBody.contentLength(), false);
                 return bytesRead;
             }
         };

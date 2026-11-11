@@ -62,4 +62,17 @@ public class HttpBasicAuthTest {
         assertEquals(0, queryParams.size());
         assertEquals(0, headerParams.size());
     }
+
+    @Test
+    public void credentialsOutsideLatin1AreEncodedAsUtf8() throws ApiException {
+        Map<String, String> headerParams = new HashMap<String, String>();
+
+        auth.setUsername("jürgen");
+        auth.setPassword("пароль€");
+        auth.applyToParams(new ArrayList<Pair>(), headerParams, new HashMap<String, String>(), null, null, null);
+
+        String expected = "Basic " + java.util.Base64.getEncoder().encodeToString(
+                "jürgen:пароль€".getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        assertEquals(expected, headerParams.get("Authorization"));
+    }
 }

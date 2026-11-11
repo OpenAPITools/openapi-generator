@@ -701,8 +701,21 @@
             <modules>
                 <module>samples/client/petstore/java/okhttp</module>
                 <module>samples/client/petstore/java/okhttp-jackson</module>
-                <module>samples/client/petstore/java/okhttp-jackson3</module>
                 <module>samples/client/petstore/java/okhttp-jsonb</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- Jackson 3 needs Java 17, so this sample only joins the build on a JDK that can compile it -->
+            <id>java-client-okhttp-jackson3</id>
+            <activation>
+                <jdk>[17,)</jdk>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp-jackson3</module>
             </modules>
         </profile>
         <profile>

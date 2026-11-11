@@ -105,10 +105,17 @@ public class AWS4Auth implements Authentication {
    * 
    * @param request {@link SdkHttpFullRequest.Builder}
    * @return {@link SdkHttpFullRequest}
+   * @throws ApiException if only part of the signing configuration (credentials, region, service) is set
    */
-  private SdkHttpFullRequest sign(final SdkHttpFullRequest.Builder request) {
+  private SdkHttpFullRequest sign(final SdkHttpFullRequest.Builder request) throws ApiException {
 
     SdkHttpFullRequest req = request.build();
+
+    final boolean configured = this.service != null || this.region != null || this.credentials != null;
+    if (configured && (this.service == null || this.region == null || this.credentials == null)) {
+      // sending the request unsigned would only surface as a 403 from the server
+      throw new ApiException("AWS Signature V4 is configured incompletely: credentials, region and service are all required");
+    }
 
     if (this.service != null && this.region != null && this.credentials != null) {
       Aws4SignerParams params = Aws4SignerParams.builder().signingName(this.service)
