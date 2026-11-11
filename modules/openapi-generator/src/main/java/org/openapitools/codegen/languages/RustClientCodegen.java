@@ -524,6 +524,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 final String[] clippyFix = {
                     "cargo", "clippy", "--fix",
                     "--allow-dirty",
+                    "--allow-no-vcs",
                     "--manifest-path", cargoToml.toString(),
                 };
                 executePostProcessor(clippyFix);
