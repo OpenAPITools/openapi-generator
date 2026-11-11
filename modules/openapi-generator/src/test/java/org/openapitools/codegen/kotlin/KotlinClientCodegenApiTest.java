@@ -318,6 +318,77 @@ public class KotlinClientCodegenApiTest {
                 "exploded entries must be added after the declared query parameters");
     }
 
+
+    /**
+     * ktor/multiplatform build form bodies inside `ParametersBuilder().also {}`
+     * whose implicit `it` is the builder. A form field named `it` shadows the
+     * implicit parameter and `it.append(...)` resolves against the String
+     * parameter instead of the builder — a compile error. The builder must be
+     * bound to an explicit name.
+     */
+    @Test
+    public void testKtorMultiplatformFormBuilderDoesNotUseImplicitIt() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml");
+        for (ClientLibrary library : new ClientLibrary[]{ClientLibrary.JVM_KTOR, ClientLibrary.MULTIPLATFORM}) {
+            KotlinClientCodegen codegen = createCodegen(library);
+            DefaultGenerator generator = new DefaultGenerator();
+            enableOnlyApiGeneration(generator);
+            List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+            File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+            // the spec `it` param keeps its name; the builder is bound explicitly
+            assertFileContains(api.toPath(), "localVariableBuilder.append(\"it\"");
+            assertFileNotContains(api.toPath(), "it.append(\"it\"", "it.append(\"name\"");
+            // urlencoded array params go through the same named builder (a bare
+            // `append("tags", x.toString())` inside `.also {}` cannot resolve)
+            assertFileContains(api.toPath(), "localVariableBuilder.append(\"tags\"");
+        }
+    }
+
+    /**
+     * File parts in a multipart body are appended as whole FormPart values.
+     * multiplatform embedded the wire name as a bare expression
+     * (`append(my-file)` — a syntax error), and jvm-ktor's array loop appended
+     * the undefined implicit `it` instead of the loop variable.
+     */
+    @Test
+    public void testKtorMultiplatformMultipartFileAppendUsesParameter() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-multipart-file.yaml");
+        for (ClientLibrary library : new ClientLibrary[]{ClientLibrary.JVM_KTOR, ClientLibrary.MULTIPLATFORM}) {
+            KotlinClientCodegen codegen = createCodegen(library);
+            DefaultGenerator generator = new DefaultGenerator();
+            enableOnlyApiGeneration(generator);
+            List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+            File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+            assertFileContains(api.toPath(), "append(myFile)");
+            assertFileNotContains(api.toPath(), "append(my-file)");
+        }
+        // jvm-ktor's file-array loop must append the loop variable
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_KTOR);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        assertFileContains(api.toPath(), "append(x)");
+    }
+
+    /**
+     * `.map(block: T.() -> V)` is a receiver lambda, so `.map { value }` reads
+     * the wrapper's `value` field — unless a spec parameter named `value`
+     * shadows it, in which case the caller's argument is returned instead of
+     * the decoded response (or fails to compile when types diverge).
+     */
+    @Test
+    public void testMultiplatformWrapMapReceiverIsThisValue() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-receiver-value.yaml");
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.MULTIPLATFORM);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        assertFileContains(api.toPath(), "map { this.value }");
+        assertFileNotContains(api.toPath(), "map { value }");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }

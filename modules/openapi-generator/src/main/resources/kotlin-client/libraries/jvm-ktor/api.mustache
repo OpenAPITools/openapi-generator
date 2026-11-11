@@ -88,7 +88,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         {{/isArray}}
                         {{#isArray}}
                         for (x in {{paramName}} ?: listOf()) {
-                            {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", x.toString()){{/isFile}}
+                            {{#isFile}}append(x){{/isFile}}{{^isFile}}append("{{{baseName}}}", x.toString()){{/isFile}}
                         }
                         {{/isArray}}
                         {{/isFile}}
@@ -96,28 +96,28 @@ import com.fasterxml.jackson.databind.ObjectMapper
                         }
                 {{/isMultipart}}
                 {{^isMultipart}}
-                        ParametersBuilder().also {
+                        ParametersBuilder().also { localVariableBuilder ->
                     {{#formParams}}
                         {{#isFile}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{{baseName}}}", {{{paramName}}}) }
                         {{/isFile}}
                         {{^isFile}}
                         {{^isArray}}
                         {{^isString}}
                         {{^isNumber}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{{baseName}}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{#isNumber}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{{baseName}}}", {{{paramName}}}.toString()) }
                         {{/isNumber}}
                         {{/isString}}
                         {{#isString}}
-                        {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}) }
+                        {{{paramName}}}?.apply { localVariableBuilder.append("{{{baseName}}}", {{{paramName}}}) }
                         {{/isString}}
                         {{/isArray}}
                         {{#isArray}}
                         for (x in {{paramName}} ?: listOf()) {
-                            append("{{{baseName}}}", x.toString())
+                            localVariableBuilder.append("{{{baseName}}}", x.toString())
                         }
                         {{/isArray}}
                         {{/isFile}}
