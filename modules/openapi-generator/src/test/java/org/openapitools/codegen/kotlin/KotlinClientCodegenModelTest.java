@@ -1637,6 +1637,10 @@ public class KotlinClientCodegenModelTest {
     }
 
     private Path generateKotlinxInlineNumericEnumModels(boolean serializableModel) throws IOException {
+        return generateKotlinxInlineNumericEnumModels(serializableModel, Map.of());
+    }
+
+    private Path generateKotlinxInlineNumericEnumModels(boolean serializableModel, Map<String, String> typeMappings) throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
@@ -1646,6 +1650,7 @@ public class KotlinClientCodegenModelTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
                 .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        typeMappings.forEach(configurator::addTypeMapping);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(configurator.toClientOptInput()).generate();
@@ -1698,5 +1703,26 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(recordingKt,
                 "@KSerializable(with = PlaysSerializer::class)",
                 "internal object PlaysSerializer : KSerializer<Plays>");
+    }
+
+    @Test
+    public void testKotlinxSerializationMappedNumberEnumRoundtripsAsNumber() throws IOException {
+        // Issue #25588: an unformatted type: number enum keeps isNumber even when number is mapped
+        // to kotlin.Double, so it must still get the value serializer and roundtrip as a number.
+        Path recordingKt = generateKotlinxInlineNumericEnumModels(false, Map.of("number", "kotlin.Double"))
+                .resolve("Recording.kt");
+
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = RatioSerializer::class)",
+                "enum class Ratio(val value: kotlin.Double)",
+                "internal object RatioSerializer : KSerializer<Ratio>",
+                "decoder.decodeSerializableValue(kotlin.Double.serializer())",
+                "encoder.encodeSerializableValue(kotlin.Double.serializer(), value.value)");
+        // Integer enums are unchanged.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = PlaysSerializer::class)",
+                "enum class Plays(val value: kotlin.Int)");
+        // String enums stay on their @SerialName values.
+        TestUtils.assertFileNotContains(recordingKt, "ModeSerializer");
     }
 }

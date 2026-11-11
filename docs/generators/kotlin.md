@@ -70,7 +70,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Extension name | Description | Applicable for | Default value |
 | -------------- | ----------- | -------------- | ------------- |
 |x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
-|x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-field-extra-annotation|Custom annotation(s) to be added to property; on an array `items` schema, generators that support element-type annotations add it to the element type instead (e.g. `List<@Foo T>`); accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
 |x-jackson-default-impl|Specifies the default implementation class name for Jackson @JsonTypeInfo(defaultImpl=...) on a oneOf interface schema (deduction-based or discriminator-based). Can be overridden per-schema by the `typeInfoDefaultImpls` generator option.|MODEL|null
 
 

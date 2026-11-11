@@ -3401,6 +3401,36 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Deduplicate inline enum properties when a child repeats the same enum from its parent model
+     *
+     * @param codegenModel the child CodegenModel, will have enums removed if they collide with the parent's definition
+     * @param parentCodegenModel the parent CodegenModel
+     * @return the mutated child CodegenModel which has had any parent enum collisions removed
+     */
+    protected CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        if (parentCodegenModel == null || !parentCodegenModel.hasEnums) {
+            return codegenModel;
+        }
+
+        for (CodegenProperty parentModelCodegenProperty : parentCodegenModel.vars) {
+            if (parentModelCodegenProperty.isEnum) {
+                reconcileInlineEnum(parentModelCodegenProperty, codegenModel.vars);
+            }
+        }
+        return codegenModel;
+    }
+
+    private void reconcileInlineEnum(CodegenProperty parentModelCodegenProperty, List<CodegenProperty> codegenProperties) {
+        Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+        while (iterator.hasNext()) {
+            CodegenProperty codegenProperty = iterator.next();
+            if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                iterator.remove();
+            }
+        }
+    }
+
+    /**
      * Convert OAS Model object to Codegen Model object.
      *
      * @param name   the name of the model
@@ -7292,17 +7322,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void postProcessEnumVars(List<EnumVarMap> enumVars) {
-        Collections.reverse(enumVars);
-        enumVars.forEach(v -> {
-            String name = (String) v.getEnumName();
-            long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
-            if (count > 1) {
-                String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
-                v.setEnumName(uniqueEnumName);
-            }
-        });
-        Collections.reverse(enumVars);
+        // a new name can already be taken ("EtcGmt1" + "2" is "EtcGmt12"), so repeat until names are unique
+        do {
+            Collections.reverse(enumVars);
+            enumVars.forEach(v -> {
+                String name = (String) v.getEnumName();
+                long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
+                if (count > 1) {
+                    String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                    LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
+                    v.setEnumName(uniqueEnumName);
+                }
+            });
+            Collections.reverse(enumVars);
+        } while (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size());
     }
 
     private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {

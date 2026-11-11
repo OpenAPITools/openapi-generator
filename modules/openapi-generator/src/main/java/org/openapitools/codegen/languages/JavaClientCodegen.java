@@ -66,6 +66,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
+    // Container variants may capture both a type token and an adapter.
+    private static final int GSON_ONEOF_FIELD_THRESHOLD = 100;
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
@@ -101,6 +103,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String NATIVE = "native";
     public static final String OKHTTP_GSON = "okhttp-gson";
     public static final String OKHTTP = "okhttp";
+    private static final Set<String> OKHTTP_GSON_CALL_LOCALS = Set.of("basePath", "localBasePaths", "localCustomBaseUrl", "localHostIndex");
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
     public static final String WEBCLIENT = "webclient";
@@ -1378,6 +1381,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // continues through it like through any other ancestor
             final boolean composedParentHasNoBag = isLibrary(OKHTTP_GSON);
             for (CodegenModel cm : getAllModels(objs).values()) {
+                if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null
+                        && cm.getComposedSchemas().getOneOf().size() > GSON_ONEOF_FIELD_THRESHOLD) {
+                    cm.vendorExtensions.put("x-gson-large-oneof", true);
+                    for (CodegenProperty variant : cm.getComposedSchemas().getOneOf()) {
+                        variant.vendorExtensions.put("x-gson-large-oneof", true);
+                    }
+                }
                 if (!composedParentHasNoBag && !rendersAsPojo(cm)) {
                     // an okhttp wrapper extends AbstractOpenApiSchema, so it cannot inherit a bag from
                     // its allOf parent; it keeps declaring its own
@@ -1558,6 +1568,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        String paramName = super.toParamName(name);
+        // the okhttp-gson call methods declare or read these names next to their parameters
+        if (isLibrary(OKHTTP_GSON) && OKHTTP_GSON_CALL_LOCALS.contains(paramName)) {
+            return "param" + StringUtils.capitalize(paramName);
+        }
+        return paramName;
     }
 
     @Override

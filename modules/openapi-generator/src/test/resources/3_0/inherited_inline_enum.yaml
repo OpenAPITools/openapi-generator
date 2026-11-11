@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: Inherited Inline Enum Scenario
+  version: 1.0.0
+paths:
+  /animals:
+    get:
+      operationId: listAnimals
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Animal"
+components:
+  schemas:
+    Animal:
+      type: object
+      required:
+        - type
+        - status
+      discriminator:
+        propertyName: type
+        mapping:
+          cat: "#/components/schemas/Cat"
+          dog: "#/components/schemas/Dog"
+      properties:
+        type:
+          type: string
+          enum: [cat, dog]
+        status:
+          type: string
+          enum: [ACTIVE, INACTIVE]
+    Cat:
+      allOf:
+        - $ref: "#/components/schemas/Animal"
+        - type: object
+          required:
+            - mood
+            - status
+          properties:
+            mood:
+              type: string
+            # Child inline enum with EXACT same enum space as parent.status
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE]
+    Dog:
+      allOf:
+        - $ref: "#/components/schemas/Animal"
+        - type: object
+          required:
+            - barkVolume
+          properties:
+            barkVolume:
+              type: integer
+              format: int32
+            # Child inline enum with NARROWED enum space parent.type
+            type:
+              type: string
+              enum: [ dog ]

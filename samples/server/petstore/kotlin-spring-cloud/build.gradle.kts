@@ -18,6 +18,8 @@ repositories {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+    // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
+    kotlinOptions.freeCompilerArgs += "-Xemit-jvm-type-annotations"
 }
 
 plugins {

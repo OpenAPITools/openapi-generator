@@ -84,6 +84,22 @@ public class DefaultCodegenTest {
         Assert.assertEquals(enumVars.get(1).getEnumValue(), "\"_42\"");
     }
 
+    @Test
+    public void testPostProcessEnumVarsKeepsRenamedEntriesUnique() {
+        // typescript names of "Etc/GMT+12", "Etc/GMT+1", "Etc/GMT0", "Etc/GMT-1" and "Etc/GMT-12"
+        List<EnumVarMap> enumVars = new ArrayList<>();
+        for (String name : Arrays.asList("EtcGmt12", "EtcGmt1", "EtcGmt0", "EtcGmt1", "EtcGmt12")) {
+            EnumVarMap enumVar = new EnumVarMap();
+            enumVar.setEnumName(name);
+            enumVars.add(enumVar);
+        }
+
+        new DefaultCodegen().postProcessEnumVars(enumVars);
+
+        assertThat(enumVars).extracting(EnumVarMap::getEnumName)
+                .containsExactly("EtcGmt122", "EtcGmt1", "EtcGmt0", "EtcGmt12", "EtcGmt1222");
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testBuildEnumVarsRejectsMismatchedRawValues() {
         new DefaultCodegen().buildEnumVars(Collections.singletonList("value"), "string", Collections.emptyList());
@@ -918,6 +934,59 @@ public class DefaultCodegenTest {
                 1,
                 ((StringSchema) openAPI.getComponents().getSchemas().get("Cat").getProperties().get("type")).getEnum().size()
         );
+    }
+
+    @Test
+    public void testInheritedInlineEnumIsDroppedFromChildModel() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty animalStatus = inlineEnumProperty("status", "StatusEnum", "ACTIVE", "INACTIVE");
+        CodegenModel animal = modelWithVars("Animal", animalStatus);
+
+        CodegenProperty catStatusBeforeReconcile = animalStatus.clone();
+        CodegenProperty catMood = property("mood");
+        CodegenModel cat = modelWithVars("Cat", catStatusBeforeReconcile, catMood);
+
+        assertTrue(animalStatus.isEnum);
+        assertEquals(animalStatus.get_enum(), Arrays.asList("ACTIVE", "INACTIVE"));
+
+        // Before reconciliation, the child still has its mirrored inline enum property.
+        assertTrue(catStatusBeforeReconcile.isEnum);
+        assertEquals(catStatusBeforeReconcile.get_enum(), Arrays.asList("ACTIVE", "INACTIVE"));
+        assertEquals(catStatusBeforeReconcile.enumName, animalStatus.enumName);
+        assertThat(cat.vars.stream().filter(property -> "status".equals(property.name)).count()).isEqualTo(1);
+
+        cat = codegen.reconcileInlineEnums(cat, animal);
+
+        // After reconciliation, the mirrored child property is dropped from vars.
+        assertThat(getNames(cat.vars)).containsExactly("mood");
+        assertThat(cat.vars.stream().filter(property -> "status".equals(property.name)).count()).isEqualTo(0);
+    }
+
+    @Test
+    public void testInheritedInlineEnumThatIsNarrowedIsKeptInChildModel() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty animalType = inlineEnumProperty("type", "TypeEnum", "cat", "dog");
+        CodegenModel animal = modelWithVars("Animal", animalType);
+
+        CodegenProperty dogTypeBeforeReconcile = animalType.clone();
+        dogTypeBeforeReconcile.set_enum(Collections.singletonList("dog"));
+        CodegenModel dog = modelWithVars("Dog", dogTypeBeforeReconcile);
+
+        assertTrue(animalType.isEnum);
+        assertEquals(animalType.get_enum(), Arrays.asList("cat", "dog"));
+
+        // Before reconciliation, the narrowed child enum exists on the child model.
+        assertTrue(dogTypeBeforeReconcile.isEnum);
+        assertEquals(dogTypeBeforeReconcile.get_enum(), Collections.singletonList("dog"));
+        assertThat(dog.vars.stream().filter(property -> "type".equals(property.name)).count()).isEqualTo(1);
+
+        dog = codegen.reconcileInlineEnums(dog, animal);
+
+        // Narrowed enum is not identical to parent enum, so child property must be retained.
+        CodegenProperty dogTypeAfterReconcile = varNamed(dog, "type");
+        assertTrue(dogTypeAfterReconcile.isEnum);
+        assertEquals(dogTypeAfterReconcile.get_enum(), Collections.singletonList("dog"));
+        assertThat(dog.vars.stream().filter(property -> "type".equals(property.name)).count()).isEqualTo(1);
     }
 
     @Test
@@ -5739,5 +5808,28 @@ public class DefaultCodegenTest {
         var.defaultValue = "defaultType";
         DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
         assertEquals("defaultType", var.defaultValue);
+    }
+
+    private static CodegenModel modelWithVars(String modelName, CodegenProperty... vars) {
+        CodegenModel model = new CodegenModel();
+        model.name = modelName;
+        model.vars.addAll(Arrays.asList(vars));
+        model.hasEnums = model.vars.stream().filter(Objects::nonNull).anyMatch(v -> v.isEnum);
+        return model;
+    }
+
+    private static CodegenProperty inlineEnumProperty(String propertyName, String enumName, String... enumValues) {
+        CodegenProperty property = property(propertyName);
+        property.isEnum = true;
+        property.enumName = enumName;
+        property.set_enum(Arrays.asList(enumValues));
+        return property;
+    }
+
+    private static CodegenProperty property(String propertyName) {
+        CodegenProperty property = new CodegenProperty();
+        property.baseName = propertyName;
+        property.name = propertyName;
+        return property;
     }
 }

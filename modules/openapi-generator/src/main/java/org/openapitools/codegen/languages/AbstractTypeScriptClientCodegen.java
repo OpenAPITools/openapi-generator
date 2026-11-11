@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.openapitools.codegen.CliOption;
@@ -940,7 +941,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if ("number".equals(datatype) || "boolean".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "'" + escapeTextForStringLiteral(value) + "'";
         }
     }
 
@@ -982,8 +983,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             varName = varName.replaceAll("\\+", "_plus_");
             varName = varName.replaceAll("_+", "_");
         }
-        varName = sanitizeName(varName);
-        varName = varName.replaceFirst("^_", "");
+        String sanitizedName = sanitizeName(varName);
+        if (sanitizedName.replace("_", "").isEmpty()) {
+            // nothing is left of non-latin values like "Москва", keep their letters as TypeScript allows them
+            sanitizedName = sanitizeName(varName, "(?U)\\W");
+        }
+        varName = sanitizedName.replaceFirst("^_", "");
         varName = varName.replaceFirst("_$", "");
 
         varName = getNameUsingEnumPropertyNaming(varName);
@@ -1239,6 +1244,35 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String escapeUnsafeCharacters(String input) {
         return input.replace("*/", "*_/").replace("/*", "/_*");
+    }
+
+    /**
+     * Escapes text so it can safely be embedded in a quoted string literal, without the
+     * comment-delimiter rewriting done by {@link #escapeText(String)} and
+     * {@link #escapeUnsafeCharacters(String)}.
+     * <p>
+     * Backslashes, quotes and control characters are still escaped, but comment delimiters
+     * ({@code /*} and {@code *&#47;}) are left untouched: unlike documentation text, enum values
+     * are only ever rendered inside string literals, never inside comments, so rewriting the
+     * delimiters corrupts legitimate values (e.g. the wildcard {@code foo/*} was generated as
+     * {@code foo/_*}), see https://github.com/OpenAPITools/openapi-generator/issues/24572.
+     *
+     * @param input the string to escape
+     * @return the escaped string, safe for a string literal and unchanged with respect to comment delimiters
+     */
+    protected String escapeTextForStringLiteral(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // same escaping as escapeText(), minus the comment-delimiter rewriting
+        return StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                .replaceAll("[\\t\\n\\r]", " ")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\'", "\\\'");
     }
 
     @Override

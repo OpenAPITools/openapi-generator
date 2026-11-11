@@ -55,21 +55,10 @@ namespace {{packageName}}.{{clientPackage}}
             {{#models}}
             {{#-first}}
             _jsonOptions.TypeInfoResolver = System.Text.Json.Serialization.Metadata.JsonTypeInfoResolver.Combine(
-            {{/-first}}
-            {{/models}}
-                {{#lambda.joinLinesWithComma}}
-                {{#models}}
-                {{#model}}
-                new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}SerializationContext(){{#-last}},{{/-last}}
-                {{/model}}
-                {{/models}}
-                {{/lambda.joinLinesWithComma}}
-            {{#models}}
-            {{#-last}}
-
+                new OpenApiSerializationContext(),
                 new System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver()
             );
-            {{/-last}}
+            {{/-first}}
             {{/models}}
 
             {{/useSourceGeneration}}
