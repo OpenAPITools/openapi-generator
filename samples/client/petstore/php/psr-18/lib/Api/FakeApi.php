@@ -624,8 +624,8 @@ class FakeApi
         // query params
         if ($enum_class !== null) {
             if('form' === 'form' && is_array($enum_class)) {
-                foreach($enum_class as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_class as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -635,8 +635,8 @@ class FakeApi
         // query params
         if ($enum_class_array !== null) {
             if('form' === 'form' && is_array($enum_class_array)) {
-                foreach($enum_class_array as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_class_array as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -646,8 +646,8 @@ class FakeApi
         // query params
         if ($enum_class_map !== null) {
             if('form' === 'form' && is_array($enum_class_map)) {
-                foreach($enum_class_map as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_class_map as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -1108,8 +1108,8 @@ class FakeApi
         // query params
         if ($query_1 !== null) {
             if('form' === 'form' && is_array($query_1)) {
-                foreach($query_1 as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($query_1 as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -3924,8 +3924,8 @@ class FakeApi
         // query params
         if ($type !== null) {
             if('form' === 'form' && is_array($type)) {
-                foreach($type as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($type as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -3935,8 +3935,8 @@ class FakeApi
         // query params
         if ($http_debug_option !== null) {
             if('form' === 'form' && is_array($http_debug_option)) {
-                foreach($http_debug_option as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($http_debug_option as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -4775,8 +4775,8 @@ class FakeApi
         // query params
         if ($query !== null) {
             if('form' === 'form' && is_array($query)) {
-                foreach($query as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($query as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5643,8 +5643,8 @@ class FakeApi
         // query params
         if ($enum_query_string_array !== null) {
             if('form' === 'form' && is_array($enum_query_string_array)) {
-                foreach($enum_query_string_array as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_query_string_array as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5654,8 +5654,8 @@ class FakeApi
         // query params
         if ($enum_query_string !== null) {
             if('form' === 'form' && is_array($enum_query_string)) {
-                foreach($enum_query_string as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_query_string as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5665,8 +5665,8 @@ class FakeApi
         // query params
         if ($enum_query_integer !== null) {
             if('form' === 'form' && is_array($enum_query_integer)) {
-                foreach($enum_query_integer as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_query_integer as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5676,8 +5676,8 @@ class FakeApi
         // query params
         if ($enum_query_double !== null) {
             if('form' === 'form' && is_array($enum_query_double)) {
-                foreach($enum_query_double as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_query_double as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5687,8 +5687,8 @@ class FakeApi
         // query params
         if ($enum_query_model_array !== null) {
             if('form' === 'form' && is_array($enum_query_model_array)) {
-                foreach($enum_query_model_array as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($enum_query_model_array as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5977,8 +5977,8 @@ class FakeApi
         // query params
         if ($required_string_group !== null) {
             if('form' === 'form' && is_array($required_string_group)) {
-                foreach($required_string_group as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($required_string_group as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5988,8 +5988,8 @@ class FakeApi
         // query params
         if ($required_int64_group !== null) {
             if('form' === 'form' && is_array($required_int64_group)) {
-                foreach($required_int64_group as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($required_int64_group as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -5999,8 +5999,8 @@ class FakeApi
         // query params
         if ($string_group !== null) {
             if('form' === 'form' && is_array($string_group)) {
-                foreach($string_group as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($string_group as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -6010,8 +6010,8 @@ class FakeApi
         // query params
         if ($int64_group !== null) {
             if('form' === 'form' && is_array($int64_group)) {
-                foreach($int64_group as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($int64_group as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -6958,8 +6958,8 @@ class FakeApi
         // query params
         if ($context !== null) {
             if('form' === 'form' && is_array($context)) {
-                foreach($context as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($context as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -6969,8 +6969,8 @@ class FakeApi
         // query params
         if ($language !== null) {
             if('form' === 'form' && is_array($language)) {
-                foreach($language as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($language as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -6980,8 +6980,8 @@ class FakeApi
         // query params
         if ($allow_empty !== null) {
             if('form' === 'form' && is_array($allow_empty)) {
-                foreach($allow_empty as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($allow_empty as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
