@@ -27,7 +27,6 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import joptsimple.internal.Strings;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -1609,7 +1608,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
 
         boolean unsigned = canFitIntoUnsigned(min, exclusiveMinimum);
 
-        if (Strings.isNullOrEmpty(dataFormat)) {
+        if (StringUtils.isEmpty(dataFormat)) {
             return bestFittingIntegerType(min, exclusiveMinimum, max, exclusiveMaximum, true);
         } else {
             switch (dataFormat) {
