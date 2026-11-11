@@ -176,6 +176,42 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testJsonContentHeaderIsASCIISafe() throws IOException, InterruptedException {
+        File output = Files.createTempDirectory("go-json-header-ascii").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .addAdditionalProperty("packageName", "headerrepro")
+                .setInputSpec("src/test/resources/3_1/go/json-header-content.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "client.go"),
+                "func parameterToJSONHeaderValue(obj interface{}) (string, error)",
+                "utf16.EncodeRune(r)");
+
+        try {
+            Process goVersion = new ProcessBuilder("go", "version").start();
+            if (goVersion.waitFor() != 0) {
+                return;
+            }
+            Matcher version = Pattern.compile("go(\\d+)\\.(\\d+)")
+                    .matcher(new String(goVersion.getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+            if (!version.find() || Integer.parseInt(version.group(1)) < 1
+                    || (Integer.parseInt(version.group(1)) == 1 && Integer.parseInt(version.group(2)) < 23)) {
+                return;
+            }
+        } catch (IOException ignored) {
+            return;
+        }
+        Files.copy(Paths.get("src/test/resources/3_1/go/json-header-ascii_test.go"),
+                Paths.get(output.getAbsolutePath(), "json-header-ascii_test.go")).toFile().deleteOnExit();
+        Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestJSONHeaderASCII", ".")
+                .directory(output).redirectErrorStream(true).start();
+        String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        Assert.assertEquals(goTest.waitFor(), 0, goOutput);
+    }
+
+    @Test
     public void testJsonHeaderHelperDoesNotLeakAcrossGenerations() throws IOException {
         GoClientCodegen codegen = new GoClientCodegen();
         File firstOutput = Files.createTempDirectory("go-json-header-first").toFile();
@@ -202,7 +238,7 @@ public class GoClientCodegenTest {
         codegen.setOutputDir(secondOutput.getAbsolutePath());
         new DefaultGenerator().opts(secondInput).generate().forEach(File::deleteOnExit);
         TestUtils.assertFileNotContains(Paths.get(secondOutput.getAbsolutePath(), "client.go"),
-                "parameterToJSONHeaderValue");
+                "parameterToJSONHeaderValue", "\"unicode/utf16\"");
     }
 
     @Test
