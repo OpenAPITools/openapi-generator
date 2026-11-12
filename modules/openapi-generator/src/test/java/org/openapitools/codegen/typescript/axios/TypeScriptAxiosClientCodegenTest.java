@@ -9,6 +9,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -23,6 +24,46 @@ import static org.testng.Assert.assertEquals;
 public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+    @DataProvider
+    public Object[][] oneOfSiblingPropertiesOptions() {
+        return new Object[][] {{false, false}, {true, false}, {false, true}, {true, true}};
+    }
+
+    @Test(dataProvider = "oneOfSiblingPropertiesOptions")
+    public void testOneOfSiblingProperties(boolean separateModels, boolean stringEnums) throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_oneof_properties_").toFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/typescript-axios/oneof-sibling-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty("withSeparateModelsAndApi", separateModels)
+                .addAdditionalProperty("apiPackage", "api")
+                .addAdditionalProperty("modelPackage", "model")
+                .addAdditionalProperty("stringEnums", stringEnums);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path receiptFile = output.toPath().resolve(separateModels ? "model/receipt.ts" : "api.ts");
+        String receipt = Files.readString(receiptFile);
+        assertThat(receipt).contains("export type Receipt = (LinkSubmission | TextSubmission) & {");
+        String receiptProperties = receipt.substring(receipt.indexOf("export type Receipt ="));
+        receiptProperties = receiptProperties.substring(0, receiptProperties.indexOf("\n};"));
+        assertThat(receiptProperties)
+                .contains("'id': string;", "'state': ReceiptStateEnum;", "'owner': Owner;",
+                        "'note'?: string | null;", "@deprecated")
+                .doesNotContain("'kind'", "'text'", "'url'");
+        assertThat(receipt).contains(stringEnums ? "export enum ReceiptStateEnum" : "export const ReceiptStateEnum");
+        if (separateModels) {
+            assertThat(receipt).contains("import type { Owner } from './owner';");
+        }
+
+        Path submissionFile = output.toPath().resolve(separateModels ? "model/submission.ts" : "api.ts");
+        TestUtils.assertFileContains(submissionFile, "export type Submission = LinkSubmission | TextSubmission;");
+        Path taggedFile = output.toPath().resolve(separateModels ? "model/tagged-receipt.ts" : "api.ts");
+        TestUtils.assertFileContains(taggedFile,
+                "export type TaggedReceipt = ({ kind: 'link' } & LinkSubmission | { kind: 'text' } & TextSubmission) & {\n    'id': string;\n};");
+    }
 
     @Test
     public void testToEnumVarNameOriginalNamingType() {

@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: OneOf sibling properties
+  version: 1.0.0
+paths:
+  /submissions:
+    post:
+      operationId: createSubmission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Submission'
+      responses:
+        '200':
+          description: Receipt
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+components:
+  schemas:
+    TextSubmission:
+      type: object
+      required: [kind, text]
+      properties:
+        kind:
+          type: string
+          enum: [text]
+        text:
+          type: string
+    LinkSubmission:
+      type: object
+      required: [kind, url]
+      properties:
+        kind:
+          type: string
+          enum: [link]
+        url:
+          type: string
+    Owner:
+      type: object
+      properties:
+        name:
+          type: string
+    Submission:
+      oneOf:
+        - $ref: '#/components/schemas/TextSubmission'
+        - $ref: '#/components/schemas/LinkSubmission'
+    Receipt:
+      type: object
+      required: [id, state, owner]
+      properties:
+        id:
+          type: string
+        state:
+          type: string
+          enum: [pending, accepted]
+        owner:
+          $ref: '#/components/schemas/Owner'
+        note:
+          type: string
+          nullable: true
+          deprecated: true
+      oneOf:
+        - $ref: '#/components/schemas/TextSubmission'
+        - $ref: '#/components/schemas/LinkSubmission'
+    TaggedReceipt:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+      oneOf:
+        - $ref: '#/components/schemas/TextSubmission'
+        - $ref: '#/components/schemas/LinkSubmission'
+      discriminator:
+        propertyName: kind
+        mapping:
+          text: '#/components/schemas/TextSubmission'
+          link: '#/components/schemas/LinkSubmission'

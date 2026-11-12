@@ -36,6 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/typescript-axios/}.
@@ -244,6 +245,21 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 CodegenModel codegenModel = model.getModel();
                 model.put("hasAllOf", codegenModel.allOf.size() > 0);
                 model.put("hasOneOf", codegenModel.oneOf.size() > 0);
+                if (!codegenModel.oneOf.isEmpty()) {
+                    Schema schema = getModelNameToSchemaCache().get(codegenModel.classname);
+                    if (schema != null && schema.getProperties() != null) {
+                        // vars also contains properties from the union's branches. Only sibling
+                        // properties apply to every alternative and belong in the intersection.
+                        List<CodegenProperty> properties = codegenModel.vars.stream()
+                                .filter(property -> schema.getProperties().containsKey(property.baseName))
+                                .collect(Collectors.toList());
+                        if (!properties.isEmpty()) {
+                            codegenModel.vendorExtensions.put("x-one-of-sibling-properties", Map.of(
+                                    "vars", properties,
+                                    "hasEnums", properties.stream().anyMatch(property -> property.isEnum)));
+                        }
+                    }
+                }
             }
         }
         return result;

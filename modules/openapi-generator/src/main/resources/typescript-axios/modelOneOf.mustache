@@ -2,7 +2,7 @@
  * @type {{classname}}{{#description}}
  * {{{.}}}{{/description}}
  */
-export type {{classname}} = {{#discriminator}}{{!
+export type {{classname}} = {{#vendorExtensions.x-one-of-sibling-properties}}({{/vendorExtensions.x-one-of-sibling-properties}}{{#discriminator}}{{!
 
 discriminator with mapped models - TypeScript discriminating union
 }}{{#mappedModels}}{ {{discriminator.propertyName}}: '{{mappingName}}' } & {{modelName}}{{^-last}} | {{/-last}}{{/mappedModels}}{{!
@@ -11,4 +11,12 @@ discriminator only - fallback to not use the discriminator. Default model names 
 }}{{^mappedModels}}{{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}{{/mappedModels}}{{/discriminator}}{{!
 
 plain oneOf
-}}{{^discriminator}}{{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}{{/discriminator}};
+}}{{^discriminator}}{{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}}{{/discriminator}}{{#vendorExtensions.x-one-of-sibling-properties}}) & {
+{{>modelGenericProperties}}
+}{{/vendorExtensions.x-one-of-sibling-properties}};
+{{#vendorExtensions.x-one-of-sibling-properties}}
+{{#hasEnums}}
+
+{{>modelGenericEnums}}
+{{/hasEnums}}
+{{/vendorExtensions.x-one-of-sibling-properties}}
