@@ -50,7 +50,7 @@ data class Pet(
     @field:Valid
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @Deprecated(message = "")
     @field:JsonSetter(nulls = Nulls.SKIP)

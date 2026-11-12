@@ -62,6 +62,45 @@ public class AsciidocGeneratorTest {
     }
 
     @Test
+    public void testMultilineDescriptionIsPreservedInGeneratedTables() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
+                .setInputSpec("src/test/resources/3_0/issue24962-asciidoc-multiline-description.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        String markupContent = FileUtils.readFileToString(
+                new File(output, "index.adoc"), StandardCharsets.UTF_8);
+
+        // description cells must use the asciidoc "a|" cell prefix so that
+        // multi-line content stays inside the cell
+        Assert.assertTrue(markupContent.contains("a| Type of Vehicle:"),
+                "expected description cell to use the a| prefix: " + markupContent);
+        Assert.assertTrue(markupContent.contains("a| Applies a filter:"),
+                "expected parameter description cell to use the a| prefix: " + markupContent);
+
+        // line breaks within the description must be preserved
+        Assert.assertTrue(markupContent.contains("* 1 - Automobile / Car\n* 2 - Truck"),
+                "expected line breaks to be preserved in the description cell: " + markupContent);
+        Assert.assertTrue(markupContent.contains("* A - first option\n* B - second option"),
+                "expected line breaks to be preserved in the parameter description cell: " + markupContent);
+
+        // request body descriptions must keep their line breaks too
+        Assert.assertTrue(markupContent.contains("a| Thing to create:"),
+                "expected body parameter description cell to use the a| prefix: " + markupContent);
+        Assert.assertTrue(markupContent.contains("* name - the thing name\n* kind - the thing kind"),
+                "expected line breaks to be preserved in the body parameter description cell: " + markupContent);
+
+        // the flattened single-line form must not be generated anymore
+        Assert.assertFalse(markupContent.contains("Type of Vehicle:  * 1 - Automobile / Car"),
+                "description should not be flattened to a single line: " + markupContent);
+    }
+
+    @Test
     public void testPingSpecTitle() throws Exception {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
 

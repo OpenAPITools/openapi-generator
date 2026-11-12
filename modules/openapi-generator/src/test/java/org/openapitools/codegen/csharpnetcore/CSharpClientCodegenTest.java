@@ -123,6 +123,98 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testGenericHostUsesSingleSourceGenerationContextWithUniqueInnerEnumNames() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components()
+                .addSchemas("Asset", new ObjectSchema()
+                        .addProperty("image", new Schema<>().$ref("#/components/schemas/ImageAsset"))
+                        .addProperty("document", new Schema<>().$ref("#/components/schemas/DocumentAsset")))
+                .addSchemas("ImageAsset", new ObjectSchema()
+                        .addProperty("type", new StringSchema()._enum(List.of("image"))))
+                .addSchemas("DocumentAsset", new ObjectSchema()
+                        .addProperty("type", new StringSchema()._enum(List.of("document")))));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put("targetFramework", "net10.0");
+        codegen.additionalProperties().put("useSourceGeneration", true);
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File context = files.get(Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Client", "OpenApiSerializationContext.cs").toString());
+        assertNotNull(context);
+        assertFileContains(context.toPath(),
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.DocumentAsset.TypeEnum), TypeInfoPropertyName = \"DocumentAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::System.Nullable<global::Org.OpenAPITools.Model.DocumentAsset.TypeEnum>), TypeInfoPropertyName = \"NullableDocumentAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Client.Option<global::System.Nullable<global::Org.OpenAPITools.Model.DocumentAsset.TypeEnum>>), TypeInfoPropertyName = \"OptionNullableDocumentAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.ImageAsset.TypeEnum), TypeInfoPropertyName = \"ImageAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::System.Nullable<global::Org.OpenAPITools.Model.ImageAsset.TypeEnum>), TypeInfoPropertyName = \"NullableImageAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Client.Option<global::System.Nullable<global::Org.OpenAPITools.Model.ImageAsset.TypeEnum>>), TypeInfoPropertyName = \"OptionNullableImageAssetTypeEnum\")]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.Asset))]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.DocumentAsset))]",
+                "[JsonSerializable(typeof(global::Org.OpenAPITools.Model.ImageAsset))]",
+                "public partial class OpenApiSerializationContext : JsonSerializerContext");
+
+        File hostConfiguration = files.get(Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Client", "HostConfiguration.cs").toString());
+        assertNotNull(hostConfiguration);
+        assertFileContains(hostConfiguration.toPath(), "new OpenApiSerializationContext()");
+        assertFileNotContains(hostConfiguration.toPath(),
+                "AssetSerializationContext",
+                "DocumentAssetSerializationContext",
+                "ImageAssetSerializationContext");
+
+        assertFileNotContains(getGeneratedModel(files, output, "Asset").toPath(), "JsonSerializerContext");
+        assertFileNotContains(getGeneratedModel(files, output, "DocumentAsset").toPath(), "JsonSerializerContext");
+        assertFileNotContains(getGeneratedModel(files, output, "ImageAsset").toPath(), "JsonSerializerContext");
+    }
+
+    @Test
+    public void testGenericHostWritesUnsetAndNullInnerStringEnums() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("Pet",
+                new ObjectSchema()
+                        .addProperty("status", new StringSchema()._enum(List.of("available", "sold")))
+                        .addProperty("mode", new StringSchema()._enum(List.of("auto", "manual")).nullable(true))
+                        .addProperty("kind", new StringSchema()._enum(List.of("cat", "dog")).nullable(true))
+                        .addRequiredItem("kind")));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "Pet");
+
+        assertFileContains(model.toPath(),
+                // optional: skipped when unset, written when set
+                "if (pet.StatusOption.IsSet) { var statusRawValue ="
+                        + " Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);"
+                        + " writer.WriteString(\"status\", statusRawValue); }",
+                // optional and nullable: skipped when unset, null when null, written otherwise
+                "if (pet.ModeOption.IsSet) {"
+                        + " if (pet.ModeOption.Value == null) writer.WriteNull(\"mode\");"
+                        + " else { var modeRawValue ="
+                        + " Pet.ModeEnumToJsonValue(pet.ModeOption.Value!.Value);"
+                        + " writer.WriteString(\"mode\", modeRawValue); } }",
+                // required and nullable: null when null, written otherwise
+                "if (pet.Kind == null) writer.WriteNull(\"kind\"); else {"
+                        + " var kindRawValue = Pet.KindEnumToJsonValue(pet.Kind!.Value);"
+                        + " writer.WriteString(\"kind\", kindRawValue); }");
+    }
+
+    @Test
     public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
         Map<String, File> publicModels = generateIssue23046Models(false);
         File publicModel = publicModels.get("DynamicMetadataValue");
@@ -304,7 +396,7 @@ public class CSharpClientCodegenTest {
                 "throw new ArgumentException(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\");");
         // Also enforced in Validate() for explicit validation.
         assertFileContains(other,
-                "yield return new ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
+                "yield return new System.ComponentModel.DataAnnotations.ValidationResult(\"Invalid value for Kind, must not be a value excluded by the 'not' schema.\", new [] { \"Kind\" });");
         // The Known member (plain enum) must NOT get the not-enum handling.
         assertFileNotContains(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "Known.cs"),
                 "must not be a value excluded by the 'not' schema");
@@ -434,6 +526,37 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testUseClientFactoryEmitsRestClientFactoryArgument() throws IOException {
+        for (boolean useClientFactory : new boolean[]{false, true}) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+            final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+            final DefaultGenerator defaultGenerator = new DefaultGenerator();
+            final ClientOptInput clientOptInput = new ClientOptInput();
+            clientOptInput.openAPI(openAPI);
+            CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+            cSharpClientCodegen.setLibrary("restsharp");
+            cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+            cSharpClientCodegen.additionalProperties().put("useClientFactory", useClientFactory);
+            clientOptInput.config(cSharpClientCodegen);
+            defaultGenerator.opts(clientOptInput);
+
+            Map<String, File> files = defaultGenerator.generate().stream()
+                    .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+            File apiClient = files
+                    .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ApiClient.cs").toString());
+            assertNotNull(apiClient);
+            if (useClientFactory) {
+                assertFileContains(apiClient.toPath(), "useClientFactory: true))",
+                        "client.DefaultParameters.ReplaceParameter(new HeaderParameter(KnownHeaders.UserAgent, configuration.UserAgent));");
+            } else {
+                assertFileNotContains(apiClient.toPath(), "useClientFactory: true", "KnownHeaders.UserAgent");
+            }
+        }
+    }
+
+    @Test
     public void test31specAdditionalPropertiesOfOneOf() throws IOException {
         // for https://github.com/OpenAPITools/openapi-generator/pull/18772
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -508,6 +631,9 @@ public class CSharpClientCodegenTest {
         output.deleteOnExit();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(
             "src/test/resources/3_0/anyOfDiscriminatorSimple.yaml");
+        openAPI.getComponents().getSchemas().get("FruitAnyOfDisc").getDiscriminator().setMapping(Map.of(
+                "apple", "#/components/schemas/AppleAnyOfDisc",
+                "banana", "#/components/schemas/BananaAnyOfDisc"));
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
         final ClientOptInput clientOptInput = new ClientOptInput();
         clientOptInput.openAPI(openAPI);
@@ -529,6 +655,71 @@ public class CSharpClientCodegenTest {
         assertNotNull(file, "Could not find file for model: " + modelName);
         // Should not contain this as the constructor will have two parameters instead of one
         assertFileNotContains(file.toPath(), "return new FruitAnyOfDisc(appleAnyOfDisc);");
+        assertFileContains(file.toPath(),
+                "ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, \"fruitType\")");
+
+        File clientUtils = files.get(Paths
+                .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ClientUtils.cs")
+                .toString());
+        assertNotNull(clientUtils);
+        assertFileContains(clientUtils.toPath(),
+                "return GetDiscriminatorValue(utf8JsonReader, discriminator);",
+                "if (utf8JsonReader.TokenType != JsonTokenType.String)",
+                "The discriminator property '{discriminator}' must contain a JSON string, but found {utf8JsonReader.TokenType}.");
+    }
+
+    @Test
+    public void testAnyOfDiscriminatorWritesSelectedSubtype() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/anyOfDiscriminatorSimple.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        String modelName = "FruitAnyOfDisc";
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: " + modelName);
+        assertFileContains(file.toPath(),
+            "appleAnyOfDiscJsonConverter.WriteProperties(writer, fruitAnyOfDisc.AppleAnyOfDiscOption.Value, jsonSerializerOptions);",
+            "bananaAnyOfDiscJsonConverter.WriteProperties(writer, fruitAnyOfDisc.BananaAnyOfDiscOption.Value, jsonSerializerOptions);");
+    }
+
+    @Test
+    public void testUnionMemberThatIsAUnionUsesItsOwnConverter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/union-members.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File file = getGeneratedModel(files, output, "NestedScalar");
+        assertFileContains(file.toPath(),
+            "varBool = default; Utf8JsonReader utf8JsonReaderScalar = utf8JsonReader;",
+            "JsonSerializer.Serialize(writer, nestedScalar.Scalar, jsonSerializerOptions);");
+        assertFileNotContains(file.toPath(), "scalarJsonConverter.WriteProperties");
     }
 
     @Test
@@ -898,6 +1089,45 @@ public class CSharpClientCodegenTest {
         assertFileContains(updateCommand.toPath(),
                 "public UpdateThingCommand(bool autoRenew = default, int period = default, int? graceDays = default, StatusEnum? status = default, RenewalModeEnum? renewalMode = default, string note = default)");
         assertFileNotContains(updateCommand.toPath(), "_flagAutoRenew");
+    }
+
+    @Test(description = "restsharp ApiClient does not import the model namespace, so schemas named Parameter, ParameterType or Task do not collide with RestSharp/System types")
+    public void testRestSharpApiClientDoesNotImportModelNamespace() throws IOException {
+        Map<String, File> files = generateModelNameCollisions();
+
+        File apiClient = files.get("ApiClient.cs");
+        assertNotNull(apiClient);
+        assertFileNotContains(apiClient.toPath(), "using Org.OpenAPITools.Model;");
+        assertFileContains(apiClient.toPath(), "obj is Org.OpenAPITools.Model.AbstractOpenAPISchema");
+    }
+
+    @Test(description = "a schema named ValidationResult does not hide the DataAnnotations type in generated models")
+    public void testValidatableModelsQualifyValidationResult() throws IOException {
+        Map<String, File> files = generateModelNameCollisions();
+
+        File model = files.get("ValidationResult.cs");
+        assertNotNull(model);
+        assertFileContains(model.toPath(),
+                "IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)",
+                "yield return new System.ComponentModel.DataAnnotations.ValidationResult(");
+        assertFileNotContains(model.toPath(), "IEnumerable<ValidationResult>", "new ValidationResult(");
+    }
+
+    private Map<String, File> generateModelNameCollisions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/csharp/model-name-collisions.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("restsharp");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        return defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity(), (first, second) -> first));
     }
 
     private Map<String, File> generateConditionalSerializationValueTypeModels(boolean conditionalSerialization) throws IOException {

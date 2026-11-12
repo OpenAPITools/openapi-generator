@@ -32,6 +32,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -51,6 +52,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonPydanticV1Codegen.class);
 
     public static final String MAP_NUMBER_TO = "mapNumberTo";
+    private static final Pattern PERL_DELIMITER_PATTERN =
+            Pattern.compile("(?s)^/(?:\\\\.|[^/\\\\])+/[gimsuxl]*$");
 
     protected String packageName = "openapi_client";
     @Setter protected String packageVersion = "1.0.0";
@@ -627,12 +630,14 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     public String patternCorrection(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return "";
+        }
         // Java does not recognize starting and ending forward slashes and mode modifiers
         // It considers them as characters with no special meaning and tries to find them in the match string
-        boolean checkEnding = pattern.endsWith("/i") || pattern.endsWith("/g") || pattern.endsWith("/m");
-        if (checkEnding) pattern = pattern.substring(0, pattern.length() - 2);
-        if (pattern.endsWith("/")) pattern = pattern.substring(0, pattern.length() - 1);
-        if (pattern.startsWith("/")) pattern = pattern.substring(1);
+        if (PERL_DELIMITER_PATTERN.matcher(pattern).matches()) {
+            return pattern.substring(1, pattern.lastIndexOf('/'));
+        }
         return pattern;
     }
 
@@ -1743,6 +1748,17 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs.setImports(postProcessOperationsAndBuildImports(objs.getOperations()));
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        objs.setImports(postProcessOperationsAndBuildImports(objs.getWebhooks()));
+        return objs;
+    }
+
+    protected List<Map<String, String>> postProcessOperationsAndBuildImports(OperationMap objectMap) {
         hasModelsToImport = false;
         boolean importAnnotated = false;
         TreeSet<String> typingImports = new TreeSet<>();
@@ -1751,7 +1767,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
         TreeSet<String> modelImports = new TreeSet<>();
         TreeSet<String> postponedModelImports = new TreeSet<>();
 
-        OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
         for (CodegenOperation operation : operations) {
             TreeSet<String> exampleImports = new TreeSet<>(); // import for each operation to be show in sample code
@@ -1881,9 +1896,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             }
         }
 
-        // reset imports with newImports
-        objs.setImports(newImports);
-        return objs;
+        return newImports;
     }
 
 
@@ -1914,6 +1927,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
      */
     public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
         if (pattern != null) {
+            pattern = addRegularExpressionDelimiter(pattern);
             int i = pattern.lastIndexOf('/');
 
             // TODO update the check below follow python convention
@@ -1945,9 +1959,9 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             return pattern;
         }
 
-        if (!pattern.matches("^/.*")) {
-            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
-            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        if (!PERL_DELIMITER_PATTERN.matcher(pattern).matches()) {
+            // Escape each '/' only when preceded by an even number of backslashes.
+            return "/" + pattern.replaceAll("((?<!\\\\)(?:\\\\\\\\)*)/", "$1\\\\/") + "/";
         }
 
         return pattern;

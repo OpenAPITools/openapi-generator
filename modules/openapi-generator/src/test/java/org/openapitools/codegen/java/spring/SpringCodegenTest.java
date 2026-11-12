@@ -17,6 +17,14 @@
 
 package org.openapitools.codegen.java.spring;
 
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.comments.Comment;
+import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -2827,15 +2835,15 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
+                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithArrayOfString").hasReturnType("ResponseEntity<List<String>>")
                 .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<TestResponse>>")
+                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithSetOfStrings").hasReturnType("ResponseEntity<Set<String>>")
                 .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
+                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, @Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
@@ -3498,6 +3506,90 @@ public class SpringCodegenTest {
                 .assertParameter("body")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "2"));
+    }
+
+    @DataProvider
+    public Object[][] collectionResponseValidationOptions() {
+        return new Object[][] {
+                {true, false, true, false}, {false, false, true, false},
+                {true, false, false, false}, {false, false, false, false},
+                {true, true, true, false}, {false, true, true, false},
+                {true, true, false, false}, {false, true, false, false},
+                {true, false, true, true}, {false, false, true, true},
+                {true, false, false, true}, {false, false, false, true},
+                {true, true, true, true}, {false, true, true, true},
+                {true, true, false, true}, {false, true, false, true}
+        };
+    }
+
+    @Test(dataProvider = "collectionResponseValidationOptions")
+    public void validatesNonVoidReturnsAndObjectCollectionElements(boolean validation, boolean reactive,
+                                                                  boolean responseEntity, boolean mappedModel) throws IOException {
+        OpenAPI openAPI = new OpenAPIParser().readLocation(
+                "src/test/resources/3_0/spring/collection-response-validation.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(Files.createTempDirectory("collection-response-validation").toString());
+        codegen.additionalProperties().put(USE_TAGS, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_BEANVALIDATION, validation);
+        codegen.additionalProperties().put(REACTIVE, reactive);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, responseEntity);
+        if (mappedModel) {
+            codegen.schemaMapping().put("Pet", "com.example.ExternalPet");
+        }
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+        String api = Files.readString(files.get("CollectionApi.java").toPath());
+        String model = mappedModel ? "com.example.ExternalPet" : "Pet";
+        String element = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String list = reactive ? "Flux<" + model + ">" : "List<" + element + ">";
+        String set = reactive ? "Flux<" + model + ">" : "Set<" + element + ">";
+        String map = "Map<String, " + element + ">";
+        String strings = "List<String>";
+        String integers = reactive ? "Flux<Integer>" : "List<Integer>";
+        String stringMap = "Map<String, String>";
+        String pet = model;
+        String name = "String";
+        String noContent = responseEntity ? "ResponseEntity<Void>" : (reactive ? "Void" : "void");
+        if (responseEntity) {
+            list = "ResponseEntity<" + list + ">";
+            set = "ResponseEntity<" + set + ">";
+            map = "ResponseEntity<" + map + ">";
+            strings = "ResponseEntity<" + strings + ">";
+            integers = "ResponseEntity<" + integers + ">";
+            stringMap = "ResponseEntity<" + stringMap + ">";
+            pet = "ResponseEntity<" + pet + ">";
+            name = "ResponseEntity<" + name + ">";
+        }
+        if (reactive) {
+            if (responseEntity) {
+                list = "Mono<" + list + ">";
+                set = "Mono<" + set + ">";
+                integers = "Mono<" + integers + ">";
+            }
+            map = "Mono<" + map + ">";
+            strings = "Mono<" + strings + ">";
+            stringMap = "Mono<" + stringMap + ">";
+            pet = "Mono<" + pet + ">";
+            name = "Mono<" + name + ">";
+            noContent = "Mono<" + noContent + ">";
+        }
+        String annotation = validation ? "@Valid " : "";
+        assertThat(api).contains(annotation + list + " getPets(", annotation + set + " getUniquePets(",
+                annotation + map + " getPetsByName(", annotation + strings + " getNames(",
+                annotation + pet + " getPet(", annotation + integers + " getNumbers(",
+                annotation + stringMap + " getNamesById(", annotation + name + " getName(",
+                "default " + noContent + " getNothing(")
+                .doesNotContain("ResponseEntity<@Valid", "Mono<@Valid", "List<@Valid String", "Flux<@Valid",
+                        "Flux<com.example.@Valid",
+                        "ResponseEntity<com.example.@Valid", "Mono<com.example.@Valid",
+                        "@Valid " + noContent + " getNothing(");
+        if (!validation) {
+            assertThat(api).doesNotContain("@Valid");
+        }
     }
 
     @Test
@@ -5706,6 +5798,21 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testUrlEncodedFormArraysUseRequestParam() throws IOException {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue_14866.yaml", SPRING_BOOT,
+                Map.of(INTERFACE_ONLY, "true"));
+        JavaFileAssert.assertThat(files.get("IssueApi.java"))
+                .assertMethod("reproduceIssue", "List<String>", "List<String>")
+                .assertParameter("listOfStrings").hasType("List<String>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"listOfStrings\"", "required", "false"))
+                .toParameter().toMethod()
+                .assertParameter("requiredStrings").hasType("List<String>")
+                .assertParameterAnnotations()
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("value", "\"requiredStrings\"", "required", "true"));
+    }
+
+    @Test
     public void testAllArgsConstructor_16797() throws IOException {
         final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
                 Map.of(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE, INTERFACE_ONLY, "true"),
@@ -5828,6 +5935,78 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void lombokAllArgsConstructorReplacesRequiredArgsConstructor_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // lombok generates Pet(Long, String), a generated one would be a duplicate
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("Long", "String");
+        JavaFileAssert.assertThat(output.get("NicknamedPet.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("Long", "String");
+        JavaFileAssert.assertThat(output.get("Tag.java"))
+                .assertConstructor("Long");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorKeepsRequiredArgsConstructorOfNullableProperty_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "true",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // the field is JsonNullable<String> but the generated parameter is String, so lombok's constructor differs
+        JavaFileAssert.assertThat(output.get("NicknamedPet.java"))
+                .assertConstructor("Long", "String");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorWithInheritedProperties_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // lombok only covers the own field, the generated constructor also takes the inherited one
+        JavaFileAssert.assertThat(output.get("Dog.java"))
+                .assertConstructor("String", "String")
+                .bodyContainsLines("super(kind)", "this.breed = breed");
+        // the parent has no required property, so the signature is the same as lombok's
+        JavaFileAssert.assertThat(output.get("Hound.java"))
+                .assertConstructor().toFileAssert()
+                .hasNoConstructor("String");
+    }
+
+    @Test
+    public void lombokAllArgsConstructorKeepsRequiredArgsConstructorWithAdditionalProperties_issue25395() throws IOException {
+        Map<String, File> output = generateFromContract(
+                "src/test/resources/3_0/spring/issue_25395.yaml",
+                SPRING_BOOT,
+                Map.of(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.AllArgsConstructor",
+                        CodegenConstants.OPENAPI_NULLABLE, "false",
+                        INTERFACE_ONLY, "true")
+        );
+
+        // the additionalProperties map is a field too, so lombok's constructor takes it as a third parameter
+        JavaFileAssert.assertThat(output.get("Bag.java"))
+                .assertConstructor().toFileAssert()
+                .assertConstructor("Long", "String");
+    }
+
+    @Test
     public void allOfDuplicatedProperties() throws IOException {
         Map<String, File> output = generateFromContract(
                 "src/test/resources/3_0/allOfDuplicatedProperties.yaml",
@@ -5882,6 +6061,329 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("equals")
         ;
+    }
+
+    @DataProvider(name = "lombokModelEquivalenceSpecs")
+    public Object[][] lombokModelEquivalenceSpecs() {
+        return new Object[][]{
+                {"src/test/resources/3_0/petstore.yaml"},
+                {"src/test/resources/3_1/petstore.yaml"},
+                {"src/test/resources/3_0/typescript-fetch/validation-attributes.yaml"},
+                {"src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml"}
+        };
+    }
+
+    @Test(dataProvider = "lombokModelEquivalenceSpecs")
+    public void testLombokModelEquivalence(String specPath) throws IOException {
+        Map<String, File> withoutLombokFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true"
+                )
+        );
+        Map<String, File> lombokGetterSetterFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter;@lombok.Setter"
+                )
+        );
+        Map<String, File> lombokGetterOnlyFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter"
+                )
+        );
+        Map<String, File> lombokSetterOnlyFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Setter"
+                )
+        );
+        Map<String, File> lombokDataFiles = generateFromContract(
+                specPath,
+                SPRING_BOOT,
+                Map.of(
+                        INTERFACE_ONLY, "true",
+                        CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true",
+                        AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data"
+                )
+        );
+
+        List<String> modelFileNames = withoutLombokFiles.entrySet().stream()
+                .filter(e -> e.getValue().getParentFile().getName().equals("model")
+                        && e.getKey().endsWith(".java")
+                        && !"model/package-info.java".equals(e.getKey()))
+                .map(Map.Entry::getKey)
+                .sorted()
+                .collect(Collectors.toList());
+
+        assertThat(modelFileNames).isNotEmpty();
+
+        for (String fileName : modelFileNames) {
+            CompilationUnit withoutLombokCu = StaticJavaParser.parse(withoutLombokFiles.get(fileName));
+            CompilationUnit getterSetterCu = StaticJavaParser.parse(lombokGetterSetterFiles.get(fileName));
+            CompilationUnit getterOnlyCu = StaticJavaParser.parse(lombokGetterOnlyFiles.get(fileName));
+            CompilationUnit setterOnlyCu = StaticJavaParser.parse(lombokSetterOnlyFiles.get(fileName));
+            CompilationUnit dataCu = StaticJavaParser.parse(lombokDataFiles.get(fileName));
+
+            if (!withoutLombokCu.getType(0).isClassOrInterfaceDeclaration()) {
+                assertThat(getterSetterCu).as("Enum %s with @Getter;@Setter", fileName).isEqualTo(withoutLombokCu);
+                assertThat(getterOnlyCu).as("Enum %s with @Getter", fileName).isEqualTo(withoutLombokCu);
+                assertThat(setterOnlyCu).as("Enum %s with @Setter", fileName).isEqualTo(withoutLombokCu);
+                assertThat(dataCu).as("Enum %s with @Data", fileName).isEqualTo(withoutLombokCu);
+                continue;
+            }
+
+            CompilationUnit expectedGetterOnlyCu = withoutLombokCu.clone();
+            CompilationUnit expectedSetterOnlyCu = withoutLombokCu.clone();
+
+            ClassOrInterfaceDeclaration withoutLombokClass = withoutLombokCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration expectedGetterOnlyClass = expectedGetterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration expectedSetterOnlyClass = expectedSetterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration getterSetterClass = getterSetterCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration getterOnlyClass = getterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration setterOnlyClass = setterOnlyCu.getType(0).asClassOrInterfaceDeclaration();
+            ClassOrInterfaceDeclaration dataClass = dataCu.getType(0).asClassOrInterfaceDeclaration();
+
+            List<MethodDeclaration> methodsToRemove = new ArrayList<>();
+
+            for (FieldDeclaration withoutLombokField : withoutLombokClass.getFields()) {
+                String fieldName = withoutLombokField.getVariable(0).getNameAsString();
+                if ("serialVersionUID".equals(fieldName)) {
+                    continue;
+                }
+
+                MethodDeclaration getter = withoutLombokClass.getMethods().stream()
+                        .filter(m -> m.getParameters().isEmpty()
+                                && m.getAnnotationByName("JsonAnyGetter").isEmpty()
+                                && m.getBody().map(b -> b.getStatements().size() == 1
+                                        && b.getStatement(0).toString().equals("return " + fieldName + ";"))
+                                .orElse(false))
+                        .findFirst()
+                        .orElse(null);
+
+                if (getter == null && "additionalProperties".equals(fieldName)) {
+                    NodeList<AnnotationExpr> expectedAdditionalPropsSetterAnnotations = new NodeList<>(
+                            StaticJavaParser.parseAnnotation("@lombok.Setter(lombok.AccessLevel.NONE)")
+                    );
+                    assertThat(getterOnlyClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Getter", fileName)
+                            .isEmpty();
+                    assertThat(getterSetterClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Getter;@Setter", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+                    assertThat(setterOnlyClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Setter", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+                    assertThat(dataClass.getFieldByName(fieldName).orElseThrow().getAnnotations())
+                            .as("additionalProperties annotations in %s with @Data", fileName)
+                            .isEqualTo(expectedAdditionalPropsSetterAnnotations);
+
+                    withoutLombokField.setAnnotations(expectedAdditionalPropsSetterAnnotations);
+                    expectedSetterOnlyClass.getFieldByName(fieldName).orElseThrow()
+                            .setAnnotations(new NodeList<>(
+                                    StaticJavaParser.parseAnnotation("@lombok.Setter(lombok.AccessLevel.NONE)")
+                            ));
+                    continue;
+                }
+
+                assertThat(getter)
+                        .as("Getter for field %s in %s", fieldName, fileName)
+                        .isNotNull();
+
+                MethodDeclaration setter = withoutLombokClass.getMethods().stream()
+                        .filter(m -> m.getType().isVoidType()
+                                && m.getParameters().size() == 1
+                                && m.getBody().map(b -> b.getStatements().size() == 1
+                                        && b.getStatement(0).toString().equals("this." + fieldName + " = " + fieldName + ";"))
+                                .orElse(false))
+                        .findFirst()
+                        .orElse(null);
+
+                assertThat(setter)
+                        .as("Setter for field %s in %s", fieldName, fileName)
+                        .isNotNull();
+
+                assertThat(getterSetterClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Getter;@Setter should omit %s in %s", getter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(getterSetterClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Getter;@Setter should omit %s in %s", setter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(getterOnlyClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Getter should omit %s in %s", getter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(getterOnlyClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Getter should keep %s in %s", setter.getNameAsString(), fileName)
+                        .hasSize(1);
+                assertThat(setterOnlyClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Setter should keep %s in %s", getter.getNameAsString(), fileName)
+                        .hasSize(1);
+                assertThat(setterOnlyClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Setter should omit %s in %s", setter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(dataClass.getMethodsByName(getter.getNameAsString()))
+                        .as("@Data should omit %s in %s", getter.getNameAsString(), fileName)
+                        .isEmpty();
+                assertThat(dataClass.getMethodsByName(setter.getNameAsString()))
+                        .as("@Data should omit %s in %s", setter.getNameAsString(), fileName)
+                        .isEmpty();
+
+                NodeList<AnnotationExpr> expectedGetterOnlyFieldAnnotations = new NodeList<>();
+                for (AnnotationExpr getterAnn : getter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(getterAnn)) {
+                        expectedGetterOnlyFieldAnnotations.add(getterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr fieldAnn : withoutLombokField.getAnnotations()) {
+                    expectedGetterOnlyFieldAnnotations.add(fieldAnn.clone());
+                }
+
+                NodeList<AnnotationExpr> expectedFieldAnnotations = new NodeList<>();
+                for (AnnotationExpr getterAnn : getter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(getterAnn)) {
+                        expectedFieldAnnotations.add(getterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr setterAnn : setter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(setterAnn)
+                            && !expectedFieldAnnotations.contains(setterAnn)) {
+                        expectedFieldAnnotations.add(setterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr fieldAnn : withoutLombokField.getAnnotations()) {
+                    expectedFieldAnnotations.add(fieldAnn.clone());
+                }
+
+                NodeList<AnnotationExpr> expectedSetterOnlyFieldAnnotations = new NodeList<>();
+                for (AnnotationExpr setterAnn : setter.getAnnotations()) {
+                    if (!withoutLombokField.getAnnotations().contains(setterAnn)) {
+                        expectedSetterOnlyFieldAnnotations.add(setterAnn.clone());
+                    }
+                }
+                for (AnnotationExpr fieldAnn : withoutLombokField.getAnnotations()) {
+                    expectedSetterOnlyFieldAnnotations.add(fieldAnn.clone());
+                }
+
+                FieldDeclaration getterSetterField = getterSetterClass.getFieldByName(fieldName).orElseThrow();
+                FieldDeclaration getterOnlyField = getterOnlyClass.getFieldByName(fieldName).orElseThrow();
+                FieldDeclaration setterOnlyField = setterOnlyClass.getFieldByName(fieldName).orElseThrow();
+                FieldDeclaration dataField = dataClass.getFieldByName(fieldName).orElseThrow();
+
+                assertThat(getterSetterField.getElementType())
+                        .as("Field type for %s.%s with @Getter;@Setter", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+                assertThat(getterOnlyField.getElementType())
+                        .as("Field type for %s.%s with @Getter", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+                assertThat(setterOnlyField.getElementType())
+                        .as("Field type for %s.%s with @Setter", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+                assertThat(dataField.getElementType())
+                        .as("Field type for %s.%s with @Data", fileName, fieldName)
+                        .isEqualTo(withoutLombokField.getElementType());
+
+                assertThat(getterSetterField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Getter;@Setter", fileName, fieldName)
+                        .isEqualTo(expectedFieldAnnotations);
+                assertThat(getterOnlyField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Getter", fileName, fieldName)
+                        .isEqualTo(expectedGetterOnlyFieldAnnotations);
+                assertThat(setterOnlyField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Setter", fileName, fieldName)
+                        .isEqualTo(expectedSetterOnlyFieldAnnotations);
+
+                boolean isPasswordField = withoutLombokClass.getMethodsByName("toString").stream()
+                        .anyMatch(m -> m.getBody()
+                                .map(b -> b.toString().contains("    " + fieldName + ": \").append(\"*\")"))
+                                .orElse(false));
+                NodeList<AnnotationExpr> expectedDataFieldAnnotations = new NodeList<>();
+                if (isPasswordField) {
+                    expectedDataFieldAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.ToString.Exclude"));
+                }
+                for (AnnotationExpr ann : expectedFieldAnnotations) {
+                    expectedDataFieldAnnotations.add(ann.clone());
+                }
+                assertThat(dataField.getAnnotations())
+                        .as("Field annotations for %s.%s with @Data", fileName, fieldName)
+                        .isEqualTo(expectedDataFieldAnnotations);
+
+                withoutLombokField.setAnnotations(expectedFieldAnnotations);
+                methodsToRemove.add(getter);
+                methodsToRemove.add(setter);
+
+                expectedGetterOnlyClass.getFieldByName(fieldName).orElseThrow()
+                        .setAnnotations(expectedGetterOnlyFieldAnnotations);
+                expectedGetterOnlyClass.getMethodsByName(getter.getNameAsString()).forEach(expectedGetterOnlyClass::remove);
+
+                expectedSetterOnlyClass.getFieldByName(fieldName).orElseThrow()
+                        .setAnnotations(expectedSetterOnlyFieldAnnotations);
+                expectedSetterOnlyClass.getMethodsByName(setter.getNameAsString()).forEach(expectedSetterOnlyClass::remove);
+            }
+
+            // Remove getters, setters, and inherited fluent setters (omitted when @lombok.Setter is used)
+            methodsToRemove.forEach(withoutLombokClass::remove);
+            withoutLombokClass.getMethods().stream()
+                    .filter(m -> m.getBody().map(b -> b.toString().contains("super.") && b.toString().contains("return this;")).orElse(false))
+                    .collect(Collectors.toList())
+                    .forEach(withoutLombokClass::remove);
+            expectedSetterOnlyClass.getMethods().stream()
+                    .filter(m -> m.getBody().map(b -> b.toString().contains("super.") && b.toString().contains("return this;")).orElse(false))
+                    .collect(Collectors.toList())
+                    .forEach(expectedSetterOnlyClass::remove);
+
+            NodeList<AnnotationExpr> expectedDataClassAnnotations = new NodeList<>();
+            expectedDataClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Data"));
+            expectedDataClassAnnotations.addAll(withoutLombokClass.getAnnotations());
+            assertThat(dataClass.getAnnotations())
+                    .as("Class annotations of %s with @Data", fileName)
+                    .isEqualTo(expectedDataClassAnnotations);
+
+            // Prepend @lombok.Getter and/or @lombok.Setter to the normalized without-Lombok classes
+            NodeList<AnnotationExpr> normalizedClassAnnotations = new NodeList<>();
+            normalizedClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Getter"));
+            normalizedClassAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Setter"));
+            normalizedClassAnnotations.addAll(withoutLombokClass.getAnnotations());
+            withoutLombokClass.setAnnotations(normalizedClassAnnotations);
+
+            NodeList<AnnotationExpr> normalizedGetterOnlyAnnotations = new NodeList<>();
+            normalizedGetterOnlyAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Getter"));
+            normalizedGetterOnlyAnnotations.addAll(expectedGetterOnlyClass.getAnnotations());
+            expectedGetterOnlyClass.setAnnotations(normalizedGetterOnlyAnnotations);
+
+            NodeList<AnnotationExpr> normalizedSetterOnlyAnnotations = new NodeList<>();
+            normalizedSetterOnlyAnnotations.add(StaticJavaParser.parseAnnotation("@lombok.Setter"));
+            normalizedSetterOnlyAnnotations.addAll(expectedSetterOnlyClass.getAnnotations());
+            expectedSetterOnlyClass.setAnnotations(normalizedSetterOnlyAnnotations);
+
+            withoutLombokCu.getAllContainedComments().forEach(Comment::remove);
+            expectedGetterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+            expectedSetterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+            getterSetterCu.getAllContainedComments().forEach(Comment::remove);
+            getterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+            setterOnlyCu.getAllContainedComments().forEach(Comment::remove);
+
+            assertThat(getterSetterCu)
+                    .as("Normalized AST of %s should match @lombok.Getter;@lombok.Setter", fileName)
+                    .isEqualTo(withoutLombokCu);
+            assertThat(getterOnlyCu)
+                    .as("Normalized AST of %s should match @lombok.Getter", fileName)
+                    .isEqualTo(expectedGetterOnlyCu);
+            assertThat(setterOnlyCu)
+                    .as("Normalized AST of %s should match @lombok.Setter", fileName)
+                    .isEqualTo(expectedSetterOnlyCu);
+        }
     }
 
     @Test
@@ -6631,7 +7133,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("getPetById").hasReturnType("Pet")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("List<Pet>");
+                .assertMethod("findPetsByStatus").hasReturnType("List<@Valid Pet>");
     }
 
     @Test
@@ -8303,6 +8805,69 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void generateSortValidationEmitsItemCountBounds() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        String content = Files.readString(files.get("PetApi.java").toPath());
+        String petSortValues = "{\"id,asc\", \"id,desc\", \"createdAt,asc\", \"createdAt,desc\"}";
+        String inlineValues = "{\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"}";
+
+        // scalar enum sort → at most one sort order
+        assertThat(sortMethodSignature(content, "findPetsWithSortEnum"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", maxItems = 1)");
+        // scalar $ref enum sort → at most one sort order
+        assertThat(sortMethodSignature(content, "findPetsWithRefSort"))
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", maxItems = 1)");
+        // array sort with minItems/maxItems → both emitted
+        assertThat(sortMethodSignature(content, "findPetsWithArraySortBounds"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 1, maxItems = 2)");
+        // array sort without bounds → no bound attributes
+        assertThat(sortMethodSignature(content, "findPetsWithArraySortEnum"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ")");
+        // sort schema $ref-ing an array component with bounds
+        assertThat(sortMethodSignature(content, "findPetsWithRefSortBounds"))
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", minItems = 1, maxItems = 3)");
+        // array sort with only minItems → no maxItems attribute
+        assertThat(sortMethodSignature(content, "findPetsWithMinSortBounds"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 2)");
+    }
+
+    @Test
+    public void generateSortValidationValidatorChecksItemCount() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("ValidSort.java"))
+                .fileContains("int minItems() default 0;")
+                .fileContains("int maxItems() default Integer.MAX_VALUE;")
+                .fileContains("count >= minItems && count <= maxItems")
+                .fileContains("pageable == null || pageable.getSort().isUnsorted()")
+                .fileContains("? \"at least \" + minItems", ": minItems == 0 ? \"at most \" + maxItems")
+                .fileContains("+ \" [\" + escapeMessageTemplate(property) + \"]\"");
+    }
+
+    private static String sortMethodSignature(String content, String methodName) {
+        int start = content.indexOf(" " + methodName + "(");
+        assertThat(start).as(methodName + " should exist").isGreaterThanOrEqualTo(0);
+        return content.substring(start, Math.min(content.length(), start + 800));
+    }
+
+    @Test
     public void generateSortValidationWorksForArraySortRefEnum() throws IOException {
         Map<String, Object> props = new HashMap<>();
         props.put(INTERFACE_ONLY, "true");
@@ -8679,7 +9244,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPets")
-                .hasReturnType("ResponseEntity<List<Pet>>");
+                .hasReturnType("ResponseEntity<List<@Valid Pet>>");
     }
 
     /** Common properties shared by all substituteGenericPagedModel tests. */
@@ -10327,6 +10892,8 @@ public class SpringCodegenTest {
     }
 
     private static final String RECORDS_SPEC = "src/test/resources/3_0/spring/records.yaml";
+    private static final String ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3 = "it has additionalProperties, which a record receives "
+            + "only through Jackson 2.18 or later, and Spring Boot 3 brings Jackson 2.17 (use useSpringBoot4)";
     private static final String RECORDS_FIELDS_SPEC = "src/test/resources/3_0/spring/records-fields.yaml";
     private static final String RECORDS_BUILDERS_SPEC = "src/test/resources/3_0/spring/records-builders.yaml";
 
@@ -10903,7 +11470,7 @@ public class SpringCodegenTest {
 
         assertThat(messages).contains(
                 "useRecords: model 'KidParent' is generated as a class: it has a parent (Base)",
-                "useRecords: model 'KidAdditional' is generated as a class: it has additionalProperties",
+                "useRecords: model 'KidAdditional' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3,
                 "useRecords: model 'KidFail' is generated as a class: property 's' uses the FAIL null policy",
                 "useRecords: model 'GrandParent' is generated as a class: it is nested in 'KidParent', a parameter object that is a class",
                 "useRecords: model 'GrandAdditional' is generated as a class: it is nested in 'KidAdditional', a parameter object that is a class",
@@ -11017,7 +11584,7 @@ public class SpringCodegenTest {
         assertThat(messages).contains(
                 "useRecords: model 'Car' is generated as a class: it has a parent (Vehicle)",
                 "useRecords: model 'Vehicle' is generated as a class: it has child models",
-                "useRecords: model 'Counters' is generated as a class: it has additionalProperties");
+                "useRecords: model 'Counters' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
         assertThat(messages).noneMatch(m -> m.contains("model 'Pet'") || m.contains("model 'Owner'")
                 || m.contains("model 'Circle'") || m.contains("model 'Square'"));
     }
@@ -11944,6 +12511,161 @@ public class SpringCodegenTest {
         assertSource(files, "Holder.java").contains("      hollow = new Hollow();");
     }
 
+    private static final String RECORDS_ADDITIONAL_PROPERTIES_SPEC = "src/test/resources/3_0/spring/records-additional-properties.yaml";
+
+    @Test
+    public void useRecordsKeepsModelsWithAdditionalPropertiesAsClassesOnSpringBoot3() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of());
+                for (String name : List.of("Tagged", "Loose", "Typed", "Lists")) {
+                    assertSource(files, name + ".java").contains("public class " + name + " {", "@JsonAnySetter")
+                            .doesNotContain("public record");
+                }
+                assertSource(files, "Item.java").contains("public record Item(");
+                assertSource(files, "Holder.java").contains("public record Holder(");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        for (String name : List.of("Tagged", "Loose", "Typed", "Lists")) {
+            assertThat(messages).contains("useRecords: model '" + name + "' is generated as a class: "
+                    + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
+        }
+    }
+
+    @Test
+    public void useRecordsKeepsAModelWithAdditionalPropertiesBoundFromRequestParametersAsAClass() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords("src/test/resources/3_0/spring/records-additional-properties-query.yaml",
+                        Map.of(USE_SPRING_BOOT4, "true"));
+                assertSource(files, "QueryWithExtras.java").contains("public class QueryWithExtras {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'QueryWithExtras' is generated as a class: it has additionalProperties and is bound from request parameters");
+    }
+
+    @Test
+    public void useRecordsReceivesAdditionalPropertiesInAComponentOnSpringBoot4() throws IOException {
+        for (Map<String, Object> options : List.of(Map.<String, Object>of(USE_SPRING_BOOT4, "true"),
+                Map.<String, Object>of(USE_SPRING_BOOT4, "true", USE_JACKSON_3, "true"))) {
+            Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, options);
+
+            assertSource(files, "Tagged.java")
+                    .contains(
+                            "public record Tagged(",
+                            "String name,",
+                            "Integer count,",
+                            "String secret,",
+                            "    @JsonAnySetter\n    @JsonAnyGetter\n    Map<String, String> additionalProperties\n) {",
+                            "if (additionalProperties == null) {",
+                            "additionalProperties = new LinkedHashMap<>();",
+                            "public String getAdditionalProperty(String key) {",
+                            " * @param additionalProperties the additional (undeclared) properties, by name",
+                            "import com.fasterxml.jackson.annotation.JsonAnyGetter;",
+                            "import com.fasterxml.jackson.annotation.JsonAnySetter;")
+                    .doesNotContain("public class", "putAdditionalProperty", "Builder");
+            assertSource(files, "Loose.java").contains("public record Loose(", "Map<String, Object> additionalProperties");
+            assertSource(files, "Typed.java").contains("public record Typed(", "Map<String, Item> additionalProperties");
+            assertSource(files, "Lists.java").contains("public record Lists(", "Map<String, List> additionalProperties");
+        }
+    }
+
+    @Test
+    public void useRecordsCountsTheAdditionalPropertiesComponentAndLogsEachClassThatRemains() throws IOException {
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of(USE_SPRING_BOOT4, "true"));
+                assertSource(files, "Child.java").contains("public class Child extends Base");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+
+        assertThat(messages).contains(
+                "useRecords: model 'Child' is generated as a class: it has a parent (Base)");
+        assertThat(messages).noneMatch(m -> m.contains("model 'Tagged'") || m.contains("model 'Loose'")
+                || m.contains("model 'Typed'") || m.contains("model 'Holder'"));
+    }
+
+    @Test
+    public void useRecordsKeepsAModelWithAPropertyNamedAdditionalPropertiesAsAClass() throws IOException {
+        Path spec = Files.createTempFile("named-additional", ".yaml");
+        Files.writeString(spec, Files.readString(Path.of(RECORDS_ADDITIONAL_PROPERTIES_SPEC))
+                + "    Named:\n      type: object\n      properties:\n        additionalProperties:\n          type: string\n"
+                + "      additionalProperties:\n        type: string\n");
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Named.java")
+                        .contains("public class Named {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains(
+                "useRecords: model 'Named' is generated as a class: property 'additionalProperties' clashes with the additionalProperties component");
+    }
+
+    @Test
+    public void useRecordsLimitsComponentsIncludingTheAdditionalPropertiesComponent() throws IOException {
+        Path spec = Files.createTempFile("many-additional", ".yaml");
+        String extra = "      additionalProperties:\n        type: string\n      properties:";
+        // 249 properties and the map are 250 components
+        Files.writeString(spec, specWithProperties(249).replace("      properties:", extra));
+        assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Many.java")
+                .contains("public record Many(");
+
+        Files.writeString(spec, specWithProperties(250).replace("      properties:", extra));
+        List<String> messages = TestUtils.captureLogMessages(SpringCodegen.class, () -> {
+            try {
+                assertSource(generateRecords(spec.toString(), Map.of(USE_SPRING_BOOT4, "true")), "Many.java")
+                        .contains("public class Many {");
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        });
+        assertThat(messages).contains("useRecords: model 'Many' is generated as a class: it has more than 250 properties");
+    }
+
+    @Test
+    public void useRecordsBuilderOfARecordWithAdditionalPropertiesHoldsTheMap() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC,
+                Map.of(USE_SPRING_BOOT4, "true", GENERATE_BUILDERS, "true"));
+
+        assertSource(files, "Tagged.java")
+                .contains(
+                        "private Map<String, String> additionalProperties;",
+                        "this.additionalProperties = value.additionalProperties() == null ? null : new LinkedHashMap<>(value.additionalProperties());",
+                        "public Tagged.Builder additionalProperties(Map<String, String> additionalProperties) {",
+                        "return new Tagged(this.name, this.count, this.note, this.secret, this.additionalProperties);");
+        assertSource(files, "Loose.java")
+                .contains("return new Loose(this.id, this.additionalProperties);");
+    }
+
+    @Test
+    public void useRecordsMasksThePasswordAndPrintsTheAdditionalProperties() throws IOException {
+        Map<String, File> files = generateRecords(RECORDS_ADDITIONAL_PROPERTIES_SPEC, Map.of(USE_SPRING_BOOT4, "true"));
+
+        assertSource(files, "Tagged.java").contains(
+                "+ \", secret=\" + \"*\"",
+                "+ \", additionalProperties=\" + additionalProperties");
+    }
+
+    @Test
+    public void useRecordsOffKeepsTheAdditionalPropertiesClassOnSpringBoot4() throws IOException {
+        Map<String, File> files = generateFromContract(RECORDS_ADDITIONAL_PROPERTIES_SPEC, SPRING_BOOT,
+                Map.of(USE_SPRING_BOOT4, "true"));
+
+        assertSource(files, "Tagged.java").contains("public class Tagged {", "public Tagged putAdditionalProperty(String key, String value)")
+                .doesNotContain("public record");
+    }
+
     @Test
     public void useRecordsKeepsOriginalReasonOfModelThatAlreadyStaysClass() {
         List<String> messages = captureLogMessages(SpringCodegen.class, () -> {
@@ -11954,7 +12676,7 @@ public class SpringCodegenTest {
             }
         });
 
-        assertThat(messages).contains("useRecords: model 'LooseSub' is generated as a class: it has additionalProperties");
+        assertThat(messages).contains("useRecords: model 'LooseSub' is generated as a class: " + ADDITIONAL_PROPERTIES_ON_SPRING_BOOT_3);
         assertThat(messages).noneMatch(m -> m.contains("model 'LooseSub'") && m.contains("constructs it"));
     }
 
@@ -12016,5 +12738,25 @@ public class SpringCodegenTest {
         });
 
         assertThat(messages).noneMatch(m -> m.contains("model 'URI'"));
+    }
+
+    @Test
+    public void implicitHeadersRegexMatchesHeaderNamesCaseInsensitively_issue25475() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.IMPLICIT_HEADERS_REGEX, "API_KEY");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("deletePet", "Long");
+    }
+
+    @Test
+    public void implicitHeadersRegexKeepsHeadersItDoesNotMatch() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.IMPLICIT_HEADERS_REGEX, "API_KEY_2");
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .assertMethod("deletePet", "Long", "String");
     }
 }

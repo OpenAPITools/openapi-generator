@@ -19,7 +19,7 @@ async def add_pet(request: web.Request, body) -> web.Response:
     return web.Response(status=200)
 
 
-async def delete_pet(request: web.Request, pet_id, api_key=None) -> web.Response:
+async def delete_pet(request: web.Request, pet_id) -> web.Response:
     """Deletes a pet
 
     
@@ -30,6 +30,7 @@ async def delete_pet(request: web.Request, pet_id, api_key=None) -> web.Response
     :type api_key: str
 
     """
+    api_key = request.headers.get('api_key')
     return web.Response(status=200)
 
 

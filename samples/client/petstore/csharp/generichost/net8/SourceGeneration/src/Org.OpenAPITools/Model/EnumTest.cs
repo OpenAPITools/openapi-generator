@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -687,7 +686,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -908,8 +907,11 @@ namespace Org.OpenAPITools.Model
             if (enumTest.EnumNumberOption.IsSet)
                 writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value!.Value));
 
-            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumStringOption.Value!.Value);
-            writer.WriteString("enum_string", enumStringRawValue);
+            if (enumTest.EnumStringOption.IsSet)
+            {
+                var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumStringOption.Value!.Value);
+                writer.WriteString("enum_string", enumStringRawValue);
+            }
             if (enumTest.OuterEnumOption.IsSet)
                 if (enumTest.OuterEnumOption!.Value != null)
                 {
@@ -930,11 +932,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("outerEnumIntegerDefaultValue", OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValueOption.Value!.Value));
         }
     }
-
-    /// <summary>
-    /// The EnumTestSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(EnumTest))]
-    public partial class EnumTestSerializationContext : JsonSerializerContext { }
 }

@@ -1,0 +1,13 @@
+generatorName: rust-axum
+outputDir: samples/server/petstore/rust-axum/output/rust-axum-recursive-models
+inputSpec: modules/openapi-generator/src/test/resources/3_1/rust-axum/rust-axum-recursive-models.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust-axum
+generateAliasAsModel: true
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageName: rust-axum-recursive-models
+  boxRecursiveModels: "true"
+  homePageUrl: https://github.com/openapitools/openapi-generator
+globalProperties:
+  skipFormModel: "false"
+enablePostProcessFile: true

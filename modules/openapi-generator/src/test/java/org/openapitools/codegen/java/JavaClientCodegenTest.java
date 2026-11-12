@@ -440,6 +440,51 @@ public class JavaClientCodegenTest {
         Assertions.assertEquals(testedEnumVar.getOrDefault("value", ""), "1");
     }
 
+    @DataProvider
+    public Object[][] propertyRefEnumDefaults() {
+        return new Object[][] {
+                {"String", "ARCHIVE"},
+                {"Date", "2026-01-01"},
+                {"UUID", "123e4567-e89b-12d3-a456-426614174000"},
+                {"BigDecimal", "1.5"}
+        };
+    }
+
+    @Test(dataProvider = "propertyRefEnumDefaults")
+    public void testPropertyRefDiscriminatorDoesNotQualifyScalarDefault(String dataType, String value) {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = dataType;
+        property.datatypeWithEnum = dataType;
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.isDiscriminator = true;
+        property.defaultValue = "String".equals(dataType) ? value : codegen.toEnumValue(value, dataType);
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of(value));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertNull(property.defaultValue);
+    }
+
+    @Test
+    public void testPropertyRefPreservesOrdinaryStringDefault() {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        CodegenProperty property = new CodegenProperty();
+        property.dataType = "String";
+        property.datatypeWithEnum = "String";
+        property.setRef("#/components/schemas/Source/properties/category");
+        property.isEnumRef = true;
+        property.defaultValue = "ARCHIVE";
+        property.allowableValues = new HashMap<>();
+        property.allowableValues.put("values", List.of("ARCHIVE"));
+
+        codegen.updateCodegenPropertyEnum(property);
+
+        Assertions.assertEquals("\"ARCHIVE\"", property.defaultValue);
+    }
+
     @Test
     public void updateCodegenPropertyEnumWithCustomNames() {
         final JavaClientCodegen codegen = new JavaClientCodegen();
@@ -2075,6 +2120,24 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testDiscriminatorPropertyRefToEnumDoesNotEmitInvalidDefault_issue24874() {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24874.yaml", OKHTTP_GSON,
+                Map.of(MODEL_NAME_PREFIX, "Stock"));
+
+        // CategoryEvent.category is a discriminator property that is a `$ref` to another schema's
+        // (CategorySource) inline enum property, not to a named enum schema and not an inline enum
+        // itself. There is no enum type at this use site to qualify the discriminator mapping value
+        // with, so no default must be emitted here; previously this rendered the uncompilable
+        // `this.category = String.ARCHIVE;` (see #24874).
+        JavaFileAssert.assertThat(files.get("StockArchiveCategoryEvent.java"))
+                .fileDoesNotContain("String.ARCHIVE");
+        JavaFileAssert.assertThat(files.get("StockOrdinaryCategory.java"))
+                .assertProperty("category")
+                .asString()
+                .contains("CategoryEnum category = CategoryEnum.ARCHIVE");
+    }
+
+    @Test
     public void testWebClientJsonCreatorWithNullable_issue12790() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -2790,6 +2853,53 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
         assertFileContains(output.resolve("src/main/java/xyz/abcdef/ApiClient.java"), "@Component");
         assertFileContains(output.resolve("src/main/java/xyz/abcdef/api/PetApi.java"), "@Component");
+    }
+
+    @Test
+    public void testInheritedInlineEnumIsDroppedFromChildModel() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setInputSpec("src/test/resources/3_0/inherited_inline_enum.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+
+        // parent keeps the full enum
+        assertFileContains(modelDir.resolve("Animal.java"),
+                "public enum StatusEnum", "ACTIVE(String.valueOf(\"ACTIVE\"))", "INACTIVE(String.valueOf(\"INACTIVE\"))");
+
+        // child inherits from parent and must not redeclare identical status enum/property
+        assertFileContains(modelDir.resolve("Cat.java"), "public class Cat extends Animal", "private String mood;");
+        assertFileNotContains(modelDir.resolve("Cat.java"), "public enum StatusEnum", "private StatusEnum status", "JSON_PROPERTY_STATUS");
+    }
+
+    @Test
+    public void testInheritedInlineEnumThatIsNarrowedIsKeptInChildModel() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setInputSpec("src/test/resources/3_0/inherited_inline_enum.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+
+        // parent retains the broader discriminator enum
+        assertFileContains(modelDir.resolve("Animal.java"),
+                "public enum TypeEnum", "CAT(String.valueOf(\"cat\"))", "DOG(String.valueOf(\"dog\"))");
+
+        // narrowed child enum must be kept in child model
+        assertFileContains(modelDir.resolve("Dog.java"),
+                "public class Dog extends Animal", "public enum TypeEnum", "DOG(String.valueOf(\"dog\"))", "private TypeEnum type");
+        assertFileNotContains(modelDir.resolve("Dog.java"), "CAT(String.valueOf(\"cat\"))");
     }
 
     @Test
@@ -5299,6 +5409,47 @@ public class JavaClientCodegenTest {
         };
     }
 
+    @DataProvider(name = "jspecifyAdditionalPropertiesLibraries")
+    public Object[][] jspecifyAdditionalPropertiesLibraries() {
+        return new Object[][]{{RESTCLIENT}, {WEBCLIENT}, {RESTTEMPLATE}, {NATIVE}, {MICROPROFILE}};
+    }
+
+    @Test(dataProvider = "jspecifyAdditionalPropertiesLibraries")
+    public void testJspecifyNullableAdditionalPropertiesAndObjectParameters(String library) {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify-additional-properties.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        ANNOTATION_LIBRARY, "none"),
+                codegenConfigurator -> codegenConfigurator.addTypeMapping("DateTime", "java.time.Instant"));
+
+        JavaFileAssert.assertThat(files.get("Extensible.java"))
+                .fileContains(
+                        "import org.jspecify.annotations.Nullable;",
+                        "private @Nullable Map<String, String> additionalProperties;",
+                        "public @Nullable Map<String, String> getAdditionalProperties()",
+                        "public @Nullable String getAdditionalProperty(String key)",
+                        "public boolean equals(@Nullable Object o)",
+                        "String toIndentedString(@Nullable Object o)");
+        // a qualified type takes the annotation on its simple name
+        JavaFileAssert.assertThat(files.get("ExtensibleWithTimestamps.java"))
+                .fileContains("public java.time.@Nullable Instant getAdditionalProperty(String key)");
+    }
+
+    @Test(dataProvider = "jspecifyAdditionalPropertiesLibraries")
+    public void testNullableAdditionalPropertiesOnlyWithJspecify(String library) {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify-additional-properties.yaml", library,
+                Map.of(CodegenConstants.SERIALIZATION_LIBRARY, "jackson",
+                        ANNOTATION_LIBRARY, "none"));
+
+        JavaFileAssert.assertThat(files.get("Extensible.java"))
+                .fileContains(
+                        "private Map<String, String> additionalProperties;",
+                        "public Map<String, String> getAdditionalProperties()",
+                        "public String getAdditionalProperty(String key)",
+                        "public boolean equals(Object o)",
+                        "String toIndentedString(Object o)");
+    }
+
     @Test(dataProvider = "jspecifyLibraries")
     public void testJspecify(String library, int springBootVersion, boolean hasJspecifyDependency) throws IOException {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
@@ -5945,5 +6096,27 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
                 .contains("import org.springframework.beans.factory.annotation.Autowired;")
                 .contains("import org.springframework.stereotype.Component;");
+    }
+
+    @Test
+    public void testOkHttpGsonParametersNamedLikeCallLocalsAreRenamed_issue25566() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_0/java/issue_25566.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/org/openapitools/client/api/DefaultApi.java")).content()
+                .contains("String paramBasePath, @javax.annotation.Nullable String paramLocalBasePaths, @javax.annotation.Nullable String paramLocalCustomBaseUrl, @javax.annotation.Nullable String paramLocalHostIndex, final ApiCallback _callback)")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"basePath\", paramBasePath));")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"localBasePaths\", paramLocalBasePaths));")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"localCustomBaseUrl\", paramLocalCustomBaseUrl));")
+                .contains("localVarQueryParams.addAll(localVarApiClient.parameterToPair(\"localHostIndex\", paramLocalHostIndex));");
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/Item.java")).content()
+                .contains("private String basePath;")
+                .contains("public String getBasePath()");
     }
 }

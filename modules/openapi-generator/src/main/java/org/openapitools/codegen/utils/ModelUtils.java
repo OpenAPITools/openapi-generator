@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -58,6 +59,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_NULLABLE;
@@ -1035,6 +1037,79 @@ public class ModelUtils {
                   // recursive search for largest min bound
                   .map(allOfItem -> resolveMinimumBound(openAPI, allOfItem))
                   .reduce(result, ResolvedMinBound::getLargerMinBound);
+    }
+
+    /**
+     * Like {@link #getReferencedSchema(OpenAPI, Schema)}, but follows a chain of {@code $ref}s
+     * (e.g. an alias schema that only references another schema) until a schema without
+     * {@code $ref} is reached. Cyclic chains stop at the last schema before the cycle.
+     *
+     * @param openAPI specification being checked
+     * @param schema  potentially containing a '$ref'
+     * @return the last schema reached; for an unresolvable {@code $ref} that is the {@code $ref}
+     *         schema itself. {@code null} only for {@code null} input
+     */
+    @Nullable
+    public static Schema<?> getReferencedSchemaChain(OpenAPI openAPI, Schema<?> schema) {
+        Set<String> visited = new HashSet<>();
+        while (schema != null && !StringUtils.isEmpty(schema.get$ref()) && visited.add(schema.get$ref())) {
+            Schema<?> next = getReferencedSchema(openAPI, schema);
+            if (next == schema) {
+                break;
+            }
+            schema = next;
+        }
+        return schema;
+    }
+
+    /**
+     * Returns the effective {@code minItems} for the given schema, resolving through a chain of
+     * {@code $ref}s and walking any {@code allOf} items. The most restrictive (largest) value wins.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective minimum item count, or {@code null} if none is defined
+     */
+    @Nullable
+    public static Integer resolveMinItems(OpenAPI openAPI, Schema<?> schema) {
+        return resolveItemsBound(openAPI, schema, Schema::getMinItems, true,
+                Collections.newSetFromMap(new IdentityHashMap<>()));
+    }
+
+    /**
+     * Returns the effective {@code maxItems} for the given schema, resolving through a chain of
+     * {@code $ref}s and walking any {@code allOf} items. The most restrictive (smallest) value wins.
+     *
+     * @param openAPI the OpenAPI document used to resolve {@code $ref}s
+     * @param schema  the schema to inspect
+     * @return the effective maximum item count, or {@code null} if none is defined
+     */
+    @Nullable
+    public static Integer resolveMaxItems(OpenAPI openAPI, Schema<?> schema) {
+        return resolveItemsBound(openAPI, schema, Schema::getMaxItems, false,
+                Collections.newSetFromMap(new IdentityHashMap<>()));
+    }
+
+    @Nullable
+    private static Integer resolveItemsBound(OpenAPI openAPI, Schema<?> schema,
+                                             Function<Schema<?>, Integer> getter, boolean largestWins,
+                                             Set<Schema<?>> visited) {
+        schema = getReferencedSchemaChain(openAPI, schema);
+        // visited guards against cyclic allOf/$ref graphs
+        if (schema == null || !visited.add(schema)) {
+            return null;
+        }
+        Integer result = getter.apply(schema);
+        if (!hasAllOf(schema)) {
+            return result;
+        }
+        for (Schema<?> allOfItem : schema.getAllOf()) {
+            Integer nested = resolveItemsBound(openAPI, allOfItem, getter, largestWins, visited);
+            if (nested != null && (result == null || (largestWins ? nested > result : nested < result))) {
+                result = nested;
+            }
+        }
+        return result;
     }
 
     public static boolean hasValidation(Schema sc) {
@@ -2237,21 +2312,35 @@ public class ModelUtils {
     private static void setNumericValidations(Schema schema, BigDecimal multipleOf, BigDecimal minimum, BigDecimal maximum, Boolean exclusiveMinimum, Boolean exclusiveMaximum, IJsonSchemaValidationProperties target) {
         if (multipleOf != null) target.setMultipleOf(multipleOf);
         if (minimum != null) {
-            if (isIntegerSchema(schema)) {
-                target.setMinimum(String.valueOf(minimum.toBigInteger()));
-            } else {
-                target.setMinimum(String.valueOf(minimum));
-            }
+            target.setMinimum(formatNumericBound(minimum, schema, true, Boolean.TRUE.equals(exclusiveMinimum)));
             if (exclusiveMinimum != null) target.setExclusiveMinimum(exclusiveMinimum);
         }
         if (maximum != null) {
-            if (isIntegerSchema(schema)) {
-                target.setMaximum(String.valueOf(maximum.toBigInteger()));
-            } else {
-                target.setMaximum(String.valueOf(maximum));
-            }
+            target.setMaximum(formatNumericBound(maximum, schema, false, Boolean.TRUE.equals(exclusiveMaximum)));
             if (exclusiveMaximum != null) target.setExclusiveMaximum(exclusiveMaximum);
         }
+    }
+
+    /**
+     * Formats a minimum or maximum for the given schema.
+     * <p>
+     * Integer schemas get an integer. A fractional bound is rounded into the allowed range (up for a minimum,
+     * down for a maximum, the other way round when the bound is exclusive), so the generated check accepts the
+     * same integers as the declared bound: e.g. {@code minimum: 1.5} becomes {@code 2} and
+     * {@code exclusiveMinimum: -1.5} becomes an exclusive {@code -2}. Other schemas get the declared value.
+     *
+     * @param bound     the declared minimum or maximum
+     * @param schema    the schema the bound applies to
+     * @param isMinimum true for a minimum, false for a maximum
+     * @param exclusive true if the bound is exclusive
+     * @return the bound as a string
+     */
+    public static String formatNumericBound(BigDecimal bound, Schema schema, boolean isMinimum, boolean exclusive) {
+        if (isIntegerSchema(schema)) {
+            RoundingMode roundingMode = isMinimum != exclusive ? RoundingMode.CEILING : RoundingMode.FLOOR;
+            return String.valueOf(bound.setScale(0, roundingMode).toBigInteger());
+        }
+        return String.valueOf(bound);
     }
 
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
@@ -2532,11 +2621,11 @@ public class ModelUtils {
     }
 
     /**
-     * Set schema type.
-     * For 3.1 spec, set as types, for 3.0, type
+     * Sets the schema type.
+     * For the 3.1 spec, sets {@code types}; for 3.0, sets {@code type}.
      *
      * @param schema the schema
-     * @return schema type
+     * @param type the type to set
      */
     public static void setType(Schema schema, String type) {
         if (schema instanceof JsonSchema) {

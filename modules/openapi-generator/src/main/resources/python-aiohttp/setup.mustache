@@ -17,15 +17,16 @@ REQUIRES = [
     "connexion==2.14.1",
     "swagger-ui-bundle==0.0.9",
     "aiohttp_jinja2==1.5.0",
+    "python_dateutil>=2.6.0",
 ]
 
 setup(
     name=NAME,
     version=VERSION,
-    description="{{appName}}",
-    author_email="{{infoEmail}}",
+    description={{{appNameDoubleQuotedLiteral}}},
+    author_email={{{infoEmailDoubleQuotedLiteral}}},
     url="{{packageUrl}}",
-    keywords=["OpenAPI", "{{appName}}"],
+    keywords=["OpenAPI", {{{appNameDoubleQuotedLiteral}}}],
     install_requires=REQUIRES,
     packages=find_packages({{#lambda.forwardslash}}{{#pythonSrcRoot}}"{{{.}}}"{{/pythonSrcRoot}}){{/lambda.forwardslash}},
     {{#lambda.forwardslash}}
@@ -38,7 +39,7 @@ setup(
     entry_points={
         'console_scripts': ['{{packageName}}={{packageName}}.__main__:main']},
     long_description="""\
-    {{appDescription}}
+    {{{appDescriptionTripleQuotedContent}}}
     """
 )
 {{/-last}}{{/apis}}{{/apiInfo}}
