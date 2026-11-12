@@ -23,14 +23,14 @@ class {{#operations}}Test{{classname}}(BaseTestCase):
         {{paramName}} = {{{example}}}
         {{/bodyParam}}
         {{#queryParams}}
-        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{paramName}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}query_string = [{{/-first}}{{^-first}}                {{/-first}}('{{{vendorExtensions.x-python-connexion-quoted-name}}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/queryParams}}
         {{#headerParams}}
-        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{baseName}}', {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}{{{example}}}{{/vendorExtensions.x-python-connexion-test-header-value}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
+        {{#-first}}headers = [{{/-first}}{{^-first}}           {{/-first}}('{{{vendorExtensions.x-python-connexion-quoted-name}}}', {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}{{{example}}}{{/vendorExtensions.x-python-connexion-test-header-value}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
         {{/headerParams}}
         {{#cookieParams}}
         {{#-first}}{{^headerParams}}headers = []
-        {{/headerParams}}headers += [('Cookie', '; '.join([{{/-first}}'{{baseName}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}]))]{{/-last}}
+        {{/headerParams}}headers += [('Cookie', '; '.join([{{/-first}}'{{{vendorExtensions.x-python-connexion-quoted-name}}}=' + {{#vendorExtensions.x-python-connexion-test-header-value}}{{{vendorExtensions.x-python-connexion-test-header-value}}}{{/vendorExtensions.x-python-connexion-test-header-value}}{{^vendorExtensions.x-python-connexion-test-header-value}}str({{{example}}}){{/vendorExtensions.x-python-connexion-test-header-value}}{{^-last}}, {{/-last}}{{#-last}}]))]{{/-last}}
         {{/cookieParams}}
         {{#formParams}}
         {{#-first}}data = dict({{/-first}}{{^-first}}            {{/-first}}{{paramName}}={{{example}}}{{^-last}},{{/-last}}{{#-last}}){{/-last}}
