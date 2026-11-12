@@ -124,7 +124,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 <ul class="column-ul">
 <li>ArrayList</li>
-<li>BigInteger</li>
 <li>Boolean</li>
 <li>Date</li>
 <li>Double</li>
