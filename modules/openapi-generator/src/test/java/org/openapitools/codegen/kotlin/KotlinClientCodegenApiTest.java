@@ -359,20 +359,6 @@ public class KotlinClientCodegenApiTest {
         return codegen;
     }
 
-    @DataProvider(name = "librariesWithDollarWireNames")
-    public static Object[][] librariesWithDollarWireNames() {
-        return new Object[][]{
-                {ClientLibrary.JVM_KTOR},
-                {ClientLibrary.JVM_OKHTTP4},
-                {ClientLibrary.JVM_SPRING_WEBCLIENT},
-                {ClientLibrary.JVM_SPRING_RESTCLIENT},
-                {ClientLibrary.JVM_RETROFIT2},
-                {ClientLibrary.MULTIPLATFORM},
-                {ClientLibrary.JVM_VOLLEY},
-                {ClientLibrary.JVM_VERTX}
-        };
-    }
-
     // Wire names containing `$` (OData-style `$filter`/`$top`) must be emitted
     // as escaped Kotlin string literals (`"\$filter"`); unescaped, Kotlin
     // string interpolation turns the wire key into the same-named parameter's
@@ -383,7 +369,7 @@ public class KotlinClientCodegenApiTest {
     // lines this change actually escapes: vertx keeps master's header and
     // form emission, and the retrofit2 exploded-property argument keeps its
     // raw baseName identifier (only the @Query wire string is escaped).
-    @Test(dataProvider = "librariesWithDollarWireNames")
+    @Test(dataProvider = "clientLibraries")
     void testDollarWireNamesAreEscaped(ClientLibrary library) throws IOException {
         OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-dollar-wire-name.yaml");
 
