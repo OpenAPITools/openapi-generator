@@ -3612,6 +3612,34 @@ public class JavaClientCodegenTest {
         }
     }
 
+    /**
+     * A model that inherits the additionalProperties map from a parent or a grandparent keeps it through
+     * toBuilder().build(), and the parent's builder setters stay in the generated chain.
+     */
+    @Test
+    void testToBuilderCopiesInheritedAdditionalProperties() throws IOException {
+        for (String library : List.of(JavaClientCodegen.NATIVE, JavaClientCodegen.RESTTEMPLATE,
+                JavaClientCodegen.WEBCLIENT, JavaClientCodegen.RESTCLIENT)) {
+            Map<String, File> files = generateFromContract(
+                    "src/test/resources/3_0/allof-inherited-additional-properties.yaml",
+                    library,
+                    Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE)
+            );
+
+            for (String model : List.of("Child", "GrandChild")) {
+                String source = Files.readString(files.get(model + ".java").toPath());
+                assertThat(methodBody(source, model + ".Builder toBuilder()"))
+                        .as("%s.toBuilder() in %s", model, library)
+                        .contains("dditionalProperties");
+            }
+
+            String chain = Files.readString(files.get("Parent.java").toPath())
+                    + Files.readString(files.get("Child.java").toPath())
+                    + Files.readString(files.get("GrandChild.java").toPath());
+            assertThat(chain).as("parent builder setter in %s", library).contains("Builder a(String a)");
+        }
+    }
+
     /** The text of the method whose declaration starts with the signature, braces balanced. */
     private static String methodBody(String source, String signature) {
         int start = source.indexOf(signature);
