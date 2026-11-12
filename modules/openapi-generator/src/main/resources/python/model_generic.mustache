@@ -616,7 +616,12 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
             {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) if {{#isNullable}}{{{vendorExtensions.x-py-wire-name-literal}}} in obj{{/isNullable}}{{^isNullable}}obj.get({{{vendorExtensions.x-py-wire-name-literal}}}) is not None{{/isNullable}} else {{{defaultValue}}}{{^-last}},{{/-last}}
             {{/defaultValue}}
             {{^defaultValue}}
+            {{#isNull}}
+            **({ {{{vendorExtensions.x-py-wire-name-literal}}}: obj[{{{vendorExtensions.x-py-wire-name-literal}}}] } if {{{vendorExtensions.x-py-wire-name-literal}}} in obj else {}){{^-last}},{{/-last}}
+            {{/isNull}}
+            {{^isNull}}
             {{{vendorExtensions.x-py-wire-name-literal}}}: obj.get({{{vendorExtensions.x-py-wire-name-literal}}}){{^-last}},{{/-last}}
+            {{/isNull}}
             {{/defaultValue}}
             {{/isPrimitiveType}}
             {{/isContainer}}
