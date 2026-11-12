@@ -43,6 +43,33 @@ import static org.testng.Assert.*;
 public class ModelUtilsTest {
 
     @Test
+    public void validationOnlySchemasAreNotNullTypes() {
+        OpenAPI openAPI = new OpenAPI();
+        for (Schema schema : List.of(
+                new Schema().pattern("^[a-z]+$"), new JsonSchema().pattern("^[a-z]+$"),
+                new Schema().minLength(1), new JsonSchema().minLength(1),
+                new Schema().minimum(BigDecimal.ZERO), new JsonSchema().minimum(BigDecimal.ZERO),
+                new Schema().minItems(1), new JsonSchema().minItems(1),
+                new Schema().minProperties(1), new JsonSchema().minProperties(1))) {
+            assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema), schema.toString());
+        }
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, new Schema().type("null").pattern("^[a-z]+$")));
+    }
+
+    @Test
+    public void nullAlternativeDoesNotOverrideSiblingType() {
+        OpenAPI openAPI = new OpenAPI();
+        Schema parent = new ComposedSchema().type("string").minLength(2)
+                .anyOf(new ArrayList<>(List.of(new Schema().pattern("^[a-z]+$"), new Schema().type("null"))));
+        Schema normalized = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, parent, parent.getAnyOf());
+        assertSame(normalized, parent);
+        assertEquals(normalized.getType(), "string");
+        assertEquals(normalized.getMinLength(), Integer.valueOf(2));
+        assertNotEquals(normalized.getNullable(), Boolean.TRUE);
+        assertEquals(normalized.getAnyOf().size(), 1);
+    }
+
+    @Test
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);

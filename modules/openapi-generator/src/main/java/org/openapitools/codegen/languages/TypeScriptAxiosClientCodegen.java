@@ -249,6 +249,52 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         return result;
     }
 
+    @Override
+    public String getSchemaType(Schema schema) {
+        if (isPrimitiveWithValidationOnlyAnyOf(schema)) {
+            return super.getSchemaType(new Schema().type(ModelUtils.getType(schema)).format(schema.getFormat()));
+        }
+        return super.getSchemaType(schema);
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel model = super.fromModel(name, schema);
+        Schema primitive = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (!ModelUtils.hasProperties(schema) && schema.getAllOf() != null && schema.getAllOf().size() == 1
+                && schema.getAnyOf() == null && schema.getOneOf() == null
+                && ModelUtils.getType(schema) == null && schema.getEnum() == null
+                && schema.getConst() == null && schema.getNot() == null) {
+            // Normalization wraps nullable references in a single-member allOf.
+            primitive = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getAllOf().get(0));
+        }
+        if (isPrimitiveWithValidationOnlyAnyOf(primitive)) {
+            model.vendorExtensions.put("x-typescript-primitive-type", getSchemaType(primitive));
+        }
+        return model;
+    }
+
+    private boolean isPrimitiveWithValidationOnlyAnyOf(Schema schema) {
+        if (!(ModelUtils.isStringSchema(schema) || ModelUtils.isIntegerSchema(schema)
+                || ModelUtils.isNumberSchema(schema) || ModelUtils.isBooleanSchema(schema))
+                || schema.getAnyOf() == null || schema.getAnyOf().isEmpty()
+                || schema.getEnum() != null || schema.getConst() != null || schema.getNot() != null
+                || schema.getAllOf() != null || schema.getOneOf() != null
+                || (schema.getTypes() != null && schema.getTypes().size() != 1)) {
+            return false;
+        }
+        // TypeScript cannot express pattern/range/length predicates. Keep the
+        // enclosing primitive type without removing those predicates from the OAS.
+        // Enum, const and composed alternatives need their own type representation.
+        return ((List<Schema>) schema.getAnyOf()).stream().allMatch(branch ->
+                ModelUtils.isUnsupportedSchema(openAPI, branch)
+                        && !ModelUtils.isComposedSchema(branch)
+                        && branch.get$ref() == null
+                        && branch.getEnum() == null && branch.getConst() == null
+                        && branch.getNot() == null && branch.getIf() == null
+                        && branch.getBooleanSchemaValue() == null);
+    }
+
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {

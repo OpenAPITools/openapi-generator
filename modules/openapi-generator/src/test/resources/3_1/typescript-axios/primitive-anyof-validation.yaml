@@ -1,0 +1,69 @@
+openapi: 3.1.0
+info:
+  title: Primitive anyOf validation
+  version: 1.0.0
+paths:
+  /addresses:
+    post:
+      operationId: createAddress
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Address'
+      responses:
+        '200':
+          description: Address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+components:
+  schemas:
+    Hostname:
+      type: string
+      description: A hostname or wildcard hostname.
+      anyOf:
+        - pattern: '^[a-z]+[.]example$'
+        - pattern: '^[*][.][a-z]+[.]example$'
+    NullableHostname:
+      type: [string, 'null']
+      anyOf:
+        - pattern: '^[a-z]+[.]example$'
+        - pattern: '^[*][.][a-z]+[.]example$'
+    SinglePattern:
+      type: string
+      minLength: 2
+      anyOf:
+        - pattern: '^[a-z]+$'
+    Port:
+      type: integer
+      anyOf:
+        - minimum: 1000
+          maximum: 2000
+        - minimum: 8000
+          maximum: 9000
+    NullableAlias:
+      anyOf:
+        - $ref: '#/components/schemas/Hostname'
+        - type: 'null'
+    Address:
+      type: object
+      required: [hostname, nullableHostname, label, port, inlineHostname]
+      properties:
+        hostname:
+          $ref: '#/components/schemas/Hostname'
+        nullableAlias:
+          $ref: '#/components/schemas/NullableAlias'
+        nullableHostname:
+          $ref: '#/components/schemas/NullableHostname'
+        label:
+          $ref: '#/components/schemas/SinglePattern'
+        port:
+          $ref: '#/components/schemas/Port'
+        inlineHostname:
+          type: string
+          anyOf:
+            - pattern: '^[a-z]+[.]example$'
+            - pattern: '^[*][.][a-z]+[.]example$'

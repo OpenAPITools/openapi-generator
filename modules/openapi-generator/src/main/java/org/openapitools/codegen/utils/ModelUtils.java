@@ -2770,13 +2770,20 @@ public class ModelUtils {
      * @return The simplified schema
      */
     public static Schema simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(OpenAPI openAPI, Schema schema, List<Schema> subSchemas) {
-        if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema))) {
+        boolean hasExplicitType = getType(schema) != null;
+        if (subSchemas.removeIf(subSchema -> isNullTypeSchema(openAPI, subSchema)) && !hasExplicitType) {
             schema.setNullable(true);
         }
 
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
+            Schema<?> referencedSchema = getReferencedSchema(openAPI, subSchema);
+            if (hasExplicitType && getType(referencedSchema) == null && hasValidation(referencedSchema)) {
+                // A validation-only branch does not replace the enclosing type or
+                // its constraints (e.g. type: string, minLength, anyOf: [pattern]).
+                return schema;
+            }
             // The parser may reuse a $ref schema instance in multiple locations. Clone the
             // remaining $ref before applying parent metadata so those locations stay isolated.
             if (subSchema.get$ref() != null) {
@@ -2822,7 +2829,7 @@ public class ModelUtils {
     /**
      * Check if the schema is of type 'null' or schema itself is pointing to null
      * <p>
-     * Return true if the schema's type is 'null' or not specified
+     * Unspecified types are treated as null only when they do not carry validation constraints.
      *
      * @param schema  Schema
      * @param openAPI OpenAPI
@@ -2874,6 +2881,12 @@ public class ModelUtils {
             } else { // more than 1 type so must not be just null
                 return false;
             }
+        }
+
+        // A missing type does not turn validation-only schemas (such as pattern or
+        // minimum) into null schemas. Their constraints must remain in the union.
+        if (hasValidation(schema) && !"null".equals(schema.getType())) {
+            return false;
         }
 
         if (schema instanceof JsonSchema) { // 3.1 spec

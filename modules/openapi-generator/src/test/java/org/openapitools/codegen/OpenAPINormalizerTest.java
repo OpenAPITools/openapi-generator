@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
 
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
@@ -42,6 +43,34 @@ import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
 import static org.testng.Assert.*;
 
 public class OpenAPINormalizerTest {
+
+    @DataProvider
+    public Object[][] primitiveAnyOfVersions() {
+        return new Object[][] {{"3_0"}, {"3_1"}};
+    }
+
+    @Test(dataProvider = "primitiveAnyOfVersions")
+    public void testTypedAnyOfPreservesValidationBranchesAndParentConstraints(String version) {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/" + version + "/typescript-axios/primitive-anyof-validation.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+        Schema hostname = openAPI.getComponents().getSchemas().get("Hostname");
+        assertEquals(ModelUtils.getType(hostname), "string");
+        assertNotEquals(hostname.getNullable(), Boolean.TRUE);
+        assertEquals(hostname.getAnyOf().size(), 2);
+        assertEquals(((Schema) hostname.getAnyOf().get(0)).getPattern(), "^[a-z]+[.]example$");
+        Schema nullable = openAPI.getComponents().getSchemas().get("NullableHostname");
+        assertEquals(nullable.getNullable(), Boolean.TRUE);
+        assertEquals(nullable.getAnyOf().size(), 2);
+        Schema single = openAPI.getComponents().getSchemas().get("SinglePattern");
+        assertEquals(ModelUtils.getType(single), "string");
+        assertEquals(single.getMinLength(), Integer.valueOf(2));
+        assertEquals(single.getAnyOf().size(), 1);
+        assertEquals(((Schema) single.getAnyOf().get(0)).getPattern(), "^[a-z]+$");
+        Schema port = openAPI.getComponents().getSchemas().get("Port");
+        assertEquals(port.getAnyOf().size(), 2);
+        assertEquals(((Schema) port.getAnyOf().get(0)).getMinimum(), new BigDecimal("1000"));
+        assertEquals(((Schema) port.getAnyOf().get(1)).getMaximum(), new BigDecimal("9000"));
+    }
 
     private static final String SIMPLIFY_ONE_OF_ANY_OF = "SIMPLIFY_ONEOF_ANYOF";
     private static final String SIMPLIFY_ONEOF_ANYOF_ENUM = "SIMPLIFY_ONEOF_ANYOF_ENUM";

@@ -1380,6 +1380,14 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
+        // anyOf does not pass through normalizeSimpleSchema, but a sibling type
+        // can still express nullability using the OpenAPI 3.1 type array.
+        if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null
+                && schema.getTypes().size() > 1 && schema.getTypes().contains("null")) {
+            schema.setNullable(true);
+            schema.getTypes().remove("null");
+        }
+
         //transform anyOf into enums if needed
         schema = processSimplifyAnyOfEnum(schema);
         if (schema.getAnyOf() == null) {
@@ -2283,7 +2291,8 @@ public class OpenAPINormalizer {
         normalizeExclusiveMinMax31(schema);
 
         if (schema instanceof JsonSchema &&
-                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null) {
+                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null
+                && !ModelUtils.hasValidation(schema)) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:
