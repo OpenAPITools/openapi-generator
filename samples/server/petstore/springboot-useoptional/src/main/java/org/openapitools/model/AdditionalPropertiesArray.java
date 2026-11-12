@@ -140,6 +140,7 @@ public class AdditionalPropertiesArray {
 
     protected Builder copyOf(AdditionalPropertiesArray value) { 
       this.instance.setName(value.name);
+      this.instance.additionalProperties = value.additionalProperties;
       return this;
     }
 

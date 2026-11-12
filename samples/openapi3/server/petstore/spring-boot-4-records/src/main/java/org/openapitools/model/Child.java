@@ -162,6 +162,7 @@ public class Child extends Base {
     protected Builder copyOf(Child value) { 
       super.copyOf(value);
       this.instance.setX(value.x);
+      this.instance.additionalProperties = value.additionalProperties;
       return this;
     }
 

@@ -258,6 +258,11 @@ static {
    }
 
 
+    public Cat.Builder additionalProperties(Map<String, Integer> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built Cat instance.
     *
@@ -293,7 +298,8 @@ static {
     return new Cat.Builder()
       .className(getClassName())
       .color(getColor())
-      .declawed(getDeclawed());
+      .declawed(getDeclawed())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

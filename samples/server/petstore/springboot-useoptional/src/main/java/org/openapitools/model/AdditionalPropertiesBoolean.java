@@ -139,6 +139,7 @@ public class AdditionalPropertiesBoolean {
 
     protected Builder copyOf(AdditionalPropertiesBoolean value) { 
       this.instance.setName(value.name);
+      this.instance.additionalProperties = value.additionalProperties;
       return this;
     }
 
