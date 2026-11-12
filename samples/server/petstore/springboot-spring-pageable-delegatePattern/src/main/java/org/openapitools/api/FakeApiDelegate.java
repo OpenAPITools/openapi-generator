@@ -29,7 +29,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link FakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface FakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -57,7 +57,7 @@ public interface FakeApiDelegate {
      * @return Output boolean (status code 200)
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    default ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
+    default @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(Boolean body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -70,7 +70,7 @@ public interface FakeApiDelegate {
      * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    default ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
+    default @Valid ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
@@ -92,7 +92,7 @@ public interface FakeApiDelegate {
      * @return Output number (status code 200)
      * @see FakeApi#fakeOuterNumberSerialize
      */
-    default ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
+    default @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -105,7 +105,7 @@ public interface FakeApiDelegate {
      * @return Output string (status code 200)
      * @see FakeApi#fakeOuterStringSerialize
      */
-    default ResponseEntity<String> fakeOuterStringSerialize(String body) {
+    default @Valid ResponseEntity<String> fakeOuterStringSerialize(String body) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -145,7 +145,7 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
-    default ResponseEntity<Client> testClientModel(Client body) {
+    default @Valid ResponseEntity<Client> testClientModel(Client body) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -306,7 +306,7 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    default ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
+    default @Valid ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         MultipartFile requiredFile,
         String additionalMetadata) {
         getRequest().ifPresent(request -> {

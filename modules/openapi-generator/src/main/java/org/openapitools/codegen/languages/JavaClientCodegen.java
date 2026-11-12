@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -67,6 +66,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
+    // Container variants may capture both a type token and an adapter.
+    private static final int GSON_ONEOF_FIELD_THRESHOLD = 100;
 
     private final Logger LOGGER = LoggerFactory.getLogger(JavaClientCodegen.class);
 
@@ -101,6 +102,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String JERSEY3 = "jersey3";
     public static final String NATIVE = "native";
     public static final String OKHTTP_GSON = "okhttp-gson";
+    private static final Set<String> OKHTTP_GSON_CALL_LOCALS = Set.of("basePath", "localBasePaths", "localCustomBaseUrl", "localHostIndex");
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
     public static final String WEBCLIENT = "webclient";
@@ -1247,6 +1249,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             // A oneOf/anyOf wrapper extends AbstractOpenApiSchema, not its own parent, and has no
             // bag, so nothing is inherited through it
             for (CodegenModel cm : getAllModels(objs).values()) {
+                if (cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null
+                        && cm.getComposedSchemas().getOneOf().size() > GSON_ONEOF_FIELD_THRESHOLD) {
+                    cm.vendorExtensions.put("x-gson-large-oneof", true);
+                    for (CodegenProperty variant : cm.getComposedSchemas().getOneOf()) {
+                        variant.vendorExtensions.put("x-gson-large-oneof", true);
+                    }
+                }
                 for (CodegenModel ancestor = cm.getParentModel(); ancestor != null; ancestor = ancestor.getParentModel()) {
                     if (!ancestor.oneOf.isEmpty() || !ancestor.anyOf.isEmpty()) {
                         break;
@@ -1295,28 +1304,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
                 for (CodegenProperty var : cm.vars) {
                     addNullableImports = isAddNullableImports(cm, addNullableImports, var);
-                    if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
-                        // treat enum string as just string
-                        var.datatypeWithEnum = var.dataType;
 
-                        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
-                            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.allowableValues)) {
-                                if (defaultValue.equals(enumVars.getEnumName())) {
-                                    // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.getEnumValue();
-                                }
-                            }
-                        }
-
-                        // add import for Set, HashSet
-                        cm.imports.add("Set");
-                        Map<String, String> importsSet = new HashMap<>();
-                        importsSet.put("import", "java.util.Set");
-                        imports.add(importsSet);
-                        Map<String, String> importsHashSet = new HashMap<>();
-                        importsHashSet.put("import", "java.util.HashSet");
-                        imports.add(importsHashSet);
+                    if (Boolean.TRUE.equals(var.getVendorExtensions().get(X_ENUM_AS_STRING))) {
+                        handleEnumAsString(var, cm, imports);
                     }
 
                 }
@@ -1436,6 +1426,16 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         generateYAMLSpecFile(objs);
         return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
+    public String toParamName(String name) {
+        String paramName = super.toParamName(name);
+        // the okhttp-gson call methods declare or read these names next to their parameters
+        if (isLibrary(OKHTTP_GSON) && OKHTTP_GSON_CALL_LOCALS.contains(paramName)) {
+            return "param" + StringUtils.capitalize(paramName);
+        }
+        return paramName;
     }
 
     @Override

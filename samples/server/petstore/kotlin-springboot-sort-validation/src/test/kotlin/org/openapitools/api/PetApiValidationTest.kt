@@ -1,10 +1,12 @@
 package org.openapitools.api
 
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.get
 
 /**
@@ -173,5 +175,72 @@ class PetApiValidationTest {
     fun `PageableDefault and SortDefaults combined - absent params resolve all defaults`() {
         mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ALL_DEFAULTS}")
             .andExpect { status { isOk() } }
+    }
+
+    // ── @ValidSort minItems / maxItems ────────────────────────────────────────
+    // /pet/findWithArraySortBounds allows 1..2 sort orders; the scalar /pet/findByStatusWithSort allows 1
+
+    @Test
+    fun `ValidSort bounds - within bounds returns 200`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS}") {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+        }.andExpect { status { isOk() } }
+    }
+
+    @Test
+    fun `ValidSort bounds - too many sorts returns 400`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS}") {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+            param("sort", "name,asc")
+        }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[expected 1..2 sort order(s), got 3]")
+    }
+
+    @Test
+    fun `ValidSort bounds - absent sort is valid even with minItems`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_ARRAY_SORT_BOUNDS}")
+            .andExpect { status { isOk() } }
+    }
+
+    @Test
+    fun `ValidSort bounds - scalar sort allows only one sort`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_SORT_ENUM}") {
+            param("sort", "id,asc")
+        }.andExpect { status { isOk() } }
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_SORT_ENUM}") {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+        }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[expected at most 1 sort order(s), got 2]")
+    }
+
+    @Test
+    fun `ValidSort bounds - below minItems returns 400`() {
+        // /pet/findWithMinSortBounds requires at least 2 sort orders, no maximum
+        val path = "${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_MIN_SORT_BOUNDS}"
+        mockMvc.get(path) {
+            param("sort", "id,asc")
+        }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[expected at least 2 sort order(s), got 1]")
+        mockMvc.get(path) {
+            param("sort", "id,asc")
+            param("sort", "name,desc")
+        }.andExpect { status { isOk() } }
+        mockMvc.get(path).andExpect { status { isOk() } }
+    }
+
+    @Test
+    fun `ValidSort - invalid property is escaped in message`() {
+        mockMvc.get("${PetApi.BASE_PATH}${PetApi.PATH_FIND_PETS_WITH_SORT_ENUM}") {
+            param("sort", "{jakarta.validation.constraints.NotNull.message},asc")
+        }.andExpect { status { isBadRequest() } }
+            .andReturn().assertViolation("[{jakarta.validation.constraints.NotNull.message}]")
+    }
+
+    private fun MvcResult.assertViolation(expected: String) {
+        val message = resolvedException?.message.orEmpty()
+        assertTrue(expected in message) { "expected '$expected' in '$message'" }
     }
 }

@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: okhttp-gson call method local names
+  version: "1"
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        - { name: basePath, in: query, schema: { type: string } }
+        - { name: localBasePaths, in: query, schema: { type: string } }
+        - { name: localCustomBaseUrl, in: query, schema: { type: string } }
+        - { name: localHostIndex, in: query, schema: { type: string } }
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Item" }
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        basePath: { type: string }

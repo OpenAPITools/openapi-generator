@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -933,11 +932,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("outerEnumIntegerDefaultValue", OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValueOption.Value!.Value));
         }
     }
-
-    /// <summary>
-    /// The EnumTestSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(EnumTest))]
-    public partial class EnumTestSerializationContext : JsonSerializerContext { }
 }

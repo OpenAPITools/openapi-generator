@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName.Equals("triangleType"))
                     {
-                        string discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "triangleType");
                         if (discriminator.Equals("EquilateralTriangle"))
                         {
                             Utf8JsonReader utf8JsonReaderEquilateralTriangle = utf8JsonReader;

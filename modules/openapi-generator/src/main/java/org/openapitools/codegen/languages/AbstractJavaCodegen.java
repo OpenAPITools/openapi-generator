@@ -45,12 +45,14 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -204,6 +206,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     @Setter protected boolean implicitHeaders = false;
     @Setter protected String implicitHeadersRegex = null;
+    private Pattern implicitHeadersPattern = null;
     @Setter protected boolean camelCaseDollarSign = false;
     @Setter protected boolean useJakartaEe = false;
     @Setter protected boolean containerDefaultToNull = false;
@@ -370,7 +373,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
-        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
+        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. The match is case insensitive, like HTTP header names. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
@@ -2060,7 +2063,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-            codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            codegenModel = reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
@@ -2378,6 +2381,41 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
+     * Applies string-based enum rendering adjustments to a property that has already
+     * been marked with {@code x-enum-as-string} by upstream processing.
+     * <p>
+     * This method updates Java generation details by switching
+     * {@code datatypeWithEnum} to the plain data type, converting enum constant
+     * defaults to their string literal values, and adding {@code Set}/{@code HashSet}
+     * imports used by string-value validation logic in Java templates.
+     * <p>
+     * It does not set the {@code x-enum-as-string} vendor extension itself.
+     */
+    protected void handleEnumAsString(CodegenProperty var, CodegenModel cm, List<Map<String, String>> imports) {
+        // treat enum string as just string
+        var.datatypeWithEnum = var.dataType;
+
+        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
+            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
+            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.allowableValues)) {
+                if (defaultValue.equals(enumVars.getEnumName())) {
+                    // update default to use the string directly instead of enum string
+                    var.defaultValue = (String) enumVars.getEnumValue();
+                }
+            }
+        }
+
+        // add import for Set, HashSet
+        cm.imports.add("Set");
+        Map<String, String> importsSet = new HashMap<>();
+        importsSet.put("import", "java.util.Set");
+        imports.add(importsSet);
+        Map<String, String> importsHashSet = new HashMap<>();
+        importsHashSet.put("import", "java.util.HashSet");
+        imports.add(importsHashSet);
+    }
+
+    /**
      * Normalizes a model property vendor extension across all property collections.
      * In this context, normalization means converting a missing value, a single string, or a list value
      * into a predictable mutable {@code List<String>} on each property. The same property can appear in
@@ -2649,48 +2687,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return op;
     }
 
-    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
-        // This generator uses inline classes to define enums, which breaks when
-        // dealing with models that have subTypes. To clean this up, we will analyze
-        // the parent and child models, look for enums that match, and remove
-        // them from the child models and leave them in the parent.
-        // Because the child models extend the parents, the enums will be available via the parent.
-
-        // Only bother with reconciliation if the parent model has enums.
-        if (!parentCodegenModel.hasEnums) {
-            return codegenModel;
-        }
-
-        // Get the properties for the parent and child models
-        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
-        List<CodegenProperty> codegenProperties = codegenModel.vars;
-
-        // Iterate over all of the parent model properties
-        boolean removedChildEnum = false;
-        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-            // Look for enums
-            if (parentModelCodegenProperty.isEnum) {
-                // Now that we have found an enum in the parent class,
-                // and search the child class for the same enum.
-                Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-                while (iterator.hasNext()) {
-                    CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
-                        // We found an enum in the child class that is
-                        // a duplicate of the one in the parent, so remove it.
-                        iterator.remove();
-                        removedChildEnum = true;
-                    }
-                }
-            }
-        }
-
-        if (removedChildEnum) {
-            codegenModel.vars = codegenProperties;
-        }
-        return codegenModel;
-    }
-
     private static String sanitizePackageName(String packageName) {
         packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
@@ -2917,7 +2913,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
-        return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
+        if (StringUtils.isBlank(implicitHeadersRegex)) {
+            return false;
+        }
+        // Compiled once and kept in step with the field. HTTP header names are case insensitive, so the regex is too
+        if (implicitHeadersPattern == null || !implicitHeadersPattern.pattern().equals(implicitHeadersRegex)) {
+            implicitHeadersPattern = Pattern.compile(implicitHeadersRegex, Pattern.CASE_INSENSITIVE);
+        }
+        return implicitHeadersPattern.matcher(parameter.baseName).matches();
     }
 
     @Override
@@ -2952,9 +2955,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
             // only add JsonNullable and related imports to optional and nullable values
             addImports |= isOptionalNullable;
-            var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+            var.getVendorExtensions().put(X_IS_JACKSON_OPTIONAL_NULLABLE, isOptionalNullable);
             findByName(var.name, cm.readOnlyVars)
-                    .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable));
+                    .ifPresent(p -> p.getVendorExtensions().put(X_IS_JACKSON_OPTIONAL_NULLABLE, isOptionalNullable));
         }
         return addImports;
     }

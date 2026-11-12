@@ -67,7 +67,7 @@ sealed interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some
 
         
         @get:ApiModelProperty(value = "")
-        val tags: kotlin.collections.List<Tag>? 
+        val tags: kotlin.collections.List<@Valid Tag>? 
 
         
         @get:ApiModelProperty(value = "")

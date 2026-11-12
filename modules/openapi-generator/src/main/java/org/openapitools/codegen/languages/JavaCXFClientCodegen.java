@@ -35,6 +35,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
+import static org.openapitools.codegen.CodegenConstants.X_IS_JACKSON_OPTIONAL_NULLABLE;
+
 /**
  * <p>Mustache templates are located in {@code src/main/resources/JavaJaxRS/cxf/}.
  */
@@ -184,9 +186,9 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
             //Add JsonNullable import and mark property nullable for templating if necessary
             if (openApiNullable) {
                 if (Boolean.FALSE.equals(property.required) && Boolean.TRUE.equals(property.isNullable)) {
-                    property.getVendorExtensions().put("x-is-jackson-optional-nullable", true);
+                    property.getVendorExtensions().put(X_IS_JACKSON_OPTIONAL_NULLABLE, true);
                     findByName(property.name, model.readOnlyVars)
-                            .ifPresent(p -> p.getVendorExtensions().put("x-is-jackson-optional-nullable", true));
+                            .ifPresent(p -> p.getVendorExtensions().put(X_IS_JACKSON_OPTIONAL_NULLABLE, true));
                     model.imports.add("JsonNullable");
                     model.imports.add("JsonIgnore");
                 }

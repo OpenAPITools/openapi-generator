@@ -1,0 +1,120 @@
+openapi: 3.0.3
+info:
+  title: Collection response validation
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: getPets
+      tags: [collection]
+      responses:
+        '200':
+          description: Pets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /unique-pets:
+    get:
+      operationId: getUniquePets
+      tags: [collection]
+      responses:
+        '200':
+          description: Unique pets
+          content:
+            application/json:
+              schema:
+                type: array
+                uniqueItems: true
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pets-by-name:
+    get:
+      operationId: getPetsByName
+      tags: [collection]
+      responses:
+        '200':
+          description: Pets by name
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Pet'
+  /names:
+    get:
+      operationId: getNames
+      tags: [collection]
+      responses:
+        '200':
+          description: Names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /numbers:
+    get:
+      operationId: getNumbers
+      tags: [collection]
+      responses:
+        '200':
+          description: Numbers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+  /names-by-id:
+    get:
+      operationId: getNamesById
+      tags: [collection]
+      responses:
+        '200':
+          description: Names by ID
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /pet:
+    get:
+      operationId: getPet
+      tags: [collection]
+      responses:
+        '200':
+          description: Pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /name:
+    get:
+      operationId: getName
+      tags: [collection]
+      responses:
+        '200':
+          description: Name
+          content:
+            application/json:
+              schema:
+                type: string
+  /nothing:
+    get:
+      operationId: getNothing
+      tags: [collection]
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
