@@ -309,7 +309,13 @@
              javax.annotation.Nullable (jsr305) is intentionally NOT declared here:
              a direct test-scope declaration would mediate the transitive
              compile-scope jsr305 from guava down to test scope and break the
-             main-compile classpath. -->
+             main-compile classpath.
+             okio must stay on a version whose Kotlin metadata is readable by the
+             kotlin-compiler-embeddable 1.6.21 on this module's test classpath
+             (KotlinTestUtils compiles generated Kotlin with the whole test
+             classpath as compiler input): okio 3.2.0 carries metadata 1.6.0,
+             while 3.4.0 carries 1.8.0 and broke KotlinTestUtilsTest,
+             KotlinMicroprofileClientCodegenTest and KotlinSpringServerCodegenTest. -->
         <dependency>
             <groupId>io.gsonfire</groupId>
             <artifactId>gson-fire</artifactId>
@@ -319,7 +325,7 @@
         <dependency>
             <groupId>com.squareup.okio</groupId>
             <artifactId>okio</artifactId>
-            <version>3.4.0</version>
+            <version>3.2.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
