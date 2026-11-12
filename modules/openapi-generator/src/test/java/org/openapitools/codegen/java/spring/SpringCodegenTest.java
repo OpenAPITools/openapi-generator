@@ -12759,4 +12759,32 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("deletePet", "Long", "String");
     }
+
+    @Test
+    public void allOfMemberAdditionalPropertiesAreRenderedAsMapOnSpringClass() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/allof-member-additional-properties.yaml", SPRING_BOOT, Map.of(USE_RECORDS, "false"));
+
+        JavaFileAssert.assertThat(files.get("FlatInlineTrue.java"))
+                .isNormalClass()
+                .fileContains(
+                        "private Map<String, Object> additionalProperties;",
+                        "@JsonAnySetter",
+                        "public FlatInlineTrue putAdditionalProperty(String key, Object value)");
+    }
+
+    @Test
+    public void allOfChildDoesNotRedeclareAdditionalPropertiesOfItsParent() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/allof-member-additional-properties.yaml", SPRING_BOOT, Map.of(USE_RECORDS, "false"));
+
+        JavaFileAssert.assertThat(files.get("MapParent.java"))
+                .fileContains("private Map<String, String> additionalProperties;");
+        // the child inherits the map of its parent whatever value type its own member declares (none, integer, string)
+        for (String child : List.of("MapChild", "MapChildInt", "MapChildStr")) {
+            JavaFileAssert.assertThat(files.get(child + ".java"))
+                    .fileContains("public class " + child + " extends MapParent")
+                    .fileDoesNotContain("additionalProperties", "@JsonAnySetter");
+        }
+    }
 }

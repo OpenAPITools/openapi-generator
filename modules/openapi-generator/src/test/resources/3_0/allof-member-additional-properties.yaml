@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info: {title: allOf member additionalProperties, version: '1.0.0'}
+paths: {}
+components:
+  schemas:
+    Parent:
+      type: object
+      required: [kind]
+      properties: {kind: {type: string}, id: {type: string}}
+      discriminator:
+        propertyName: kind
+        mapping:
+          childinlinetrue: '#/components/schemas/ChildInlineTrue'
+          childinlinestr: '#/components/schemas/ChildInlineStr'
+          childreftrue: '#/components/schemas/ChildRefTrue'
+          childrefstr: '#/components/schemas/ChildRefStr'
+          childnone: '#/components/schemas/ChildNone'
+    Plain:
+      type: object
+      properties: {id: {type: string}}
+    ExtTrue:
+      type: object
+      properties: {x: {type: string}}
+      additionalProperties: true
+    ExtStr:
+      type: object
+      properties: {x: {type: string}}
+      additionalProperties: {type: string}
+    ChildInlineTrue:
+      allOf:
+        - {$ref: '#/components/schemas/Parent'}
+        - {type: object, properties: {x: {type: string}}, additionalProperties: true}
+    ChildInlineStr:
+      allOf:
+        - {$ref: '#/components/schemas/Parent'}
+        - {type: object, properties: {x: {type: string}}, additionalProperties: {type: string}}
+    ChildRefTrue:
+      allOf:
+        - {$ref: '#/components/schemas/Parent'}
+        - {$ref: '#/components/schemas/ExtTrue'}
+    ChildRefStr:
+      allOf:
+        - {$ref: '#/components/schemas/Parent'}
+        - {$ref: '#/components/schemas/ExtStr'}
+    ChildNone:
+      allOf:
+        - {$ref: '#/components/schemas/Parent'}
+        - {type: object, properties: {z: {type: string}}}
+    FlatInlineTrue:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+        - {type: object, properties: {x: {type: string}}, additionalProperties: true}
+    FlatInlineStr:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+        - {type: object, properties: {x: {type: string}}, additionalProperties: {type: string}}
+    FlatRefTrue:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+        - {$ref: '#/components/schemas/ExtTrue'}
+    FlatRefStr:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+        - {$ref: '#/components/schemas/ExtStr'}
+    FlatConflict:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+        - {type: object, properties: {x: {type: string}}, additionalProperties: {type: string}}
+        - {type: object, properties: {y: {type: string}}, additionalProperties: {type: integer}}
+    FlatAgree:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+        - {type: object, properties: {x: {type: string}}, additionalProperties: {type: string}}
+        - {type: object, properties: {w: {type: string}}, additionalProperties: {type: string}}
+        - {type: object, properties: {z: {type: string}}}
+    FlatNone:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+        - {type: object, properties: {z: {type: string}}}
+    SiblingTrue:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+      additionalProperties: true
+    SiblingStr:
+      allOf:
+        - {$ref: '#/components/schemas/Plain'}
+      additionalProperties: {type: string}
+    PlainTrue:
+      type: object
+      properties: {id: {type: string}}
+      additionalProperties: true
+    PlainStr:
+      type: object
+      properties: {id: {type: string}}
+      additionalProperties: {type: string}
+    FlatTrueAndStr:
+      allOf:
+        - $ref: '#/components/schemas/Plain'
+        - {type: object, properties: {x: {type: string}}, additionalProperties: true}
+        - {type: object, properties: {y: {type: string}}, additionalProperties: {type: string}}
+    OuterFalseMemberTrue:
+      allOf:
+        - $ref: '#/components/schemas/Plain'
+        - {type: object, properties: {x: {type: string}}, additionalProperties: true}
+      additionalProperties: false
+    OuterIntMemberStr:
+      allOf:
+        - $ref: '#/components/schemas/Plain'
+        - {type: object, properties: {x: {type: string}}, additionalProperties: {type: string}}
+      additionalProperties: {type: integer}
+    MapParent:
+      type: object
+      required: [kind]
+      properties: {kind: {type: string}}
+      additionalProperties: {type: string}
+      discriminator:
+        propertyName: kind
+        mapping:
+          mapchild: '#/components/schemas/MapChild'
+          mapchildint: '#/components/schemas/MapChildInt'
+          mapchildstr: '#/components/schemas/MapChildStr'
+    MapChild:
+      allOf:
+        - $ref: '#/components/schemas/MapParent'
+        - {type: object, properties: {x: {type: string}}}
+    MapChildInt:
+      allOf:
+        - $ref: '#/components/schemas/MapParent'
+        - {type: object, properties: {y: {type: string}}, additionalProperties: {type: integer}}
+    MapChildStr:
+      allOf:
+        - $ref: '#/components/schemas/MapParent'
+        - {type: object, properties: {z: {type: string}}, additionalProperties: {type: string}}
+    Inner:
+      allOf:
+        - {type: object, properties: {a: {type: string}}, additionalProperties: {type: string}}
+    Outer:
+      allOf:
+        - $ref: '#/components/schemas/Inner'
+        - {type: object, properties: {b: {type: string}}}
+    NoDisallowBase:
+      allOf:
+        - $ref: '#/components/schemas/Plain'
+        - {type: object, required: [kind], properties: {kind: {type: string}}}
+      discriminator:
+        propertyName: kind
+        mapping:
+          nodisallowkid: '#/components/schemas/NoDisallowKid'
+    NoDisallowKid:
+      allOf:
+        - $ref: '#/components/schemas/NoDisallowBase'
+        - {type: object, properties: {x: {type: string}}, additionalProperties: {type: string}}
+    AgreeDesc:
+      allOf:
+        - {type: object, properties: {a: {type: string}}, additionalProperties: {type: string}}
+        - {type: object, properties: {b: {type: string}}, additionalProperties: {type: string, description: x}}

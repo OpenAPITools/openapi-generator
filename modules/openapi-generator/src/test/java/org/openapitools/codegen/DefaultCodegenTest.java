@@ -50,6 +50,7 @@ import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -5831,5 +5832,84 @@ public class DefaultCodegenTest {
         property.baseName = propertyName;
         property.name = propertyName;
         return property;
+    }
+
+    private static final String ALLOF_MEMBER_ADDITIONAL_PROPERTIES_SPEC = "src/test/resources/3_0/allof-member-additional-properties.yaml";
+
+    private static CodegenModel springModel(OpenAPI openAPI, String name) {
+        return springModel(openAPI, name, true);
+    }
+
+    private static CodegenModel springModel(OpenAPI openAPI, String name, boolean disallowAdditionalPropertiesIfNotPresent) {
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.additionalProperties().put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                String.valueOf(disallowAdditionalPropertiesIfNotPresent));
+        codegen.processOpts(); // sets supportsAdditionalPropertiesWithComposedSchema, as a real run does
+        codegen.setOpenAPI(openAPI);
+        return codegen.fromModel(name, ModelUtils.getSchema(openAPI, name));
+    }
+
+    @DataProvider(name = "allOfMemberAdditionalProperties")
+    public Object[][] allOfMemberAdditionalProperties() {
+        // model, additionalPropertiesType: `true` is any type (Object), a string schema is String
+        return new Object[][]{
+                {"ChildInlineTrue", "Object"},
+                {"ChildRefTrue", "Object"},
+                {"FlatInlineTrue", "Object"},
+                {"FlatRefTrue", "Object"},
+                {"ChildInlineStr", "String"},
+                {"ChildRefStr", "String"},
+                {"FlatInlineStr", "String"},
+                {"FlatRefStr", "String"},
+                // two members declaring the same value schema agree, a member without the keyword does not vote
+                {"FlatAgree", "String"},
+                // string against integer: no common type, any type
+                {"FlatConflict", "Object"},
+                // a member with `true` declares the any type, so it conflicts with a string member
+                {"FlatTrueAndStr", "Object"},
+                // a $ref member that is itself an allOf with a declaring member counts, recursively
+                {"Outer", "String"},
+                // a description on one value schema does not make members disagree
+                {"AgreeDesc", "String"},
+        };
+    }
+
+    @Test(dataProvider = "allOfMemberAdditionalProperties")
+    public void allOfMemberAdditionalPropertiesReachComposedModel(String model, String expectedType) {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(ALLOF_MEMBER_ADDITIONAL_PROPERTIES_SPEC);
+
+        CodegenModel cm = springModel(openAPI, model);
+
+        assertThat(cm.isAdditionalPropertiesTrue).as("isAdditionalPropertiesTrue of %s", model).isTrue();
+        assertThat(cm.additionalPropertiesType).as("additionalPropertiesType of %s", model).isEqualTo(expectedType);
+    }
+
+    @DataProvider(name = "additionalPropertiesControls")
+    public Object[][] additionalPropertiesControls() {
+        // model, additionalPropertiesType (null: no extra properties), disallowAdditionalPropertiesIfNotPresent
+        return new Object[][]{
+                {"SiblingTrue", "Object", true},
+                {"SiblingStr", "String", true},
+                {"PlainTrue", "Object", true},
+                {"PlainStr", "String", true},
+                {"FlatNone", null, true},
+                {"ChildNone", null, true},
+                // the outer schema states the keyword itself: it wins, the members are not consulted
+                {"OuterFalseMemberTrue", null, true},
+                {"OuterIntMemberStr", "Integer", true},
+                // disallowAdditionalPropertiesIfNotPresent=false: every schema allows extras, the child inherits the parent's
+                // implicit any-type map instead of getting a String map of its own
+                {"NoDisallowKid", "Object", false},
+        };
+    }
+
+    @Test(dataProvider = "additionalPropertiesControls")
+    public void additionalPropertiesControlsStayAsTheyAre(String model, String expectedType, boolean disallowIfNotPresent) {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(ALLOF_MEMBER_ADDITIONAL_PROPERTIES_SPEC);
+
+        CodegenModel cm = springModel(openAPI, model, disallowIfNotPresent);
+
+        assertThat(cm.isAdditionalPropertiesTrue).as("isAdditionalPropertiesTrue of %s", model).isEqualTo(expectedType != null);
+        assertThat(cm.additionalPropertiesType).as("additionalPropertiesType of %s", model).isEqualTo(expectedType);
     }
 }
