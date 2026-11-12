@@ -17,9 +17,13 @@ components:
   schemas:
     M:
       type: object
+      required:
+        - required_null
       properties:
         name:
           type: string
         plugin:
           type: "null"
           description: Not settable over HTTP
+        required_null:
+          type: "null"
