@@ -800,6 +800,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     propertyHash.put(property.name, property);
                 }
                 List<CodegenModel> parentModelList = getParentModelList(codegenModel);
+                if (codegenModel.additionalPropertiesType == null) {
+                    // a builder reaches the map of the nearest ancestor that declares one
+                    parentModelList.stream()
+                            .map(parentCodegenModel -> parentCodegenModel.additionalPropertiesType)
+                            .filter(Objects::nonNull)
+                            .findFirst()
+                            .ifPresent(type -> {
+                                codegenModel.vendorExtensions.put("x-inherited-additional-properties-type", type);
+                                // the builder setter takes a Map
+                                if (codegenModel.getImports().add("Map")) {
+                                    inheritedImports.add("Map");
+                                }
+                            });
+                }
                 for (CodegenModel parentCodegenModel : parentModelList) {
                     for (final CodegenProperty property : parentCodegenModel.vars) {
                         // helper list of parentVars simplifies templating
