@@ -153,11 +153,16 @@ import {{packageName}}.infrastructure.*
         {{#formParams}}
         {{#isMultipart}}
         {{#isFile}}
+        {{#mapFileBinaryToByteArray}}
+        {{{paramName}}}{{^required}}?{{/required}}.{{#isArray}}forEach{{/isArray}}{{^isArray}}let{{/isArray}} { form.binaryFileUpload("{{{baseName}}}", "{{{baseName}}}", Buffer.buffer(it), {{#contentType}}"{{{contentType}}}"{{/contentType}}{{^contentType}}"application/octet-stream"{{/contentType}}) }
+        {{/mapFileBinaryToByteArray}}
+        {{^mapFileBinaryToByteArray}}
         {{{paramName}}}{{^required}}?{{/required}}.{{#isArray}}forEach{{/isArray}}{{^isArray}}let{{/isArray}} { form.binaryFileUpload("{{{baseName}}}", it.name, it.absolutePath, {{#contentType}}"{{{contentType}}}"{{/contentType}}{{^contentType}}"application/octet-stream"{{/contentType}}) }
+        {{/mapFileBinaryToByteArray}}
         {{/isFile}}
         {{^isFile}}
         {{#isArray}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { toMultiValue(it.toList(), "{{collectionFormat}}").forEach { form.attribute("{{{baseName}}}", it) } }
+        {{{paramName}}}{{^required}}?{{/required}}.let { toMultiValue({{#isEnum}}it.map { e -> e.value }{{/isEnum}}{{^isEnum}}it.toList(){{/isEnum}}, "{{collectionFormat}}").forEach { form.attribute("{{{baseName}}}", it) } }
         {{/isArray}}
         {{^isArray}}
         {{{paramName}}}{{^required}}?{{/required}}.let { form.attribute("{{{baseName}}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }
@@ -166,7 +171,7 @@ import {{packageName}}.infrastructure.*
         {{/isMultipart}}
         {{^isMultipart}}
         {{#isArray}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { form.add("{{{baseName}}}", toMultiValue(it.toList(), "{{collectionFormat}}")) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { form.add("{{{baseName}}}", toMultiValue({{#isEnum}}it.map { e -> e.value }{{/isEnum}}{{^isEnum}}it.toList(){{/isEnum}}, "{{collectionFormat}}")) }
         {{/isArray}}
         {{^isArray}}
         {{{paramName}}}{{^required}}?{{/required}}.let { form.add("{{{baseName}}}", {{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}{{^isString}}.toString(){{/isString}}) }

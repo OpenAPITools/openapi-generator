@@ -370,35 +370,80 @@ public class KotlinClientCodegenApiTest {
         List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
         File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
 
-        // the populated form must reach the wire
-        assertFileContains(defaultApi.toPath(),
-                ".sendForm(form)",
-                ".sendMultipartForm(form)");
+        String content = new String(Files.readAllBytes(defaultApi.toPath()), StandardCharsets.UTF_8);
+        String submitForm = generatedMethod(content, "submitFormWithHttpInfo");
+        String submitCharsetForm = generatedMethod(content, "submitCharsetFormWithHttpInfo");
+        String uploadFile = generatedMethod(content, "uploadFileWithHttpInfo");
+
+        // the populated form must reach the wire, each dispatch inside its own
+        // operation: urlencoded via sendForm, multipart via sendMultipartForm
+        Assert.assertTrue(submitForm.contains(".sendForm(form)"), "submitForm must send the urlencoded form");
+        Assert.assertFalse(submitForm.contains(".sendMultipartForm(form)"), "submitForm must not send a multipart form");
+        Assert.assertTrue(submitCharsetForm.contains(".sendForm(form)"), "submitCharsetForm must send the urlencoded form");
+        Assert.assertFalse(submitCharsetForm.contains(".sendMultipartForm(form)"), "submitCharsetForm must not send a multipart form");
+        Assert.assertTrue(uploadFile.contains(".sendMultipartForm(form)"), "uploadFile must send the multipart form");
+        Assert.assertFalse(uploadFile.contains(".sendForm(form)"), "uploadFile must not send a urlencoded form");
+
         // multipart: a MultipartForm, file content (not a path string), and
         // urlencoded arrays as individual entries rather than a toString blob
-        assertFileContains(defaultApi.toPath(),
-                "io.vertx.ext.web.multipart.MultipartForm.create()",
-                "form.binaryFileUpload(\"myFile\"");
-        assertFileNotContains(defaultApi.toPath(),
-                "form.add(\"myFile\"");
+        Assert.assertTrue(uploadFile.contains("io.vertx.ext.web.multipart.MultipartForm.create()"));
+        Assert.assertTrue(uploadFile.contains("form.binaryFileUpload(\"myFile\", it.name, it.absolutePath, \"image/jpeg\")"),
+                "the encoding-declared contentType must reach binaryFileUpload");
+        Assert.assertFalse(uploadFile.contains("form.add(\"myFile\""));
 
         // sendForm()/sendMultipartForm() set Content-Type themselves; emitting
         // putHeader("Content-Type", ...) on a form operation makes Vert.x 5.1.5
         // throw IllegalStateException for media types with parameters such as
         // "application/x-www-form-urlencoded; charset=UTF-8"
-        assertFileNotContains(defaultApi.toPath(),
-                "putHeader(\"Content-Type\"");
+        Assert.assertFalse(submitForm.contains("putHeader(\"Content-Type\""));
+        Assert.assertFalse(submitCharsetForm.contains("putHeader(\"Content-Type\""));
+        Assert.assertFalse(uploadFile.contains("putHeader(\"Content-Type\""));
         // the charset-parametrized operation is still generated as a form
-        assertFileContains(defaultApi.toPath(),
-                "form.add(\"token\"");
+        Assert.assertTrue(submitCharsetForm.contains("form.add(\"token\""));
 
         // urlencoded array: serialized via toMultiValue per collectionFormat
         // (the default "csv" joins into a single entry)
-        assertFileContains(defaultApi.toPath(),
-                "form.add(\"tags\", toMultiValue(it.toList(), \"csv\"))");
+        Assert.assertTrue(submitForm.contains("form.add(\"tags\", toMultiValue(it.toList(), \"csv\"))"));
+        // urlencoded enum array: the enum .value goes on the wire, not the
+        // enum constant's toString()
+        Assert.assertTrue(submitForm.contains("form.add(\"statuses\", toMultiValue(it.map { e -> e.value }, \"csv\"))"));
         // multipart array: each item from toMultiValue becomes a form attribute
-        assertFileContains(defaultApi.toPath(),
-                "form.attribute(\"labels\", it)");
+        Assert.assertTrue(uploadFile.contains("toMultiValue(it.toList(), \"csv\").forEach { form.attribute(\"labels\", it) }"));
+        // multipart enum array: same .value handling as the urlencoded array
+        Assert.assertTrue(uploadFile.contains("toMultiValue(it.map { e -> e.value }, \"csv\").forEach { form.attribute(\"priorities\", it) }"));
+    }
+
+    // With mapFileBinaryToByteArray=true a file form parameter arrives as a
+    // ByteArray -- it.name/it.absolutePath do not exist. The bytes go into the
+    // multipart body via the Buffer-based binaryFileUpload overload.
+    @Test
+    public void testJvmVertxFormFileByteArray() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-vertx-form-send.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_VERTX);
+        codegen.additionalProperties().put(KotlinClientCodegen.MAP_FILE_BINARY_TO_BYTE_ARRAY, true);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+
+        String content = new String(Files.readAllBytes(defaultApi.toPath()), StandardCharsets.UTF_8);
+        String uploadFile = generatedMethod(content, "uploadFileWithHttpInfo");
+        Assert.assertTrue(uploadFile.contains("myFile: kotlin.ByteArray"));
+        Assert.assertTrue(uploadFile.contains("form.binaryFileUpload(\"myFile\", \"myFile\", Buffer.buffer(it), \"image/jpeg\")"),
+                "ByteArray file params must be uploaded via the Buffer-based binaryFileUpload");
+        Assert.assertFalse(uploadFile.contains("it.absolutePath"));
+    }
+
+    // returns the source of `fun <methodName>(...)` up to its closing brace so
+    // assertions can be scoped to a single generated operation
+    private static String generatedMethod(String fileContent, String methodName) {
+        int start = fileContent.indexOf("fun " + methodName + "(");
+        Assert.assertTrue(start >= 0, "generated method not found: " + methodName);
+        int end = fileContent.indexOf("\n    }", start);
+        Assert.assertTrue(end > start, "generated method body not terminated: " + methodName);
+        return fileContent.substring(start, end);
     }
 
     private static void assertFileContainsLine(List<String> lines, String line) {
