@@ -243,12 +243,15 @@ public class PythonClientCodegenTest {
      * client's runtime dependencies are not installed.
      */
     private static void assertPythonRuns(File generatedClient, String script) throws IOException {
-        String deps = "import pydantic, urllib3, dateutil, typing_extensions";
+        // the generated client requires pydantic >= 2.11 (see requirements.mustache)
+        String deps = String.join("\n",
+                "import pydantic, pydantic_core, urllib3, dateutil, typing_extensions",
+                "assert tuple(int(p) for p in pydantic.VERSION.split('.')[:2]) >= (2, 11)");
         try {
             Process probe = new ProcessBuilder("python3", "-c", deps).redirectErrorStream(true).start();
             probe.getInputStream().readAllBytes();
             if (probe.waitFor() != 0) {
-                throw new org.testng.SkipException("python3 with pydantic, urllib3 and python-dateutil is required");
+                throw new org.testng.SkipException("python3 with pydantic >= 2.11, urllib3 and python-dateutil is required");
             }
             Process run = new ProcessBuilder("python3", "-c", script)
                     .directory(generatedClient)
