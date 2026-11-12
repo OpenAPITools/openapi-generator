@@ -38,6 +38,11 @@ components:
       minLength: 2
       anyOf:
         - pattern: '^[a-z]+$'
+    ExclusivePattern:
+      type: string
+      oneOf:
+        - pattern: '^[a-z]+$'
+        - pattern: '^[0-9]+$'
     Port:
       type: integer
       anyOf:
@@ -49,6 +54,8 @@ components:
       type: object
       required: [hostname, nullableHostname, label, port, inlineHostname]
       properties:
+        exclusivePattern:
+          $ref: '#/components/schemas/ExclusivePattern'
         hostname:
           $ref: '#/components/schemas/Hostname'
         nullableHostname:

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.media.JsonSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
@@ -31,7 +32,7 @@ public class TypeScriptAxiosClientCodegenTest {
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
 
     @Test
-    public void testPrimitiveAnyOfDoesNotEraseOtherTypeConstraints() {
+    public void testPrimitiveAnyOfFallbackSkipsOtherTypeConstraints() {
         Schema enumSchema = new ComposedSchema().type("string")._enum(List.of("allowed"));
         Schema constSchema = new JsonSchema()._const("allowed");
         constSchema.addType("string");
@@ -42,8 +43,11 @@ public class TypeScriptAxiosClientCodegenTest {
             schema.addAnyOfItem(new Schema().pattern("^[a-z]+$"));
             TypeScriptAxiosClientCodegen generator = new TypeScriptAxiosClientCodegen();
             generator.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Constrained", schema)));
-            assertThat(generator.fromModel("Constrained", schema).vendorExtensions)
-                    .doesNotContainKey("x-typescript-primitive-type");
+            CodegenModel model = generator.fromModel("Constrained", schema);
+            assertThat(model.vendorExtensions).doesNotContainKey("x-typescript-primitive-type");
+            if (schema == enumSchema) {
+                assertThat(model.allowableValues).containsEntry("values", List.of("allowed"));
+            }
         }
     }
 
@@ -70,10 +74,13 @@ public class TypeScriptAxiosClientCodegenTest {
                 "export type NullableHostname = string | null;");
         TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/single-pattern.ts" : "api.ts"),
                 "export type SinglePattern = string;");
+        TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/exclusive-pattern.ts" : "api.ts"),
+                "export type ExclusivePattern = string;");
         TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/port.ts" : "api.ts"),
                 "export type Port = number;");
         Path address = output.toPath().resolve(separateModels ? "model/address.ts" : "api.ts");
         TestUtils.assertFileContains(address, "'hostname': Hostname;");
+        TestUtils.assertFileContains(address, "'exclusivePattern'?: ExclusivePattern;");
         TestUtils.assertFileNotContains(address, "'hostname': Hostname | null;", "export interface Hostname");
         if ("3_1".equals(version)) {
             TestUtils.assertFileContains(address, "'nullableAlias'?: NullableAlias | null;");

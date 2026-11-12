@@ -1789,9 +1789,15 @@ public class OpenAPINormalizer {
     /**
      * Removes the {@code oneOf} from the schema if it is considered to not contain information that the generator can
      * currently act upon. The schema is left untouched if all the {@code oneOf} branches contain an OAS 3.1 {@code const}.
-     * This since that structure can potentially be used for enum interpretation.
+     * This since that structure can potentially be used for enum interpretation. Untyped validation
+     * branches are also retained so their predicates survive normalization.
      */
     private void clearOneOf(Schema schema) {
+        if (schema.getOneOf() != null && ((List<Schema>) schema.getOneOf()).stream()
+                .map(branch -> ModelUtils.getReferencedSchema(openAPI, branch))
+                .anyMatch(branch -> ModelUtils.getType(branch) == null && ModelUtils.hasValidation(branch))) {
+            return;
+        }
         if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
             if (!isOneOfOfConsts(schema)) {
                 schema.setOneOf(null);
@@ -2291,8 +2297,8 @@ public class OpenAPINormalizer {
         normalizeExclusiveMinMax31(schema);
 
         if (schema instanceof JsonSchema &&
-                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null
-                && !ModelUtils.hasValidation(schema)) {
+                schema.get$schema() == null && ModelUtils.isMetadataOnlySchema(schema)
+                && !ModelUtils.hasValidation(schema) && schema.getFormat() == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:

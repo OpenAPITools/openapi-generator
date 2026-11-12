@@ -2779,9 +2779,10 @@ public class ModelUtils {
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);
             Schema<?> referencedSchema = getReferencedSchema(openAPI, subSchema);
-            if (hasExplicitType && getType(referencedSchema) == null && hasValidation(referencedSchema)) {
-                // A validation-only branch does not replace the enclosing type or
-                // its constraints (e.g. type: string, minLength, anyOf: [pattern]).
+            if (hasExplicitType && getType(referencedSchema) == null
+                    && (hasValidation(referencedSchema) || isMetadataOnlySchema(referencedSchema))) {
+                // Untyped annotations or predicates cannot replace the enclosing
+                // type and its constraints (e.g. type: string, minLength: 2).
                 return schema;
             }
             // The parser may reuse a $ref schema instance in multiple locations. Clone the
@@ -2883,9 +2884,9 @@ public class ModelUtils {
             }
         }
 
-        // A missing type does not turn validation-only schemas (such as pattern or
-        // minimum) into null schemas. Their constraints must remain in the union.
-        if (hasValidation(schema) && !"null".equals(schema.getType())) {
+        // Untyped predicates and annotations are not null-only schemas.
+        if (!"null".equals(schema.getType()) && (hasValidation(schema)
+                || !isMetadataOnlySchema(schema) || schema.getFormat() != null)) {
             return false;
         }
 

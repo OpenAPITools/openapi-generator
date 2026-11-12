@@ -251,7 +251,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public String getSchemaType(Schema schema) {
-        if (isPrimitiveWithValidationOnlyAnyOf(schema)) {
+        if (isPrimitiveWithValidationOnlyComposition(schema)) {
             return super.getSchemaType(new Schema().type(ModelUtils.getType(schema)).format(schema.getFormat()));
         }
         return super.getSchemaType(schema);
@@ -268,25 +268,27 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             // Normalization wraps nullable references in a single-member allOf.
             primitive = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getAllOf().get(0));
         }
-        if (isPrimitiveWithValidationOnlyAnyOf(primitive)) {
+        if (isPrimitiveWithValidationOnlyComposition(primitive)) {
             model.vendorExtensions.put("x-typescript-primitive-type", getSchemaType(primitive));
         }
         return model;
     }
 
-    private boolean isPrimitiveWithValidationOnlyAnyOf(Schema schema) {
-        if (!(ModelUtils.isStringSchema(schema) || ModelUtils.isIntegerSchema(schema)
-                || ModelUtils.isNumberSchema(schema) || ModelUtils.isBooleanSchema(schema))
-                || schema.getAnyOf() == null || schema.getAnyOf().isEmpty()
+    private boolean isPrimitiveWithValidationOnlyComposition(Schema schema) {
+        if (!ModelUtils.isPrimitiveType(schema)) {
+            return false;
+        }
+        List<Schema> alternatives = schema.getAnyOf() != null ? schema.getAnyOf() : schema.getOneOf();
+        if (alternatives == null || alternatives.isEmpty()
                 || schema.getEnum() != null || schema.getConst() != null || schema.getNot() != null
-                || schema.getAllOf() != null || schema.getOneOf() != null
+                || schema.getAllOf() != null || (schema.getAnyOf() != null && schema.getOneOf() != null)
                 || (schema.getTypes() != null && schema.getTypes().size() != 1)) {
             return false;
         }
         // TypeScript cannot express pattern/range/length predicates. Keep the
         // enclosing primitive type without removing those predicates from the OAS.
         // Enum, const and composed alternatives need their own type representation.
-        return ((List<Schema>) schema.getAnyOf()).stream().allMatch(branch ->
+        return alternatives.stream().allMatch(branch ->
                 ModelUtils.isUnsupportedSchema(openAPI, branch)
                         && !ModelUtils.isComposedSchema(branch)
                         && branch.get$ref() == null

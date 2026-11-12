@@ -70,6 +70,63 @@ public class OpenAPINormalizerTest {
         assertEquals(port.getAnyOf().size(), 2);
         assertEquals(((Schema) port.getAnyOf().get(0)).getMinimum(), new BigDecimal("1000"));
         assertEquals(((Schema) port.getAnyOf().get(1)).getMaximum(), new BigDecimal("9000"));
+        Schema address = openAPI.getComponents().getSchemas().get("Address");
+        assertEquals(ModelUtils.getType(address), "object");
+        assertTrue(address.getRequired().contains("inlineHostname"));
+        Schema inline = (Schema) address.getProperties().get("inlineHostname");
+        assertEquals(ModelUtils.getType(inline), "string");
+        assertNotEquals(inline.getNullable(), Boolean.TRUE);
+        assertEquals(inline.getAnyOf(), hostname.getAnyOf());
+        if ("3_1".equals(version)) {
+            Schema alias = openAPI.getComponents().getSchemas().get("NullableAlias");
+            assertEquals(alias.getNullable(), Boolean.TRUE);
+            assertEquals(alias.getAllOf().size(), 1);
+            assertEquals(((Schema) alias.getAllOf().get(0)).get$ref(), "#/components/schemas/Hostname");
+            assertEquals(((Schema) address.getProperties().get("nullableAlias")).get$ref(),
+                    "#/components/schemas/NullableAlias");
+        }
+    }
+
+    @Test
+    public void testTypedOneOfRetainsValidationOnlyBranches() {
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(new OpenAPI(), Map.of());
+        for (List<Schema> branches : List.of(
+                List.<Schema>of(new Schema().pattern("^[a-z]+$")),
+                List.<Schema>of(new Schema().pattern("^[a-z]+$"), new Schema().pattern("^[0-9]+$")))) {
+            Schema schema = new ComposedSchema().type("string").minLength(2)
+                    .oneOf(new ArrayList<>(branches));
+            Schema normalized = normalizer.normalizeSchema(schema, new HashSet<>());
+            assertEquals(normalized.getType(), "string");
+            assertEquals(normalized.getMinLength(), Integer.valueOf(2));
+            assertEquals(normalized.getOneOf(), branches);
+        }
+    }
+
+    @Test
+    public void testTypedAnyOfRetainsUntypedAnnotations() {
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(new OpenAPI(), Map.of("NORMALIZE_31SPEC", "true"));
+        for (Schema branch : List.of(new Schema().description("A value"), new Schema().format("hostname"),
+                new JsonSchema().description("A value"), new JsonSchema().format("hostname"))) {
+            Schema parent = new ComposedSchema().type("string").minLength(2)
+                    .anyOf(new ArrayList<>(List.of(branch)));
+            Schema normalized = normalizer.normalizeSchema(parent, new HashSet<>());
+            assertEquals(normalized.getType(), "string");
+            assertEquals(normalized.getMinLength(), Integer.valueOf(2));
+            assertEquals(normalized.getAnyOf().size(), 1);
+            Schema alternative = (Schema) normalized.getAnyOf().get(0);
+            assertEquals(alternative.getDescription(), branch.getDescription());
+            assertEquals(alternative.getFormat(), branch.getFormat());
+        }
+    }
+
+    @Test
+    public void testNormalize31PreservesContainsWithoutType() {
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(new OpenAPI(), Map.of("NORMALIZE_31SPEC", "true"));
+        Schema schema = new JsonSchema().description("At least one matching item")
+                .contains(new JsonSchema().pattern("^[a-z]+$"));
+        Schema normalized = normalizer.normalizeSchema(schema, new HashSet<>());
+        assertNotNull(normalized.getContains());
+        assertEquals(normalized.getContains().getPattern(), "^[a-z]+$");
     }
 
     private static final String SIMPLIFY_ONE_OF_ANY_OF = "SIMPLIFY_ONEOF_ANYOF";

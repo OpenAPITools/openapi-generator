@@ -70,6 +70,26 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void untypedAnyOfBranchDoesNotReplaceParentType() {
+        for (Schema branch : List.of(new Schema().description("A value"), new Schema().format("hostname"),
+                new JsonSchema().description("A value"), new JsonSchema().format("hostname"))) {
+            Schema parent = new ComposedSchema().type("string").minLength(2)
+                    .anyOf(new ArrayList<>(List.of(branch)));
+            Schema normalized = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                    new OpenAPI(), parent, parent.getAnyOf());
+            assertEquals(normalized.getType(), "string");
+            assertEquals(normalized.getMinLength(), Integer.valueOf(2));
+            assertEquals(normalized.getAnyOf(), List.of(branch));
+        }
+    }
+
+    @Test
+    public void containsWithoutTypeIsNotNull() {
+        assertFalse(ModelUtils.isNullTypeSchema(new OpenAPI(),
+                new JsonSchema().contains(new JsonSchema().pattern("^[a-z]+$"))));
+    }
+
+    @Test
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
