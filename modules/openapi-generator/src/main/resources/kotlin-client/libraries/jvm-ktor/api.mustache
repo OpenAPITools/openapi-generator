@@ -15,7 +15,12 @@ import com.google.gson.GsonBuilder
 import java.text.DateFormat
 {{/gson}}
 {{#jackson}}
+{{^useJackson3}}
 import com.fasterxml.jackson.databind.ObjectMapper
+{{/useJackson3}}
+{{#useJackson3}}
+import tools.jackson.databind.json.JsonMapper
+{{/useJackson3}}
 {{/jackson}}
 
 {{#operations}}
@@ -27,7 +32,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
     jsonBlock: GsonBuilder.() -> Unit = ApiClient.JSON_DEFAULT,
     {{/gson}}
     {{#jackson}}
+    {{^useJackson3}}
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
+    {{/useJackson3}}
+    {{#useJackson3}}
+    jsonBlock: JsonMapper.Builder.() -> Unit = ApiClient.JSON_DEFAULT,
+    {{/useJackson3}}
     {{/jackson}}
     ) : ApiClient(
         baseUrl,

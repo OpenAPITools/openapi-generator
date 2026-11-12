@@ -1307,7 +1307,7 @@ public class KotlinClientCodegenModelTest {
                 () -> generator.opts(configurator.toClientOptInput()).generate());
     }
 
-    @Test(description = "useJackson3 is only wired up for jvm-okhttp4 and jvm-spring-restclient so far")
+    @Test(description = "useJackson3 is only wired up for jvm-okhttp4, jvm-spring-restclient and jvm-ktor so far")
     public void shouldRefuseJackson3WithUnsupportedLibrary() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -1323,6 +1323,61 @@ public class KotlinClientCodegenModelTest {
         DefaultGenerator generator = new DefaultGenerator();
         Assert.assertThrows(IllegalArgumentException.class,
                 () -> generator.opts(configurator.toClientOptInput()).generate());
+    }
+
+    @Test(description = "useJackson3 with jvm-ktor generates a Jackson 3 ApiClient, API classes and Gradle dependencies")
+    public void shouldGenerateJvmKtorWithJackson3() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-ktor")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.USE_JACKSON_3, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path apiClientPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt");
+        TestUtils.assertFileContains(apiClientPath, "import io.ktor.serialization.jackson3.*");
+        TestUtils.assertFileContains(apiClientPath, "import tools.jackson.databind.json.JsonMapper");
+        TestUtils.assertFileContains(apiClientPath, "jsonBlock: JsonMapper.Builder.() -> Unit = JSON_DEFAULT");
+        TestUtils.assertFileNotContains(apiClientPath, "com.fasterxml.jackson");
+        TestUtils.assertFileNotContains(apiClientPath, "JavaTimeModule");
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "jsonBlock: JsonMapper.Builder.() -> Unit = ApiClient.JSON_DEFAULT");
+        TestUtils.assertFileNotContains(apiPath, "com.fasterxml.jackson.databind");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "io.ktor:ktor-serialization-jackson3:");
+        TestUtils.assertFileContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
+        TestUtils.assertFileNotContains(buildGradlePath, "io.ktor:ktor-serialization-jackson:");
+        TestUtils.assertFileNotContains(buildGradlePath, "io.ktor:ktor-client-jackson:");
+    }
+
+    @Test(description = "jvm-ktor without useJackson3 keeps the Jackson 2 ApiClient")
+    public void shouldKeepJackson2ForJvmKtorByDefault() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-ktor")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        Path apiClientPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt");
+        TestUtils.assertFileContains(apiClientPath, "import io.ktor.serialization.jackson.*");
+        TestUtils.assertFileContains(apiClientPath, "jsonBlock: ObjectMapper.() -> Unit = JSON_DEFAULT");
+        TestUtils.assertFileNotContains(apiClientPath, "tools.jackson");
     }
 
     @Test(description = "useJackson3 switches the serializer and generated model imports to the tools.jackson package")

@@ -544,8 +544,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
                 throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
             }
-            if (!JVM_OKHTTP4.equals(getLibrary()) && !JVM_SPRING_RESTCLIENT.equals(getLibrary())) {
-                throw new IllegalArgumentException("useJackson3 is only supported for the jvm-okhttp4 and jvm-spring-restclient libraries at this time.");
+            if (!JVM_OKHTTP4.equals(getLibrary()) && !JVM_SPRING_RESTCLIENT.equals(getLibrary())
+                    && !JVM_KTOR.equals(getLibrary())) {
+                throw new IllegalArgumentException("useJackson3 is only supported for the jvm-okhttp4, jvm-spring-restclient and jvm-ktor libraries at this time.");
             }
             if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && !useSpringBoot4) {
                 throw new IllegalArgumentException("useJackson3 with jvm-spring-restclient requires useSpringBoot4=true.");
