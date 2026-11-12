@@ -150,7 +150,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
      */
     {{^multiplatform}}
     {{#kotlinx_serialization}}
-    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{{nameInPascalCase}}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}{{^enumUnknownDefaultCase}}{{^isString}}{{^isNumber}}{{^isContainer}}(with = {{{nameInPascalCase}}}Serializer::class){{/isContainer}}{{/isNumber}}{{/isString}}{{/enumUnknownDefaultCase}}
+    {{#serializableModel}}@KSerializable{{/serializableModel}}{{^serializableModel}}@Serializable{{#enumUnknownDefaultCase}}(with = {{{nameInPascalCase}}}Serializer::class){{/enumUnknownDefaultCase}}{{/serializableModel}}{{^enumUnknownDefaultCase}}{{^isString}}{{#isPrimitiveType}}{{^isContainer}}(with = {{{nameInPascalCase}}}Serializer::class){{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/enumUnknownDefaultCase}}
     {{/kotlinx_serialization}}
     {{#moshi}}
     @JsonClass(generateAdapter = false)
@@ -210,7 +210,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{^multiplatform}}
     {{^enumUnknownDefaultCase}}
     {{^isString}}
-    {{^isNumber}}
+    {{#isPrimitiveType}}
     {{^isContainer}}
 
     internal object {{nameInPascalCase}}Serializer : KSerializer<{{nameInPascalCase}}> {
@@ -227,7 +227,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
         }
     }
     {{/isContainer}}
-    {{/isNumber}}
+    {{/isPrimitiveType}}
     {{/isString}}
     {{/enumUnknownDefaultCase}}
     {{/multiplatform}}
