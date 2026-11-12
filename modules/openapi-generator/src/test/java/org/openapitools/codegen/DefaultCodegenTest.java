@@ -5900,6 +5900,8 @@ public class DefaultCodegenTest {
                 // disallowAdditionalPropertiesIfNotPresent=false: every schema allows extras, the child inherits the parent's
                 // implicit any-type map instead of getting a String map of its own
                 {"NoDisallowKid", "Object", false},
+                // a member stating `false` vetoes the map: allOf is an intersection
+                {"FalseVeto", null, true},
         };
     }
 

@@ -154,3 +154,7 @@ components:
       allOf:
         - {type: object, properties: {a: {type: string}}, additionalProperties: {type: string}}
         - {type: object, properties: {b: {type: string}}, additionalProperties: {type: string, description: x}}
+    FalseVeto:
+      allOf:
+        - {type: object, properties: {a: {type: string}}, additionalProperties: false}
+        - {type: object, properties: {b: {type: string}}, additionalProperties: {type: string}}
