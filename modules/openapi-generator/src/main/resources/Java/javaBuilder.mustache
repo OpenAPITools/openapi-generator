@@ -45,6 +45,13 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
 
     {{/parentVars}}
 
+{{#additionalPropertiesType}}
+    public {{classname}}.Builder additionalProperties(Map<String, {{{.}}}> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
+{{/additionalPropertiesType}}
     /**
     * returns a built {{classname}} instance.
     *
@@ -78,5 +85,6 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
   */
   public {{classname}}.Builder toBuilder() {
     return new {{classname}}.Builder(){{#allVars}}
-      .{{name}}({{getter}}()){{/allVars}};
+      .{{name}}({{getter}}()){{/allVars}}{{#additionalPropertiesType}}
+      .additionalProperties(getAdditionalProperties()){{/additionalPropertiesType}};
   }
