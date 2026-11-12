@@ -55,7 +55,7 @@ import tools.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonDeserialize(using = FruitReq.FruitReqDeserializer.class)
 @JsonSerialize(using = FruitReq.FruitReqSerializer.class)
 public class FruitReq extends AbstractOpenApiSchema {
@@ -169,12 +169,12 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     public FruitReq(AppleReq o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 
     public FruitReq(BananaReq o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 

@@ -40,7 +40,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
 
   private static final long serialVersionUID = 1L;
 {{/serializableModel}}
-  {{#vars}}
+{{#vars}}
 
     {{#isEnum}}
     {{^isContainer}}
@@ -97,7 +97,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   private {{>nullableAnnotation}}{{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
   {{/openApiNullable}}
   {{/isContainer}}
-  {{/vars}}
+{{/vars}}
   {{#vendorExtensions.x-java-no-args-constructor}}
 
   public {{classname}}() {
@@ -106,6 +106,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{/vendorExtensions.x-java-no-args-constructor}}
   {{^lombok.Data}}
   {{^lombok.RequiredArgsConstructor}}
+  {{^vendorExtensions.x-java-lombok-duplicates-required-args-constructor}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
@@ -129,6 +130,7 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   }
   {{/hasRequired}}
   {{/generatedConstructorWithRequiredArgs}}
+  {{/vendorExtensions.x-java-lombok-duplicates-required-args-constructor}}
   {{/lombok.RequiredArgsConstructor}}
   {{#vendorExtensions.x-java-all-args-constructor}}
 
@@ -226,9 +228,6 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   {{/vendorExtensions.x-extra-annotation}}
   {{#useBeanValidation}}
   {{>beanValidation}}{{! prevent indent}}
-  {{/useBeanValidation}}
-  {{^useBeanValidation}}
-  {{#lambda.trim}}{{>notNull}}{{/lambda.trim}}
   {{/useBeanValidation}}
   {{#swagger2AnnotationLibrary}}
   @Schema(name = "{{{baseName}}}"{{#isReadOnly}}, accessMode = Schema.AccessMode.READ_ONLY{{/isReadOnly}}{{#example}}, example = "{{{.}}}"{{/example}}{{#description}}, description = "{{{.}}}"{{/description}}{{#deprecated}}, deprecated = true{{/deprecated}}, requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}{{#isNullable}}, nullable = true{{/isNullable}})

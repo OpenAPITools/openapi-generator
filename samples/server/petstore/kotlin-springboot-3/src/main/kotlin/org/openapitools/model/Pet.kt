@@ -50,7 +50,7 @@ data class Pet(
     @field:Valid
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @Deprecated(message = "")
     @field:JsonSetter(nulls = Nulls.SKIP)
@@ -67,12 +67,12 @@ data class Pet(
         available("available"),
         pending("pending"),
         sold("sold");
-
+    
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
-                return values().firstOrNull{it -> it.value == value}
+                return values().firstOrNull{ it.value == value }
                     ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
             }
         }

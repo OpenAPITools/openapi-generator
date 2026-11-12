@@ -788,3 +788,38 @@ impl<'de> Deserialize<'de> for ByteArray {
         }
     }
 }
+{{#usesTaggedDeserialize}}
+
+/// Implements `Deserialize` for an internally tagged union, like `#[serde(tag = "...")]`,
+/// except that the tag is kept in the content the variant is deserialized from.
+///
+/// ```ignore
+/// impl_deserialize_tagged!(Fruit, "fruitType", {
+///     "green_apple" | "red_apple" => Apple,
+///     "banana" => Banana,
+/// });
+/// ```
+#[macro_export]
+macro_rules! impl_deserialize_tagged {
+    ($union:ident, $tag:literal, { $($($tag_value:literal)|+ => $variant:ident),+ $(,)? }) => {
+        impl<'de> serde::Deserialize<'de> for $union {
+            fn deserialize<D>(deserializer: D) -> std::result::Result<Self, D::Error>
+            where
+                D: serde::Deserializer<'de>,
+            {
+                let value = <serde_json::Value as serde::Deserialize>::deserialize(deserializer)?;
+                match value.get($tag).and_then(serde_json::Value::as_str) {
+                    $(Some($($tag_value)|+) => serde_json::from_value(value)
+                        .map(Self::$variant)
+                        .map_err(serde::de::Error::custom),)+
+                    Some(tag) => std::result::Result::Err(serde::de::Error::unknown_variant(
+                        tag,
+                        &[$($($tag_value),+),+],
+                    )),
+                    None => std::result::Result::Err(serde::de::Error::missing_field($tag)),
+                }
+            }
+        }
+    };
+}
+{{/usesTaggedDeserialize}}

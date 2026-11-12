@@ -17,6 +17,8 @@ import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
+import org.testng.SkipException;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -33,6 +35,218 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 public class TypeScriptFetchClientCodegenTest {
+    @Test
+    public void testJsonContentHeaders() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(output.toPath().resolve("runtime.ts"),
+                "export function jsonStringifyForHeader(value: unknown): string | undefined", "char.charCodeAt(0)");
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "if (requestParameters['xOptionalJsonArg'] !== undefined) {",
+                "if (jsonHeaderValue !== undefined) {",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Json-Arg'] = jsonHeaderValue;",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
+                "headerParameters['X-Optional-Json-Arg'] = jsonHeaderValue;",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xVendorArg']));",
+                "headerParameters['X-Vendor-Arg'] = jsonHeaderValue;",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
+                "headerParameters['X-Referenced-Json-Arg'] = jsonHeaderValue;",
+                "headerParameters['X-Plain-Arg'] = String(requestParameters['xPlainArg']);");
+        TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
+                "filePath?: string;",
+                "'file_path': value['filePath'],",
+                "if (value == null) {",
+                "return value;");
+        TestUtils.assertFileNotContains(api,
+                "headerParameters['X-Json-Arg'] = String(",
+                "headerParameters['X-Optional-Json-Arg'] = String(",
+                "headerParameters['X-Vendor-Arg'] = String(");
+    }
+
+    @Test
+    public void testJsonHeaderHelperDoesNotLeakAcrossGenerations() throws IOException {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        File first = Files.createTempDirectory("typescript-json-header-first").toFile();
+        File second = Files.createTempDirectory("typescript-json-header-second").toFile();
+        try {
+            ClientOptInput firstInput = new CodegenConfigurator().setGeneratorName("typescript-fetch")
+                    .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                    .setOutputDir(first.getAbsolutePath()).toClientOptInput().config(codegen);
+            codegen.setOutputDir(first.getAbsolutePath());
+            new DefaultGenerator().opts(firstInput).generate();
+            TestUtils.assertFileContains(first.toPath().resolve("runtime.ts"), "jsonStringifyForHeader");
+            // The first spec has no license; avoid an unrelated null licenseName on reuse.
+            codegen.additionalProperties().remove(CodegenConstants.LICENSE_NAME);
+
+            ClientOptInput secondInput = new CodegenConfigurator().setGeneratorName("typescript-fetch")
+                    .setInputSpec("src/test/resources/3_0/exploded-object-query-param.yaml")
+                    .setOutputDir(second.getAbsolutePath()).toClientOptInput().config(codegen);
+            codegen.setOutputDir(second.getAbsolutePath());
+            new DefaultGenerator().opts(secondInput).generate();
+            TestUtils.assertFileNotContains(second.toPath().resolve("runtime.ts"), "jsonStringifyForHeader");
+        } finally {
+            org.apache.commons.io.FileUtils.deleteDirectory(first);
+            org.apache.commons.io.FileUtils.deleteDirectory(second);
+        }
+    }
+
+    @Test
+    public void testJsonHeaderSerializersDoNotLeakAcrossGenerations() throws IOException {
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().put("withoutRuntimeChecks", true);
+        File first = Files.createTempDirectory("typescript-header-serializers-first").toFile();
+        File second = Files.createTempDirectory("typescript-header-serializers-second").toFile();
+        File fresh = Files.createTempDirectory("typescript-header-serializers-fresh").toFile();
+        String secondSpec = "src/test/resources/3_0/issue6708-split-by-content-type.yaml";
+        try {
+            ClientOptInput firstInput = new CodegenConfigurator().setGeneratorName("typescript-fetch")
+                    .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                    .setOutputDir(first.getAbsolutePath()).toClientOptInput().config(codegen);
+            codegen.setOutputDir(first.getAbsolutePath());
+            new DefaultGenerator().opts(firstInput).generate();
+            Assert.assertTrue(Files.exists(first.toPath().resolve("models/HeaderArg.ts")));
+            codegen.additionalProperties().remove(CodegenConstants.LICENSE_NAME);
+
+            ClientOptInput secondInput = new CodegenConfigurator().setGeneratorName("typescript-fetch")
+                    .setInputSpec(secondSpec).setOutputDir(second.getAbsolutePath()).toClientOptInput().config(codegen);
+            codegen.setOutputDir(second.getAbsolutePath());
+            new DefaultGenerator().opts(secondInput).generate();
+            Assert.assertFalse(codegen.additionalProperties().containsKey("jsonHeaderModelSerializers"));
+            Assert.assertEquals(codegen.additionalProperties().get("modelSerializersEnabled"), Boolean.FALSE);
+
+            CodegenConfigurator freshConfig = new CodegenConfigurator().setGeneratorName("typescript-fetch")
+                    .setInputSpec(secondSpec).setOutputDir(fresh.getAbsolutePath())
+                    .addAdditionalProperty("withoutRuntimeChecks", true);
+            new DefaultGenerator().opts(freshConfig.toClientOptInput()).generate();
+            Assert.assertEquals(Files.exists(second.toPath().resolve("models/Report.ts")),
+                    Files.exists(fresh.toPath().resolve("models/Report.ts")));
+            TestUtils.assertFileNotContains(fresh.toPath().resolve("apis/ReportApi.ts"), "ReportToJSON");
+            TestUtils.assertFileNotContains(second.toPath().resolve("apis/ReportApi.ts"), "ReportToJSON");
+            TestUtils.assertFileNotContains(second.toPath().resolve("runtime.ts"), "jsonStringifyForHeader");
+        } finally {
+            org.apache.commons.io.FileUtils.deleteDirectory(first);
+            org.apache.commons.io.FileUtils.deleteDirectory(second);
+            org.apache.commons.io.FileUtils.deleteDirectory(fresh);
+        }
+    }
+
+    @DataProvider(name = "runtimeCheckOptions")
+    public Object[][] runtimeCheckOptions() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "runtimeCheckOptions")
+    public void testJsonContentHeaderRuntime(boolean withoutRuntimeChecks) throws IOException, InterruptedException {
+        try {
+            if (new ProcessBuilder("node", "-e", "if (typeof Headers === 'undefined') process.exit(1)").start().waitFor() != 0
+                    || new ProcessBuilder("tsc", "--version").start().waitFor() != 0) {
+                throw new SkipException("Node.js with Headers and TypeScript compiler are required");
+            }
+        } catch (IOException ignored) {
+            throw new SkipException("Node.js with Headers and TypeScript compiler are required");
+        }
+        File output = Files.createTempDirectory("typescript-fetch-json-header-runtime").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-fetch")
+                    .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                    .setOutputDir(output.getAbsolutePath())
+                    .addAdditionalProperty("withoutRuntimeChecks", withoutRuntimeChecks);
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            Process compile = new ProcessBuilder("tsc", "--target", "ES2018", "--module", "commonjs",
+                    "--lib", "ES2018,DOM", "--strict", "--outDir", "compiled", "index.ts")
+                    .directory(output).redirectErrorStream(true).start();
+            String compileOutput = new String(compile.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertEquals(compile.waitFor(), 0, compileOutput);
+            Process test = new ProcessBuilder("node", Paths.get("src/test/resources/3_1/typescript-fetch/json-header-runtime.cjs")
+                    .toAbsolutePath().toString(), output.toPath().resolve("compiled").toString())
+                    .redirectErrorStream(true).start();
+            String testOutput = new String(test.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertEquals(test.waitFor(), 0, testOutput);
+        } finally {
+            org.apache.commons.io.FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test
+    public void testJsonContentHeadersWithoutRuntimeChecks() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("withoutRuntimeChecks", true);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "if (requestParameters['xOptionalJsonArg'] !== undefined) {",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Json-Arg'] = jsonHeaderValue;",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xOptionalJsonArg']));",
+                "headerParameters['X-Optional-Json-Arg'] = jsonHeaderValue;",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xVendorArg']));",
+                "headerParameters['X-Vendor-Arg'] = jsonHeaderValue;",
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xReferencedJsonArg']));",
+                "headerParameters['X-Referenced-Json-Arg'] = jsonHeaderValue;",
+                "headerParameters['X-Plain-Arg'] = String(requestParameters['xPlainArg']);",
+                "import { HeaderArgToJSON } from '../models/HeaderArg';");
+        TestUtils.assertFileNotContains(api,
+                "JSON.stringify(requestParameters['xJsonArg'])",
+                "JSON.stringify(requestParameters['xOptionalJsonArg'])");
+        TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
+                "'file_path': value['filePath'],");
+    }
+
+    @Test
+    public void testJsonContentHeaderWebhook() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header-webhook").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header-webhook.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Json-Arg'] = jsonHeaderValue;",
+                "type HeaderArg,",
+                "HeaderArgToJSON,",
+                "} from '../models/HeaderArg';");
+        TestUtils.assertFileNotContains(api, "type ,");
+    }
+
+    @Test
+    public void testJsonContentHeaderWebhookWithoutRuntimeChecks() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-json-header-webhook").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header-webhook.yaml")
+                .setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty("withoutRuntimeChecks", true);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path api = output.toPath().resolve("apis/DefaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "const jsonHeaderValue = runtime.jsonStringifyForHeader(HeaderArgToJSON(requestParameters['xJsonArg']));",
+                "headerParameters['X-Json-Arg'] = jsonHeaderValue;",
+                "import { HeaderArgToJSON } from '../models/HeaderArg';");
+        TestUtils.assertFileContains(output.toPath().resolve("models/HeaderArg.ts"),
+                "'file_path': value['filePath'],");
+    }
+
     @Test
     public void testSnapshotVersion() {
         OpenAPI api = TestUtils.createOpenAPI();
@@ -752,6 +966,38 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(testDiscriminatorResponse, "export type TestDiscriminatorResponse = { discriminatorField: 'optionOne' } & OptionOne | { discriminatorField: 'optionTwo' } & OptionTwo");
     }
 
+    @DataProvider
+    public Object[][] nullableOneOfRuntimeCheckModes() {
+        return new Object[][] {{false}, {true}};
+    }
+
+    @Test(dataProvider = "nullableOneOfRuntimeCheckModes")
+    public void testNullablePrimitiveOneOfTypes(boolean withoutRuntimeChecks) throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.WITHOUT_RUNTIME_CHECKS, withoutRuntimeChecks);
+        File output = generate(properties,
+                "src/test/resources/3_0/typescript-fetch/oneof-nullable-primitives.yaml");
+
+        for (String model : List.of("InlineNullableValue", "ReferencedNullableValue")) {
+            Path file = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/" + model + ".ts"));
+            TestUtils.assertFileContains(file, "export type " + model + " = null | number | string;");
+        }
+
+        // Null must match exactly one branch, rather than none or both branches.
+        for (String model : List.of("NonNullableValue", "MultipleNullableValue")) {
+            Path file = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/" + model + ".ts"));
+            TestUtils.assertFileContains(file, "export type " + model + " = number | string;");
+        }
+
+        Path arrayItems = Paths.get(output + (withoutRuntimeChecks
+                ? "/models/index.ts" : "/models/NullableArrayItems.ts"));
+        TestUtils.assertFileContains(arrayItems, "export type NullableArrayItems = Array<string | null> | number;");
+
+        Path values = Paths.get(output + (withoutRuntimeChecks ? "/models/index.ts" : "/models/Values.ts"));
+        TestUtils.assertFileContains(values, "array: Array<InlineNullableValue>;",
+                "map: { [key: string]: InlineNullableValue; };");
+    }
+
     /**
      * Issue #21587
      * When using oneOf, the Typescript Fetch generator should import modelled types except for
@@ -814,6 +1060,32 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileContains(apiDocs, "metadata: 'metadata_example',");
         TestUtils.assertFileNotContains(apiDocs, "files: /path/to/file.txt");
         TestUtils.assertFileNotContains(apiDocs, "metadata: metadata_example");
+    }
+
+    @Test(description = "Verify instanceOf excludes values from not: enum")
+    public void testNotEnumExclusionInTypeGuard() throws IOException {
+        File output = generate(Collections.emptyMap(), "src/test/resources/3_1/typescript-fetch/oneof-not-enum.yaml");
+
+        TestUtils.assertFileContains(Paths.get(output + "/models/Known.ts"),
+                "if (value['kind'] !== 'known') return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/Other.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\") return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/TaggedUnion.ts"),
+                "if (instanceOfOther(json)) {");
+        TestUtils.assertFileContains(Paths.get(output + "/models/MultipleExcluded.ts"),
+                "kind?: string;",
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\" || (value as Record<string, unknown>)[\"kind\"] === \"a\\\"b\") return false;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/models/MultipleExcluded.ts"),
+                "if (!('kind' in value)");
+        TestUtils.assertFileContains(Paths.get(output + "/models/SanitizedExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"filePath\"] === \"known\" || (value as Record<string, unknown>)[\"file-path\"] === \"known\") return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/NullableExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\" || (value as Record<string, unknown>)[\"kind\"] === null) return false;");
+        TestUtils.assertFileContains(Paths.get(output + "/models/MixedExcluded.ts"),
+                "if ((value as Record<string, unknown>)[\"kind\"] === \"known\") return false;");
+        TestUtils.assertFileNotContains(Paths.get(output + "/models/MixedExcluded.ts"),
+                "[\"kind\"] === 42",
+                "[\"kind\"] === true");
     }
 
     @Test(description = "Verify instanceOf checks discriminator value for single-value enums")

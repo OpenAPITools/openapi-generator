@@ -160,6 +160,50 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
+{{#withHttpResource}}
+### Signal-based resources
+
+Every `GET` operation without a request body also has a `...Resource` method, next to its Observable method,
+which returns an Angular [`HttpResourceRef`](https://angular.dev/api/common/http/HttpResourceRef)
+(see [`httpResource`](https://angular.dev/guide/http/http-resource)). The method is skipped, with a warning at
+generation time, when its name would collide with another operation:
+
+```typescript
+import { Component, computed, inject, input } from '@angular/core';
+import { PetService } from '{{npmName}}';
+
+@Component({
+    selector: 'app-pet',
+    templateUrl: './pet.component.html',
+})
+export class PetComponent {
+    readonly petId = input.required<number>();
+
+    // requested again whenever petId changes
+    readonly pet = inject(PetService).getPetByIdResource(() => ({ petId: this.petId() }));
+
+    readonly name = computed(() => this.pet.hasValue() ? this.pet.value().name : '');
+}
+```
+
+- The first argument returns the request parameters and is called in a reactive context: every signal it reads
+  sends a new request when it changes. While it returns `undefined`, or a required parameter is `null` or `undefined`,
+  the resource stays idle. Operations without parameters take no such argument, and it can be left out when all
+  parameters are optional.
+- Call the method in an injection context (a field initializer or a constructor), or pass an `injector` in the options.
+  The resource belongs to that injector: it is destroyed with it, and it sends its request through the `HttpClient`
+  of that injector, so the interceptors of the caller apply.
+- The credentials of the `{{configurationClassName}}` are read each time the request is built, so a credential
+  function that reads a signal sends a new request when the signal changes. Other credential changes need `reload()`.
+- `transferCache` defaults to `true`, as for the Observable methods. Angular's transfer cache skips requests with an
+  `Authorization` header unless `includeRequestsWithAuthHeaders` is set in `withHttpTransferCacheOptions`.
+- Resources are generated for reads only. A resource cancels its pending request when its parameters change, which
+  is not safe for a write, so operations that change data keep only their Observable method.
+
+The `withHttpResource` option requires Angular 20 or later. `httpResource` is stable since Angular 22 and
+experimental in Angular 20 and 21.
+
+{{/withHttpResource}}
 ### Customizing path parameter encoding
 
 Without further customization, only [path-parameters][parameter-locations-url] of [style][style-values-url] 'simple'
@@ -183,6 +227,20 @@ new Configuration({
 [parameter-locations-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#parameter-locations
 [style-values-url]: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md#style-values
 [@honoluluhenk/http-param-expander]: https://www.npmjs.com/package/@honoluluhenk/http-param-expander
+{{#useDotNotationForFormObjects}}
+
+## Form query object dot notation
+
+This client was generated with `useDotNotationForFormObjects=true`. For exploded
+form query objects, property names include the parameter name and all parent
+properties: `filter = { name: { contains: "Alice" } }` is serialized as
+`filter.name.contains=Alice`. Primitive arrays and sets retain repeated keys,
+for example `filter.ids=1&filter.ids=2`.
+
+This is a server-specific convention, not standard OpenAPI form serialization.
+The option defaults to false and does not affect non-exploded form parameters,
+JSON, deepObject, spaceDelimited or pipeDelimited parameters.
+{{/useDotNotationForFormObjects}}
 
 ## Deep-object query parameters
 

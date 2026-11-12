@@ -67,7 +67,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.11</version>
+            <version>0.2.13</version>
         </dependency>
         <!-- Bean Validation API support -->
         <dependency>
@@ -81,11 +81,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-restclient</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

@@ -299,6 +299,100 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testDiscriminatedUnionKeepsChildFields() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setInputSpec("src/test/resources/3_0/rust/discriminated-union.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        // newtype variants, so the child's own fields survive
+        Path unionPath = Path.of(target.toString(), "/src/models/api_error.rs");
+        TestUtils.assertFileContains(unionPath, "#[serde(tag = \"type\")]");
+        TestUtils.assertFileContains(unionPath, "ObjectExists(Box<models::ObjectExists>),");
+        TestUtils.assertFileContains(unionPath, "ValidationError(Box<models::ValidationError>),");
+        TestUtils.assertFileContains(unionPath, "Self::ObjectExists(Default::default())");
+        TestUtils.assertFileNotContains(unionPath, "ObjectExists {");
+
+        // the consumed tag key defaults and is skipped while unset; standalone field and new() unchanged
+        Path childPath = Path.of(target.toString(), "/src/models/object_exists.rs");
+        TestUtils.assertFileContains(childPath,
+                "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]",
+                "pub identifier: String,",
+                "pub fn new(r#type: String, message: String, identifier: String) -> ObjectExists {");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/alpha.rs"),
+                "#[serde(rename = \"kind\", default, skip_serializing_if = \"Option::is_none\")]");
+        // an enum-typed tag would be written twice, the child's copy keeping its default: inline variants, children untouched
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/pet.rs"),
+                "#[serde(rename=\"Cat\")]\n    Cat {", "#[serde(rename=\"Dog\")]\n    Dog {");
+        TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/pet.rs"), "Box<models::Cat>");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"), "#[serde(rename = \"petType\")]\n    pub pet_type: PetType,");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/shape.rs"), "#[serde(rename=\"circle\")]\n    Circle {");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"), "#[serde(rename = \"kind\")]\n    pub kind: models::ShapeKind,");
+
+        // a mapping that names the base itself leaves no struct to wrap (E0275): inline variants, children untouched
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"),
+                "#[serde(rename=\"Creature\")]\n    Creature {", "#[serde(rename=\"Bird\")]\n    Bird {");
+        TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/creature.rs"), "Box<models::Creature>");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/creature.rs"), "#[serde(tag = \"kind\")]");
+        TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/bird.rs"), "#[serde(rename = \"kind\")]\n    pub kind: String,");
+    }
+
+    @Test
+    public void testOneOfEnumDiscriminatorKeepsTagInContent() throws IOException {
+        for (String spec : List.of("3_0/rust/oneof-enum-discriminator.yaml", "3_1/rust/oneof-enum-discriminator.yaml")) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setInputSpec("src/test/resources/" + spec)
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            // an enum tag would be written twice by serde(tag): the variants serialize themselves and
+            // deserialize from the content the tag stays in
+            Path renderPath = Path.of(target.toString(), "/src/models/pet.rs");
+            TestUtils.assertFileNotContains(renderPath, "#[serde(tag", "#[serde(rename=", "Serialize, Deserialize)]");
+            TestUtils.assertFileContains(renderPath,
+                    "#[derive(Clone, Debug, PartialEq)]\npub enum Pet {",
+                    "Cat(Box<models::Cat>),",
+                    "Self::Cat(x) => (\"cat\", serde_json::to_value(x)),",
+                    "map.insert(\"petType\".to_owned(), serde_json::Value::String(tag.to_owned()));",
+                    "match value.get(\"petType\").and_then(serde_json::Value::as_str) {",
+                    "Some(\"cat\") => serde_json::from_value(value).map(Self::Cat)",
+                    "Some(\"dog\") => serde_json::from_value(value).map(Self::Dog)",
+                    "unknown_variant(tag, &[\"cat\", \"dog\"])",
+                    "missing_field(\"petType\")");
+            // an optional enum tag left unset is still written by the union
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/note.rs"),
+                    "Self::Text(x) => (\"text\", serde_json::to_value(x)),");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/text_note.rs"),
+                    "pub kind: Option<Kind>,");
+            Path shapePath = Path.of(target.toString(), "/src/models/shape.rs");
+            TestUtils.assertFileNotContains(shapePath, "#[serde(tag");
+            TestUtils.assertFileContains(shapePath, "Some(\"circle\") => serde_json::from_value(value).map(Self::Circle)");
+
+            // the variant structs are untouched
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/cat.rs"),
+                    "#[serde(rename = \"petType\")]\n    pub pet_type: PetType,",
+                    "pub fn new(pet_type: PetType, name: String) -> Cat {");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/circle.rs"),
+                    "#[serde(rename = \"kind\")]\n    pub kind: models::ShapeKind,");
+
+            // a plain string tag keeps the serde tag and the defaulted child field
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/event.rs"),
+                    "#[serde(tag = \"type\")]", "#[serde(rename=\"click\")]");
+            TestUtils.assertFileNotContains(Path.of(target.toString(), "/src/models/event.rs"), "fn deserialize");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/src/models/click.rs"),
+                    "#[serde(rename = \"type\", default, skip_serializing_if = \"String::is_empty\")]");
+        }
+    }
+
+    @Test
     public void testIntegerPropertyEnum() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
@@ -473,6 +567,55 @@ public class RustClientCodegenTest {
     }
 
     @Test
+    public void testChronoDateTimeParamsSerializeAsRfc3339() throws IOException {
+        // chrono's Display for DateTime is "2024-01-02 03:04:05 +00:00", not RFC 3339
+        // each row: library, then the expected path, query, header and nullable query/header sites
+        String[][] expected = {
+                {"reqwest", "since=p_path_since.to_rfc3339()", "(\"createdAfter\", &p_query_created_after.to_rfc3339())",
+                        "(\"day\", &param_value.to_string())",
+                        "(\"updatedAfter\", &param_value.to_rfc3339())", "header(\"X-Updated-At\", param_value.to_rfc3339())"},
+                {"reqwest-trait", "since=since.to_rfc3339()", "(\"createdAfter\", &created_after.to_rfc3339())",
+                        "(\"day\", &param_value.to_string())",
+                        "(\"updatedAfter\", &param_value.to_rfc3339())", "header(\"X-Updated-At\", local_var_param_value.to_rfc3339())"},
+                {"hyper", "(\"since\".to_string(), since.to_rfc3339())", "(\"createdAfter\".to_string(), created_after.to_rfc3339())",
+                        "let query_value = s.to_string();",
+                        "(\"updatedAfter\".to_string(), param_value.to_rfc3339())", "(\"X-Updated-At\".to_string(), param_value.to_rfc3339())"},
+                {"hyper0x", "(\"since\".to_string(), since.to_rfc3339())", "(\"createdAfter\".to_string(), created_after.to_rfc3339())",
+                        "let query_value = s.to_string();",
+                        "(\"updatedAfter\".to_string(), param_value.to_rfc3339())", "(\"X-Updated-At\".to_string(), param_value.to_rfc3339())"},
+        };
+        for (String[] e : expected) {
+            Path outputPath = generateDateTimeParamsApi(e[0], true);
+            // NaiveDate's Display is already ISO 8601, so date params keep to_string()
+            TestUtils.assertFileContains(outputPath, e[1], e[2], e[3], e[4], e[5], "param_value.to_rfc3339()");
+            TestUtils.assertFileNotContains(outputPath, "since.to_string()", "created_after.to_string()",
+                    "updated_after.to_string()", "param_value.to_string()); },", "\"X-Request-Time\", param_value.to_string()");
+        }
+
+        // without chrono, date-time params are plain Strings
+        for (String library : new String[] {"reqwest", "reqwest-trait", "hyper", "hyper0x"}) {
+            TestUtils.assertFileNotContains(generateDateTimeParamsApi(library, false), "to_rfc3339");
+        }
+    }
+
+    private Path generateDateTimeParamsApi(String library, boolean useChrono) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .setLibrary(library)
+                .addAdditionalProperty("useChrono", useChrono)
+                .setInputSpec("src/test/resources/3_0/rust/date-time-params.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        Path outputPath = Path.of(target.toString(), "/src/apis/default_api.rs");
+        TestUtils.assertFileExists(outputPath);
+        return outputPath;
+    }
+
+    @Test
     public void testOneOfMemberWithoutTitleOrType() throws IOException {
         Path target = Files.createTempDirectory("test");
         target.toFile().deleteOnExit();
@@ -486,5 +629,52 @@ public class RustClientCodegenTest {
         Path outputPath = Path.of(target.toString(), "/src/models/conditions.rs");
         TestUtils.assertFileExists(outputPath);
         TestUtils.assertFileContains(outputPath, "WorkflowPathCondition(Box<models::WorkflowPathCondition>)");
+    }
+
+    @Test
+    public void testReqwestPathParameterSpaceEncoding() throws IOException {
+        for (String library : new String[]{"reqwest", "reqwest-trait"}) {
+            Path target = Files.createTempDirectory("test");
+            target.toFile().deleteOnExit();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("rust")
+                    .setLibrary(library)
+                    .setInputSpec("src/test/resources/3_0/rust/reqwest-path-parameter-space-encoding.yaml")
+                    .setSkipOverwrite(false)
+                    .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+            List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            files.forEach(File::deleteOnExit);
+            Path outputPath = Path.of(target.toString(), "/src/apis/mod.rs");
+            TestUtils.assertFileExists(outputPath);
+            TestUtils.assertFileContains(outputPath, "percent_encoding::utf8_percent_encode(s.as_ref(), PATH_ENCODING_SET).to_string()");
+            TestUtils.assertFileContains(Path.of(target.toString(), "/Cargo.toml"), "percent-encoding");
+        }
+    }
+
+    @Test
+    public void testEnumUnknownDefaultCaseUsesSerdeOther() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust")
+                .addAdditionalProperty(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true)
+                .setInputSpec("src/test/resources/3_0/rust/enum-unknown-default-case.yaml")
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // string enum schema
+        Path petKindPath = Path.of(target.toString(), "/src/models/pet_kind.rs");
+        TestUtils.assertFileExists(petKindPath);
+        TestUtils.assertFileContains(petKindPath,
+                "#[serde(rename = \"unknown_default_open_api\")] #[serde(other)] UnknownDefaultOpenApi,");
+
+        // inline string and integer property enums
+        Path petPath = Path.of(target.toString(), "/src/models/pet.rs");
+        TestUtils.assertFileExists(petPath);
+        TestUtils.assertFileContains(petPath,
+                "#[serde(rename = \"unknown_default_open_api\")] #[serde(other)] UnknownDefaultOpenApi,",
+                "#[serde(other)] UnknownDefaultOpenApi = 11184809,");
     }
 }

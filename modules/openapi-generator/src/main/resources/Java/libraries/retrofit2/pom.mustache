@@ -344,11 +344,6 @@
                 <artifactId>play-ahc-ws_2.12</artifactId>
                 <version>${play-version}</version>
             </dependency>
-            <dependency>
-                <groupId>jakarta.validation</groupId>
-                <artifactId>jakarta.validation-api</artifactId>
-                <version>${beanvalidation-version}</version>
-            </dependency>
         {{/usePlayWS}}
         {{#parcelableModel}}
             <!-- Needed for Parcelable support-->
@@ -383,11 +378,11 @@
         {{/gson}}
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
         {{#jackson}}
-        <jackson-databind-version>2.21.6</jackson-databind-version>
-        <jackson-version>2.21.6</jackson-version>
+        <jackson-databind-version>2.21.8</jackson-databind-version>
+        <jackson-version>2.21.8</jackson-version>
         <jackson-annotations-version>2.21</jackson-annotations-version>
             {{#openApiNullable}}
-        <jackson-databind-nullable-version>0.2.11</jackson-databind-nullable-version>
+        <jackson-databind-nullable-version>0.2.13</jackson-databind-nullable-version>
             {{/openApiNullable}}
         <javax.ws.rs-api-version>2.1.1</javax.ws.rs-api-version>
         {{/jackson}}

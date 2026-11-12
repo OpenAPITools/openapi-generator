@@ -44,7 +44,7 @@ import org.openapitools.client.ApiClient;
   RequiredAndNullable.JSON_PROPERTY_ONLY_REQUIRED,
   RequiredAndNullable.JSON_PROPERTY_LIST
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class RequiredAndNullable {
   public static final String JSON_PROPERTY_STR = "str";
   
@@ -201,7 +201,7 @@ public class RequiredAndNullable {
    * Return true if this RequiredAndNullable object is equal to o.
    */
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
@@ -227,7 +227,7 @@ public class RequiredAndNullable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 

@@ -1,0 +1,16 @@
+openapi: 3.0.3
+info:
+  title: issue 24212 test
+  version: '1.0'
+paths:
+  /tasks:
+    get:
+      operationId: getTasks
+      responses:
+        '200':
+          description: OK
+    query:
+      operationId: queryTasks
+      responses:
+        '200':
+          description: OK

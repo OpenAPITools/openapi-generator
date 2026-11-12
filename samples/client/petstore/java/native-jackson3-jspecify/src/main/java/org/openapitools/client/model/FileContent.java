@@ -39,7 +39,7 @@ import org.openapitools.client.ApiClient;
   FileContent.JSON_PROPERTY_SIZE,
   FileContent.JSON_PROPERTY_VIRUS_SCAN
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class FileContent {
   public static final String JSON_PROPERTY_NAME = "name";
   
@@ -149,7 +149,7 @@ public class FileContent {
    * Return true if this FileContent object is equal to o.
    */
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
@@ -173,7 +173,7 @@ public class FileContent {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 

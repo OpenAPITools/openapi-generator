@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: allOf with required property declared in the referenced schema
+  version: 1.0.0
+paths:
+  /my-schema:
+    get:
+      operationId: getMySchema
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MySchema'
+components:
+  schemas:
+    MySchema:
+      required:
+        - uuid
+        - some_property
+      allOf:
+        - $ref: '#/components/schemas/MyInheritedSchema'
+      type: object
+      properties:
+        some_property:
+          type: boolean
+    MySchemaOnlyInheritedRequired:
+      required:
+        - uuid
+      allOf:
+        - $ref: '#/components/schemas/MyInheritedSchema'
+      type: object
+      properties:
+        some_property:
+          type: boolean
+    MyInheritedSchema:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          description: Unique identifier of the resource.
+          example: 55c950dc-be2b-4f2b-81c9-62e39f590b71

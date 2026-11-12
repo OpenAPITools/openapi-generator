@@ -6,6 +6,8 @@ on:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/webclient-springBoot4-*/**
+      - samples/client/petstore/java/restclient/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
       - samples/client/petstore/java/apache-httpclient-jackson3/**
@@ -22,11 +24,14 @@ on:
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
       - samples/client/petstore/java/microprofile-oneof-sealed/**
+      - samples/client/petstore/java/rest-assured-jackson3/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/resttemplate-springBoot4-*/**
       - samples/client/petstore/java/webclient-jakarta/**
+      - samples/client/petstore/java/webclient-springBoot4-*/**
+      - samples/client/petstore/java/restclient/**
       - samples/client/petstore/java/restclient-*/**
       - samples/client/petstore/java/native-jackson3/**
       - samples/client/petstore/java/apache-httpclient-jackson3/**
@@ -43,6 +48,7 @@ on:
       - samples/client/petstore/java/jersey3-oneOf/**
       - samples/client/petstore/java/jersey3-jackson3/**
       - samples/client/petstore/java/microprofile-oneof-sealed/**
+      - samples/client/petstore/java/rest-assured-jackson3/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -79,6 +85,7 @@ jobs:
           - samples/client/petstore/java/jersey3-oneOf
           - samples/client/petstore/java/jersey3-jackson3
           - samples/client/petstore/java/microprofile-oneof-sealed
+          - samples/client/petstore/java/rest-assured-jackson3
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6

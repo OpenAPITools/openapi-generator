@@ -1,0 +1,9 @@
+generatorName: go
+outputDir: samples/client/others/go/oneof-not-enum
+inputSpec: modules/openapi-generator/src/test/resources/3_1/go/oneof-not-enum.yaml
+templateDir: modules/openapi-generator/src/test/resources/3_1/go
+additionalProperties:
+  hideGenerationTimestamp: "true"
+files:
+  oneof-not-enum_test.go:
+    destinationFilename: oneof-not-enum_test.go

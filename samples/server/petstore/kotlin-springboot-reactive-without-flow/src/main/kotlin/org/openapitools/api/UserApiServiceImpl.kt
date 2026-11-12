@@ -1,6 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import javax.validation.Valid
 import kotlinx.coroutines.flow.Flow
 import org.springframework.stereotype.Service
 @Service

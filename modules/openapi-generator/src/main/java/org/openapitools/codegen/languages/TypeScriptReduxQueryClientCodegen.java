@@ -29,8 +29,10 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeSet;
 
 /**
@@ -148,13 +150,14 @@ public class TypeScriptReduxQueryClientCodegen extends AbstractTypeScriptClientC
             }
             if (!cm.oneOf.isEmpty()) {
                 // For oneOfs only import $refs within the oneOf
-                TreeSet<String> oneOfRefs = new TreeSet<>();
-                for (String im : cm.imports) {
-                    if (cm.oneOf.contains(im)) {
-                        oneOfRefs.add(im);
-                    }
+                TreeSet<String> oneOfRefs = new TreeSet<>(cm.oneOf);
+                List<CodegenProperty> oneOfProperties = Optional.ofNullable(cm.getComposedSchemas())
+                        .map(CodegenComposedSchemas::getOneOf)
+                        .orElse(Collections.emptyList());
+                for (CodegenProperty oneOfProperty : oneOfProperties) {
+                    oneOfRefs.addAll(oneOfProperty.getImports(false, true, generatorMetadata.getFeatureSet()));
                 }
-                cm.imports = oneOfRefs;
+                cm.imports.retainAll(oneOfRefs);
             }
         }
 

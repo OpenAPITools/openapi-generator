@@ -317,6 +317,26 @@
         public IDictionary<string, object> AdditionalProperties { get; set; }
 
         {{/isAdditionalPropertiesTrue}}
+        {{#vendorExtensions.x-csharp-has-not-enum}}
+        /// <summary>
+        /// Rejects values forbidden by a 'not' schema after deserialization, so a value excluded by
+        /// 'not: enum' fails to deserialize into this type (mirroring how a regular enum is enforced).
+        /// </summary>
+        /// <param name="context">Streaming context</param>
+        [System.Runtime.Serialization.OnDeserialized]
+        internal void OnDeserializedNotEnum(System.Runtime.Serialization.StreamingContext context)
+        {
+            {{#vars}}
+            {{#vendorExtensions.x-csharp-not-enum-comparison}}
+            if ({{{vendorExtensions.x-csharp-not-enum-comparison}}})
+            {
+                throw new ArgumentException("Invalid value for {{{name}}}, must not be a value excluded by the 'not' schema.");
+            }
+            {{/vendorExtensions.x-csharp-not-enum-comparison}}
+            {{/vars}}
+        }
+
+        {{/vendorExtensions.x-csharp-has-not-enum}}
         /// <summary>
         /// Returns the string presentation of the object
         /// </summary>

@@ -25,6 +25,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <kumuluzee.version>3.9.0</kumuluzee.version>
+{{#openApiNullable}}
+        <jackson-databind-nullable-version>0.2.13</jackson-databind-nullable-version>
+{{/openApiNullable}}
     </properties>
 
     <dependencyManagement>
@@ -52,6 +55,13 @@
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jax-rs-jersey</artifactId>
         </dependency>
+{{#openApiNullable}}
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>${jackson-databind-nullable-version}</version>
+        </dependency>
+{{/openApiNullable}}
     </dependencies>
 
     <build>

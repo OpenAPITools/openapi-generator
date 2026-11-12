@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -231,7 +230,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -348,15 +347,11 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("array_enum");
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             }
-            var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value);
-            writer.WriteString("just_symbol", justSymbolRawValue);
+            if (enumArrays.JustSymbolOption.IsSet)
+            {
+                var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value);
+                writer.WriteString("just_symbol", justSymbolRawValue);
+            }
         }
     }
-
-    /// <summary>
-    /// The EnumArraysSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(EnumArrays))]
-    public partial class EnumArraysSerializationContext : JsonSerializerContext { }
 }

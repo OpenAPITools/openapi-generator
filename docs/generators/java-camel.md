@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |additionalEnumTypeAnnotations|Additional annotations for enum type(class level annotations)| |null|
+|additionalItemsAnnotations|Additional annotations for list items. List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalModelTypeAnnotations|Additional annotations for model type(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
 |additionalNotNullAnnotations|Add @NotNull to path variables (required by default) and requestBody.| |false|
 |additionalOneOfTypeAnnotations|Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)| |null|
@@ -67,14 +68,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateJsonIncludeAnnotations|Whether to generate policy @JsonInclude annotations on model properties. When true, emits spec-honest annotations (required-field protection and the optional non-nullable policy from optionalNonNullPropertyJsonInclude). When false, none are generated and the global ObjectMapper owns inclusion. When left unset it defaults to false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning. A per-property override set via the `x-jackson-json-include-policy` vendor extension is always honored regardless of this flag.| |false|
 |generateJsonSetterNullsAnnotations|Whether to generate @JsonSetter(nulls = ...) annotations on optional non-nullable model properties. When true, emits @JsonSetter so an explicit null in the payload does not overwrite the field. When false, none are generated and deserialization null-handling defers to the global ObjectMapper. When left unset it defaults to false (7.23.0-equivalent output) and logs a warning; set it explicitly to silence the warning.| |false|
 |generatePageableConstraintValidation|Generate a @ValidPageable annotation and PageableConstraintValidator class, and apply @ValidPageable to the injected Pageable parameter of operations whose 'page' or 'size' parameter specifies a maximum constraint. The annotation enforces those constraints on the Pageable object that replaces the individual page/size query parameters. Requires useBeanValidation=true and library is spring-boot or spring-cloud.| |false|
-|generateSortValidation|Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. Requires useBeanValidation=true and library is spring-boot or spring-cloud.| |false|
+|generateSortValidation|Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to the injected Pageable parameter of operations whose 'sort' parameter has enum values. The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. The number of sort orders is bounded too: a scalar 'sort' allows at most one (maxItems = 1), an array 'sort' uses the minItems/maxItems its schema defines (none defined = unbounded). An unsorted Pageable is always accepted. Requires useBeanValidation=true and library is spring-boot or spring-cloud.| |false|
 |generatedConstructorWithRequiredArgs|Whether to generate constructors with required args for models| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
-|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|
+|implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. The match is case insensitive, like HTTP header names. Note: this parameter is ignored when implicitHeaders=true| |null|
 |includeHttpRequestContext|Whether to include HttpServletRequest (blocking) or ServerWebExchange (reactive) as additional parameter in generated methods. Defaults to 'true' for reactive and 'false' for blocking.| |true (reactive) / false (blocking)|
 |interfaceOnly|Whether to generate only API interface stubs without the server files.| |false|
 |invokerPackage|root package for generated code| |org.openapitools.api|
@@ -151,7 +152,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-accepts|Specify custom value for 'Accept' header for operation|OPERATION|null
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
-|x-field-extra-annotation|Custom annotation(s) to be added to property; accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-field-extra-annotation|Custom annotation(s) to be added to property; on an array `items` schema, generators that support element-type annotations add it to the element type instead (e.g. `List<@Foo T>`); accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
 |x-operation-extra-annotation|Custom annotation(s) to be added to operation; accepts a string or list of strings|OPERATION|null
 |x-spring-paginated|Add `org.springframework.data.domain.Pageable` to controller method. Can be used to handle `page`, `size` and `sort` query parameters. If these query parameters are also specified in the operation spec, they will be removed from the controller method as their values can be obtained from the `Pageable` object. Applies when `library=spring-boot` or `library=spring-cloud`; ignored for other (client) libraries.|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null

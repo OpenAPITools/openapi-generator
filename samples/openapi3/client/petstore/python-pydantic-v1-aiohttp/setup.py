@@ -22,7 +22,7 @@ from setuptools import setup, find_packages  # noqa: H301
 # http://pypi.python.org/pypi/setuptools
 NAME = "petstore-api"
 VERSION = "1.0.0"
-PYTHON_REQUIRES = ">=3.7"
+PYTHON_REQUIRES = ">=3.14,<3.15"
 REQUIRES = [
     "urllib3 >= 1.26.0, < 3.0.0",
     "python-dateutil",

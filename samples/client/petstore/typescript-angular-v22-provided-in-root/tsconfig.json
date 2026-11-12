@@ -13,7 +13,8 @@
     "target": "es2022",
     "typeRoots": ["node_modules/@types"],
     "paths": {
-      "@swagger/typescript-angular-petstore": ["./builds/default"]
+      "@swagger/typescript-angular-petstore": ["./builds/default"],
+      "@swagger/typescript-angular-http-resource": ["./builds/with-http-resource"]
     }
   }
 }

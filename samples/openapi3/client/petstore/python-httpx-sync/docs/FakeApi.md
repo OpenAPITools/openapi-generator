@@ -37,6 +37,7 @@ Method | HTTP request | Description
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_json_header_content**](FakeApi.md#test_json_header_content) | **POST** /test/json-header-content | 
 [**test_object_for_multipart_requests**](FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 [**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
@@ -2328,6 +2329,71 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_json_header_content**
+> test_json_header_content(x_json_arg, x_plain_arg=x_plain_arg)
+
+**Synchronous variant:** `test_json_header_content_sync(...)` — same parameters and return type, but blocks until completion instead of requiring `await`.
+
+### Example
+
+
+```python
+import petstore_api
+from petstore_api.models.header_arg import HeaderArg
+from petstore_api.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+async with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.FakeApi(api_client)
+    x_json_arg = petstore_api.HeaderArg() # HeaderArg | 
+    x_plain_arg = 'x_plain_arg_example' # str |  (optional)
+
+    try:
+        await api_instance.test_json_header_content(x_json_arg, x_plain_arg=x_plain_arg)
+    except Exception as e:
+        print("Exception when calling FakeApi->test_json_header_content: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **x_json_arg** | [**HeaderArg**](.md)|  | 
+ **x_plain_arg** | **str**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No content |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

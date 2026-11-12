@@ -38,6 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,6 +59,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key}
 
     public static enum PROVIDED_IN_LEVEL {none, root, any, platform}
+
+    // same expression as Configuration.isJsonMime in configuration.mustache
+    private static final Pattern JSON_MIME_PATTERN = Pattern.compile("^(application/json|[^;/ \\t]+/[^;/ \\t]+[+]json)[ \\t]*(;.*)?$", Pattern.CASE_INSENSITIVE);
 
     private static final String DEFAULT_IMPORT_PREFIX = "./";
     private static final String DEFAULT_MODEL_IMPORT_DIRECTORY_PREFIX = "../";
@@ -80,12 +84,20 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String USE_DOT_NOTATION_FOR_FORM_OBJECTS = "useDotNotationForFormObjects";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
     public static final String TS_VERSION = "tsVersion";
     public static final String RXJS_VERSION = "rxjsVersion";
     public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
     public static final String ZONEJS_VERSION = "zonejsVersion";
+    public static final String WITH_HTTP_RESOURCE = "withHttpResource";
+
+    public static final String X_ANGULAR_HTTP_RESOURCE = "x-angular-http-resource";
+    public static final String X_ANGULAR_HTTP_RESOURCE_FACTORY = "x-angular-http-resource-factory";
+    public static final String X_ANGULAR_HTTP_RESOURCE_TYPE = "x-angular-http-resource-type";
+    public static final String X_ANGULAR_HTTP_RESOURCE_ACCEPT = "x-angular-http-resource-accept";
+    public static final String X_ANGULAR_REQUEST_PARAMS_INTERFACE = "x-angular-request-params-interface";
 
     protected String ngVersion = "22.0.0";
     @Getter @Setter
@@ -101,6 +113,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected PROVIDED_IN_LEVEL providedIn = PROVIDED_IN_LEVEL.root;
 
     private boolean taggedUnions = false;
+    private boolean withHttpResource = false;
 
     public TypeScriptAngularClientCodegen() {
         super();
@@ -131,6 +144,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(CliOption.newBoolean(USE_SINGLE_REQUEST_PARAMETER,
                 "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
                 false));
+        this.cliOptions.add(CliOption.newBoolean(WITH_HTTP_RESOURCE,
+                "Setting this property to true will generate, next to the Observable method of each GET operation without a request body, "
+                        + "a method returning a signal-based Angular httpResource. Requires Angular v20+.",
+                false));
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
@@ -152,6 +169,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(CliOption.newBoolean(USE_DOT_NOTATION_FOR_FORM_OBJECTS, "Use parameter-prefixed dot notation for exploded form query objects instead of the OpenAPI standard unprefixed property names. Enable only for servers requiring this convention.", false));
         this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
         this.cliOptions.add(CliOption.newBoolean(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", false));
         this.cliOptions.add(new CliOption(TS_VERSION, "The version of typescript compatible with Angular (see ngVersion option)."));
@@ -221,6 +239,17 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". Only Angular v9+ is supported.");
         }
 
+        if (additionalProperties.containsKey(WITH_HTTP_RESOURCE)) {
+            withHttpResource = convertPropertyToBoolean(WITH_HTTP_RESOURCE);
+        }
+        if (withHttpResource && !ngVersion.atLeast("20.0.0")) {
+            throw new IllegalArgumentException("Invalid ngVersion: " + ngVersion + ". " + WITH_HTTP_RESOURCE + " requires Angular v20+.");
+        }
+        writePropertyBack(WITH_HTTP_RESOURCE, withHttpResource);
+        if (withHttpResource) {
+            supportingFiles.add(new SupportingFile("httpResourceOptions.mustache", getIndexDirectory(), "http.resource.options.ts"));
+        }
+
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration(ngVersion);
         }
@@ -234,10 +263,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
+            boolean withInterfaces = convertPropertyToBooleanAndWriteBack(WITH_INTERFACES);
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
+        }
+
+        if (additionalProperties.containsKey(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES)) {
+            convertPropertyToBooleanAndWriteBack(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES);
         }
 
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
@@ -246,7 +279,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
-            taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
+            taggedUnions = convertPropertyToBooleanAndWriteBack(TAGGED_UNIONS);
         }
 
         if (additionalProperties.containsKey(PROVIDED_IN)) {
@@ -305,6 +338,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
+
+        additionalProperties.put(USE_DOT_NOTATION_FOR_FORM_OBJECTS, additionalProperties.containsKey(USE_DOT_NOTATION_FOR_FORM_OBJECTS)
+                && convertPropertyToBoolean(USE_DOT_NOTATION_FOR_FORM_OBJECTS));
 
         if (additionalProperties.containsKey(QUERY_PARAM_OBJECT_FORMAT)) {
             setQueryParamObjectFormat((String) additionalProperties.get(QUERY_PARAM_OBJECT_FORMAT));
@@ -423,13 +459,24 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         objs.put("apiFilename", getApiFilenameFromClassname(objs.getClassname()));
 
         List<CodegenOperation> ops = objs.getOperation();
+        Set<String> nicknames = ops.stream().map(op -> op.nickname).collect(Collectors.toSet());
         boolean hasSomeFormParams = false;
         boolean hasSomeEncodableParams = false;
+        boolean hasSomeHttpResource = false;
         for (CodegenOperation op : ops) {
             if (op.getHasFormParams()) {
                 hasSomeFormParams = true;
             }
             op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
+            if (markHttpResource(op, nicknames)) {
+                hasSomeHttpResource = true;
+            }
+            // the <Operation>RequestParams interface: for every operation with useSingleRequestParameter, else for the resource methods only
+            if (op.getHasParams() && (getUseSingleRequestParameter() || op.vendorExtensions.containsKey(X_ANGULAR_HTTP_RESOURCE))) {
+                op.vendorExtensions.put(X_ANGULAR_REQUEST_PARAMS_INTERFACE, true);
+            } else {
+                op.vendorExtensions.remove(X_ANGULAR_REQUEST_PARAMS_INTERFACE);
+            }
             // deduplicate auth methods by name (as they will lead to duplicate code):
             op.authMethods =
                     op.authMethods != null ? op.authMethods.stream().collect(Collectors.collectingAndThen(Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(x -> x.name))), ArrayList::new))
@@ -474,6 +521,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         operations.put("hasSomeFormParams", hasSomeFormParams);
         operations.put("hasSomeEncodableParams", hasSomeEncodableParams);
+        operations.put("hasSomeHttpResource", hasSomeHttpResource);
 
         // Add additional filename information for model imports in the services
         List<Map<String, String>> imports = operations.getImports();
@@ -484,6 +532,61 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         return operations;
+    }
+
+    /**
+     * Marks a GET operation without a request body for an additional httpResource method.
+     * The factory mirrors the responseType the Observable method picks at runtime for the default
+     * Accept header (Configuration.selectHeaderAccept): JSON (or no produces) uses httpResource,
+     * text uses httpResource.text, anything else, and file responses, httpResource.blob.
+     *
+     * @param op        the operation, with its http method already lower-cased
+     * @param nicknames the nicknames of all operations of the same API class
+     * @return true if the operation gets a resource method
+     */
+    private boolean markHttpResource(CodegenOperation op, Set<String> nicknames) {
+        op.vendorExtensions.remove(X_ANGULAR_HTTP_RESOURCE);
+        if (!withHttpResource || !"get".equals(op.httpMethod) || op.getHasBodyOrFormParams()) {
+            return false;
+        }
+        String resourceName = op.nickname + "Resource";
+        if (nicknames.contains(resourceName) || nicknames.contains(resourceName + "Request")) {
+            LOGGER.warn("Not generating {} for operation {}: the name is taken by another operation.", resourceName, op.operationId);
+            return false;
+        }
+
+        List<String> produces = op.produces == null ? Collections.emptyList() : op.produces.stream()
+                .map(mediaType -> mediaType.get("mediaType"))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        String accept = produces.stream()
+                .filter(mediaType -> JSON_MIME_PATTERN.matcher(mediaType).matches())
+                .findFirst()
+                .orElse(produces.isEmpty() ? null : produces.get(0));
+
+        String factory;
+        String type;
+        if (op.isResponseFile) {
+            factory = ".blob";
+            type = "Blob";
+        } else if (accept != null && accept.startsWith("text")) {
+            factory = ".text";
+            type = "string";
+        } else if (accept == null || JSON_MIME_PATTERN.matcher(accept).matches()) {
+            factory = "";
+            type = op.returnType != null ? op.returnType : "any";
+        } else {
+            factory = ".blob";
+            type = "Blob";
+        }
+
+        op.vendorExtensions.put(X_ANGULAR_HTTP_RESOURCE, true);
+        op.vendorExtensions.put(X_ANGULAR_HTTP_RESOURCE_FACTORY, factory);
+        op.vendorExtensions.put(X_ANGULAR_HTTP_RESOURCE_TYPE, type);
+        if (accept != null) {
+            op.vendorExtensions.put(X_ANGULAR_HTTP_RESOURCE_ACCEPT, accept);
+        }
+        return true;
     }
 
     @Override

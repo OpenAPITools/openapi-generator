@@ -37,8 +37,6 @@ namespace Org.OpenAPITools.Client
         {
             _services = services;
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
-            _jsonOptions.Converters.Add(new DateTimeJsonConverter());
-            _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
             _jsonOptions.Converters.Add(new AppleJsonConverter());
             _jsonOptions.Converters.Add(new BananaJsonConverter());
             _jsonOptions.Converters.Add(new FruitJsonConverter());

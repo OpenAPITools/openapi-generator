@@ -1,0 +1,48 @@
+openapi: 3.1.0
+info:
+  title: JSON header test
+  version: 1.0.0
+paths:
+  /test:
+    post:
+      operationId: testJsonHeader
+      parameters:
+        - name: X-Json-Arg
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: X-Vendor-Json
+          in: header
+          required: true
+          content:
+            application/vnd.example+json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: X-Plain-Arg
+          in: header
+          schema:
+            type: string
+        - name: X-Required-Plain
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-Optional-Json
+          in: header
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+      responses:
+        '204':
+          description: OK
+components:
+  schemas:
+    HeaderArg:
+      type: object
+      properties:
+        path:
+          type: string

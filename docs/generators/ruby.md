@@ -108,6 +108,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>next</li>
 <li>nil</li>
 <li>not</li>
+<li>object_id</li>
 <li>or</li>
 <li>post_body</li>
 <li>query_params</li>

@@ -85,7 +85,7 @@ data class Dog(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") override val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") override val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @field:Valid
     @ApiModelProperty(value = "")
@@ -105,12 +105,12 @@ data class Dog(
         Husky("Husky"),
         Retriever("Retriever"),
         Shepherd("Shepherd");
-
+    
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Breed {
-                return values().firstOrNull{it -> it.value == value}
+                return values().firstOrNull{ it.value == value }
                     ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Breed'")
             }
         }

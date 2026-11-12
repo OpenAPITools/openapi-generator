@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info:
+  title: JSON-B nullable properties
+  description: Required/optional and nullable/non-nullable properties for the jaxrs-spec JSON-B serialization.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    NullableProperties:
+      type: object
+      required:
+        - requiredValue
+        - requiredNullable
+      properties:
+        requiredValue:
+          type: string
+        optionalValue:
+          type: string
+        requiredNullable:
+          type:
+            - string
+            - "null"
+        optionalNullable:
+          type:
+            - string
+            - "null"
+        snake_case_value:
+          type: string

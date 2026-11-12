@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link FakeClassnameTestApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface FakeClassnameTestApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -33,7 +33,7 @@ public interface FakeClassnameTestApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
-    default ResponseEntity<Client> testClassname(Client client) {
+    default @Valid ResponseEntity<Client> testClassname(Client client) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

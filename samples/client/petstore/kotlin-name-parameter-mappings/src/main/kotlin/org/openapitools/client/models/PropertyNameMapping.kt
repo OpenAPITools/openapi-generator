@@ -28,12 +28,10 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
- *
- * @param httpDebugOperation 
- * @param underscoreType 
- * @param type 
- * @param typeWithUnderscore 
+ * @param httpDebugOperation
+ * @param underscoreType
+ * @param type
+ * @param typeWithUnderscore
  */
 
 

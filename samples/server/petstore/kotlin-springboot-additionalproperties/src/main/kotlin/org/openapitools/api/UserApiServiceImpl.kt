@@ -1,6 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import jakarta.validation.Valid
 import org.springframework.stereotype.Service
 @Service
 class UserApiServiceImpl : UserApiService {
@@ -9,11 +10,11 @@ class UserApiServiceImpl : UserApiService {
         TODO("Implement me")
     }
 
-    override fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithArrayInput(user: kotlin.collections.List<@Valid User>): Unit {
         TODO("Implement me")
     }
 
-    override fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit {
+    override fun createUsersWithListInput(user: kotlin.collections.List<@Valid User>): Unit {
         TODO("Implement me")
     }
 
