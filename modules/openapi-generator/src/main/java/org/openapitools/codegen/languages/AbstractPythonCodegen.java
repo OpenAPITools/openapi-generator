@@ -1119,6 +1119,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add(PYDANTIC, "ConfigDict");
             }
 
+            // An OpenAPI 3.1 `type: "null"` property can only hold null, so treat it as nullable:
+            // to_dict() then keeps an explicitly set None instead of dropping it.
+            for (List<CodegenProperty> vars : Arrays.asList(model.vars, model.allVars)) {
+                for (CodegenProperty cp : vars) {
+                    if (cp.getIsNull()) {
+                        cp.isNullable = true;
+                    }
+                }
+            }
+
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
                 // is readOnly?
