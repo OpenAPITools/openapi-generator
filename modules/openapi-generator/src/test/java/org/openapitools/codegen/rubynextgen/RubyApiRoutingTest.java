@@ -82,4 +82,24 @@ public class RubyApiRoutingTest {
         assertEquals(route.resource, null);
         assertEquals(route.action, "list");
     }
+
+    @Test
+    public void testRouteSanitizesActionSegments() {
+        List<String> paths = Arrays.asList(
+                "/things",
+                "/things/{id}!preview",
+                "/things/{id}/re-index",
+                "/things/{id}/export.csv",
+                "/things/{id}:archive",
+                "/things/{id}/2fa",
+                "/things/{id}/!"
+        );
+        Set<String> r = RubyApiRouting.resourceSegments(paths);
+        assertEquals(RubyApiRouting.route("/things/{id}!preview", "GET", "previewThing", r, "").action, "preview");
+        assertEquals(RubyApiRouting.route("/things/{id}/re-index", "POST", "reindexThing", r, "").action, "re_index");
+        assertEquals(RubyApiRouting.route("/things/{id}/export.csv", "GET", "exportThing", r, "").action, "export_csv");
+        assertEquals(RubyApiRouting.route("/things/{id}:archive", "POST", "archiveThing", r, "").action, "archive");
+        assertEquals(RubyApiRouting.route("/things/{id}/2fa", "POST", "twoFactorThing", r, "").action, "_2fa");
+        assertEquals(RubyApiRouting.route("/things/{id}/!", "GET", "bangThing", r, "").action, "list");
+    }
 }
