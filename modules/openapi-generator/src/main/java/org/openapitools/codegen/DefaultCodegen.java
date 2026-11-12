@@ -4030,12 +4030,15 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema == null || !visitedSchemas.add(schema)) {
             return required;
         }
+        // collect the schema's own `required` before following $ref: in OAS
+        // 3.1 a `required` list may sit next to $ref and would otherwise be
+        // dropped when only the referenced schema is visited
+        if (schema.getRequired() != null) {
+            required.addAll(schema.getRequired());
+        }
         if (StringUtils.isNotBlank(schema.get$ref())) {
             required.addAll(guaranteedRequired(ModelUtils.getReferencedSchema(this.openAPI, schema), visitedSchemas));
             return required;
-        }
-        if (schema.getRequired() != null) {
-            required.addAll(schema.getRequired());
         }
         if (schema.getAllOf() != null) {
             for (Object component : schema.getAllOf()) {

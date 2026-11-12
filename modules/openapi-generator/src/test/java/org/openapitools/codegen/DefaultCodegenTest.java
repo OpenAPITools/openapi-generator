@@ -681,6 +681,31 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testRequiredSiblingOfRefApplies() {
+        // OAS 3.1 allows a `required` list next to $ref (JSON Schema 2020-12).
+        // guaranteedRequired used to return the referenced schema's entries
+        // only, silently dropping the sibling list
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/form-ref-sibling-required.yaml");
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        for (String path : new String[]{"/register-ref-sibling", "/register-inline-sibling"}) {
+            RequestBody requestBody = openAPI.getPaths().get(path).getPost().getRequestBody();
+            List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+            Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                    .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+            assertTrue(paramsByBaseName.get("base_req").required,
+                    path + ": required of the referenced schema must apply");
+            assertTrue(paramsByBaseName.get("extra").required,
+                    path + ": required listed next to $ref must apply");
+            assertFalse(paramsByBaseName.get("optional_field").required,
+                    path + ": non-required property stays optional");
+        }
+    }
+
+    @Test
     public void testOriginalOpenApiDocumentVersion() {
         // Test with OAS 2.0 document.
         String location = "src/test/resources/2_0/python-prior/petstore-with-fake-endpoints-models-for-testing.yaml";

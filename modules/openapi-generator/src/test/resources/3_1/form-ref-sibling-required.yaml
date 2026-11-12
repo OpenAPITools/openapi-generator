@@ -1,0 +1,52 @@
+openapi: 3.1.0
+info:
+  title: form required sibling of $ref
+  version: 1.0.0
+paths:
+  /register-ref-sibling:
+    post:
+      operationId: registerRefSibling
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RefCarryingRequired'
+      responses:
+        '200':
+          description: ok
+  /register-inline-sibling:
+    post:
+      operationId: registerInlineSibling
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Base'
+                  required:
+                    - extra
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    # OAS 3.1 (JSON Schema 2020-12) allows keywords next to $ref; the
+    # `required` here must apply on top of the referenced schema's own list
+    RefCarryingRequired:
+      $ref: '#/components/schemas/Base'
+      required:
+        - extra
+    Base:
+      type: object
+      required:
+        - base_req
+      properties:
+        base_req:
+          type: string
+        extra:
+          type: string
+        optional_field:
+          type: string
