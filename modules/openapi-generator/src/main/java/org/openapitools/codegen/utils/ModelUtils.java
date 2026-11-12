@@ -2884,9 +2884,10 @@ public class ModelUtils {
             }
         }
 
-        // Untyped predicates and annotations are not null-only schemas.
+        // Validation, enum/const, structural schemas and format annotations are not null-only.
         if (!"null".equals(schema.getType()) && (hasValidation(schema)
-                || !isMetadataOnlySchema(schema) || schema.getFormat() != null)) {
+                || !isMetadataOnlySchema(schema) || schema.getFormat() != null
+                || schema.getEnum() != null || schema.getConst() != null)) {
             return false;
         }
 

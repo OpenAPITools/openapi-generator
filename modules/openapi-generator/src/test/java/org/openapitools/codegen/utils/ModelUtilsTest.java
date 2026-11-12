@@ -84,6 +84,23 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void untypedEnumAndConstAreNotNullTypes() {
+        OpenAPI openAPI = new OpenAPI();
+        for (Schema schema : List.of(new Schema()._enum(List.of("allowed")),
+                new JsonSchema()._enum(List.of("allowed")), new JsonSchema()._const("allowed"))) {
+            assertFalse(ModelUtils.isNullTypeSchema(openAPI, schema));
+            Schema parent = new ComposedSchema().type("string")
+                    .anyOf(new ArrayList<>(List.of(schema, new Schema().type("null"))));
+            Schema normalized = ModelUtils.simplifyOneOfAnyOfWithOnlyOneNonNullSubSchema(
+                    openAPI, parent, parent.getAnyOf());
+            assertEquals(normalized.getType(), "string");
+            assertEquals(normalized.getAnyOf(), List.of(schema));
+            assertNotEquals(normalized.getNullable(), Boolean.TRUE);
+        }
+        assertTrue(ModelUtils.isNullTypeSchema(openAPI, new Schema()._enum(Arrays.asList((Object) null))));
+    }
+
+    @Test
     public void containsWithoutTypeIsNotNull() {
         assertFalse(ModelUtils.isNullTypeSchema(new OpenAPI(),
                 new JsonSchema().contains(new JsonSchema().pattern("^[a-z]+$"))));

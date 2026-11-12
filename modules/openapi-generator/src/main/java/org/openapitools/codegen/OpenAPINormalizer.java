@@ -2298,7 +2298,8 @@ public class OpenAPINormalizer {
 
         if (schema instanceof JsonSchema &&
                 schema.get$schema() == null && ModelUtils.isMetadataOnlySchema(schema)
-                && !ModelUtils.hasValidation(schema) && schema.getFormat() == null) {
+                && !ModelUtils.hasValidation(schema) && schema.getFormat() == null
+                && schema.getEnum() == null && schema.getConst() == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:

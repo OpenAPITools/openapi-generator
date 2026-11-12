@@ -120,6 +120,24 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testNormalize31PreservesUntypedEnumAndConst() {
+        OpenAPINormalizer normalizer = new OpenAPINormalizer(new OpenAPI(),
+                Map.of("NORMALIZE_31SPEC", "true", "SIMPLIFY_ONEOF_ANYOF_ENUM", "false"));
+        for (Schema branch : List.of(new JsonSchema()._enum(List.of("allowed")),
+                new JsonSchema()._const("allowed"))) {
+            Schema parent = new ComposedSchema().type("string")
+                    .anyOf(new ArrayList<>(List.of(branch)));
+            Schema normalized = normalizer.normalizeSchema(parent, new HashSet<>());
+            assertEquals(normalized.getType(), "string");
+            assertNotEquals(normalized.getNullable(), Boolean.TRUE);
+            assertEquals(normalized.getAnyOf().size(), 1);
+            Schema alternative = (Schema) normalized.getAnyOf().get(0);
+            assertEquals(alternative.getEnum(), branch.getEnum());
+            assertEquals(alternative.getConst(), branch.getConst());
+        }
+    }
+
+    @Test
     public void testNormalize31PreservesContainsWithoutType() {
         OpenAPINormalizer normalizer = new OpenAPINormalizer(new OpenAPI(), Map.of("NORMALIZE_31SPEC", "true"));
         Schema schema = new JsonSchema().description("At least one matching item")
