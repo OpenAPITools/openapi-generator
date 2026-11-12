@@ -3263,11 +3263,11 @@ public class DefaultCodegen implements CodegenConfig {
         final String inheritedFrom = supportsInheritance ? parentName : null;
         // without disallowAdditionalPropertiesIfNotPresent every schema declares additional properties implicitly
         if (inheritedFrom != null && parent != null
-                && (!disallowAdditionalPropertiesIfNotPresent || declaredAdditionalProperties(m.name, parent, null, new HashSet<>()) != null)) {
+                && (!disallowAdditionalPropertiesIfNotPresent || isAdditionalPropertiesDeclared(declaredAdditionalProperties(m.name, parent, null, new HashSet<>())))) {
             return;
         }
         Schema declared = declaredAdditionalProperties(m.name, schema, inheritedFrom, new HashSet<>());
-        if (declared == null) {
+        if (!isAdditionalPropertiesDeclared(declared)) {
             return;
         }
         Schema withAdditionalProperties = new Schema();
@@ -3277,6 +3277,13 @@ public class DefaultCodegen implements CodegenConfig {
         addAdditionPropertiesToCodeGenModel(m, withAdditionalProperties);
         m.parent = modelParent;
         setAddProps(withAdditionalProperties, m);
+    }
+
+    /** Marks 'additionalProperties: false' in {@link #declaredAdditionalProperties}, compared by identity. */
+    private static final Schema NO_ADDITIONAL_PROPERTIES = new Schema();
+
+    private static boolean isAdditionalPropertiesDeclared(Schema declared) {
+        return declared != null && declared != NO_ADDITIONAL_PROPERTIES;
     }
 
     /**
@@ -3289,7 +3296,8 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schema     the schema to inspect.
      * @param skippedRef the name of a '$ref' member to ignore, null if none.
      * @param visited    the names of the referenced schemas already inspected, which guards against cycles.
-     * @return the value schema, null if the keyword is absent or false.
+     * @return the value schema, null if the keyword is absent, NO_ADDITIONAL_PROPERTIES if a member states false:
+     * allOf is an intersection, so that member forbids the additional properties that the other members declare.
      */
     private Schema declaredAdditionalProperties(String modelName, Schema schema, String skippedRef, Set<String> visited) {
         final Object keyword = schema.getAdditionalProperties();
@@ -3299,10 +3307,14 @@ public class DefaultCodegen implements CodegenConfig {
         if (Boolean.TRUE.equals(keyword)) {
             return new Schema();
         }
+        if (Boolean.FALSE.equals(keyword)) {
+            return NO_ADDITIONAL_PROPERTIES;
+        }
         if (schema.getAllOf() == null) {
             return null;
         }
         Schema declared = null;
+        boolean forbidden = false;
         for (Object allOfMember : schema.getAllOf()) {
             Schema member = (Schema) allOfMember;
             if (member.get$ref() != null) {
@@ -3313,7 +3325,9 @@ public class DefaultCodegen implements CodegenConfig {
                 member = ModelUtils.getReferencedSchema(openAPI, member);
             }
             final Schema memberDeclared = declaredAdditionalProperties(modelName, member, null, visited);
-            if (memberDeclared != null) {
+            if (memberDeclared == NO_ADDITIONAL_PROPERTIES) {
+                forbidden = true;
+            } else if (memberDeclared != null) {
                 if (declared == null) {
                     declared = memberDeclared;
                 } else if (!getTypeDeclaration(declared).equals(getTypeDeclaration(memberDeclared))) {
@@ -3323,7 +3337,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-        return declared;
+        return forbidden ? NO_ADDITIONAL_PROPERTIES : declared;
     }
 
     /**
