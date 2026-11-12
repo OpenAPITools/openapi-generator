@@ -41,7 +41,9 @@ public class HttpBasicAuth implements Authentication {
       return;
     }
     // UTF-8 explicitly: Credentials.basic defaults to ISO-8859-1, which turns every character
-    // outside Latin-1 into '?'. The other Java client libraries encode the credentials as UTF-8 too.
+    // outside Latin-1 into '?'. This matches the shared Java HttpBasicAuth template. It differs on
+    // purpose from okhttp-gson and retrofit2, which keep the ISO-8859-1 default, so for such
+    // credentials this library sends a different Authorization header than okhttp-gson does.
     headerParams.put("Authorization", Credentials.basic(username == null ? "" : username, password == null ? "" : password, StandardCharsets.UTF_8));
   }
 }
