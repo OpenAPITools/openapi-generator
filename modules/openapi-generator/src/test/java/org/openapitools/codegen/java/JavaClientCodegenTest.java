@@ -3589,6 +3589,45 @@ public class JavaClientCodegenTest {
                 );
     }
 
+    /**
+     * The shallow copy made by toBuilder() carries the additionalProperties map of the model, for a plain model, an
+     * allOf model whose member declares the map and an allOf model under a discriminator parent.
+     */
+    @Test
+    void testToBuilderCopiesAdditionalProperties() throws IOException {
+        for (String library : List.of(JavaClientCodegen.NATIVE, JavaClientCodegen.RESTTEMPLATE,
+                JavaClientCodegen.WEBCLIENT, JavaClientCodegen.RESTCLIENT)) {
+            Map<String, File> files = generateFromContract(
+                    "src/test/resources/3_0/allof-member-additional-properties.yaml",
+                    library,
+                    Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE)
+            );
+
+            for (String model : List.of("PlainStr", "FlatInlineStr", "ChildInlineStr")) {
+                String source = Files.readString(files.get(model + ".java").toPath());
+                assertThat(methodBody(source, model + ".Builder toBuilder()"))
+                        .as("%s.toBuilder() in %s", model, library)
+                        .contains("dditionalProperties");
+            }
+        }
+    }
+
+    /** The text of the method whose declaration starts with the signature, braces balanced. */
+    private static String methodBody(String source, String signature) {
+        int start = source.indexOf(signature);
+        assertThat(start).as("%s is generated", signature).isNotNegative();
+        int open = source.indexOf('{', start);
+        int depth = 0;
+        for (int i = open; i < source.length(); i++) {
+            if (source.charAt(i) == '{') {
+                depth++;
+            } else if (source.charAt(i) == '}' && --depth == 0) {
+                return source.substring(start, i + 1);
+            }
+        }
+        throw new AssertionError("unbalanced braces after " + signature);
+    }
+
     @DataProvider
     Iterator<String> serializationLibraries() {
         return new JavaClientCodegen().supportedLibraries().keySet().iterator();
