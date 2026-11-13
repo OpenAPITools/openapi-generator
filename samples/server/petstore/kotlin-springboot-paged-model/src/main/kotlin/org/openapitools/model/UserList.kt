@@ -23,7 +23,6 @@ import jakarta.validation.Valid
  */
 data class UserList(
 
-    @field:Valid
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("content")
