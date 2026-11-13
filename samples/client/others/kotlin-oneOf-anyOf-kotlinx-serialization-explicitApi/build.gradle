@@ -61,9 +61,9 @@ kotlin {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
+    api "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
     implementation "com.squareup.okhttp3:logging-interceptor:5.4.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-kotlinx-serialization:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"

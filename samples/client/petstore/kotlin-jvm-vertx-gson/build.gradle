@@ -55,9 +55,9 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.google.code.gson:gson:2.14.0"
+    api "com.google.code.gson:gson:2.14.0"
     implementation "io.vertx:vertx-web-client:$vertx_version"
-    implementation "io.vertx:vertx-core:$vertx_version"
+    api "io.vertx:vertx-core:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
     implementation "io.vertx:vertx-uri-template:$vertx_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
