@@ -25,6 +25,7 @@ import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -54,6 +55,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -151,6 +153,146 @@ public class JavaClientCodegenTest {
                 .iterator();
     }
 
+
+    @Test
+    public void testUint32AndUint64Formats() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        CodegenProperty uint32Property = codegen.fromProperty("uint32Value", new IntegerSchema().format("uint32"));
+        Assertions.assertEquals(uint32Property.dataType, "Long");
+        Assertions.assertEquals(uint32Property.baseType, "Long");
+        Assertions.assertTrue(uint32Property.isLong);
+        Assertions.assertFalse(uint32Property.isInteger);
+
+        CodegenProperty uint64Property = codegen.fromProperty("uint64Value", new IntegerSchema().format("uint64"));
+        Assertions.assertEquals(uint64Property.dataType, "BigInteger");
+        Assertions.assertEquals(uint64Property.baseType, "BigInteger");
+        Assertions.assertFalse(uint64Property.isLong);
+        Assertions.assertFalse(uint64Property.isInteger);
+        Assertions.assertTrue(uint64Property.isNumeric);
+    }
+
+    @Test
+    public void testSignedIntegerFormatsKeepDefaultFlags() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        CodegenProperty int32Property = codegen.fromProperty("int32Value", new IntegerSchema().format("int32"));
+        Assertions.assertEquals(int32Property.dataType, "Integer");
+        Assertions.assertTrue(int32Property.isInteger);
+        Assertions.assertTrue(int32Property.isShort);
+        Assertions.assertFalse(int32Property.isLong);
+
+        CodegenProperty int64Property = codegen.fromProperty("int64Value", new IntegerSchema().format("int64"));
+        Assertions.assertEquals(int64Property.dataType, "Long");
+        Assertions.assertTrue(int64Property.isLong);
+        Assertions.assertFalse(int64Property.isInteger);
+    }
+
+    @Test
+    public void testUint64ModelFlags() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        final Schema<?> schema = new IntegerSchema().format("uint64");
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("BigEnum", schema)));
+
+        CodegenModel model = codegen.fromModel("BigEnum", schema);
+        Assertions.assertEquals(model.dataType, "BigInteger");
+        Assertions.assertTrue(model.isNumeric);
+        Assertions.assertFalse(model.isInteger);
+        Assertions.assertFalse(model.isLong);
+        Assertions.assertTrue(model.imports.contains("BigInteger"));
+    }
+
+    @DataProvider(name = "unsignedIntegerLibraries")
+    public Object[][] unsignedIntegerLibraries() {
+        return new Object[][]{{JavaClientCodegen.NATIVE}, {JavaClientCodegen.OKHTTP_GSON}};
+    }
+
+    @Test(dataProvider = "unsignedIntegerLibraries")
+    public void testUnsignedIntegerFormatsGenerateCompilableCode(String library) {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/unsigned-integer-formats.yaml", library);
+
+        JavaFileAssert.assertThat(files.get("Thing.java"))
+                .fileContains(
+                        "import java.math.BigInteger;",
+                        "private BigInteger big;",
+                        "private BigInteger bigWithDefault = new BigInteger(\"5\");",
+                        "NUMBER_1(new BigInteger(\"1\"))",
+                        "private List<BigInteger> bigList",
+                        "private Long small = 5l;")
+                .fileDoesNotContain("BigInteger.valueOf(\"");
+        JavaFileAssert.assertThat(files.get("BigEnum.java"))
+                .fileContains(
+                        "import java.math.BigInteger;",
+                        "NUMBER_1(new BigInteger(\"1\"))",
+                        "NUMBER_9223372036854775807(new BigInteger(\"9223372036854775807\"))");
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .fileContains("import java.math.BigInteger;", "BigInteger id", "Long limit");
+
+        if (JavaClientCodegen.OKHTTP_GSON.equals(library)) {
+            // Gson's JsonReader has no nextBigInteger(), read the raw number as string instead
+            JavaFileAssert.assertThat(files.get("BigEnum.java"))
+                    .fileContains("new BigInteger(jsonReader.nextString())")
+                    .fileDoesNotContain("nextBigInteger()");
+            JavaFileAssert.assertThat(files.get("Thing.java"))
+                    .fileContains("new BigInteger(jsonReader.nextString())")
+                    .fileDoesNotContain("nextBigInteger()");
+        }
+    }
+
+    @Test
+    public void testIntegerTypeInferredFromRangeWhenFormatIsMissing() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        // small range with no format: stays the default Integer
+        CodegenProperty smallRange = codegen.fromProperty("smallRange",
+                new IntegerSchema().format(null).minimum(BigDecimal.ZERO).maximum(BigDecimal.valueOf(255)));
+        Assertions.assertEquals(smallRange.dataType, "Integer");
+        Assertions.assertTrue(smallRange.isInteger);
+        Assertions.assertFalse(smallRange.isLong);
+
+        // range exceeding Integer bounds with no format: widen to Long
+        CodegenProperty exceedsInteger = codegen.fromProperty("exceedsInteger",
+                new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.ONE)));
+        Assertions.assertEquals(exceedsInteger.dataType, "Long");
+        Assertions.assertTrue(exceedsInteger.isLong);
+        Assertions.assertFalse(exceedsInteger.isInteger);
+
+        // range exceeding Long bounds with no format: widen to BigInteger
+        CodegenProperty exceedsLong = codegen.fromProperty("exceedsLong",
+                new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.ONE)));
+        Assertions.assertEquals(exceedsLong.dataType, "BigInteger");
+        Assertions.assertFalse(exceedsLong.isLong);
+        Assertions.assertFalse(exceedsLong.isInteger);
+
+        // exclusiveMaximum pushes the effective bound just over the Integer limit
+        CodegenProperty exclusiveMax = codegen.fromProperty("exclusiveMax",
+                new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.valueOf(2))).exclusiveMaximum(true));
+        Assertions.assertEquals(exclusiveMax.dataType, "Long");
+        Assertions.assertTrue(exclusiveMax.isLong);
+    }
+
+    @Test
+    public void testResponseTypeInferredFromRangeKeepsIntegerFlagsInSync() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+
+        ApiResponse exceedsIntegerResponse = new ApiResponse().content(new Content().addMediaType(
+                "application/json",
+                new MediaType().schema(new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Integer.MAX_VALUE).add(BigDecimal.ONE)))
+        ));
+        CodegenResponse longResponse = codegen.fromResponse("200", exceedsIntegerResponse);
+        Assertions.assertEquals(longResponse.dataType, "Long");
+        Assertions.assertTrue(longResponse.isLong);
+        Assertions.assertFalse(longResponse.isInteger);
+
+        ApiResponse exceedsLongResponse = new ApiResponse().content(new Content().addMediaType(
+                "application/json",
+                new MediaType().schema(new IntegerSchema().format(null).maximum(BigDecimal.valueOf(Long.MAX_VALUE).add(BigDecimal.ONE)))
+        ));
+        CodegenResponse bigIntegerResponse = codegen.fromResponse("200", exceedsLongResponse);
+        Assertions.assertEquals(bigIntegerResponse.dataType, "BigInteger");
+        Assertions.assertFalse(bigIntegerResponse.isLong);
+        Assertions.assertFalse(bigIntegerResponse.isInteger);
+    }
 
     @Test
     public void arraysInRequestBody() {
