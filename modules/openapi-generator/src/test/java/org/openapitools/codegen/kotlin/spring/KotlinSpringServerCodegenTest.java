@@ -1555,6 +1555,111 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void generateHttpInterfaceJsonValueEnumToStringConverterWithJackson2() throws Exception {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", new HashMap<>(), new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        File converter = files.get("JsonValueEnumToStringConverter.kt");
+        Assertions.assertThat(converter).isNotNull();
+        Assertions.assertThat(converter.toPath().toString().replace(File.separator, "/"))
+                .endsWith("src/main/kotlin/org/openapitools/configuration/JsonValueEnumToStringConverter.kt");
+        assertFileContains(converter.toPath(),
+                "package org.openapitools.configuration",
+                "import com.fasterxml.jackson.databind.ObjectMapper",
+                "private val objectMapper: ObjectMapper = ObjectMapper()",
+                ") : Converter<Enum<*>, String> {",
+                "objectMapper.convertValue(source, String::class.java)",
+                "addConverter(JsonValueEnumToStringConverter())",
+                " * src/main/kotlin/org/openapitools/configuration/JsonValueEnumToStringConverter.kt");
+        assertFileNotContains(converter.toPath(), "tools.jackson", "**/");
+        assertFileContains(files.get("README.md").toPath(),
+                "## Enum arguments",
+                "import org.openapitools.configuration.JsonValueEnumToStringConverter",
+                "import org.springframework.format.support.DefaultFormattingConversionService",
+                "import org.springframework.web.client.support.RestClientAdapter",
+                "import org.springframework.web.service.invoker.HttpServiceProxyFactory",
+                "HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient))",
+                "src/main/kotlin/org/openapitools/configuration/JsonValueEnumToStringConverter.kt");
+        assertFileNotContains(files.get("README.md").toPath(), "WebClientAdapter");
+    }
+
+    @Test
+    public void generateReactiveHttpInterfaceReadmeRegistersConverterWithWebClientAdapter() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(KotlinSpringServerCodegen.REACTIVE, true);
+        props.put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        Path readme = files.get("README.md").toPath();
+        assertFileContains(readme,
+                "import org.springframework.web.reactive.function.client.support.WebClientAdapter",
+                "HttpServiceProxyFactory.builderFor(WebClientAdapter.create(webClient))");
+        assertFileNotContains(readme, "RestClientAdapter");
+    }
+
+    @Test
+    public void generateHttpInterfaceJsonValueEnumToStringConverterWithJackson3() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(KotlinSpringServerCodegen.CONFIG_PACKAGE, "com.example.config");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        Path converter = files.get("JsonValueEnumToStringConverter.kt").toPath();
+        assertFileContains(converter,
+                "package com.example.config",
+                "import tools.jackson.databind.ObjectMapper",
+                "import tools.jackson.databind.json.JsonMapper",
+                "private val objectMapper: ObjectMapper = JsonMapper.builder().build()",
+                " * src/main/kotlin/com/example/config/JsonValueEnumToStringConverter.kt");
+        assertFileNotContains(converter, "com.fasterxml.jackson");
+    }
+
+    @Test
+    public void generateHttpInterfaceJsonValueEnumToStringConverterCanBeIgnored() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        Files.writeString(output.toPath().resolve(".openapi-generator-ignore"),
+                "src/main/kotlin/org/openapitools/configuration/JsonValueEnumToStringConverter.kt\n");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", new HashMap<>(), new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)
+                        .setOutputDir(output.getAbsolutePath()));
+
+        Assertions.assertThat(files).doesNotContainKey("JsonValueEnumToStringConverter.kt");
+        Assertions.assertThat(files).containsKey("PetApi.kt");
+        Assertions.assertThat(output.toPath().resolve("src/main/kotlin/org/openapitools/configuration/JsonValueEnumToStringConverter.kt"))
+                .doesNotExist();
+    }
+
+    @Test
+    public void generateHttpInterfaceJsonValueEnumToStringConverterCanBeIgnoredViaIgnoreFileOverride() throws Exception {
+        File ignoreFile = Files.createTempFile("openapi-generator-ignore", "").toFile();
+        ignoreFile.deleteOnExit();
+        Files.writeString(ignoreFile.toPath(), "**/JsonValueEnumToStringConverter.kt\n");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", new HashMap<>(), new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)
+                        .setIgnoreFileOverride(ignoreFile.getAbsolutePath()));
+
+        Assertions.assertThat(files).doesNotContainKey("JsonValueEnumToStringConverter.kt");
+        Assertions.assertThat(files).containsKey("PetApi.kt");
+        assertFileContains(files.get("README.md").toPath(), "**/JsonValueEnumToStringConverter.kt");
+    }
+
+    @Test
+    public void jsonValueEnumToStringConverterIsOnlyGeneratedForDeclarativeHttpInterface() throws Exception {
+        Assertions.assertThat(generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml"))
+                .doesNotContainKey("JsonValueEnumToStringConverter.kt");
+        Assertions.assertThat(generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", new HashMap<>(), new HashMap<>(),
+                        configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY)))
+                .doesNotContainKey("JsonValueEnumToStringConverter.kt");
+    }
+
+    @Test
     public void shouldRefuseClientRegistrationIdWithoutSpringBoot4() {
         Map<String, Object> props = new HashMap<>();
         props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
