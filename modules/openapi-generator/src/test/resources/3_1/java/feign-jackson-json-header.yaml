@@ -1,0 +1,48 @@
+openapi: 3.1.0
+info:
+  title: Feign JSON header
+  version: 1.0.0
+paths:
+  /array:
+    get:
+      operationId: getArray
+      parameters:
+        - name: X-Json-Array
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HeaderArg'
+      responses:
+        '204':
+          description: Success
+  /metadata:
+    get:
+      operationId: getMetadata
+      parameters:
+        - name: X-Json-Arg
+          in: header
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HeaderArg'
+        - name: X-Plain
+          in: header
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Success
+components:
+  schemas:
+    HeaderArg:
+      type: object
+      properties:
+        path:
+          type: string
+        optionalValue:
+          type: string

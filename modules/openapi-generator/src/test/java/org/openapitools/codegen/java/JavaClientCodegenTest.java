@@ -81,6 +81,39 @@ public class JavaClientCodegenTest {
 
     private static final String JAVA_GENERATOR = "java";
 
+    @Test
+    public void testFeignJacksonJsonHeader() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(FEIGN)
+                .addAdditionalProperty("serializationLibrary", "jackson")
+                .setInputSpec("src/test/resources/3_1/java/feign-jackson-json-header.yaml")
+                .setOutputDir(output.toString());
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+        Path java = output.resolve("src/main/java/org/openapitools/client");
+        assertThat(java.resolve("api/DefaultApi.java")).content()
+                .contains("@Param(value=\"xJsonArg\", expander=ApiClient.JsonHeaderParamExpander.class)",
+                        "@Param(\"xPlain\")");
+        assertThat(java.resolve("ApiClient.java")).content()
+                .contains("class JsonHeaderParamExpander", "ESCAPE_NON_ASCII", "writeValueAsString(value)");
+    }
+
+    @Test
+    public void testFeignJacksonResponseHeaderDoesNotEnableRequestExpander() {
+        Path output = newTempFolder();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(FEIGN)
+                .addAdditionalProperty("serializationLibrary", "jackson")
+                .setInputSpec("src/test/resources/3_1/java/feign-jackson-response-header.yaml")
+                .setOutputDir(output.toString());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        assertThat(output.resolve("src/main/java/org/openapitools/client/ApiClient.java"))
+                .content().doesNotContain("JsonHeaderParamExpander");
+    }
+
     // This is the kind of information that ideally would be defined and available system-wide
     @Getter
     enum Library {
