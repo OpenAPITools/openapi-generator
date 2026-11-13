@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: Form webhook test
+  version: 1.0.0
+paths: {}
+webhooks:
+  newThing:
+    post:
+      operationId: on_new_thing
+      requestBody:
+        x-body-name: payload
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: OK

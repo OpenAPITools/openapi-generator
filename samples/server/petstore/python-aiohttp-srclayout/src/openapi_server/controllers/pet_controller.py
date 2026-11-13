@@ -83,33 +83,36 @@ async def update_pet(request: web.Request, body) -> web.Response:
     return web.Response(status=200)
 
 
-async def update_pet_with_form(request: web.Request, pet_id, name=None, status=None) -> web.Response:
+async def update_pet_with_form(request: web.Request, pet_id, body=None) -> web.Response:
     """Updates a pet in the store with form data
 
     
 
     :param pet_id: ID of pet that needs to be updated
     :type pet_id: int
-    :param name: Updated name of the pet
-    :type name: str
-    :param status: Updated status of the pet
-    :type status: str
+    :param body: Form fields: name (str): Updated name of the pet; status (str): Updated status of the pet
+    :type body: dict
 
     """
+    _form_body = body or {}
+    name = _form_body.get('name')
+    status = _form_body.get('status')
     return web.Response(status=200)
 
 
-async def upload_file(request: web.Request, pet_id, additional_metadata=None, file=None) -> web.Response:
+async def upload_file(request: web.Request, pet_id, body=None, file=None) -> web.Response:
     """uploads an image
 
     
 
     :param pet_id: ID of pet to update
     :type pet_id: int
-    :param additional_metadata: Additional data to pass to server
-    :type additional_metadata: str
+    :param body: Form fields: additionalMetadata (str): Additional data to pass to server
+    :type body: dict
     :param file: file to upload
     :type file: str
 
     """
+    _form_body = body or {}
+    additional_metadata = _form_body.get('additionalMetadata')
     return web.Response(status=200)

@@ -85,6 +85,11 @@ public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexion
         additionalProperties.put(CONNEXION_CONTEXT_ARG_NAME, DEFAULT_CONNEXION_CONTEXT_ARG_NAME);
     }
 
+    @Override
+    protected boolean collapseFormBodyToDictArgument() {
+        return true;
+    }
+
     /**
      * Configures a friendly name for the generator.  This will be used by the generator
      * to select the library with the -g flag.

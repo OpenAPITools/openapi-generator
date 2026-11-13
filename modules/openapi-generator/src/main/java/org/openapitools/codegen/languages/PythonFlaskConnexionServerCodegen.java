@@ -65,6 +65,18 @@ public class PythonFlaskConnexionServerCodegen extends AbstractPythonConnexionSe
     }
 
     @Override
+    protected boolean collapseFormBodyToDictArgument() {
+        return true;
+    }
+
+    @Override
+    protected boolean honorSchemaLevelBodyName() {
+        // Connexion 3.x only reads x-body-name on the requestBody; the deprecated
+        // schema-level extension is a Connexion 2.x fallback.
+        return !useConnexion3;
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         postProcessConnexion3OperationMap(objs.getOperations());
