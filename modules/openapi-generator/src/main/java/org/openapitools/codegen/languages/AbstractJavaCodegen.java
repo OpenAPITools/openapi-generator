@@ -110,6 +110,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String USE_JSPECIFY = "useJspecify";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
+    /**
+     * Vendor extension set on array, set and map properties: the class their {@code add<Name>Item} and
+     * {@code put<Name>Item} helpers instantiate when the container is still {@code null}. It is the configured
+     * {@code instantiationTypes} entry for the property's container type, {@code ArrayList}, {@code LinkedHashSet}
+     * or {@code HashMap} unless overridden.
+     */
+    public static final String X_JAVA_CONTAINER_INSTANTIATION_TYPE = "x-java-container-instantiation-type";
     public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
@@ -1479,6 +1486,31 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             return null;
         }
+    }
+
+    @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        if (property != null) {
+            String instantiationType = containerInstantiationType(property.containerType);
+            if (instantiationType != null) {
+                property.vendorExtensions.put(X_JAVA_CONTAINER_INSTANTIATION_TYPE, instantiationType);
+            }
+        }
+        return property;
+    }
+
+    private String containerInstantiationType(String containerType) {
+        if ("array".equals(containerType)) {
+            return instantiationTypes().getOrDefault("array", "ArrayList");
+        }
+        if ("set".equals(containerType)) {
+            return instantiationTypes().getOrDefault("set", "LinkedHashSet");
+        }
+        if ("map".equals(containerType)) {
+            return instantiationTypes().getOrDefault("map", "HashMap");
+        }
+        return null;
     }
 
     @Override
