@@ -1590,6 +1590,45 @@ public class KotlinClientCodegenModelTest {
                 "Expected at least one generated model with @JsonTypeInfo to exercise the code path");
     }
 
+    @Test
+    public void testDisableDiscriminatorJsonIgnorePropertiesUsesExistingProperty() throws IOException {
+        String defaultContent = generateJacksonModelsContent(false);
+        Assert.assertTrue(defaultContent.contains("@JsonTypeInfo"), "Expected a model with @JsonTypeInfo");
+        Assert.assertTrue(defaultContent.contains("@JsonIgnoreProperties("));
+        Assert.assertTrue(defaultContent.contains("JsonTypeInfo.As.PROPERTY"));
+        Assert.assertFalse(defaultContent.contains("EXISTING_PROPERTY"));
+
+        String optionContent = generateJacksonModelsContent(true);
+        Assert.assertTrue(optionContent.contains("JsonTypeInfo.As.EXISTING_PROPERTY"));
+        Assert.assertFalse(optionContent.contains("@JsonIgnoreProperties("));
+        Assert.assertFalse(optionContent.contains("JsonTypeInfo.As.PROPERTY"));
+    }
+
+    private String generateJacksonModelsContent(boolean disableDiscriminatorJsonIgnoreProperties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setInputSpec("src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(KotlinClientCodegen.DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, disableDiscriminatorJsonIgnoreProperties);
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        File modelsDir = Paths.get(output.getAbsolutePath(), "src/main/kotlin/org/openapitools/client/models").toFile();
+        StringBuilder content = new StringBuilder();
+        for (File modelFile : modelsDir.listFiles()) {
+            String text = Files.readString(modelFile.toPath());
+            // Only keep the annotations; the unused import line would otherwise defeat the negative assertions.
+            if (text.contains("@JsonTypeInfo")) {
+                content.append(text.replace("import com.fasterxml.jackson.annotation.JsonIgnoreProperties", ""));
+            }
+        }
+        return content.toString();
+    }
+
     /**
      * AbstractKotlinCodegen calls cliOptions.clear(), so an option inherited from DefaultCodegen stays
      * functional while vanishing from config-help and docs/generators/kotlin.md. That is how

@@ -100,6 +100,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
     public static final String USE_SETTINGS_GRADLE = "useSettingsGradle";
     public static final String IDEA = "idea";
+    public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
     public static final String USE_RESPONSE_AS_RETURN_TYPE = "useResponseAsReturnType";
@@ -140,6 +141,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     @Setter protected boolean generateOneOfAnyOfWrappers = true;
     @Getter @Setter protected boolean failOnUnknownProperties = false;
     @Setter protected boolean companionObject = false;
+    @Setter protected boolean disableDiscriminatorJsonIgnoreProperties = false;
 
     protected Map<String, String> typeInfoDefaultImpls = new HashMap<>();
 
@@ -318,6 +320,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 .defaultValue("empty map"));
 
         cliOptions.add(CliOption.newBoolean(COMPANION_OBJECT, "Whether to generate companion objects in data classes, enabling companion extensions.", false));
+        cliOptions.add(CliOption.newBoolean(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "Do not generate @JsonIgnoreProperties for the discriminator and use Jackson's `JsonTypeInfo.As.EXISTING_PROPERTY` instead, so the discriminator is serialized from the model's own property. Requires the jackson serialization library.", disableDiscriminatorJsonIgnoreProperties));
 
         CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
         cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
@@ -580,6 +583,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             setCompanionObject(convertPropertyToBooleanAndWriteBack(COMPANION_OBJECT));
         } else {
             additionalProperties.put(COMPANION_OBJECT, companionObject);
+        }
+
+        if (additionalProperties.containsKey(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES)) {
+            setDisableDiscriminatorJsonIgnoreProperties(convertPropertyToBooleanAndWriteBack(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES));
+        } else {
+            additionalProperties.put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, disableDiscriminatorJsonIgnoreProperties);
         }
 
         commonSupportingFiles();
