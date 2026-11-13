@@ -110,6 +110,18 @@ public final class FooRef extends EntityRef implements Serializable, FooRefOrVal
   }
 
   @Override
+  public FooRef name(@jakarta.annotation.Nullable String name) {
+    this.setName(name);
+    return this;
+  }
+
+  @Override
+  public FooRef atReferredType(@jakarta.annotation.Nullable String atReferredType) {
+    this.setAtReferredType(atReferredType);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

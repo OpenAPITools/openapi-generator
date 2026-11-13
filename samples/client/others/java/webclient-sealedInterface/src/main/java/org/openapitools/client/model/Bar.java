@@ -167,6 +167,30 @@ public final class Bar extends Entity implements BarRefOrValue {
 
 
   @Override
+  public Bar href(@javax.annotation.Nullable String href) {
+    this.setHref(href);
+    return this;
+  }
+
+  @Override
+  public Bar atSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
+    this.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  @Override
+  public Bar atBaseType(@javax.annotation.Nullable String atBaseType) {
+    this.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  @Override
+  public Bar atType(@javax.annotation.Nonnull String atType) {
+    this.setAtType(atType);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;

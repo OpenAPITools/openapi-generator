@@ -106,6 +106,36 @@ public final class Foo extends Entity implements FooRefOrValue {
 
 
   @Override
+  public Foo href(@javax.annotation.Nullable String href) {
+    this.setHref(href);
+    return this;
+  }
+
+  @Override
+  public Foo id(@javax.annotation.Nullable String id) {
+    this.setId(id);
+    return this;
+  }
+
+  @Override
+  public Foo atSchemaLocation(@javax.annotation.Nullable String atSchemaLocation) {
+    this.setAtSchemaLocation(atSchemaLocation);
+    return this;
+  }
+
+  @Override
+  public Foo atBaseType(@javax.annotation.Nullable String atBaseType) {
+    this.setAtBaseType(atBaseType);
+    return this;
+  }
+
+  @Override
+  public Foo atType(@javax.annotation.Nonnull String atType) {
+    this.setAtType(atType);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
