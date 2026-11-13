@@ -4,6 +4,7 @@ go 1.23.0
 
 require (
 	github.com/stretchr/testify v1.10.0
+	gopkg.in/validator.v2 v2.0.1
 )
 
 require (

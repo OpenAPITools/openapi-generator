@@ -1,0 +1,18 @@
+valueValidator := validator.NewValidator()
+_ = valueValidator.SetValidationFunc("nullableRegexp", func(value interface{}, pattern string) error {
+	nullable, ok := value.(NullableString)
+	if !ok {
+		return validator.ErrUnsupported
+	}
+	if nullable.Get() == nil {
+		return nil
+	}
+	matches, err := regexp.MatchString(pattern, *nullable.Get())
+	if err != nil {
+		return validator.ErrBadParameter
+	}
+	if !matches {
+		return validator.ErrRegexp
+	}
+	return nil
+})
