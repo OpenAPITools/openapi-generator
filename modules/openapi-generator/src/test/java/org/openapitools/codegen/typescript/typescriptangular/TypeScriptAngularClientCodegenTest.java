@@ -733,4 +733,30 @@ public class TypeScriptAngularClientCodegenTest {
         TestUtils.assertFileContains(service, "public getPetResourceResource(options?: ApiHttpResourceOptions<string>)");
         TestUtils.assertFileNotContains(service, "public getPetResource(options?: ApiHttpResourceOptions<string>)");
     }
+
+    @Test
+    public void testAnyOfOfPrimitivesGeneratesUnionType() throws IOException {
+        Path spec = Files.createTempFile("anyof-primitives", ".yaml");
+        spec.toFile().deleteOnExit();
+        Files.writeString(spec, String.join("\n",
+                "openapi: 3.0.0",
+                "info: {title: anyof, version: 1.0.0}",
+                "paths: {}",
+                "components:",
+                "  schemas:",
+                "    Foo:",
+                "      type: object",
+                "      properties:",
+                "        bar: {anyOf: [{type: number}, {type: string}]}",
+                "        pet: {anyOf: [{$ref: '#/components/schemas/Cat'}, {$ref: '#/components/schemas/Dog'}]}",
+                "    Cat: {type: object, properties: {meow: {type: boolean}}}",
+                "    Dog: {type: object, properties: {bark: {type: boolean}}}",
+                ""));
+
+        File output = generateAngular(spec.toString(), new HashMap<>());
+
+        TestUtils.assertFileContains(Paths.get(output + "/model/fooBar.ts"), "export type FooBar = number | string;");
+        // anyOf of objects keeps merged interface
+        TestUtils.assertFileContains(Paths.get(output + "/model/fooPet.ts"), "export interface FooPet {");
+    }
 }
