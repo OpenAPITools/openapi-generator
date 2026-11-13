@@ -703,6 +703,27 @@ public class DefaultCodegenTest {
             assertFalse(paramsByBaseName.get("optional_field").required,
                     path + ": non-required property stays optional");
         }
+
+        // OAS 3.1 also allows allOf/oneOf/anyOf next to $ref; guaranteedRequired
+        // used to return after following the reference, dropping the sibling
+        // composition keywords
+        RequestBody requestBody = openAPI.getPaths().get("/register-ref-allof-sibling").getPost().getRequestBody();
+        List<CodegenParameter> formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        Map<String, CodegenParameter> paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("allof_req").required,
+                "required of an allOf member listed next to $ref must apply");
+
+        requestBody = openAPI.getPaths().get("/register-ref-oneof-sibling").getPost().getRequestBody();
+        formParams = codegen.fromRequestBodyToFormParameters(requestBody, new HashSet<>());
+        paramsByBaseName = formParams.stream()
+                .collect(Collectors.toMap(param -> param.baseName, param -> param));
+
+        assertTrue(paramsByBaseName.get("oneof_req").required,
+                "required shared by every oneOf branch listed next to $ref must apply");
+        assertFalse(paramsByBaseName.get("oneof_opt").required,
+                "non-required property of a oneOf branch stays optional");
     }
 
     @Test

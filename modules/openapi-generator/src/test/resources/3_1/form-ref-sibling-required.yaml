@@ -31,6 +31,32 @@ paths:
       responses:
         '200':
           description: ok
+  /register-ref-allof-sibling:
+    post:
+      operationId: registerRefAllofSibling
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RefWithSiblingAllOf'
+      responses:
+        '200':
+          description: ok
+  /register-ref-oneof-sibling:
+    post:
+      operationId: registerRefOneofSibling
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/RefWithSiblingOneOf'
+      responses:
+        '200':
+          description: ok
 components:
   schemas:
     # OAS 3.1 (JSON Schema 2020-12) allows keywords next to $ref; the
@@ -50,3 +76,32 @@ components:
           type: string
         optional_field:
           type: string
+    # composition keywords may sit next to $ref too: the allOf member's
+    # `required` must apply on top of the referenced schema's own list
+    RefWithSiblingAllOf:
+      $ref: '#/components/schemas/Base'
+      allOf:
+        - type: object
+          required:
+            - allof_req
+          properties:
+            allof_req:
+              type: string
+    # for oneOf only the entries every branch requires are guaranteed
+    RefWithSiblingOneOf:
+      $ref: '#/components/schemas/Base'
+      oneOf:
+        - type: object
+          required:
+            - oneof_req
+          properties:
+            oneof_req:
+              type: string
+        - type: object
+          required:
+            - oneof_req
+          properties:
+            oneof_req:
+              type: string
+            oneof_opt:
+              type: string

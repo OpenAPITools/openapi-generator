@@ -4036,9 +4036,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (schema.getRequired() != null) {
             required.addAll(schema.getRequired());
         }
+        // keep going after $ref: in OAS 3.1 allOf/oneOf/anyOf may also sit
+        // next to it and their guaranteed entries apply on top
         if (StringUtils.isNotBlank(schema.get$ref())) {
             required.addAll(guaranteedRequired(ModelUtils.getReferencedSchema(this.openAPI, schema), visitedSchemas));
-            return required;
         }
         if (schema.getAllOf() != null) {
             for (Object component : schema.getAllOf()) {
