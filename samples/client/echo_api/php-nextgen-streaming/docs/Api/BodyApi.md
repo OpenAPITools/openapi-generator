@@ -19,7 +19,7 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 ## `testBinaryGif()`
 
 ```php
-testBinaryGif(): \Psr\Http\Message\StreamInterface
+testBinaryGif(): \Psr\\Http\\Message\\StreamInterface
 ```
 
 Test binary (gif) response body
@@ -54,7 +54,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**\Psr\Http\Message\StreamInterface**](../Model/\Psr\Http\Message\StreamInterface.md)
+[**\Psr\\Http\\Message\\StreamInterface**](../Model/\Psr\\Http\\Message\\StreamInterface.md)
 
 ### Authorization
 
@@ -92,7 +92,7 @@ $apiInstance = new OpenAPI\Client\Api\BodyApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = '/path/to/file.txt'; // \Psr\Http\Message\StreamInterface
+$body = '/path/to/file.txt'; // \Psr\\Http\\Message\\StreamInterface
 
 try {
     $result = $apiInstance->testBodyApplicationOctetstreamBinary($body);
@@ -106,7 +106,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **body** | **\Psr\Http\Message\StreamInterface****\Psr\Http\Message\StreamInterface**|  | [optional] |
+| **body** | **\Psr\\Http\\Message\\StreamInterface****\Psr\\Http\\Message\\StreamInterface**|  | [optional] |
 
 ### Return type
 
@@ -148,7 +148,7 @@ $apiInstance = new OpenAPI\Client\Api\BodyApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$files = array('/path/to/file.txt'); // \Psr\Http\Message\StreamInterface[]
+$files = array('/path/to/file.txt'); // \Psr\\Http\\Message\\StreamInterface[]
 
 try {
     $result = $apiInstance->testBodyMultipartFormdataArrayOfBinary($files);
@@ -162,7 +162,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **files** | **\Psr\Http\Message\StreamInterface[]**|  | |
+| **files** | **\Psr\\Http\\Message\\StreamInterface[]**|  | |
 
 ### Return type
 
@@ -204,7 +204,7 @@ $apiInstance = new OpenAPI\Client\Api\BodyApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$my_file = '/path/to/file.txt'; // \Psr\Http\Message\StreamInterface
+$my_file = '/path/to/file.txt'; // \Psr\\Http\\Message\\StreamInterface
 
 try {
     $result = $apiInstance->testBodyMultipartFormdataSingleBinary($my_file);
@@ -218,7 +218,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **my_file** | **\Psr\Http\Message\StreamInterface****\Psr\Http\Message\StreamInterface**|  | [optional] |
+| **my_file** | **\Psr\\Http\\Message\\StreamInterface****\Psr\\Http\\Message\\StreamInterface**|  | [optional] |
 
 ### Return type
 
