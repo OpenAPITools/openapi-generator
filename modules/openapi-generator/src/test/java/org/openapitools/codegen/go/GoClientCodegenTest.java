@@ -648,6 +648,34 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testGoModContainsAwsModulesWithAWSV4Signature() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // the generated client imports aws-sdk-go-v2/aws (signer/v4) and
+        // aws-sdk-go-v2/credentials, which are separate Go modules and must be
+        // required explicitly for the project to build out of the box
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty("withAWSV4Signature", true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
+                "github.com/aws/aws-sdk-go-v2 v1.30.4",
+                "github.com/aws/aws-sdk-go-v2/credentials v1.17.8",
+                "github.com/aws/smithy-go v1.20.4 // indirect");
+        TestUtils.assertFileContains(Paths.get(output + "/go.sum"),
+                "github.com/aws/aws-sdk-go-v2 v1.30.4 h1:frhcagrVNrzmT95RJImMHgabt99vkXGslubDaDagTk8=",
+                "github.com/aws/aws-sdk-go-v2/credentials v1.17.8 h1:WUdNLXbyNbU07V/WFrSOBXqZTDgmmMNMgUFzpYOKJhw=",
+                "github.com/aws/smithy-go v1.20.4 h1:2HK1zBdPgRbjFOHlfeQZfpC4r72MOb9bZkiFwggKO+4=");
+    }
+
+    @Test
     public void testAdditionalPropertiesWithoutGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
