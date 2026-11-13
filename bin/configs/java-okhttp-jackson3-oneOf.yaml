@@ -1,0 +1,10 @@
+generatorName: java
+outputDir: samples/client/others/java/okhttp-jackson3-oneOf
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_twoPrimitives.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: okhttp-jackson3-oneOf
+  hideGenerationTimestamp: "true"
+  serializationLibrary: jackson
+  useJackson3: true

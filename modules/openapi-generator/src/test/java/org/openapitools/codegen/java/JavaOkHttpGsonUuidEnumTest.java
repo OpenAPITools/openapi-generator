@@ -44,15 +44,16 @@ public class JavaOkHttpGsonUuidEnumTest {
 
     @DataProvider
     public Object[][] caseInsensitiveOptions() {
-        return new Object[][]{{false}, {true}};
+        // the okhttp library shares the Gson inner-enum adapter shape and defaults to Gson serialization
+        return new Object[][]{{"okhttp-gson", false}, {"okhttp-gson", true}, {"okhttp", false}, {"okhttp", true}};
     }
 
     @Test(dataProvider = "caseInsensitiveOptions")
-    public void testUuidEnumGsonRoundTrip(boolean caseInsensitive) throws Exception {
+    public void testUuidEnumGsonRoundTrip(String library, boolean caseInsensitive) throws Exception {
         Path output = newTempFolder();
         CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
-                .setLibrary("okhttp-gson")
+                .setLibrary(library)
                 .setInputSpec("src/test/resources/3_0/issue_20952_inner_enum_comparison.yaml")
                 .setOutputDir(output.toString())
                 .addGlobalProperty("models", "")

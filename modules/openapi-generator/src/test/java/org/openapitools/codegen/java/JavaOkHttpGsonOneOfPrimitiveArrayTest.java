@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapterFactory;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import javax.tools.ToolProvider;
@@ -29,10 +30,15 @@ import static org.openapitools.codegen.TestUtils.newTempFolder;
 import static org.testng.Assert.*;
 
 public class JavaOkHttpGsonOneOfPrimitiveArrayTest {
-    @Test
-    public void testPrimitiveArrayRoundTrip() throws Exception {
+    @DataProvider
+    public Object[][] libraries() {
+        return new Object[][]{{"okhttp-gson"}, {"okhttp"}};
+    }
+
+    @Test(dataProvider = "libraries")
+    public void testPrimitiveArrayRoundTrip(String library) throws Exception {
         Path output = newTempFolder();
-        CodegenConfigurator config = new CodegenConfigurator().setGeneratorName("java").setLibrary("okhttp-gson")
+        CodegenConfigurator config = new CodegenConfigurator().setGeneratorName("java").setLibrary(library)
                 .setInputSpec("src/test/resources/3_0/java/oneof-primitive-array.yaml").setOutputDir(output.toString())
                 .addGlobalProperty("models", "").addGlobalProperty("modelDocs", "false")
                 .addGlobalProperty("modelTests", "false");
