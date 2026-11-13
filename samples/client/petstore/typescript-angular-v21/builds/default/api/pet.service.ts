@@ -9,7 +9,7 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Inject, Injectable, Optional }                      from '@angular/core';
+import { inject, Injectable }                      from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent, HttpContext 
         }       from '@angular/common/http';
@@ -33,8 +33,13 @@ import { BaseService } from '../api.base.service';
 })
 export class PetService extends BaseService {
 
-    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
-        super(basePath, configuration);
+    protected httpClient: HttpClient = inject(HttpClient);
+
+    constructor() {
+        super(
+          inject(BASE_PATH, { optional: true }) ?? undefined,
+          inject(Configuration, { optional: true }) ?? undefined
+        );
     }
 
     /**
