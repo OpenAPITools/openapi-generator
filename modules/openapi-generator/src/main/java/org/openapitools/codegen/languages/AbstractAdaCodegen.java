@@ -51,7 +51,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
     // Common media types.
     private static final String APPLICATION_XML = "application/xml";
     private static final String TEXT_XML = "text/xml";
-    private static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
     private static final String TEXT_PLAIN = "text/plain";
     private static final String APPLICATION_JSON = "application/json";
     private static final String APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
@@ -1206,10 +1205,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     private boolean isMimetypeMultipartFormData(String mimetype) {
         return mimetype.toLowerCase(Locale.ROOT).startsWith("multipart/form-data");
-    }
-
-    private boolean isMimetypeOctetStream(String mimetype) {
-        return mimetype.toLowerCase(Locale.ROOT).startsWith(APPLICATION_OCTET_STREAM);
     }
 
     private boolean isMimetypeMultipartRelated(String mimetype) {

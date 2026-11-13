@@ -598,7 +598,6 @@ public class InlineModelResolver {
             gatherInlineModels(schema, schemaName);
             if (isModelNeeded(schema)) {
                 // If this schema should be split into its own model, do so
-                //Schema refSchema = this.makeSchema(schemaName, schema);
                 mediaType.setSchema(this.makeSchemaInComponents(schemaName, schema));
             }
         }
@@ -804,29 +803,6 @@ public class InlineModelResolver {
                 gatherInlineModels(model, modelName);
             }
         }
-    }
-
-    /**
-     * This function fix models that are string (mostly enum). Before this fix, the
-     * example would look something like that in the doc: "\"example from def\""
-     *
-     * @param m Schema implementation
-     */
-    private void fixStringModel(Schema m) {
-        if (schemaIsOfType(m, "string") && schemaContainsExample(m)) {
-            String example = m.getExample().toString();
-            if (example.startsWith("\"") && example.endsWith("\"")) {
-                m.setExample(example.substring(1, example.length() - 1));
-            }
-        }
-    }
-
-    private boolean schemaIsOfType(Schema m, String type) {
-        return m.getType() != null && m.getType().equals(type);
-    }
-
-    private boolean schemaContainsExample(Schema m) {
-        return m.getExample() != null && m.getExample() != "";
     }
 
     /**
@@ -1141,19 +1117,6 @@ public class InlineModelResolver {
         this.copyVendorExtensions(schema, refSchema);
 
         return refSchema;
-    }
-
-    /**
-     * Make a Schema
-     *
-     * @param ref      new property name
-     * @param property Schema
-     * @return {@link Schema} A constructed OpenAPI property
-     */
-    private Schema makeSchema(String ref, Schema property) {
-        Schema newProperty = new Schema().$ref(ref);
-        this.copyVendorExtensions(property, newProperty);
-        return newProperty;
     }
 
     /**
