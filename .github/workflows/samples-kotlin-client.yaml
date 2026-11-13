@@ -99,6 +99,9 @@ jobs:
           - sample: samples/client/petstore/kotlin-jvm-microprofile-mutiny
             java: 17
             maven: true
+          - sample: samples/client/petstore/kotlin-jvm-ktor-jackson3
+            java: 17
+            test: true
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
@@ -123,7 +126,7 @@ jobs:
       - name: Build
         if: ${{ !matrix.maven }}
         working-directory: ${{ matrix.sample }}
-        run: ./gradlew build -x test
+        run: ./gradlew ${{ matrix.test && 'build' || 'build -x test' }}
       - name: Build and test MicroProfile client
         if: matrix.maven
         run: ./mvnw -B -f "${{ matrix.sample }}/pom.xml" clean test

@@ -1357,6 +1357,7 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
         TestUtils.assertFileNotContains(buildGradlePath, "io.ktor:ktor-serialization-jackson:");
         TestUtils.assertFileNotContains(buildGradlePath, "io.ktor:ktor-client-jackson:");
+        TestUtils.assertFileContains(buildGradlePath, "languageVersion.set(JavaLanguageVersion.of(17))");
     }
 
     @Test(description = "jvm-ktor without useJackson3 keeps the Jackson 2 ApiClient")
@@ -1378,6 +1379,9 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileContains(apiClientPath, "import io.ktor.serialization.jackson.*");
         TestUtils.assertFileContains(apiClientPath, "jsonBlock: ObjectMapper.() -> Unit = JSON_DEFAULT");
         TestUtils.assertFileNotContains(apiClientPath, "tools.jackson");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileNotContains(buildGradlePath, "jvmToolchain");
     }
 
     @Test(description = "useJackson3 switches the serializer and generated model imports to the tools.jackson package")

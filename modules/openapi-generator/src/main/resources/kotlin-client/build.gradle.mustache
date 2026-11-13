@@ -137,6 +137,16 @@ kotlin {
     }
 }
 {{/jvm-spring-restclient}}
+{{#jvm-ktor}}
+{{#useJackson3}}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+{{/useJackson3}}
+{{/jvm-ktor}}
 {{#jvm-microprofile}}
 
 kotlin {
