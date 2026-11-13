@@ -241,8 +241,10 @@ public class CodegenConfiguratorTest {
 
             // a custom method name may contain a dot (RFC 9110 tchar); the parser reports
             // it as "attribute paths.'/tasks'.M.FOO is unexpected" and it must surface as
-            // MISSING rather than being silently dropped
-            for (String method : new String[]{"M.FOO", "m.foo"}) {
+            // MISSING rather than being silently dropped. "variables.foo" shares its
+            // prefix with the nested server-variable typo messages the MISSING warning
+            // excludes, but has no second dot after "variables." and must still warn
+            for (String method : new String[]{"M.FOO", "m.foo", "variables.foo"}) {
                 List<ILoggingEvent> missingWarnLogs = listAppender.list.stream()
                         .filter(e -> e.getLevel() == ch.qos.logback.classic.Level.WARN)
                         .filter(e -> e.getFormattedMessage().contains("'" + method + "' at path '/tasks'"))

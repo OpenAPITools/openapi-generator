@@ -71,11 +71,13 @@ public class CodegenConfigurator {
     // and a path-parameter member with a "[name]" segment (e.g.
     // "attribute paths.'/tasks/{id}'.[id].requried is unexpected"), so the excluded characters
     // reject them. A typo inside a path-level server's variables map is reported without any
-    // "servers" segment (swagger-parser 2.1.48 reports
+    // "servers" segment, and the member name always carries a second dot after the variable
+    // name (swagger-parser 2.1.48 reports
     // "attribute paths.'/tasks'.variables.env.descripton is unexpected"), so the lookahead
-    // rejects a member starting with "variables.".
+    // rejects a member starting with "variables.<name>.". A custom method such as
+    // "variables.foo" has no second dot after "variables." and still matches.
     private static final Pattern UNEXPECTED_PATH_ITEM_ATTRIBUTE =
-            Pattern.compile("attribute paths\\.'([^']+)'\\.(?!variables\\.)([^\\[\\]()'\\s]+) is unexpected");
+            Pattern.compile("attribute paths\\.'([^']+)'\\.(?!variables\\.[^.\\[\\]()'\\s]+\\.)([^\\[\\]()'\\s]+) is unexpected");
 
     private GeneratorSettings.Builder generatorSettingsBuilder = GeneratorSettings.newBuilder();
     private WorkflowSettings.Builder workflowSettingsBuilder = WorkflowSettings.newBuilder();
