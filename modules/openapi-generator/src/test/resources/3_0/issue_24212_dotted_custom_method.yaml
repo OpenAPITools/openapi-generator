@@ -1,0 +1,39 @@
+# 'M.FOO' / 'm.foo' / 'variables.foo' below are custom HTTP method names
+# containing a dot, which RFC 9110 tchar permits ([!#$%&'*+\-.^_`|~0-9A-Za-z]).
+# swagger-parser does not know them, so it reports each as an unexpected
+# attribute:
+#   attribute paths.'/tasks'.M.FOO is unexpected
+#   attribute paths.'/tasks'.m.foo is unexpected
+#   attribute paths.'/tasks'.variables.foo is unexpected
+# 'variables.foo' shares its prefix with the nested server-variable typo
+# messages ("variables.<name>.<field>") that the MISSING warning keeps out;
+# unlike those it has no second dot after "variables.", so it must still warn.
+# This is the regression fixture for issue #24212's "a custom method name
+# containing a dot must still be reported as a dropped operation" test
+# (CodegenConfiguratorTest#shouldWarnAboutDroppedCustomMethodContainingDot).
+openapi: 3.0.3
+info:
+  title: issue 24212 dotted custom-method regression test
+  version: '1.0'
+paths:
+  /tasks:
+    get:
+      operationId: getTasks
+      responses:
+        '200':
+          description: OK
+    M.FOO:
+      operationId: mFooTasks
+      responses:
+        '200':
+          description: OK
+    m.foo:
+      operationId: mFooLowerTasks
+      responses:
+        '200':
+          description: OK
+    variables.foo:
+      operationId: variablesFooTasks
+      responses:
+        '200':
+          description: OK

@@ -64,12 +64,20 @@ public class CodegenConfigurator {
     // segment without single quotes so a message with a second quoted segment nested inside
     // the first (e.g. "attribute paths.'/tasks'.'x-custom'.nested is unexpected", which the
     // parser produces when the path template itself contains a quote) does NOT match -- such
-    // a nested member is not a dropped operation. The attribute name is likewise restricted
-    // to a single simple token so this does NOT match a typo'd key nested one level down
-    // (e.g. a path-level parameter or server object), which is reported under the same
-    // "paths.'X'." prefix but is not itself a dropped operation.
+    // a nested member is not a dropped operation. The attribute name may contain dots, since
+    // RFC 9110 tchar permits them in custom method names such as "M.FOO". Nested members that
+    // are not dropped operations are still kept out: a typo inside an operation is reported
+    // with a "(method)" segment (e.g. "attribute paths.'/tasks'(get).responsses is unexpected")
+    // and a path-parameter member with a "[name]" segment (e.g.
+    // "attribute paths.'/tasks/{id}'.[id].requried is unexpected"), so the excluded characters
+    // reject them. A typo inside a path-level server's variables map is reported without any
+    // "servers" segment, and the member name always carries a second dot after the variable
+    // name (swagger-parser 2.1.48 reports
+    // "attribute paths.'/tasks'.variables.env.descripton is unexpected"), so the lookahead
+    // rejects a member starting with "variables.<name>.". A custom method such as
+    // "variables.foo" has no second dot after "variables." and still matches.
     private static final Pattern UNEXPECTED_PATH_ITEM_ATTRIBUTE =
-            Pattern.compile("attribute paths\\.'([^']+)'\\.([^.\\[\\]()'\\s]+) is unexpected");
+            Pattern.compile("attribute paths\\.'([^']+)'\\.(?!variables\\.[^.\\[\\]()'\\s]+\\.)([^\\[\\]()'\\s]+) is unexpected");
 
     private GeneratorSettings.Builder generatorSettingsBuilder = GeneratorSettings.newBuilder();
     private WorkflowSettings.Builder workflowSettingsBuilder = WorkflowSettings.newBuilder();
