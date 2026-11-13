@@ -494,7 +494,7 @@ export function parseContentDispositionFilename(headers: Headers): string | unde
 function decodeExtValue(value: string | undefined): string | undefined {
     const match = value === undefined ? null : /^utf-8'[^']*'(.*)$/i.exec(value);
     try {
-        return match ? decodeURIComponent(match[1]) : undefined;
+        return match?.[1] !== undefined ? decodeURIComponent(match[1]) : undefined;
     } catch {
         return undefined;
     }
@@ -510,9 +510,9 @@ function parseHeaderParameters(value: string): Map<string, string> {
     const parameter = /(?:^|;)\s*([^=;]+?)\s*=\s*(?:"((?:[^"\\]|\\.)*)"?|([^;]*))/g;
     let match: RegExpExecArray | null;
     while ((match = parameter.exec(value)) !== null) {
-        const name = match[1].toLowerCase();
+        const name = (match[1] ?? '').toLowerCase();
         if (!params.has(name)) {
-            params.set(name, match[2] !== undefined ? match[2].replace(/\\(.)/g, '$1') : match[3].trim());
+            params.set(name, match[2] !== undefined ? match[2].replace(/\\(.)/g, '$1') : (match[3] ?? '').trim());
         }
     }
     return params;
