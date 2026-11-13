@@ -140,6 +140,7 @@ public class AdditionalPropertiesObject {
 
     protected Builder copyOf(AdditionalPropertiesObject value) { 
       this.instance.setName(value.name);
+      this.instance.additionalProperties = value.additionalProperties;
       return this;
     }
 

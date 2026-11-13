@@ -6415,6 +6415,47 @@ public class SpringCodegenTest {
                 .fileDoesNotContain("SimpleObject.Builder nullableObject(JsonNullable<String> nullableObject) {");
     }
 
+    /**
+     * The copy path of the nested Builder (copyOf, reached from toBuilder()) carries the additionalProperties map of the
+     * model, for a plain model, an allOf model whose member declares the map and an allOf model under a discriminator
+     * parent.
+     */
+    @Test
+    void testBuilderJavaSpringCopiesAdditionalProperties() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/allof-member-additional-properties.yaml",
+                SPRING_BOOT,
+                Map.of(
+                        GENERATE_BUILDERS, true,
+                        SpringCodegen.OPENAPI_NULLABLE, false,
+                        INTERFACE_ONLY, "true"
+                )
+        );
+
+        for (String model : List.of("PlainStr", "FlatInlineStr", "FlatRefStr", "ChildInlineStr", "ChildRefStr")) {
+            String source = Files.readString(files.get(model + ".java").toPath());
+            assertThat(methodBody(source, "protected Builder copyOf(" + model + " value)"))
+                    .as("%s.Builder.copyOf", model)
+                    .contains("dditionalProperties");
+        }
+    }
+
+    /** The text of the method whose declaration starts with the signature, braces balanced. */
+    private static String methodBody(String source, String signature) {
+        int start = source.indexOf(signature);
+        assertThat(start).as("%s is generated", signature).isNotNegative();
+        int open = source.indexOf('{', start);
+        int depth = 0;
+        for (int i = open; i < source.length(); i++) {
+            if (source.charAt(i) == '{') {
+                depth++;
+            } else if (source.charAt(i) == '}' && --depth == 0) {
+                return source.substring(start, i + 1);
+            }
+        }
+        throw new AssertionError("unbalanced braces after " + signature);
+    }
+
     @Test
     void testBuilderJavaSpring_useOptional() throws IOException {
         Map<String, File> files = generateFromContract(
@@ -12758,5 +12799,33 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("deletePet", "Long", "String");
+    }
+
+    @Test
+    public void allOfMemberAdditionalPropertiesAreRenderedAsMapOnSpringClass() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/allof-member-additional-properties.yaml", SPRING_BOOT, Map.of(USE_RECORDS, "false"));
+
+        JavaFileAssert.assertThat(files.get("FlatInlineTrue.java"))
+                .isNormalClass()
+                .fileContains(
+                        "private Map<String, Object> additionalProperties;",
+                        "@JsonAnySetter",
+                        "public FlatInlineTrue putAdditionalProperty(String key, Object value)");
+    }
+
+    @Test
+    public void allOfChildDoesNotRedeclareAdditionalPropertiesOfItsParent() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/allof-member-additional-properties.yaml", SPRING_BOOT, Map.of(USE_RECORDS, "false"));
+
+        JavaFileAssert.assertThat(files.get("MapParent.java"))
+                .fileContains("private Map<String, String> additionalProperties;");
+        // the child inherits the map of its parent whatever value type its own member declares (none, integer, string)
+        for (String child : List.of("MapChild", "MapChildInt", "MapChildStr")) {
+            JavaFileAssert.assertThat(files.get(child + ".java"))
+                    .fileContains("public class " + child + " extends MapParent")
+                    .fileDoesNotContain("additionalProperties", "@JsonAnySetter");
+        }
     }
 }

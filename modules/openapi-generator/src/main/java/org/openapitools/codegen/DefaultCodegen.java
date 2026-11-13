@@ -3233,6 +3233,11 @@ public class DefaultCodegen implements CodegenConfig {
             // 'allOf' composed schemas, because these code generators also want to set
             // 'Codegen.parent' to the first child schema of the 'allOf' schema.
             addAdditionPropertiesToCodeGenModel(m, schema);
+
+            // The 'additionalProperties' keyword of the schema itself wins. Otherwise the allOf members decide.
+            if (schema.getAdditionalProperties() == null) {
+                addAllOfMemberAdditionalProperties(m, schema, parentName, parent);
+            }
         }
 
         if (ModelUtils.isNullable(schema)) {
@@ -3240,6 +3245,99 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         // end of code block for composed schema
+    }
+
+    /**
+     * Gives the model the additional properties that its allOf members declare.
+     * Members that declare the same schema agree on it, otherwise the value is of any type.
+     * The parent of the model is skipped, and when the parent or one of its ancestors declares additional
+     * properties the model gets none of its own: it inherits them, whatever type its members declare.
+     * This is the rule that the okhttp-gson templates apply with 'x-inherits-additional-properties'.
+     *
+     * @param m          the codegen representation of the allOf schema.
+     * @param schema     the allOf schema, which does not have the 'additionalProperties' keyword itself.
+     * @param parentName the name of the parent schema, null if there is none.
+     * @param parent     the parent schema, null if there is none.
+     */
+    private void addAllOfMemberAdditionalProperties(CodegenModel m, Schema schema, String parentName, Schema parent) {
+        final String inheritedFrom = supportsInheritance ? parentName : null;
+        // without disallowAdditionalPropertiesIfNotPresent every schema declares additional properties implicitly
+        if (inheritedFrom != null && parent != null
+                && (!disallowAdditionalPropertiesIfNotPresent || isAdditionalPropertiesDeclared(declaredAdditionalProperties(m.name, parent, null, new HashSet<>())))) {
+            return;
+        }
+        Schema declared = declaredAdditionalProperties(m.name, schema, inheritedFrom, new HashSet<>());
+        if (!isAdditionalPropertiesDeclared(declared)) {
+            return;
+        }
+        Schema withAdditionalProperties = new Schema();
+        withAdditionalProperties.setAdditionalProperties(declared);
+        // addParentContainer would replace the parent of the model by a map
+        final String modelParent = m.parent;
+        addAdditionPropertiesToCodeGenModel(m, withAdditionalProperties);
+        m.parent = modelParent;
+        setAddProps(withAdditionalProperties, m);
+    }
+
+    /** Marks 'additionalProperties: false' in {@link #declaredAdditionalProperties}, compared by identity. */
+    private static final Schema NO_ADDITIONAL_PROPERTIES = new Schema();
+
+    private static boolean isAdditionalPropertiesDeclared(Schema declared) {
+        return declared != null && declared != NO_ADDITIONAL_PROPERTIES;
+    }
+
+    /**
+     * Returns the value schema of the 'additionalProperties' keyword that a schema declares itself or, when it
+     * does not, that its allOf members declare, looking through '$ref' members recursively.
+     * The keyword is read as written: {@link ModelUtils#getAdditionalProperties} would turn an absent keyword into any type.
+     * Members whose value schemas give the same type agree on it, otherwise the value is of any type (an empty schema).
+     *
+     * @param modelName  the name of the model, for the log.
+     * @param schema     the schema to inspect.
+     * @param skippedRef the name of a '$ref' member to ignore, null if none.
+     * @param visited    the names of the referenced schemas already inspected, which guards against cycles.
+     * @return the value schema, null if the keyword is absent, NO_ADDITIONAL_PROPERTIES if a member states false:
+     * allOf is an intersection, so that member forbids the additional properties that the other members declare.
+     */
+    private Schema declaredAdditionalProperties(String modelName, Schema schema, String skippedRef, Set<String> visited) {
+        final Object keyword = schema.getAdditionalProperties();
+        if (keyword instanceof Schema) {
+            return (Schema) keyword;
+        }
+        if (Boolean.TRUE.equals(keyword)) {
+            return new Schema();
+        }
+        if (Boolean.FALSE.equals(keyword)) {
+            return NO_ADDITIONAL_PROPERTIES;
+        }
+        if (schema.getAllOf() == null) {
+            return null;
+        }
+        Schema declared = null;
+        boolean forbidden = false;
+        for (Object allOfMember : schema.getAllOf()) {
+            Schema member = (Schema) allOfMember;
+            if (member.get$ref() != null) {
+                final String ref = ModelUtils.getSimpleRef(member.get$ref());
+                if (ref.equals(skippedRef) || !visited.add(ref)) {
+                    continue;
+                }
+                member = ModelUtils.getReferencedSchema(openAPI, member);
+            }
+            final Schema memberDeclared = declaredAdditionalProperties(modelName, member, null, visited);
+            if (memberDeclared == NO_ADDITIONAL_PROPERTIES) {
+                forbidden = true;
+            } else if (memberDeclared != null) {
+                if (declared == null) {
+                    declared = memberDeclared;
+                } else if (!getTypeDeclaration(declared).equals(getTypeDeclaration(memberDeclared))) {
+                    LOGGER.debug("The allOf members of {} declare additionalProperties of the types {} and {}, using the any type.",
+                            modelName, getTypeDeclaration(declared), getTypeDeclaration(memberDeclared));
+                    declared = new Schema();
+                }
+            }
+        }
+        return forbidden ? NO_ADDITIONAL_PROPERTIES : declared;
     }
 
     /**

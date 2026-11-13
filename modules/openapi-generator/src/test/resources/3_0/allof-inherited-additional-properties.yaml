@@ -1,0 +1,36 @@
+openapi: 3.0.3
+info:
+  title: additionalProperties declared on an ancestor
+  version: '1'
+paths: {}
+components:
+  schemas:
+    Parent:
+      type: object
+      discriminator:
+        propertyName: kind
+        mapping:
+          child: '#/components/schemas/Child'
+          grandchild: '#/components/schemas/GrandChild'
+      required: [kind]
+      properties:
+        kind:
+          type: string
+        a:
+          type: string
+      additionalProperties:
+        type: string
+    Child:
+      allOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: object
+          properties:
+            b:
+              type: integer
+    GrandChild:
+      allOf:
+        - $ref: '#/components/schemas/Child'
+        - type: object
+          properties:
+            c:
+              type: boolean

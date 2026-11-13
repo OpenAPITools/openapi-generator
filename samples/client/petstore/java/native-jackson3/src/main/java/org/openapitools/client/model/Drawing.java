@@ -341,6 +341,11 @@ public class Drawing {
     }
 
 
+    public Drawing.Builder additionalProperties(Map<String, Fruit> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built Drawing instance.
     *
@@ -376,7 +381,8 @@ public class Drawing {
       .mainShape(getMainShape())
       .shapeOrNull(getShapeOrNull())
       .nullableShape(getNullableShape())
-      .shapes(getShapes());
+      .shapes(getShapes())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }
