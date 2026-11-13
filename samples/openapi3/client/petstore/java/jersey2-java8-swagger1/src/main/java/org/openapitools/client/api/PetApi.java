@@ -405,6 +405,7 @@ public class PetApi {
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
+    Map<String, String> localVarFormParamContentTypes = new HashMap<>();
     if (name != null) {
       localVarFormParams.put("name", name);
     }
@@ -416,7 +417,7 @@ public class PetApi {
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
     String[] localVarAuthNames = new String[] {"petstore_auth"};
     return apiClient.invokeAPI("PetApi.updatePetWithForm", localVarPath, "POST", new ArrayList<>(), null,
-                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarFormParamContentTypes, localVarAccept, localVarContentType,
                                localVarAuthNames, null, false);
   }
   /**
@@ -465,6 +466,7 @@ public class PetApi {
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
+    Map<String, String> localVarFormParamContentTypes = new HashMap<>();
     if (additionalMetadata != null) {
       localVarFormParams.put("additionalMetadata", additionalMetadata);
     }
@@ -477,7 +479,7 @@ public class PetApi {
     String[] localVarAuthNames = new String[] {"petstore_auth"};
     GenericType<ModelApiResponse> localVarReturnType = new GenericType<ModelApiResponse>() {};
     return apiClient.invokeAPI("PetApi.uploadFile", localVarPath, "POST", new ArrayList<>(), null,
-                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarFormParamContentTypes, localVarAccept, localVarContentType,
                                localVarAuthNames, localVarReturnType, false);
   }
 }

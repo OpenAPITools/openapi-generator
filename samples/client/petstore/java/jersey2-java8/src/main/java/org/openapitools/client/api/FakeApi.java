@@ -456,6 +456,7 @@ public class FakeApi {
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
+    Map<String, String> localVarFormParamContentTypes = new HashMap<>();
     if (integer != null) {
       localVarFormParams.put("integer", integer);
     }
@@ -495,7 +496,7 @@ public class FakeApi {
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
     String[] localVarAuthNames = new String[] {"http_basic_test"};
     return apiClient.invokeAPI("FakeApi.testEndpointParameters", "/fake", "POST", new ArrayList<>(), null,
-                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarFormParamContentTypes, localVarAccept, localVarContentType,
                                localVarAuthNames, null, false);
   }
   /**
@@ -563,6 +564,7 @@ public class FakeApi {
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
+    Map<String, String> localVarFormParamContentTypes = new HashMap<>();
     if (enumFormStringArray != null) {
       localVarFormParams.put("enum_form_string_array", enumFormStringArray);
     }
@@ -573,7 +575,7 @@ public class FakeApi {
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
     return apiClient.invokeAPI("FakeApi.testEnumParameters", "/fake", "GET", localVarQueryParams, null,
-                               localVarHeaderParams, new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
+                               localVarHeaderParams, new LinkedHashMap<>(), localVarFormParams, localVarFormParamContentTypes, localVarAccept, localVarContentType,
                                null, null, false);
   }
 
@@ -816,13 +818,14 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(@javax.annotation.Nonn
 
     // Form parameters
     Map<String, Object> localVarFormParams = new LinkedHashMap<>();
+    Map<String, String> localVarFormParamContentTypes = new HashMap<>();
     localVarFormParams.put("param", param);
     localVarFormParams.put("param2", param2);
 
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType("application/x-www-form-urlencoded");
     return apiClient.invokeAPI("FakeApi.testJsonFormData", "/fake/jsonFormData", "GET", new ArrayList<>(), null,
-                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarAccept, localVarContentType,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), localVarFormParams, localVarFormParamContentTypes, localVarAccept, localVarContentType,
                                null, null, false);
   }
   /**
