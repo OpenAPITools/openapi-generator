@@ -1,0 +1,75 @@
+openapi: 3.1.0
+info:
+  title: issue 25574 nullable model reference inside an array or map
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+components:
+  schemas:
+    Inner:
+      type: object
+      properties:
+        name:
+          type: string
+    Thing:
+      type: object
+      properties:
+        # OAS 3.1: oneOf with the null type, as a map value and as an array item
+        one_of_map:
+          type: object
+          additionalProperties:
+            oneOf:
+              - $ref: '#/components/schemas/Inner'
+              - type: "null"
+        one_of_list:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Inner'
+              - type: "null"
+        # OAS 3.1: anyOf with the null type, as a map value and as an array item
+        any_of_map:
+          type: object
+          additionalProperties:
+            anyOf:
+              - $ref: '#/components/schemas/Inner'
+              - type: "null"
+        any_of_list:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Inner'
+              - type: "null"
+        # OAS 3.0 spelling of a nullable reference (allOf-wrapped $ref with nullable: true),
+        # as a map value and as an array item
+        all_of_map:
+          type: object
+          additionalProperties:
+            allOf:
+              - $ref: '#/components/schemas/Inner'
+            nullable: true
+        all_of_list:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Inner'
+            nullable: true
+        # controls: the same reference without nullability
+        plain_map:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Inner'
+        plain_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inner'
+        plain_single:
+          $ref: '#/components/schemas/Inner'
