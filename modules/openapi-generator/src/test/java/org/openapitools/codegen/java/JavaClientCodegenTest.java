@@ -2245,6 +2245,7 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Basket.java"))
+                .hasImports("java.util.LinkedHashMap", "java.util.LinkedList", "java.util.TreeSet")
                 .assertMethod("putEntriesItem", "String", "String")
                 .bodyContainsLines("this.entries = new LinkedHashMap<>();")
                 .toFileAssert()
