@@ -21,6 +21,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	{{#x-go-has-json-header}}
+	"unicode/utf16"
+	{{/x-go-has-json-header}}
 	"unicode/utf8"
 
 	{{#hasOAuthMethods}}
@@ -298,7 +301,18 @@ func parameterToJSONHeaderValue(obj interface{}) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return string(encoded), nil
+	var result strings.Builder
+	for _, r := range string(encoded) {
+		if r < 0x7f {
+			result.WriteRune(r)
+		} else if r <= 0xffff {
+			fmt.Fprintf(&result, `\u%04x`, r)
+		} else {
+			high, low := utf16.EncodeRune(r)
+			fmt.Fprintf(&result, `\u%04x\u%04x`, high, low)
+		}
+	}
+	return result.String(), nil
 }
 {{/x-go-has-json-header}}
 
