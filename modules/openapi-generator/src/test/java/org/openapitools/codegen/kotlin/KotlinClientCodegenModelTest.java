@@ -1607,7 +1607,7 @@ public class KotlinClientCodegenModelTest {
         Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
     }
 
-    @Test(description = "Issue #25452: unformatted number in kotlinx_serialization oneOf/anyOf wrappers is encoded and decoded without a BigDecimal serializer")
+    @Test(description = "Issues #25452 and #25587: number and integer branches in kotlinx_serialization oneOf/anyOf wrappers are written as JSON numbers, also when mapped to kotlin.Double and kotlin.Long")
     public void oneOfAnyOfKotlinxSerializationUnformattedNumber() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -1633,6 +1633,61 @@ public class KotlinClientCodegenModelTest {
             TestUtils.assertFileContains(modelPath(output, model),
                     "if (jsonElement is JsonPrimitive && !jsonElement.isString) { try { return " + model
                             + ".BigDecimalValue(jsonElement.content.toBigDecimal())");
+        }
+
+        File mappedOutput = Files.createTempDirectory("test").toFile();
+        mappedOutput.deleteOnExit();
+
+        new DefaultGenerator()
+                .opts(new CodegenConfigurator()
+                        .setGeneratorName(KOTLIN_GENERATOR)
+                        .setLibrary("jvm-retrofit2")
+                        .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                        .addAdditionalProperty(GENERATE_ONEOF_ANYOF_WRAPPERS, true)
+                        .addTypeMapping("integer", "kotlin.Long")
+                        .addTypeMapping("number", "kotlin.Double")
+                        .setInputSpec("src/test/resources/3_0/kotlin/issue25452-anyof-oneof-number.yaml")
+                        .setOutputDir(mappedOutput.getAbsolutePath().replace("\\", "/"))
+                        .toClientOptInput())
+                .generate();
+
+        for (String model : new String[]{"AnyOfValue", "OneOfValue"}) {
+            TestUtils.assertFileContains(modelPath(mappedOutput, model),
+                    "is " + model + ".DoubleValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))");
+        }
+        for (String model : new String[]{"AnyOfInteger", "OneOfInteger"}) {
+            TestUtils.assertFileContains(modelPath(mappedOutput, model),
+                    "is " + model + ".LongValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))");
+            TestUtils.assertFileNotContains(modelPath(mappedOutput, model),
+                    "is " + model + ".StringValue -> jsonEncoder.encodeJsonElement");
+        }
+
+        File multiplatformOutput = Files.createTempDirectory("test").toFile();
+        multiplatformOutput.deleteOnExit();
+
+        new DefaultGenerator()
+                .opts(new CodegenConfigurator()
+                        .setGeneratorName(KOTLIN_GENERATOR)
+                        .setLibrary("multiplatform")
+                        .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                        .addAdditionalProperty(GENERATE_ONEOF_ANYOF_WRAPPERS, true)
+                        .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
+                        .addTypeMapping("integer", "kotlin.Long")
+                        .setInputSpec("src/test/resources/3_0/kotlin/issue25452-anyof-oneof-number.yaml")
+                        .setOutputDir(multiplatformOutput.getAbsolutePath().replace("\\", "/"))
+                        .toClientOptInput())
+                .generate();
+
+        Path multiplatformModels = Paths.get(multiplatformOutput + "/src/commonMain/kotlin/org/openapitools/client/models");
+        for (String model : new String[]{"AnyOfValue", "OneOfValue"}) {
+            TestUtils.assertFileContains(multiplatformModels.resolve(model + ".kt"),
+                    "is kotlin.Double -> jsonEncoder.encodeJsonElement(JsonPrimitive(instance))");
+        }
+        for (String model : new String[]{"AnyOfInteger", "OneOfInteger"}) {
+            TestUtils.assertFileContains(multiplatformModels.resolve(model + ".kt"),
+                    "is kotlin.Long -> jsonEncoder.encodeJsonElement(JsonPrimitive(instance))");
+            TestUtils.assertFileNotContains(multiplatformModels.resolve(model + ".kt"),
+                    "is kotlin.String -> jsonEncoder.encodeJsonElement");
         }
     }
 

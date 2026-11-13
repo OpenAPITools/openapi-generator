@@ -201,22 +201,9 @@ import java.io.IOException
             {{#isBoolean}}
             is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeBoolean(value.value)
             {{/isBoolean}}
-            {{#isInteger}}
-            {{^isLong}}
-            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeInt(value.value)
-            {{/isLong}}
-            {{/isInteger}}
-            {{#isLong}}
-            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeLong(value.value)
-            {{/isLong}}
-            {{#isNumber}}
-            {{#isDouble}}
-            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeDouble(value.value)
-            {{/isDouble}}
-            {{#isFloat}}
-            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeFloat(value.value)
-            {{/isFloat}}
-            {{/isNumber}}
+            {{#isNumeric}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))
+            {{/isNumeric}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
             {{#isNumber}}

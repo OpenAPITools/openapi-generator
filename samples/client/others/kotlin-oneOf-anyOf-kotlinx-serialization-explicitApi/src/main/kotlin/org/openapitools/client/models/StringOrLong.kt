@@ -65,7 +65,7 @@ public object StringOrLongSerializer : KSerializer<StringOrLong> {
 
         when (value) {
             is StringOrLong.StringValue -> jsonEncoder.encodeString(value.value)
-            is StringOrLong.LongValue -> jsonEncoder.encodeLong(value.value)
+            is StringOrLong.LongValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))
         }
     }
 

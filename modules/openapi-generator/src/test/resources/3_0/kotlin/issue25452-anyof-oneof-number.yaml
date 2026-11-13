@@ -33,3 +33,11 @@ components:
       oneOf:
         - type: string
         - type: number
+    AnyOfInteger:
+      anyOf:
+        - type: string
+        - type: integer
+    OneOfInteger:
+      oneOf:
+        - type: string
+        - type: integer
