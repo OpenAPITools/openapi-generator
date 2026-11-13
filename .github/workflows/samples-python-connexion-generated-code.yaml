@@ -1,0 +1,97 @@
+name: Python Connexion generated code
+
+on:
+  push:
+    paths:
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonConnexionServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonAiohttpConnexionServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonBluePlanetServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonFlaskConnexionServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonStringUtils.java
+      - modules/openapi-generator/src/main/resources/python-flask/**
+      - modules/openapi-generator/src/main/resources/python-aiohttp/**
+      - modules/openapi-generator/src/main/resources/python-blueplanet/**
+      - modules/openapi-generator/src/test/java/org/openapitools/codegen/python/AbstractPythonConnexionServerCodegenTest.java
+      - modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
+      - modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
+      - bin/utils/check-python-connexion-generated.py
+      - .github/workflows/samples-python-connexion-generated-code.yaml
+  pull_request:
+    paths:
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonConnexionServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonAiohttpConnexionServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonBluePlanetServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonFlaskConnexionServerCodegen.java
+      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonStringUtils.java
+      - modules/openapi-generator/src/main/resources/python-flask/**
+      - modules/openapi-generator/src/main/resources/python-aiohttp/**
+      - modules/openapi-generator/src/main/resources/python-blueplanet/**
+      - modules/openapi-generator/src/test/java/org/openapitools/codegen/python/AbstractPythonConnexionServerCodegenTest.java
+      - modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
+      - modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
+      - bin/utils/check-python-connexion-generated.py
+      - .github/workflows/samples-python-connexion-generated-code.yaml
+jobs:
+  build:
+    name: Check generated Python Connexion server code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up JDK 11
+        uses: actions/setup-java@v6
+        with:
+          java-version: 11
+          distribution: 'temurin'
+      - name: Cache maven dependencies
+        uses: actions/cache@v6
+        env:
+          cache-name: cache-maven-repository
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.gradle
+            !~/.gradle/caches/*/plugin-resolution/
+            !~/.m2/repository/org/openapitools/
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+      - name: Build openapi-generator-cli
+        run: ./mvnw -B -ntp -DskipTests -pl modules/openapi-generator-cli -am package
+      - name: Generate and check Connexion server variants
+        shell: bash
+        run: |
+          set -euo pipefail
+          out_dir="$RUNNER_TEMP/connexion-generated"
+          specs=(
+            modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
+            modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
+          )
+          variants=(
+            "python-flask"
+            "python-flask useConnexion3=true"
+            "python-aiohttp"
+            "python-blueplanet"
+          )
+          for spec in "${specs[@]}"; do
+            for variant in "${variants[@]}"; do
+              read -r generator option <<< "$variant"
+              dest="$out_dir/$(basename "$spec" .yaml)/${generator}${option:++connexion3}"
+              args=(generate -g "$generator" -i "$spec" -o "$dest")
+              if [ -n "${option:-}" ]; then
+                args+=(--additional-properties "$option")
+              fi
+              java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar "${args[@]}"
+              python3 bin/utils/check-python-connexion-generated.py "$dest" \
+                --check-tests --check-setup "$spec"
+            done
+          done
