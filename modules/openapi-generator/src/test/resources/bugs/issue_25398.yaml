@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  title: oneOf interface with an inline enum discriminator
+  version: 0.0.1
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+          enum:
+            - dog
+            - cat
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: Dog
+          cat: Cat
+    Dog:
+      type: object
+      properties:
+        breed:
+          type: string
+    Cat:
+      type: object
+      properties:
+        declawed:
+          type: boolean
