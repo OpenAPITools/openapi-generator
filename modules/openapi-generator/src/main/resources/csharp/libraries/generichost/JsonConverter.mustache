@@ -96,16 +96,17 @@
             {{/discriminator}}
             {{#model.discriminator}}
             {{#model.hasDiscriminatorWithNonEmptyMapping}}
+            {{! many-to-one mappings (several discriminator values pointing at the same schema) must declare the target local only once, otherwise the generated code fails with CS0128 }}
+            {{#lambda.uniqueLines}}
             {{#mappedModels}}
             {{#model}}
             {{^vendorExtensions.x-duplicated-data-type}}
             {{classname}}{{nrt?}} {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}} = null;
-            {{#-last}}
-
-            {{/-last}}
             {{/vendorExtensions.x-duplicated-data-type}}
             {{/model}}
             {{/mappedModels}}
+            {{/lambda.uniqueLines}}
+
             Utf8JsonReader utf8JsonReaderDiscriminator = utf8JsonReader;
             while (utf8JsonReaderDiscriminator.Read())
             {

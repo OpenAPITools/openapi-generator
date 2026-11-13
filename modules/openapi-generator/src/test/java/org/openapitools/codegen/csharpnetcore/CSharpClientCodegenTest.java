@@ -699,6 +699,47 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testOneOfDiscriminatorManyToOneMappingDoesNotEmitDuplicateLocals() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/oneOfDiscriminator.yaml");
+        // many-to-one mapping: two discriminator values point at the same schema
+        openAPI.getComponents().getSchemas().get("FruitOneOfDisc").getDiscriminator().setMapping(Map.of(
+                "apple", "#/components/schemas/AppleOneOfDisc",
+                "appleRed", "#/components/schemas/AppleOneOfDisc",
+                "banana", "#/components/schemas/BananaOneOfDisc"));
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        String modelName = "FruitOneOfDisc";
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: " + modelName);
+        // one local per distinct mapped schema, not one per mapping value (many-to-one mappings used to emit the same local twice, CS0128)
+        assertFileContains(file.toPath(),
+            "AppleOneOfDisc? appleOneOfDisc = null;\n            BananaOneOfDisc? bananaOneOfDisc = null;\n\n            Utf8JsonReader utf8JsonReaderDiscriminator");
+        Assert.assertEquals(TestUtils.countOccurrences(Files.readString(file.toPath()), "appleOneOfDisc = null;"), 1,
+            "The local for a mapped schema must be declared exactly once.");
+        // each mapping value still gets its own deserialization branch
+        assertFileContains(file.toPath(),
+            "if (discriminator?.Equals(\"apple\") ?? false)",
+            "if (discriminator?.Equals(\"appleRed\") ?? false)");
+    }
+
+    @Test
     public void testUnionMemberThatIsAUnionUsesItsOwnConverter() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
