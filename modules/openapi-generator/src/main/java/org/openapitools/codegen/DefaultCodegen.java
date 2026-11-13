@@ -4005,6 +4005,79 @@ public class DefaultCodegen implements CodegenConfig {
         addVarsRequiredVarsAdditionalProps(p, property);
     }
 
+    /**
+     * Collects {@code required} entries only along the schema's own list and
+     * its allOf members (a single-allOf wrapper included), resolving $ref.
+     * Unlike {@link #addProperties}, oneOf/anyOf branches are not traversed
+     * unconditionally: a branch's required entries only hold if that branch
+     * is chosen, so only the entries shared by *every* branch of a oneOf/anyOf
+     * found along the way are real requirements of the enclosing shape.
+     */
+    private void collectRequiredFromAllOfChain(Schema schema, List<String> required, Set<Schema> visitedSchemas) {
+        required.addAll(guaranteedRequired(schema, visitedSchemas));
+    }
+
+    /**
+     * Returns the {@code required} entries guaranteed by the schema itself:
+     * its own list, its allOf members' guarantees and, for oneOf/anyOf, the
+     * entries every branch requires (a field required by all alternatives is
+     * required no matter which one the caller picks). {@code visitedSchemas}
+     * keeps cyclic $ref chains from recursing forever; a schema already
+     * consumed contributes nothing the second time.
+     */
+    private Set<String> guaranteedRequired(Schema schema, Set<Schema> visitedSchemas) {
+        Set<String> required = new LinkedHashSet<>();
+        if (schema == null || !visitedSchemas.add(schema)) {
+            return required;
+        }
+        // collect the schema's own `required` before following $ref: in OAS
+        // 3.1 a `required` list may sit next to $ref and would otherwise be
+        // dropped when only the referenced schema is visited
+        if (schema.getRequired() != null) {
+            required.addAll(schema.getRequired());
+        }
+        // keep going after $ref: in OAS 3.1 allOf/oneOf/anyOf may also sit
+        // next to it and their guaranteed entries apply on top
+        if (StringUtils.isNotBlank(schema.get$ref())) {
+            required.addAll(guaranteedRequired(ModelUtils.getReferencedSchema(this.openAPI, schema), visitedSchemas));
+        }
+        if (schema.getAllOf() != null) {
+            for (Object component : schema.getAllOf()) {
+                required.addAll(guaranteedRequired((Schema) component, visitedSchemas));
+            }
+        }
+        required.addAll(commonBranchRequired(schema.getOneOf(), visitedSchemas));
+        required.addAll(commonBranchRequired(schema.getAnyOf(), visitedSchemas));
+        return required;
+    }
+
+    /**
+     * Returns the {@code required} entries shared by every branch of a
+     * oneOf/anyOf list: each branch (a $ref resolved, its own allOf chain
+     * included) contributes its guaranteed entries and only the intersection
+     * holds for the enclosing schema.
+     */
+    private Set<String> commonBranchRequired(List<Schema> branches, Set<Schema> visitedSchemas) {
+        Set<String> common = null;
+        if (branches != null) {
+            for (Schema branch : branches) {
+                // each branch gets its own copy of the visited set: a schema
+                // consumed while walking one branch must still contribute its
+                // required entries when reached again through a sibling branch
+                Set<String> branchRequired = guaranteedRequired(branch, new HashSet<>(visitedSchemas));
+                if (common == null) {
+                    common = new LinkedHashSet<>(branchRequired);
+                } else {
+                    common.retainAll(branchRequired);
+                }
+                if (common.isEmpty()) {
+                    break;
+                }
+            }
+        }
+        return common == null ? Collections.emptySet() : common;
+    }
+
     protected void updatePropertyForAnyType(CodegenProperty property, Schema p) {
         property.isNullable = property.isNullable ||
                 !(ModelUtils.isComposedSchema(p)) ||
@@ -7846,7 +7919,14 @@ public class DefaultCodegen implements CodegenConfig {
         // TODO in the future have this return one codegenParameter of type object or composed which includes all definition
         // that will be needed for complex composition use cases
         // https://github.com/OpenAPITools/openapi-generator/issues/10415
-        addProperties(properties, allRequired, schema, new HashSet<>());
+        addProperties(properties, new ArrayList<>(), schema, new HashSet<>());
+        // addProperties unions the required list of every composed member,
+        // including oneOf/anyOf alternatives whose required entries only hold
+        // when that branch is chosen. For form parameters only the schema's own
+        // required list and the ones along the allOf chain are real
+        // requirements, so collect them separately. Starting from the original
+        // (pre-unwrap) schema also picks up a single-allOf wrapper's required.
+        collectRequiredFromAllOfChain(original != null ? original : schema, allRequired, new HashSet<>());
 
         boolean isOneOfOrAnyOf = ModelUtils.isOneOf(schema) || ModelUtils.isAnyOf(schema);
 
@@ -7863,12 +7943,11 @@ public class DefaultCodegen implements CodegenConfig {
                     // for oneOf/anyOf, mark all the properties collected from the sub-schemas as optional
                     // so that users can choose which property to include in the form parameters
                     codegenParameter.required = false;
-                } else if (!codegenParameter.required && schema.getRequired() != null) {
-                    // Set 'required' flag defined in the schema element
-                    codegenParameter.required = schema.getRequired().contains(entry.getKey());
                 } else if (!codegenParameter.required) {
-                    // Set 'required' flag for properties declared inside the allOf
-                    codegenParameter.required = allRequired.stream().anyMatch(r -> r.equals(codegenParameter.paramName));
+                    // 'required' applies to the schema property name (baseName); comparing
+                    // against the normalized paramName would silently drop the flag for
+                    // e.g. snake_case names or collision-renamed parameters.
+                    codegenParameter.required = allRequired.contains(entry.getKey());
                 }
 
                 parameters.add(codegenParameter);
