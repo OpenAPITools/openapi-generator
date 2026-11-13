@@ -1500,6 +1500,34 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return property;
     }
 
+    /**
+     * Import the class the {@code add<Name>Item}/{@code put<Name>Item} helpers instantiate. A fully qualified name
+     * needs no import; a simple name is imported through {@code importMapping}, which gets a {@code java.util} entry
+     * when the name is a {@code java.util} collection or map that isn't mapped yet.
+     */
+    private void addContainerInstantiationTypeImport(CodegenModel model, CodegenProperty property) {
+        Object type = property.vendorExtensions.get(X_JAVA_CONTAINER_INSTANTIATION_TYPE);
+        if (!(type instanceof String) || ((String) type).contains(".")) {
+            return;
+        }
+        String simpleName = (String) type;
+        if (!importMapping.containsKey(simpleName) && isJavaUtilContainer(simpleName)) {
+            importMapping.put(simpleName, "java.util." + simpleName);
+        }
+        if (importMapping.containsKey(simpleName)) {
+            model.imports.add(simpleName);
+        }
+    }
+
+    private static boolean isJavaUtilContainer(String simpleName) {
+        try {
+            Class<?> type = Class.forName("java.util." + simpleName);
+            return Collection.class.isAssignableFrom(type) || Map.class.isAssignableFrom(type);
+        } catch (ClassNotFoundException | LinkageError e) {
+            return false;
+        }
+    }
+
     private String containerInstantiationType(String containerType) {
         if ("array".equals(containerType)) {
             return instantiationTypes().getOrDefault("array", "ArrayList");
@@ -2142,6 +2170,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("map".equals(property.containerType)) {
             model.imports.add("HashMap");
         }
+        addContainerInstantiationTypeImport(model, property);
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             // needed by all pojos, but not enums

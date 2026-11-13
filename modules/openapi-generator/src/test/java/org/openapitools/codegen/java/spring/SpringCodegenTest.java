@@ -136,6 +136,7 @@ public class SpringCodegenTest {
                         .addInstantiationType("set", "TreeSet"));
 
         JavaFileAssert.assertThat(files.get("Basket.java"))
+                .hasImports("java.util.LinkedHashMap", "java.util.LinkedList", "java.util.TreeSet")
                 .assertMethod("putEntriesItem", "String", "String")
                 .bodyContainsLines("this.entries = new LinkedHashMap<>();")
                 .toFileAssert()

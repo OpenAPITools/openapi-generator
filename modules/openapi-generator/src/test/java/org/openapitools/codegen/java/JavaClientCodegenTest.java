@@ -2242,6 +2242,7 @@ public class JavaClientCodegenTest {
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Basket.java"))
+                .hasImports("java.util.LinkedHashMap", "java.util.LinkedList", "java.util.TreeSet")
                 .assertMethod("putEntriesItem", "String", "String")
                 .bodyContainsLines("this.entries = new LinkedHashMap<>();")
                 .toFileAssert()
@@ -2250,6 +2251,29 @@ public class JavaClientCodegenTest {
                 .toFileAssert()
                 .assertMethod("addLabelsItem", "String")
                 .bodyContainsLines("this.labels = new TreeSet<>();");
+    }
+
+    @Test
+    public void containerItemHelpersImportConfiguredTypesWhenFieldsDefaultToNull() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setInputSpec("src/test/resources/bugs/issue_25642.yaml")
+                .addAdditionalProperty(AbstractJavaCodegen.CONTAINER_DEFAULT_TO_NULL, true)
+                .addInstantiationType("array", "LinkedList")
+                .addInstantiationType("map", "java.util.concurrent.ConcurrentHashMap")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Basket.java"))
+                .hasImports("java.util.LinkedList")
+                .hasNoImports("org.openapitools.client.model.LinkedList", "java.util.concurrent.ConcurrentHashMap")
+                .assertMethod("addTagsItem", "String")
+                .bodyContainsLines("this.tags = new LinkedList<>();")
+                .toFileAssert()
+                .assertMethod("putEntriesItem", "String", "String")
+                .bodyContainsLines("this.entries = new java.util.concurrent.ConcurrentHashMap<>();");
     }
 
     @Test
