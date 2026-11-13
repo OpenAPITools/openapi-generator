@@ -1,0 +1,222 @@
+openapi: 3.0.0
+info:
+  title: psr-18 internal variable collision test
+  version: '1.0'
+paths:
+  /psr-sig:
+    # psr-18 appends no signature parameters, so contentType/hostIndex/variables
+    # must NOT be renamed in any naming convention
+    get:
+      operationId: psrSig
+      servers:
+        - url: 'https://a.example.com'
+      parameters:
+        - name: contentType
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: hostIndex
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: variables
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /psr-kv:
+    # explode form-style query params are expanded with a foreach whose loop
+    # variables no longer collide with spec params named `key`/`value`; the
+    # params must keep their names
+    get:
+      operationId: psrKv
+      parameters:
+        - name: aaa
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: key
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+      responses:
+        '200':
+          description: ok
+  /psr-locals:
+    # psr-18 shares the xxxRequest() locals with the guzzle template
+    get:
+      operationId: psrLocals
+      parameters:
+        - name: this
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: multipart
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: resourcePath
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /psr-body-headers:
+    # a body param named `headers` is read by isset($headers) after $headers
+    # already holds the headerSelector result
+    post:
+      operationId: psrBodyHeaders
+      requestBody:
+        required: true
+        x-codegen-request-body-name: headers
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: ok
+  /psr-form-proc:
+    # psr-18 assigns $formDataProcessor = new FormDataProcessor() before the
+    # form fields are read, so a form field of that name collides under
+    # camelCase; a form field named `headers` stays safe
+    post:
+      operationId: psrFormProc
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                formDataProcessor:
+                  type: string
+                headers:
+                  type: string
+      responses:
+        '200':
+          description: ok
+  /psr-ret-type:
+    # psr-18 emits xxxAsyncWithHttpInfo() too, so `returnType` collides under
+    # camelCase
+    get:
+      operationId: psrRetType
+      parameters:
+        - name: returnType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /psr-group-assoc:
+    # psr-18 emits the same x-group-parameters unboxing as guzzle; a spec
+    # param `associative_array` that is not unboxed last collides with the
+    # wrapper variable and must be renamed
+    get:
+      operationId: psrGroupAssoc
+      x-group-parameters: true
+      parameters:
+        - name: associative_array
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /psr-group-assoc-last:
+    # psr-18 never reads $associative_array after the unboxing, so the same
+    # param unboxed last is harmless and must keep its name
+    get:
+      operationId: psrGroupAssocLast
+      x-group-parameters: true
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: associative_array
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /psr-loop-var:
+    # the psr-18 explode query foreach loops over $localVariableKey/
+    # $localVariableValue; under camelCase/original spec params of the same
+    # names collide with the loop variables and must be renamed
+    get:
+      operationId: psrLoopVar
+      parameters:
+        - name: aaa
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: localVariableKey
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: localVariableValue
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  /psr-no-group-assoc:
+    # without x-group-parameters `associative_array` must keep its name
+    get:
+      operationId: psrNoGroupAssoc
+      parameters:
+        - name: associative_array
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
