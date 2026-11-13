@@ -6432,7 +6432,7 @@ public class SpringCodegenTest {
                 )
         );
 
-        for (String model : List.of("PlainStr", "FlatInlineStr", "ChildInlineStr")) {
+        for (String model : List.of("PlainStr", "FlatInlineStr", "FlatRefStr", "ChildInlineStr", "ChildRefStr")) {
             String source = Files.readString(files.get(model + ".java").toPath());
             assertThat(methodBody(source, "protected Builder copyOf(" + model + " value)"))
                     .as("%s.Builder.copyOf", model)

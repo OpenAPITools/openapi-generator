@@ -12,6 +12,7 @@ components:
         mapping:
           child: '#/components/schemas/Child'
           grandchild: '#/components/schemas/GrandChild'
+      required: [kind]
       properties:
         kind:
           type: string

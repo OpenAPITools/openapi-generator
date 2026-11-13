@@ -3603,7 +3603,7 @@ public class JavaClientCodegenTest {
                     Map.of(AbstractJavaCodegen.GENERATE_BUILDERS, Boolean.TRUE)
             );
 
-            for (String model : List.of("PlainStr", "FlatInlineStr", "ChildInlineStr")) {
+            for (String model : List.of("PlainStr", "FlatInlineStr", "FlatRefStr", "ChildInlineStr", "ChildRefStr")) {
                 String source = Files.readString(files.get(model + ".java").toPath());
                 assertThat(methodBody(source, model + ".Builder toBuilder()"))
                         .as("%s.toBuilder() in %s", model, library)
