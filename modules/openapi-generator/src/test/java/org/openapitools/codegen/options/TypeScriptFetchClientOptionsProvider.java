@@ -30,6 +30,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedCli
     private static final String NPM_REPOSITORY = "https://registry.npmjs.org";
     public static final String SAGAS_AND_RECORDS = "false";
     public static final String STRING_ENUMS = "false";
+    public static final String GENERATE_ANY_OF_AS_UNION = "false";
     public static final String FILE_NAMING_VALUE = PASCAL_CASE;
     public static final String DATE_LIBRARY_VALUE = TypeScriptFetchClientCodegen.DATE_LIBRARY_STRING;
 
@@ -53,6 +54,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedCli
                 .put(TypeScriptFetchClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(TypeScriptFetchClientCodegen.DATE_LIBRARY, DATE_LIBRARY_VALUE)
                 .put(TypeScriptFetchClientCodegen.STRING_ENUMS, STRING_ENUMS)
+                .put(TypeScriptFetchClientCodegen.GENERATE_ANY_OF_AS_UNION, GENERATE_ANY_OF_AS_UNION)
                 .put(TypeScriptFetchClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.WITH_REQUEST_OPTS_IN_INTERFACE, Boolean.TRUE.toString())
