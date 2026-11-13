@@ -57,6 +57,18 @@ public class Cat extends Animal {
   public Cat() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Cat(
+    @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String className
+  ) {
+    super(className);
+  }
+
   public Cat declawed(@javax.annotation.Nullable Boolean declawed) {
     this.declawed = declawed;
     return this;

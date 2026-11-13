@@ -953,6 +953,106 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testNativeGenerateJsonCreatorForRequiredProperties() throws IOException {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_JSON_CREATOR, true)
+                .setInputSpec("src/test/resources/3_0/java/native/required-oneof.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+
+        Path service = output.resolve("src/main/java/xyz/abcdef/model/CoreIntentAuthorService.java");
+        assertThat(service).content().contains(
+                "@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)",
+                "public CoreIntentAuthorService(",
+                "@JsonProperty(value = JSON_PROPERTY_SUBJECT, required = true)",
+                "public CoreIntentAuthorService() {");
+        assertThat(Files.readString(service))
+                .containsOnlyOnce("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
+
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/CoreIntentAuthorUser.java")).content().contains(
+                "public CoreIntentAuthorUser(",
+                "@JsonProperty(value = JSON_PROPERTY_ID, required = true)",
+                "@JsonProperty(value = JSON_PROPERTY_DOMAIN_ID, required = true)");
+
+        // inherited required properties are passed to the parent constructor
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/ChildModel.java")).content().contains(
+                "public class ChildModel extends BaseModel",
+                "public ChildModel(",
+                "super(baseId, kind);",
+                "@JsonProperty(value = JSON_PROPERTY_CHILD_ID, required = true)");
+
+        // a required property and a read-only property share a single creator
+        Path readOnlyModel = output.resolve("src/main/java/xyz/abcdef/model/ReadOnlyModel.java");
+        assertThat(readOnlyModel).content().contains(
+                "@JsonProperty(value = JSON_PROPERTY_ID, required = true)",
+                "@JsonProperty(value = JSON_PROPERTY_CREATED_AT, required = false)");
+        assertThat(Files.readString(readOnlyModel))
+                .containsOnlyOnce("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
+
+        // a model overriding an inherited property with an incompatible type, and its descendants,
+        // fall back to the no-arg constructor instead of generating uncompilable code
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/OverrideBase.java")).content()
+                .contains("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/OverrideChild.java")).content()
+                .doesNotContain("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/OverrideGrandChild.java")).content()
+                .doesNotContain("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
+    }
+
+    @Test
+    public void testNativeGenerateJsonCreatorWithXmlAndJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .addAdditionalProperty(JavaClientCodegen.GENERATE_JSON_CREATOR, true)
+                .setInputSpec("src/test/resources/3_0/java/native/required-oneof.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/CoreIntentAuthorService.java")).content().contains(
+                // Jackson 3 XML annotations live in tools.jackson.dataformat
+                "import tools.jackson.dataformat.xml.annotation.*;",
+                "@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)",
+                "@JacksonXmlProperty(localName = \"subject\", isAttribute = true)",
+                "@JsonProperty(value = JSON_PROPERTY_SUBJECT, required = true)");
+    }
+
+    @Test
+    public void testNativeJsonCreatorDisabledByDefault() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .setInputSpec("src/test/resources/3_0/java/native/required-oneof.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/CoreIntentAuthorService.java")).content()
+                .doesNotContain("@JsonCreator");
+    }
+
+    @Test
     public void testJdkHttpAsyncClient() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

@@ -111,6 +111,23 @@ public class Pet {
   public Pet() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Pet(
+    @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String name,
+    @JsonProperty(value = JSON_PROPERTY_PHOTO_URLS, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull List<String> photoUrls
+  ) {
+    this();
+    this.name = name;
+    this.photoUrls = photoUrls;
+  }
+
   public Pet id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;

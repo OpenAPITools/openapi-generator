@@ -50,6 +50,23 @@ public class EquilateralTriangle {
   public EquilateralTriangle() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public EquilateralTriangle(
+    @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String shapeType,
+    @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String triangleType
+  ) {
+    this();
+    this.shapeType = shapeType;
+    this.triangleType = triangleType;
+  }
+
   public EquilateralTriangle shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;

@@ -51,12 +51,19 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() { 
   }
 
-  @JsonCreator
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
   public HasOnlyReadOnly(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar, 
-    @JsonProperty(JSON_PROPERTY_FOO) String foo
+    @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @javax.annotation.Nullable String bar,
+    @JsonProperty(value = JSON_PROPERTY_FOO, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @javax.annotation.Nullable String foo
   ) {
-  this();
+    this();
     this.bar = bar;
     this.foo = foo;
   }

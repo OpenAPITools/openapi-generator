@@ -51,6 +51,19 @@ public class AppleReq {
   public AppleReq() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public AppleReq(
+    @JsonProperty(value = JSON_PROPERTY_CULTIVAR, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String cultivar
+  ) {
+    this();
+    this.cultivar = cultivar;
+  }
+
   public AppleReq cultivar(@javax.annotation.Nonnull String cultivar) {
     this.cultivar = cultivar;
     return this;

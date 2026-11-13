@@ -125,6 +125,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_SEALED_ONE_OF_INTERFACES = "useSealedOneOfInterfaces";
     public static final String USE_UNARY_INTERCEPTOR = "useUnaryInterceptor";
     public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String GENERATE_JSON_CREATOR = "generateJsonCreator";
 
     // Internal configurations
     public static final String SINGLE_REQUEST_PARAMETER = "singleRequestParameter";
@@ -139,6 +140,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     private static final String JACKSON2_PACKAGE = "com.fasterxml.jackson";
     private static final String JACKSON3_PACKAGE = "tools.jackson";
     private static final String JACKSON_PACKAGE = "jacksonPackage";
+    private static final String JSON_CREATOR_VARS = "x-java-json-creator-vars";
 
     public static final String GENERATE_CLIENT_AS_BEAN = "generateClientAsBean";
 
@@ -176,6 +178,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Setter protected boolean useSealedOneOfInterfaces = false;
     @Setter protected boolean useUnaryInterceptor = false;
     @Getter @Setter protected boolean useJackson3 = false;
+    @Getter @Setter protected boolean generateJsonCreator = false;
 
     protected String authFolder;
     /**
@@ -299,6 +302,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(FAIL_ON_UNKNOWN_PROPERTIES, "Fail Jackson de-serialization on unknown properties", this.failOnUnknownProperties));
         cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 instead of Jackson 2. Supported for 'native', 'apache-httpclient', 'jersey3', 'okhttp', and 'rest-assured' libraries (requires Java 17+) and for Spring 'resttemplate', 'webclient', and 'restclient' libraries (require useSpringBoot4=true).", this.useJackson3));
+        cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate a `@JsonCreator` constructor for required properties, so that deserialization fails when a required property is missing (native library only).", this.generateJsonCreator));
         cliOptions.add(CliOption.newBoolean(SUPPORT_VERTX_FUTURE, "Also generate api methods that return a vertx Future instead of taking a callback. Only `vertx` supports this option. Requires vertx 4 or greater.", this.supportVertxFuture));
         cliOptions.add(CliOption.newBoolean(USE_SEALED_ONE_OF_INTERFACES, "Generate the oneOf interfaces as sealed interfaces. Only supported for WebClient, RestClient and Microprofile (with Jackson).", this.useSealedOneOfInterfaces));
         cliOptions.add(CliOption.newBoolean(USE_UNARY_INTERCEPTOR, "If true it will generate ResponseInterceptors using a UnaryOperator. This can be usefull for manipulating the request before it gets passed, for example doing your own decryption", this.useUnaryInterceptor));
@@ -424,6 +428,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 SERIALIZATION_LIBRARY_JACKSON.equals(additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup);
         convertPropertyToBooleanAndWriteBack(USE_JACKSON_3, this::setUseJackson3);
+        convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
         convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4, this::setUseSpringBoot4);
         if (useJackson3 && (libRestClient || libRestTemplate || libWebClient) && !useSpringBoot4) {
             throw new IllegalArgumentException("useJackson3 for the restclient, resttemplate, and webclient libraries requires useSpringBoot4=true");
@@ -1411,6 +1416,18 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (isLibrary(OKHTTP)) {
             pruneUnusedOkHttpModelImports(objs);
         }
+        if (isLibrary(NATIVE) && this.jackson) {
+            // The native library deserializes models through their no-arg constructor, so required
+            // properties are not enforced by Jackson. A @JsonCreator constructor is needed to make
+            // deserialization fail when a required property is missing, which is what allows oneOf
+            // variants with different required properties to be told apart.
+            for (CodegenModel cm : getAllModels(objs).values()) {
+                if (cm.isEnum) {
+                    continue;
+                }
+                addJsonCreatorVendorExtensions(cm);
+            }
+        }
         return objs;
     }
 
@@ -1495,6 +1512,137 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return java.util.stream.Stream.concat(cm.vars.stream(), cm.allVars.stream())
                 .anyMatch(v -> (v.dataType != null && type.matcher(v.dataType).find())
                         || (v.datatypeWithEnum != null && type.matcher(v.datatypeWithEnum).find()));
+    }
+
+    private void addJsonCreatorVendorExtensions(CodegenModel cm) {
+        if (generateJsonCreator && !canGenerateJsonCreator(cm)) {
+            if (hasIncompatibleOverride(cm)) {
+                LOGGER.warn("Skipping the @JsonCreator constructor for model '{}' because it overrides an inherited property with a different type", cm.name);
+            } else {
+                LOGGER.debug("Skipping the @JsonCreator constructor for model '{}' because an ancestor cannot generate one", cm.name);
+            }
+            return;
+        }
+        List<CodegenProperty> creatorVars = getJsonCreatorVars(cm);
+        if (creatorVars.isEmpty()) {
+            return;
+        }
+
+        Set<String> ownNames = new HashSet<>();
+        for (CodegenProperty property : cm.vars) {
+            ownNames.add(property.name);
+        }
+        List<CodegenProperty> assignVars = new ArrayList<>();
+        for (CodegenProperty property : creatorVars) {
+            if (ownNames.contains(property.name)) {
+                assignVars.add(property);
+            }
+        }
+
+        String superCall;
+        if (generateJsonCreator && cm.getParentModel() != null) {
+            StringBuilder sb = new StringBuilder("super(");
+            boolean first = true;
+            for (CodegenProperty property : getJsonCreatorVars(cm.getParentModel())) {
+                if (!first) {
+                    sb.append(", ");
+                }
+                sb.append(property.name);
+                first = false;
+            }
+            superCall = sb.append(")").toString();
+        } else {
+            superCall = "this()";
+        }
+
+        cm.vendorExtensions.put("x-java-json-creator", true);
+        cm.vendorExtensions.put(JSON_CREATOR_VARS, creatorVars);
+        cm.vendorExtensions.put("x-java-json-creator-assign-vars", assignVars);
+        cm.vendorExtensions.put("x-java-json-creator-super-call", superCall);
+    }
+
+    /**
+     * Returns true when a property defined by this model reuses the name of an inherited
+     * property with a different Java type. Such a model cannot have a constructor that both
+     * assigns the child field and calls the parent constructor, so no creator is generated and
+     * the model keeps its historical no-arg deserialization.
+     */
+    private boolean hasIncompatibleOverride(CodegenModel cm) {
+        CodegenModel parent = cm.getParentModel();
+        if (parent == null) {
+            return false;
+        }
+        Map<String, String> inheritedTypes = new HashMap<>();
+        for (CodegenProperty property : getJsonCreatorVars(parent)) {
+            inheritedTypes.put(property.name, property.datatypeWithEnum);
+        }
+        for (CodegenProperty property : cm.vars) {
+            String inheritedType = inheritedTypes.get(property.name);
+            if (inheritedType != null && !inheritedType.equals(property.datatypeWithEnum)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true when this model and all its ancestors can have a {@code @JsonCreator}
+     * constructor. If an ancestor cannot (because of an incompatible property override), its
+     * descendants must not call a non-existent parent constructor.
+     */
+    private boolean canGenerateJsonCreator(CodegenModel cm) {
+        if (hasIncompatibleOverride(cm)) {
+            return false;
+        }
+        CodegenModel parent = cm.getParentModel();
+        return parent == null || canGenerateJsonCreator(parent);
+    }
+
+    /**
+     * Returns the constructor parameters for the {@code @JsonCreator} constructor of the given
+     * model, in the order they must be passed to the parent constructor.
+     */
+    @SuppressWarnings("unchecked")
+    private List<CodegenProperty> getJsonCreatorVars(CodegenModel cm) {
+        Object cached = cm.vendorExtensions.get(JSON_CREATOR_VARS);
+        if (cached instanceof List) {
+            return (List<CodegenProperty>) cached;
+        }
+
+        List<CodegenProperty> vars = new ArrayList<>();
+        Set<String> names = new HashSet<>();
+
+        if (!generateJsonCreator) {
+            // Preserve the historical behaviour: a constructor holding the read-only properties only.
+            for (CodegenProperty property : cm.readOnlyVars) {
+                if (names.add(property.name)) {
+                    vars.add(property);
+                }
+            }
+            return vars;
+        }
+
+        CodegenModel parent = cm.getParentModel();
+        if (parent != null) {
+            vars.addAll(getJsonCreatorVars(parent));
+        }
+        for (CodegenProperty property : cm.vars) {
+            int index = -1;
+            for (int i = 0; i < vars.size(); i++) {
+                if (vars.get(i).name.equals(property.name)) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index >= 0) {
+                // an overridden property keeps the slot of the inherited one, but uses the type of
+                // the child so the generated field assignment compiles
+                vars.set(index, property);
+            } else if (property.required || property.isReadOnly) {
+                vars.add(property);
+            }
+        }
+        return vars;
     }
 
     @Override

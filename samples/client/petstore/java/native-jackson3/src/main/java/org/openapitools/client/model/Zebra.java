@@ -92,6 +92,19 @@ public class Zebra {
   public Zebra() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Zebra(
+    @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String className
+  ) {
+    this();
+    this.className = className;
+  }
+
   public Zebra type(@javax.annotation.Nullable TypeEnum type) {
     this.type = type;
     return this;

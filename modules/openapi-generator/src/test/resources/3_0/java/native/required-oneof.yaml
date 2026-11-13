@@ -1,0 +1,107 @@
+openapi: 3.0.3
+info:
+  title: Required oneOf
+  version: 1.0.0
+paths:
+  /author:
+    get:
+      operationId: getAuthor
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Core_IntentAuthor'
+components:
+  schemas:
+    Core_IntentAuthor:
+      oneOf:
+        - $ref: '#/components/schemas/Core_IntentAuthor_Service'
+        - $ref: '#/components/schemas/Core_IntentAuthor_User'
+    Core_IntentAuthor_Service:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: string
+          xml:
+            attribute: true
+    Core_IntentAuthor_User:
+      type: object
+      required:
+        - id
+        - domainId
+      properties:
+        id:
+          type: string
+          xml:
+            attribute: true
+        domainId:
+          type: string
+          xml:
+            attribute: true
+        nickname:
+          type: string
+    BaseModel:
+      type: object
+      discriminator:
+        propertyName: kind
+      required:
+        - baseId
+        - kind
+      properties:
+        baseId:
+          type: string
+        kind:
+          type: string
+    ChildModel:
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          required:
+            - childId
+          properties:
+            childId:
+              type: string
+    ReadOnlyModel:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+        createdAt:
+          type: string
+          readOnly: true
+    OverrideBase:
+      type: object
+      discriminator:
+        propertyName: kind
+      required:
+        - kind
+        - type
+      properties:
+        kind:
+          type: string
+        type:
+          type: string
+    OverrideChild:
+      allOf:
+        - $ref: '#/components/schemas/OverrideBase'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - WEBHOOK
+    OverrideGrandChild:
+      allOf:
+        - $ref: '#/components/schemas/OverrideChild'
+        - type: object
+          required:
+            - extra
+          properties:
+            extra:
+              type: string

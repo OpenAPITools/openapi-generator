@@ -45,6 +45,19 @@ public class ShapeInterface {
   public ShapeInterface() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ShapeInterface(
+    @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String shapeType
+  ) {
+    this();
+    this.shapeType = shapeType;
+  }
+
   public ShapeInterface shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;
