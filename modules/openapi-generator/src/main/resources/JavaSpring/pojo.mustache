@@ -170,13 +170,13 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent() || this.{{name}}.get() == null{{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{#isNullable}}){{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{{vendorExtensions.x-container-instantiation-type}}}<>(){{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
+      this.{{name}} = new {{{vendorExtensions.x-container-instantiation-type}}}<>();
     }
     this.{{name}}.add({{name}}Item);
     {{/openApiNullable}}
@@ -188,13 +188,13 @@ public {{>sealed}}class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent() || this.{{name}}.get() == null{{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>(){{#isNullable}}){{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{{vendorExtensions.x-container-instantiation-type}}}<>(){{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.put(key, {{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>();
+      this.{{name}} = new {{{vendorExtensions.x-container-instantiation-type}}}<>();
     }
     this.{{name}}.put(key, {{name}}Item);
     {{/openApiNullable}}

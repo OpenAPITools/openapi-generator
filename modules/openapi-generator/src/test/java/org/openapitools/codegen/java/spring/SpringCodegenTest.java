@@ -3160,6 +3160,28 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testItemHelpersUseInstantiationTypes_issue25642() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_25642.yaml", SPRING_BOOT,
+                new HashMap<>(), configurator -> configurator
+                        .addInstantiationType("map", "LinkedHashMap")
+                        .addInstantiationType("array", "LinkedList")
+                        .addInstantiationType("set", "TreeSet")
+                        .addImportMapping("LinkedHashMap", "java.util.LinkedHashMap")
+                        .addImportMapping("LinkedList", "java.util.LinkedList")
+                        .addImportMapping("TreeSet", "java.util.TreeSet"));
+
+        JavaFileAssert.assertThat(files.get("Basket.java"))
+                .assertMethod("putEntriesItem", "String", "String")
+                .bodyContainsLines("this.entries = new LinkedHashMap<>();")
+                .toFileAssert()
+                .assertMethod("addTagsItem", "String")
+                .bodyContainsLines("this.tags = new LinkedList<>();")
+                .toFileAssert()
+                .assertMethod("addCodesItem", "String")
+                .bodyContainsLines("this.codes = new TreeSet<>();");
+    }
+
+    @Test
     public void testPutItemsMethodContainsKeyInSuperClassMethodCall_issue12494() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_12494.yaml", null);
 

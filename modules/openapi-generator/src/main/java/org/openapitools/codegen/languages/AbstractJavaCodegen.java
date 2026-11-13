@@ -1711,6 +1711,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    private static String defaultContainerType(String containerType) {
+        switch (containerType) {
+            case "set":
+                return "LinkedHashSet";
+            case "map":
+                return "HashMap";
+            default:
+                return "ArrayList";
+        }
+    }
+
     private String getDefaultCollectionType(Schema schema) {
         return getDefaultCollectionType(schema, null);
     }
@@ -2109,6 +2120,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         } else if ("map".equals(property.containerType)) {
             model.imports.add("HashMap");
+        }
+
+        if (property.containerType != null) {
+            // the add/put item helpers create the container when the field is null
+            String instantiationType = instantiationTypes().getOrDefault(property.containerType,
+                    defaultContainerType(property.containerType));
+            property.vendorExtensions.put("x-container-instantiation-type", instantiationType);
+            if (importMapping().containsKey(instantiationType)) {
+                model.imports.add(instantiationType);
+            }
         }
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {
