@@ -1,0 +1,41 @@
+openapi: 3.0.1
+info:
+  title: Polymorphism with nullable property on discriminator parent
+  version: 1.0.0
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+        - nickname
+      properties:
+        petType:
+          type: string
+        nickname:
+          type: string
+          nullable: true
+      discriminator:
+        propertyName: petType
+        mapping:
+          dog: '#/components/schemas/Dog'
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            barks:
+              type: boolean
