@@ -196,6 +196,7 @@ class Configuration:
       values before.
     :param verify_ssl: bool - Set this to false to skip verifying SSL certificate
       when calling API from https server.
+    :param disable_strict_ssl_verification: bool - Set this to true to disable strict X.509 certificate verification.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
 {{#asyncio}}
@@ -375,6 +376,7 @@ conf = {{{packageName}}}.Configuration(
         socket_options: Optional[Any]=None,
         datetime_format: str="{{{datetimeFormat}}}",
         date_format: str="{{{dateFormat}}}",
+        disable_strict_ssl_verification: bool=False,
         *,
         debug: Optional[bool] = None,
     ) -> None:
@@ -454,6 +456,7 @@ conf = {{{packageName}}}.Configuration(
         """
 
         self.verify_ssl = verify_ssl
+        self.disable_strict_ssl_verification = disable_strict_ssl_verification
         """SSL/TLS verification
            Set this to false to skip verifying SSL certificate when calling API
            from https server.
