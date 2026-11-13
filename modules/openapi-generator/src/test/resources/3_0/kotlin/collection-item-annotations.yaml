@@ -246,3 +246,11 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Pet'
+        singlePet:
+          $ref: '#/components/schemas/Pet'
+        customInfo:
+          type: object
+        anything: {}
+        anyMap:
+          type: object
+          additionalProperties: {}

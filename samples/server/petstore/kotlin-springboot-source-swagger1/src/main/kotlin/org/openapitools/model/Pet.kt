@@ -54,7 +54,6 @@ data class Pet(
     @param:JsonProperty("category")
     @get:JsonProperty("category") val category: Category? = null,
 
-    @field:Valid
     @ApiModelProperty(value = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)

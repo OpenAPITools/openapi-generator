@@ -29,7 +29,6 @@ data class Cat(
     @param:JsonProperty("huntingSkill", required = true)
     @get:JsonProperty("huntingSkill", required = true) val huntingSkill: Cat.HuntingSkill,
 
-    @field:Valid
     @param:JsonProperty("petType", required = true)
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "cat"
 ) : Pet {

@@ -1564,6 +1564,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return "";
     }
 
+    /**
+     * kotlin-spring no longer emits the deprecated container-level {@code @field:Valid} on map
+     * properties (Hibernate Validator 9.1+ logs HV000271 for it), so map values cascade through
+     * the type argument instead: {@code Map<String, @Valid V>}, same as array/set items.
+     */
+    @Override
+    protected boolean useBeanValidationOnMapValueType() {
+        return useBeanValidation;
+    }
+
     private String getItemsStringBeanValidation(Schema<?> items) {
         if (ModelUtils.shouldIgnoreBeanValidation(items)) {
             return "";

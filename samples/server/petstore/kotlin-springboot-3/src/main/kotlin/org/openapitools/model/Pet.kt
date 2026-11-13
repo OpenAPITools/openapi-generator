@@ -47,7 +47,6 @@ data class Pet(
     @param:JsonProperty("category")
     @get:JsonProperty("category") val category: Category? = null,
 
-    @field:Valid
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
     @get:JsonProperty("tags") val tags: kotlin.collections.List<@Valid Tag>? = null,
