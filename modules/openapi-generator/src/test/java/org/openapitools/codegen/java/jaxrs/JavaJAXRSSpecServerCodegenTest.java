@@ -3030,4 +3030,28 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         new DefaultGenerator().opts(configuratorFalse.toClientOptInput()).generate();
         assertFileNotContains(outputFalse.toPath().resolve("pom.xml"), "jackson-databind-nullable");
     }
+
+    /**
+     * A grandchild that is mapped by the discriminator of a more distant ancestor (Animal maps "cat" to Cat, which
+     * extends the intermediate Feline without a discriminator of its own) must get that discriminator value as
+     * {@code @JsonTypeName}. Otherwise Jackson writes the class name "Cat" as type id and cannot read the JSON back.
+     */
+    @Test
+    public void testDiscriminatorValueOfGrandchildIsResolvedFromAncestor() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setInputSpec("src/test/resources/3_0/allOf_composition_discriminator_multiple_inheritance.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path modelDir = output.toPath().resolve("src/gen/java/org/openapitools/model");
+        assertFileContains(modelDir.resolve("Animal.java"), "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")");
+        assertFileContains(modelDir.resolve("Cat.java"), "@JsonTypeName(\"cat\")");
+        assertFileNotContains(modelDir.resolve("Cat.java"), "@JsonTypeName(\"Cat\")");
+        assertFileContains(modelDir.resolve("Dog.java"), "@JsonTypeName(\"dog\")");
+    }
 }

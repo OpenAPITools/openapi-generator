@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: x-abstract with implicit discriminator mappings
+  description: >
+    Pet declares a discriminator without explicit mapping, so the generator maps every allOf descendant
+    under its schema name, including the abstract middle tier Cat. These implicit mappings to abstract
+    models are dropped; the concrete leaves Dog, PersianCat and SiameseCat stay resolvable through Pet.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+
+    Cat:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    PersianCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    SiameseCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            eyeColor:
+              type: string
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean
