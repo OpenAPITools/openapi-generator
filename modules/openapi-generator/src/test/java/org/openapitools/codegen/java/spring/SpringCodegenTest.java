@@ -8191,16 +8191,18 @@ public class SpringCodegenTest {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
         boolean useJakarta = springBootVersion >2;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
-                Map.of(USE_JSPECIFY, true,
-                        CONTAINER_DEFAULT_TO_NULL, true,
-                        USE_BEANVALIDATION, true,
-                        GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
-                        GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
-                        CodegenConstants.OPENAPI_NULLABLE, true,
-                        INTERFACE_ONLY, false,
-                        GENERATE_BUILDERS, true,
-                        springVersionProperty, springBootVersion > 2,
-                        USE_JAKARTA_EE, useJakarta
+                Map.ofEntries(
+                        Map.entry(USE_JSPECIFY, true),
+                        Map.entry(CONTAINER_DEFAULT_TO_NULL, true),
+                        Map.entry(USE_BEANVALIDATION, true),
+                        Map.entry(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true),
+                        Map.entry(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true),
+                        Map.entry(CodegenConstants.OPENAPI_NULLABLE, true),
+                        Map.entry(INTERFACE_ONLY, false),
+                        Map.entry(GENERATE_BUILDERS, true),
+                        Map.entry(springVersionProperty, springBootVersion > 2),
+                        Map.entry(USE_JAKARTA_EE, useJakarta),
+                        Map.entry(OPENAPI_NULLABLE_PRESENT, true)
                 ),
                 codegenConfigurator ->
                         codegenConfigurator

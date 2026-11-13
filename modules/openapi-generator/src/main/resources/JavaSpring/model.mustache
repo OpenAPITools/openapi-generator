@@ -12,10 +12,10 @@ import java.util.Objects;
 {{#allVars}}
 {{#isNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
-{{#required}}
+{{#openApiNullablePresent}}{{#required}}
 import {{javaxPackage}}.validation.valueextraction.Unwrapping;
 import org.openapitools.jackson.nullable.{{javaxPackage}}.Present;
-{{/required}}
+{{/required}}{{/openApiNullablePresent}}
 {{/isNullable}}
 {{/allVars}}
 {{/model}}

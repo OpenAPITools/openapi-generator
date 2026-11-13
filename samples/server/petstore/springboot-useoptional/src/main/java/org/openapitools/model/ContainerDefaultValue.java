@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import jakarta.validation.valueextraction.Unwrapping;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.openapitools.jackson.nullable.jakarta.Present;
 import org.springframework.lang.Nullable;
 
 /**
@@ -94,7 +92,7 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @Present(payload = Unwrapping.Skip.class)
+  
   @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {

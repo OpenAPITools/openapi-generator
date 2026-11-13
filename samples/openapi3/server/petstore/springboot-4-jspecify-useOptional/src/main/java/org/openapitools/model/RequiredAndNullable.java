@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import jakarta.validation.valueextraction.Unwrapping;
 import jakarta.xml.bind.annotation.*;
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.openapitools.jackson.nullable.jakarta.Present;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -66,7 +64,7 @@ public class RequiredAndNullable {
    * Get str
    * @return str
    */
-  @Present(payload = Unwrapping.Skip.class)
+  
   @Schema(name = "str", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("str")
   @JacksonXmlProperty(localName = "str")
@@ -90,7 +88,7 @@ public class RequiredAndNullable {
    * Get file
    * @return file
    */
-  @Present(payload = Unwrapping.Skip.class)@Valid 
+  @Valid 
   @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("file")
   @JacksonXmlProperty(localName = "file")
@@ -114,7 +112,7 @@ public class RequiredAndNullable {
    * Get color
    * @return color
    */
-  @Present(payload = Unwrapping.Skip.class)
+  
   @Schema(name = "color", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
@@ -170,7 +168,7 @@ public class RequiredAndNullable {
    * Get _list
    * @return _list
    */
-  @Present(payload = Unwrapping.Skip.class)
+  
   @Schema(name = "list", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("list")
   @JacksonXmlProperty(localName = "list")

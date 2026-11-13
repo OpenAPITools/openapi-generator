@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import jakarta.annotation.Generated;
-import jakarta.validation.valueextraction.Unwrapping;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.openapitools.jackson.nullable.jakarta.Present;
 import org.springframework.lang.Nullable;
 
 /**

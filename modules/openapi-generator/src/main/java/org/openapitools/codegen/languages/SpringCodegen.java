@@ -137,6 +137,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
     public static final String USE_SPRING_SECURITY_PRE_AUTHORIZE = "useSpringSecurityPreAuthorize";
     public static final String SPRING_SECURITY_AUTHORITY_PREFIX = "springSecurityAuthorityPrefix";
+    public static final String OPENAPI_NULLABLE_PRESENT = "openApiNullablePresent";
 
     @Getter
     public enum RequestMappingMode {
@@ -214,6 +215,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
     @Getter protected String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+    @Getter private boolean openApiNullablePresent;
     /**
      * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
      *
@@ -470,6 +472,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE,
                 CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC,
                 useEnumValueInterface));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE_PRESENT,
+                "Use `@Present` annotation to mark nullable and required properties.",
+                openApiNullablePresent));
 
     }
 
@@ -2426,6 +2431,13 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseSwaggerUI(boolean useSwaggerUI) {
         this.useSwaggerUI = useSwaggerUI;
+    }
+
+    /**
+     * set openApiNullablePresent to true if openApiNullable is true and useBeanValidation is true.
+     */
+    public void setOpenApiNullablePresent(boolean openApiNullablePresent) {
+        this.openApiNullablePresent = openApiNullablePresent && useBeanValidation && openApiNullable;
     }
 
     @Override

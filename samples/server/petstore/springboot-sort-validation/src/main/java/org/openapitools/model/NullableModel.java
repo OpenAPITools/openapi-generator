@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import jakarta.validation.valueextraction.Unwrapping;
 import java.io.Serializable;
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -15,7 +14,6 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.openapitools.jackson.nullable.jakarta.Present;
 import org.springframework.lang.Nullable;
 
 /**
@@ -79,7 +77,7 @@ public class NullableModel implements Serializable {
    * Get requiredNullable
    * @return requiredNullable
    */
-  @Present(payload = Unwrapping.Skip.class)
+  
   @JsonProperty("requiredNullable")
   public JsonNullable<String> getRequiredNullable() {
     return requiredNullable;

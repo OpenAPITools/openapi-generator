@@ -15,9 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
-import javax.validation.valueextraction.Unwrapping;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.openapitools.jackson.nullable.javax.Present;
 import org.springframework.lang.Nullable;
 
 /**
@@ -94,7 +92,7 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  @Present(payload = Unwrapping.Skip.class)
+  
   @Schema(name = "nullable_required_array", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {

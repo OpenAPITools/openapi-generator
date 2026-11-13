@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import jakarta.validation.valueextraction.Unwrapping;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.*;
@@ -17,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import org.openapitools.jackson.nullable.JsonNullable;
-import org.openapitools.jackson.nullable.jakarta.Present;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
@@ -149,7 +147,7 @@ public class Pet {
    * Get name
    * @return name
    */
-  @Present(payload = Unwrapping.Skip.class)
+  
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("name")
   public JsonNullable<String> getName() {
