@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: deeper abstract levels below an implicitly mapped abstract oneOf member
+  description: >
+    PetRequest maps its members implicitly by petType. The abstract member CatRequest is extended by the abstract
+    BigCatRequest, which maps LION to the concrete LionRequest by the same property petType, so LionRequest is
+    resolvable through PetRequest as LION.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    PetRequest:
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+
+    CatRequest:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+
+    BigCatRequest:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          properties:
+            roars:
+              type: boolean
+      discriminator:
+        propertyName: petType
+        mapping:
+          LION: '#/components/schemas/LionRequest'
+
+    LionRequest:
+      allOf:
+        - $ref: '#/components/schemas/BigCatRequest'
+        - type: object
+          properties:
+            mane:
+              type: boolean
+
+    DogRequest:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string

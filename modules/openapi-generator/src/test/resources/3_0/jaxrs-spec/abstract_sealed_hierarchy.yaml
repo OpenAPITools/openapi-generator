@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: abstract sealed class hierarchy
+  description: >
+    A two-level class hierarchy whose non-leaf classes Pet and Cat are marked x-abstract. Every
+    discriminator value maps directly to a concrete leaf, so a single petType resolves any subtype
+    through the root type; the abstract middle tier Cat has no discriminator of its own. With useSealed
+    every non-leaf class is abstract and sealed and every leaf is final, so a switch over Pet can be
+    exhaustive without default. Shape is abstract without subclasses outside any sealed hierarchy, Toy
+    uses x-abstract with a string "false".
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    Pet:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          PERSIAN: '#/components/schemas/PersianCat'
+          SIAMESE: '#/components/schemas/SiameseCat'
+
+    Cat:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    PersianCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    SiameseCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            eyeColor:
+              type: string
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean
+
+    Shape:
+      x-abstract: true
+      type: object
+      properties:
+        name:
+          type: string
+
+    Toy:
+      x-abstract: "false"
+      type: object
+      properties:
+        name:
+          type: string

@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: abstract member of a sealed oneOf interface whose abstract member discriminates on another property
+  description: >
+    Two-level discriminator: PetRequest maps its members implicitly by petType, the abstract member CatRequest
+    resolves its subclasses by catType. The subclasses cannot be mapped by petType, so this is rejected.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    PetRequest:
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+
+    CatRequest:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+        - catType
+      properties:
+        petType:
+          type: string
+        catType:
+          type: string
+        indoor:
+          type: boolean
+      discriminator:
+        propertyName: catType
+
+    PersianCatRequest:
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    SiameseCatRequest:
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          properties:
+            eyeColor:
+              type: string
+
+    DogRequest:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        trained:
+          type: boolean
