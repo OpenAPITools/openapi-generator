@@ -26,7 +26,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @JsonTypeName("AdditionalPropertiesObject")
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
-public class AdditionalPropertiesObject extends HashMap<String, Map> implements Serializable {
+public class AdditionalPropertiesObject extends HashMap<String, Map<String, Object>> implements Serializable {
   private String name;
 
   public AdditionalPropertiesObject() {
