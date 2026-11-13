@@ -1288,6 +1288,43 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "generic interfaces are emitted verbatim via x-kotlin-implements and schemaImplements")
+    public void generateModelsImplementingGenericInterfaces() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SCHEMA_IMPLEMENTS, Map.of(
+                "Dog", "com.some.pack.Repo<Cat>",
+                "Bird", List.of("com.some.pack.Pair<kotlin.String, com.other.pack.Bar>", "com.some.pack.Plain"),
+                "Fish", List.of("com.some.pack.Outer<kotlin.collections.List<com.other.pack.Bar>>", "com.some.pack.Nullable<Dog?>")
+        ));
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/generic-interfaces-implements.yaml"))
+                .config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        String modelDir = outputPath + "/src/main/kotlin/org/openapitools/model/";
+        assertFileContains(Paths.get(modelDir + "Cat.kt"),
+                ") : com.some.pack.Pair<kotlin.String, com.other.pack.Bar>, com.some.pack.Repo<Dog> {");
+        assertFileContains(Paths.get(modelDir + "Dog.kt"), ") : com.some.pack.Repo<Cat> {");
+        assertFileContains(Paths.get(modelDir + "Bird.kt"),
+                ") : com.some.pack.Pair<kotlin.String, com.other.pack.Bar>, com.some.pack.Plain {");
+        assertFileContains(Paths.get(modelDir + "Fish.kt"),
+                ") : com.some.pack.Nullable<Dog?>, com.some.pack.Outer<kotlin.collections.List<com.other.pack.Bar>> {");
+    }
+
     @Test
     public void generateSerializableModelWithSchemaImplements() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

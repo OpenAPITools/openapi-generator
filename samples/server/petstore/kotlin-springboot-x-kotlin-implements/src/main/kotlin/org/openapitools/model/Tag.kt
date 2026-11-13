@@ -34,7 +34,7 @@ data class Tag(
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("name")
     @get:JsonProperty("name") val name: kotlin.String? = null
-) : java.io.Serializable {
+) : com.some.pack.GenericPair<kotlin.String, org.openapitools.model.Category>, com.some.pack.GenericRepo<Category>, java.io.Serializable {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1
