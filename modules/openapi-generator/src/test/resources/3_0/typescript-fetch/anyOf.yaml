@@ -79,6 +79,10 @@ components:
       enum:
         - red
         - blue
+    ColorOrString:
+      anyOf:
+        - $ref: '#/components/schemas/Color'
+        - type: string
     OneOfModelAndEnum:
       oneOf:
         - $ref: '#/components/schemas/Cat'

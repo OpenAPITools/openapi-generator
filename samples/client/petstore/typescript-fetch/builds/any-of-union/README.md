@@ -58,6 +58,7 @@ All URIs are relative to *http://localhost*
 - [AnyOfWithProperties](docs/AnyOfWithProperties.md)
 - [Cat](docs/Cat.md)
 - [Color](docs/Color.md)
+- [ColorOrString](docs/ColorOrString.md)
 - [CreatePet](docs/CreatePet.md)
 - [CreatePetContent](docs/CreatePetContent.md)
 - [CreatePetData](docs/CreatePetData.md)

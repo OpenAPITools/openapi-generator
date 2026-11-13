@@ -1457,6 +1457,9 @@ public class TypeScriptFetchClientCodegenTest {
         // null is valid when at least one branch is nullable (for oneOf: exactly one)
         TestUtils.assertFileContains(modelFile.apply("NullableValue"), "export type NullableValue = null | number | string;");
         TestUtils.assertFileContains(modelFile.apply("MultipleNullableValue"), "export type MultipleNullableValue = null | number | string;");
+        // open enum: TypeScript reduces `Color | string` to `string`, so editors lose the enum values.
+        // Pins the current output until the enum members are kept (e.g. `Color | (string & {})`).
+        TestUtils.assertFileContains(modelFile.apply("ColorOrString"), "export type ColorOrString = Color | string;");
 
         if (!withoutRuntimeChecks) {
             Path petData = Paths.get(output + "/models/PetData.ts");

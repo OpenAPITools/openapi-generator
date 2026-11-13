@@ -3,6 +3,7 @@
 export * from './AnyOfWithProperties';
 export * from './Cat';
 export * from './Color';
+export * from './ColorOrString';
 export * from './CreatePet';
 export * from './CreatePetContent';
 export * from './CreatePetData';
