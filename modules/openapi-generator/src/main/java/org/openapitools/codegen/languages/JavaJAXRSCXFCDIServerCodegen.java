@@ -70,6 +70,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         removeOption(USE_JSPECIFY);
         // JSON-B support lives in the JavaJaxRS/spec templates as well; cxf-cdi always uses Jackson.
         removeOption(CodegenConstants.SERIALIZATION_LIBRARY);
+        removeOption(JavaJAXRSSpecServerCodegen.JSONB_DISCRIMINATOR_DESERIALIZERS);
     }
 
     @Override
@@ -99,6 +100,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         additionalProperties.remove(USE_JSPECIFY);
         setUseJspecify(false);
         additionalProperties.remove(CodegenConstants.SERIALIZATION_LIBRARY);
+        additionalProperties.remove(JavaJAXRSSpecServerCodegen.JSONB_DISCRIMINATOR_DESERIALIZERS);
 
         super.processOpts();
 

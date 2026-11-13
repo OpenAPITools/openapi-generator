@@ -76,6 +76,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_JAKARTA_SECURITY_ANNOTATIONS = "useJakartaSecurityAnnotations";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SEALED = "useSealed";
+    public static final String JSONB_DISCRIMINATOR_DESERIALIZERS = "jsonbDiscriminatorDeserializers";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
@@ -102,6 +103,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Setter
     protected boolean useSealed = false;
+
+    @Getter @Setter
+    protected boolean jsonbDiscriminatorDeserializers = false;
 
     private final JakartaSecurityAnnotationProcessor jakartaSecurityAnnotationProcessor = new JakartaSecurityAnnotationProcessor();
 
@@ -188,7 +192,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate a JSON creator constructor for required properties.", generateJsonCreator));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SEALED, "Whether to generate sealed model interfaces and classes.", useSealed));
-        CliOption serializationLibraryOption = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library used for the generated models. 'jsonb' is only supported by the default library (" + DEFAULT_LIBRARY + "). With 'jsonb', dateLibrary defaults to 'java8' ('java8-localdatetime' is also supported, 'joda' and 'legacy' are not), openApiNullable is disabled and no type annotations are generated for discriminator/oneOf polymorphism. Models with additionalProperties are generated as subclasses of HashMap without a JSON-B specific mapping, so they are (de)serialized as plain maps: declared properties are not written and are read into map entries instead of their fields. Properties with a null value are omitted, except required nullable properties, which are written as null; JsonbConfig.withNullValues(true) does not change this because the generated @JsonbProperty annotations default to nillable = false. Depending on the JSON-B implementation, enum values inside maps (and, with older implementations, inside lists) may not use the generated enum serializers/deserializers.")
+        cliOptions.add(CliOption.newBoolean(JSONB_DISCRIMINATOR_DESERIALIZERS, "With 'serializationLibrary=jsonb' and 'useJakartaEe=true': generate "
+                + "JSON-B deserializers that resolve the concrete class of a model, also in list, set and map properties, from its "
+                + "discriminator mapping, and create concrete models with their discriminator values. With Yasson before 3.0.5, "
+                + "this does not cover root containers, such as a request body of type Map<String, Pet> (with Yasson 3.0.2 also "
+                + "List<Pet>). With Johnzon 2.0.2 and 2.2.0, reading a model fails when a required list, set or map property "
+                + "with elements of such models is absent from the JSON (an explicit null is read).", jsonbDiscriminatorDeserializers));
+        CliOption serializationLibraryOption = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library used for the generated models. 'jsonb' is only supported by the default library (" + DEFAULT_LIBRARY + "). With 'jsonb', dateLibrary defaults to 'java8' ('java8-localdatetime' is also supported, 'joda' and 'legacy' are not), openApiNullable is disabled and no type annotations are generated for discriminator/oneOf polymorphism (see jsonbDiscriminatorDeserializers). Models with additionalProperties are generated as subclasses of HashMap without a JSON-B specific mapping, so they are (de)serialized as plain maps: declared properties are not written and are read into map entries instead of their fields. Properties with a null value are omitted, except required nullable properties, which are written as null; JsonbConfig.withNullValues(true) does not change this because the generated @JsonbProperty annotations default to nillable = false. Depending on the JSON-B implementation, enum values inside maps (and, with older implementations, inside lists) may not use the generated enum serializers/deserializers.")
                 .defaultValue(SERIALIZATION_LIBRARY_JACKSON);
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
@@ -241,6 +251,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
         convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
         convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
+        convertPropertyToBooleanAndWriteBack(JSONB_DISCRIMINATOR_DESERIALIZERS, this::setJsonbDiscriminatorDeserializers);
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
@@ -279,6 +290,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         if (isJsonb()) {
             applyJsonbSerialization();
+        }
+        if (jsonbDiscriminatorDeserializers && !isJsonb()) {
+            LOGGER.warn("'{}' only applies to '{}={}' and is ignored.", JSONB_DISCRIMINATOR_DESERIALIZERS, CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+            jsonbDiscriminatorDeserializers = false;
+            additionalProperties.put(JSONB_DISCRIMINATOR_DESERIALIZERS, false);
+        }
+        if (jsonbDiscriminatorDeserializers && !useJakartaEe) {
+            throw new IllegalArgumentException("'" + JSONB_DISCRIMINATOR_DESERIALIZERS + "=true' requires '" + USE_JAKARTA_EE
+                    + "=true': the generated deserializers use the Jakarta JSON-B 3.0 API (jakarta.json.bind).");
         }
 
         // expose flags to templates
@@ -553,6 +573,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             }
         }
         validateAbstractModelsHaveSubclasses(allModels, abstractModels);
+        if (jsonbDiscriminatorDeserializers) {
+            new JsonbPolymorphismProcessor(this, allModels).apply();
+        }
         return result;
     }
 

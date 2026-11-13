@@ -1,0 +1,100 @@
+
+  /**
+   * Resolves the concrete class of a JSON object by its discriminator property "{{{vendorExtensions.x-jsonb-discriminator-property}}}".
+   */
+  public static final class {{vendorExtensions.x-jsonb-deserializer-name}} implements jakarta.json.bind.serializer.JsonbDeserializer<{{package}}.{{classname}}> {
+
+    private static final jakarta.json.spi.JsonProvider JSON_PROVIDER = jakarta.json.spi.JsonProvider.provider();
+
+    @Override
+    public {{package}}.{{classname}} deserialize(jakarta.json.stream.JsonParser parser, jakarta.json.bind.serializer.DeserializationContext ctx, java.lang.reflect.Type rtType) {
+      jakarta.json.JsonValue value = parser.getValue();
+      if (value.getValueType() == jakarta.json.JsonValue.ValueType.NULL) {
+        return null;
+      }
+      if (value.getValueType() != jakarta.json.JsonValue.ValueType.OBJECT) {
+        throw new jakarta.json.bind.JsonbException("Expected a JSON object for {{classname}} but got " + value.getValueType());
+      }
+      {{package}}.{{classname}} result = fromJsonObject(value.asJsonObject(), ctx);
+      // some implementations (Johnzon) also apply this deserializer when a subclass of {{classname}} is requested
+      if (rtType instanceof Class && result != null && !((Class<?>) rtType).isInstance(result)) {
+        throw new jakarta.json.bind.JsonbException("The discriminator of the JSON object resolves to " + result.getClass().getName()
+            + ", which is not a " + ((Class<?>) rtType).getName());
+      }
+      return result;
+    }
+
+    public static {{package}}.{{classname}} fromJsonObject(jakarta.json.JsonObject json, jakarta.json.bind.serializer.DeserializationContext ctx) {
+    {{#vendorExtensions.x-jsonb-self-if-missing}}
+      return fromJsonObject(json, ctx, false);
+    }
+
+    /**
+     * @param selfIfMissing whether a supertype's discriminator already resolved the object to {{classname}}, which it
+     *     then is without a value of "{{{vendorExtensions.x-jsonb-discriminator-property}}}"
+     */
+    static {{package}}.{{classname}} fromJsonObject(jakarta.json.JsonObject json, jakarta.json.bind.serializer.DeserializationContext ctx, boolean selfIfMissing) {
+    {{/vendorExtensions.x-jsonb-self-if-missing}}
+      jakarta.json.JsonValue discriminator = json.get("{{{vendorExtensions.x-jsonb-discriminator-property}}}");
+      String discriminatorValue = discriminator == null || discriminator.getValueType() == jakarta.json.JsonValue.ValueType.NULL ? null
+          : discriminator.getValueType() == jakarta.json.JsonValue.ValueType.STRING ? ((jakarta.json.JsonString) discriminator).getString()
+          : discriminator.toString();
+      {{#vendorExtensions.x-jsonb-self-if-missing}}
+      if (selfIfMissing && discriminatorValue == null) {
+        return fromSelf(json, ctx);
+      }
+      {{/vendorExtensions.x-jsonb-self-if-missing}}
+      {{#vendorExtensions.x-jsonb-subtypes}}
+      if ("{{{jsonbValue}}}".equals(discriminatorValue)) {
+        {{#jsonbDelegate}}
+        return {{jsonbType}}.{{vendorExtensions.x-jsonb-deserializer-name}}.fromJsonObject(json, ctx{{#jsonbSelfIfMissing}}, true{{/jsonbSelfIfMissing}});
+        {{/jsonbDelegate}}
+        {{#jsonbBind}}
+        try (jakarta.json.stream.JsonParser parser = parserOf(json)) {
+          return ctx.deserialize({{jsonbType}}.class, parser);
+        }
+        {{/jsonbBind}}
+        {{#jsonbSelf}}
+        return fromSelf(json, ctx);
+        {{/jsonbSelf}}
+      }
+      {{/vendorExtensions.x-jsonb-subtypes}}
+      throw new jakarta.json.bind.JsonbException("Unknown or missing discriminator value for '{{{vendorExtensions.x-jsonb-discriminator-property}}}' of {{classname}}: " + discriminatorValue);
+    }
+    {{#vendorExtensions.x-jsonb-self}}
+
+    private static {{package}}.{{classname}} fromSelf(jakarta.json.JsonObject json, jakarta.json.bind.serializer.DeserializationContext ctx) {
+      {{vendorExtensions.x-jsonb-data-name}} data;
+      try (jakarta.json.stream.JsonParser parser = parserOf(json)) {
+        data = ctx.deserialize({{vendorExtensions.x-jsonb-data-name}}.class, parser);
+      }
+      {{package}}.{{classname}} result = new {{package}}.{{classname}}();
+      {{#allVars}}
+      result.{{setter}}(data.{{name}});
+      {{/allVars}}
+      return result;
+    }
+    {{/vendorExtensions.x-jsonb-self}}
+
+    {{! not JsonParserFactory#createParser(JsonObject): Parsson's parser over a structure does not support getValue(),
+        which nested deserializers (such as those of enums) call; the callers close the parser }}
+    private static jakarta.json.stream.JsonParser parserOf(jakarta.json.JsonObject json) {
+      return JSON_PROVIDER.createParser(new java.io.StringReader(json.toString()));
+    }
+    {{#vendorExtensions.x-jsonb-self}}
+
+    /**
+     * Binding target for an object that maps to {{classname}} itself: it is no subtype of {{classname}} and has no
+     * deserializer, so binding it does not recurse into this deserializer.
+     */
+    public static final class {{vendorExtensions.x-jsonb-data-name}} {
+      {{#allVars}}
+      @jakarta.json.bind.annotation.JsonbProperty("{{baseName}}")
+      {{#vendorExtensions.x-jsonb-container-deserializer}}
+      @jakarta.json.bind.annotation.JsonbTypeDeserializer({{{.}}}.class)
+      {{/vendorExtensions.x-jsonb-container-deserializer}}
+      public {{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+      {{/allVars}}
+    }
+    {{/vendorExtensions.x-jsonb-self}}
+  }

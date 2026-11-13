@@ -63,6 +63,9 @@ import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
 {{/additionalProperties}}
 {{/jackson}}
+{{#vendorExtensions.x-jsonb-polymorphic}}
+@jakarta.json.bind.annotation.JsonbTypeDeserializer({{package}}.{{classname}}.{{vendorExtensions.x-jsonb-deserializer-name}}.class)
+{{/vendorExtensions.x-jsonb-polymorphic}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}{{>xmlPojoAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}
 {{{.}}}
@@ -107,6 +110,9 @@ public {{#vendorExtensions.x-abstract}}abstract {{/vendorExtensions.x-abstract}}
   {{/additionalProperties}}
   {{/generateBuilders}}
   {{#vendorExtensions.x-abstract}}protected{{/vendorExtensions.x-abstract}}{{^vendorExtensions.x-abstract}}public{{/vendorExtensions.x-abstract}} {{classname}}() {
+    {{#vendorExtensions.x-jsonb-discriminator-defaults}}
+    this.{{jsonbDefaultSetter}}({{{jsonbDefaultValue}}});
+    {{/vendorExtensions.x-jsonb-discriminator-defaults}}
   }
 
   {{#jackson}}
@@ -145,7 +151,7 @@ public {{#vendorExtensions.x-abstract}}abstract {{/vendorExtensions.x-abstract}}
   {{/vendorExtensions.x-abstract}}
   {{#vendorExtensions.x-abstract}}protected{{/vendorExtensions.x-abstract}}{{^vendorExtensions.x-abstract}}public{{/vendorExtensions.x-abstract}} {{classname}}(
     {{#requiredVars}}
-    @JsonbProperty("{{baseName}}") {{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{#lambda.jSpecifyDatatype}}{{>beanValidatedType}}{{/lambda.jSpecifyDatatype}} {{name}}{{^-last}},{{/-last}}
+    @JsonbProperty("{{baseName}}") {{#vendorExtensions.x-jsonb-container-deserializer}}@jakarta.json.bind.annotation.JsonbTypeDeserializer({{{.}}}.class) {{/vendorExtensions.x-jsonb-container-deserializer}}{{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{#lambda.jSpecifyDatatype}}{{>beanValidatedType}}{{/lambda.jSpecifyDatatype}} {{name}}{{^-last}},{{/-last}}
     {{/requiredVars}}
   ) {
     {{#parent}}
@@ -229,6 +235,9 @@ public {{#vendorExtensions.x-abstract}}abstract {{/vendorExtensions.x-abstract}}
   {{/jackson}}
   {{#jsonb}}
   @JsonbProperty("{{baseName}}")
+  {{#vendorExtensions.x-jsonb-container-deserializer}}
+  @jakarta.json.bind.annotation.JsonbTypeDeserializer({{{.}}}.class)
+  {{/vendorExtensions.x-jsonb-container-deserializer}}
   {{/jsonb}}
   {{#vendorExtensions.x-setter-extra-annotation}}{{{vendorExtensions.x-setter-extra-annotation}}}
   {{/vendorExtensions.x-setter-extra-annotation}}public void {{setter}}({{#useJspecify}}{{>nullable_var_annotations}}{{/useJspecify}}{{>nullableDatatypeWithEnum}} {{name}}) {
@@ -413,6 +422,17 @@ public {{#vendorExtensions.x-abstract}}abstract {{/vendorExtensions.x-abstract}}
     {{#vars}}
     private {{#removeAnnotations}}{{{datatypeWithEnum}}}{{/removeAnnotations}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
     {{/vars}}
+    {{#vendorExtensions.x-jsonb-discriminator-defaults}}
+    {{#-first}}
+
+    {
+      // the discriminator values of {{classname}}, which the caller may override
+    {{/-first}}
+      this.{{jsonbDefaultBuilderMethod}}({{{jsonbDefaultValue}}});
+    {{#-last}}
+    }
+    {{/-last}}
+    {{/vendorExtensions.x-jsonb-discriminator-defaults}}
   {{^parent}}
     protected abstract B self();
 
@@ -429,4 +449,10 @@ public {{#vendorExtensions.x-abstract}}abstract {{/vendorExtensions.x-abstract}}
     }
     {{/vars}}
   }{{/additionalProperties}}{{/generateBuilders}}
+{{#vendorExtensions.x-jsonb-polymorphic}}
+{{>jsonbPolymorphicDeserializer}}
+{{/vendorExtensions.x-jsonb-polymorphic}}
+{{#vendorExtensions.x-jsonb-container-deserializer-name}}
+{{>jsonbPolymorphicContainerDeserializer}}
+{{/vendorExtensions.x-jsonb-container-deserializer-name}}
 }
