@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import org.openapitools.codegen.OpenAPINormalizer;
 import org.openapitools.codegen.TestUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -41,6 +42,30 @@ import java.util.Set;
 import static org.testng.Assert.*;
 
 public class ModelUtilsTest {
+
+    @Test
+    public void testAdditionalPropertiesWithoutRefIsNotTreatedAsSelfReference() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_25604.yaml");
+        class TestNormalizer extends OpenAPINormalizer {
+            TestNormalizer(OpenAPI spec) {
+                super(spec, new HashMap<>());
+            }
+
+            void normalizeForTest() {
+                normalize();
+            }
+        }
+
+        OnceLogger.messageCountCache.invalidateAll();
+        try {
+            List<String> messages = TestUtils.captureLogMessages(ModelUtils.class,
+                    () -> new TestNormalizer(openAPI).normalizeForTest());
+
+            assertFalse(messages.stream().anyMatch(message -> message.contains("Failed to get the schema name")));
+        } finally {
+            OnceLogger.messageCountCache.invalidateAll();
+        }
+    }
 
     @Test
     public void testGetAllUsedSchemas() {

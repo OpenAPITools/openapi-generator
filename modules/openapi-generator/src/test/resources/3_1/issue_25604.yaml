@@ -1,0 +1,14 @@
+openapi: 3.1.0
+info:
+  title: Additional properties without a reference
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Thing:
+      type: object
+      additionalProperties: false
+      properties:
+        state:
+          type: object
+          additionalProperties: true
