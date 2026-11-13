@@ -50,14 +50,17 @@ public class ObjectWithDeprecatedFields {
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
+  @Deprecated
   @javax.annotation.Nullable
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
+  @Deprecated
   @javax.annotation.Nullable
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
+  @Deprecated
   @javax.annotation.Nullable
   private List<String> bars = new ArrayList<>();
 
@@ -88,6 +91,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields id(@javax.annotation.Nullable BigDecimal id) {
     this.id = id;
     return this;
@@ -107,6 +111,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_ID, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(@javax.annotation.Nullable BigDecimal id) {
@@ -114,6 +119,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields deprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
@@ -133,6 +139,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_DEPRECATED_REF, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeprecatedRef(@javax.annotation.Nullable DeprecatedObject deprecatedRef) {
@@ -140,6 +147,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields bars(@javax.annotation.Nullable List<String> bars) {
     this.bars = bars;
     return this;
@@ -167,6 +175,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_BARS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBars(@javax.annotation.Nullable List<String> bars) {

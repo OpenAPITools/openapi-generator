@@ -2791,6 +2791,124 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void testDeprecatedPropertyApacheHttpClient() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.APACHE)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @javax.annotation.Nullable\n private Boolean declawed;", // deprecated field
+                "@Deprecated\n public BigDog declawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated builder method
+                "@Deprecated\n @javax.annotation.Nullable\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n\n"
+                        + " public Boolean getDeclawed() {", // deprecated getter
+                "@Deprecated\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated setter
+                "@Deprecated\n @Override\n public BigDog color(@javax.annotation.Nullable String color) {", // deprecated inherited property, fluent setter override
+                "@Override\n public BigDog className(@javax.annotation.Nonnull String className) {" // inherited non-deprecated property, fluent setter override
+        );
+        // the fluent setter override of an inherited non-deprecated property stays unannotated
+        assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @Override\n public BigDog className(@javax.annotation.Nonnull String className) {"
+        );
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/Dog.java"),
+                "@Deprecated\n @Override\n public Dog color(@javax.annotation.Nullable String color) {" // deprecated inherited property, fluent setter override
+        );
+    }
+
+    @Test
+    public void testDeprecatedPropertyFeign() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.FEIGN)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @javax.annotation.Nullable\n private Boolean declawed;", // deprecated field
+                "@Deprecated\n public BigDog declawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated builder method
+                "@Deprecated\n @javax.annotation.Nullable\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n\n"
+                        + " public Boolean getDeclawed() {", // deprecated getter
+                "@Deprecated\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {" // deprecated setter
+        );
+    }
+
+    @Test
+    public void testDeprecatedPropertyNative() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @javax.annotation.Nullable\n private Boolean declawed;", // deprecated field
+                "@Deprecated\n public BigDog declawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated builder method
+                "@Deprecated\n @javax.annotation.Nullable\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + " public Boolean getDeclawed() {", // deprecated getter
+                "@Deprecated\n @JsonProperty(value = JSON_PROPERTY_DECLAWED, required = false)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + " public void setDeclawed(@javax.annotation.Nullable Boolean declawed) {", // deprecated setter
+                "@Deprecated\n @Override\n public BigDog color(@javax.annotation.Nullable String color) {", // deprecated inherited property, fluent setter override
+                "@Override\n public BigDog className(@javax.annotation.Nonnull String className) {" // inherited non-deprecated property, fluent setter override
+        );
+        // the fluent setter override of an inherited non-deprecated property stays unannotated
+        assertFileNotContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @Override\n public BigDog className(@javax.annotation.Nonnull String className) {"
+        );
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/Dog.java"),
+                "@Deprecated\n @Override\n public Dog color(@javax.annotation.Nullable String color) {" // deprecated inherited property, fluent setter override
+        );
+    }
+
+    @Test
+    public void testDeprecatedPropertyMicroprofile() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertFileContains(
+                output.resolve("src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n @JsonbProperty(\"declawed\")\n protected Boolean declawed;", // deprecated field
+                "@Deprecated\n public BigDog declawed(Boolean declawed) {", // deprecated builder method
+                "@Deprecated\n public Boolean getDeclawed() {", // deprecated getter
+                "@Deprecated\n public void setDeclawed(Boolean declawed) {" // deprecated setter
+        );
+    }
+
     @DataProvider
     public static Object[][] librariesToRegressionTestForIssue15684() {
         return new Object[][]{{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
