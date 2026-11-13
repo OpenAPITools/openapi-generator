@@ -21,6 +21,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.*;
@@ -208,5 +209,66 @@ public class PhpClientCodegenTest {
         Assert.assertFalse(modelPhp.contains("mb_strlen($starts_at)"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
+    }
+
+    @Test(description = "Issue #25574")
+    public void testNullableRefTypeHelperKeepsModelNamespace() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/php/issue_25574.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Schema thing = openAPI.getComponents().getSchemas().get("Thing");
+        CodegenModel cm = codegen.fromModel("Thing", thing);
+        Map<String, CodegenProperty> vars = cm.vars.stream()
+                .collect(Collectors.toMap(v -> v.baseName, v -> v));
+
+        // a nullable reference (allOf-wrapped $ref) used as a map value keeps the
+        // fully qualified name, unlike a bare model name without separators
+        Assert.assertEquals(vars.get("all_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
+        Assert.assertEquals(vars.get("all_of_list").dataType, "\\OpenAPI\\Client\\Model\\Inner[]");
+
+        // the same reference without nullability is unchanged
+        Assert.assertEquals(vars.get("plain_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
+        Assert.assertEquals(vars.get("plain_list").dataType, "\\OpenAPI\\Client\\Model\\Inner[]");
+        Assert.assertEquals(vars.get("plain_single").dataType, "\\OpenAPI\\Client\\Model\\Inner");
+    }
+
+    @Test(description = "Issue #25574")
+    public void testNullableRefContainersGenerateFqcnInOpenAPITypes() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/php/issue_25574.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> modelContent = Files
+                .readAllLines(files.get("Thing.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        // oneOf/anyOf with the OAS 3.1 null type, in a map value and in an array item
+        Assert.assertListContains(modelContent, a -> a.equals("'one_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'one_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'any_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'any_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+
+        // OAS 3.0 spelling: allOf-wrapped $ref with nullable: true
+        Assert.assertListContains(modelContent, a -> a.equals("'all_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'all_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+
+        // controls
+        Assert.assertListContains(modelContent, a -> a.equals("'plain_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'plain_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'plain_single' => '\\OpenAPI\\Client\\Model\\Inner'"), "");
     }
 }
