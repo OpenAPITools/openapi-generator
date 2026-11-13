@@ -57,7 +57,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
+      this.{{name}} = new {{{vendorExtensions.x-java-container-instantiation-type}}}<>();
     }
     this.{{name}}.add({{name}}Item);
     return this;
@@ -67,7 +67,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}} {{#vendorExtens
 
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     if (this.{{name}} == null) {
-      this.{{name}} = new HashMap<>();
+      this.{{name}} = new {{{vendorExtensions.x-java-container-instantiation-type}}}<>();
     }
     this.{{name}}.put(key, {{name}}Item);
     return this;

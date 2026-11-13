@@ -128,6 +128,41 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void containerItemHelpersUseConfiguredInstantiationTypes() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_25642.yaml", SPRING_BOOT,
+                new HashMap<>(), configurator -> configurator
+                        .addInstantiationType("map", "LinkedHashMap")
+                        .addInstantiationType("array", "LinkedList")
+                        .addInstantiationType("set", "TreeSet"));
+
+        JavaFileAssert.assertThat(files.get("Basket.java"))
+                .hasImports("java.util.LinkedHashMap", "java.util.LinkedList", "java.util.TreeSet")
+                .assertMethod("putEntriesItem", "String", "String")
+                .bodyContainsLines("this.entries = new LinkedHashMap<>();")
+                .toFileAssert()
+                .assertMethod("addTagsItem", "String")
+                .bodyContainsLines("this.tags = new LinkedList<>();")
+                .toFileAssert()
+                .assertMethod("addLabelsItem", "String")
+                .bodyContainsLines("this.labels = new TreeSet<>();");
+    }
+
+    @Test
+    public void containerItemHelpersDefaultToArrayListLinkedHashSetAndHashMap() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_25642.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("Basket.java"))
+                .assertMethod("putEntriesItem", "String", "String")
+                .bodyContainsLines("this.entries = new HashMap<>();")
+                .toFileAssert()
+                .assertMethod("addTagsItem", "String")
+                .bodyContainsLines("this.tags = new ArrayList<>();")
+                .toFileAssert()
+                .assertMethod("addLabelsItem", "String")
+                .bodyContainsLines("this.labels = new LinkedHashSet<>();");
+    }
+
+    @Test
     public void doAnnotateDatesOnModelParameters() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

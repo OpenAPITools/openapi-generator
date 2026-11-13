@@ -110,6 +110,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String USE_JSPECIFY = "useJspecify";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
+    /**
+     * Vendor extension set on array, set and map properties: the class their {@code add<Name>Item} and
+     * {@code put<Name>Item} helpers instantiate when the container is still {@code null}. It is the configured
+     * {@code instantiationTypes} entry for the property's container type, {@code ArrayList}, {@code LinkedHashSet}
+     * or {@code HashMap} unless overridden.
+     */
+    public static final String X_JAVA_CONTAINER_INSTANTIATION_TYPE = "x-java-container-instantiation-type";
     public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
@@ -1482,6 +1489,59 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        if (property != null) {
+            String instantiationType = containerInstantiationType(property.containerType);
+            if (instantiationType != null) {
+                property.vendorExtensions.put(X_JAVA_CONTAINER_INSTANTIATION_TYPE, instantiationType);
+            }
+        }
+        return property;
+    }
+
+    /**
+     * Import the class the {@code add<Name>Item}/{@code put<Name>Item} helpers instantiate. A fully qualified name
+     * needs no import; a simple name is imported through {@code importMapping}, which gets a {@code java.util} entry
+     * when the name is a {@code java.util} collection or map that isn't mapped yet.
+     */
+    private void addContainerInstantiationTypeImport(CodegenModel model, CodegenProperty property) {
+        Object type = property.vendorExtensions.get(X_JAVA_CONTAINER_INSTANTIATION_TYPE);
+        if (!(type instanceof String) || ((String) type).contains(".")) {
+            return;
+        }
+        String simpleName = (String) type;
+        if (!importMapping.containsKey(simpleName) && isJavaUtilContainer(simpleName)) {
+            importMapping.put(simpleName, "java.util." + simpleName);
+        }
+        if (importMapping.containsKey(simpleName)) {
+            model.imports.add(simpleName);
+        }
+    }
+
+    private static boolean isJavaUtilContainer(String simpleName) {
+        try {
+            Class<?> type = Class.forName("java.util." + simpleName);
+            return Collection.class.isAssignableFrom(type) || Map.class.isAssignableFrom(type);
+        } catch (ClassNotFoundException | LinkageError e) {
+            return false;
+        }
+    }
+
+    private String containerInstantiationType(String containerType) {
+        if ("array".equals(containerType)) {
+            return instantiationTypes().getOrDefault("array", "ArrayList");
+        }
+        if ("set".equals(containerType)) {
+            return instantiationTypes().getOrDefault("set", "LinkedHashSet");
+        }
+        if ("map".equals(containerType)) {
+            return instantiationTypes().getOrDefault("map", "HashMap");
+        }
+        return null;
+    }
+
+    @Override
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
         Schema originalSchema = schema;
         Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
@@ -2110,6 +2170,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("map".equals(property.containerType)) {
             model.imports.add("HashMap");
         }
+        addContainerInstantiationTypeImport(model, property);
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             // needed by all pojos, but not enums
