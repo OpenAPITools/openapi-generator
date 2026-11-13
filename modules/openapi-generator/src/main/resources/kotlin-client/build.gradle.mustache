@@ -156,33 +156,33 @@ dependencies {
     {{#moshi}}
     {{^moshiCodeGen}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.squareup.moshi:moshi-kotlin:1.15.2"
-    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
+    api "com.squareup.moshi:moshi-kotlin:1.15.2"
+    api "com.squareup.moshi:moshi-adapters:1.15.2"
     {{/moshiCodeGen}}
     {{#moshiCodeGen}}
-    implementation "com.squareup.moshi:moshi:1.15.2"
-    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
+    api "com.squareup.moshi:moshi:1.15.2"
+    api "com.squareup.moshi:moshi-adapters:1.15.2"
     ksp "com.squareup.moshi:moshi-kotlin-codegen:1.15.2"
     {{/moshiCodeGen}}
     {{/moshi}}
     {{#gson}}
-    implementation "com.google.code.gson:gson:2.14.0"
+    api "com.google.code.gson:gson:2.14.0"
     {{/gson}}
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     {{#useJackson3}}
-    implementation "tools.jackson.module:jackson-module-kotlin:$jackson3_version"
+    api "tools.jackson.module:jackson-module-kotlin:$jackson3_version"
     {{/useJackson3}}
     {{^useJackson3}}
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
+    api "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.22.1"
     {{/useJackson3}}
     {{/jackson}}
     {{#kotlinx_serialization}}
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
+    api "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
     {{/kotlinx_serialization}}
     {{#jvm-ktor}}
-    implementation "io.ktor:ktor-client-core:$ktor_version"
+    api "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     {{#gson}}
     implementation "io.ktor:ktor-serialization-gson:$ktor_version"
@@ -194,31 +194,31 @@ dependencies {
     {{/jackson}}
     {{/jvm-ktor}}
     {{#jvm-okhttp4}}
-    implementation "com.squareup.okhttp3:okhttp:5.4.0"
+    api "com.squareup.okhttp3:okhttp:5.4.0"
     {{/jvm-okhttp4}}
     {{#jvm-spring-webclient}}
-    implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
+    api "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor:reactor-core:3.8.6"
     {{/jvm-spring-webclient}}
     {{#jvm-spring-restclient}}
-    implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
+    api "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     {{/jvm-spring-restclient}}
     {{#threetenbp}}
-    implementation "org.threeten:threetenbp:1.7.3"
+    api "org.threeten:threetenbp:1.7.3"
     {{/threetenbp}}
     {{#kotlinx-datetime}}
-    implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.8.0"
+    api "org.jetbrains.kotlinx:kotlinx-datetime:0.8.0"
     {{/kotlinx-datetime}}
     {{#jvm-retrofit2}}
     {{#hasOAuthMethods}}
-    implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
+    api "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"
     {{/hasOAuthMethods}}
     implementation "com.squareup.okhttp3:logging-interceptor:5.4.0"
     {{#useRxJava3}}
-    implementation "io.reactivex.rxjava3:rxjava:$rxJava3Version"
+    api "io.reactivex.rxjava3:rxjava:$rxJava3Version"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
     {{/useRxJava3}}
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     {{#gson}}
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     {{/gson}}
@@ -235,7 +235,7 @@ dependencies {
     {{/jvm-retrofit2}}
     {{#jvm-vertx}}
     implementation "io.vertx:vertx-web-client:$vertx_version"
-    implementation "io.vertx:vertx-core:$vertx_version"
+    api "io.vertx:vertx-core:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
     implementation "io.vertx:vertx-uri-template:$vertx_version"
     {{#useCoroutines}}
