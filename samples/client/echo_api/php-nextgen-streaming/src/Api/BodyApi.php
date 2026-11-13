@@ -160,11 +160,11 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return \Psr\Http\Message\StreamInterface
+     * @return \Psr\\Http\\Message\\StreamInterface
      */
     public function testBinaryGif(
         string $contentType = self::contentTypes['testBinaryGif'][0]
-    ): \Psr\Http\Message\StreamInterface
+    ): \Psr\\Http\\Message\\StreamInterface
     {
         list($response) = $this->testBinaryGifWithHttpInfo($contentType);
         return $response;
@@ -179,7 +179,7 @@ class BodyApi
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
-     * @return array{0: \Psr\Http\Message\StreamInterface, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
+     * @return array{0: \Psr\\Http\\Message\\StreamInterface, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBinaryGifWithHttpInfo(
         string $contentType = self::contentTypes['testBinaryGif'][0]
@@ -213,7 +213,7 @@ class BodyApi
             switch($statusCode) {
                 case 200:
                     return $this->handleResponseWithDataType(
-                        '\Psr\Http\Message\StreamInterface',
+                        '\Psr\\Http\\Message\\StreamInterface',
                         $request,
                         $response,
                     );
@@ -233,7 +233,7 @@ class BodyApi
             }
 
             return $this->handleResponseWithDataType(
-                '\Psr\Http\Message\StreamInterface',
+                '\Psr\\Http\\Message\\StreamInterface',
                 $request,
                 $response,
             );
@@ -242,7 +242,7 @@ class BodyApi
                 case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
-                        '\Psr\Http\Message\StreamInterface',
+                        '\Psr\\Http\\Message\\StreamInterface',
                         $e->getResponseHeaders()
                     );
                     $e->setResponseObject($data);
@@ -289,7 +289,7 @@ class BodyApi
         string $contentType = self::contentTypes['testBinaryGif'][0]
     ): PromiseInterface
     {
-        $returnType = '\Psr\Http\Message\StreamInterface';
+        $returnType = '\Psr\\Http\\Message\\StreamInterface';
         $request = $this->testBinaryGifRequest($contentType);
 
         return $this->client
@@ -392,7 +392,7 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $body body (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $body body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -400,7 +400,7 @@ class BodyApi
      * @return string
      */
     public function testBodyApplicationOctetstreamBinary(
-        ?\Psr\Http\Message\StreamInterface $body = null,
+        ?\Psr\\Http\\Message\\StreamInterface $body = null,
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): string
     {
@@ -413,7 +413,7 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $body (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -421,7 +421,7 @@ class BodyApi
      * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyApplicationOctetstreamBinaryWithHttpInfo(
-        ?\Psr\Http\Message\StreamInterface $body = null,
+        ?\Psr\\Http\\Message\\StreamInterface $body = null,
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): array
     {
@@ -498,14 +498,14 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $body (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function testBodyApplicationOctetstreamBinaryAsync(
-        ?\Psr\Http\Message\StreamInterface $body = null,
+        ?\Psr\\Http\\Message\\StreamInterface $body = null,
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): PromiseInterface
     {
@@ -522,14 +522,14 @@ class BodyApi
      *
      * Test body parameter(s)
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $body (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function testBodyApplicationOctetstreamBinaryAsyncWithHttpInfo(
-        ?\Psr\Http\Message\StreamInterface $body = null,
+        ?\Psr\\Http\\Message\\StreamInterface $body = null,
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): PromiseInterface
     {
@@ -583,14 +583,14 @@ class BodyApi
     /**
      * Create request for operation 'testBodyApplicationOctetstreamBinary'
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $body (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyApplicationOctetstreamBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyApplicationOctetstreamBinaryRequest(
-        ?\Psr\Http\Message\StreamInterface $body = null,
+        ?\Psr\\Http\\Message\\StreamInterface $body = null,
         string $contentType = self::contentTypes['testBodyApplicationOctetstreamBinary'][0]
     ): Request
     {
@@ -678,7 +678,7 @@ class BodyApi
      *
      * Test array of binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface[] $files files (required)
+     * @param  \Psr\\Http\\Message\\StreamInterface[] $files files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -699,7 +699,7 @@ class BodyApi
      *
      * Test array of binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface[] $files (required)
+     * @param  \Psr\\Http\\Message\\StreamInterface[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -784,7 +784,7 @@ class BodyApi
      *
      * Test array of binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface[] $files (required)
+     * @param  \Psr\\Http\\Message\\StreamInterface[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -808,7 +808,7 @@ class BodyApi
      *
      * Test array of binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface[] $files (required)
+     * @param  \Psr\\Http\\Message\\StreamInterface[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -869,7 +869,7 @@ class BodyApi
     /**
      * Create request for operation 'testBodyMultipartFormdataArrayOfBinary'
      *
-     * @param  \Psr\Http\Message\StreamInterface[] $files (required)
+     * @param  \Psr\\Http\\Message\\StreamInterface[] $files (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataArrayOfBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
@@ -968,7 +968,7 @@ class BodyApi
      *
      * Test single binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $my_file my_file (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $my_file my_file (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataSingleBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -976,7 +976,7 @@ class BodyApi
      * @return string
      */
     public function testBodyMultipartFormdataSingleBinary(
-        ?\Psr\Http\Message\StreamInterface $my_file = null,
+        ?\Psr\\Http\\Message\\StreamInterface $my_file = null,
         string $contentType = self::contentTypes['testBodyMultipartFormdataSingleBinary'][0]
     ): string
     {
@@ -989,7 +989,7 @@ class BodyApi
      *
      * Test single binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $my_file (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $my_file (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataSingleBinary'] to see the possible values for this operation
      *
      * @throws ApiException on non-2xx response or if the response body is not in the expected format
@@ -997,7 +997,7 @@ class BodyApi
      * @return array{0: string, 1: int, 2: array<string, string[]>} [response data, HTTP status code, HTTP response headers]
      */
     public function testBodyMultipartFormdataSingleBinaryWithHttpInfo(
-        ?\Psr\Http\Message\StreamInterface $my_file = null,
+        ?\Psr\\Http\\Message\\StreamInterface $my_file = null,
         string $contentType = self::contentTypes['testBodyMultipartFormdataSingleBinary'][0]
     ): array
     {
@@ -1074,14 +1074,14 @@ class BodyApi
      *
      * Test single binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $my_file (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $my_file (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataSingleBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function testBodyMultipartFormdataSingleBinaryAsync(
-        ?\Psr\Http\Message\StreamInterface $my_file = null,
+        ?\Psr\\Http\\Message\\StreamInterface $my_file = null,
         string $contentType = self::contentTypes['testBodyMultipartFormdataSingleBinary'][0]
     ): PromiseInterface
     {
@@ -1098,14 +1098,14 @@ class BodyApi
      *
      * Test single binary in multipart mime
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $my_file (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $my_file (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataSingleBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return PromiseInterface
      */
     public function testBodyMultipartFormdataSingleBinaryAsyncWithHttpInfo(
-        ?\Psr\Http\Message\StreamInterface $my_file = null,
+        ?\Psr\\Http\\Message\\StreamInterface $my_file = null,
         string $contentType = self::contentTypes['testBodyMultipartFormdataSingleBinary'][0]
     ): PromiseInterface
     {
@@ -1159,14 +1159,14 @@ class BodyApi
     /**
      * Create request for operation 'testBodyMultipartFormdataSingleBinary'
      *
-     * @param  \Psr\Http\Message\StreamInterface|null $my_file (optional)
+     * @param  \Psr\\Http\\Message\\StreamInterface|null $my_file (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyMultipartFormdataSingleBinary'] to see the possible values for this operation
      *
      * @throws InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
     public function testBodyMultipartFormdataSingleBinaryRequest(
-        ?\Psr\Http\Message\StreamInterface $my_file = null,
+        ?\Psr\\Http\\Message\\StreamInterface $my_file = null,
         string $contentType = self::contentTypes['testBodyMultipartFormdataSingleBinary'][0]
     ): Request
     {
