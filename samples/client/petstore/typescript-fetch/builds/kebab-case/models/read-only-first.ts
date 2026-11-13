@@ -51,8 +51,8 @@ export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function ReadOnlyFirstToJSON(json: any): ReadOnlyFirst {
-    return ReadOnlyFirstToJSONTyped(json, false);
+export function ReadOnlyFirstToJSON(value?: ReadOnlyFirst | null): any {
+    return ReadOnlyFirstToJSONTyped(value, false);
 }
 
 export function ReadOnlyFirstToJSONTyped(value?: Omit<ReadOnlyFirst, 'bar'> | null, ignoreDiscriminator: boolean = false): any {

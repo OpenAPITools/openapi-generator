@@ -59,8 +59,8 @@ export function OptionTwoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function OptionTwoToJSON(json: any): OptionTwo {
-    return OptionTwoToJSONTyped(json, false);
+export function OptionTwoToJSON(value?: OptionTwo | null): any {
+    return OptionTwoToJSONTyped(value, false);
 }
 
 export function OptionTwoToJSONTyped(value?: OptionTwo | null, ignoreDiscriminator: boolean = false): any {
