@@ -106,6 +106,10 @@ tag_t *tag_parseFromJSON(cJSON *tagJSON){
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
 
+    if (!tag_local_var) {
+        goto end;
+    }
+
     return tag_local_var;
 end:
     return NULL;

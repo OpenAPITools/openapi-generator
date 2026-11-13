@@ -306,6 +306,10 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
         status ? statusVariable : openapi_petstore_pet_STATUS_NULL
         );
 
+    if (!pet_local_var) {
+        goto end;
+    }
+
     return pet_local_var;
 end:
     if (category_local_nonprim) {

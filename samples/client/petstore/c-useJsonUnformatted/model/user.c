@@ -363,6 +363,10 @@ user_t *user_parseFromJSON(cJSON *userJSON){
         preference ? preference_local_nonprim : 0
         );
 
+    if (!user_local_var) {
+        goto end;
+    }
+
     return user_local_var;
 end:
     if (extraList) {

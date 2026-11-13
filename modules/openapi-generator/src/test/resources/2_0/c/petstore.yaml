@@ -980,3 +980,11 @@ definitions:
     enum:
       - 0
       - 1
+  Flags:
+    description: boolean array, covers the list of booleans deserializer
+    type: object
+    properties:
+      bits:
+        type: array
+        items:
+          type: boolean
