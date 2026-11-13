@@ -4394,120 +4394,94 @@ public class JavaClientCodegenTest {
         );
     }
 
+    private Path generateIssue25646(String library, String singleRequestParameter, String suffix) {
+        final Path output = newTempFolder();
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, singleRequestParameter);
+        // keeps the non-ASCII operationId in the spec (sharp s, U+00DF)
+        properties.put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true");
+        if (suffix != null) {
+            properties.put(JavaClientCodegen.SINGLE_REQUEST_PARAMETER_SUFFIX, suffix);
+        }
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        return output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+    }
+
     @Test
-    public void testWebClientSingleRequestParameterClassNameCollidesWithModel_issue_25646() {
+    public void testWebClientSingleRequestParameterSuffix_issue_25646() {
         for (String mode : List.of("true", "static")) {
-            final Path output = newTempFolder();
-            final CodegenConfigurator configurator = new CodegenConfigurator()
-                    .setGeneratorName(JAVA_GENERATOR)
-                    .setLibrary(JavaClientCodegen.WEBCLIENT)
-                    .setAdditionalProperties(Map.of(
-                            CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
-                            CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, mode,
-                            CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true"
-                    ))
-                    .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
-                    .setOutputDir(output.toString().replace("\\", "/"));
-
-            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-
-            Path api = output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+            Path api = generateIssue25646(JavaClientCodegen.WEBCLIENT, mode, "Params");
             String classKeyword = "static".equals(mode) ? "public static class " : "public class ";
-            // colliding operation: nested class renamed, model keeps its name
+            // the nested class no longer shadows the UpdateFooRequest model
             assertFileContains(api,
-                    classKeyword + "UpdateFooRequestParams {",
+                    classKeyword + "UpdateFooParams {",
                     "UpdateFooRequest updateFooRequest;",
-                    "public UpdateFooRequestParams id(",
-                    "public UpdateFooRequestParams updateFooRequest(",
-                    "public Mono<Void> updateFoo(UpdateFooRequestParams requestParameters) throws WebClientResponseException {",
-                    "public ResponseSpec updateFooWithResponseSpec(UpdateFooRequestParams requestParameters) throws WebClientResponseException {"
+                    "public UpdateFooParams id(",
+                    "public UpdateFooParams updateFooRequest(",
+                    "public Mono<Void> updateFoo(UpdateFooParams requestParameters) throws WebClientResponseException {",
+                    "public ResponseSpec updateFooWithResponseSpec(UpdateFooParams requestParameters) throws WebClientResponseException {",
+                    classKeyword + "DeleteFooParams {",
+                    "public DeleteFooParams force(",
+                    "public Mono<Void> deleteFoo(DeleteFooParams requestParameters) throws WebClientResponseException {"
             );
-            assertFileNotContains(api, "class UpdateFooRequest {");
-            // non-colliding operation keeps the existing naming
+            assertFileNotContains(api, "class UpdateFooRequest {", "class DeleteFooRequest {");
+            // non-ASCII operationId keeps the titlecase lambda casing (sharp s -> SS)
             assertFileContains(api,
-                    classKeyword + "DeleteFooRequest {",
-                    "public DeleteFooRequest force(",
-                    "public Mono<Void> deleteFoo(DeleteFooRequest requestParameters) throws WebClientResponseException {"
-            );
-            // both the default name and the first fallback are taken by imported models
-            assertFileContains(api,
-                    classKeyword + "UpdateBarRequestParams2 {",
-                    "public UpdateBarRequestParams2 id(",
-                    "updateBar(UpdateBarRequestParams2 requestParameters) throws WebClientResponseException {"
-            );
-            // non-colliding, non-ASCII operationId keeps the titlecase lambda casing (sharp s -> SS)
-            assertFileContains(api,
-                    classKeyword + "SSupdateRequest {",
-                    "(SSupdateRequest requestParameters) throws WebClientResponseException {"
+                    classKeyword + "SSupdateParams {",
+                    "(SSupdateParams requestParameters) throws WebClientResponseException {"
             );
         }
     }
 
     @Test
-    public void testRestClientSingleRequestParameterClassNameCollidesWithModel_issue_25646() {
-        final Path output = newTempFolder();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName(JAVA_GENERATOR)
-                .setLibrary(JavaClientCodegen.RESTCLIENT)
-                .setAdditionalProperties(Map.of(
-                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
-                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "true",
-                        CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true"
-                ))
-                .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
-                .setOutputDir(output.toString().replace("\\", "/"));
-
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-
-        Path api = output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+    public void testWebClientSingleRequestParameterDefaultSuffixUnchanged_issue_25646() {
+        // without the option the output is the same as before: <OperationId>Request
+        Path api = generateIssue25646(JavaClientCodegen.WEBCLIENT, "true", null);
         assertFileContains(api,
-                "public record UpdateFooRequestParams(",
-                "public void updateFoo(UpdateFooRequestParams requestParameters) throws RestClientResponseException {",
-                "public record DeleteFooRequest(",
-                "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {"
+                "public class DeleteFooRequest {",
+                "public DeleteFooRequest force(",
+                "public Mono<Void> deleteFoo(DeleteFooRequest requestParameters) throws WebClientResponseException {",
+                "public Mono<Void> updateFoo(UpdateFooRequest requestParameters) throws WebClientResponseException {",
+                "public class SSupdateRequest {",
+                "(SSupdateRequest requestParameters) throws WebClientResponseException {"
         );
-        assertFileContains(api,
-                "public record UpdateBarRequestParams2(",
-                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {",
-                "public record SSupdateRequest(",
-                "(SSupdateRequest requestParameters) throws RestClientResponseException {"
-        );
-        assertFileNotContains(api, "record UpdateFooRequest(");
     }
 
     @Test
-    public void testRestClientStaticSingleRequestParameterClassNameCollidesWithModel_issue_25646() {
-        final Path output = newTempFolder();
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName(JAVA_GENERATOR)
-                .setLibrary(JavaClientCodegen.RESTCLIENT)
-                .setAdditionalProperties(Map.of(
-                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
-                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "static",
-                        CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true"
-                ))
-                .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
-                .setOutputDir(output.toString().replace("\\", "/"));
-
-        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-
-        Path api = output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+    public void testRestClientSingleRequestParameterSuffix_issue_25646() {
+        Path api = generateIssue25646(JavaClientCodegen.RESTCLIENT, "true", "Params");
         assertFileContains(api,
-                "public static class UpdateFooRequestParams {",
-                "public UpdateFooRequestParams id(",
-                "public UpdateFooRequestParams updateFooRequest(",
-                "public void updateFoo(UpdateFooRequestParams requestParameters) throws RestClientResponseException {",
-                "public static class DeleteFooRequest {",
-                "public DeleteFooRequest force(",
-                "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {",
-                "public static class UpdateBarRequestParams2 {",
-                "public UpdateBarRequestParams2 id(",
-                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {",
-                "public static class SSupdateRequest {",
-                "public SSupdateRequest force(",
-                "(SSupdateRequest requestParameters) throws RestClientResponseException {"
+                "public record UpdateFooParams(",
+                "public void updateFoo(UpdateFooParams requestParameters) throws RestClientResponseException {",
+                "public record DeleteFooParams(",
+                "public void deleteFoo(DeleteFooParams requestParameters) throws RestClientResponseException {",
+                "public record SSupdateParams("
         );
-        assertFileNotContains(api, "class UpdateFooRequest {");
+        assertFileNotContains(api, "record UpdateFooRequest(", "record DeleteFooRequest(");
+    }
+
+    @Test
+    public void testRestClientStaticSingleRequestParameterSuffix_issue_25646() {
+        Path api = generateIssue25646(JavaClientCodegen.RESTCLIENT, "static", "Params");
+        assertFileContains(api,
+                "public static class UpdateFooParams {",
+                "public UpdateFooParams id(",
+                "public UpdateFooParams updateFooRequest(",
+                "public void updateFoo(UpdateFooParams requestParameters) throws RestClientResponseException {",
+                "public static class DeleteFooParams {",
+                "public DeleteFooParams force(",
+                "public void deleteFoo(DeleteFooParams requestParameters) throws RestClientResponseException {"
+        );
+        assertFileNotContains(api, "class UpdateFooRequest {", "class DeleteFooRequest {");
     }
 
     @Test
