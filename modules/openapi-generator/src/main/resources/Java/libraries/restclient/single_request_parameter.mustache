@@ -2,17 +2,17 @@
 {{^hasSingleParam}}
 
     {{^staticRequest}}
-    public record {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{>nullableArgumentForApi}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){}
+    public record {{vendorExtensions.x-single-request-parameter-class-name}}({{#allParams}}{{>nullableArgumentForApi}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}){}
     {{/staticRequest}}
     {{#staticRequest}}
-    public static class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {
+    public static class {{vendorExtensions.x-single-request-parameter-class-name}} {
     {{#allParams}}
         private {{>nullableArgumentForApi}} {{paramName}};
     {{/allParams}}
 
-        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request() {}
+        public {{vendorExtensions.x-single-request-parameter-class-name}}() {}
 
-        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request({{#allParams}}{{>nullableArgumentForApi}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
+        public {{vendorExtensions.x-single-request-parameter-class-name}}({{#allParams}}{{>nullableArgumentForApi}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}}) {
         {{#allParams}}
             this.{{paramName}} = {{paramName}};
         {{/allParams}}
@@ -22,7 +22,7 @@
         public {{>nullableArgumentForApi}} {{paramName}}() {
             return this.{{paramName}};
         }
-        public {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {{paramName}}({{>nullableArgumentForApi}} {{paramName}}) {
+        public {{vendorExtensions.x-single-request-parameter-class-name}} {{paramName}}({{>nullableArgumentForApi}} {{paramName}}) {
             this.{{paramName}} = {{paramName}};
             return this;
         }
@@ -40,7 +40,7 @@
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }{{#hasParams}}
-            {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request request = ({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request) o;
+            {{vendorExtensions.x-single-request-parameter-class-name}} request = ({{vendorExtensions.x-single-request-parameter-class-name}}) o;
             return {{#allParams}}{{#vendorExtensions.x-is-jackson-optional-nullable}}equalsNullable(this.{{paramName}}, request.{{paramName}}()){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^vendorExtensions.x-is-jackson-optional-nullable}}{{#isByteArray}}Arrays{{/isByteArray}}{{^isByteArray}}Objects{{/isByteArray}}.equals(this.{{paramName}}, request.{{paramName}}()){{/vendorExtensions.x-is-jackson-optional-nullable}}{{^-last}} &&
                 {{/-last}}{{/allParams}};{{/hasParams}}{{^hasParams}}
             return true;{{/hasParams}}
@@ -60,7 +60,7 @@
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            sb.append("class {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request {\n");
+            sb.append("class {{vendorExtensions.x-single-request-parameter-class-name}} {\n");
             {{#allParams}}
             sb.append("    {{paramName}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{paramName}}){{/isPassword}}).append("\n");
             {{/allParams}}
@@ -90,7 +90,7 @@
      * @see <a href="{{url}}">{{summary}} Documentation</a>
     {{/externalDocs}}
      */
-    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
+    public {{#returnType}}{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{vendorExtensions.x-single-request-parameter-class-name}} requestParameters) throws RestClientResponseException {
         {{#returnType}}return {{/returnType}}this.{{operationId}}({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
     }
 
@@ -106,7 +106,7 @@
      * @see <a href="{{url}}">{{summary}} Documentation</a>
     {{/externalDocs}}
      */
-    public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
+    public {{#returnType}}ResponseEntity<{{#isResponseFile}}{{#useAbstractionForFiles}}org.springframework.core.io.Resource{{/useAbstractionForFiles}}{{^useAbstractionForFiles}}{{{returnType}}}{{/useAbstractionForFiles}}{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}ResponseEntity<Void>{{/returnType}} {{operationId}}WithHttpInfo({{vendorExtensions.x-single-request-parameter-class-name}} requestParameters) throws RestClientResponseException {
         return this.{{operationId}}WithHttpInfo({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
     }
 
@@ -122,7 +122,7 @@
      * @see <a href="{{url}}">{{summary}} Documentation</a>
     {{/externalDocs}}
      */
-    public ResponseSpec {{operationId}}WithResponseSpec({{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}Request requestParameters) throws RestClientResponseException {
+    public ResponseSpec {{operationId}}WithResponseSpec({{vendorExtensions.x-single-request-parameter-class-name}} requestParameters) throws RestClientResponseException {
         return this.{{operationId}}WithResponseSpec({{#allParams}}requestParameters.{{paramName}}(){{^-last}}, {{/-last}}{{/allParams}});
     }
 {{/hasSingleParam}}

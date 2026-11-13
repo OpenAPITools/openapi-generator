@@ -128,6 +128,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     // Internal configurations
     public static final String SINGLE_REQUEST_PARAMETER = "singleRequestParameter";
     public static final String STATIC_REQUEST = "staticRequest";
+    public static final String X_SINGLE_REQUEST_PARAMETER_CLASS_NAME = "x-single-request-parameter-class-name";
     public static final String JAVA_17 = "java17";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
@@ -963,6 +964,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (this.getSingleRequestParameter() && (isLibrary(WEBCLIENT) || isLibrary(RESTCLIENT))) {
+            setSingleRequestParameterClassNames(objs);
+        }
+
         if (isLibrary(RETROFIT_2)) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
@@ -1358,6 +1363,52 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
+    }
+
+    /**
+     * Picks the name of the nested request class generated for each operation when
+     * useSingleRequestParameter is enabled. The default is {@code <OperationId>Request}.
+     * If a model imported by the same Api class already has that name, the nested class
+     * would shadow it, so a non-colliding name ({@code <OperationId>RequestParams}) is used instead.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/25646
+     */
+    private void setSingleRequestParameterClassNames(OperationsMap objs) {
+        OperationMap operations = objs.getOperations();
+        if (operations == null || operations.getOperation() == null) {
+            return;
+        }
+
+        Set<String> importedClassNames = new HashSet<>();
+        if (objs.getImports() != null) {
+            for (Map<String, String> im : objs.getImports()) {
+                if (im.get("classname") != null) {
+                    importedClassNames.add(im.get("classname"));
+                }
+            }
+        }
+
+        for (CodegenOperation operation : operations.getOperation()) {
+            // same casing as the {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} template code
+            String baseName = StringUtils.capitalize(operation.operationId) + "Request";
+            String className = baseName;
+            if (importedClassNames.contains(className)) {
+                className = baseName + "Params";
+                int suffix = 2;
+                while (importedClassNames.contains(className)) {
+                    className = baseName + "Params" + suffix++;
+                }
+                LOGGER.info("Request class name {} for operation {} collides with a model, using {} instead",
+                        baseName, operation.operationId, className);
+            }
+            operation.vendorExtensions.put(X_SINGLE_REQUEST_PARAMETER_CLASS_NAME, className);
+            // templates also need the name inside {{#allParams}} (fluent setters), where
+            // {{vendorExtensions}} resolves to the parameter's vendor extensions
+            if (operation.allParams != null) {
+                for (CodegenParameter param : operation.allParams) {
+                    param.vendorExtensions.put(X_SINGLE_REQUEST_PARAMETER_CLASS_NAME, className);
+                }
+            }
+        }
     }
 
     public boolean getSingleRequestParameter() {

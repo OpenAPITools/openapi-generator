@@ -4395,6 +4395,96 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testWebClientSingleRequestParameterClassNameCollidesWithModel_issue_25646() {
+        for (String mode : List.of("true", "static")) {
+            final Path output = newTempFolder();
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(JAVA_GENERATOR)
+                    .setLibrary(JavaClientCodegen.WEBCLIENT)
+                    .setAdditionalProperties(Map.of(
+                            CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                            CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, mode
+                    ))
+                    .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
+                    .setOutputDir(output.toString().replace("\\", "/"));
+
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path api = output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+            String classKeyword = "static".equals(mode) ? "public static class " : "public class ";
+            // colliding operation: nested class renamed, model keeps its name
+            assertFileContains(api,
+                    classKeyword + "UpdateFooRequestParams {",
+                    "UpdateFooRequest updateFooRequest;",
+                    "public UpdateFooRequestParams id(",
+                    "public UpdateFooRequestParams updateFooRequest(",
+                    "public Mono<Void> updateFoo(UpdateFooRequestParams requestParameters) throws WebClientResponseException {",
+                    "public ResponseSpec updateFooWithResponseSpec(UpdateFooRequestParams requestParameters) throws WebClientResponseException {"
+            );
+            assertFileNotContains(api, "class UpdateFooRequest {");
+            // non-colliding operation keeps the existing naming
+            assertFileContains(api,
+                    classKeyword + "DeleteFooRequest {",
+                    "public DeleteFooRequest force(",
+                    "public Mono<Void> deleteFoo(DeleteFooRequest requestParameters) throws WebClientResponseException {"
+            );
+        }
+    }
+
+    @Test
+    public void testRestClientSingleRequestParameterClassNameCollidesWithModel_issue_25646() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "true"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path api = output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+        assertFileContains(api,
+                "public record UpdateFooRequestParams(",
+                "public void updateFoo(UpdateFooRequestParams requestParameters) throws RestClientResponseException {",
+                "public record DeleteFooRequest(",
+                "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {"
+        );
+        assertFileNotContains(api, "record UpdateFooRequest(");
+    }
+
+    @Test
+    public void testRestClientStaticSingleRequestParameterClassNameCollidesWithModel_issue_25646() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTCLIENT)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "static"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path api = output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+        assertFileContains(api,
+                "public static class UpdateFooRequestParams {",
+                "public UpdateFooRequestParams id(",
+                "public UpdateFooRequestParams updateFooRequest(",
+                "public void updateFoo(UpdateFooRequestParams requestParameters) throws RestClientResponseException {",
+                "public static class DeleteFooRequest {",
+                "public DeleteFooRequest force(",
+                "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {"
+        );
+        assertFileNotContains(api, "class UpdateFooRequest {");
+    }
+
+    @Test
     public void testGenerateParameterId() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
