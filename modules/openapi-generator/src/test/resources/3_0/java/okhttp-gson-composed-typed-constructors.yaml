@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: oneOf/anyOf typed constructors
+  description: oneOf/anyOf members that need a typed constructor in the okhttp-gson client, and members that must not get one
+  version: 1.0.0
+servers:
+  - url: http://localhost
+paths:
+  /composed:
+    get:
+      operationId: getComposed
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Composed'
+components:
+  schemas:
+    Composed:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/OpenPetStatus'
+        scalar:
+          $ref: '#/components/schemas/Scalar'
+        petOrPets:
+          $ref: '#/components/schemas/PetOrPets'
+        numbers:
+          $ref: '#/components/schemas/Numbers'
+        petOrAnything:
+          $ref: '#/components/schemas/PetOrAnything'
+        petOrFreeForm:
+          $ref: '#/components/schemas/PetOrFreeForm'
+        nullablePetOrName:
+          $ref: '#/components/schemas/NullablePetOrName'
+        petOrNullable:
+          $ref: '#/components/schemas/PetOrNullable'
+        nullableOrName:
+          $ref: '#/components/schemas/NullableOrName'
+    PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+        - sold
+    OpenPetStatus:
+      anyOf:
+        - $ref: '#/components/schemas/PetStatus'
+        - type: string
+    Scalar:
+      oneOf:
+        - type: number
+        - type: integer
+          format: int32
+        - type: integer
+          format: int64
+        - type: boolean
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    PetOrPets:
+      oneOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+    Numbers:
+      anyOf:
+        - type: array
+          items:
+            type: number
+        - type: array
+          items:
+            type: integer
+    PetOrAnything:
+      anyOf:
+        - $ref: '#/components/schemas/Pet'
+        - description: Any value
+    PetOrFreeForm:
+      oneOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+    NullablePetOrName:
+      nullable: true
+      oneOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: string
+    Nullable:
+      type: object
+      properties:
+        reason:
+          type: string
+    PetOrNullable:
+      oneOf:
+        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/Nullable'
+    NullableOrName:
+      anyOf:
+        - $ref: '#/components/schemas/Nullable'
+        - type: string

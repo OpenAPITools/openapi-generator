@@ -170,6 +170,16 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public MyExampleGet200Response(List<@Valid OneOf1> o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public MyExampleGet200Response(OneOf1 o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("List<@Valid OneOf1>", List.class);
         schemas.put("OneOf1", OneOf1.class);
@@ -239,6 +249,15 @@ public class MyExampleGet200Response extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public OneOf1 getOneOf1() throws ClassCastException {
         return (OneOf1)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `OneOf1`.
+     *
+     * @return true if the actual instance is of the type `OneOf1`
+     */
+    public boolean isOneOf1() {
+        return super.getActualInstance() instanceof OneOf1;
     }
 
     /**

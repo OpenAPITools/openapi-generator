@@ -177,6 +177,16 @@ public class Shape extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public Shape(Triangle o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public Shape(Quadrilateral o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Triangle", Triangle.class);
         schemas.put("Quadrilateral", Quadrilateral.class);
@@ -234,6 +244,15 @@ public class Shape extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `Triangle`.
+     *
+     * @return true if the actual instance is of the type `Triangle`
+     */
+    public boolean isTriangle() {
+        return super.getActualInstance() instanceof Triangle;
+    }
+
+    /**
      * Get the actual instance of `Quadrilateral`. If the actual instance is not `Quadrilateral`,
      * the ClassCastException will be thrown.
      *
@@ -243,6 +262,15 @@ public class Shape extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public Quadrilateral getQuadrilateral() throws ClassCastException {
         return (Quadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Quadrilateral`.
+     *
+     * @return true if the actual instance is of the type `Quadrilateral`
+     */
+    public boolean isQuadrilateral() {
+        return super.getActualInstance() instanceof Quadrilateral;
     }
 
     /**

@@ -151,6 +151,16 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
         setActualInstance(o);
     }
 
+    public SimpleOneOf(String o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public SimpleOneOf(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("String", String.class);
         schemas.put("Integer", Integer.class);
@@ -208,6 +218,15 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
     }
 
     /**
+     * Check if the actual instance is of the type `String`.
+     *
+     * @return true if the actual instance is of the type `String`
+     */
+    public boolean isString() {
+        return super.getActualInstance() instanceof String;
+    }
+
+    /**
      * Get the actual instance of `Integer`. If the actual instance is not `Integer`,
      * the ClassCastException will be thrown.
      *
@@ -217,6 +236,15 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
     @SuppressWarnings("unchecked")
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Integer`.
+     *
+     * @return true if the actual instance is of the type `Integer`
+     */
+    public boolean isInteger() {
+        return super.getActualInstance() instanceof Integer;
     }
 
     /**

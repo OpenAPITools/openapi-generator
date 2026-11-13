@@ -153,6 +153,16 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public NullableFieldsMapResponse(NullableFieldsMapSuccess o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public NullableFieldsMapResponse(NullableFieldsMapError o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("NullableFieldsMapSuccess", NullableFieldsMapSuccess.class);
         schemas.put("NullableFieldsMapError", NullableFieldsMapError.class);
@@ -209,6 +219,15 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `NullableFieldsMapSuccess`.
+     *
+     * @return true if the actual instance is of the type `NullableFieldsMapSuccess`
+     */
+    public boolean isNullableFieldsMapSuccess() {
+        return super.getActualInstance() instanceof NullableFieldsMapSuccess;
+    }
+
+    /**
      * Get the actual instance of `NullableFieldsMapError`. If the actual instance is not `NullableFieldsMapError`,
      * the ClassCastException will be thrown.
      *
@@ -217,6 +236,15 @@ public class NullableFieldsMapResponse extends AbstractOpenApiSchema {
      */
     public NullableFieldsMapError getNullableFieldsMapError() throws ClassCastException {
         return (NullableFieldsMapError)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `NullableFieldsMapError`.
+     *
+     * @return true if the actual instance is of the type `NullableFieldsMapError`
+     */
+    public boolean isNullableFieldsMapError() {
+        return super.getActualInstance() instanceof NullableFieldsMapError;
     }
 
     /**

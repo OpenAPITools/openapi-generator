@@ -4609,6 +4609,62 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testOkHttpGsonOneOfAnyOfTypedConstructors() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/3_0/java/okhttp-gson-composed-typed-constructors.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        final Path modelDir = output.resolve("src/main/java/org/openapitools/client/model");
+        assertThat(modelDir.resolve("OpenPetStatus.java")).content()
+                .contains(
+                        "public OpenPetStatus(Object o) {",
+                        "public OpenPetStatus(PetStatus o) {",
+                        "public OpenPetStatus(String o) {",
+                        "public boolean isPetStatus() {",
+                        "return super.getActualInstance() instanceof PetStatus;",
+                        "public boolean isString() {");
+        assertThat(modelDir.resolve("Scalar.java")).content()
+                .contains(
+                        "public Scalar(BigDecimal o) {",
+                        "public Scalar(Integer o) {",
+                        "public Scalar(Long o) {",
+                        "public Scalar(Boolean o) {");
+        // instanceof can't tell List<Pet> from another list, so containers get no is method
+        assertThat(modelDir.resolve("PetOrPets.java")).content()
+                .contains("public PetOrPets(Pet o) {", "public PetOrPets(List<Pet> o) {", "public boolean isPet() {")
+                .doesNotContain("public boolean isList");
+        // List<BigDecimal> and List<Integer> have the same erasure, so only the first gets a constructor.
+        assertThat(modelDir.resolve("Numbers.java")).content()
+                .contains("public Numbers(List<BigDecimal> o) {")
+                .doesNotContain("public Numbers(List<Integer> o) {");
+        // Free-form and any-type members are an Object, which the existing constructor already accepts
+        // and which every instance would match.
+        assertThat(modelDir.resolve("PetOrAnything.java")).content()
+                .containsOnlyOnce("public PetOrAnything(Object o) {")
+                .contains("public PetOrAnything(Pet o) {", "public boolean isPet() {", "public Object getObject() throws ClassCastException {")
+                .doesNotContain("public boolean isObject() {");
+        assertThat(modelDir.resolve("PetOrFreeForm.java")).content()
+                .containsOnlyOnce("public PetOrFreeForm(Object o) {")
+                .contains("public PetOrFreeForm(Pet o) {", "public boolean isPet() {")
+                .doesNotContain("public boolean isObject() {");
+        assertThat(modelDir.resolve("NullablePetOrName.java")).content()
+                .contains("public NullablePetOrName(Pet o) {", "public NullablePetOrName(String o) {");
+        // AbstractOpenApiSchema already declares Boolean isNullable()
+        assertThat(modelDir.resolve("PetOrNullable.java")).content()
+                .contains("public PetOrNullable(Nullable o) {", "public Nullable getNullable() throws ClassCastException {", "public boolean isPet() {")
+                .doesNotContain("public boolean isNullable() {");
+        assertThat(modelDir.resolve("NullableOrName.java")).content()
+                .contains("public NullableOrName(Nullable o) {", "public Nullable getNullable() throws ClassCastException {", "public boolean isString() {")
+                .doesNotContain("public boolean isNullable() {");
+    }
+
+    @Test
     public void testEnumWithImplements() {
         final Path output = newTempFolder();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/enum-implements.yaml");

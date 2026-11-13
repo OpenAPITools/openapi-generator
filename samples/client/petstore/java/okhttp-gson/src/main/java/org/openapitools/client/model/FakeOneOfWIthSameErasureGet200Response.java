@@ -143,6 +143,11 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
         setActualInstance(o);
     }
 
+    public FakeOneOfWIthSameErasureGet200Response(List<String> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("List<String>", List.class);
     }
