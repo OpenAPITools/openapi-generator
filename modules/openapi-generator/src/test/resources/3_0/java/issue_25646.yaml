@@ -37,9 +37,41 @@ paths:
       responses:
         '204':
           description: deleted
+  /bar/{id}:
+    put:
+      operationId: updateBar
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBarRequest'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateBarRequestParams'
 components:
   schemas:
     UpdateFooRequest:
+      type: object
+      properties:
+        name:
+          type: string
+    UpdateBarRequest:
+      type: object
+      properties:
+        name:
+          type: string
+    UpdateBarRequestParams:
       type: object
       properties:
         name:

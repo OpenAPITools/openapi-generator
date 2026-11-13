@@ -4428,6 +4428,12 @@ public class JavaClientCodegenTest {
                     "public DeleteFooRequest force(",
                     "public Mono<Void> deleteFoo(DeleteFooRequest requestParameters) throws WebClientResponseException {"
             );
+            // both the default name and the first fallback are taken by imported models
+            assertFileContains(api,
+                    classKeyword + "UpdateBarRequestParams2 {",
+                    "public UpdateBarRequestParams2 id(",
+                    "updateBar(UpdateBarRequestParams2 requestParameters) throws WebClientResponseException {"
+            );
         }
     }
 
@@ -4452,6 +4458,10 @@ public class JavaClientCodegenTest {
                 "public void updateFoo(UpdateFooRequestParams requestParameters) throws RestClientResponseException {",
                 "public record DeleteFooRequest(",
                 "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {"
+        );
+        assertFileContains(api,
+                "public record UpdateBarRequestParams2(",
+                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {"
         );
         assertFileNotContains(api, "record UpdateFooRequest(");
     }
@@ -4479,7 +4489,10 @@ public class JavaClientCodegenTest {
                 "public void updateFoo(UpdateFooRequestParams requestParameters) throws RestClientResponseException {",
                 "public static class DeleteFooRequest {",
                 "public DeleteFooRequest force(",
-                "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {"
+                "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {",
+                "public static class UpdateBarRequestParams2 {",
+                "public UpdateBarRequestParams2 id(",
+                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {"
         );
         assertFileNotContains(api, "class UpdateFooRequest {");
     }
