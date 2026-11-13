@@ -256,6 +256,75 @@ public class PythonClientCodegenTest {
     }
 
     @Test
+    public void testNullTypeProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_1/python/null-type-property.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output.getAbsolutePath(), "openapi_client", "models", "m.py");
+        TestUtils.assertFileContains(model,
+                "plugin: Optional[None] = Field(",
+                "required_null: Optional[None]\n",
+                // explicit nulls are kept by to_dict()
+                "if self.plugin is None and \"plugin\" in self.model_fields_set:",
+                "if self.required_null is None and \"required_null\" in self.model_fields_set:",
+                // from_dict() only passes the key when it is present, so a missing required one is rejected
+                "**({ \"plugin\": obj[\"plugin\"] } if \"plugin\" in obj else {})",
+                "**({ \"required_null\": obj[\"required_null\"] } if \"required_null\" in obj else {})");
+
+        assertPythonRuns(output, String.join("\n",
+                "from openapi_client.models.m import M",
+                "assert M(required_null=None).to_json() == '{\"required_null\": null}'",
+                "assert M(required_null=None, plugin=None).to_dict() == {'required_null': None, 'plugin': None}",
+                "for d in ({'required_null': None}, {'required_null': None, 'plugin': None}, {'name': 'a', 'required_null': None}):",
+                "    assert M.from_dict(d).to_dict() == d, d",
+                "for d in ({}, {'plugin': None}, {'required_null': 1}, {'required_null': None, 'plugin': 1}):",
+                "    try:",
+                "        M.from_dict(d)",
+                "    except ValueError:",
+                "        pass",
+                "    else:",
+                "        raise AssertionError('accepted %r' % (d,))"));
+    }
+
+    /**
+     * Runs {@code script} with python3, with the generated client on the path. Skips when python3 or the
+     * client's runtime dependencies are not installed.
+     */
+    private static void assertPythonRuns(File generatedClient, String script) throws IOException {
+        // the generated client requires pydantic >= 2.11 (see requirements.mustache)
+        String deps = String.join("\n",
+                "import pydantic, pydantic_core, urllib3, dateutil, typing_extensions",
+                "assert tuple(int(p) for p in pydantic.VERSION.split('.')[:2]) >= (2, 11)");
+        try {
+            Process probe = new ProcessBuilder("python3", "-c", deps).redirectErrorStream(true).start();
+            probe.getInputStream().readAllBytes();
+            if (probe.waitFor() != 0) {
+                throw new org.testng.SkipException("python3 with pydantic >= 2.11, urllib3 and python-dateutil is required");
+            }
+            Process run = new ProcessBuilder("python3", "-c", script)
+                    .directory(generatedClient)
+                    .redirectErrorStream(true)
+                    .start();
+            String out = new String(run.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+            Assert.assertEquals(run.waitFor(), 0, out);
+        } catch (IOException e) {
+            throw new org.testng.SkipException("python3 is not available: " + e.getMessage());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IOException(e);
+        }
+    }
+
+    @Test
     public void testOneOfNotEnumValidation() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
