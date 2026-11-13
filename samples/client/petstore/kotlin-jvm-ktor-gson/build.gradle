@@ -55,8 +55,8 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.google.code.gson:gson:2.14.0"
-    implementation "io.ktor:ktor-client-core:$ktor_version"
+    api "com.google.code.gson:gson:2.14.0"
+    api "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     implementation "io.ktor:ktor-serialization-gson:$ktor_version"
     implementation "io.ktor:ktor-client-gson:$ktor_version"
