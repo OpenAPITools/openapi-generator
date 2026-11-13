@@ -340,6 +340,25 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void testTaggedUnionsOneOfWithoutDiscriminator() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-angular")
+                .setInputSpec("src/test/resources/3_0/typescript-angular/issue_20859.yaml")
+                .addAdditionalProperty(TypeScriptAngularClientCodegen.TAGGED_UNIONS, true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/zooInner.ts"),
+                "export type ZooInner = Cat | Dog;"
+        );
+    }
+
+    @Test
     public void testModelNameMappings() throws Exception {
         final String specPath = "src/test/resources/2_0/issue_8289.json";
 
