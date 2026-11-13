@@ -1,0 +1,16 @@
+openapi: 3.2.0
+info: {title: bad query, version: "1"}
+paths:
+  /t:
+    get:
+      operationId: dup
+      responses:
+        '200': {description: ok}
+    query:
+      operationId: dup
+      parameters:
+        - name: p
+          in: bogus
+          schema: {type: string}
+      responses:
+        '200': {description: ok}

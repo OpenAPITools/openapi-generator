@@ -1,0 +1,62 @@
+openapi: 3.2.0
+info: {title: data vs structure, version: "1"}
+paths:
+  /__oas32__/0:
+    get:
+      operationId: realSynthetic
+      responses:
+        '200': {description: real path that collides with the synthetic prefix}
+  /t:
+    get:
+      operationId: getT
+      parameters:
+        - name: p
+          in: query
+          schema: {type: string}
+          examples:
+            ex1:
+              value: {"$ref": "./should-not-be-touched.yaml"}
+            ex2:
+              dataValue: {"$ref": "./should-not-be-touched2.yaml"}
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  example:
+                    $ref: './ext-a.yaml#/components/schemas/A'
+                  default:
+                    $ref: './ext-a.yaml#/components/schemas/A'
+                  withid:
+                    $id: https://example.org/models/W
+                    type: object
+                    properties:
+                      child:
+                        $ref: 'ext-a.yaml#/components/schemas/A'
+              example: {"$ref": "./should-not-be-touched3.yaml"}
+          links:
+            l1:
+              operationId: getT
+              parameters:
+                p: {"$ref": "./should-not-be-touched4.yaml"}
+              requestBody: {"$ref": "./should-not-be-touched5.yaml"}
+          x-user-ext: {"$ref": "./should-not-be-touched6.yaml"}
+        default:
+          $ref: './ext-a.yaml#/components/schemas/A'
+    query:
+      operationId: queryT
+      x-internal: true
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.example.stream:
+              schema:
+                $ref: '#/components/mediaTypes/stream'
+components:
+  mediaTypes:
+    stream:
+      itemSchema: {type: object}
