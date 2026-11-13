@@ -2229,6 +2229,33 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testItemHelpersUseInstantiationTypes_issue25642() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setInputSpec("src/test/resources/bugs/issue_25642.yaml")
+                .addInstantiationType("map", "LinkedHashMap")
+                .addInstantiationType("array", "LinkedList")
+                .addInstantiationType("set", "TreeSet")
+                .addImportMapping("LinkedHashMap", "java.util.LinkedHashMap")
+                .addImportMapping("LinkedList", "java.util.LinkedList")
+                .addImportMapping("TreeSet", "java.util.TreeSet")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        JavaFileAssert.assertThat(output.resolve("src/main/java/org/openapitools/client/model/Basket.java"))
+                .assertMethod("putEntriesItem", "String", "String")
+                .bodyContainsLines("this.entries = new LinkedHashMap<>();")
+                .toFileAssert()
+                .assertMethod("addTagsItem", "String")
+                .bodyContainsLines("this.tags = new LinkedList<>();")
+                .toFileAssert()
+                .assertMethod("addCodesItem", "String")
+                .bodyContainsLines("this.codes = new TreeSet<>();");
+    }
+
+    @Test
     public void testReturnTypeMapping() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
