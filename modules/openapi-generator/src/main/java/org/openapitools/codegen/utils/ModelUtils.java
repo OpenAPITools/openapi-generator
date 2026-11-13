@@ -562,6 +562,17 @@ public class ModelUtils {
     }
 
     /**
+     * OAS 3.1 can parse `additionalProperties: false` as a boolean schema instead of Boolean.FALSE.
+     *
+     * @param additionalProperties the value of a schema's additionalProperties
+     * @return true if it is a boolean schema with the value false
+     */
+    public static boolean isBooleanSchemaFalse(Object additionalProperties) {
+        return additionalProperties instanceof Schema
+                && Boolean.FALSE.equals(((Schema) additionalProperties).getBooleanSchemaValue());
+    }
+
+    /**
      * Return true if the specified 'schema' is an object that can be extended with additional properties.
      * Additional properties means a Schema should support all explicitly defined properties plus any
      * undeclared properties.
