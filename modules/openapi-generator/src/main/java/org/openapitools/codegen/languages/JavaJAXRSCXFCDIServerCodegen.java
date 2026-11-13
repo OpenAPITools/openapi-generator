@@ -21,6 +21,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.VendorExtension;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -69,11 +70,25 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         removeOption(USE_JSPECIFY);
         // JSON-B support lives in the JavaJaxRS/spec templates as well; cxf-cdi always uses Jackson.
         removeOption(CodegenConstants.SERIALIZATION_LIBRARY);
+        removeOption(JavaJAXRSSpecServerCodegen.JSONB_DISCRIMINATOR_DESERIALIZERS);
     }
 
     @Override
     public String getName() {
         return "jaxrs-cxf-cdi";
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        // x-abstract is implemented by the JavaJaxRS/spec templates only; cxf-cdi uses its own templates.
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.remove(VendorExtension.X_ABSTRACT);
+        return extensions;
+    }
+
+    @Override
+    protected boolean supportsAbstractModels() {
+        return false;
     }
 
     @Override
@@ -85,6 +100,7 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
         additionalProperties.remove(USE_JSPECIFY);
         setUseJspecify(false);
         additionalProperties.remove(CodegenConstants.SERIALIZATION_LIBRARY);
+        additionalProperties.remove(JavaJAXRSSpecServerCodegen.JSONB_DISCRIMINATOR_DESERIALIZERS);
 
         super.processOpts();
 

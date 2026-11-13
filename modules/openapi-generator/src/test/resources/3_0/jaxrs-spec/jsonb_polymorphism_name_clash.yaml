@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: JSON-B polymorphism, helper class names
+  description: >
+    Models named like the helper classes that jsonbDiscriminatorDeserializers nests in a polymorphic model (JsonbData,
+    JsonbPolymorphicDeserializer, JsonbPolymorphicContainerDeserializer and JsonbData2), used as property types of a
+    concrete root that maps a value to itself and of its subclass, where a nested helper class of the same name would
+    shadow them. The root also has a list of itself, which needs the container deserializer.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Document:
+      type: object
+      required:
+        - docType
+      properties:
+        docType:
+          type: string
+        data:
+          $ref: '#/components/schemas/JsonbData'
+        helper:
+          $ref: '#/components/schemas/JsonbPolymorphicDeserializer'
+        container:
+          $ref: '#/components/schemas/JsonbPolymorphicContainerDeserializer'
+        related:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+      discriminator:
+        propertyName: docType
+        mapping:
+          DOC: '#/components/schemas/Document'
+          REPORT: '#/components/schemas/Report'
+
+    Report:
+      allOf:
+        - $ref: '#/components/schemas/Document'
+        - type: object
+          properties:
+            summary:
+              $ref: '#/components/schemas/JsonbData'
+            pages:
+              type: array
+              items:
+                $ref: '#/components/schemas/JsonbData2'
+
+    JsonbData:
+      type: object
+      properties:
+        value:
+          type: string
+
+    JsonbData2:
+      type: object
+      properties:
+        number:
+          type: integer
+
+    JsonbPolymorphicDeserializer:
+      type: object
+      properties:
+        id:
+          type: integer
+
+    JsonbPolymorphicContainerDeserializer:
+      type: object
+      properties:
+        label:
+          type: string

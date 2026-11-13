@@ -1,0 +1,142 @@
+openapi: 3.0.3
+info:
+  title: JSON-B polymorphism
+  description: >
+    Polymorphic hierarchies for serializationLibrary=jsonb with jsonbDiscriminatorDeserializers. Pet is an abstract root whose
+    values map directly to the concrete leaves below the abstract intermediate Cat; Dog has a required enum (JSON-B
+    creator) and references Pet in a list, a map and a field. Vehicle is a concrete root that maps a value to itself;
+    its concrete child Car resolves its own subclasses by a second discriminator property carType. Holder uses the
+    polymorphic types in a list, a map and fields without being polymorphic itself.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          DOG: '#/components/schemas/Dog'
+          PERSIAN: '#/components/schemas/PersianCat'
+          SIAMESE: '#/components/schemas/SiameseCat'
+
+    Cat:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    PersianCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    SiameseCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            eyeColor:
+              type: string
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - size
+          properties:
+            size:
+              type: string
+              enum:
+                - small
+                - large
+            friends:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pet'
+            friendsByName:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/Pet'
+            best:
+              $ref: '#/components/schemas/Pet'
+
+    Vehicle:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        fuel:
+          type: string
+          enum:
+            - petrol
+            - electric
+        wheels:
+          type: integer
+          default: 4
+      discriminator:
+        propertyName: kind
+        mapping:
+          VEHICLE: '#/components/schemas/Vehicle'
+          CAR: '#/components/schemas/Car'
+
+    Car:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
+        - type: object
+          properties:
+            carType:
+              type: string
+            doors:
+              type: integer
+      discriminator:
+        propertyName: carType
+        mapping:
+          CAR: '#/components/schemas/Car'
+          SPORTS: '#/components/schemas/SportsCar'
+
+    SportsCar:
+      allOf:
+        - $ref: '#/components/schemas/Car'
+        - type: object
+          properties:
+            horsePower:
+              type: integer
+
+    Holder:
+      type: object
+      properties:
+        pet:
+          $ref: '#/components/schemas/Pet'
+        cat:
+          $ref: '#/components/schemas/Cat'
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+        petsByName:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Pet'
+        vehicles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'

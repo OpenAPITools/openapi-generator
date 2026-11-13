@@ -1,0 +1,16 @@
+README.md
+pom.xml
+src/gen/java/org/openapitools/api/ContainersApi.java
+src/gen/java/org/openapitools/api/RestApplication.java
+src/gen/java/org/openapitools/api/RestResourceRoot.java
+src/gen/java/org/openapitools/model/Car.java
+src/gen/java/org/openapitools/model/Cat.java
+src/gen/java/org/openapitools/model/Containers.java
+src/gen/java/org/openapitools/model/Dog.java
+src/gen/java/org/openapitools/model/House.java
+src/gen/java/org/openapitools/model/PersianCat.java
+src/gen/java/org/openapitools/model/Pet.java
+src/gen/java/org/openapitools/model/Required.java
+src/gen/java/org/openapitools/model/Shelter.java
+src/gen/java/org/openapitools/model/Vehicle.java
+src/main/openapi/openapi.yaml

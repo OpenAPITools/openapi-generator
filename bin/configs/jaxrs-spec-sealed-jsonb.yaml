@@ -1,0 +1,14 @@
+generatorName: jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec-sealed-jsonb
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jaxrs-spec/jsonb_polymorphism_containers.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
+additionalProperties:
+  artifactId: jaxrs-spec-sealed-jsonb-petstore-server
+  serializationLibrary: jsonb
+  jsonbDiscriminatorDeserializers: "true"
+  useJakartaEe: "true"
+  useOneOfInterfaces: "true"
+  useSealed: "true"
+  generateBuilders: "true"
+  serializableModel: "true"
+  hideGenerationTimestamp: "true"

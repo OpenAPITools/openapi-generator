@@ -1,0 +1,60 @@
+openapi: 3.0.3
+info:
+  title: deeper abstract level with another discriminator property
+  description: >
+    Like abstract_oneof_deep_discriminator.yaml, but the deeper abstract BigCatRequest dispatches by bigCatType.
+    LION is a bigCatType value that PetRequest cannot dispatch on by petType, so this is rejected.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    PetRequest:
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+
+    CatRequest:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+
+    BigCatRequest:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          required:
+            - bigCatType
+          properties:
+            bigCatType:
+              type: string
+            roars:
+              type: boolean
+      discriminator:
+        propertyName: bigCatType
+        mapping:
+          LION: '#/components/schemas/LionRequest'
+
+    LionRequest:
+      allOf:
+        - $ref: '#/components/schemas/BigCatRequest'
+        - type: object
+          properties:
+            mane:
+              type: boolean
+
+    DogRequest:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string

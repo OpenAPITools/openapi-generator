@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: x-abstract without subclasses as member of a sealed oneOf interface
+  description: >
+    CatRequest is a member of the oneOf PetRequest, is marked x-abstract and has no subclasses. With
+    useOneOfInterfaces and useSealed, the sealed interface PetRequest permits CatRequest, which would have to
+    be declared non-sealed. Generation must fail.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    PetRequest:
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+
+    CatRequest:
+      x-abstract: true
+      type: object
+      properties:
+        indoor:
+          type: boolean
+
+    DogRequest:
+      type: object
+      properties:
+        trained:
+          type: boolean

@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: abstract member of a sealed oneOf interface with an explicit discriminator mapping
+  description: >
+    PetRequest is a oneOf interface whose discriminator maps every value directly to a concrete class; the abstract
+    member CatRequest maps the same values to its subclasses.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    PetRequest:
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+      discriminator:
+        propertyName: petType
+        mapping:
+          PERSIAN: '#/components/schemas/PersianCatRequest'
+          SIAMESE: '#/components/schemas/SiameseCatRequest'
+          DOG: '#/components/schemas/DogRequest'
+
+    CatRequest:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        indoor:
+          type: boolean
+      discriminator:
+        propertyName: petType
+        mapping:
+          PERSIAN: '#/components/schemas/PersianCatRequest'
+          SIAMESE: '#/components/schemas/SiameseCatRequest'
+
+    PersianCatRequest:
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    SiameseCatRequest:
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          properties:
+            eyeColor:
+              type: string
+
+    DogRequest:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        trained:
+          type: boolean
