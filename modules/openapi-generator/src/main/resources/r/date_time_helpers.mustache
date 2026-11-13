@@ -1,0 +1,26 @@
+# Parse an ISO 8601 / RFC 3339 date-time string into a POSIXct (UTC).
+# as.POSIXct's default tryFormats omit the 'T'-separator format, and strptime's
+# %z accepts neither a trailing 'Z' nor a colon in numeric offsets, so normalize
+# both before parsing. Parse element-wise: a vectorized as.POSIXct() with %z
+# silently drops offsets, so lapply() keeps each instant correct.
+# @keywords internal
+.parse_datetime <- function(x) {
+  x <- sub("Z$", "+0000", x)
+  x <- sub("([+-][0-9]{2}):([0-9]{2})$", "\\1\\2", x)
+  do.call(c, lapply(x, function(s)
+    as.POSIXct(s, tryFormats = c("%Y-%m-%dT%H:%M:%OS%z", "%Y-%m-%dT%H:%M:%OS", "%Y-%m-%d %H:%M:%OS"), tz = "UTC")
+  ))
+}
+
+# Format a Date or POSIXct/POSIXlt as an ISO 8601 UTC string.
+# For POSIXt, %OS in format() truncates fractional seconds; nudge by 1e-6 s so
+# %OS3 rounds to the nearest millisecond instead of truncating one low (float
+# representation). Strip a trailing .000 so whole-second values stay clean.
+# @keywords internal
+.format_datetime <- function(x) {
+  if (inherits(x, "Date")) {
+    return(as.character(x))
+  }
+  s <- format(x + 1e-6, "%Y-%m-%dT%H:%M:%OS3Z", tz = "UTC")
+  sub("\\.000Z$", "Z", s)
+}
