@@ -4450,6 +4450,7 @@ public class JavaClientCodegenTest {
                 "public class DeleteFooRequest {",
                 "public DeleteFooRequest force(",
                 "public Mono<Void> deleteFoo(DeleteFooRequest requestParameters) throws WebClientResponseException {",
+                "public class UpdateFooRequest {",
                 "public Mono<Void> updateFoo(UpdateFooRequest requestParameters) throws WebClientResponseException {",
                 "public class SSupdateRequest {",
                 "(SSupdateRequest requestParameters) throws WebClientResponseException {"
