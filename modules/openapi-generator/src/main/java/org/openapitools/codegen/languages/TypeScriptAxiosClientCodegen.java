@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.core.util.Json31;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Getter;
@@ -35,7 +37,10 @@ import java.io.File;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/typescript-axios/}.
@@ -73,6 +78,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     public TypeScriptAxiosClientCodegen() {
         super();
+
+        openapiNormalizer.put("NORMALIZER_CLASS", PrimitiveCompositionNormalizer.class.getName());
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -247,6 +254,120 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
         return result;
+    }
+
+    @Override
+    public String getSchemaType(Schema schema) {
+        if (isPrimitiveWithValidationOnlyComposition(schema)) {
+            return super.getSchemaType(new Schema().type(primitiveCompositionType(schema)).format(schema.getFormat()));
+        }
+        return super.getSchemaType(schema);
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel model = super.fromModel(name, schema);
+        Schema primitive = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (!ModelUtils.hasProperties(schema) && schema.getAllOf() != null && schema.getAllOf().size() == 1
+                && schema.getAnyOf() == null && schema.getOneOf() == null
+                && ModelUtils.getType(schema) == null && schema.getEnum() == null
+                && schema.getConst() == null && schema.getNot() == null) {
+            // Normalization wraps nullable references in a single-member allOf.
+            primitive = ModelUtils.getReferencedSchema(openAPI, (Schema) schema.getAllOf().get(0));
+        }
+        if (isPrimitiveWithValidationOnlyComposition(primitive)) {
+            model.vendorExtensions.put("x-typescript-primitive-type", getSchemaType(primitive));
+        }
+        return model;
+    }
+
+    private static boolean isPrimitiveWithValidationOnlyComposition(Schema schema) {
+        if (primitiveCompositionType(schema) == null) {
+            return false;
+        }
+        return schema.getEnum() == null && schema.getConst() == null;
+    }
+
+    private static String primitiveCompositionType(Schema schema) {
+        if (schema == null || schema.get$ref() != null || schema.getNot() != null || schema.getIf() != null
+                || schema.getAllOf() != null || (schema.getAnyOf() != null && schema.getOneOf() != null)) {
+            return null;
+        }
+        Set<String> types = schema.getTypes() != null ? schema.getTypes()
+                : schema.getType() == null ? Set.of() : Set.of(schema.getType());
+        List<String> nonNullTypes = types.stream().filter(type -> !"null".equals(type)).collect(Collectors.toList());
+        if (nonNullTypes.size() != 1 || !Set.of("string", "integer", "number", "boolean").contains(nonNullTypes.get(0))) {
+            return null;
+        }
+        List<Schema> alternatives = schema.getAnyOf() != null ? schema.getAnyOf() : schema.getOneOf();
+        if (alternatives == null || alternatives.isEmpty() || alternatives.stream().noneMatch(
+                TypeScriptAxiosClientCodegen::isTypeSpecificPredicate)
+                || !alternatives.stream().allMatch(branch -> isTypeSpecificPredicate(branch) || isExplicitNull(branch))) {
+            return null;
+        }
+        return nonNullTypes.get(0);
+    }
+
+    // These assertions apply only to strings, numbers, arrays or objects, so an
+    // untyped branch containing them always accepts null. In particular, enum,
+    // const, references and logical applicators must not enter this fallback.
+    private static final Set<String> TYPE_SPECIFIC_PREDICATES = Set.of(
+            "pattern", "minLength", "maxLength", "format", "minimum", "maximum",
+            "exclusiveMinimum", "exclusiveMaximum", "multipleOf", "minItems", "maxItems",
+            "uniqueItems", "contains", "minContains", "maxContains", "items", "prefixItems",
+            "minProperties", "maxProperties", "required", "properties", "patternProperties",
+            "additionalProperties", "propertyNames", "dependentRequired", "dependentSchemas",
+            "unevaluatedItems", "unevaluatedProperties", "title", "description", "default",
+            "examples", "example", "deprecated", "readOnly", "writeOnly");
+
+    private static boolean isTypeSpecificPredicate(Schema schema) {
+        if (schema == null || schema.getBooleanSchemaValue() != null) {
+            return false;
+        }
+        var fields = Json31.mapper().valueToTree(schema).fieldNames();
+        while (fields.hasNext()) {
+            String field = fields.next();
+            if (!TYPE_SPECIFIC_PREDICATES.contains(field) && !field.startsWith("x-")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean isExplicitNull(Schema schema) {
+        return schema != null && ("null".equals(schema.getType()) || Set.of("null").equals(schema.getTypes()))
+                && Json31.mapper().valueToTree(schema).size() == 1;
+    }
+
+    /** Keeps primitive validation compositions local to Axios, before generic normalization can erase their type. */
+    public static class PrimitiveCompositionNormalizer extends OpenAPINormalizer {
+        public PrimitiveCompositionNormalizer(OpenAPI openAPI, Map<String, String> rules) {
+            super(openAPI, rules);
+        }
+
+        @Override
+        public Schema normalizeSchema(Schema schema, Set<Schema> visitedSchemas) {
+            String type = primitiveCompositionType(schema);
+            if (type == null || schema.getConst() != null) {
+                return super.normalizeSchema(schema, visitedSchemas);
+            }
+            List<Schema> alternatives = schema.getAnyOf() != null ? schema.getAnyOf() : schema.getOneOf();
+            boolean nullable = Boolean.TRUE.equals(schema.getNullable())
+                    || (schema.getTypes() != null && schema.getTypes().contains("null"));
+            // Every supported branch accepts null. oneOf accepts it only when
+            // exactly one branch matches; deduplicating branches would change this.
+            schema.setNullable(nullable && (schema.getOneOf() == null || alternatives.size() == 1)
+                    && (schema.getEnum() == null || schema.getEnum().stream().anyMatch(Objects::isNull)));
+            ModelUtils.setType(schema, type);
+            List<Schema> predicates = alternatives.stream()
+                    .filter(branch -> !isExplicitNull(branch)).collect(Collectors.toList());
+            if (schema.getAnyOf() != null) {
+                schema.setAnyOf(predicates);
+            } else {
+                schema.setOneOf(predicates);
+            }
+            return schema;
+        }
     }
 
 
