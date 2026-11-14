@@ -22,7 +22,6 @@ NAME = "petstore-api"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">= 3.11"
 REQUIRES = [
-    "python-dateutil >= 2.8.2",
     "aiohttp >= 3.14.1",
     "aiohttp-retry >= 2.8.3",
     "pem >= 19.3.0",

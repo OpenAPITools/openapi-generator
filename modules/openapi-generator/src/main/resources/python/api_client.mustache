@@ -2,7 +2,6 @@
 
 
 import datetime
-from dateutil.parser import parse
 from enum import Enum
 import decimal
 import json
@@ -973,9 +972,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         :return: date.
         """
         try:
-            return parse(string).date()
-        except ImportError:
-            return string
+            return datetime.date.fromisoformat(string)
         except ValueError:
             raise rest.ApiException(
                 status=0,
@@ -991,9 +988,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         :return: datetime.
         """
         try:
-            return parse(string)
-        except ImportError:
-            return string
+            return datetime.datetime.fromisoformat(string)
         except ValueError:
             raise rest.ApiException(
                 status=0,
