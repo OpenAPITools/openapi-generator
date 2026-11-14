@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: kotlin vertx form-send regression fixture
+  version: 1.0.0
+paths:
+  /submit:
+    post:
+      operationId: submitForm
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+                statuses:
+                  type: array
+                  items:
+                    type: string
+                    enum: [active, inactive]
+      responses:
+        '200':
+          description: ok
+  /submit-charset:
+    post:
+      operationId: submitCharsetForm
+      # a media type carrying a parameter must still be treated as a form:
+      # sendForm() supplies its own Content-Type, so a putHeader for this
+      # operation would throw IllegalStateException on Vert.x 5.1.5
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded; charset=UTF-8:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+      responses:
+        '200':
+          description: ok
+  /upload:
+    post:
+      operationId: uploadFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            encoding:
+              myFile:
+                contentType: image/jpeg
+            schema:
+              type: object
+              properties:
+                myFile:
+                  type: string
+                  format: binary
+                note:
+                  type: string
+                labels:
+                  type: array
+                  items:
+                    type: string
+                priorities:
+                  type: array
+                  items:
+                    type: string
+                    enum: [low, high]
+      responses:
+        '200':
+          description: ok
