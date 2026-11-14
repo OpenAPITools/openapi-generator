@@ -1,5 +1,6 @@
 package org.openapitools.codegen.typescript.axios;
 
+import com.fasterxml.jackson.databind.node.NullNode;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -34,10 +35,35 @@ public class TypeScriptAxiosClientCodegenTest {
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
 
     @Test
+    public void testParsedNullConstDoesNotUsePrimitiveFallback() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_null_const_").toFile();
+        output.deleteOnExit();
+        final ClientOptInput input = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/typescript-axios/primitive-const-null.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .toClientOptInput();
+        // The parser represents an explicit const: null as NullNode, not Java null.
+        for (String name : List.of("NullOnly", "Impossible")) {
+            assertThat(input.getOpenAPI().getComponents().getSchemas().get(name).getConst())
+                    .isEqualTo(NullNode.getInstance());
+        }
+        new DefaultGenerator().opts(input).generate().forEach(File::deleteOnExit);
+        for (String name : List.of("NullOnly", "Impossible")) {
+            assertThat(input.getOpenAPI().getComponents().getSchemas().get(name).getConst())
+                    .isEqualTo(NullNode.getInstance());
+        }
+        Path api = output.toPath().resolve("api.ts");
+        TestUtils.assertFileContains(api, "export type Unconstrained = string | null;");
+        // General const type generation is outside this fallback's scope.
+        TestUtils.assertFileNotContains(api, "export type NullOnly = string", "export type Impossible = string");
+    }
+
+    @Test
     public void testPrimitiveNormalizationRetainsSiblingConstraints() {
         Schema predicate = new Schema().pattern("^[a-z]+$");
         Schema schema = new ComposedSchema().type("string").nullable(true)
-                ._enum(List.of("allowed")).minLength(2).addAnyOfItem(predicate);
+                ._enum(List.of("allowed")).minLength(2);
         schema.setAnyOf(List.of(predicate));
         Schema normalized = new TypeScriptAxiosClientCodegen.PrimitiveCompositionNormalizer(new OpenAPI(), Map.of())
                 .normalizeSchema(schema, new HashSet<>());

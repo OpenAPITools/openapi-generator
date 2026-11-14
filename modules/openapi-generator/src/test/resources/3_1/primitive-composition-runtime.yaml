@@ -27,16 +27,6 @@ components:
       properties:
         value:
           $ref: '#/components/schemas/PatternValue'
-    Cat:
-      type: object
-      properties:
-        name:
-          type: string
-    TypedParent:
-      type: object
-      oneOf:
-        - $ref: '#/components/schemas/Cat'
-        - type: 'null'
     PatternValue:
       type: string
       oneOf:

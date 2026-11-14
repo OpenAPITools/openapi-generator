@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: Primitive const null
+  version: '1'
+paths: {}
+components:
+  schemas:
+    NullOnly:
+      type: [string, 'null']
+      const: null
+      anyOf:
+        - pattern: '^[a-z]+$'
+    Impossible:
+      type: string
+      const: null
+      anyOf:
+        - pattern: '^[a-z]+$'
+    Unconstrained:
+      type: [string, 'null']
+      anyOf:
+        - pattern: '^[a-z]+$'
