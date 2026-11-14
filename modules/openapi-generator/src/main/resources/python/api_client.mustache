@@ -972,7 +972,7 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
         :return: date.
         """
         try:
-            return datetime.date.fromisoformat(string)
+            return datetime.datetime.fromisoformat(string).date()
         except ValueError:
             raise rest.ApiException(
                 status=0,

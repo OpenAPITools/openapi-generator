@@ -887,7 +887,7 @@ class ApiClient:
         :return: date.
         """
         try:
-            return datetime.date.fromisoformat(string)
+            return datetime.datetime.fromisoformat(string).date()
         except ValueError:
             raise rest.ApiException(
                 status=0,
