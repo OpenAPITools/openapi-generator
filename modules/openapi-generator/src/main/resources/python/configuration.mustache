@@ -2,7 +2,6 @@
 
 {{#asyncio}}
 import aiohttp
-import aiohttp_retry
 {{/asyncio}}
 {{#async}}
 import base64
@@ -24,6 +23,13 @@ from urllib.parse import urlparse
 from urllib.request import getproxies
 {{/async}}
 from typing_extensions import NotRequired, Self
+{{#asyncio}}
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import aiohttp_retry
+{{/asyncio}}
 
 {{^async}}
 import urllib3
@@ -344,7 +350,7 @@ conf = {{{packageName}}}.Configuration(
         ignore_operation_servers: bool=False,
         ssl_ca_cert: Optional[str]=None,
 {{#asyncio}}
-        retries: Optional[Union[int, aiohttp_retry.RetryOptionsBase]] = None,
+        retries: Optional[Union[int, "aiohttp_retry.RetryOptionsBase"]] = None,
         trace_configs: Optional[List[aiohttp.TraceConfig]] = None,
         tcp_connector_limit_per_host: Optional[int] = None,
         client_session_kwargs: Optional[Dict[str, Any]] = None,

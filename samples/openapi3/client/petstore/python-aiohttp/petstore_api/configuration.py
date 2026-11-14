@@ -11,7 +11,6 @@
 
 
 import aiohttp
-import aiohttp_retry
 import base64
 import copy
 import http.client as httplib
@@ -20,6 +19,11 @@ from logging import FileHandler
 import sys
 from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
 from typing_extensions import NotRequired, Self
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import aiohttp_retry
 
 
 from petstore_api.signing import HttpSigningConfiguration
@@ -288,7 +292,7 @@ conf = petstore_api.Configuration(
         server_operation_variables: Optional[Dict[int, ServerVariablesT]]=None,
         ignore_operation_servers: bool=False,
         ssl_ca_cert: Optional[str]=None,
-        retries: Optional[Union[int, aiohttp_retry.RetryOptionsBase]] = None,
+        retries: Optional[Union[int, "aiohttp_retry.RetryOptionsBase"]] = None,
         trace_configs: Optional[List[aiohttp.TraceConfig]] = None,
         tcp_connector_limit_per_host: Optional[int] = None,
         client_session_kwargs: Optional[Dict[str, Any]] = None,
