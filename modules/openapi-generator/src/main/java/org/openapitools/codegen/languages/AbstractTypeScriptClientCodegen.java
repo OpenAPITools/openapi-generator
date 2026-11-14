@@ -250,6 +250,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
+    private static final Pattern LITERAL_TYPE_PATTERN = Pattern.compile("['\"]|^-?\\d");
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
@@ -1337,7 +1338,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     protected boolean needToImport(String type) {
+        if (type != null && isLiteralUnion(type)) {
+            return false;
+        }
         return super.needToImport(typeWithoutGeneric(type));
+    }
+
+    // 'a' | 'b' or 1 | 2 from an inlined enum: its members are values, never model names
+    private boolean isLiteralUnion(String type) {
+        return Arrays.stream(splitComposedType(type))
+                .filter(StringUtils::isNotEmpty)
+                .allMatch(member -> LITERAL_TYPE_PATTERN.matcher(member).find());
     }
 
     private String typeWithoutGeneric(String type) {
