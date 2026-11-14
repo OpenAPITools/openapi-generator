@@ -474,7 +474,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC,
                 useEnumValueInterface));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE_USE_PRESENT,
-                "Use `@Present` annotation to mark nullable and required properties. See (https://github.com/OpenAPITools/jackson-databind-nullable#requiring-a-property-to-be-present) for more details.",
+                "Use `@Present` annotation to mark nullable and required properties. See (https://github.com/OpenAPITools/jackson-databind-nullable#requiring-a-property-to-be-present) for more details. Requires openApiNullable=true and useBeanValidation=true.",
                 openApiNullableUsePresent));
 
     }
