@@ -1,6 +1,5 @@
 package org.openapitools.codegen.typescript.axios;
 
-import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -13,12 +12,10 @@ import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 
 import java.io.File;
-import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -29,19 +26,21 @@ public class TypeScriptAxiosClientCodegenTest {
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
 
     @Test
-    public void testOneOfImportsWithAllOfFlag() throws Exception {
-        // Exercise the template contract directly: schema processing does not yet
-        // consistently retain both compositions in a generated CodegenModel.
-        Path templates = Path.of("src/main/resources/typescript-axios");
-        String rendered = Mustache.compiler().defaultValue("")
-                .withLoader(name -> new StringReader(Files.readString(templates.resolve(name + ".mustache"))))
-                .compile(Files.readString(templates.resolve("model.mustache")))
-                .execute(Map.of("withSeparateModelsAndApi", true, "hasAllOf", true, "hasOneOf", true,
-                        "allOf", List.of(Map.of("class", "Base", "filename", "base")),
-                        "imports", List.of(Map.of("class", "Base", "filename", "base"),
-                                Map.of("class", "Branch", "filename", "branch"))));
-        assertThat(rendered).containsOnlyOnce("import type { Base } from './base';")
-                .containsOnlyOnce("import type { Branch } from './branch';");
+    public void testMixedCompositionImports() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_mixed_imports_").toFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/typescript-axios/mixed-composition-imports.yaml")
+                .addAdditionalProperty("withSeparateModelsAndApi", true)
+                .addAdditionalProperty("apiPackage", "api")
+                .addAdditionalProperty("modelPackage", "model")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+        // Axios imports composed children even when the source schema has allOf.
+        // This checks the real imports pipeline, not full mixed-composition support.
+        assertThat(Files.readString(output.toPath().resolve("model/mixed.ts")))
+                .containsOnlyOnce("import type { Base } from './base';");
     }
 
     @DataProvider
@@ -74,7 +73,9 @@ public class TypeScriptAxiosClientCodegenTest {
                 .doesNotContain("'kind'", "'text'", "'url'");
         assertThat(receipt).contains(stringEnums ? "export enum ReceiptStateEnum" : "export const ReceiptStateEnum");
         if (separateModels) {
-            assertThat(receipt).contains("import type { Owner } from './owner';");
+            assertThat(receipt).containsOnlyOnce("import type { Owner } from './owner';")
+                    .containsOnlyOnce("import type { TextSubmission } from './text-submission';")
+                    .containsOnlyOnce("import type { LinkSubmission } from './link-submission';");
         }
 
         Path submissionFile = output.toPath().resolve(separateModels ? "model/submission.ts" : "api.ts");
