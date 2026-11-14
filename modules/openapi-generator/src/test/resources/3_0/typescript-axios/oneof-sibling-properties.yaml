@@ -25,6 +25,8 @@ components:
       type: object
       required: [kind, text]
       properties:
+        id:
+          type: string
         kind:
           type: string
           enum: [text]
@@ -34,6 +36,8 @@ components:
       type: object
       required: [kind, url]
       properties:
+        id:
+          type: string
         kind:
           type: string
           enum: [link]
@@ -45,6 +49,11 @@ components:
         name:
           type: string
     Submission:
+      oneOf:
+        - $ref: '#/components/schemas/TextSubmission'
+        - $ref: '#/components/schemas/LinkSubmission'
+    IdentifiedSubmission:
+      required: [id]
       oneOf:
         - $ref: '#/components/schemas/TextSubmission'
         - $ref: '#/components/schemas/LinkSubmission'

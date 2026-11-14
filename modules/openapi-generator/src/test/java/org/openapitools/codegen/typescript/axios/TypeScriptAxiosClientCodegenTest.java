@@ -1,5 +1,6 @@
 package org.openapitools.codegen.typescript.axios;
 
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -12,10 +13,12 @@ import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 
 import java.io.File;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -24,6 +27,22 @@ import static org.testng.Assert.assertEquals;
 public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+    @Test
+    public void testOneOfImportsWithAllOfFlag() throws Exception {
+        // Exercise the template contract directly: schema processing does not yet
+        // consistently retain both compositions in a generated CodegenModel.
+        Path templates = Path.of("src/main/resources/typescript-axios");
+        String rendered = Mustache.compiler().defaultValue("")
+                .withLoader(name -> new StringReader(Files.readString(templates.resolve(name + ".mustache"))))
+                .compile(Files.readString(templates.resolve("model.mustache")))
+                .execute(Map.of("withSeparateModelsAndApi", true, "hasAllOf", true, "hasOneOf", true,
+                        "allOf", List.of(Map.of("class", "Base", "filename", "base")),
+                        "imports", List.of(Map.of("class", "Base", "filename", "base"),
+                                Map.of("class", "Branch", "filename", "branch"))));
+        assertThat(rendered).containsOnlyOnce("import type { Base } from './base';")
+                .containsOnlyOnce("import type { Branch } from './branch';");
+    }
 
     @DataProvider
     public Object[][] oneOfSiblingPropertiesOptions() {
@@ -60,6 +79,9 @@ public class TypeScriptAxiosClientCodegenTest {
 
         Path submissionFile = output.toPath().resolve(separateModels ? "model/submission.ts" : "api.ts");
         TestUtils.assertFileContains(submissionFile, "export type Submission = LinkSubmission | TextSubmission;");
+        Path identifiedFile = output.toPath().resolve(separateModels ? "model/identified-submission.ts" : "api.ts");
+        TestUtils.assertFileContains(identifiedFile,
+                "export type IdentifiedSubmission = (LinkSubmission | TextSubmission) & {\n    'id': unknown;\n};");
         Path taggedFile = output.toPath().resolve(separateModels ? "model/tagged-receipt.ts" : "api.ts");
         TestUtils.assertFileContains(taggedFile,
                 "export type TaggedReceipt = ({ kind: 'link' } & LinkSubmission | { kind: 'text' } & TextSubmission) & {\n    'id': string;\n};");
