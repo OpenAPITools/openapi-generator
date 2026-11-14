@@ -1545,6 +1545,21 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "from '../models/");
     }
 
+    @Test(description = "Verify a model next to a literal in a union is still imported")
+    public void testLiteralUnionMembersAreNotImported() {
+        class Codegen extends TypeScriptFetchClientCodegen {
+            boolean imports(String type) {
+                return needToImport(type);
+            }
+        }
+        Codegen codegen = new Codegen();
+
+        Assert.assertFalse(codegen.imports("'a' | 'b'"));
+        Assert.assertFalse(codegen.imports("1 | -2"));
+        Assert.assertTrue(codegen.imports("Foo | 'a'"));
+        Assert.assertTrue(codegen.imports("Foo"));
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
