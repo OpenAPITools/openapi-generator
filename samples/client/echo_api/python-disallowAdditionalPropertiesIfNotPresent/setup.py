@@ -24,7 +24,6 @@ VERSION = "1.0.0"
 PYTHON_REQUIRES = ">= 3.11"
 REQUIRES = [
     "urllib3 >= 2.7.0, < 3.0.0",
-    "python-dateutil >= 2.8.2",
     "pydantic >= 2.11",
     "typing-extensions >= 4.7.1",
 ]

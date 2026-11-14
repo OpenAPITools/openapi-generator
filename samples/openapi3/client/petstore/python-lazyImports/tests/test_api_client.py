@@ -13,7 +13,7 @@ import unittest
 from decimal import Decimal
 from enum import Enum
 
-from dateutil.parser import parse
+import datetime
 
 import petstore_api
 import petstore_api.configuration
@@ -172,12 +172,12 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual(result, data)
 
     def test_sanitize_for_serialization_date(self):
-        data = parse("1997-07-16").date()  # date
+        data = datetime.date.fromisoformat("1997-07-16")  # date
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16")
 
     def test_sanitize_for_serialization_datetime(self):
-        data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
+        data = datetime.datetime.fromisoformat("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
 
