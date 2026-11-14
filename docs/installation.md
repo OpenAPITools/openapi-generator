@@ -36,7 +36,7 @@ Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.github
 npx @openapitools/openapi-generator-cli generate -i petstore.yaml -g ruby -o /tmp/test/
 ```
 
-> `npx` will execute a globally available `openapi-generator`, and if not found it will fall back to project-local commands. The result is that the above command will work regardless of which installation method you've chosen.
+> When `@openapitools/openapi-generator-cli` is installed in the current project, `npx` uses the local package. Otherwise, npm may fetch the package into its cache and prompt for confirmation. To run a globally installed CLI, invoke `openapi-generator-cli` directly.
 
 ## Homebrew
 
