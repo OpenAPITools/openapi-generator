@@ -51,6 +51,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.EscapeJavaDocLambda;
+import org.openapitools.codegen.templating.mustache.OrganizeImportsLambda;
 import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -3019,7 +3020,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 .put("javaStringLiteral", javaStringLiteralLambda)
                 .put("jSpecifyDatatype", jSpecifyDatatypeLambda)
                 .put("jSpecifyNullable", jSpecifyNullableLambda)
-                .put("escapeJavaDoc", new EscapeJavaDocLambda());
+                .put("escapeJavaDoc", new EscapeJavaDocLambda())
+                .put("organizeImports", new OrganizeImportsLambda());
 
     }
 

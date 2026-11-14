@@ -18,6 +18,7 @@ additionalProperties:
   generateConstructorWithAllArgs: true
   generateBuilders: true
   openApiNullable: true
+  openApiNullableUsePresent: true
   useJspecify: true
 typeMappings:
   OffsetDateTime: java.time.Instant

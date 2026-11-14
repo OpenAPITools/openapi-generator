@@ -1,26 +1,24 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.xml.bind.annotation.*;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import tools.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import jakarta.xml.bind.annotation.*;
-
-import java.util.*;
-import jakarta.annotation.Generated;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  * RequiredAndNullable
@@ -66,7 +64,7 @@ public class RequiredAndNullable {
    * Get str
    * @return str
    */
-  /* @Present */ 
+  
   @Schema(name = "str", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("str")
   @JacksonXmlProperty(localName = "str")
@@ -90,7 +88,7 @@ public class RequiredAndNullable {
    * Get file
    * @return file
    */
-  /* @Present */ @Valid 
+  @Valid 
   @Schema(name = "file", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("file")
   @JacksonXmlProperty(localName = "file")
@@ -114,7 +112,7 @@ public class RequiredAndNullable {
    * Get color
    * @return color
    */
-  /* @Present */ 
+  
   @Schema(name = "color", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("color")
   @JacksonXmlProperty(localName = "color")
@@ -170,7 +168,7 @@ public class RequiredAndNullable {
    * Get _list
    * @return _list
    */
-  /* @Present */ 
+  
   @Schema(name = "list", requiredMode = Schema.RequiredMode.REQUIRED, nullable = true)
   @JsonProperty("list")
   @JacksonXmlProperty(localName = "list")
