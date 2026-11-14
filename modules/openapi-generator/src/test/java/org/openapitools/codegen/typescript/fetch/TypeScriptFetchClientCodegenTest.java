@@ -1536,6 +1536,15 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
+    @Test(description = "Verify FetchError compiles with noImplicitOverride when lib includes es2022 Error.cause")
+    public void testFetchErrorCauseIsNotParameterProperty() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/petstore.yaml");
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileContains(runtime, "constructor(cause: Error, msg?: string) {", "this.cause = cause;", "export interface FetchError {\n    cause: Error;\n}");
+        TestUtils.assertFileNotContains(runtime, "constructor(public cause: Error");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
