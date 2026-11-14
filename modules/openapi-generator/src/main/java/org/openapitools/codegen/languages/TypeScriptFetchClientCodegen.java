@@ -114,6 +114,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private static final String X_KEEP_AS_JS_OBJECT = "x-keepAsJSObject";
     private static final String X_TYPESCRIPT_FETCH_API_EXAMPLE = "x-typescriptFetchApiExample";
     private static final String X_HAS_DATE_VARS = "x-hasDateVars";
+    private static final String X_NESTED_FROM_JSON = "x-nestedFromJson";
+    private static final String X_NESTED_TO_JSON = "x-nestedToJson";
     private static final String BLOB_API_EXAMPLE = "new Blob(['example file content'], { type: 'application/octet-stream' })";
     private static final String DATE_TYPE = "date";
     private static final String DATE_TIME_TYPE = "DateTime";
@@ -492,6 +494,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     .filter(ExtendedCodegenProperty.class::isInstance)
                     .map(ExtendedCodegenProperty.class::cast)
                     .anyMatch(v -> v.isPrimitiveType && !v.isArray && (v.isDateType() || v.isDateTimeType())));
+            for (CodegenProperty v : cm.vars) {
+                if (isNestedContainerOfModels(v)) {
+                    v.vendorExtensions.put(X_NESTED_FROM_JSON, nestedContainerConversion(v, "json['" + v.baseName + "']", "FromJSON", 0));
+                    v.vendorExtensions.put(X_NESTED_TO_JSON, nestedContainerConversion(v, "value['" + v.name + "']", "ToJSON", 0));
+                }
+            }
         }
 
         // Add supporting file only if we plan to generate files in /models
@@ -2278,6 +2286,33 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     protected String getLicenseNameDefaultValue() {
         return null;
+    }
+
+    // The core flags a container of containers as primitive, so the model template would copy it as is.
+    // When the innermost items are models, the conversion is spelled out level by level instead.
+    private static boolean isNestedContainerOfModels(CodegenProperty p) {
+        if (!(p.isArray || p.isMap) || p.items == null || !(p.items.isArray || p.items.isMap)) {
+            return false;
+        }
+        CodegenProperty leaf = p;
+        while (leaf.isArray || leaf.isMap) {
+            if (leaf.getUniqueItems() || leaf.items == null) {
+                return false;
+            }
+            leaf = leaf.items;
+        }
+        return !leaf.isPrimitiveType && !leaf.isFreeFormObject && !leaf.isAnyType && !leaf.isEnum;
+    }
+
+    private static String nestedContainerConversion(CodegenProperty p, String expr, String suffix, int depth) {
+        CodegenProperty items = p.items;
+        String item = "v" + depth;
+        String convertItem = items.isArray || items.isMap
+                ? "(" + item + ": any) => " + item + " == null ? " + item + " : " + nestedContainerConversion(items, item, suffix, depth + 1)
+                : items.dataType + suffix;
+        return p.isArray
+                ? "(" + expr + " as Array<any>).map(" + convertItem + ")"
+                : "mapValues(" + expr + ", " + convertItem + ")";
     }
 
     private static boolean isDateType(String dataType) {
