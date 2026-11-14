@@ -1338,6 +1338,71 @@ public class SpringCodegenTest {
 
 
     @Test
+    public void modelNamedTagDoesNotClashWithSwaggerTagAnnotation() throws IOException {
+        // A model named `Tag` collides with io.swagger.v3.oas.annotations.tags.Tag. Importing both
+        // in the same api file is a duplicate single-type-import, which javac rejects outright, so
+        // the file that imports the model must reference the annotation fully qualified and skip
+        // its import.
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/model-named-tag.yaml", SPRING_BOOT,
+                Map.of(INTERFACE_ONLY, "true"));
+
+        Path tagApi = files.get("TagApi.java").toPath();
+        // the model import must stay -- that is the type actually used in signatures
+        assertFileContains(tagApi, "import org.openapitools.model.Tag;");
+        assertFileNotContains(tagApi, "import io.swagger.v3.oas.annotations.tags.Tag;");
+        assertFileContains(tagApi, "@io.swagger.v3.oas.annotations.tags.Tag(name = \"pets\"");
+        // the model is still referenced by its simple name elsewhere in the file
+        assertFileContains(tagApi, "@Schema(implementation = Tag.class)");
+        assertFileContains(tagApi, "ResponseEntity<Tag> getTag");
+    }
+
+    @Test
+    public void modelNamedTagDoesNotClashWithSwaggerTagAnnotationInController() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/model-named-tag.yaml", null, new ParseOptions())
+                .getOpenAPI();
+        final SpringCodegen codegen = new SpringCodegen() {
+            @Override
+            public void processOpts() {
+                super.processOpts();
+                additionalProperties().put("_api_controller_impl_", true);
+            }
+
+            @Override
+            public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+                OperationsMap operations = super.postProcessOperationsWithModels(objs, allModels);
+                operations.put("_api_controller_impl_", true);
+                return operations;
+            }
+        };
+        codegen.setOpenAPI(openAPI);
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+
+        generator.opts(input).generate();
+
+        Path controller = Paths.get(outputPath + "/src/main/java/org/openapitools/api/TagApiController.java");
+        assertFileNotContains(controller, "import io.swagger.v3.oas.annotations.tags.Tag;");
+        assertFileContains(controller, "import org.openapitools.model.Tag;");
+    }
+
+    @Test
     public void shouldUseTagsForClassname() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

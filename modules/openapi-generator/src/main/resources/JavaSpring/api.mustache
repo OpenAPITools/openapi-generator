@@ -17,7 +17,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+{{^qualifySwaggerTagAnnotation}}
 import io.swagger.v3.oas.annotations.tags.Tag;
+{{/qualifySwaggerTagAnnotation}}
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 {{/swagger2AnnotationLibrary}}
@@ -109,7 +111,7 @@ import {{javaxPackage}}.annotation.Generated;
 {{/useResponseEntity}}
 {{/useSpringController}}
 {{#swagger2AnnotationLibrary}}
-@Tag(name = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
+{{#qualifySwaggerTagAnnotation}}@io.swagger.v3.oas.annotations.tags.Tag{{/qualifySwaggerTagAnnotation}}{{^qualifySwaggerTagAnnotation}}@Tag{{/qualifySwaggerTagAnnotation}}(name = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
 {{/swagger2AnnotationLibrary}}
 {{#swagger1AnnotationLibrary}}
 @Api(value = "{{{tagName}}}", description = {{#tagDescription}}"{{{.}}}"{{/tagDescription}}{{^tagDescription}}"the {{{tagName}}} API"{{/tagDescription}})
