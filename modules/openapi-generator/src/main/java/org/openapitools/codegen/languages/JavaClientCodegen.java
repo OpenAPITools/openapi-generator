@@ -37,6 +37,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
+import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -124,10 +125,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_SEALED_ONE_OF_INTERFACES = "useSealedOneOfInterfaces";
     public static final String USE_UNARY_INTERCEPTOR = "useUnaryInterceptor";
     public static final String USE_JACKSON_3 = "useJackson3";
+    public static final String SINGLE_REQUEST_PARAMETER_SUFFIX = "singleRequestParameterSuffix";
 
     // Internal configurations
     public static final String SINGLE_REQUEST_PARAMETER = "singleRequestParameter";
     public static final String STATIC_REQUEST = "staticRequest";
+    public static final String X_SINGLE_REQUEST_PARAMETER_CLASS_NAME = "x-single-request-parameter-class-name";
     public static final String JAVA_17 = "java17";
 
     public static final String SERIALIZATION_LIBRARY_GSON = "gson";
@@ -186,6 +189,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String rootJavaEEPackage;
     protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
     @Setter(AccessLevel.PRIVATE) protected String useSingleRequestParameter = "false";
+    @Setter protected String singleRequestParameterSuffix = "Request";
     protected boolean webclientBlockingOperations = false;
     @Setter protected boolean generateClientAsBean = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
@@ -291,6 +295,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
         cliOptions.add(CliOption.newString(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to \"true\" will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY native, jersey2, jersey3, okhttp-gson, microprofile, Spring RestClient, Spring WebClient support this option. Setting this property to \"static\" does the same as \"true\", but also makes the generated arguments class static with single parameter instantiation.").defaultValue("false"));
+        cliOptions.add(CliOption.newString(SINGLE_REQUEST_PARAMETER_SUFFIX, "Suffix appended to the operationId to name the class that holds all request parameters when useSingleRequestParameter is enabled (<OperationId><suffix>). Change it if the default name collides with a model. ONLY Spring RestClient and Spring WebClient support this option.").defaultValue("Request"));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, restclient and webclient, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
@@ -455,6 +460,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_VERTX_5, this::setUseVertx5);
 
         convertPropertyToStringAndWriteBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, this::setUseSingleRequestParameter);
+        convertPropertyToStringAndWriteBack(SINGLE_REQUEST_PARAMETER_SUFFIX, this::setSingleRequestParameterSuffix);
         convertPropertyToBooleanAndWriteBack(USE_SEALED_ONE_OF_INTERFACES, this::setUseSealedOneOfInterfaces);
         convertPropertyToBooleanAndWriteBack(USE_UNARY_INTERCEPTOR, this::setUseUnaryInterceptor);
         writePropertyBack(SINGLE_REQUEST_PARAMETER, getSingleRequestParameter());
@@ -963,6 +969,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if (this.getSingleRequestParameter() && (isLibrary(WEBCLIENT) || isLibrary(RESTCLIENT))) {
+            setSingleRequestParameterClassNames(objs);
+        }
+
         if (isLibrary(RETROFIT_2)) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
@@ -1358,6 +1368,49 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
+    }
+
+    /**
+     * Sets the name of the nested request class generated for each operation when
+     * useSingleRequestParameter is enabled: {@code <OperationId><singleRequestParameterSuffix>},
+     * with the suffix defaulting to {@code Request}.
+     * If a model imported by the same Api class already has that name, the nested class
+     * would shadow it and the generated code would not compile, so a warning points the user
+     * to the singleRequestParameterSuffix option.
+     * See https://github.com/OpenAPITools/openapi-generator/issues/25646
+     */
+    private void setSingleRequestParameterClassNames(OperationsMap objs) {
+        OperationMap operations = objs.getOperations();
+        if (operations == null || operations.getOperation() == null) {
+            return;
+        }
+
+        Set<String> importedClassNames = new HashSet<>();
+        if (objs.getImports() != null) {
+            for (Map<String, String> im : objs.getImports()) {
+                if (im.get("classname") != null) {
+                    importedClassNames.add(im.get("classname"));
+                }
+            }
+        }
+
+        for (CodegenOperation operation : operations.getOperation()) {
+            // same casing as the {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} template code
+            String className = TitlecaseLambda.titleCase(operation.operationId) + singleRequestParameterSuffix;
+            if (importedClassNames.contains(className)) {
+                LOGGER.warn("Request class name {} for operation {} collides with a model of the same name and the generated code will not compile. "
+                                + "Set the {} option (e.g. --additional-properties {}=Params) to use a different suffix.",
+                        className, operation.operationId, SINGLE_REQUEST_PARAMETER_SUFFIX, SINGLE_REQUEST_PARAMETER_SUFFIX);
+            }
+            operation.vendorExtensions.put(X_SINGLE_REQUEST_PARAMETER_CLASS_NAME, className);
+            // templates also need the name inside {{#allParams}} (fluent setters), where
+            // {{vendorExtensions}} resolves to the parameter's vendor extensions
+            if (operation.allParams != null) {
+                for (CodegenParameter param : operation.allParams) {
+                    param.vendorExtensions.put(X_SINGLE_REQUEST_PARAMETER_CLASS_NAME, className);
+                }
+            }
+        }
     }
 
     public boolean getSingleRequestParameter() {

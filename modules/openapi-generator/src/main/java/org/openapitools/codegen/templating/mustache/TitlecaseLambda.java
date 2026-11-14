@@ -60,7 +60,14 @@ public class TitlecaseLambda implements Mustache.Lambda {
         this.delimiter = delimiter;
     }
 
-    private String titleCase(final String input) {
+    /**
+     * Upper-cases the first character with {@link Locale#ROOT} and leaves the rest unchanged.
+     * Shared with code that needs to predict the output of this lambda.
+     *
+     * @param input text to title-case
+     * @return the title-cased text, or an empty string for {@code null} or empty input
+     */
+    public static String titleCase(final String input) {
         if (input == null || "".equals(input)) {
             return "";
         }

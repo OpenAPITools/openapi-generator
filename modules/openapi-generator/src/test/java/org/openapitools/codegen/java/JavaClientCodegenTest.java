@@ -4394,6 +4394,97 @@ public class JavaClientCodegenTest {
         );
     }
 
+    private Path generateIssue25646(String library, String singleRequestParameter, String suffix) {
+        final Path output = newTempFolder();
+        final Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, singleRequestParameter);
+        // keeps the non-ASCII operationId in the spec (sharp s, U+00DF)
+        properties.put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true");
+        if (suffix != null) {
+            properties.put(JavaClientCodegen.SINGLE_REQUEST_PARAMETER_SUFFIX, suffix);
+        }
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(library)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        return output.resolve("src/main/java/xyz/abcdef/api/DefaultApi.java");
+    }
+
+    @Test
+    public void testWebClientSingleRequestParameterSuffix_issue_25646() {
+        for (String mode : List.of("true", "static")) {
+            Path api = generateIssue25646(JavaClientCodegen.WEBCLIENT, mode, "Params");
+            String classKeyword = "static".equals(mode) ? "public static class " : "public class ";
+            // the nested class no longer shadows the UpdateFooRequest model
+            assertFileContains(api,
+                    classKeyword + "UpdateFooParams {",
+                    "UpdateFooRequest updateFooRequest;",
+                    "public UpdateFooParams id(",
+                    "public UpdateFooParams updateFooRequest(",
+                    "public Mono<Void> updateFoo(UpdateFooParams requestParameters) throws WebClientResponseException {",
+                    "public ResponseSpec updateFooWithResponseSpec(UpdateFooParams requestParameters) throws WebClientResponseException {",
+                    classKeyword + "DeleteFooParams {",
+                    "public DeleteFooParams force(",
+                    "public Mono<Void> deleteFoo(DeleteFooParams requestParameters) throws WebClientResponseException {"
+            );
+            assertFileNotContains(api, "class UpdateFooRequest {", "class DeleteFooRequest {");
+            // non-ASCII operationId keeps the titlecase lambda casing (sharp s -> SS)
+            assertFileContains(api,
+                    classKeyword + "SSupdateParams {",
+                    "(SSupdateParams requestParameters) throws WebClientResponseException {"
+            );
+        }
+    }
+
+    @Test
+    public void testWebClientSingleRequestParameterDefaultSuffixUnchanged_issue_25646() {
+        // without the option the output is the same as before: <OperationId>Request
+        Path api = generateIssue25646(JavaClientCodegen.WEBCLIENT, "true", null);
+        assertFileContains(api,
+                "public class DeleteFooRequest {",
+                "public DeleteFooRequest force(",
+                "public Mono<Void> deleteFoo(DeleteFooRequest requestParameters) throws WebClientResponseException {",
+                "public class UpdateFooRequest {",
+                "public Mono<Void> updateFoo(UpdateFooRequest requestParameters) throws WebClientResponseException {",
+                "public class SSupdateRequest {",
+                "(SSupdateRequest requestParameters) throws WebClientResponseException {"
+        );
+    }
+
+    @Test
+    public void testRestClientSingleRequestParameterSuffix_issue_25646() {
+        Path api = generateIssue25646(JavaClientCodegen.RESTCLIENT, "true", "Params");
+        assertFileContains(api,
+                "public record UpdateFooParams(",
+                "public void updateFoo(UpdateFooParams requestParameters) throws RestClientResponseException {",
+                "public record DeleteFooParams(",
+                "public void deleteFoo(DeleteFooParams requestParameters) throws RestClientResponseException {",
+                "public record SSupdateParams("
+        );
+        assertFileNotContains(api, "record UpdateFooRequest(", "record DeleteFooRequest(");
+    }
+
+    @Test
+    public void testRestClientStaticSingleRequestParameterSuffix_issue_25646() {
+        Path api = generateIssue25646(JavaClientCodegen.RESTCLIENT, "static", "Params");
+        assertFileContains(api,
+                "public static class UpdateFooParams {",
+                "public UpdateFooParams id(",
+                "public UpdateFooParams updateFooRequest(",
+                "public void updateFoo(UpdateFooParams requestParameters) throws RestClientResponseException {",
+                "public static class DeleteFooParams {",
+                "public DeleteFooParams force(",
+                "public void deleteFoo(DeleteFooParams requestParameters) throws RestClientResponseException {"
+        );
+        assertFileNotContains(api, "class UpdateFooRequest {", "class DeleteFooRequest {");
+    }
+
     @Test
     public void testGenerateParameterId() {
         final Path output = newTempFolder();

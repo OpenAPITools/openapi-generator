@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: single request parameter class name collides with a model
+  version: "1"
+paths:
+  /foo/{id}:
+    patch:
+      operationId: updateFoo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFooRequest'
+      responses:
+        '200':
+          description: ok
+    delete:
+      operationId: deleteFoo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: force
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '204':
+          description: deleted
+  /baz/{id}:
+    delete:
+      # non-ASCII operationId (sharp s, U+00DF), kept only with allowUnicodeIdentifiers=true;
+      # casing must match the titlecase lambda (sharp s -> SS)
+      operationId: "\u00DFupdate"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: force
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '204':
+          description: deleted
+components:
+  schemas:
+    UpdateFooRequest:
+      type: object
+      properties:
+        name:
+          type: string
