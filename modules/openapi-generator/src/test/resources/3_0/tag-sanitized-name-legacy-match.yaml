@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Tag sanitization with case-insensitive declared tags
+  version: 1.0.0
+tags:
+  - name: pet
+  - name: Pet
+    description: Pet description
+  - name: pet-store
+    description: pet-store description
+  - name: PetStore
+    description: PetStore description
+  - name: default
+  - name: Default
+    description: Default description
+paths:
+  /pets:
+    get:
+      tags:
+        - pet
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /pets-alt:
+    get:
+      tags:
+        - Pet
+      operationId: listPetsAlt
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /petstore:
+    get:
+      tags:
+        - pet-store
+      operationId: getPetStore
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /status:
+    get:
+      operationId: getStatus
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
