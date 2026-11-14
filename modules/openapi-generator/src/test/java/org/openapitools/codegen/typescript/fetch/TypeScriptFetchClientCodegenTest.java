@@ -1536,6 +1536,15 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
+    @Test(description = "Verify enum values of an anyOf parameter are not imported as models")
+    public void testAnyOfEnumParameterDoesNotImportLiterals() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/typescript-fetch/issue_22682.yaml");
+        Path api = Paths.get(output + "/apis/DefaultApi.ts");
+
+        TestUtils.assertFileContains(api, "combined: TestApiCombinedEnum;", "numbers?: TestApiNumbersEnum;");
+        TestUtils.assertFileNotContains(api, "from '../models/");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(

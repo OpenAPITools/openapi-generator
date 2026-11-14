@@ -1,0 +1,47 @@
+openapi: 3.0.2
+info:
+  title: anyOf of enum refs as parameters
+  version: 1.0.0
+paths:
+  /test:
+    get:
+      operationId: test_api
+      parameters:
+        - name: combined
+          in: query
+          required: true
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/Enum1'
+              - $ref: '#/components/schemas/Enum2'
+        - name: numbers
+          in: query
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/NumberEnum1'
+              - $ref: '#/components/schemas/NumberEnum2'
+      responses:
+        '204':
+          description: ok
+components:
+  schemas:
+    Enum1:
+      type: string
+      enum:
+        - value1
+        - value2
+    Enum2:
+      type: string
+      enum:
+        - value3
+        - c|d
+    NumberEnum1:
+      type: integer
+      enum:
+        - 1
+        - 2
+    NumberEnum2:
+      type: integer
+      enum:
+        - 3
+        - 4
