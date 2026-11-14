@@ -393,7 +393,8 @@ class HttpSigningConfiguration:
             if sig_alg in ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS:
                 # draft-ietf-httpbis-message-signatures-00 does not specify the ECDSA encoding.
                 # Issue: https://github.com/w3c-ccg/http-signatures/issues/107
-                signature = DSS.new(key=self.private_key, mode=cast(Literal['fips-186-3', 'deterministic-rfc6979'], sig_alg),
+                mode = cast(Literal['fips-186-3', 'deterministic-rfc6979'], sig_alg)
+                signature = DSS.new(key=self.private_key, mode=mode,
                                     encoding='der').sign(digest)
             else:
                 raise Exception("Unsupported signature algorithm: {0}".format(sig_alg))
