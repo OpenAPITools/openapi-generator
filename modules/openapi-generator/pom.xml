@@ -413,7 +413,7 @@
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-core</artifactId>
-            <version>3.24.9</version>
+            <version>3.28.2</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.java-diff-utils</groupId>
