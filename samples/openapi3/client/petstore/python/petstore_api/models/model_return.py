@@ -20,8 +20,7 @@ import json
 from collections.abc import Mapping as _Mapping
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictInt, model_validator as _model_validator
 from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
 

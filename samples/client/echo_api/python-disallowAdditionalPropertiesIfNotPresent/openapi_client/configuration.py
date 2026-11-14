@@ -18,10 +18,9 @@ from logging import FileHandler
 import multiprocessing
 import ssl
 import sys
-from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
+from typing import Any, ClassVar, Dict, List, Literal, NotRequired, Optional, Self, TypedDict, Union
 from urllib.parse import urlparse
 from urllib.request import getproxies
-from typing_extensions import NotRequired, Self
 
 import urllib3
 

@@ -21,8 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, f
 from typing import Dict, List, Optional
 from legacy_model_dict_client.models.legacy_model import LegacyModel
 from legacy_model_dict_client.models.nested_model import NestedModel
-from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal, Self
+from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict, Literal, Self
 from pydantic import Field
 from pydantic_core import to_jsonable_python
 

@@ -9,8 +9,7 @@ import re  # noqa: F401
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal, Self
+from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict, Literal, Self
 from pydantic import Field
 {{#compatibleWithPythonLegacy}}
 from pydantic_core import to_jsonable_python

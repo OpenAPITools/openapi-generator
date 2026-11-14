@@ -16,7 +16,7 @@ import pytest
 
 import petstore_api
 from petstore_api import InnerDictWithProperty
-from typing_extensions import assert_type
+from typing import assert_type
 
 
 class ModelTests(unittest.TestCase):

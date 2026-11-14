@@ -20,8 +20,7 @@ import json
 from pydantic import ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.base_discriminator import BaseDiscriminator
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class Info(BaseDiscriminator):

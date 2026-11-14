@@ -20,8 +20,7 @@ from typing import Any, List, Optional
 from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
 from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
-from typing_extensions import Literal, Self
+from typing import Union, List, Set, Optional, Dict, Literal, Self
 
 PIG_ONE_OF_SCHEMAS = ["BasquePig", "DanishPig"]
 

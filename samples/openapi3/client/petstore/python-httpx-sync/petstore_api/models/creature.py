@@ -21,8 +21,7 @@ from importlib import import_module
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Union
 from petstore_api.models.creature_info import CreatureInfo
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 from typing import TYPE_CHECKING

@@ -20,8 +20,7 @@ from typing import Any, Dict, List, Optional
 from legacy_model_dict_client.models.legacy_model import LegacyModel
 from legacy_model_dict_client.models.nested_model import NestedModel
 from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
-from typing_extensions import Literal, Self
+from typing import Union, List, Set, Optional, Dict, Literal, Self
 from pydantic_core import to_jsonable_python
 
 
