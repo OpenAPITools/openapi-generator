@@ -24,7 +24,6 @@ PYTHON_REQUIRES = ">= 3.11"
 REQUIRES = [
     "python-dateutil >= 2.8.2",
     "aiohttp >= 3.14.1",
-    "aiohttp-retry >= 2.8.3",
     "pem >= 19.3.0",
     "pycryptodome >= 3.9.0",
     "pydantic >= 2.11",
@@ -40,6 +39,7 @@ setup(
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"],
     install_requires=REQUIRES,
+    extras_require={"retry": ["aiohttp-retry >= 2.8.3"]},
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     license="Apache-2.0",
