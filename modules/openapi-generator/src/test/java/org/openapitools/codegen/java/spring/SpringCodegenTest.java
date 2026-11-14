@@ -8202,7 +8202,7 @@ public class SpringCodegenTest {
                         Map.entry(GENERATE_BUILDERS, true),
                         Map.entry(springVersionProperty, springBootVersion > 2),
                         Map.entry(USE_JAKARTA_EE, useJakarta),
-                        Map.entry(OPENAPI_NULLABLE_PRESENT, true)
+                        Map.entry(OPENAPI_NULLABLE_USE_PRESENT, true)
                 ),
                 codegenConfigurator ->
                         codegenConfigurator

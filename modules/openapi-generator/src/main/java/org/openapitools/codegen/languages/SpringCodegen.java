@@ -137,7 +137,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
     public static final String USE_SPRING_SECURITY_PRE_AUTHORIZE = "useSpringSecurityPreAuthorize";
     public static final String SPRING_SECURITY_AUTHORITY_PREFIX = "springSecurityAuthorityPrefix";
-    public static final String OPENAPI_NULLABLE_PRESENT = "openApiNullablePresent";
+    public static final String OPENAPI_NULLABLE_USE_PRESENT = "openApiNullableUsePresent";
 
     @Getter
     public enum RequestMappingMode {
@@ -215,7 +215,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
     @Getter protected String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
-    @Getter private boolean openApiNullablePresent;
+    @Getter private boolean openApiNullableUsePresent;
     /**
      * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
      *
@@ -472,9 +472,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE,
                 CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC,
                 useEnumValueInterface));
-        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE_PRESENT,
-                "Use `@Present` annotation to mark nullable and required properties.",
-                openApiNullablePresent));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE_USE_PRESENT,
+                "Use `@Present` annotation to mark nullable and required properties. See (https://github.com/OpenAPITools/jackson-databind-nullable#requiring-a-property-to-be-present) for more details.",
+                openApiNullableUsePresent));
 
     }
 
@@ -2434,10 +2434,10 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     /**
-     * set openApiNullablePresent to true if openApiNullable is true and useBeanValidation is true.
+     * set openApiNullableUsePresent to true if openApiNullable is true and useBeanValidation is true.
      */
-    public void setOpenApiNullablePresent(boolean openApiNullablePresent) {
-        this.openApiNullablePresent = openApiNullablePresent && useBeanValidation && openApiNullable;
+    public void setOpenApiNullableUsePresent(boolean openApiNullableUsePresent) {
+        this.openApiNullableUsePresent = openApiNullableUsePresent && useBeanValidation && openApiNullable;
     }
 
     @Override
