@@ -22,7 +22,7 @@ from email.utils import formatdate
 import os
 import re
 from time import time
-from typing import List, Optional, Union
+from typing import Final, List, Literal, Optional, Union, cast
 from urllib.parse import urlencode, urlparse
 
 # The constants below define a subset of HTTP headers that can be included in the
@@ -57,8 +57,8 @@ SCHEME_RSA_SHA512 = 'rsa-sha512'
 ALGORITHM_RSASSA_PSS = 'RSASSA-PSS'
 ALGORITHM_RSASSA_PKCS1v15 = 'RSASSA-PKCS1-v1_5'
 
-ALGORITHM_ECDSA_MODE_FIPS_186_3 = 'fips-186-3'
-ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979 = 'deterministic-rfc6979'
+ALGORITHM_ECDSA_MODE_FIPS_186_3: Final = 'fips-186-3'
+ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979: Final = 'deterministic-rfc6979'
 ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS = {
     ALGORITHM_ECDSA_MODE_FIPS_186_3,
     ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979
@@ -393,7 +393,7 @@ class HttpSigningConfiguration:
             if sig_alg in ALGORITHM_ECDSA_KEY_SIGNING_ALGORITHMS:
                 # draft-ietf-httpbis-message-signatures-00 does not specify the ECDSA encoding.
                 # Issue: https://github.com/w3c-ccg/http-signatures/issues/107
-                signature = DSS.new(key=self.private_key, mode=sig_alg,
+                signature = DSS.new(key=self.private_key, mode=cast(Literal['fips-186-3', 'deterministic-rfc6979'], sig_alg),
                                     encoding='der').sign(digest)
             else:
                 raise Exception("Unsupported signature algorithm: {0}".format(sig_alg))
