@@ -24,7 +24,6 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import joptsimple.internal.Strings;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -735,7 +734,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
             boolean unsigned = preferUnsigned && canFitIntoUnsigned(minimum, exclusiveMinimum);
 
-            if (Strings.isNullOrEmpty(p.getFormat())) {
+            if (org.apache.commons.lang3.StringUtils.isEmpty(p.getFormat())) {
                 if (bestFit) {
                     return bestFittingIntegerType(
                             minimum,

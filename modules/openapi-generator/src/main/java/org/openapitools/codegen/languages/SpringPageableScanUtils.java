@@ -185,8 +185,8 @@ public class SpringPageableScanUtils {
     // Instance state (populated by scanAll)
     // -------------------------------------------------------------------------
 
-    /** Map from operationId to allowed sort values; populated by {@link #scanAll}. */
-    public Map<String, List<String>> sortValidationEnums = new HashMap<>();
+    /** Map from operationId to allowed sort values and item-count bounds; populated by {@link #scanAll}. */
+    public Map<String, SortValidationData> sortValidationEnums = new HashMap<>();
 
     /** Map from operationId to pageable defaults; populated by {@link #scanAll}. */
     public Map<String, PageableDefaultsData> pageableDefaultsRegistry = new HashMap<>();
@@ -225,6 +225,25 @@ public class SpringPageableScanUtils {
 
         public boolean hasAny() {
             return page != null || size != null || !sortDefaults.isEmpty();
+        }
+    }
+
+    /**
+     * Carries the allowed values of a {@code sort} parameter together with its item-count bounds.
+     * A {@code null} bound means unbounded.
+     */
+    public static final class SortValidationData {
+        /** Allowed sort strings (e.g. {@code ["id,asc", "id,desc"]}). */
+        public final List<String> allowedValues;
+        /** Minimum number of sort orders, or {@code null} if unbounded. */
+        public final Integer minItems;
+        /** Maximum number of sort orders, or {@code null} if unbounded. */
+        public final Integer maxItems;
+
+        public SortValidationData(List<String> allowedValues, Integer minItems, Integer maxItems) {
+            this.allowedValues = allowedValues;
+            this.minItems = minItems;
+            this.maxItems = maxItems;
         }
     }
 
@@ -484,7 +503,7 @@ public class SpringPageableScanUtils {
      * @param useBeanValidation                    whether bean validation is active
      * @param pageableConstraintsRegistry          per-operationId constraint data
      * @param generateSortValidation               whether to emit {@code @ValidSort}
-     * @param sortValidationEnums                  per-operationId allowed sort values
+     * @param sortValidationEnums                  per-operationId allowed sort values and item-count bounds
      * @param pageableDefaultsRegistry             per-operationId default page/size/sort data
      * @param syntax                               target language annotation syntax
      */
@@ -494,7 +513,7 @@ public class SpringPageableScanUtils {
             boolean useBeanValidation,
             Map<String, PageableConstraintsData> pageableConstraintsRegistry,
             boolean generateSortValidation,
-            Map<String, List<String>> sortValidationEnums,
+            Map<String, SortValidationData> sortValidationEnums,
             Map<String, PageableDefaultsData> pageableDefaultsRegistry,
             AnnotationSyntax syntax) {
 
@@ -516,11 +535,15 @@ public class SpringPageableScanUtils {
         }
 
         if (generateSortValidation && useBeanValidation && sortValidationEnums.containsKey(operationId)) {
-            List<String> allowedSortValues = sortValidationEnums.get(operationId);
-            String allowedValuesStr = allowedSortValues.stream()
+            SortValidationData sortData = sortValidationEnums.get(operationId);
+            String allowedValuesStr = sortData.allowedValues.stream()
                     .map(v -> "\"" + v.replace("\\", "\\\\").replace("\"", "\\\"") + "\"")
                     .collect(Collectors.joining(", "));
-            pageableAnnotations.add("@ValidSort(allowedValues = " + syntax.arrayLiteral(allowedValuesStr) + ")");
+            StringBuilder validSort = new StringBuilder("@ValidSort(allowedValues = ")
+                    .append(syntax.arrayLiteral(allowedValuesStr));
+            if (sortData.minItems != null) validSort.append(", minItems = ").append(sortData.minItems);
+            if (sortData.maxItems != null) validSort.append(", maxItems = ").append(sortData.maxItems);
+            pageableAnnotations.add(validSort.append(")").toString());
             codegenOperation.imports.add("ValidSort");
         }
 
@@ -604,11 +627,17 @@ public class SpringPageableScanUtils {
     /**
      * Scans all pageable operations for a {@code sort} parameter with enum values.
      *
-     * @return map from operationId to list of allowed sort strings (e.g. {@code ["id,asc", "id,desc"]})
+     * <p>A scalar {@code sort} yields {@code maxItems = 1}. For an array {@code sort} the
+     * {@code minItems}/{@code maxItems} of the array schema are used, resolved through {@code $ref}
+     * and {@code allOf}; either may be absent. Contradictory bounds ({@code minItems > maxItems})
+     * are dropped with a warning.</p>
+     *
+     * @return map from operationId to {@link SortValidationData} (allowed sort strings such as
+     * {@code ["id,asc", "id,desc"]} plus item-count bounds)
      */
-    public static Map<String, List<String>> scanSortValidationEnums(
+    public static Map<String, SortValidationData> scanSortValidationEnums(
             OpenAPI openAPI, AutoPaginationMode autoPaginationMode) {
-        Map<String, List<String>> result = new LinkedHashMap<>();
+        Map<String, SortValidationData> result = new LinkedHashMap<>();
         if (openAPI.getPaths() == null) {
             return result;
         }
@@ -625,35 +654,74 @@ public class SpringPageableScanUtils {
                     if (!SORT.equals(param.getName())) {
                         continue;
                     }
-                    Schema<?> schema = param.getSchema();
+                    Schema<?> paramSchema = param.getSchema();
+                    if (paramSchema == null) {
+                        continue;
+                    }
+                    Schema<?> schema = ModelUtils.getReferencedSchemaChain(openAPI, paramSchema);
                     if (schema == null) {
                         continue;
                     }
-                    if (schema.get$ref() != null) {
-                        schema = ModelUtils.getReferencedSchema(openAPI, schema);
-                    }
-                    if (schema == null) {
-                        continue;
-                    }
-                    // If the top-level schema is an array, the enum lives on its items
-                    Schema<?> enumSchema = schema;
-                    if (ModelUtils.isArraySchema(schema)) {
-                        enumSchema = schema.getItems();
-                        if (enumSchema != null && enumSchema.get$ref() != null) {
-                            enumSchema = ModelUtils.getReferencedSchema(openAPI, enumSchema);
-                        }
-                    }
+                    List<Schema<?>> arraySchemas = new ArrayList<>();
+                    collectArraySchemas(openAPI, schema, arraySchemas,
+                            Collections.newSetFromMap(new IdentityHashMap<>()));
+                    boolean isArray = !arraySchemas.isEmpty();
+                    // If the sort is an array, the enum lives on the items of one of its
+                    // (allOf) array schemas
+                    Schema<?> enumSchema = isArray
+                            ? arraySchemas.stream()
+                                    .map(array -> ModelUtils.getReferencedSchemaChain(
+                                            openAPI, array.getItems()))
+                                    .filter(items -> items != null && items.getEnum() != null
+                                            && !items.getEnum().isEmpty())
+                                    .findFirst()
+                                    .orElse(null)
+                            : schema;
                     if (enumSchema == null || enumSchema.getEnum() == null || enumSchema.getEnum().isEmpty()) {
                         continue;
                     }
                     List<String> enumValues = enumSchema.getEnum().stream()
                             .map(Object::toString)
                             .collect(Collectors.toList());
-                    result.put(operationId, enumValues);
+                    Integer minItems = null;
+                    Integer maxItems = 1;
+                    if (isArray) {
+                        minItems = ModelUtils.resolveMinItems(openAPI, paramSchema);
+                        maxItems = ModelUtils.resolveMaxItems(openAPI, paramSchema);
+                        if (minItems != null && maxItems != null && minItems > maxItems) {
+                            LoggerFactory.getLogger(SpringPageableScanUtils.class).warn(
+                                    "Ignoring contradictory minItems ({}) > maxItems ({}) of the "
+                                            + "sort parameter of operation '{}'",
+                                    minItems, maxItems, operationId);
+                            minItems = null;
+                            maxItems = null;
+                        }
+                    }
+                    result.put(operationId, new SortValidationData(enumValues, minItems, maxItems));
                 }
             }
         }
         return result;
+    }
+
+    /**
+     * Collects the array schemas backing the given schema, following {@code $ref} chains and
+     * {@code allOf}; the list stays empty if the schema is not an array.
+     */
+    private static void collectArraySchemas(OpenAPI openAPI, Schema<?> schema, List<Schema<?>> result,
+                                            Set<Schema<?>> visited) {
+        schema = ModelUtils.getReferencedSchemaChain(openAPI, schema);
+        if (schema == null || !visited.add(schema)) {
+            return;
+        }
+        if (ModelUtils.isArraySchema(schema)) {
+            result.add(schema);
+        }
+        if (ModelUtils.hasAllOf(schema)) {
+            for (Schema<?> allOfItem : schema.getAllOf()) {
+                collectArraySchemas(openAPI, allOfItem, result, visited);
+            }
+        }
     }
 
     /**

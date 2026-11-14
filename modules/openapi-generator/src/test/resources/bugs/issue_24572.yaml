@@ -1,0 +1,15 @@
+openapi: 3.0.3
+info:
+  title: Issue 24572
+  description: Reproduces https://github.com/OpenAPITools/openapi-generator/issues/24572
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pattern:
+      type: string
+      description: An enum with a */ delimiter in its description
+      enum:
+        - "a/*b"
+        - "*/c"
+        - "plain"

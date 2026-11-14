@@ -4797,7 +4797,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
 
         File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])");
+        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"], maxItems = 1)");
         assertFileContains(petApi.toPath(), "import org.openapitools.configuration.ValidSort");
 
         // @ValidSort must be a parameter annotation — appears in the 500-char window AFTER `fun findPetsWithSortEnum(`
@@ -4805,7 +4805,7 @@ public class KotlinSpringServerCodegenTest {
         int methodStart = content.indexOf("fun findPetsWithSortEnum(");
         Assert.assertTrue(methodStart >= 0, "findPetsWithSortEnum method should exist");
         String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
-        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])"),
+        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"], maxItems = 1)"),
                 "@ValidSort should appear as a parameter annotation (inside the method signature, after `fun`)");
         Assert.assertTrue(paramBlock.contains("pageable: Pageable"),
                 "findPetsWithSortEnum should have a pageable: Pageable parameter");
@@ -4828,7 +4828,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
 
         File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\"])");
+        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\"], maxItems = 1)");
     }
 
     @Test
@@ -4935,6 +4935,67 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertNull(files.get("ValidSort.kt"), "ValidSort.kt should NOT be generated when useBeanValidation=false");
         File petApi = files.get("PetApi.kt");
         assertFileNotContains(petApi.toPath(), "@ValidSort");
+    }
+
+    @Test
+    public void generateSortValidationEmitsItemCountBounds() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        String content = Files.readString(files.get("PetApi.kt").toPath());
+        String petSortValues = "[\"id,asc\", \"id,desc\", \"createdAt,asc\", \"createdAt,desc\"]";
+        String inlineValues = "[\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"]";
+
+        // scalar enum sort → at most one sort order
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithSortEnum")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", maxItems = 1)"));
+        // scalar $ref enum sort → at most one sort order
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithRefSort")
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", maxItems = 1)"));
+        // array sort with minItems/maxItems → both emitted
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithArraySortBounds")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 1, maxItems = 2)"));
+        // array sort without bounds → no bound attributes
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithArraySortEnum")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ")"));
+        // sort schema $ref-ing an array component with bounds
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithRefSortBounds")
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", minItems = 1, maxItems = 3)"));
+        // array sort with only minItems → no maxItems attribute
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithMinSortBounds")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 2)"));
+    }
+
+    @Test
+    public void generateSortValidationValidatorChecksItemCount() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        Path validSort = files.get("ValidSort.kt").toPath();
+        // new parameters come after message so existing positional usages still compile
+        assertFileContains(validSort, "val message: String = \"Invalid sort column\",\n    val minItems: Int = 0,\n    val maxItems: Int = Int.MAX_VALUE\n)");
+        assertFileContains(validSort, "[${escapeMessageTemplate(property)}]");
+        assertFileContains(validSort, "count in minItems..maxItems");
+        assertFileContains(validSort, ".addPropertyNode(\"sort\")\n                .addConstraintViolation()");
+        assertFileContains(validSort, "if (pageable == null || pageable.sort.isUnsorted) return true");
+        assertFileContains(validSort, "maxItems == Int.MAX_VALUE -> \"at least $minItems\"",
+                "minItems == 0 -> \"at most $maxItems\"");
+    }
+
+    private static String kotlinParamBlock(String content, String methodName) {
+        int methodStart = content.indexOf("fun " + methodName + "(");
+        Assert.assertTrue(methodStart >= 0, methodName + " method should exist");
+        return content.substring(methodStart, Math.min(content.length(), methodStart + 600));
     }
 
     @Test
