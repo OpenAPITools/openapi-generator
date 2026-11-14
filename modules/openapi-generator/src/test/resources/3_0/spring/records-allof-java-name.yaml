@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: useRecords with allOf families whose properties share a Java name
+  version: 1.0.0
+paths:
+  /shades:
+    post:
+      operationId: addShade
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shade'
+      responses:
+        '200':
+          description: The stored shade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shade'
+components:
+  schemas:
+    Shade:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        my_color:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          dark: '#/components/schemas/DarkShade'
+    DarkShade:
+      allOf:
+        - $ref: '#/components/schemas/Shade'
+        - type: object
+          properties:
+            myColor:
+              type: string
