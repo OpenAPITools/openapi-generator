@@ -270,8 +270,9 @@ export class ResponseError extends Error {
 
 export class FetchError extends Error {
     override name: "FetchError" = "FetchError";
-    constructor(public cause: Error, msg?: string) {
+    constructor(cause: Error, msg?: string) {
         super(msg);
+        this.cause = cause;
 
         // restore prototype chain
         const actualProto = new.target.prototype;
@@ -279,6 +280,12 @@ export class FetchError extends Error {
             Object.setPrototypeOf(this, actualProto);
         }
     }
+}
+
+// `cause` is typed by declaration merging: a class field needs `override` with lib es2022 and must not have it
+// below, and Babel 7 rejects a `declare` field unless allowDeclareFields is set
+export interface FetchError {
+    cause: Error;
 }
 
 export class RequiredError extends Error {
