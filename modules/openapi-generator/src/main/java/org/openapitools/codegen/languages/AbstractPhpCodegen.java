@@ -509,7 +509,11 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // item or a map value. toModelName() strips the namespace separators from such
         // a name (issue #25574), so keep an already qualified type as-is.
         if (type.startsWith("\\")) {
-            return type;
+            // Emitting the type verbatim requires valid PHP namespace separators: a
+            // qualified name may arrive with doubled separators (e.g. a typeMapping
+            // value written with too many backslashes). toModelName()'s camelize()
+            // used to collapse them as a side effect, so keep collapsing here.
+            return type.replaceAll("\\\\{2,}", "\\\\");
         }
 
         return toModelName(type);
