@@ -1,0 +1,44 @@
+openapi: 3.1.0
+info:
+  title: Primitive composition runtime
+  version: '1'
+paths:
+  /values:
+    post:
+      operationId: createEnvelope
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Envelope'
+      responses:
+        '200':
+          description: Value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+components:
+  schemas:
+    Envelope:
+      type: object
+      required: [value]
+      properties:
+        value:
+          $ref: '#/components/schemas/PatternValue'
+    Cat:
+      type: object
+      properties:
+        name:
+          type: string
+    TypedParent:
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: 'null'
+    PatternValue:
+      type: string
+      oneOf:
+        - pattern: '^[a-z]+$'
+        - pattern: '^[0-9]+$'

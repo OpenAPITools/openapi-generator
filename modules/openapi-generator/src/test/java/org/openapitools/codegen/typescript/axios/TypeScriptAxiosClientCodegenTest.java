@@ -22,6 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -30,6 +32,21 @@ import static org.testng.Assert.assertEquals;
 public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+    @Test
+    public void testPrimitiveNormalizationRetainsSiblingConstraints() {
+        Schema predicate = new Schema().pattern("^[a-z]+$");
+        Schema schema = new ComposedSchema().type("string").nullable(true)
+                ._enum(List.of("allowed")).minLength(2).addAnyOfItem(predicate);
+        schema.setAnyOf(List.of(predicate));
+        Schema normalized = new TypeScriptAxiosClientCodegen.PrimitiveCompositionNormalizer(new OpenAPI(), Map.of())
+                .normalizeSchema(schema, new HashSet<>());
+        assertThat(normalized.getType()).isEqualTo("string");
+        assertThat(normalized.getEnum()).containsExactly("allowed");
+        assertThat(normalized.getMinLength()).isEqualTo(2);
+        assertThat(normalized.getAnyOf()).containsExactly(predicate);
+        assertThat(normalized.getNullable()).isFalse();
+    }
 
     @Test
     public void testPrimitiveAnyOfFallbackSkipsOtherTypeConstraints() {
@@ -83,6 +100,16 @@ public class TypeScriptAxiosClientCodegenTest {
         TestUtils.assertFileContains(address, "'exclusivePattern'?: ExclusivePattern;");
         TestUtils.assertFileNotContains(address, "'hostname': Hostname | null;", "export interface Hostname");
         if ("3_1".equals(version)) {
+            for (String[] expected : List.of(
+                    new String[] {"contains-string", "ContainsString", "string"},
+                    new String[] {"null-first-hostname", "NullFirstHostname", "string | null"},
+                    new String[] {"nullable-exclusive-pattern", "NullableExclusivePattern", "string"},
+                    new String[] {"exclusive-pattern-or-null", "ExclusivePatternOrNull", "string"})) {
+                TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/" + expected[0] + ".ts" : "api.ts"),
+                        "export type " + expected[1] + " = " + expected[2] + ";");
+            }
+            TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/enum-pattern.ts" : "api.ts"),
+                    "Allowed: 'allowed'");
             TestUtils.assertFileContains(address, "'nullableAlias'?: NullableAlias | null;");
             TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/nullable-alias.ts" : "api.ts"),
                     "export type NullableAlias = string | null;");

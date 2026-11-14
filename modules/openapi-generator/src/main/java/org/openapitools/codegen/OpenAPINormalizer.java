@@ -1380,14 +1380,6 @@ public class OpenAPINormalizer {
     }
 
     protected Schema normalizeAnyOf(Schema schema, Set<Schema> visitedSchemas) {
-        // anyOf does not pass through normalizeSimpleSchema, but a sibling type
-        // can still express nullability using the OpenAPI 3.1 type array.
-        if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null
-                && schema.getTypes().size() > 1 && schema.getTypes().contains("null")) {
-            schema.setNullable(true);
-            schema.getTypes().remove("null");
-        }
-
         //transform anyOf into enums if needed
         schema = processSimplifyAnyOfEnum(schema);
         if (schema.getAnyOf() == null) {
@@ -1789,15 +1781,9 @@ public class OpenAPINormalizer {
     /**
      * Removes the {@code oneOf} from the schema if it is considered to not contain information that the generator can
      * currently act upon. The schema is left untouched if all the {@code oneOf} branches contain an OAS 3.1 {@code const}.
-     * This since that structure can potentially be used for enum interpretation. Untyped validation
-     * branches are also retained so their predicates survive normalization.
+     * This since that structure can potentially be used for enum interpretation.
      */
     private void clearOneOf(Schema schema) {
-        if (schema.getOneOf() != null && ((List<Schema>) schema.getOneOf()).stream()
-                .map(branch -> ModelUtils.getReferencedSchema(openAPI, branch))
-                .anyMatch(branch -> ModelUtils.getType(branch) == null && ModelUtils.hasValidation(branch))) {
-            return;
-        }
         if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema) || ModelUtils.isStringSchema(schema)) {
             if (!isOneOfOfConsts(schema)) {
                 schema.setOneOf(null);
@@ -2297,9 +2283,7 @@ public class OpenAPINormalizer {
         normalizeExclusiveMinMax31(schema);
 
         if (schema instanceof JsonSchema &&
-                schema.get$schema() == null && ModelUtils.isMetadataOnlySchema(schema)
-                && !ModelUtils.hasValidation(schema) && schema.getFormat() == null
-                && schema.getEnum() == null && schema.getConst() == null) {
+                schema.get$schema() == null && schema.getTypes() == null && schema.getType() == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:

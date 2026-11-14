@@ -49,6 +49,31 @@ components:
           maximum: 2000
         - minimum: 8000
           maximum: 9000
+    ContainsString:
+      type: string
+      anyOf:
+        - contains:
+            type: integer
+        - type: 'null'
+    NullFirstHostname:
+      type: ['null', string]
+      anyOf:
+        - pattern: '^[a-z]+$'
+    NullableExclusivePattern:
+      type: [string, 'null']
+      oneOf:
+        - pattern: '^[a-z]+$'
+        - pattern: '^[0-9]+$'
+    ExclusivePatternOrNull:
+      type: [string, 'null']
+      oneOf:
+        - pattern: '^[a-z]+$'
+        - type: 'null'
+    EnumPattern:
+      type: string
+      enum: [allowed]
+      anyOf:
+        - pattern: '^[a-z]+$'
     NullableAlias:
       anyOf:
         - $ref: '#/components/schemas/Hostname'
