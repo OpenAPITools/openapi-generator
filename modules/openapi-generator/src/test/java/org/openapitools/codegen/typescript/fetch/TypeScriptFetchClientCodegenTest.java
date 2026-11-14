@@ -1536,6 +1536,29 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(api, "Object.keys(requestParameters['flatFilter'])");
     }
 
+    @Test(description = "Verify models inside nested arrays and maps are converted from and to JSON")
+    public void testNestedContainersOfModels() throws IOException {
+        File output = generate(new HashMap<>(), "src/test/resources/3_0/typescript-fetch/nested-containers.yaml");
+        Path model = Paths.get(output + "/models/FooResponse.ts");
+
+        TestUtils.assertFileContains(model,
+                "'mapOfArrays': json['mapOfArrays'] == null ? undefined : (mapValues(json['mapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarFromJSON))),",
+                "'requiredMapOfArrays': (json['requiredMapOfArrays'] == null ? null : mapValues(json['requiredMapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarFromJSON))),",
+                "'arrayOfArrays': json['arrayOfArrays'] == null ? undefined : ((json['arrayOfArrays'] as Array<any>).map((v0: any) => (v0 as Array<any>).map(BarFromJSON))),",
+                "'arrayOfMaps': json['arrayOfMaps'] == null ? undefined : ((json['arrayOfMaps'] as Array<any>).map((v0: any) => mapValues(v0, BarFromJSON))),",
+                "'mapOfMaps': json['mapOfMaps'] == null ? undefined : (mapValues(json['mapOfMaps'], (v0: any) => mapValues(v0, BarFromJSON))),");
+        TestUtils.assertFileContains(model,
+                "'mapOfArrays': value['mapOfArrays'] == null ? undefined : (mapValues(value['mapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarToJSON))),",
+                "'requiredMapOfArrays': (value['requiredMapOfArrays'] == null ? null : mapValues(value['requiredMapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarToJSON))),",
+                "'arrayOfArrays': value['arrayOfArrays'] == null ? undefined : ((value['arrayOfArrays'] as Array<any>).map((v0: any) => (v0 as Array<any>).map(BarToJSON))),",
+                "'arrayOfMaps': value['arrayOfMaps'] == null ? undefined : ((value['arrayOfMaps'] as Array<any>).map((v0: any) => mapValues(v0, BarToJSON))),",
+                "'mapOfMaps': value['mapOfMaps'] == null ? undefined : (mapValues(value['mapOfMaps'], (v0: any) => mapValues(v0, BarToJSON))),");
+        // a nested container of primitives is still copied as is
+        TestUtils.assertFileContains(model,
+                "'mapOfArraysOfStrings': json['mapOfArraysOfStrings'] == null ? undefined : json['mapOfArraysOfStrings'],",
+                "'mapOfArraysOfStrings': value['mapOfArraysOfStrings'],");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
