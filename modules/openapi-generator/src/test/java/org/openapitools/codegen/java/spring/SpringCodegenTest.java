@@ -8163,6 +8163,9 @@ public class SpringCodegenTest {
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
                 )
+                .fileDoesNotContain(
+                        ".validation.valueextraction.Unwrapping",
+                        "Present")
                 .assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         if (!library.equals(SPRING_HTTP_INTERFACE)) {
             // SPRING_HTTP_INTERFACE does not support @Schema generation (yet)
