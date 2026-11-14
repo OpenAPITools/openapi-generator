@@ -20,6 +20,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
@@ -817,5 +818,38 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertListNotContains(objectSerializerContent,
                 a -> a.contains("Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()"),
                 "ObjectSerializer must only fall back to the default configuration if no configuration is given");
+    }
+
+    @Test
+    public void testStreamingFileTypeNameIsValidPhp() {
+        codegen.setSupportStreaming(true);
+        codegen.processOpts();
+
+        Schema binary = new StringSchema().format("binary");
+
+        // the streaming "file" type must be a syntactically valid PHP type: a single
+        // leading backslash and single namespace separators
+        Assert.assertEquals(codegen.getSchemaType(binary), "\\Psr\\Http\\Message\\StreamInterface");
+        Assert.assertEquals(codegen.getTypeDeclaration(binary), "\\Psr\\Http\\Message\\StreamInterface");
+    }
+
+    @Test
+    public void testFullyQualifiedTypeCollapsesDoubledSeparators() {
+        // a fully qualified type reaching the getSchemaType() passthrough must never be
+        // emitted with doubled namespace separators, even if the typeMapping value (or
+        // another upstream producer) carries them
+        PhpNextgenClientCodegen streamingCodegen = new PhpNextgenClientCodegen() {
+            {
+                setSupportStreaming(true);
+                processOpts();
+                // legacy value written with doubled separators
+                typeMapping.put("file", "\\Psr\\\\Http\\\\Message\\\\StreamInterface");
+            }
+        };
+
+        Schema binary = new StringSchema().format("binary");
+
+        Assert.assertEquals(streamingCodegen.getSchemaType(binary), "\\Psr\\Http\\Message\\StreamInterface");
+        Assert.assertEquals(streamingCodegen.getTypeDeclaration(binary), "\\Psr\\Http\\Message\\StreamInterface");
     }
 }

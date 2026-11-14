@@ -136,7 +136,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         if (this.supportStreaming) {
-            typeMapping.put("file", "\\Psr\\\\Http\\\\Message\\\\StreamInterface");
+            // The value must be a valid PHP type: a single leading backslash and single
+            // separators. It used to carry doubled separators ("\\Psr\\\\Http\\..."),
+            // which only stayed valid because toModelName()'s camelize() collapsed them
+            // as a side effect (see getSchemaType()).
+            typeMapping.put("file", "\\Psr\\Http\\Message\\StreamInterface");
         }
     }
 
