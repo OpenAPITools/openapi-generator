@@ -37,6 +37,7 @@ import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.CaseFormatLambda;
+import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -1388,7 +1389,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         for (CodegenOperation operation : operations.getOperation()) {
-            String baseName = titlecaseLikeTemplateLambda(operation.operationId) + "Request";
+            // same casing as the {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}} template code
+            String baseName = TitlecaseLambda.titleCase(operation.operationId) + "Request";
             String className = baseName;
             if (importedClassNames.contains(className)) {
                 className = baseName + "Params";
@@ -1408,19 +1410,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
             }
         }
-    }
-
-    /**
-     * Same casing as the {@code {{#lambda.titlecase}}{{operationId}}{{/lambda.titlecase}}} template code
-     * ({@link org.openapitools.codegen.templating.mustache.TitlecaseLambda}): first character upper-cased with
-     * {@link Locale#ROOT}, so an operationId starting with the sharp s (U+00DF) gets "SS". Not {@code StringUtils.capitalize},
-     * which title-cases and would leave it unchanged, renaming existing classes.
-     */
-    private static String titlecaseLikeTemplateLambda(String input) {
-        if (input == null || input.isEmpty()) {
-            return "";
-        }
-        return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
     }
 
     public boolean getSingleRequestParameter() {
