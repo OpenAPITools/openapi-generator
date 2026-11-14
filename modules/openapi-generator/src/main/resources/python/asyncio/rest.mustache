@@ -7,13 +7,15 @@ import io
 import json
 import re
 import ssl
-from typing import Any, Dict, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, Optional, Union
 
 import aiohttp
-import aiohttp_retry
 from multidict import CIMultiDict
 
 from {{packageName}}.exceptions import ApiException, ApiValueError
+
+if TYPE_CHECKING:
+    import aiohttp_retry
 
 RESTResponseType = aiohttp.ClientResponse
 
@@ -76,20 +78,23 @@ class RESTClientObject:
         retries = configuration.retries
         if retries is None:
             self._effective_retry_options = None
-        elif isinstance(retries, aiohttp_retry.RetryOptionsBase):
-            self._effective_retry_options = retries
-        elif isinstance(retries, int):
-            self._effective_retry_options = aiohttp_retry.ExponentialRetry(
-                attempts=retries,
-                factor=2.0,
-                start_timeout=0.1,
-                max_timeout=120.0
-            )
         else:
-            self._effective_retry_options = None
+            import aiohttp_retry
+
+            if isinstance(retries, aiohttp_retry.RetryOptionsBase):
+                self._effective_retry_options = retries
+            elif isinstance(retries, int):
+                self._effective_retry_options = aiohttp_retry.ExponentialRetry(
+                    attempts=retries,
+                    factor=2.0,
+                    start_timeout=0.1,
+                    max_timeout=120.0
+                )
+            else:
+                self._effective_retry_options = None
 
         self.pool_manager: Optional[aiohttp.ClientSession] = None
-        self.retry_client: Optional[aiohttp_retry.RetryClient] = None
+        self.retry_client: Optional["aiohttp_retry.RetryClient"] = None
 
     async def close(self) -> None:
         if self.pool_manager:
@@ -256,7 +261,7 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        pool_manager: Union[aiohttp.ClientSession, aiohttp_retry.RetryClient]
+        pool_manager: Union[aiohttp.ClientSession, "aiohttp_retry.RetryClient"]
 
         # https pool manager
         if self.pool_manager is None:
@@ -265,6 +270,8 @@ class RESTClientObject:
 
         if self._effective_retry_options is not None and method in ALLOW_RETRY_METHODS:
             if self.retry_client is None:
+                import aiohttp_retry
+
                 self.retry_client = aiohttp_retry.RetryClient(
                     client_session=self.pool_manager,
                     retry_options=self._effective_retry_options
