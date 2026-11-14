@@ -59,6 +59,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateBarRequestParams'
+  /baz/{id}:
+    delete:
+      # non-ASCII operationId (sharp s, U+00DF), kept only with allowUnicodeIdentifiers=true;
+      # casing must match the titlecase lambda (sharp s -> SS)
+      operationId: "\u00DFupdate"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: force
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '204':
+          description: deleted
 components:
   schemas:
     UpdateFooRequest:

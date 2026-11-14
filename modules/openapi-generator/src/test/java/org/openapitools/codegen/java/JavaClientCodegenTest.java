@@ -4403,7 +4403,8 @@ public class JavaClientCodegenTest {
                     .setLibrary(JavaClientCodegen.WEBCLIENT)
                     .setAdditionalProperties(Map.of(
                             CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
-                            CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, mode
+                            CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, mode,
+                            CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true"
                     ))
                     .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
                     .setOutputDir(output.toString().replace("\\", "/"));
@@ -4434,6 +4435,11 @@ public class JavaClientCodegenTest {
                     "public UpdateBarRequestParams2 id(",
                     "updateBar(UpdateBarRequestParams2 requestParameters) throws WebClientResponseException {"
             );
+            // non-colliding, non-ASCII operationId keeps the titlecase lambda casing (sharp s -> SS)
+            assertFileContains(api,
+                    classKeyword + "SSupdateRequest {",
+                    "(SSupdateRequest requestParameters) throws WebClientResponseException {"
+            );
         }
     }
 
@@ -4445,7 +4451,8 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
-                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "true"
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "true",
+                        CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true"
                 ))
                 .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -4461,7 +4468,9 @@ public class JavaClientCodegenTest {
         );
         assertFileContains(api,
                 "public record UpdateBarRequestParams2(",
-                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {"
+                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {",
+                "public record SSupdateRequest(",
+                "(SSupdateRequest requestParameters) throws RestClientResponseException {"
         );
         assertFileNotContains(api, "record UpdateFooRequest(");
     }
@@ -4474,7 +4483,8 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.RESTCLIENT)
                 .setAdditionalProperties(Map.of(
                         CodegenConstants.API_PACKAGE, "xyz.abcdef.api",
-                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "static"
+                        CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "static",
+                        CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, "true"
                 ))
                 .setInputSpec("src/test/resources/3_0/java/issue_25646.yaml")
                 .setOutputDir(output.toString().replace("\\", "/"));
@@ -4492,7 +4502,10 @@ public class JavaClientCodegenTest {
                 "public void deleteFoo(DeleteFooRequest requestParameters) throws RestClientResponseException {",
                 "public static class UpdateBarRequestParams2 {",
                 "public UpdateBarRequestParams2 id(",
-                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {"
+                "updateBar(UpdateBarRequestParams2 requestParameters) throws RestClientResponseException {",
+                "public static class SSupdateRequest {",
+                "public SSupdateRequest force(",
+                "(SSupdateRequest requestParameters) throws RestClientResponseException {"
         );
         assertFileNotContains(api, "class UpdateFooRequest {");
     }
