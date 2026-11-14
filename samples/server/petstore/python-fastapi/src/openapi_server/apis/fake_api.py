@@ -23,8 +23,7 @@ from fastapi import (  # noqa: F401
 )
 
 from pydantic import Field
-from typing import Any, Optional
-from typing_extensions import Annotated
+from typing import Annotated, Any, Optional
 
 router = APIRouter()
 

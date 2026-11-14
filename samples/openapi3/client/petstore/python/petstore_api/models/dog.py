@@ -21,8 +21,7 @@ from collections.abc import Mapping as _Mapping
 from pydantic import ConfigDict, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
 from typing import Any, ClassVar, Dict, List, Optional, cast as _cast
 from petstore_api.models.animal import Animal
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class Dog(Animal):

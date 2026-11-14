@@ -12,12 +12,10 @@
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
-from typing_extensions import Annotated
+from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictInt, StrictStr
-from typing import Dict
-from typing_extensions import Annotated
+from typing import Annotated, Dict
 from petstore_api.models.order import Order
 
 from petstore_api.api_client import ApiClient, RequestSerialized

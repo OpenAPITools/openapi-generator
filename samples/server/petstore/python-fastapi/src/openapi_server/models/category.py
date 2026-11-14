@@ -21,8 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
-from typing_extensions import Annotated
+from typing import Annotated, Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:

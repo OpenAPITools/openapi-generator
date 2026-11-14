@@ -20,8 +20,7 @@ from typing import Any, List, Optional
 from petstore_api.models.known import Known
 from petstore_api.models.other import Other
 from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
-from typing_extensions import Literal, Self
+from typing import Union, List, Set, Optional, Dict, Literal, Self
 
 TAGGEDUNION_ONE_OF_SCHEMAS = ["Known", "Other"]
 
