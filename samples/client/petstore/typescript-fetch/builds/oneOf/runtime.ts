@@ -283,8 +283,8 @@ export class FetchError extends Error {
     }
 }
 
-// `cause` is typed by declaration merging: a class field needs `override` with lib es2022 and must not have it
-// below, and Babel 7 rejects a `declare` field unless allowDeclareFields is set
+// Merged into the class to type `cause`: a class field would need `override` with lib es2022 but must not have it
+// with older libs, and Babel 7 rejects `declare cause` unless allowDeclareFields is set
 export interface FetchError {
     cause: Error;
 }
