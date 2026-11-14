@@ -5981,6 +5981,32 @@ public class JavaClientCodegenTest {
                 .doesNotContain(" = ;");
     }
 
+    @Test
+    public void testDefaultToEmptyContainerDoesNotLeakAcrossSharedSchemaRefs_issue25522() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(Map.of(
+                        CodegenConstants.MODEL_PACKAGE, "org.openapitools.client.model",
+                        "defaultToEmptyContainer", "array|map"
+                ))
+                .setInputSpec("src/test/resources/3_0/java/issue_25522.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        // requiredStrings and requiredMap come first and share their schema with the optional ones
+        assertThat(output.resolve("src/main/java/org/openapitools/client/model/ExampleObject.java")).content()
+                .contains("private List<String> requiredStrings = new ArrayList<>();")
+                .contains("private List<String> optionalStrings;")
+                .contains("private Map<String, String> requiredMap = new HashMap<>();")
+                .contains("private Map<String, String> optionalMap;");
+        // the spec declares no default, so none may leak into the exported copy
+        assertThat(output.resolve("api/openapi.yaml")).content().doesNotContain("default:");
+    }
+
     private static JavaClientCodegen newRetrofit2Codegen(Map<String, Object> properties) {
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setLibrary(JavaClientCodegen.RETROFIT_2);
