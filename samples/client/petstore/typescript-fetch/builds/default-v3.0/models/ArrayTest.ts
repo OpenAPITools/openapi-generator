@@ -60,7 +60,7 @@ export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         
         'arrayOfString': json['array_of_string'] == null ? undefined : json['array_of_string'],
         'arrayArrayOfInteger': json['array_array_of_integer'] == null ? undefined : json['array_array_of_integer'],
-        'arrayArrayOfModel': json['array_array_of_model'] == null ? undefined : ((json['array_array_of_model'] as Array<any>).map((v0: any) => (v0 as Array<any>).map(ReadOnlyFirstFromJSON))),
+        'arrayArrayOfModel': json['array_array_of_model'] == null ? undefined : ((json['array_array_of_model'] as Array<any>).map((v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(ReadOnlyFirstFromJSON))),
     };
 }
 
@@ -77,7 +77,7 @@ export function ArrayTestToJSONTyped(value?: ArrayTest | null, ignoreDiscriminat
         
         'array_of_string': value['arrayOfString'],
         'array_array_of_integer': value['arrayArrayOfInteger'],
-        'array_array_of_model': value['arrayArrayOfModel'] == null ? undefined : ((value['arrayArrayOfModel'] as Array<any>).map((v0: any) => (v0 as Array<any>).map(ReadOnlyFirstToJSON))),
+        'array_array_of_model': value['arrayArrayOfModel'] == null ? undefined : ((value['arrayArrayOfModel'] as Array<any>).map((v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(ReadOnlyFirstToJSON))),
     };
 }
 

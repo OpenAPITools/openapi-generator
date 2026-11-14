@@ -1542,17 +1542,21 @@ public class TypeScriptFetchClientCodegenTest {
         Path model = Paths.get(output + "/models/FooResponse.ts");
 
         TestUtils.assertFileContains(model,
-                "'mapOfArrays': json['mapOfArrays'] == null ? undefined : (mapValues(json['mapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarFromJSON))),",
-                "'requiredMapOfArrays': (json['requiredMapOfArrays'] == null ? null : mapValues(json['requiredMapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarFromJSON))),",
-                "'arrayOfArrays': json['arrayOfArrays'] == null ? undefined : ((json['arrayOfArrays'] as Array<any>).map((v0: any) => (v0 as Array<any>).map(BarFromJSON))),",
-                "'arrayOfMaps': json['arrayOfMaps'] == null ? undefined : ((json['arrayOfMaps'] as Array<any>).map((v0: any) => mapValues(v0, BarFromJSON))),",
-                "'mapOfMaps': json['mapOfMaps'] == null ? undefined : (mapValues(json['mapOfMaps'], (v0: any) => mapValues(v0, BarFromJSON))),");
+                "'mapOfArrays': json['mapOfArrays'] == null ? undefined : (mapValues(json['mapOfArrays'], (v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(BarFromJSON))),",
+                "'requiredMapOfArrays': (json['requiredMapOfArrays'] == null ? null : mapValues(json['requiredMapOfArrays'], (v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(BarFromJSON))),",
+                "'arrayOfArrays': json['arrayOfArrays'] == null ? undefined : ((json['arrayOfArrays'] as Array<any>).map((v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(BarFromJSON))),",
+                "'arrayOfMaps': json['arrayOfMaps'] == null ? undefined : ((json['arrayOfMaps'] as Array<any>).map((v0: any) => v0 == null ? v0 : mapValues(v0, BarFromJSON))),",
+                "'mapOfMaps': json['mapOfMaps'] == null ? undefined : (mapValues(json['mapOfMaps'], (v0: any) => v0 == null ? v0 : mapValues(v0, BarFromJSON))),");
         TestUtils.assertFileContains(model,
-                "'mapOfArrays': value['mapOfArrays'] == null ? undefined : (mapValues(value['mapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarToJSON))),",
-                "'requiredMapOfArrays': (value['requiredMapOfArrays'] == null ? null : mapValues(value['requiredMapOfArrays'], (v0: any) => (v0 as Array<any>).map(BarToJSON))),",
-                "'arrayOfArrays': value['arrayOfArrays'] == null ? undefined : ((value['arrayOfArrays'] as Array<any>).map((v0: any) => (v0 as Array<any>).map(BarToJSON))),",
-                "'arrayOfMaps': value['arrayOfMaps'] == null ? undefined : ((value['arrayOfMaps'] as Array<any>).map((v0: any) => mapValues(v0, BarToJSON))),",
-                "'mapOfMaps': value['mapOfMaps'] == null ? undefined : (mapValues(value['mapOfMaps'], (v0: any) => mapValues(v0, BarToJSON))),");
+                "'mapOfArrays': value['mapOfArrays'] == null ? undefined : (mapValues(value['mapOfArrays'], (v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(BarToJSON))),",
+                "'requiredMapOfArrays': (value['requiredMapOfArrays'] == null ? null : mapValues(value['requiredMapOfArrays'], (v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(BarToJSON))),",
+                "'arrayOfArrays': value['arrayOfArrays'] == null ? undefined : ((value['arrayOfArrays'] as Array<any>).map((v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(BarToJSON))),",
+                "'arrayOfMaps': value['arrayOfMaps'] == null ? undefined : ((value['arrayOfMaps'] as Array<any>).map((v0: any) => v0 == null ? v0 : mapValues(v0, BarToJSON))),",
+                "'mapOfMaps': value['mapOfMaps'] == null ? undefined : (mapValues(value['mapOfMaps'], (v0: any) => v0 == null ? v0 : mapValues(v0, BarToJSON))),");
+        // an enum leaf goes through its FromJSON/ToJSON, as in a plain array of enums
+        TestUtils.assertFileContains(model,
+                "'mapOfArraysOfColors': json['mapOfArraysOfColors'] == null ? undefined : (mapValues(json['mapOfArraysOfColors'], (v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(ColorFromJSON))),",
+                "'mapOfArraysOfColors': value['mapOfArraysOfColors'] == null ? undefined : (mapValues(value['mapOfArraysOfColors'], (v0: any) => v0 == null ? v0 : (v0 as Array<any>).map(ColorToJSON))),");
         // a nested container of primitives is still copied as is
         TestUtils.assertFileContains(model,
                 "'mapOfArraysOfStrings': json['mapOfArraysOfStrings'] == null ? undefined : json['mapOfArraysOfStrings'],",

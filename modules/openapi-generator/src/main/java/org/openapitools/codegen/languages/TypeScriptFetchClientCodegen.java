@@ -2306,8 +2306,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     private static String nestedContainerConversion(CodegenProperty p, String expr, String suffix, int depth) {
         CodegenProperty items = p.items;
+        String item = "v" + depth;
         String convertItem = items.isArray || items.isMap
-                ? "(v" + depth + ": any) => " + nestedContainerConversion(items, "v" + depth, suffix, depth + 1)
+                ? "(" + item + ": any) => " + item + " == null ? " + item + " : " + nestedContainerConversion(items, item, suffix, depth + 1)
                 : items.dataType + suffix;
         return p.isArray
                 ? "(" + expr + " as Array<any>).map(" + convertItem + ")"
