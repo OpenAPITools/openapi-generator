@@ -1,0 +1,18 @@
+openapi: 3.0.1
+info:
+  title: Test
+  version: 0.0.1
+paths: {}
+components:
+  schemas:
+    ItemArray:
+      type: array
+      items:
+        type: string
+      default:
+        - hello
+    MyObject:
+      type: object
+      properties:
+        itemArray:
+          $ref: '#/components/schemas/ItemArray'
