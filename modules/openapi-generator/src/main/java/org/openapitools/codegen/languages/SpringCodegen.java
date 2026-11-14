@@ -735,6 +735,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
+        convertPropertyToBooleanAndWriteBack(OPENAPI_NULLABLE_USE_PRESENT, this::setOpenApiNullableUsePresent);
 
         // Validate an explicitly supplied value for every library so typos are not silently ignored;
         // the resolved mode is only used (and written back) when Pageable is supported.
