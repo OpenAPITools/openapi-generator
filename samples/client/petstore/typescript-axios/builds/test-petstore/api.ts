@@ -274,7 +274,9 @@ export interface FormatTest {
 /**
  * @type Fruit
  */
-export type Fruit = Apple | Banana;
+export type Fruit = (Apple | Banana) & {
+    'color'?: string;
+};
 
 /**
  * @type FruitReq

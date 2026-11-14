@@ -32,6 +32,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -244,6 +245,38 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 CodegenModel codegenModel = model.getModel();
                 model.put("hasAllOf", codegenModel.allOf.size() > 0);
                 model.put("hasOneOf", codegenModel.oneOf.size() > 0);
+                if (!codegenModel.oneOf.isEmpty()) {
+                    Schema schema = getModelNameToSchemaCache().get(codegenModel.classname);
+                    if (schema != null) {
+                        // vars also contains properties from the union's branches. Only sibling
+                        // properties apply to every alternative and belong in the intersection.
+                        List<CodegenProperty> properties = new ArrayList<>();
+                        if (schema.getProperties() != null) {
+                            codegenModel.vars.stream()
+                                    .filter(property -> schema.getProperties().containsKey(property.baseName))
+                                    .forEach(properties::add);
+                        }
+                        if (schema.getRequired() != null) {
+                            for (Object required : schema.getRequired()) {
+                                String name = (String) required;
+                                if (schema.getProperties() == null || !schema.getProperties().containsKey(name)) {
+                                    // required constrains presence even without a sibling property schema.
+                                    // unknown preserves each branch's own type through the intersection.
+                                    CodegenProperty property = new CodegenProperty();
+                                    property.baseName = name;
+                                    property.required = true;
+                                    property.dataType = "unknown";
+                                    properties.add(property);
+                                }
+                            }
+                        }
+                        if (!properties.isEmpty()) {
+                            codegenModel.vendorExtensions.put("x-one-of-sibling-properties", Map.of(
+                                    "vars", properties,
+                                    "hasEnums", properties.stream().anyMatch(property -> property.isEnum)));
+                        }
+                    }
+                }
             }
         }
         return result;

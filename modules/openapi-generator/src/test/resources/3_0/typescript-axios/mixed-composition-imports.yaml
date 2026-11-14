@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Mixed composition imports
+  version: '1'
+paths:
+  /mixed:
+    get:
+      operationId: getMixed
+      responses:
+        '200':
+          description: Mixed model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mixed'
+components:
+  schemas:
+    Base:
+      type: object
+      properties:
+        id:
+          type: string
+    Cat:
+      type: object
+      properties:
+        meow:
+          type: string
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: string
+    Mixed:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
