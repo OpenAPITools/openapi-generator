@@ -221,8 +221,33 @@ public class PhpClientCodegenTest {
         Map<String, CodegenProperty> vars = cm.vars.stream()
                 .collect(Collectors.toMap(v -> v.baseName, v -> v));
 
-        // a nullable reference (allOf-wrapped $ref) used as a map value keeps the
-        // fully qualified name, unlike a bare model name without separators
+        // a nullable reference (oneOf/anyOf with the OAS 3.1 'null' type) used as a map
+        // value or array item keeps the fully qualified name (the composed alias model
+        // name), unlike a bare model name without separators
+        Assert.assertEquals(vars.get("one_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\ThingOneOfMapValue>");
+        Assert.assertEquals(vars.get("one_of_list").dataType, "\\OpenAPI\\Client\\Model\\ThingOneOfMapValue[]");
+        Assert.assertEquals(vars.get("any_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\ThingAnyOfMapValue>");
+        Assert.assertEquals(vars.get("any_of_list").dataType, "\\OpenAPI\\Client\\Model\\ThingAnyOfMapValue[]");
+
+        // the same reference without nullability is unchanged
+        Assert.assertEquals(vars.get("plain_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
+        Assert.assertEquals(vars.get("plain_list").dataType, "\\OpenAPI\\Client\\Model\\Inner[]");
+        Assert.assertEquals(vars.get("plain_single").dataType, "\\OpenAPI\\Client\\Model\\Inner");
+    }
+
+    @Test(description = "Issue #25574")
+    public void testNullableRefTypeHelperKeepsModelNamespaceOas30() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_25574.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Schema thing = openAPI.getComponents().getSchemas().get("Thing");
+        CodegenModel cm = codegen.fromModel("Thing", thing);
+        Map<String, CodegenProperty> vars = cm.vars.stream()
+                .collect(Collectors.toMap(v -> v.baseName, v -> v));
+
+        // a nullable reference (OAS 3.0 allOf-wrapped $ref with nullable: true) used as a
+        // map value or array item keeps the fully qualified name, unlike a bare model
+        // name without separators
         Assert.assertEquals(vars.get("all_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
         Assert.assertEquals(vars.get("all_of_list").dataType, "\\OpenAPI\\Client\\Model\\Inner[]");
 
@@ -262,7 +287,38 @@ public class PhpClientCodegenTest {
         Assert.assertListContains(modelContent, a -> a.equals("'any_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
         Assert.assertListContains(modelContent, a -> a.equals("'any_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
 
-        // OAS 3.0 spelling: allOf-wrapped $ref with nullable: true
+        // controls
+        Assert.assertListContains(modelContent, a -> a.equals("'plain_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'plain_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'plain_single' => '\\OpenAPI\\Client\\Model\\Inner'"), "");
+    }
+
+    @Test(description = "Issue #25574")
+    public void testNullableRefContainersGenerateFqcnInOpenAPITypesOas30() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php/issue_25574.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> modelContent = Files
+                .readAllLines(files.get("Thing.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        // OAS 3.0 spelling: allOf-wrapped $ref with nullable: true, in a map value and
+        // in an array item
         Assert.assertListContains(modelContent, a -> a.equals("'all_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
         Assert.assertListContains(modelContent, a -> a.equals("'all_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
 
