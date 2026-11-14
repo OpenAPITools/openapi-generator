@@ -266,9 +266,9 @@ import java.text.DateFormat
             val localVariableAuthNames = listOf<String>("petstore_auth")
 
             val localVariableBody = 
-                        ParametersBuilder().also {
-                        name?.apply { it.append("name", name) }
-                        status?.apply { it.append("status", status) }
+                        ParametersBuilder().also { localVariableBuilder ->
+                        name?.apply { localVariableBuilder.append("name", name) }
+                        status?.apply { localVariableBuilder.append("status", status) }
                         }.build()
 
             val localVariableQuery = mutableMapOf<String, List<String>>()
