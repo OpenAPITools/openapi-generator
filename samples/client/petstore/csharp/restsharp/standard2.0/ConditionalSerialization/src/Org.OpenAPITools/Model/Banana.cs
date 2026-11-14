@@ -49,7 +49,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets LengthCm
         /// </summary>
-        [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
+        [DataMember(Name = "lengthCm", EmitDefaultValue = true)]
         public decimal LengthCm
         {
             get{ return _LengthCm;}

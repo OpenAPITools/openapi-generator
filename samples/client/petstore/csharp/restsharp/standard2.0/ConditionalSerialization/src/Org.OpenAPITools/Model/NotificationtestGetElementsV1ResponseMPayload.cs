@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AObjVariableobject
         /// </summary>
-        [DataMember(Name = "a_objVariableobject", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "a_objVariableobject", IsRequired = true, EmitDefaultValue = false)]
         public List<Dictionary<string, Object>> AObjVariableobject
         {
             get{ return _AObjVariableobject;}
