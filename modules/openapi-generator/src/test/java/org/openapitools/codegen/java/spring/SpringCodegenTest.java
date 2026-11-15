@@ -12165,8 +12165,26 @@ public class SpringCodegenTest {
     }
 
     private static final String RECORDS_ONEOF_NESTED_SPEC = "src/test/resources/3_0/spring/records-oneof-nested.yaml";
+    private static final String ANYOF_WITH_DISJUNCT_ENUM_SPEC = "src/test/resources/3_0/issue12545.json";
     private static final String POWERSHELL_SPEC =
             "src/test/resources/3_0/powershell/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
+
+    @Test
+    public void anyOfWithDisjointEnumValuesMergesEnumsInCompositeModel() throws IOException {
+        Map<String, File> files = generateFromContract(ANYOF_WITH_DISJUNCT_ENUM_SPEC, SPRING_BOOT);
+
+        String catOrDog = "CatOrDog.java";
+        assertSource(files, catOrDog)
+                .contains("public enum TypeEnum {")
+                .contains("CAT(\"cat\")")
+                .contains("DOG(\"dog\")");
+        assertSource(files, catOrDog)
+                .contains("public enum BreedEnum {")
+                .contains("SIAMESE(\"siamese\")")
+                .contains("PERSIAN(\"persian\")")
+                .contains("LABRADOR(\"labrador\")")
+                .contains("BEAGLE(\"beagle\")");
+    }
 
     @Test
     public void useRecordsGivesAMemberOfNestedInterfacesTheGettersOfBothDiscriminators() throws IOException {

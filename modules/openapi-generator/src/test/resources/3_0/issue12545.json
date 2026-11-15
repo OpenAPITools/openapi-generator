@@ -46,6 +46,42 @@
           }
         }
       },
+      "CatOrDog": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Cat"
+          },
+          {
+            "$ref": "#/components/schemas/Dog"
+          }
+        ]
+      },
+      "LizardOrCatOrDog": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Lizard"
+          },
+          {
+            "$ref": "#/components/schemas/Cat"
+          },
+          {
+            "$ref": "#/components/schemas/Dog"
+          }
+        ]
+      },
+      "CatOrDogOrLizard": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Cat"
+          },
+          {
+            "$ref": "#/components/schemas/Dog"
+          },
+          {
+            "$ref": "#/components/schemas/Lizard"
+          }
+        ]
+      },
       "Dog": {
         "type" : "object",
         "title": "Dog",
@@ -53,6 +89,10 @@
           "type" : {
             "type" : "string",
             "enum" : [ "dog" ]
+          },
+          "breed" : {
+            "type" : "string",
+            "enum" : [ "labrador", "beagle" ]
           }
         },
         "required" : [ "type" ]
@@ -64,6 +104,24 @@
           "type" : {
             "type" : "string",
             "enum" : [ "cat" ]
+          },
+          "breed" : {
+            "type" : "string",
+            "enum" : [ "siamese", "persian" ]
+          }
+        },
+        "required" : [ "type" ]
+      },
+      "Lizard": {
+        "type" : "object",
+        "title": "Lizard",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "enum" : [ "lizard" ]
+          },
+          "breed" : {
+            "type" : "string"
           }
         },
         "required" : [ "type" ]

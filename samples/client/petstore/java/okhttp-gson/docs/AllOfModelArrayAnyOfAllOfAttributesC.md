@@ -24,6 +24,9 @@
 
 | Name | Value |
 |---- | -----|
+| AVAILABLE | &quot;available&quot; |
+| PENDING | &quot;pending&quot; |
+| SOLD | &quot;sold&quot; |
 | PLACED | &quot;placed&quot; |
 | APPROVED | &quot;approved&quot; |
 | DELIVERED | &quot;delivered&quot; |

@@ -74,6 +74,24 @@ public class EnumUtils {
     }
 
     /**
+     * Merge enum values while preserving insertion order and removing duplicates.
+     *
+     * @param existingEnumValues previously-collected enum values
+     * @param newEnumValues newly-discovered enum values
+     * @return merged enum values without duplicates
+     */
+    public static List<Object> mergeEnumValues(List<?> existingEnumValues, List<?> newEnumValues) {
+        Set<Object> mergedEnumValues = new LinkedHashSet<>();
+        if (existingEnumValues != null) {
+            mergedEnumValues.addAll(existingEnumValues);
+        }
+        if (newEnumValues != null) {
+            mergedEnumValues.addAll(newEnumValues);
+        }
+        return new ArrayList<>(mergedEnumValues);
+    }
+
+    /**
      * Bungie has defined their own enum extension to describe enum values.
      * See <a href="https://github.com/Bungie-net/api?tab=readme-ov-file">documentation</a> and the section with
      * {@code x-enum-values} for more information.
