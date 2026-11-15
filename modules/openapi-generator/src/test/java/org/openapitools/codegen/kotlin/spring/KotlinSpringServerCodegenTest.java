@@ -8473,18 +8473,36 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(holder,
                 "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"singlePet\")",
                 "val singlePet: Pet? = null");
+        // inline oneOf/anyOf/allOf properties are hoisted into generated models before the property
+        // templates render, so they are still bean-typed (HolderAnyOfPetInline, ...) and keep the
+        // cascading @field:Valid - only truly Any-typed properties lose it
+        assertFileContains(holder,
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"anyOfPetInline\")",
+                "val anyOfPetInline: HolderAnyOfPetInline? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"oneOfPetInline\")",
+                "val oneOfPetInline: HolderOneOfPetInline? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"allOfPetInline\")",
+                "val allOfPetInline: HolderAllOfPetInline? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"composedPrimitives\")",
+                "val composedPrimitives: HolderComposedPrimitives? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"inlineObjAnyOf\")",
+                "val inlineObjAnyOf: HolderInlineObjAnyOf? = null");
         // free-form object and AnyType render as kotlin.Any and cascade nothing (HV000272)
         assertFileContains(holder,
                 "val customInfo: kotlin.Any? = null",
                 "val anything: kotlin.Any? = null");
         // free-form map values render as kotlin.Any without any @Valid
         assertFileContains(holder, "val anyMap: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null");
-        // exactly one @field:Valid remains (singlePet); containers and Any-typed fields carry none
+        // containers and Any-typed fields carry none
         assertFileNotContains(holder,
                 "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"pets\")",
                 "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"customInfo\")",
                 "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"anything\")",
                 "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"anyMap\")");
+        // and the count adds up: exactly the six bean-typed properties above carry @field:Valid
+        String holderContent = Files.readString(holder);
+        Assert.assertEquals(TestUtils.countOccurrences(holderContent, "@field:Valid"), 6,
+                "@field:Valid should appear once per bean-typed property in Holder.kt");
     }
 
     @Test
