@@ -8,6 +8,7 @@ on:
       - samples/server/petstore/python-aiohttp-srclayout/**
       - samples/server/petstore/python-blueplanet/**
       - bin/utils/check-python-connexion-generated.py
+      - bin/utils/test-python-connexion-generated.sh
       - .github/workflows/samples-python-connexion-generated-code.yaml
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - samples/server/petstore/python-aiohttp-srclayout/**
       - samples/server/petstore/python-blueplanet/**
       - bin/utils/check-python-connexion-generated.py
+      - bin/utils/test-python-connexion-generated.sh
       - .github/workflows/samples-python-connexion-generated-code.yaml
 jobs:
   build:
@@ -51,31 +53,5 @@ jobs:
           pip install pyyaml
       - name: Build openapi-generator-cli
         run: ./mvnw -B -ntp -DskipTests -pl modules/openapi-generator-cli -am package
-      - name: Generate and check Connexion server variants
-        shell: bash
-        run: |
-          set -euo pipefail
-          out_dir="$RUNNER_TEMP/connexion-generated"
-          specs=(
-            modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
-            modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
-          )
-          variants=(
-            "python-flask"
-            "python-flask useConnexion3=true"
-            "python-aiohttp"
-            "python-blueplanet"
-          )
-          for spec in "${specs[@]}"; do
-            for variant in "${variants[@]}"; do
-              read -r generator option <<< "$variant"
-              dest="$out_dir/$(basename "$spec" .yaml)/${generator}${option:++connexion3}"
-              args=(generate -g "$generator" -i "$spec" -o "$dest")
-              if [ -n "${option:-}" ]; then
-                args+=(--additional-properties "$option")
-              fi
-              java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar "${args[@]}"
-              python3 bin/utils/check-python-connexion-generated.py "$dest" \
-                --check-tests --check-setup "$spec"
-            done
-          done
+      - name: Test
+        run: /bin/bash ./bin/utils/test-python-connexion-generated.sh
