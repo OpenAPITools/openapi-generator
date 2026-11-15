@@ -3,34 +3,18 @@ name: Python Connexion generated code
 on:
   push:
     paths:
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonConnexionServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonAiohttpConnexionServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonBluePlanetServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonFlaskConnexionServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonStringUtils.java
-      - modules/openapi-generator/src/main/resources/python-flask/**
-      - modules/openapi-generator/src/main/resources/python-aiohttp/**
-      - modules/openapi-generator/src/main/resources/python-blueplanet/**
-      - modules/openapi-generator/src/test/java/org/openapitools/codegen/python/AbstractPythonConnexionServerCodegenTest.java
-      - modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
-      - modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
+      - samples/server/petstore/python-flask/**
+      - samples/server/petstore/python-flask-connexion3/**
+      - samples/server/petstore/python-aiohttp-srclayout/**
+      - samples/server/petstore/python-blueplanet/**
       - bin/utils/check-python-connexion-generated.py
       - .github/workflows/samples-python-connexion-generated-code.yaml
   pull_request:
     paths:
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/AbstractPythonConnexionServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonAiohttpConnexionServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonBluePlanetServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonFlaskConnexionServerCodegen.java
-      - modules/openapi-generator/src/main/java/org/openapitools/codegen/languages/PythonStringUtils.java
-      - modules/openapi-generator/src/main/resources/python-flask/**
-      - modules/openapi-generator/src/main/resources/python-aiohttp/**
-      - modules/openapi-generator/src/main/resources/python-blueplanet/**
-      - modules/openapi-generator/src/test/java/org/openapitools/codegen/python/AbstractPythonConnexionServerCodegenTest.java
-      - modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
-      - modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
+      - samples/server/petstore/python-flask/**
+      - samples/server/petstore/python-flask-connexion3/**
+      - samples/server/petstore/python-aiohttp-srclayout/**
+      - samples/server/petstore/python-blueplanet/**
       - bin/utils/check-python-connexion-generated.py
       - .github/workflows/samples-python-connexion-generated-code.yaml
 jobs:
