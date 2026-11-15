@@ -898,8 +898,8 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testOneOfEnum() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue12545.json");
+    public void testOneOfEnumUnion() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed_enums.json");
         final DefaultCodegen codegen = new DefaultCodegen();
         String modelName = "petItems";
 
@@ -911,29 +911,29 @@ public class DefaultCodegenTest {
         oneOf.add("Dog");
         oneOf.add("Cat");
         assertEquals(petItems.oneOf, oneOf);
-        // make sure that animal has the property type
-        boolean typeSeen = false;
-        boolean typeContainsEnums = false;
-        for (CodegenProperty cp : petItems.vars) {
-            if ("type".equals(cp.name)) {
-                typeSeen = true;
-                if (null != cp.get_enum() && cp.get_enum().contains("dog") && cp.get_enum().contains("cat")) {
-                    typeContainsEnums = true;
-                }
-                break;
-            }
-        }
-        assertTrue(typeSeen);
-        assertTrue(typeContainsEnums);
+        hasEnum(petItems, "type", List.of("dog", "cat"));
 
-        assertEquals(
-                1,
-                ((StringSchema) openAPI.getComponents().getSchemas().get("Dog").getProperties().get("type")).getEnum().size()
-        );
-        assertEquals(
-                1,
-                ((StringSchema) openAPI.getComponents().getSchemas().get("Cat").getProperties().get("type")).getEnum().size()
-        );
+        hasEnum(openAPI.getComponents().getSchemas().get("Dog"), "type", List.of("dog"));
+        hasEnum(openAPI.getComponents().getSchemas().get("Cat"), "type", List.of("cat"));
+    }
+
+    @Test
+    public void testOneOfMergeKeepsExistingPlainTypeWhenNewTypeIsEnum() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed_enums.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        String modelName = "CatOrType";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        codegen.setOpenAPI(openAPI);
+        CodegenModel catOrType = codegen.fromModel(modelName, schema);
+
+        Set<String> oneOf = new TreeSet<>();
+        oneOf.add("Type");
+        oneOf.add("Cat");
+        assertEquals(catOrType.oneOf, oneOf);
+        assertFalse(catOrType.hasEnums);
+
+        hasEnum(openAPI.getComponents().getSchemas().get("Cat"), "type", List.of("cat"));
     }
 
     @Test
@@ -5808,6 +5808,21 @@ public class DefaultCodegenTest {
         var.defaultValue = "defaultType";
         DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
         assertEquals("defaultType", var.defaultValue);
+    }
+
+    private void hasEnum(CodegenModel model, String fieldName, List<String> enumValues) {
+        List<String> values = null;
+        for (CodegenProperty cp : model.vars) {
+            if (fieldName.equals(cp.name)) {
+                values = cp.get_enum();
+                break;
+            }
+        }
+        assertEquals(values, enumValues);
+    }
+
+    private void hasEnum(Schema<?> model, String fieldName, List<String> enumValues) {
+        assertEquals(((Schema<?>) model.getProperties().get(fieldName)).getEnum(), enumValues);
     }
 
     private static CodegenModel modelWithVars(String modelName, CodegenProperty... vars) {
