@@ -7475,7 +7475,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param propertyKey   property key
      * @param booleanSetter the setter function reference
      * @param actualValueSupplier the supplier function reference for the actual value after calling the booleanSetter
-     * @return property value as boolean or false if it does not exist
+     * @return result of call to actualValueSupplier.get() or false if it does not exist
      */
     public boolean convertPropertyToBooleanAndWriteBack(String propertyKey, Consumer<Boolean> booleanSetter, Supplier<Boolean> actualValueSupplier) {
         if (additionalProperties.containsKey(propertyKey)) {
@@ -7483,7 +7483,7 @@ public class DefaultCodegen implements CodegenConfig {
             booleanSetter.accept(result);
             Boolean actualValue = actualValueSupplier.get();
             writePropertyBack(propertyKey, actualValue);
-            return result;
+            return Boolean.TRUE.equals(actualValue);
         }
         return false;
     }
