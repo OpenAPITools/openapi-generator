@@ -68,8 +68,41 @@
         },
         "required" : [ "type" ]
       },
+      "MotorVehicle": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [ "car", "truck", "motorcycle" ]
+          }
+        },
+        "required": [ "type" ]
+      },
+      "ElectricVehicle": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [ "car", "truck", "bicycle" ]
+          }
+        },
+        "required": [ "type" ]
+      },
+      "ElectricMotorVehicle": {
+        "allOf": [
+          { "$ref": "#/components/schemas/MotorVehicle" },
+          { "$ref": "#/components/schemas/ElectricVehicle" }
+        ]
+      },
       "CatOrType": {
         "oneOf" : [ {
+          "$ref" : "#/components/schemas/Type"
+        }, {
+          "$ref" : "#/components/schemas/Cat"
+        } ]
+      },
+      "CatAndType": {
+        "allOf" : [ {
           "$ref" : "#/components/schemas/Type"
         }, {
           "$ref" : "#/components/schemas/Cat"
