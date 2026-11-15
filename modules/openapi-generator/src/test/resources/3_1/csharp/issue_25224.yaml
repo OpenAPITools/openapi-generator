@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Map response repro
+  version: 1.0.0
+paths:
+  /widgets:
+    get:
+      operationId: getWidgets
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: "#/components/schemas/Widget"
+components:
+  schemas:
+    Widget:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - id

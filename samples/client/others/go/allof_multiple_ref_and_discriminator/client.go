@@ -56,18 +56,153 @@ type service struct {
 
 // NewAPIClient creates a new API client. Requires a userAgent string describing your application.
 // optionally a custom http.Client to allow for advanced features such as caching.
+//
+// When no http.Client is supplied, the client follows redirects like
+// http.DefaultClient does, but a redirect that leaves the origin (scheme, host
+// and port) of the original request is followed without the client's
+// credentials: the API keys of this API, Authorization, Cookie and the
+// configured DefaultHeader values are removed from the redirected request,
+// as is the Referer naming the previous URL.
+// Supply an http.Client with its own CheckRedirect to use another policy.
 func NewAPIClient(cfg *Configuration) *APIClient {
-	if cfg.HTTPClient == nil {
-		cfg.HTTPClient = http.DefaultClient
-	}
-
 	c := &APIClient{}
 	c.cfg = cfg
 	c.common.client = c
 
+	if cfg.HTTPClient == nil {
+		// Start from http.DefaultClient so that a Transport, Jar or Timeout set
+		// on it process-wide is kept; only the redirect policy differs.
+		httpClient := *http.DefaultClient
+		httpClient.CheckRedirect = c.checkRedirect
+		cfg.HTTPClient = &httpClient
+	}
+
 	// API Services
 
 	return c
+}
+
+// credentialHeaders are the request headers that carry this client's
+// credentials. They do not follow a redirect to another origin.
+var credentialHeaders = []string{"Authorization", "Cookie"}
+
+// credentialQueryParams are the query parameters that carry this client's
+// credentials. They do not follow a redirect to another origin.
+var credentialQueryParams = []string{ }
+
+// checkRedirect is the redirect policy of the http.Client built by NewAPIClient
+// when none is supplied. It keeps net/http's limit of 10 redirects and lets a
+// redirect within the origin of the original request through unchanged. A
+// redirect to another origin is still followed, but without the credentials
+// this client adds to every request. net/http drops Authorization on a
+// cross-host redirect by itself; it knows nothing about API keys sent in other
+// headers or in the query, nor about the configured default headers, and the
+// Referer it adds names the previous URL, query string included.
+func (c *APIClient) checkRedirect(req *http.Request, via []*http.Request) error {
+	if len(via) >= 10 {
+		return errors.New("stopped after 10 redirects")
+	}
+	if !leftOrigin(via, req) {
+		return nil
+	}
+	for _, name := range credentialHeaders {
+		deleteHeader(req.Header, name)
+	}
+	for name := range c.cfg.DefaultHeader {
+		deleteHeader(req.Header, name)
+	}
+	// net/http fills in Referer with the previous request's URL, query string
+	// included, before it calls this policy; on another origin it would carry
+	// a credential query parameter along.
+	deleteHeader(req.Header, "Referer")
+	deleteQueryParams(req.URL, credentialQueryParams)
+	return nil
+}
+
+// leftOrigin reports whether req, or any redirect before it, is on another
+// origin than the original request. net/http rebuilds every redirected
+// request from the original one, so once a chain has left the origin the
+// credentials must stay off even on a hop that comes back, as net/http does
+// for Authorization since CVE-2024-45336.
+func leftOrigin(via []*http.Request, req *http.Request) bool {
+	origin := via[0].URL
+	for _, hop := range via[1:] {
+		if !sameOrigin(origin, hop.URL) {
+			return true
+		}
+	}
+	return !sameOrigin(origin, req.URL)
+}
+
+// deleteHeader removes every entry of h whose name equals name ignoring
+// case. Header.Del removes the canonical spelling only; a name that reached
+// the request in another spelling would survive it.
+func deleteHeader(h http.Header, name string) {
+	for key := range h {
+		if strings.EqualFold(key, name) {
+			delete(h, key)
+		}
+	}
+}
+
+// deleteQueryParams removes the named query parameters, compared ignoring
+// case, from the raw query. The other segments are kept byte for byte and in
+// order, so a signed or pre-signed URL keeps its exact encoding, and a segment
+// that url.ParseQuery would reject is left alone rather than dropped.
+func deleteQueryParams(u *url.URL, names []string) {
+	if len(names) == 0 || u.RawQuery == "" {
+		return
+	}
+	parts := strings.Split(u.RawQuery, "&")
+	kept := make([]string, 0, len(parts))
+	for _, part := range parts {
+		if isCredentialQueryParam(part, names) {
+			continue
+		}
+		kept = append(kept, part)
+	}
+	if len(kept) != len(parts) {
+		u.RawQuery = strings.Join(kept, "&")
+	}
+}
+
+// isCredentialQueryParam reports whether a raw key=value segment names one of
+// the credential parameters. The key is compared decoded, as the server reads
+// it, and as given when it does not decode.
+func isCredentialQueryParam(segment string, names []string) bool {
+	key := segment
+	if i := strings.IndexByte(segment, '='); i >= 0 {
+		key = segment[:i]
+	}
+	if decoded, err := url.QueryUnescape(key); err == nil {
+		key = decoded
+	}
+	for _, name := range names {
+		if strings.EqualFold(key, name) {
+			return true
+		}
+	}
+	return false
+}
+
+// sameOrigin reports whether two URLs share scheme, host and effective port.
+func sameOrigin(a, b *url.URL) bool {
+	return strings.EqualFold(a.Scheme, b.Scheme) &&
+		strings.EqualFold(a.Hostname(), b.Hostname()) &&
+		portOrDefault(a) == portOrDefault(b)
+}
+
+func portOrDefault(u *url.URL) string {
+	if port := u.Port(); port != "" {
+		return port
+	}
+	switch strings.ToLower(u.Scheme) {
+	case "http":
+		return "80"
+	case "https":
+		return "443"
+	}
+	return ""
 }
 
 func atoi(in string) (int, error) {
@@ -176,10 +311,14 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				for i:=0;i<lenIndValue;i++ {
 					var arrayValue = indValue.Index(i)
 					var keyPrefixForCollectionType = keyPrefix
+					var styleForElement = style
 					if style == "deepObject" {
 						keyPrefixForCollectionType = keyPrefix + "[" + strconv.Itoa(i) + "]"
+					} else if style == "form" {
+						// only the parameter's own map is flattened; a map inside an array keeps its bracketed path
+						styleForElement = ""
 					}
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), style, collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForCollectionType, arrayValue.Interface(), styleForElement, collectionType)
 				}
 				return
 
@@ -191,13 +330,36 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 				iter := indValue.MapRange()
 				for iter.Next() {
 					k,v := iter.Key(), iter.Value()
-					parameterAddToHeaderOrQuery(headerOrQueryParams, fmt.Sprintf("%s[%s]", keyPrefix, k.String()), v.Interface(), style, collectionType)
+					var keyPrefixForMapEntry = fmt.Sprintf("%s[%s]", keyPrefix, k.String())
+					var styleForMapEntry = style
+					if style == "form" {
+						// form style: one query parameter per entry, keyed by the property name; anything nested keeps its bracketed path
+						keyPrefixForMapEntry = k.String()
+						styleForMapEntry = ""
+						// a nil entry, or a nil item of a list entry, is left out rather than sent as "null"
+						entry, ok := parameterValueIndirect(v)
+						if !ok {
+							continue
+						}
+						if entry.Kind() == reflect.Slice {
+							for i := 0; i < entry.Len(); i++ {
+								if element, ok := parameterValueIndirect(entry.Index(i)); ok {
+									parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, element.Interface(), styleForMapEntry, collectionType)
+								}
+							}
+							continue
+						}
+					}
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefixForMapEntry, v.Interface(), styleForMapEntry, collectionType)
 				}
 				return
 
 			case reflect.Interface:
 				fallthrough
 			case reflect.Ptr:
+				if v.IsNil() {
+					return
+				}
 				parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, v.Elem().Interface(), style, collectionType)
 				return
 
@@ -230,6 +392,18 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 			valuesMap[keyPrefix] = value
 			break
 	}
+}
+
+// parameterValueIndirect unwraps interfaces and pointers down to the value they hold,
+// reporting false when that value is nil
+func parameterValueIndirect(v reflect.Value) (reflect.Value, bool) {
+	for v.Kind() == reflect.Interface || v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return v, false
+		}
+		v = v.Elem()
+	}
+	return v, v.IsValid()
 }
 
 // helper for converting interface{} parameters to json strings

@@ -28,6 +28,32 @@ import java.util.*;
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_NODE})
 public class TypeScriptNodeClientCodegenTest {
 
+    @Test
+    public void testJsonContentHeaders() throws IOException {
+        File output = Files.createTempDirectory(Paths.get("target"), "typescript-node-json-header").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-node")
+                .setInputSpec("src/test/resources/3_1/typescript-json-header.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        java.nio.file.Path api = output.toPath().resolve("api/defaultApi.ts");
+        TestUtils.assertFileContains(api,
+                "if (xOptionalJsonArg !== undefined) {",
+                "localVarHeaderParams['X-Json-Arg'] = JSON.stringify(ObjectSerializer.serialize(xJsonArg, \"HeaderArg\"));",
+                "localVarHeaderParams['X-Optional-Json-Arg'] = JSON.stringify(ObjectSerializer.serialize(xOptionalJsonArg, \"HeaderArg\"));",
+                "localVarHeaderParams['X-Vendor-Arg'] = JSON.stringify(ObjectSerializer.serialize(xVendorArg, \"HeaderArg\"));",
+                "localVarHeaderParams['X-Plain-Arg'] = ObjectSerializer.serialize(xPlainArg, \"string\");");
+        TestUtils.assertFileNotContains(api,
+                "localVarHeaderParams['X-Json-Arg'] = ObjectSerializer.serialize(",
+                "localVarHeaderParams['X-Optional-Json-Arg'] = ObjectSerializer.serialize(",
+                "localVarHeaderParams['X-Vendor-Arg'] = ObjectSerializer.serialize(");
+        TestUtils.assertFileContains(output.toPath().resolve("model/headerArg.ts"),
+                "'filePath'?: string;",
+                "\"baseName\": \"file_path\"");
+    }
+
     private TypeScriptNodeClientCodegen codegen;
 
     @BeforeMethod

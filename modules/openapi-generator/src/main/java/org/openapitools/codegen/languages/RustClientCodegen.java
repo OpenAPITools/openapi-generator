@@ -24,7 +24,6 @@ import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Discriminator;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import joptsimple.internal.Strings;
 import lombok.AccessLevel;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -319,8 +318,10 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
                 else {
                     // In-placed type (primitive), because there is no mapping or ref for it.
-                    // use camelized `title` if present, otherwise use `type`
-                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                    // use camelized `title` if present, otherwise use `type`, otherwise the property's base type
+                    String oneOfName = Optional.ofNullable(schema.getTitle())
+                            .or(() -> Optional.ofNullable(ModelUtils.getType(schema)))
+                            .orElse(oneOf.baseType);
                     oneOf.setName(toModelName(oneOfName));
                 }
             }
@@ -329,6 +330,56 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
 
         return mdl;
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap modelMap : modelsMap.getModels()) {
+                CodegenModel cm = modelMap.getModel();
+                CodegenDiscriminator discriminator = cm.discriminator;
+                if (discriminator == null || discriminator.getMappedModels() == null) {
+                    continue;
+                }
+                // a oneOf variant whose tag is an enum (inline or $ref) cannot default it after serde consumed it, and
+                // its copy would be written next to the tag: keep the tag in the content the variant deserializes
+                // from and serialize the variant as is, so the variant structs are untouched
+                if (!cm.oneOf.isEmpty() && cm.getComposedSchemas() != null && cm.getComposedSchemas().getOneOf() != null
+                        && discriminator.getMappedModels().stream()
+                        .map(CodegenDiscriminator.MappedModel::getModel)
+                        .filter(Objects::nonNull)
+                        .flatMap(m -> m.vars.stream())
+                        .anyMatch(v -> discriminator.getPropertyBaseName().equals(v.baseName) && v.getIsEnumOrRef())) {
+                    discriminator.getVendorExtensions().put("x-rust-tagged-content", true);
+                    // the variants' own vendorExtensions shadow the discriminator's inside their loop
+                    cm.getComposedSchemas().getOneOf().forEach(v -> v.vendorExtensions.put("x-rust-tagged-content", true));
+                    continue;
+                }
+                // a mapping that names the base itself leaves no struct to wrap, and an enum-typed tag would be
+                // written twice (the child's copy keeps its default): keep the inline variants
+                if (discriminator.getMappedModels().stream().anyMatch(m -> cm.name.equals(m.getSchemaName()))
+                        || cm.allVars.stream().anyMatch(v -> discriminator.getPropertyBaseName().equals(v.baseName) && v.getIsEnumOrRef())) {
+                    discriminator.getVendorExtensions().put("x-rust-inline-variants", true);
+                    continue;
+                }
+                // a mapped child's discriminator doubles as the union's serde tag, which is consumed before the
+                // child deserializes: mark it so the template defaults it and skips it while unset
+                for (CodegenDiscriminator.MappedModel mapped : discriminator.getMappedModels()) {
+                    if (mapped.getModel() == null) {
+                        continue;
+                    }
+                    for (CodegenProperty var : mapped.getModel().vars) {
+                        if (discriminator.getPropertyBaseName().equals(var.baseName)) {
+                            var.isDiscriminator = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return objs;
     }
 
     @Override
@@ -683,7 +734,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
             boolean unsigned = preferUnsigned && canFitIntoUnsigned(minimum, exclusiveMinimum);
 
-            if (Strings.isNullOrEmpty(p.getFormat())) {
+            if (org.apache.commons.lang3.StringUtils.isEmpty(p.getFormat())) {
                 if (bestFit) {
                     return bestFittingIntegerType(
                             minimum,
@@ -696,10 +747,22 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 }
             } else {
                 switch (p.getFormat()) {
+                    case "int8":
+                        return unsigned ? "u8" : "i8";
+                    case "int16":
+                        return unsigned ? "u16" : "i16";
                     case "int32":
                         return unsigned ? "u32" : "i32";
                     case "int64":
                         return unsigned ? "u64" : "i64";
+                    case "uint8":
+                        return "u8";
+                    case "uint16":
+                        return "u16";
+                    case "uint32":
+                        return "u32";
+                    case "uint64":
+                        return "u64";
                 }
             }
         }
@@ -766,6 +829,12 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         if (!parameter.vendorExtensions.containsKey(this.VENDOR_EXTENSION_PARAM_IDENTIFIER)) { // allow to overwrite this value
             parameter.vendorExtensions.put(this.VENDOR_EXTENSION_PARAM_IDENTIFIER, inFunctionIdentifier);
         }
+
+        // chrono's `Display` for `DateTime` is not RFC 3339 (e.g. "2024-01-02 03:04:05 +00:00"),
+        // so path, query and header params of that type are serialized with `to_rfc3339()` instead.
+        if (parameter.isDateTime && parameter.dataType != null && parameter.dataType.startsWith("chrono::DateTime")) {
+            parameter.vendorExtensions.put("x-rust-chrono-date-time", true);
+        }
     }
 
     @Override
@@ -782,6 +851,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     param.dataType = "String";
                     param.isPrimitiveType = true;
                     param.isString = true;
+                }
+
+                // Free-form objects are `serde_json::Value`, which is not in `models`: mark them primitive, as
+                // DefaultCodegen.updateRequestBodyForObject does for bodies, so no `models::` prefix is added.
+                // Free-form maps (`additionalProperties`) are containers and keep their handling.
+                if (param.isFreeFormObject && !param.isContainer) {
+                    param.isPrimitiveType = true;
                 }
             }
 

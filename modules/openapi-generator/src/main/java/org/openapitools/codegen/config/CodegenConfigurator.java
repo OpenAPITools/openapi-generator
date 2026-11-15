@@ -41,6 +41,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
@@ -57,6 +59,18 @@ public class CodegenConfigurator {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 
+    // Matches swagger-parser's OpenAPIDeserializer$ParseResult#extra(...) message format,
+    // e.g. "attribute paths.'/tasks'.query is unexpected". The path name is restricted to a
+    // segment without single quotes so a message with a second quoted segment nested inside
+    // the first (e.g. "attribute paths.'/tasks'.'x-custom'.nested is unexpected", which the
+    // parser produces when the path template itself contains a quote) does NOT match -- such
+    // a nested member is not a dropped operation. The attribute name is likewise restricted
+    // to a single simple token so this does NOT match a typo'd key nested one level down
+    // (e.g. a path-level parameter or server object), which is reported under the same
+    // "paths.'X'." prefix but is not itself a dropped operation.
+    private static final Pattern UNEXPECTED_PATH_ITEM_ATTRIBUTE =
+            Pattern.compile("attribute paths\\.'([^']+)'\\.([^.\\[\\]()'\\s]+) is unexpected");
+
     private GeneratorSettings.Builder generatorSettingsBuilder = GeneratorSettings.newBuilder();
     private WorkflowSettings.Builder workflowSettingsBuilder = WorkflowSettings.newBuilder();
 
@@ -69,7 +83,6 @@ public class CodegenConfigurator {
     private Map<String, Object> additionalProperties = new HashMap<>();
     private Map<String, String> importMappings = new HashMap<>();
     private Map<String, String> schemaMappings = new HashMap<>();
-    private Set<String> forcedGenerateSchemas = new HashSet<>();
     private Map<String, String> inlineSchemaNameMappings = new HashMap<>();
     private Map<String, String> inlineSchemaOptions = new HashMap<>();
     private Map<String, String> nameMappings = new HashMap<>();
@@ -125,9 +138,6 @@ public class CodegenConfigurator {
             }
             if (generatorSettings.getSchemaMappings() != null) {
                 configurator.schemaMappings.putAll(generatorSettings.getSchemaMappings());
-            }
-            if (generatorSettings.getForcedGenerateSchemas() != null) {
-                configurator.forcedGenerateSchemas.addAll(generatorSettings.getForcedGenerateSchemas());
             }
             if (generatorSettings.getInlineSchemaNameMappings() != null) {
                 configurator.inlineSchemaNameMappings.putAll(generatorSettings.getInlineSchemaNameMappings());
@@ -231,29 +241,6 @@ public class CodegenConfigurator {
     public CodegenConfigurator addSchemaMapping(String key, String value) {
         this.schemaMappings.put(key, value);
         generatorSettingsBuilder.withSchemaMapping(key, value);
-        return this;
-    }
-
-    /**
-     * Adds a single schema name to {@code forcedGenerateSchemas}.
-     * Schemas in this set are generated even when they appear in schemaMappings or importMappings.
-     * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) to force-generate
-     * all mapped schemas at once.
-     */
-    public CodegenConfigurator addForcedGenerateSchema(String schema) {
-        this.forcedGenerateSchemas.add(schema);
-        generatorSettingsBuilder.withForcedGenerateSchema(schema);
-        return this;
-    }
-
-    /**
-     * Replaces the entire {@code forcedGenerateSchemas} set.
-     * Use {@code "*"} ({@link CodegenConstants#FORCE_GENERATE_ALL_SCHEMAS}) as a wildcard
-     * to force-generate all mapped schemas at once.
-     */
-    public CodegenConfigurator setForcedGenerateSchemas(Set<String> schemas) {
-        this.forcedGenerateSchemas = schemas;
-        generatorSettingsBuilder.withForcedGenerateSchemas(schemas);
         return this;
     }
 
@@ -785,7 +772,40 @@ public class CodegenConfigurator {
                             msg -> sb.append("\t-").append(msg).append(System.lineSeparator()));
                 }
                 LOGGER.warn(sb.toString());
+
+                // The parser silently drops any path-item member it doesn't recognize (e.g. a
+                // future-spec operation like OpenAPI 3.2's 'query'), but still reports it as an
+                // "unexpected attribute" message. With validation disabled that message is easy to
+                // miss among unrelated warnings, so surface it explicitly. Only do this when
+                // generation will actually proceed (specification != null) -- otherwise the
+                // null-check below already reports failure, and claiming specific members will be
+                // "missing" is misleading when nothing at all will be generated.
+                // See https://github.com/OpenAPITools/openapi-generator/issues/24212
+                if (specification != null) {
+                    List<String> droppedPathItemMembers = new ArrayList<>();
+                    for (String msg : validationMessages) {
+                        Matcher matcher = UNEXPECTED_PATH_ITEM_ATTRIBUTE.matcher(msg);
+                        if (matcher.matches()) {
+                            droppedPathItemMembers.add("'" + matcher.group(2) + "' at path '" + matcher.group(1) + "'");
+                        }
+                    }
+                    if (!droppedPathItemMembers.isEmpty()) {
+                        LOGGER.warn("The OpenAPI parser did not recognize the following attribute(s) under these "
+                                + "paths and dropped them; if one of them was meant to be an operation (e.g. using an "
+                                + "HTTP method this parser version doesn't know, such as OpenAPI 3.2's 'query'), it "
+                                + "will be MISSING from the generated output: " + String.join(", ", droppedPathItemMembers));
+                    }
+                }
             }
+        }
+
+        if (specification == null) {
+            String reason = validationMessages.isEmpty()
+                    ? "no additional detail was reported by the OpenAPI parser"
+                    : "the parser reported: " + String.join("; ", validationMessages);
+            throw new RuntimeException("Unable to parse an OpenAPI document from '" + inputSpec + "' (" + reason
+                    + "). This can happen when the spec declares an OpenAPI version newer than what this generator's "
+                    + "parser supports, or when the file is malformed.");
         }
 
         return new Context<>(specification, generatorSettings, workflowSettings);
@@ -823,7 +843,6 @@ public class CodegenConfigurator {
         config.typeMapping().putAll(generatorSettings.getTypeMappings());
         config.importMapping().putAll(generatorSettings.getImportMappings());
         config.schemaMapping().putAll(generatorSettings.getSchemaMappings());
-        config.forcedGenerateSchemas().addAll(generatorSettings.getForcedGenerateSchemas());
         config.inlineSchemaNameMapping().putAll(generatorSettings.getInlineSchemaNameMappings());
         config.inlineSchemaOption().putAll(generatorSettings.getInlineSchemaOptions());
         config.nameMapping().putAll(generatorSettings.getNameMappings());

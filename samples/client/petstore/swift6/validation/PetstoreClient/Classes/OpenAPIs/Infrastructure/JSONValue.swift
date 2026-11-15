@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum JSONValue: Sendable, Codable, Hashable {
+public nonisolated enum JSONValue: Sendable, Codable, Hashable {
     case string(String)
     case int(Int)
     case double(Double)
@@ -62,7 +62,7 @@ public enum JSONValue: Sendable, Codable, Hashable {
     }
 }
 
-extension JSONValue {
+nonisolated extension JSONValue {
     public init(_ value: String) {
         self = .string(value)
     }
@@ -97,7 +97,7 @@ extension JSONValue {
     }
 }
 
-extension JSONValue {
+nonisolated extension JSONValue {
     public var isString: Bool {
         if case .string = self { return true }
         return false
@@ -134,7 +134,7 @@ extension JSONValue {
 
 }
 
-extension JSONValue {
+nonisolated extension JSONValue {
     public var stringValue: String? {
         switch self {
         case .string(let value):
@@ -186,7 +186,7 @@ extension JSONValue {
     }
 }
 
-extension JSONValue {
+nonisolated extension JSONValue {
     public subscript(key: String) -> JSONValue? {
         return dictionaryValue?[key]
     }
@@ -199,38 +199,38 @@ extension JSONValue {
     }
 }
 
-extension JSONValue: ExpressibleByStringLiteral, ExpressibleByStringInterpolation {
+nonisolated extension JSONValue: ExpressibleByStringLiteral, ExpressibleByStringInterpolation {
     public init(stringLiteral value: StringLiteralType) {
         self = .string(value)
     }
 }
 
-extension JSONValue: ExpressibleByIntegerLiteral {
+nonisolated extension JSONValue: ExpressibleByIntegerLiteral {
     public init(integerLiteral value: IntegerLiteralType) {
         self = .int(value)
     }
 }
 
-extension JSONValue: ExpressibleByFloatLiteral {
+nonisolated extension JSONValue: ExpressibleByFloatLiteral {
     public init(floatLiteral value: FloatLiteralType) {
         self = .double(value)
     }
 }
 
 
-extension JSONValue: ExpressibleByBooleanLiteral {
+nonisolated extension JSONValue: ExpressibleByBooleanLiteral {
     public init(booleanLiteral value: BooleanLiteralType) {
         self = .bool(value)
     }
 }
 
-extension JSONValue: ExpressibleByArrayLiteral {
+nonisolated extension JSONValue: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: JSONValue...) {
         self = .array(elements)
     }
 }
 
-extension JSONValue: ExpressibleByDictionaryLiteral {
+nonisolated extension JSONValue: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, JSONValue)...) {
         var dict: [String: JSONValue] = [:]
         for (key, value) in elements {
@@ -240,7 +240,7 @@ extension JSONValue: ExpressibleByDictionaryLiteral {
     }
 }
 
-extension JSONValue: ExpressibleByNilLiteral {
+nonisolated extension JSONValue: ExpressibleByNilLiteral {
     public init(nilLiteral: ()) {
         self = .null
     }

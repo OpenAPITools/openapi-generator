@@ -42,17 +42,17 @@
       }
     end
 
-    # Returns attribute mapping this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    # Returns attribute mapping this model knows about{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
     def self.acceptable_attribute_map
-      {{^parent}}
+      {{^parentModel}}
       attribute_map
-      {{/parent}}
-      {{#parent}}
+      {{/parentModel}}
+      {{#parentModel}}
       superclass.acceptable_attribute_map.merge(attribute_map)
-      {{/parent}}
+      {{/parentModel}}
     end
 
-    # Returns all the JSON keys this model knows about{{#parent}}, including the ones defined in its parent(s){{/parent}}
+    # Returns all the JSON keys this model knows about{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
     def self.acceptable_attributes
       acceptable_attribute_map.values
     end
@@ -75,6 +75,26 @@
         {{/isNullable}}
         {{/vars}}
       ])
+    end
+
+    # Returns attribute type mapping{{#parentModel}}, including the ones defined in its parent(s){{/parentModel}}
+    def self.acceptable_openapi_types
+      {{^parentModel}}
+      openapi_types
+      {{/parentModel}}
+      {{#parentModel}}
+      superclass.acceptable_openapi_types.merge(openapi_types)
+      {{/parentModel}}
+    end
+
+    # Returns the nullable attributes{{#parentModel}}, including the ones defined in its parent(s) that it does not redeclare{{/parentModel}}
+    def self.acceptable_openapi_nullable
+      {{^parentModel}}
+      openapi_nullable
+      {{/parentModel}}
+      {{#parentModel}}
+      (superclass.acceptable_openapi_nullable - attribute_map.keys) | openapi_nullable
+      {{/parentModel}}
     end
 
     {{#anyOf}}
@@ -127,11 +147,11 @@
         end
         h[k.to_sym] = v
       }
-      {{#parent}}
+      {{#parentModel}}
 
       # call parent's initialize
       super(attributes)
-      {{/parent}}
+      {{/parentModel}}
       {{#vars}}
 
       if attributes.key?(:'{{{name}}}')

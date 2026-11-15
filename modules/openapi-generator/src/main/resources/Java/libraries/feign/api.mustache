@@ -30,7 +30,7 @@ public interface {{classname}} extends ApiClient.Api {
    * {{summary}}
    * {{notes}}
 {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}){{/required}}
 {{/allParams}}
 {{#returnType}}
    * @return {{.}}
@@ -60,7 +60,7 @@ public interface {{classname}} extends ApiClient.Api {
    * Similar to <code>{{operationId}}</code> but it also returns the http response headers .
    * {{notes}}
 {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}){{/required}}
 {{/allParams}}
 {{#returnType}}
    * @return A ApiResponse that wraps the response boyd and the http headers.
@@ -97,14 +97,14 @@ public interface {{classname}} extends ApiClient.Api {
    * building up this map in a fluent style.
       {{#allParams}}
         {{^isQueryParam}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}){{/required}}
         {{/isQueryParam}}
       {{/allParams}}
    * @param queryParams Map of query parameters as name-value pairs
    *   <p>The following elements may be specified in the query map:</p>
    *   <ul>
       {{#queryParams}}
-   *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}</li>
+   *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}){{/required}}</li>
       {{/queryParams}}
    *   </ul>
       {{#returnType}}
@@ -128,7 +128,7 @@ public interface {{classname}} extends ApiClient.Api {
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap {{operationIdCamelCase}}QueryParams queryParams);
 
   /**
   * {{summary}}
@@ -137,14 +137,14 @@ public interface {{classname}} extends ApiClient.Api {
   * but this one also exposes the Http response headers
   {{#allParams}}
       {{^isQueryParam}}
-              * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
+              * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}){{/required}}
       {{/isQueryParam}}
   {{/allParams}}
       * @param queryParams Map of query parameters as name-value pairs
       *   <p>The following elements may be specified in the query map:</p>
       *   <ul>
       {{#queryParams}}
-          *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}</li>
+          *   <li>{{paramName}} - {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{#lambda.escapeJavaDoc}}{{.}}{{/lambda.escapeJavaDoc}}{{/defaultValue}}{{/isContainer}}){{/required}}</li>
       {{/queryParams}}
       *   </ul>
   {{#returnType}}
@@ -168,7 +168,7 @@ public interface {{classname}} extends ApiClient.Api {
           "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
       })
-   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap(encoded=true) {{operationIdCamelCase}}QueryParams queryParams);
+   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap {{operationIdCamelCase}}QueryParams queryParams);
 
 
    /**

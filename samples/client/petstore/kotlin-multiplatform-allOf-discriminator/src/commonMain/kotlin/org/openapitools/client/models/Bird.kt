@@ -30,13 +30,11 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 /**
- * 
- *
- * @param id 
- * @param featherType 
- * @param optionalProperty 
- * @param stringSet 
- * @param stringArray 
+ * @param id
+ * @param featherType
+ * @param optionalProperty
+ * @param stringSet
+ * @param stringArray
  */
 @Serializable
 

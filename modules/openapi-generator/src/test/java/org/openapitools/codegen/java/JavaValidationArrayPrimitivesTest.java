@@ -448,36 +448,36 @@ public class JavaValidationArrayPrimitivesTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         String arrayMapping = typeMappings.getOrDefault("array", "List");
-        // @Valid@Size(min = 5) is not nice, but not related to this fix
-        // adding a space would probably break many other tests
+        // The container parameter no longer carries a parameter-level @Valid: Hibernate Validator 9.1+
+        // deprecates @Valid on a container (HV000271). Element validation is preserved via the
+        // type-argument @Valid / element constraints; the @Size list-size constraint stays on the parameter.
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
                 .fileContains("ResponseEntity<" + arrayMapping + "<String>>",
                         arrayMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody")
-                .fileContainsPattern("@Size\\(min = 5\\)\\s*@Valid\\s*@RequestBody");
+                .fileContainsPattern("@Size\\(min = 5\\)\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
                 .fileContains(
                         "ResponseEntity<" + arrayMapping + "<String>>",
                         arrayMapping + "<@Size(min = 2, max = 2)String> requestBody")
-                .fileContainsPattern("@Size\\(min = 5\\)\\s*@Valid\\s*@RequestBody");
+                .fileContainsPattern("@Size\\(min = 5\\)\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
                 .fileContains(
-                        "ResponseEntity<" + arrayMapping + "<ListOfObjectsInner>>",
+                        "ResponseEntity<" + arrayMapping + "<@Valid ListOfObjectsInner>>",
                         arrayMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
-                .fileContainsPattern("@Size\\(min = 5\\)\\s*@Valid\\s*@RequestBody");
+                .fileContainsPattern("@Size\\(min = 5\\)\\s*@RequestBody");
 
-        String myItem = typeMappings.getOrDefault("MyItem", "MyItem");
         JavaFileAssert.assertThat(files.get("ListOfQualifiedItemApi.java"))
                 .fileContains(
-                        "ResponseEntity<" + arrayMapping + "<" + myItem + ">>",
+                        "ResponseEntity<" + arrayMapping + "<" + expectedMyItemArgument + ">>",
                         arrayMapping + "<" + expectedMyItemArgument + ">");
 
         if (!typeMappings.containsKey("array")) {
             // the mapping to Set is done automatically with uniqueItems: true
             JavaFileAssert.assertThat(files.get("ListOfUniqueItemApi.java"))
                     .fileContains(
-                            "ResponseEntity<Set<" + myItem + ">>",
+                            "ResponseEntity<Set<" + expectedMyItemArgument + ">>",
                             "Set<" + expectedMyItemArgument + "> ");
         }
     }

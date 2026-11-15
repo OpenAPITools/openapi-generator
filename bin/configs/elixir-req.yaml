@@ -1,0 +1,14 @@
+generatorName: elixir
+outputDir: samples/client/petstore/elixir-req
+inputSpec: modules/openapi-generator/src/test/resources/3_0/elixir/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/elixir
+additionalProperties:
+  invokerPackage: OpenapiPetstore
+  library: req
+modelNameMappings:
+  DeprecatedObject: DeprecatedModel
+# the following options have no effect on elixir client gen which uses baseName
+nameMappings:
+  deprecatedRef: deprecatedReference
+parameterNameMapping:
+  ioutils: ioutils_parameter

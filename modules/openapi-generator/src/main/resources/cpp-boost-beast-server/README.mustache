@@ -1,0 +1,195 @@
+{{>licenseInfo}}
+# {{packageName}} — Boost.Beast server
+
+{{#appDescription}}
+{{{appDescription}}}
+{{/appDescription}}
+
+Generated from an OpenAPI document by **openapi-generator** (`cpp-boost-beast-server`).
+
+## Requirements
+
+- C++17 compiler
+- CMake ≥ 3.14
+- Boost ≥ 1.81 (headers, `json`, and URL — Beast/Asio are header-only)
+
+## Layout
+
+- `api/` — generated service interfaces, typed request structs, per-operation
+  responders, and route registration (`<Class>Api::attach`)
+- `model/` — generated model types plus the shared OAS 3.1 exact-validation
+  runtime (`Oas31*`) and schema registry
+- `server/` — HTTP/1.1 runtime: `HttpServer`, `Router`, `Responder`,
+  `Problem` (RFC 9457), `Authorizer`, parameter codecs, JSON body conversion
+
+## Building
+
+```sh
+cmake -S . -B build
+cmake --build build
+```
+
+Warnings are errors by default (GCC/Clang `-Wall -Wextra -Werror`, MSVC
+`/W4`); configure with `-DCPP_BOOST_BEAST_SERVER_WERROR=OFF` to relax this.
+
+## Using
+
+Each API class declares its per-operation contract types (the Request struct
+and the Responder) as nested types. Implement the interface — the nested types
+resolve unqualified inside the derived class — and attach it:
+
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}
+```cpp
+namespace api = {{apiNamespace}};
+namespace model = {{modelNamespace}};
+
+class My{{classname}} : public api::{{classname}} {
+{{#operation}}{{#-first}}
+    void {{nickname}}({{vendorExtensions.x-server-operation-pascal}}Request request,
+                      std::shared_ptr<api::RequestContext> context,
+                      {{vendorExtensions.x-server-operation-pascal}}Responder responder) override {
+        (void)context;   // heap-owned; keep the shared_ptr to read it later
+{{#vendorExtensions.x-server-responses}}{{#-first}}
+{{#hasModel}}
+        {{{readmeSendType}}} value{};
+{{#isDefault}}
+        responder.{{sendMethod}}(std::move(value), 200);
+{{/isDefault}}
+{{^isDefault}}
+        responder.{{sendMethod}}(std::move(value));
+{{/isDefault}}
+{{/hasModel}}
+{{^hasModel}}
+{{#isDefault}}
+        responder.sendDefault(200);
+{{/isDefault}}
+{{^isDefault}}
+        responder.{{sendMethod}}();
+{{/isDefault}}
+{{/hasModel}}
+{{/-first}}{{/vendorExtensions.x-server-responses}}
+    }
+{{/-first}}{{/operation}}
+};
+```
+
+Define one implementation per API class the same way.
+{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+
+```cpp
+int main() {
+    boost::asio::io_context ioc;
+    auto router = std::make_shared<api::Router>();
+    api::ServerOptions options;
+    options.authorizer = std::make_shared<MyAuthorizer>();
+    // HttpServer routes its own lifecycle through enable_shared_from_this, so
+    // it can only be built through create() (which also rejects a null router).
+    auto server = api::HttpServer::create(ioc, router, options);
+{{#apiInfo}}{{#apis}}{{#operations}}
+    api::{{classname}}::attach(*server, std::make_shared<My{{classname}}>());
+{{/operations}}{{/apis}}{{/apiInfo}}
+    server->listen(boost::asio::ip::tcp::endpoint{
+        boost::asio::ip::make_address("0.0.0.0"), 8080});
+    ioc.run();
+}
+```
+
+`ServerOptions` tuning:
+
+| Option | Default | Behavior |
+| --- | --- | --- |
+| `readTimeoutSeconds` | 30 | Read deadline per request AND response-write deadline. Re-armed when each response is written, so handlers may complete asynchronously (e.g. from a worker thread) long after the read deadline expired. |
+| `bodyLimitBytes` | 8 MiB | Request bodies larger than this are rejected with 413 and the connection is closed (the unread remainder cannot be skipped safely on a keep-alive stream). |
+| `authorizer` | none | Deny-by-default gate for declared security requirements (see below). |
+
+Requests are fully decoded and schema-validated before the service method
+runs; serialization failures, malformed input, unknown routes (404), wrong
+methods (405 + `Allow`), unsupported media types (415), oversized bodies
+(413), and security denials (401) produce RFC 9457 `application/problem+json`
+responses without application code. An absent optional query/header/cookie
+parameter reaches the service as its declared OpenAPI `default` (or the type
+zero value when none is declared); an optional request body is decoded only
+when bytes arrive.
+
+HTTP/1.1 requests must carry exactly one syntactically valid `Host` field;
+HTTP/1.0 keeps `Host` optional. Both origin-form and absolute-form HTTP(S)
+targets are accepted (the absolute URI authority is authoritative), then
+normalized to origin-form before routing. `HEAD` handlers produce the same
+status and headers, including the GET-equivalent `Content-Length`, but never
+write response body bytes.
+
+With `addApiImplStubs=true` a `main.cpp` and stub services (501 responses)
+are generated for quick start.
+
+## Validation semantics
+
+Parameter and body validation follows these documented rules:
+
+- **String length** (`minLength` / `maxLength`) counts Unicode code points,
+  not bytes, matching JSON Schema, on both surfaces. Malformed UTF-8
+  degrades to a byte count (a value the schema could not have produced),
+  which only shifts the length upward and never lets `maxLength` pass.
+- **`pattern`** is evaluated UNANCHORED (`std::regex_search`), per JSON
+  Schema, but its grammar surface differs by place:
+  - *Parameters* (path/query/header/cookie): `std::regex` in its ECMAScript
+    grammar over the UTF-8 BYTES, so `\w`, `[^…]`, and `.` treat a
+    multi-byte character as its constituent bytes.
+  - *Request/response bodies* (the model validator): the value is decoded to
+    code points and matched with `std::wregex`, so `.` and character classes
+    advance one Unicode scalar at a time on platforms with 32-bit `wchar_t`
+    (macOS/Linux); on Windows (`wchar_t` is 16-bit) the value is encoded as
+    UTF-16 and `.` matches one UTF-16 code unit, which can be half of a
+    surrogate pair.
+  A pattern relying on Unicode word/property semantics (`\p{…}`) is outside
+  the supported subset on both surfaces and answers 400 rather than matching
+  approximately; patterns the grammar cannot compile are refused the same
+  way. Keep ASCII-only patterns unless you intend code-point (`body`) rather
+  than byte (`parameter`) semantics.
+- **Enum reachability**: an enum member is validated only when the
+  parameter's C++ codec can produce a JSON-equal value for it (a string
+  member can never match an integer parameter). When no declared member is
+  reachable, the parameter fails closed with 400 instead of skipping the
+  check.
+- **Absent optional collections** skip `minItems`/`maxItems`/`uniqueItems`
+  and every item-level check: the constraint applies to the array instance,
+  which is not on the wire.
+- **Numeric grammar** is strict and locale-independent: parameters must be
+  exact JSON number text (`1.5` yes; `+1.5`, `.5`, `1.`, `1,5`, `0x10`,
+  leading/trailing space, `inf`, `nan` no).
+- **Query form decoding** translates `+` to space. Array style delimiters are
+  identified on the encoded value before element decoding, so an escaped
+  comma (`%2C`) remains data inside one form-array element while literal `,`
+  separates elements.
+- **`multipleOf`** uses exact decimal arithmetic over the parameter wire
+  lexeme for both scalar numbers/integers and array items; it does not apply
+  a binary floating-point tolerance.
+- **Request bodies** are validated against their declared component schema
+  BEFORE decoding, so an invalid payload answers 400 instead of reaching the
+  service with silently defaulted fields. The exact-number-preserving parser
+  is shared with the model path, so numeric lexemes are compared exactly.
+  Bodies whose schema is inline, a composition union, or nullable are
+  decode-shape-only (no schema gate) — the generated decode still rejects
+  structurally wrong payloads.
+- **Numeric representability is a whole-payload gate**: a JSON number the
+  finite-double domain cannot hold (e.g. `1e400`) answers 400 for the whole
+  body, even if it sits in a member the model ignores. This is deliberate.
+  Schema validity and model representability are different questions: an
+  unbounded `number`-typed schema admits `1e400`, but no generated C++
+  field can hold it, and the shared exact-JSON parser would otherwise decode
+  the sanitized placeholder (0) into observable model state. Rejecting the
+  payload at the boundary is the only way to guarantee no silently corrupted
+  number reaches the service through either a declared field or preserved
+  additional properties.
+- **Model decoding stays tolerant** (client-compatibility policy): unknown
+  members are ignored, and the server gate above is what enforces the
+  schema. Do not rely on the model constructor to reject invalid input.
+- **401/404/405 responses never echo** request query strings, and credential
+  values are not logged.
+
+## Security
+
+Declared OpenAPI security requirements are enforced before dispatch:
+credentials are extracted per scheme (API keys by location, raw
+`Authorization` for HTTP schemes) and handed to your `Authorizer`. Without
+an authorizer, secured operations deny by default. Credential values are
+never logged.

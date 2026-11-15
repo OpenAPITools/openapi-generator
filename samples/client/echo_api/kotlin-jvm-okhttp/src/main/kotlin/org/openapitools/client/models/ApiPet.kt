@@ -30,13 +30,11 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 /**
- * 
- *
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param category 
- * @param tags 
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 

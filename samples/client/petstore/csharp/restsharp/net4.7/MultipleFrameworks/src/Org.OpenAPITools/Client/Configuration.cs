@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/1.0.0/csharp");
+            UserAgent = "OpenAPI-Generator/1.0.0/csharp";
             BasePath = "http://petstore.swagger.io/v2";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();

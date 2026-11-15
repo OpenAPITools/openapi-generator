@@ -37,7 +37,7 @@ class TestParent(unittest.TestCase):
             return Parent(
                 optional_dict = {
                     'key' : petstore_api.models.inner_dict_with_property.InnerDictWithProperty(
-                        a_property = petstore_api.models.a_property.aProperty(), )
+                        a_property = { }, )
                     }
             )
         else:

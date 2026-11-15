@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: JSON-B enum deserialization options
+  description: String, integer and number enums (top-level, inline and as list items) for useEnumCaseInsensitive and enumUnknownDefaultCase.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    StringEnum:
+      type: string
+      enum:
+        - available
+        - pending
+    IntegerEnum:
+      type: integer
+      enum:
+        - 1
+        - 2
+    NumberEnum:
+      type: number
+      enum:
+        - 1.5
+        - -2.25
+    EnumHolder:
+      type: object
+      properties:
+        top:
+          $ref: '#/components/schemas/StringEnum'
+        topInteger:
+          $ref: '#/components/schemas/IntegerEnum'
+        topNumber:
+          $ref: '#/components/schemas/NumberEnum'
+        inline:
+          type: string
+          enum:
+            - available
+            - pending
+        inlineInteger:
+          type: integer
+          enum:
+            - 1
+            - 2
+        list:
+          type: array
+          items:
+            type: string
+            enum:
+              - available
+              - pending

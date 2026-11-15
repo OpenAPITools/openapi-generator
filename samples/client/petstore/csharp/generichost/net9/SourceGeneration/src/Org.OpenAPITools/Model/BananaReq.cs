@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -85,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -154,13 +153,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!lengthCm.IsSet)
-                throw new ArgumentException("Property is required for class BananaReq.", nameof(lengthCm));
+                throw new JsonException("Property is required for class BananaReq: lengthCm.");
 
             if (lengthCm.IsSet && lengthCm.Value == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class BananaReq.");
+                throw new JsonException("Property is not nullable for class BananaReq: lengthCm.");
 
             if (sweet.IsSet && sweet.Value == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class BananaReq.");
+                throw new JsonException("Property is not nullable for class BananaReq: sweet.");
 
             return new BananaReq(lengthCm.Value!.Value!, sweet);
         }
@@ -171,7 +170,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="bananaReq"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -186,20 +184,15 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="bananaReq"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (bananaReq.SweetOption.IsSet && bananaReq.Sweet == null)
+                throw new JsonException("Cannot write null property BananaReq.Sweet to non-nullable JSON property 'sweet'.");
+
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
 
             if (bananaReq.SweetOption.IsSet)
                 writer.WriteBoolean("sweet", bananaReq.SweetOption.Value!.Value);
         }
     }
-
-    /// <summary>
-    /// The BananaReqSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(BananaReq))]
-    public partial class BananaReqSerializationContext : JsonSerializerContext { }
 }

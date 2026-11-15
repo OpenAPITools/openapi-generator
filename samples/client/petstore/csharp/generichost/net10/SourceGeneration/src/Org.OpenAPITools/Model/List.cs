@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -83,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -148,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (var123List.IsSet && var123List.Value == null)
-                throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
+                throw new JsonException("Property is not nullable for class List: 123-list.");
 
             return new List(var123List);
         }
@@ -159,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="list"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -174,21 +172,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="list"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
             if (list.Var123ListOption.IsSet && list.Var123List == null)
-                throw new ArgumentNullException(nameof(list.Var123List), "Property is required for class List.");
+                throw new JsonException("Cannot write null property List.Var123List to non-nullable JSON property '123-list'.");
 
             if (list.Var123ListOption.IsSet)
                 writer.WriteString("123-list", list.Var123List);
         }
     }
-
-    /// <summary>
-    /// The ListSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(List))]
-    public partial class ListSerializationContext : JsonSerializerContext { }
 }

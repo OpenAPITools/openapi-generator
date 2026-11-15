@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: Multi-level allOf inheritance test
+  description: >
+    Reproduces the kotlin-spring multi-level inheritance bug (issue #18206).
+    Animal ← Dog ← BigDog: Dog is both a child of Animal and a parent of BigDog,
+    so it must become an `open class` rather than a `final data class` to allow
+    BigDog to extend it.
+  version: "1.0"
+paths:
+  /animals:
+    get:
+      operationId: getAnimal
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Animal'
+components:
+  schemas:
+    Animal:
+      type: object
+      discriminator:
+        propertyName: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+          default: red
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            breed:
+              type: string
+    BigDog:
+      allOf:
+        - $ref: '#/components/schemas/Dog'
+        - type: object
+          required:
+            - dogType
+          properties:
+            dogType:
+              type: string
+            declawed:
+              type: boolean

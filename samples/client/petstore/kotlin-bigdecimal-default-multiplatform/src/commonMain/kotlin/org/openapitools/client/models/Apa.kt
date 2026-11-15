@@ -29,14 +29,12 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 /**
- * 
- *
- * @param bepa 
- * @param cepa 
- * @param depa 
- * @param epa 
- * @param fepa 
- * @param gepa 
+ * @param bepa
+ * @param cepa
+ * @param depa
+ * @param epa
+ * @param fepa
+ * @param gepa
  */
 @Serializable
 

@@ -27,7 +27,6 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import joptsimple.internal.Strings;
 import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -749,6 +748,9 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
                 // Write out the type of data we actually expect this response
                 // to make.
                 if (producesXml) {
+                    // an XML response needs the XML dependency even when the operation's produces, narrowed
+                    // to a content-type variant's own media-type, no longer lists it
+                    additionalProperties.put("usesXml", true);
                     rsp.vendorExtensions.put("x-produces-xml", true);
                 } else if (producesPlainText) {
                     // Plain text means that there is not structured data in
@@ -1463,7 +1465,7 @@ public class RustServerCodegenDeprecated extends AbstractRustCodegen implements 
 
             boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
 
-            if (Strings.isNullOrEmpty(property.dataFormat)) {
+            if (StringUtils.isEmpty(property.dataFormat)) {
                 property.dataType = bestFittingIntegerType(minimum,
                         property.getExclusiveMinimum(),
                         maximum,

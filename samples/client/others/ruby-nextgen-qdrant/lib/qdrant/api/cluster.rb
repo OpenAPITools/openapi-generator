@@ -24,6 +24,10 @@ module Qdrant
           auth: ['api-key', 'bearerAuth']
         )
       end
+
+      def peer
+        @peer ||= Cluster::Peer.new(@connection)
+      end
     end
   end
 end

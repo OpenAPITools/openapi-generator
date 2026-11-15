@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -115,7 +114,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             if (this.ColorCodeOption.Value != null) {
                 // ColorCode (string) pattern
@@ -218,13 +217,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (colorCode.IsSet && colorCode.Value == null)
-                throw new ArgumentNullException(nameof(colorCode), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: color_code.");
 
             if (cultivar.IsSet && cultivar.Value == null)
-                throw new ArgumentNullException(nameof(cultivar), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: cultivar.");
 
             if (origin.IsSet && origin.Value == null)
-                throw new ArgumentNullException(nameof(origin), "Property is not nullable for class Apple.");
+                throw new JsonException("Property is not nullable for class Apple: origin.");
 
             return new Apple(colorCode, cultivar, origin);
         }
@@ -235,7 +234,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="apple"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -250,17 +248,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="apple"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
             if (apple.ColorCodeOption.IsSet && apple.ColorCode == null)
-                throw new ArgumentNullException(nameof(apple.ColorCode), "Property is required for class Apple.");
+                throw new JsonException("Cannot write null property Apple.ColorCode to non-nullable JSON property 'color_code'.");
 
             if (apple.CultivarOption.IsSet && apple.Cultivar == null)
-                throw new ArgumentNullException(nameof(apple.Cultivar), "Property is required for class Apple.");
+                throw new JsonException("Cannot write null property Apple.Cultivar to non-nullable JSON property 'cultivar'.");
 
             if (apple.OriginOption.IsSet && apple.Origin == null)
-                throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
+                throw new JsonException("Cannot write null property Apple.Origin to non-nullable JSON property 'origin'.");
 
             if (apple.ColorCodeOption.IsSet)
                 writer.WriteString("color_code", apple.ColorCode);
@@ -272,11 +269,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("origin", apple.Origin);
         }
     }
-
-    /// <summary>
-    /// The AppleSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Apple))]
-    public partial class AppleSerializationContext : JsonSerializerContext { }
 }

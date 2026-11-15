@@ -23,17 +23,14 @@ import io.swagger.v3.oas.models.servers.Server;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
-import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -405,31 +402,11 @@ public class JavaHelidonClientCodegen extends JavaHelidonCommonCodegen {
                         boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
                         // only add JsonNullable and related imports to optional and nullable values
                         addImports |= isOptionalNullable;
-                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                        var.getVendorExtensions().put(X_IS_JACKSON_OPTIONAL_NULLABLE, isOptionalNullable);
                     }
 
-                    if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
-                        // treat enum string as just string
-                        var.datatypeWithEnum = var.dataType;
-
-                        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
-                            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
-                            for (EnumVarMap enumVars : EnumUtils.getEnumVars(var.getAllowableValues())) {
-                                if (defaultValue.equals(enumVars.getEnumName())) {
-                                    // update default to use the string directly instead of enum string
-                                    var.defaultValue = (String) enumVars.getEnumValue();
-                                }
-                            }
-                        }
-
-                        // add import for Set, HashSet
-                        cm.imports.add("Set");
-                        Map<String, String> importsSet = new HashMap<>();
-                        importsSet.put("import", "java.util.Set");
-                        imports.add(importsSet);
-                        Map<String, String> importsHashSet = new HashMap<>();
-                        importsHashSet.put("import", "java.util.HashSet");
-                        imports.add(importsHashSet);
+                    if (Boolean.TRUE.equals(var.getVendorExtensions().get(X_ENUM_AS_STRING))) {
+                        handleEnumAsString(var, cm, imports);
                     }
 
                 }

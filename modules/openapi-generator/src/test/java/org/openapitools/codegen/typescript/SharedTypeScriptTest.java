@@ -301,6 +301,76 @@ public class SharedTypeScriptTest {
         }
     }
 
+    @Test(description = "Issue #24572 - string enum values containing comment delimiters must not be rewritten")
+    public void enumValueWithCommentDelimitersIsNotCorruptedTest() throws Exception {
+        // "typescript" covers TypeScriptClientCodegen.toEnumValue, "typescript-fetch" and
+        // "typescript-axios" cover AbstractTypeScriptClientCodegen.toEnumValue
+        List<String> generators = Arrays.asList(
+                "typescript",
+                "typescript-fetch",
+                "typescript-axios"
+        );
+
+        for (String generatorName : generators) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName(generatorName)
+                    .setInputSpec("src/test/resources/bugs/issue_24572.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            Generator generator = new DefaultGenerator();
+            List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+            // typescript and typescript-fetch write models/Pattern.ts; typescript-axios (without
+            // separateModelsAndApi) inlines the model into api.ts
+            File modelFile = files.stream()
+                    .filter(file -> file.getName().equalsIgnoreCase("Pattern.ts") || file.getName().equals("api.ts"))
+                    .findFirst()
+                    .orElseThrow(() -> new IOException(generatorName + ": neither models/Pattern.ts nor api.ts was generated"));
+
+            // enum values are emitted inside string literals, so /* and */ must reach the
+            // generated code unchanged
+            TestUtils.assertFileContains(modelFile.toPath(),
+                    "'a/*b'",
+                    "'*/c'",
+                    "'plain'");
+            TestUtils.assertFileNotContains(modelFile.toPath(),
+                    "'/_*'",
+                    "'*_/'");
+        }
+    }
+
+    @Test(description = "Issue #24572 - comment-delimiter escaping must still apply where text is rendered inside comments")
+    public void commentDelimiterEscapingIsStillAppliedToCommentsTest() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/bugs/issue_24572.yaml")
+                .setOutputDir(output.getAbsolutePath());
+
+        Generator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        // typescript-axios (without separateModelsAndApi) inlines the model into api.ts
+        File modelFile = files.stream()
+                .filter(file -> file.getName().equalsIgnoreCase("Pattern.ts") || file.getName().equals("api.ts"))
+                .findFirst()
+                .orElseThrow(() -> new IOException("neither models/Pattern.ts nor api.ts was generated"));
+
+        // the model description is rendered inside a block comment, so */ must still be escaped
+        TestUtils.assertFileContains(modelFile.toPath(),
+                "An enum with a *_/ delimiter in its description");
+        // while the enum values in the same file remain untouched inside their string literals
+        TestUtils.assertFileContains(modelFile.toPath(),
+                "'a/*b'",
+                "'*/c'",
+                "'plain'");
+    }
+
     @Test(description = "Issue #22748 - Inner enums should not be double-prefixed when model has parent")
     public void givenChildModelWithInheritedInnerEnumThenEnumNameIsNotDoublePrefixed() throws Exception {
         // This tests that when a child model inherits from a parent that has an inner enum property,

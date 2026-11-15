@@ -44,7 +44,7 @@ import io.swagger.annotations.ApiModelProperty
       JsonSubTypes.Type(value = Dog::class, name = "Dog")
 )
 
-interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, java.io.Serializable {
+sealed interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, com.some.pack.WithId, java.io.Serializable {
         
         @get:ApiModelProperty(required = true, value = "")
         override val name: kotlin.String
@@ -67,7 +67,7 @@ interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.W
 
         
         @get:ApiModelProperty(value = "")
-        val tags: kotlin.collections.List<Tag>? 
+        val tags: kotlin.collections.List<@Valid Tag>? 
 
         
         @get:ApiModelProperty(value = "")

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -76,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -141,10 +140,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ShapeInterface.", nameof(shapeType));
+                throw new JsonException("Property is required for class ShapeInterface: shapeType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeInterface.");
+                throw new JsonException("Property is not nullable for class ShapeInterface: shapeType.");
 
             return new ShapeInterface(shapeType.Value!);
         }
@@ -155,7 +154,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -170,20 +168,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeInterface"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (shapeInterface.ShapeType == null)
-                throw new ArgumentNullException(nameof(shapeInterface.ShapeType), "Property is required for class ShapeInterface.");
-
             writer.WriteString("shapeType", shapeInterface.ShapeType);
         }
     }
-
-    /// <summary>
-    /// The ShapeInterfaceSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ShapeInterface))]
-    public partial class ShapeInterfaceSerializationContext : JsonSerializerContext { }
 }

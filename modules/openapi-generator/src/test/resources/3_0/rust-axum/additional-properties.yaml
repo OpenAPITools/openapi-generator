@@ -1,0 +1,70 @@
+openapi: 3.0.3
+info:
+  title: Additional properties test
+  version: 1.0.0
+paths:
+  /objects:
+    get:
+      operationId: getObject
+      responses:
+        '200':
+          description: A closed object with an open configuration field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClosedObject'
+components:
+  schemas:
+    ClosedObject:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - nested
+        - config
+      properties:
+        name:
+          type: string
+        nested:
+          $ref: '#/components/schemas/ClosedNested'
+        config:
+          type: object
+          additionalProperties: true
+    ClosedNested:
+      type: object
+      additionalProperties: false
+      required:
+        - value
+      properties:
+        value:
+          type: string
+    ClosedOptional:
+      type: object
+      additionalProperties: false
+      properties:
+        value:
+          type: string
+    OpenObject:
+      type: object
+      additionalProperties: true
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    UnspecifiedObject:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    TypedAdditionalProperties:
+      type: object
+      additionalProperties:
+        type: string
+      required:
+        - name
+      properties:
+        name:
+          type: string

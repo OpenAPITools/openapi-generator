@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -97,14 +97,17 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             string? varString = default;
+            if (isScalarToken)
+            {
+                Utf8JsonReader utf8JsonReaderString = utf8JsonReader;
+                ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);
+            }
 
-            while (utf8JsonReader.Read())
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -137,9 +140,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfString"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (oneOfString.String != null)
+            {
+                JsonSerializer.Serialize(writer, oneOfString.String, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             WriteProperties(writer, oneOfString, jsonSerializerOptions);
@@ -152,7 +160,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfString"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OneOfString oneOfString, JsonSerializerOptions jsonSerializerOptions)
         {
 

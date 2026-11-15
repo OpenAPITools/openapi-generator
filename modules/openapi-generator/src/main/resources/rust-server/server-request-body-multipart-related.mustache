@@ -6,6 +6,7 @@
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(BoxBody::new(e.to_string()))
                                                 .expect("Unable to create Bad Request response due to unable to read content-type header for {{operationId}}"));
                                     }
@@ -18,6 +19,7 @@
                                     Err(e) => {
                                         return Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
+                                                .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                 .body(BoxBody::new(format!("Could not read multipart body for {{operationId}}: {e}")))
                                                 .expect("Unable to create Bad Request response due to unable to read multipart body for {{operationId}}"));
                                     }
@@ -43,6 +45,7 @@
                                                     Ok(json_data) => json_data,
                                                     Err(e) => return Ok(Response::builder()
                                                         .status(StatusCode::BAD_REQUEST)
+                                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                                         .body(BoxBody::new(format!("Couldn't parse body parameter {{dataType}} - doesn't match schema: {e}")))
                                                         .expect("Unable to create Bad Request response for invalid body parameter {{dataType}} due to schema"))
                                                 };
@@ -79,6 +82,7 @@
                                     Some(x) => x,
                                     None =>  return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(BoxBody::new("Missing required multipart/related parameter {{{paramName}}}".to_string()))
                                         .expect("Unable to create Bad Request response for missing multipart/related parameter {{{paramName}}} due to schema"))
                                 };

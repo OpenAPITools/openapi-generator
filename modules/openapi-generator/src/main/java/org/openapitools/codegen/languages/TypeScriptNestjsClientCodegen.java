@@ -167,14 +167,18 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         }
 
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
-            boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
+            boolean withInterfaces = convertPropertyToBooleanAndWriteBack(WITH_INTERFACES);
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
-            taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
+            taggedUnions = convertPropertyToBooleanAndWriteBack(TAGGED_UNIONS);
+        }
+
+        if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
+            convertPropertyToBooleanAndWriteBack(USE_SINGLE_REQUEST_PARAMETER);
         }
 
         additionalProperties.put(NEST_VERSION, nestVersion);

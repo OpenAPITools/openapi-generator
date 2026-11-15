@@ -122,7 +122,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
         supportsInheritance = true;
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.BETA).build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.STABLE).build();
 
         // clear import mapping (from default generator) as crystal does not use it
         // at the moment
@@ -385,7 +385,7 @@ public class CrystalClientCodegen extends DefaultCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Crystal client library (beta).";
+        return "Generates a Crystal client library.";
     }
 
     @Override
@@ -528,11 +528,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
         }
         // Single-segment group key or legacy name: sanitize and underscore it directly.
         return underscore(sanitizeName(name.replace('-', '_')));
-    }
-
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
     }
 
     @Override

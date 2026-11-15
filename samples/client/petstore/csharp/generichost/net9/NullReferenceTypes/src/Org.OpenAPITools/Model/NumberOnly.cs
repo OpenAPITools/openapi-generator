@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (justNumber.IsSet && justNumber.Value == null)
-                throw new ArgumentNullException(nameof(justNumber), "Property is not nullable for class NumberOnly.");
+                throw new JsonException("Property is not nullable for class NumberOnly: JustNumber.");
 
             return new NumberOnly(justNumber);
         }
@@ -158,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="numberOnly"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -173,9 +172,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="numberOnly"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (numberOnly.JustNumberOption.IsSet && numberOnly.JustNumber == null)
+                throw new JsonException("Cannot write null property NumberOnly.JustNumber to non-nullable JSON property 'JustNumber'.");
+
             if (numberOnly.JustNumberOption.IsSet)
                 writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
         }

@@ -9,6 +9,7 @@ on:
       - samples/client/others/go/allof_multiple_ref_and_discriminator/**
       - samples/client/others/go/oneof-anyof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
+      - samples/client/others/go/oneof-not-enum/**
       - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
   pull_request:
     paths:
@@ -18,6 +19,7 @@ on:
       - samples/client/others/go/allof_multiple_ref_and_discriminator/**
       - samples/client/others/go/oneof-anyof-required/**
       - samples/client/others/go/oneof-discriminator-lookup/**
+      - samples/client/others/go/oneof-not-enum/**
       - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
 jobs:
   build:
@@ -33,6 +35,7 @@ jobs:
           - samples/client/others/go/allof_multiple_ref_and_discriminator/
           - samples/client/others/go/oneof-anyof-required/
           - samples/client/others/go/oneof-discriminator-lookup/
+          - samples/client/others/go/oneof-not-enum/
           - samples/client/others/go/issue_20079_go_regex_wrongly_translated/
     steps:
       - uses: actions/checkout@v7

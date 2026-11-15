@@ -66,9 +66,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="data">list of named parameters for current message.</param>
         public TestResult(TestResultCode? code = default, string uuid = default, Dictionary<string, string> data = default)
         {
-            this._Code = code;
-            if (this.Code != null)
+            if (code != null)
             {
+                this._Code = code.Value;
                 this._flagCode = true;
             }
             this._Uuid = uuid;
@@ -216,7 +216,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

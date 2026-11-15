@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -99,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -168,10 +167,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Tag.");
+                throw new JsonException("Property is not nullable for class Tag: id.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Tag.");
+                throw new JsonException("Property is not nullable for class Tag: name.");
 
             return new Tag(id, name);
         }
@@ -182,7 +181,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="tag"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -197,11 +195,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="tag"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (tag.IdOption.IsSet && tag.Id == null)
+                throw new JsonException("Cannot write null property Tag.Id to non-nullable JSON property 'id'.");
+
             if (tag.NameOption.IsSet && tag.Name == null)
-                throw new ArgumentNullException(nameof(tag.Name), "Property is required for class Tag.");
+                throw new JsonException("Cannot write null property Tag.Name to non-nullable JSON property 'name'.");
 
             if (tag.IdOption.IsSet)
                 writer.WriteNumber("id", tag.IdOption.Value!.Value);
@@ -210,11 +210,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("name", tag.Name);
         }
     }
-
-    /// <summary>
-    /// The TagSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Tag))]
-    public partial class TagSerializationContext : JsonSerializerContext { }
 }

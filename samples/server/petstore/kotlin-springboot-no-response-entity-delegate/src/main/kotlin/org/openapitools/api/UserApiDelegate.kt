@@ -1,6 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import javax.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.context.request.NativeWebRequest
@@ -11,7 +12,7 @@ import java.util.Optional
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.28.0-SNAPSHOT")
 interface UserApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -28,7 +29,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(body: kotlin.collections.List<User>): Unit {
+    fun createUsersWithArrayInput(body: kotlin.collections.List<@Valid User>): Unit {
         return TODO("Not yet implemented")
 
     }
@@ -37,7 +38,7 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(body: kotlin.collections.List<User>): Unit {
+    fun createUsersWithListInput(body: kotlin.collections.List<@Valid User>): Unit {
         return TODO("Not yet implemented")
 
     }

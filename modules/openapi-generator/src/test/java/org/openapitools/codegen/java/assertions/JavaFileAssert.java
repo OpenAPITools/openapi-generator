@@ -1,5 +1,6 @@
 package org.openapitools.codegen.java.assertions;
 
+import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Node;
@@ -36,7 +37,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
     public static JavaFileAssert assertThat(final Path path) {
         try {
             return new JavaFileAssert(StaticJavaParser.parse(path));
-        } catch (IOException e) {
+        } catch (IOException | ParseProblemException e) {
             throw new RuntimeException("Exception while reading file: " + path, e);
         }
     }

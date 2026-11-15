@@ -7,11 +7,11 @@ title: Documentation for the crystal Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | crystal | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | Crystal | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a Crystal client library (beta). | |
+| helpTxt | Generates a Crystal client library. | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

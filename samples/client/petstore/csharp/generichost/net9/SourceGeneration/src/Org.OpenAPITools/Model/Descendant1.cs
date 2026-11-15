@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -141,22 +140,22 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!alternativeName.IsSet)
-                throw new ArgumentException("Property is required for class Descendant1.", nameof(alternativeName));
+                throw new JsonException("Property is required for class Descendant1: alternativeName.");
 
             if (!descendantName.IsSet)
-                throw new ArgumentException("Property is required for class Descendant1.", nameof(descendantName));
+                throw new JsonException("Property is required for class Descendant1: descendantName.");
 
             if (!objectType.IsSet)
-                throw new ArgumentException("Property is required for class Descendant1.", nameof(objectType));
+                throw new JsonException("Property is required for class Descendant1: objectType.");
 
             if (alternativeName.IsSet && alternativeName.Value == null)
-                throw new ArgumentNullException(nameof(alternativeName), "Property is not nullable for class Descendant1.");
+                throw new JsonException("Property is not nullable for class Descendant1: alternativeName.");
 
             if (descendantName.IsSet && descendantName.Value == null)
-                throw new ArgumentNullException(nameof(descendantName), "Property is not nullable for class Descendant1.");
+                throw new JsonException("Property is not nullable for class Descendant1: descendantName.");
 
             if (objectType.IsSet && objectType.Value == null)
-                throw new ArgumentNullException(nameof(objectType), "Property is not nullable for class Descendant1.");
+                throw new JsonException("Property is not nullable for class Descendant1: objectType.");
 
             return new Descendant1(alternativeName.Value!, descendantName.Value!);
         }
@@ -167,7 +166,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="descendant1"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Descendant1 descendant1, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -182,15 +180,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="descendant1"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Descendant1 descendant1, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (descendant1.AlternativeName == null)
-                throw new ArgumentNullException(nameof(descendant1.AlternativeName), "Property is required for class Descendant1.");
-
-            if (descendant1.DescendantName == null)
-                throw new ArgumentNullException(nameof(descendant1.DescendantName), "Property is required for class Descendant1.");
-
             writer.WriteString("alternativeName", descendant1.AlternativeName);
 
             writer.WriteString("descendantName", descendant1.DescendantName);
@@ -198,11 +189,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("objectType", Descendant1.ObjectTypeEnumToJsonValue(descendant1.ObjectType));
         }
     }
-
-    /// <summary>
-    /// The Descendant1SerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Descendant1))]
-    public partial class Descendant1SerializationContext : JsonSerializerContext { }
 }

@@ -156,9 +156,10 @@ internal class PetAPI {
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "status": (wrappedValue: status.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -209,9 +210,10 @@ internal class PetAPI {
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+        let localVariableQueryParameters: [String: (wrappedValue: (any Sendable)?, isExplode: Bool)] = [
             "tags": (wrappedValue: tags.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: false),
-        ])
+        ]
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems(localVariableQueryParameters)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -423,7 +425,7 @@ internal class PetAPI {
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
             "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
-            "file": file?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "file": file,
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -483,7 +485,7 @@ internal class PetAPI {
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
             "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
-            "requiredFile": requiredFile.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "requiredFile": requiredFile,
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)

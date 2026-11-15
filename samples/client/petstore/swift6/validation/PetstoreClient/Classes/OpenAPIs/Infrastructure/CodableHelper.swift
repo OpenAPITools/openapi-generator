@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class CodableHelper: @unchecked Sendable {
+open nonisolated class CodableHelper: @unchecked Sendable {
 
     // MARK: - Private state
 
@@ -22,7 +22,6 @@ open class CodableHelper: @unchecked Sendable {
         var defaultJSONEncoder: JSONEncoder = JSONEncoder()
 
         init() {
-            defaultJSONEncoder.outputFormatting = .prettyPrinted
             rebuildDefaultCoders()
         }
 

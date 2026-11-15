@@ -137,6 +137,34 @@ public class DartClientCodegenTest {
         TestUtils.assertFileContains(modelFile.toPath(), "cast<Object>");
     }
 
+    @Test(description = "Verify a form style, exploded map query parameter goes on the wire one entry per parameter")
+    public void testExplodedObjectQueryParameter() throws Exception {
+        List<File> files = generateDartNativeFromSpec(
+                "src/test/resources/3_0/exploded-object-query-param.yaml");
+
+        File apiFile = files.stream()
+                .filter(f -> f.getName().equals("default_api.dart"))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("default_api.dart not found in generated files"));
+
+        // form style with explode - the default - puts every entry on the wire under its own
+        // property name. Handing the whole map to _queryParams stringifies it with
+        // Map.toString(), which is what used to happen. A collection value repeats the key per
+        // non-null element ('multi').
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "(filter as Map).forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));");
+        TestUtils.assertFileNotContains(apiFile.toPath(), "_queryParams('', 'filter', filter)");
+
+        // a declared map behaves the same way, and needs no cast
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "typedFilter.forEach((entryKey, dynamic entryValue) => queryParams.addAll(_queryParams('multi', entryKey.toString(), entryValue is Iterable ? entryValue.where((e) => e != null).toList() : entryValue)));");
+
+        // deepObject and form without explode both keep a single parameter
+        TestUtils.assertFileContains(apiFile.toPath(),
+                "_queryParams('', 'deepFilter', deepFilter)",
+                "_queryParams('', 'flatFilter', flatFilter)");
+    }
+
     @Test(description = "Enum properties with defaults should emit enum constructor, not string literal")
     public void testEnumDefaultUsesEnumConstructor() throws Exception {
         List<File> files = generateDartNativeFromSpec(

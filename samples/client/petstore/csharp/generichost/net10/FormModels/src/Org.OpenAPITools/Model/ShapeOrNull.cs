@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName.Equals("shapeType"))
                     {
-                        string discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "shapeType");
                         if (discriminator.Equals("Quadrilateral"))
                         {
                             Utf8JsonReader utf8JsonReaderQuadrilateral = utf8JsonReader;
@@ -193,10 +193,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ShapeOrNull.", nameof(shapeType));
+                throw new JsonException("Property is required for class ShapeOrNull: shapeType.");
 
             if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeOrNull.");
+                throw new JsonException("Property is not nullable for class ShapeOrNull: shapeType.");
 
             if (quadrilateral != null)
                 return new ShapeOrNull(quadrilateral);
@@ -213,9 +213,20 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeOrNull"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (shapeOrNull.Triangle != null)
+            {
+                JsonSerializer.Serialize(writer, shapeOrNull.Triangle, jsonSerializerOptions);
+                return;
+            }
+
+            if (shapeOrNull.Quadrilateral != null)
+            {
+                JsonSerializer.Serialize(writer, shapeOrNull.Quadrilateral, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (shapeOrNull.Triangle != null)
@@ -240,7 +251,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="shapeOrNull"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
 

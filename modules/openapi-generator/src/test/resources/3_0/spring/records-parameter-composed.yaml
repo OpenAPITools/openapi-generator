@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: Record parameter objects given as compositions
+  version: 1.0.0
+paths:
+  /one-of:
+    get:
+      operationId: oneOfQuery
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/PickAlias'}}
+      responses:
+        '200': {description: ok}
+  /any-of:
+    get:
+      operationId: anyOfQuery
+      parameters:
+        - name: q
+          in: query
+          schema:
+            anyOf:
+              - $ref: '#/components/schemas/Bird'
+              - $ref: '#/components/schemas/Fish'
+      responses:
+        '200': {description: ok}
+  /single:
+    get:
+      operationId: singleQuery
+      parameters:
+        - name: q
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Single'
+      responses:
+        '200': {description: ok}
+  /two:
+    get:
+      operationId: twoQuery
+      parameters:
+        - name: q
+          in: query
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/PartA'
+              - $ref: '#/components/schemas/PartB'
+      responses:
+        '200': {description: ok}
+components:
+  schemas:
+    PickAlias:
+      $ref: '#/components/schemas/Pick'
+    Pick:
+      oneOf:
+        - $ref: '#/components/schemas/Cat2'
+        - $ref: '#/components/schemas/Dog2'
+      discriminator:
+        propertyName: kind
+    Cat2:
+      type: object
+      required: [kind]
+      properties:
+        kind: {type: string}
+        lives: {type: integer}
+        toy:
+          $ref: '#/components/schemas/Toy'
+    Dog2:
+      type: object
+      required: [kind]
+      properties:
+        kind: {type: string}
+        bark: {type: string}
+    Toy:
+      type: object
+      properties:
+        name: {type: string}
+    Bird:
+      type: object
+      properties:
+        wings: {type: integer}
+    Fish:
+      type: object
+      properties:
+        fins: {type: integer}
+    Single:
+      type: object
+      properties:
+        name: {type: string}
+        part:
+          $ref: '#/components/schemas/Part'
+    Part:
+      type: object
+      properties:
+        value: {type: string}
+    PartA:
+      type: object
+      properties:
+        a: {type: string}
+    PartB:
+      type: object
+      properties:
+        b: {type: string}

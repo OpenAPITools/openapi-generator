@@ -825,9 +825,12 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     Uri urlLocalVar = httpRequestMessageLocalVar.RequestUri = new Uri("http://petstore.swagger.io/v2");
-                    uriBuilderLocalVar.Host = urlLocalVar.Authority;
+                    uriBuilderLocalVar.Host = urlLocalVar.Host;
+                    uriBuilderLocalVar.Port = urlLocalVar.Port;
                     uriBuilderLocalVar.Scheme = urlLocalVar.Scheme;
-                    uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
+                    uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath == "/"
+                        ? "/pet"
+                        : string.Concat(urlLocalVar.AbsolutePath.TrimEnd('/'), "/pet");
 
                     httpRequestMessageLocalVar.Content = (pet as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
                         ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
@@ -2161,9 +2164,12 @@ namespace Org.OpenAPITools.Api
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
                     Uri urlLocalVar = httpRequestMessageLocalVar.RequestUri = new Uri("http://petstore.swagger.io/v2");
-                    uriBuilderLocalVar.Host = urlLocalVar.Authority;
+                    uriBuilderLocalVar.Host = urlLocalVar.Host;
+                    uriBuilderLocalVar.Port = urlLocalVar.Port;
                     uriBuilderLocalVar.Scheme = urlLocalVar.Scheme;
-                    uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
+                    uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath == "/"
+                        ? "/pet"
+                        : string.Concat(urlLocalVar.AbsolutePath.TrimEnd('/'), "/pet");
 
                     httpRequestMessageLocalVar.Content = (pet as object) is Org.OpenAPITools.Client.FileParameter fileParameterLocalVar
                         ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)

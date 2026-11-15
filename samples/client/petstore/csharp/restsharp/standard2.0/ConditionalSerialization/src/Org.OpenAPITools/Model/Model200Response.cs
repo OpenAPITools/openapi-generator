@@ -37,11 +37,11 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name.</param>
         /// <param name="varClass">varClass.</param>
-        public Model200Response(int name = default, string varClass = default)
+        public Model200Response(int? name = default, string varClass = default)
         {
-            this._Name = name;
-            if (this.Name != null)
+            if (name != null)
             {
+                this._Name = name.Value;
                 this._flagName = true;
             }
             this._Class = varClass;
@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

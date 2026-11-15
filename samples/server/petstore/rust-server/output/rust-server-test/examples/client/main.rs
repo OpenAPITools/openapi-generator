@@ -61,6 +61,7 @@ fn main() {
             .help("Hostname to contact"))
         .arg(Arg::new("port")
             .long("port")
+            .value_parser(clap::value_parser!(u16))
             .default_value("8080")
             .help("Port to contact"))
         .get_matches();

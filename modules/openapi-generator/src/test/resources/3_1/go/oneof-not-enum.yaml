@@ -1,0 +1,106 @@
+openapi: 3.1.0
+info:
+  title: oneOf not enum test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Known:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          enum: [known]
+    Other:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          not:
+            enum: [known]
+    TaggedUnion:
+      oneOf:
+        - $ref: '#/components/schemas/Known'
+        - $ref: '#/components/schemas/Other'
+    OrdinaryEnum:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [known]
+    ExcludedKinds:
+      type: string
+      enum: [known, 'a"b']
+    OptionalOther:
+      type: object
+      properties:
+        kind:
+          type: string
+          not:
+            $ref: '#/components/schemas/ExcludedKinds'
+        label:
+          type: string
+    AnyOther:
+      type: object
+      properties:
+        kind:
+          not:
+            enum: [known]
+    NullableEnum:
+      type: object
+      properties:
+        kind:
+          type: [string, 'null']
+          enum: [known, null]
+    NullableEnumWithoutNullValue:
+      type: object
+      properties:
+        kind:
+          type: [string, 'null']
+          enum: [known]
+    NullableExcludedEnum:
+      type: object
+      properties:
+        kind:
+          type: [string, 'null']
+          not:
+            enum: [known, null]
+    EnumNullUnion:
+      oneOf:
+        - $ref: '#/components/schemas/NullableEnum'
+        - $ref: '#/components/schemas/NullableExcludedEnum'
+    OptionalEnumParent:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum: [allowed]
+        dash:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          allowed: '#/components/schemas/OptionalEnumChild'
+    OptionalEnumChildFields:
+      type: object
+      properties:
+        label:
+          type: string
+    OptionalEnumChild:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/OptionalEnumParent'
+        - $ref: '#/components/schemas/OptionalEnumChildFields'
+    OptionalEnumOther:
+      type: object
+      properties:
+        kind:
+          type: string
+          not:
+            enum: [allowed]
+    OptionalEnumUnion:
+      oneOf:
+        - $ref: '#/components/schemas/OptionalEnumChild'
+        - $ref: '#/components/schemas/OptionalEnumOther'

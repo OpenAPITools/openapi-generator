@@ -1,0 +1,43 @@
+openapi: 3.1.0
+info:
+  title: not-enum
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Known:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          enum: [known]
+    Other:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          not:
+            enum: [known]
+    TaggedUnion:
+      oneOf:
+        - $ref: '#/components/schemas/Known'
+        - $ref: '#/components/schemas/Other'
+    # The property is itself an enum AND excludes a value: it is a C# enum type, so the
+    # string-comparison not-enum handling must be skipped (otherwise it would not compile).
+    EnumAndNot:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string
+          enum: [a, b, c]
+          not:
+            enum: [b]
+    # A property whose name would collide with the generated OnDeserialized callback method.
+    Reserved:
+      type: object
+      properties:
+        onDeserializedNotEnum:
+          type: string

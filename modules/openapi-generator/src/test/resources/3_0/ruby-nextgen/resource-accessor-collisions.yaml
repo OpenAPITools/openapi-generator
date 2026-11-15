@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: Resource accessor collisions
+  version: 1.0.0
+paths:
+  /stables:
+    get:
+      operationId: listStables
+      responses:
+        '200':
+          description: OK
+  /stables/{stable}/stats:
+    get:
+      operationId: stablesStats
+      parameters:
+        - name: stable
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /stables/{stable}/ponies/{pony}:
+    get:
+      operationId: getPony
+      parameters:
+        - name: stable
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pony
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /stables/{stable}/class/{class}:
+    get:
+      operationId: getClassResource
+      parameters:
+        - name: stable
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: class
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /stables/{stable}/hash/{hash}:
+    get:
+      operationId: getHashResource
+      parameters:
+        - name: stable
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK

@@ -120,7 +120,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
     private final Logger LOGGER = LoggerFactory.getLogger(AbstractCSharpCodegen.class);
 
     // special property keywords not allowed as these are the function names in the model files
-    protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString"));
+    protected Set<String> propertySpecialKeywords = new HashSet<>(Arrays.asList("ToString", "ToJson", "GetHashCode", "Equals", "ShouldSerializeToString", "OnDeserializedNotEnum"));
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();

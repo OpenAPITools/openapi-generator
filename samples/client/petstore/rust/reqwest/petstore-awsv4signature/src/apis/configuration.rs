@@ -13,8 +13,9 @@ use std::time::SystemTime;
 use aws_sigv4::http_request::{sign, SigningSettings, SigningParams, SignableRequest};
 use http;
 use secrecy::{SecretString, ExposeSecret};
+pub use reqwest::blocking::Client;
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Configuration {
     pub base_path: String,
     pub user_agent: Option<String>,
@@ -28,10 +29,19 @@ pub struct Configuration {
 
 pub type BasicAuth = (String, Option<String>);
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct ApiKey {
     pub prefix: Option<String>,
     pub key: String,
+}
+
+impl std::fmt::Debug for ApiKey {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("ApiKey")
+            .field("prefix", &self.prefix)
+            .field("key", &"[REDACTED]")
+            .finish()
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -68,6 +78,23 @@ impl AWSv4Key {
             }
         }
 	Ok(additional_headers)
+    }
+}
+
+impl std::fmt::Debug for Configuration {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let mut debug = f.debug_struct("Configuration");
+        debug
+            .field("base_path", &self.base_path)
+            .field("user_agent", &self.user_agent)
+            .field("client", &self.client);
+        debug
+            .field("basic_auth", &self.basic_auth.as_ref().map(|(username, password)| (username, password.as_ref().map(|_| "[REDACTED]"))))
+            .field("oauth_access_token", &self.oauth_access_token.as_ref().map(|_| "[REDACTED]"))
+            .field("bearer_access_token", &self.bearer_access_token.as_ref().map(|_| "[REDACTED]"))
+            .field("api_key", &self.api_key);
+        debug.field("aws_v4_key", &self.aws_v4_key);
+        debug.finish()
     }
 }
 

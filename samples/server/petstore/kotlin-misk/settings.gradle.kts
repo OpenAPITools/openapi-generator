@@ -11,5 +11,4 @@ dependencyResolutionManagement {
     }
 }
 
-include(":models")
 rootProject.name = "openapi-kotlin-misk-server"

@@ -1,0 +1,105 @@
+name: Samples Swift 6 Petstore
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/swift6/**
+      - samples/client/petstore/swift-combine/**
+  pull_request:
+    paths:
+      - samples/client/petstore/swift6/**
+      - samples/client/petstore/swift-combine/**
+
+env:
+  HOMEBREW_NO_AUTO_UPDATE: "1"
+
+jobs:
+  build:
+    name: Petstore tests
+    runs-on: macos-15-intel
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup Docker on macOS
+        uses: douglascamata/setup-docker-macos-action@v1
+      - name: Run Petstore
+        run: |
+             docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+      - name: Add hosts to /etc/hosts
+        run: |
+            sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      # build and test swift6 default
+      - name: Build default
+        working-directory: samples/client/petstore/swift6/default
+        run: swift build
+      - name: Test default
+        working-directory: samples/client/petstore/swift6/default/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 alamofireLibrary
+      - name: Build alamofireLibrary
+        working-directory: samples/client/petstore/swift6/alamofireLibrary
+        run: swift build
+      - name: Test alamofireLibrary
+        working-directory: samples/client/petstore/swift6/alamofireLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 apiNonStaticMethod
+      - name: Build apiNonStaticMethod
+        working-directory: samples/client/petstore/swift6/apiNonStaticMethod
+        run: swift build
+      - name: Test apiNonStaticMethod
+        working-directory: samples/client/petstore/swift6/apiNonStaticMethod/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 asyncAwaitLibrary
+      - name: Build asyncAwaitLibrary
+        working-directory: samples/client/petstore/swift6/asyncAwaitLibrary
+        run: swift build
+      - name: Test asyncAwaitLibrary
+        working-directory: samples/client/petstore/swift6/asyncAwaitLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 combineLibrary
+      - name: Build combineLibrary
+        working-directory: samples/client/petstore/swift6/combineLibrary
+        run: swift build
+      - name: Test combineLibrary
+        working-directory: samples/client/petstore/swift6/combineLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 combineDeferredLibrary
+      - name: Build combineDeferrredLibrary
+        working-directory: samples/client/petstore/swift6/combineDeferredLibrary
+        run: swift build
+      - name: Test combineDeferredLibrary
+        working-directory: samples/client/petstore/swift6/combineDeferredLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 promisekitLibrary
+      - name: Build promisekitLibrary
+        working-directory: samples/client/petstore/swift6/promisekitLibrary
+        run: swift build
+      - name: Test promisekitLibrary
+        working-directory: samples/client/petstore/swift6/promisekitLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 rxswiftLibrary
+      - name: Build rxswiftLibrary
+        working-directory: samples/client/petstore/swift6/rxswiftLibrary
+        run: swift build
+      - name: Test rxswiftLibrary
+        working-directory: samples/client/petstore/swift6/rxswiftLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # build and test swift6 urlsessionLibrary
+      - name: Build urlsessionLibrary
+        working-directory: samples/client/petstore/swift6/urlsessionLibrary
+        run: swift build
+      - name: Test urlsessionLibrary
+        working-directory: samples/client/petstore/swift6/urlsessionLibrary/SwaggerClientTests
+        run: xcodebuild clean build-for-testing -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest" && xcodebuild test-without-building -workspace "SwaggerClient.xcworkspace" -scheme "SwaggerClient" -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"
+      
+      # test swift-combine
+      - name: Test swift-combine
+        working-directory: samples/client/petstore/swift-combine/tests
+        run: xcodebuild -scheme TestClientTests-Package test -destination "platform=iOS Simulator,name=iPhone 17,OS=latest"

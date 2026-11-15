@@ -1652,8 +1652,8 @@ components:
         password: password
         phone: phone
         userStatus: 6
-        objectWithNoDeclaredProps: "{}"
-        objectWithNoDeclaredPropsNullable: "{}"
+        objectWithNoDeclaredProps: {}
+        objectWithNoDeclaredPropsNullable: {}
         anyTypeProp: ""
         anyTypePropNullable: ""
       properties:
@@ -2943,20 +2943,20 @@ components:
         date_prop: 2000-01-23
         datetime_prop: 2000-01-23T04:56:07.000+00:00
         array_nullable_prop:
-        - "{}"
-        - "{}"
+        - {}
+        - {}
         array_and_items_nullable_prop:
-        - "{}"
-        - "{}"
+        - {}
+        - {}
         array_items_nullable:
-        - "{}"
-        - "{}"
+        - {}
+        - {}
         object_nullable_prop:
-          key: "{}"
+          key: {}
         object_and_items_nullable_prop:
-          key: "{}"
+          key: {}
         object_items_nullable:
-          key: "{}"
+          key: {}
         custom_ref_enum: custom
         custom_enum: custom
     NestedArrayWithDefaultValues:

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
+export const BASE_PATH: string = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path
@@ -83,7 +83,7 @@ export class Configuration {
     }
 }
 
-export const DefaultConfig = new Configuration();
+export const DefaultConfig: Configuration = new Configuration();
 
 /**
  * This is the base class for all generated API classes.
@@ -93,22 +93,22 @@ export class BaseAPI {
     private static readonly jsonRegex = /^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$/i;
     private middleware: Middleware[];
 
-    constructor(protected configuration = DefaultConfig) {
+    constructor(protected configuration: Configuration = DefaultConfig) {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware<T extends BaseAPI>(this: T, ...middlewares: Middleware[]) {
+    withMiddleware<T extends BaseAPI>(this: T, ...middlewares: Middleware[]): T {
         const next = this.clone<T>();
         next.middleware = next.middleware.concat(...middlewares);
         return next;
     }
 
-    withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware['pre']>) {
+    withPreMiddleware<T extends BaseAPI>(this: T, ...preMiddlewares: Array<Middleware['pre']>): T {
         const middlewares = preMiddlewares.map((pre) => ({ pre }));
         return this.withMiddleware<T>(...middlewares);
     }
 
-    withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware['post']>) {
+    withPostMiddleware<T extends BaseAPI>(this: T, ...postMiddlewares: Array<Middleware['post']>): T {
         const middlewares = postMiddlewares.map((post) => ({ post }));
         return this.withMiddleware<T>(...middlewares);
     }
@@ -354,7 +354,7 @@ function querystringSingleKey(key: string, value: string | number | null | undef
     return `${encodeURIComponent(fullKey)}=${encodeURIComponent(String(value))}`;
 }
 
-export function exists(json: any, key: string) {
+export function exists(json: any, key: string): boolean {
     const value = json[key];
     return value !== null && value !== undefined;
 }
@@ -410,7 +410,7 @@ export function parseDateTime(value: any): Date {
     return new Date(value);
 }
 
-export function mapValues(data: any, fn: (item: any) => any) {
+export function mapValues(data: any, fn: (item: any) => any): { [key: string]: any } {
     const result: { [key: string]: any } = {};
     for (const key of Object.keys(data)) {
         result[key] = fn(data[key]);
@@ -488,12 +488,79 @@ export class VoidApiResponse {
     }
 }
 
+/**
+ * A Blob carrying the file name the server advertised, empty when it did not send one. It is a File
+ * wherever one can be built, and the bare Blob given a name otherwise. Same name and shape as the
+ * `typescript` generator's browser HttpFile.
+ */
+export type HttpFile = Blob & { readonly name: string };
+
 export class BlobApiResponse {
     constructor(public raw: Response) {}
 
-    async value(): Promise<Blob> {
-        return await this.raw.blob();
+    /**
+     * The body named after the Content-Disposition header, so that a download keeps the name the
+     * server gave it. A File is built from a native Blob; the Blob itself is named where there is no
+     * global File (Node.js before 20), where File cannot be constructed, or where the Blob is not the
+     * native one, as returned by an injected fetch implementation such as node-fetch, which a File
+     * would stringify instead of wrapping.
+     */
+    async value(): Promise<HttpFile> {
+        const blob = await this.raw.blob();
+        const name = parseContentDispositionFilename(this.raw.headers) ?? '';
+        if (typeof File !== 'undefined' && blob instanceof Blob) {
+            try {
+                return new File([blob], name, { type: blob.type });
+            } catch {
+                // File cannot be constructed: name the Blob itself
+            }
+        }
+        return Object.assign(blob, { name });
     };
+}
+
+/**
+ * The file name advertised by a Content-Disposition header (RFC 6266): the RFC 5987 encoded
+ * `filename*` parameter first, falling back to the plain `filename` when it is malformed, not UTF-8
+ * or has no usable name. Any directory part is dropped; undefined when no usable name is advertised.
+ */
+export function parseContentDispositionFilename(headers: Headers): string | undefined {
+    const params = parseHeaderParameters(headers.get('Content-Disposition') ?? '');
+    return basename(decodeExtValue(params.get('filename*'))) ?? basename(params.get('filename'));
+}
+
+/** The decoded RFC 5987 ext-value, or undefined when it is not UTF-8 or its percent-encoding is malformed. */
+function decodeExtValue(value: string | undefined): string | undefined {
+    const match = value === undefined ? null : /^utf-8'[^']*'(.*)$/i.exec(value);
+    try {
+        return match ? decodeURIComponent(match[1]) : undefined;
+    } catch {
+        return undefined;
+    }
+}
+
+/**
+ * The `name=value` parameters of a header value, consumed one at a time so that a quoted-string is
+ * taken whole, `;` included. Names are lower-cased, quoted-string values are unquoted with their
+ * backslash escapes resolved, and the first occurrence of a name wins.
+ */
+function parseHeaderParameters(value: string): Map<string, string> {
+    const params = new Map<string, string>();
+    const parameter = /(?:^|;)\s*([^=;]+?)\s*=\s*(?:"((?:[^"\\]|\\.)*)"?|([^;]*))/g;
+    let match: RegExpExecArray | null;
+    while ((match = parameter.exec(value)) !== null) {
+        const name = match[1].toLowerCase();
+        if (!params.has(name)) {
+            params.set(name, match[2] !== undefined ? match[2].replace(/\\(.)/g, '$1') : match[3].trim());
+        }
+    }
+    return params;
+}
+
+/** The last `/` or `\` separated segment of a file name, or undefined when it is not a file name. */
+function basename(name: string | undefined): string | undefined {
+    const base = name?.split(/[\\/]/).pop();
+    return !base || base === '.' || base === '..' ? undefined : base;
 }
 
 export class TextApiResponse {

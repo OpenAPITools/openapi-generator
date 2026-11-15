@@ -152,7 +152,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of(new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>());
     }
     try {
       this.{{name}}.get().add({{name}}Item);
@@ -163,7 +163,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}};
+      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
     }
     this.{{name}}.add({{name}}Item);
     return this;
@@ -175,7 +175,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent() || this.{{name}}.get() == null) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of(new HashMap<>());
     }
     try {
       this.{{name}}.get().put(key, {{name}}Item);
@@ -187,7 +187,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
     {{^vendorExtensions.x-is-jackson-optional-nullable}}
     {{^required}}
     if (this.{{name}} == null) {
-      this.{{name}} = {{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}};
+      this.{{name}} = new HashMap<>();
     }
     {{/required}}
     this.{{name}}.put(key, {{name}}Item);
@@ -301,7 +301,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
   {{/readWriteVars}}
   {{/parent}}
   @Override
-  public boolean equals(Object o) {
+  public boolean equals({{#useJspecify}}@Nullable {{/useJspecify}}Object o) {
   {{#useReflectionEqualsHashCode}}
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   {{/useReflectionEqualsHashCode}}
@@ -363,7 +363,7 @@ public {{>sealed}}class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#v
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private{{#jsonb}} static{{/jsonb}} String toIndentedString(Object o) {
+  private{{#jsonb}} static{{/jsonb}} String toIndentedString({{#useJspecify}}@Nullable {{/useJspecify}}Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 {{#supportUrlQuery}}

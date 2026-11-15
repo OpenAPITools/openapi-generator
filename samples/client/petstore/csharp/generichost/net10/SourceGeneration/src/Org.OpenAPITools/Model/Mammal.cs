@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -103,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -113,7 +112,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -172,7 +171,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName?.Equals("className") ?? false)
                     {
-                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string? discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "className");
                         if (discriminator?.Equals("Pig") ?? false)
                         {
                             Utf8JsonReader utf8JsonReaderPig = utf8JsonReader;
@@ -217,10 +216,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Mammal.", nameof(className));
+                throw new JsonException("Property is required for class Mammal: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
+                throw new JsonException("Property is not nullable for class Mammal: className.");
 
             if (pig != null)
                 return new Mammal(pig);
@@ -240,9 +239,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mammal.Pig != null)
+            {
+                JsonSerializer.Serialize(writer, mammal.Pig, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (mammal.Whale != null)
@@ -273,17 +277,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="mammal"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
 
         }
     }
-
-    /// <summary>
-    /// The MammalSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Mammal))]
-    public partial class MammalSerializationContext : JsonSerializerContext { }
 }

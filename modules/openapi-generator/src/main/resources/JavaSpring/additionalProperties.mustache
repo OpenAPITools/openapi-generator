@@ -4,6 +4,9 @@
     * This is a holder for any undeclared properties as specified with
     * the 'additionalProperties' keyword in the OAS document.
     */
+    {{#lombok.Setter}}
+    @lombok.Setter(lombok.AccessLevel.NONE)
+    {{/lombok.Setter}}
     private Map<String, {{{.}}}> additionalProperties;
 
     /**

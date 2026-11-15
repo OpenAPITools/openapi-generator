@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
+{{#generateInsecureTlsHook}}
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -41,6 +42,7 @@ import java.security.cert.X509Certificate;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+{{/generateInsecureTlsHook}}
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -982,6 +984,41 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
   }
 
   /**
+   * Format the given collection as a path parameter value according to the collection format.
+   * Each item is escaped individually, so that the delimiter is preserved (e.g. "a,b,c" for csv).
+   *
+   * @param collectionFormat Collection format (csv by default)
+   * @param value Collection value
+   * @return Escaped path parameter value
+   */
+  public String collectionPathParameterToString(String collectionFormat, Collection<?> value) {
+    if (value == null || value.isEmpty()) {
+      return "";
+    }
+
+    // "multi" is not valid for path params, fall back to csv
+    String delimiter = ",";
+    if ("ssv".equals(collectionFormat)) {
+      delimiter = escapeString(" ");
+    } else if ("tsv".equals(collectionFormat)) {
+      delimiter = escapeString("\t");
+    } else if ("pipes".equals(collectionFormat)) {
+      delimiter = escapeString("|");
+    }
+
+    StringBuilder sb = new StringBuilder();
+    boolean first = true;
+    for (Object item : value) {
+      if (!first) {
+        sb.append(delimiter);
+      }
+      sb.append(escapeString(parameterToString(item)));
+      first = false;
+    }
+    return sb.toString();
+  }
+
+  /**
    * Serialize the given Java object into string entity according the given
    * Content-Type (only JSON is supported for now).
    *
@@ -1032,7 +1069,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    * Adds the object with the provided key to the MultiPart.
    * Based on the object type sets Content-Disposition and Content-Type.
    *
-   * @param obj Object
+   * @param value Object
    * @param key Key of the object
    * @param multiPart MultiPart to add the form param to
    */
@@ -1477,14 +1514,17 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
    *    server endpoints from web targets created by the client instance that is using this SSL context.
    * 4. Set the client-side trust store.
    *
+{{#generateInsecureTlsHook}}
    * To completely disable certificate validation (at your own risk), you can
    * override this method and invoke disableCertificateValidation(clientBuilder).
    *
+{{/generateInsecureTlsHook}}
    * @param clientBuilder a {@link {{javaxPackage}}.ws.rs.client.ClientBuilder} object.
    */
   protected void customizeClientBuilder(ClientBuilder clientBuilder) {
     // No-op extension point
   }
+{{#generateInsecureTlsHook}}
 
   /**
    * Disable X.509 certificate validation in TLS connections.
@@ -1515,6 +1555,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     sslContext.init(null, trustAllCerts, new SecureRandom());
     clientBuilder.sslContext(sslContext);
   }
+{{/generateInsecureTlsHook}}
 
   /**
    * <p>Build the response headers.</p>

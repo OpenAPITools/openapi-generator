@@ -133,7 +133,7 @@ public class EnumUtils {
             Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
 
             // Check if this sub-schema has an enum or const value (OAS 3.1 uses const for single-value enums)
-            boolean definesEnum = ModelUtils.hasEnum(subSchema);
+            boolean definesEnum = ModelUtils.isEnumSchema(subSchema);
             if (!definesEnum && subSchema.getConst() == null) {
                 return schema;
             }

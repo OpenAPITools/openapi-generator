@@ -7,11 +7,11 @@ title: Documentation for the powershell Generator
 | Property | Value | Notes |
 | -------- | ----- | ----- |
 | generator name | powershell | pass this to the generate command after -g |
-| generator stability | BETA | |
+| generator stability | STABLE | |
 | generator type | CLIENT | |
 | generator language | PowerShell | |
 | generator default templating engine | mustache | |
-| helpTxt | Generates a PowerShell API client (beta) | |
+| helpTxt | Generates a PowerShell API client | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.

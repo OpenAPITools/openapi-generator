@@ -52,9 +52,9 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
 {{#swagger2AnnotationLibrary}}
   @Schema(description = "{{{description}}}"{{#example}}, example = "{{{example}}}"{{/example}}{{#required}}, requiredMode = Schema.RequiredMode.REQUIRED{{/required}})
 {{/swagger2AnnotationLibrary}}
-{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
+{{^isContainer}}{{^isPrimitiveType}}{{^isDate}}{{^isDateTime}}{{^isString}}{{^isFile}}{{#useBeanValidation}}
   @Valid
-{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}
+{{/useBeanValidation}}{{/isFile}}{{/isString}}{{/isDateTime}}{{/isDate}}{{/isPrimitiveType}}{{/isContainer}}
 {{#vendorExtensions.x-field-extra-annotation}}
 {{{.}}}
 {{/vendorExtensions.x-field-extra-annotation}}
@@ -171,7 +171,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of(new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>());
     }
     this.{{name}}.get().add({{name}}Item);
     return this;
@@ -187,7 +187,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
     if (this.{{name}} == null || !this.{{name}}.isPresent()) {
-      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{{defaultValue}}}{{^defaultValue}}new HashMap<>(){{/defaultValue}});
+      this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of(new HashMap<>());
     }
     this.{{name}}.get().put(key, {{name}}Item);
     return this;

@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
@@ -12,6 +13,8 @@ import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
@@ -19,11 +22,14 @@ import org.openapitools.codegen.kotlin.KotlinTestUtils;
 import org.openapitools.codegen.kotlin.assertions.KotlinFileAssert;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.openapitools.codegen.languages.SpringPageableScanUtils;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.AnnotationLibrary;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DocumentationProvider;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
+import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.ModelMap;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -46,6 +52,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.USE_ENUM_VALUE_INTERFACE;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -1087,14 +1094,21 @@ public class KotlinSpringServerCodegenTest {
                 new HashMap<>(),
                 configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
 
-        Path apiFile = files.get("MultipartApi.kt").toPath();
-        assertFileContains(apiFile,
-                "files: Array<org.springframework.web.multipart.MultipartFile>",
+        // With useTags=false (the library default), operations are grouped by first path
+        // segment rather than by tag, so the multipart operations are split across
+        // MultipartArrayApi.kt/MultipartSingleApi.kt/MultipartMixedApi.kt instead of a single
+        // tag-derived MultipartApi.kt.
+        Path arrayFile = files.get("MultipartArrayApi.kt").toPath();
+        Path mixedFile = files.get("MultipartMixedApi.kt").toPath();
+
+        assertFileContains(arrayFile, "files: Array<org.springframework.web.multipart.MultipartFile>");
+        assertFileContains(mixedFile,
                 "file: org.springframework.web.multipart.MultipartFile",
                 "status: MultipartMixedStatus",
                 "marker: MultipartMixedRequestMarker?",
                 "statusArray: kotlin.collections.List<MultipartMixedStatus>?");
-        assertFileNotContains(apiFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(arrayFile, "org.springframework.http.codec.multipart.Part");
+        assertFileNotContains(mixedFile, "org.springframework.http.codec.multipart.Part");
     }
 
     private void assertReactiveMultipartParameters(Map<String, File> files, String fileSuffix) {
@@ -1318,7 +1332,7 @@ public class KotlinSpringServerCodegenTest {
                 "@get:JsonProperty(\"petType\", required = true) override val petType: kotlin.String,",
                 "@get:JsonProperty(\"id\") override val id: kotlin.Long? = null,",
                 "@get:JsonProperty(\"category\") override val category: Category? = null,",
-                "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<Tag>? = null,",
+                "@get:JsonProperty(\"tags\") override val tags: kotlin.collections.List<@Valid Tag>? = null,",
                 "@get:JsonProperty(\"color\") override val color: Color? = null",
                 ") : Pet, com.some.pack.Canine, com.some.pack.Fetchable, java.io.Serializable {",
                 "private const val serialVersionUID: kotlin.Long = 1"
@@ -1333,7 +1347,7 @@ public class KotlinSpringServerCodegenTest {
                 "val petType: kotlin.String",
                 "override val id: kotlin.Long?",
                 "override val category: Category?",
-                "val tags: kotlin.collections.List<Tag>?",
+                "val tags: kotlin.collections.List<@Valid Tag>?",
                 "val color: Color?",
                 "private const val serialVersionUID: kotlin.Long = 1"
         );
@@ -1499,6 +1513,67 @@ public class KotlinSpringServerCodegenTest {
                         + "    )\n"
                         + "    fun getInventory("
         );
+    }
+
+    @Test
+    public void generateHttpInterfaceWithClientRegistrationId() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        Path petApi = files.get("PetApi.kt").toPath();
+        assertFileContains(petApi,
+                "import org.springframework.security.oauth2.client.annotation.ClientRegistrationId",
+                "@ClientRegistrationId(\"my-oauth-client\")\ninterface PetApi {");
+    }
+
+    @Test
+    public void generateHttpInterfaceWithClientRegistrationIdAddsOAuth2ClientDependencyWithoutAuthMethods() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/bean-qualifiers.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        assertFileContains(files.get("build.gradle.kts").toPath(),
+                "implementation(\"org.springframework.boot:spring-boot-starter-oauth2-client\")");
+    }
+
+    @Test
+    public void generateHttpInterfaceWithoutClientRegistrationId() throws Exception {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        assertFileNotContains(files.get("PetApi.kt").toPath(), "ClientRegistrationId");
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdWithoutSpringBoot4() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props, new HashMap<>(),
+                        configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)))
+                .withMessageContaining(USE_SPRING_BOOT4);
+    }
+
+    @Test
+    public void shouldRefuseClientRegistrationIdOutsideDeclarativeHttpInterface() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(USE_SPRING_BOOT4, "true");
+        props.put(CLIENT_REGISTRATION_ID, "my-oauth-client");
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> generateFromContract("src/test/resources/3_0/kotlin/petstore.yaml", props))
+                .withMessageContaining(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
     }
 
     @Test
@@ -4722,7 +4797,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
 
         File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])");
+        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"], maxItems = 1)");
         assertFileContains(petApi.toPath(), "import org.openapitools.configuration.ValidSort");
 
         // @ValidSort must be a parameter annotation — appears in the 500-char window AFTER `fun findPetsWithSortEnum(`
@@ -4730,7 +4805,7 @@ public class KotlinSpringServerCodegenTest {
         int methodStart = content.indexOf("fun findPetsWithSortEnum(");
         Assert.assertTrue(methodStart >= 0, "findPetsWithSortEnum method should exist");
         String paramBlock = content.substring(methodStart, Math.min(content.length(), methodStart + 500));
-        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"])"),
+        Assert.assertTrue(paramBlock.contains("@ValidSort(allowedValues = [\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"], maxItems = 1)"),
                 "@ValidSort should appear as a parameter annotation (inside the method signature, after `fun`)");
         Assert.assertTrue(paramBlock.contains("pageable: Pageable"),
                 "findPetsWithSortEnum should have a pageable: Pageable parameter");
@@ -4753,7 +4828,7 @@ public class KotlinSpringServerCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
 
         File petApi = files.get("PetApi.kt");
-        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\"])");
+        assertFileContains(petApi.toPath(), "@ValidSort(allowedValues = [\"id,asc\", \"id,desc\"], maxItems = 1)");
     }
 
     @Test
@@ -4860,6 +4935,67 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertNull(files.get("ValidSort.kt"), "ValidSort.kt should NOT be generated when useBeanValidation=false");
         File petApi = files.get("PetApi.kt");
         assertFileNotContains(petApi.toPath(), "@ValidSort");
+    }
+
+    @Test
+    public void generateSortValidationEmitsItemCountBounds() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        String content = Files.readString(files.get("PetApi.kt").toPath());
+        String petSortValues = "[\"id,asc\", \"id,desc\", \"createdAt,asc\", \"createdAt,desc\"]";
+        String inlineValues = "[\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"]";
+
+        // scalar enum sort → at most one sort order
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithSortEnum")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", maxItems = 1)"));
+        // scalar $ref enum sort → at most one sort order
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithRefSort")
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", maxItems = 1)"));
+        // array sort with minItems/maxItems → both emitted
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithArraySortBounds")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 1, maxItems = 2)"));
+        // array sort without bounds → no bound attributes
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithArraySortEnum")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ")"));
+        // sort schema $ref-ing an array component with bounds
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithRefSortBounds")
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", minItems = 1, maxItems = 3)"));
+        // array sort with only minItems → no maxItems attribute
+        Assert.assertTrue(kotlinParamBlock(content, "findPetsWithMinSortBounds")
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 2)"));
+    }
+
+    @Test
+    public void generateSortValidationValidatorChecksItemCount() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-sort-validation.yaml", additionalProperties);
+
+        Path validSort = files.get("ValidSort.kt").toPath();
+        // new parameters come after message so existing positional usages still compile
+        assertFileContains(validSort, "val message: String = \"Invalid sort column\",\n    val minItems: Int = 0,\n    val maxItems: Int = Int.MAX_VALUE\n)");
+        assertFileContains(validSort, "[${escapeMessageTemplate(property)}]");
+        assertFileContains(validSort, "count in minItems..maxItems");
+        assertFileContains(validSort, ".addPropertyNode(\"sort\")\n                .addConstraintViolation()");
+        assertFileContains(validSort, "if (pageable == null || pageable.sort.isUnsorted) return true");
+        assertFileContains(validSort, "maxItems == Int.MAX_VALUE -> \"at least $minItems\"",
+                "minItems == 0 -> \"at most $maxItems\"");
+    }
+
+    private static String kotlinParamBlock(String content, String methodName) {
+        int methodStart = content.indexOf("fun " + methodName + "(");
+        Assert.assertTrue(methodStart >= 0, methodName + " method should exist");
+        return content.substring(methodStart, Math.min(content.length(), methodStart + 600));
     }
 
     @Test
@@ -5394,6 +5530,95 @@ public class KotlinSpringServerCodegenTest {
 
         Assert.assertFalse(methodSignature.contains("pageable: Pageable"),
                 "findPetsNoParams should NOT have pageable when there are no pagination params");
+    }
+
+    @Test
+    public void autoXSpringPaginatedPageSizeMode_detectsPageAndSizeOnlyOperation() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(INTERFACE_ONLY, "true");
+        additionalProperties.put(SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(AUTO_X_SPRING_PAGINATED, "page-size");
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/petstore-auto-paginated.yaml", additionalProperties);
+
+        File petApi = files.get("PetApi.kt");
+        String content = Files.readString(petApi.toPath());
+
+        // findPetsMissingSort has only page+size (no sort) → 'page-size' mode must still inject Pageable
+        int methodStart = content.indexOf("fun findPetsMissingSort(");
+        int methodEnd = content.indexOf("): ResponseEntity", methodStart);
+        String methodSignature = content.substring(methodStart, methodEnd);
+
+        Assert.assertTrue(methodSignature.contains("pageable: Pageable"),
+                "findPetsMissingSort should have pageable when autoXSpringPaginated=page-size");
+        Assert.assertFalse(methodSignature.contains("page:"), "page query param should be removed");
+        Assert.assertFalse(methodSignature.contains("size:"), "size query param should be removed");
+    }
+
+    @Test
+    public void autoXSpringPaginatedSettersSupportStringModesAndLegacyBoolean() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.setAutoXSpringPaginated("page-size");
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size");
+
+        codegen.setAutoXSpringPaginated(true);
+        assertThat(codegen.getAutoXSpringPaginated()).isEqualTo("page-size-sort");
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnsetDoesNotPopulateAdditionalProperties() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties()).doesNotContainKey(AUTO_X_SPRING_PAGINATED);
+    }
+
+    @Test
+    public void autoXSpringPaginatedLegacyTrue_logsDeprecationWarningOnce() {
+        long deprecationWarnings = countDeprecationWarnings(() -> {
+            KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+            codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "true");
+            codegen.processOpts();
+        });
+        assertThat(deprecationWarnings).isEqualTo(1);
+    }
+
+    @Test
+    public void autoXSpringPaginatedUnset_logsNoDeprecationWarning() {
+        long deprecationWarnings = countDeprecationWarnings(() -> new KotlinSpringServerCodegen().processOpts());
+        assertThat(deprecationWarnings).isZero();
+    }
+
+    @Test
+    public void autoXSpringPaginatedInvalidValue_isRejectedEvenForUnsupportedLibrary() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "bogus");
+
+        assertThatThrownBy(codegen::processOpts)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("bogus");
+    }
+
+    @Test
+    public void autoXSpringPaginatedValidValue_isNotWrittenBackForUnsupportedLibrary() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setLibrary(KotlinSpringServerCodegen.SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY);
+        codegen.additionalProperties().put(AUTO_X_SPRING_PAGINATED, "true");
+
+        codegen.processOpts();
+
+        assertThat(codegen.additionalProperties().get(AUTO_X_SPRING_PAGINATED)).isEqualTo("true");
+    }
+
+    private static long countDeprecationWarnings(Runnable action) {
+        return TestUtils.captureLogMessages(SpringPageableScanUtils.class, action).stream()
+                .filter(message -> message.contains("autoXSpringPaginated") && message.contains("deprecated"))
+                .count();
     }
 
     @Test
@@ -6640,7 +6865,7 @@ public class KotlinSpringServerCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/DefaultApi.kt"),
+        assertFileContains(Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UsersApi.kt"),
                 "import org.openapitools.model.CreateUserResponse",
                 "import org.openapitools.model.GetUserResponse",
                 "fun createUser(",
@@ -7556,6 +7781,189 @@ public class KotlinSpringServerCodegenTest {
         assertThat(content).contains("com.example.ExternalModel?");
     }
 
+    @Test(description = "test enumUnknownDefaultCase option")
+    public void testEnumUnknownDefaultCaseOption() {
+        final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+
+        // Test default value is false
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.FALSE);
+
+        // Test setting via additionalProperties
+        codegen.additionalProperties().put(CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, "true");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getEnumUnknownDefaultCase(), Boolean.TRUE);
+    }
+
+    @Test(description = "test enum generation with enumUnknownDefaultCase enabled")
+    public void testEnumGenerationWithUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/enum_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorFile = files.get("ColorEnum.kt");
+        assertThat(colorFile).isNotNull();
+
+        String content = Files.readString(colorFile.toPath());
+
+        assertThat(content).contains("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).contains("?: unknown_default_open_api");
+        }
+
+        @Test(description = "test enum generation with enumUnknownDefaultCase disabled")
+        public void testEnumGenerationWithoutUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/enum_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, false
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorFile = files.get("ColorEnum.kt");
+        assertThat(colorFile).isNotNull();
+
+        String content = Files.readString(colorFile.toPath());
+
+        assertThat(content).doesNotContain("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).doesNotContain("?: unknown_default_open_api");
+    }
+
+    @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase enabled")
+    public void testDataClassGenerationWithUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/dataclass_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, true
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorResponseFile = files.get("ColorResponse.kt");
+        assertThat(colorResponseFile).isNotNull();
+
+        String content = Files.readString(colorResponseFile.toPath());
+
+        assertThat(content).contains("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).contains("?: unknown_default_open_api");
+    }
+
+    @Test(description = "test data class generation containing inline enum with enumUnknownDefaultCase disabled")
+    public void testDataClassGenerationWithoutUnknownDefaultCase() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/dataclass_unknown_default_case.yaml",
+                Map.of(
+                        CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE, false
+                ),
+                new HashMap<>(),
+                configurator -> {}
+        );
+
+        File colorResponseFile = files.get("ColorResponse.kt");
+        assertThat(colorResponseFile).isNotNull();
+
+        String content = Files.readString(colorResponseFile.toPath());
+
+        assertThat(content).doesNotContain("unknown_default_open_api(\"unknown_default_open_api\")");
+        assertThat(content).doesNotContain("?: unknown_default_open_api");
+    }
+        
+    // ========== x-jackson-default-impl / typeInfoDefaultImpls tests ==========
+
+    @Test(description = "x-jackson-default-impl on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog::class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls config option on deduction schema emits defaultImpl in @JsonTypeInfo")
+    public void typeInfoDefaultImplsConfigOptionOnDeductionSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION, defaultImpl = Dog::class)");
+    }
+
+    @Test(description = "typeInfoDefaultImpls overrides x-jackson-default-impl on deduction schema")
+    public void typeInfoDefaultImplsOverridesSchemaAnnotationOnDeductionSchema() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        // Override x-jackson-default-impl: Dog (set in YAML) with Cat via config option
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Cat"));
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        String content = Files.readString(animalFile.toPath());
+        assertThat(content).contains("defaultImpl = Cat::class");
+        assertThat(content).doesNotContain("defaultImpl = Dog::class");
+    }
+
+    @Test(description = "x-jackson-default-impl on discriminator schema emits defaultImpl in @JsonTypeInfo")
+    public void xJacksonDefaultImplOnDiscriminatorSchemaEmitsDefaultImpl() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/jackson-default-impl.yaml", new HashMap<>());
+
+        File fruitFile = files.get("Fruit.kt");
+        assertThat(fruitFile).isNotNull();
+        assertFileContains(fruitFile.toPath(),
+                "@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, " +
+                "property = \"fruitType\", visible = true, defaultImpl = Apple::class)");
+    }
+
+    @Test(description = "no defaultImpl when neither x-jackson-default-impl nor typeInfoDefaultImpls is set")
+    public void noDefaultImplWhenNeitherSourceIsSet() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+
+        // Use the YAML without x-jackson-default-impl; don't pass typeInfoDefaultImpls
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("Animal.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileNotContains(animalFile.toPath(), "defaultImpl");
+    }
+
+    @Test(description = "typeInfoDefaultImpls applies model name suffix to resolved default impl")
+    public void typeInfoDefaultImplsAppliesModelNameSuffix() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true");
+        additionalProperties.put(CodegenConstants.TYPE_INFO_DEFAULT_IMPLS, Map.of("Animal", "Dog"));
+        additionalProperties.put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/oneof_polymorphism_and_inheritance.yaml", additionalProperties);
+
+        File animalFile = files.get("AnimalDto.kt");
+        assertThat(animalFile).isNotNull();
+        assertFileContains(animalFile.toPath(), "defaultImpl = DogDto::class");
+    }
+
+
     @Test(description = "nameMappings: @param:JsonProperty must use the original JSON field name for deserialization")
     public void paramJsonPropertyAnnotationWithNameMappings() throws IOException {
         // When a property is renamed via nameMappings, @param:JsonProperty must carry the
@@ -7608,6 +8016,20 @@ public class KotlinSpringServerCodegenTest {
                 itemFile.toPath(),
                 "@param:JsonProperty(\"2nd_field\")\n    @get:JsonProperty(\"2nd_field\") val `2ndField`"
         );
+    }
+
+    @Test(description = "KDoc @param must name the property literally, without HTML-escaping its back-ticks")
+    public void kdocParamNameIsNotHtmlEscaped() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/param-json-property.yaml"
+        );
+
+        File itemFile = files.get("Item.kt");
+        assertThat(itemFile).isNotNull();
+        // "2nd_field" is not a valid Kotlin identifier, so the property is declared as `2ndField`.
+        // The KDoc must carry those back-ticks as written rather than as HTML entities.
+        assertFileNotContains(itemFile.toPath(), "&#x60;");
+        assertFileContains(itemFile.toPath(), "@param `2ndField` ");
     }
 
 
@@ -7799,5 +8221,406 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(widgets, "import org.openapitools.model.Widget", "@WidgetChecked");
         Assert.assertEquals(countOccurrences(widgets, "import org.openapitools.model.Widget"), 1L,
                 "Extra import duplicating a generated type import must be emitted only once");
+    }
+
+    // ==================== multi-level allOf inheritance tests (fixes #18206) ====================
+
+    @Test(description = "multi-level allOf: mid-level model becomes open class, leaf stays data class with parent ctor call")
+    public void testMultiLevelAllOfInheritance() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-inheritance.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Animal: discriminator parent interface, with Jackson annotations listing ALL descendants
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"),
+                "interface Animal",
+                "@JsonTypeInfo", "property = \"className\"", "visible = true",
+                "BigDog::class",
+                "Dog::class",
+                "Cat::class"
+        );
+
+        // Dog: open class (not data class) so BigDog can extend it; no ctor call to Animal (interface parent)
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "open class Dog(",
+                ") : Animal {",
+                "override val className: kotlin.String",
+                "open val breed: kotlin.String?"
+        );
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), ": Animal(");
+        // open class generates equals/hashCode/toString/copy since data class would normally provide these
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "override fun equals(other: Any?): Boolean",
+                "if (other?.javaClass != javaClass) return false",
+                "override fun hashCode(): Int",
+                "Objects.hash(",
+                "override fun toString(): String",
+                "fun copy(",
+                "): Dog = Dog("
+        );
+
+        // Cat: leaf (no children) — stays a data class, unaffected
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+
+        // BigDog: data class extending open class Dog with constructor call passing all parent ctor args
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"),
+                "data class BigDog(",
+                "override val className: kotlin.String",
+                "override val breed",
+                "override val color"
+        );
+        // Must call Dog's constructor (not bare `: Dog`)
+        assertFileContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog(");
+        assertFileNotContains(Paths.get(outputPath + "/BigDog.kt"), ") : Dog {");
+
+        // copy() must declare parameters in constructor order (required before optional), so that
+        // positional arguments bind to the same properties the constructor takes them for.
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"),
+                "    fun copy(\n"
+                        + "        className: kotlin.String = this.className,\n"
+                        + "        breed: kotlin.String? = this.breed,\n"
+                        + "        color: kotlin.String? = this.color\n"
+                        + "    ): Dog = Dog(className = className, breed = breed, color = color)"
+        );
+    }
+
+    @Test(description = "multi-level allOf: generated open class members handle back-ticked property names")
+    public void testMultiLevelAllOfWithEscapedPropertyNames() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/allof-multilevel-escaped-names.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        Path mid = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model/Mid.kt");
+
+        // "2nd_field" and "object" are not Kotlin identifiers, so the property is back-ticked.
+        // The generated members must emit the back-ticks literally, not HTML-escape them.
+        // (Scoped to the generated members: the KDoc @param block escapes them for every model,
+        // open class or not, which is a separate pre-existing issue.)
+        assertFileNotContains(mid,
+                "&#x60;2ndField&#x60; == other",
+                "Objects.hash(kind, &#x60;"
+        );
+        assertFileContains(mid,
+                "open val `2ndField`",
+                "`2ndField` == other.`2ndField`",
+                "Objects.hash(kind, `2ndField`, `object`)",
+                "`2ndField`: kotlin.String? = this.`2ndField`"
+        );
+        // toString builds by concatenation: "$`2ndField`" is not valid Kotlin interpolation,
+        // and the back-ticks are source syntax that a data class would not print.
+        assertFileContains(mid, "\"2ndField=\" + `2ndField`");
+        assertFileNotContains(mid, "$`2ndField`");
+    }
+
+    // ==================== allOf sealed interface tests ====================
+
+    @Test(description = "allOf discriminator parent generates sealed interface by default")
+    public void testAllOfDiscriminatorParentIsSealedInterfaceByDefault() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Pet should be a sealed interface with Jackson annotations
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "sealed interface Pet",
+                "@JsonTypeInfo", "property = \"petType\"", "visible = true",
+                "@JsonSubTypes"
+        );
+        // Children must remain data classes — sealing only applies to the discriminator parent
+        assertFileContains(Paths.get(outputPath + "/Dog.kt"), "data class Dog");
+        assertFileContains(Paths.get(outputPath + "/Cat.kt"), "data class Cat");
+        assertFileNotContains(Paths.get(outputPath + "/Dog.kt"), "sealed");
+        assertFileNotContains(Paths.get(outputPath + "/Cat.kt"), "sealed");
+    }
+
+    @Test(description = "allOf discriminator parent generates plain interface when useSealedDiscriminatorInterfaces=false")
+    public void testAllOfDiscriminatorOptOutPlainInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_1/polymorphism-allof-and-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(USE_SEALED_DISCRIMINATOR_INTERFACES, "false");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Opt-out: plain interface, not sealed
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"), "interface Pet");
+        assertFileNotContains(Paths.get(outputPath + "/Pet.kt"), "sealed interface Pet");
+    }
+
+    @Test(description = "allOf sealed interface correctly composes external x-kotlin-implements supertypes")
+    public void testSealedInterfaceWithExternalSupertypes() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // Pet has x-kotlin-implements external supertypes; sealed should come before those
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"),
+                "sealed interface Pet : com.some.pack.Named"
+        );
+    }
+
+    @Test(description = "oneOf sealed interface stays sealed when useSealedDiscriminatorInterfaces=false (different template path)")
+    public void testOneOfInterfaceStillSealedWhenAllOfFlagOff() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/polymorphism-oneof-discriminator.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(USE_SEALED_DISCRIMINATOR_INTERFACES, "false");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        // oneOf parent uses oneof_interface.mustache, not dataClass.mustache — flag has no effect on it
+        assertFileContains(Paths.get(outputPath + "/Animal.kt"), "sealed interface Animal");
+    }
+
+    // ========== COLLECTION ELEMENT-TYPE ANNOTATION TESTS ==========
+
+    private static final String COLLECTION_ITEM_ANNOTATIONS_SPEC = "src/test/resources/3_0/kotlin/collection-item-annotations.yaml";
+
+    @Test
+    public void collectionItemsGetBeanValidationOnElementType() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true)));
+        Path holder = files.get("Holder.kt").toPath();
+
+        // model / composed $ref items -> @Valid (incl. normalizer allOf:[$ref] wrapping)
+        assertFileContains(holder,
+                "val pets: kotlin.collections.List<@Valid Pet>? = null",
+                "val oneOfPets: kotlin.collections.List<@Valid PetOneOf>? = null",
+                "val allOfPets: kotlin.collections.List<@Valid PetAllOf>? = null",
+                "val wrappedPets: kotlin.collections.List<@Valid Pet>? = null");
+        // string / number constraints
+        assertFileContains(holder,
+                "val names: kotlin.collections.List<@Size(max=10) kotlin.String>,",
+                "val codes: kotlin.collections.List<@Pattern(regexp=\"^[A-Z]{2}$\") kotlin.String>? = null",
+                "val emails: kotlin.collections.List<@Email kotlin.String>? = null",
+                "val sizes: kotlin.collections.List<@Size(min=1,max=3) kotlin.String>? = null",
+                "val ints: kotlin.collections.List<@Min(value=1) @Max(value=10) kotlin.Int>? = null",
+                "val longs: kotlin.collections.List<@Min(value=1L) @Max(value=10L) kotlin.Long>? = null",
+                "val decimals: kotlin.collections.List<@DecimalMin(value=\"0.5\") @DecimalMax(value=\"9.5\", inclusive=false) java.math.BigDecimal>? = null");
+        // uniqueItems -> Set
+        assertFileContains(holder, "val uniqueNames: kotlin.collections.Set<@Size(max=5) kotlin.String>? = null");
+        // enums, free-form objects, unconstrained items -> nothing
+        assertFileContains(holder,
+                "val colors: kotlin.collections.List<Color>? = null",
+                "val inlineEnums: kotlin.collections.List<Holder.InlineEnums>? = null",
+                "val freeForm: kotlin.collections.List<kotlin.Any>? = null",
+                "val plainStrings: kotlin.collections.List<kotlin.String>? = null");
+        // nullable items keep the trailing '?'
+        assertFileContains(holder,
+                "val nullablePets: kotlin.collections.List<@Valid Pet?>? = null",
+                "val nullableNames: kotlin.collections.List<@Size(max=3) kotlin.String?>? = null");
+        // nested arrays -> annotation on the innermost element
+        assertFileContains(holder,
+                "val nested: kotlin.collections.List<kotlin.collections.List<@Size(max=3) kotlin.String>>? = null");
+        // map values are out of scope
+        assertFileContains(holder, "val petMap: kotlin.collections.Map<kotlin.String, Pet>? = null");
+        // container-level annotations are unchanged
+        assertFileContains(holder, "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"pets\")");
+    }
+
+    @Test
+    public void collectionItemsGetExtraAnnotationFromItemsVendorExtension() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true)));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder,
+                "val extraString: kotlin.collections.List<@com.example.Foo kotlin.String>? = null",
+                // extra annotations come before bean validation
+                "val extraList: kotlin.collections.List<@com.example.Foo @com.example.Bar @Size(max=3) kotlin.String>? = null",
+                // enum items rendered via the inline-enum branch keep the extension
+                "val enumExtra: kotlin.collections.List<@com.example.Foo Holder.EnumExtra>? = null");
+    }
+
+    @Test
+    public void additionalItemsAnnotationsAreAddedToEveryCollectionElementType() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux;@com.example.Baz")));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder,
+                "val pets: kotlin.collections.List<@com.example.Qux @com.example.Baz @Valid Pet>? = null",
+                "val plainStrings: kotlin.collections.List<@com.example.Qux @com.example.Baz kotlin.String>? = null",
+                "val colors: kotlin.collections.List<@com.example.Qux @com.example.Baz Color>? = null",
+                "val inlineEnums: kotlin.collections.List<@com.example.Qux @com.example.Baz Holder.InlineEnums>? = null",
+                "val nested: kotlin.collections.List<@com.example.Qux @com.example.Baz kotlin.collections.List<@com.example.Qux @com.example.Baz @Size(max=3) kotlin.String>>? = null",
+                // combined with x-field-extra-annotation
+                "val extraList: kotlin.collections.List<@com.example.Qux @com.example.Baz @com.example.Foo @com.example.Bar @Size(max=3) kotlin.String>? = null",
+                "val enumExtra: kotlin.collections.List<@com.example.Qux @com.example.Baz @com.example.Foo Holder.EnumExtra>? = null",
+                // nullable items keep the annotations; nullability stays in the Kotlin type
+                "val nullableNames: kotlin.collections.List<@com.example.Qux @com.example.Baz @Size(max=3) kotlin.String?>? = null",
+                "val nullablePets: kotlin.collections.List<@com.example.Qux @com.example.Baz @Valid Pet?>? = null");
+        // map values are out of scope
+        assertFileContains(holder, "val petMap: kotlin.collections.Map<kotlin.String, Pet>? = null");
+    }
+
+    @Test
+    public void additionalItemsAnnotationsAcceptsNewLinesAndLists() throws IOException {
+        Map<String, File> newLines = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux\r\n@com.example.Baz\n")));
+        Map<String, File> list = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, List.of("@com.example.Qux", "@com.example.Baz"))));
+
+        for (Map<String, File> files : List.of(newLines, list)) {
+            assertFileContains(files.get("Holder.kt").toPath(),
+                    "val plainStrings: kotlin.collections.List<@com.example.Qux @com.example.Baz kotlin.String>? = null");
+        }
+    }
+
+    @Test
+    public void collectionItemsWithoutBeanValidationOnlyGetExtraAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, false, KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux")));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder,
+                "val pets: kotlin.collections.List<@com.example.Qux Pet>? = null",
+                "val names: kotlin.collections.List<@com.example.Qux kotlin.String>,",
+                "val extraList: kotlin.collections.List<@com.example.Qux @com.example.Foo @com.example.Bar kotlin.String>? = null",
+                "val nullableNames: kotlin.collections.List<@com.example.Qux kotlin.String?>? = null");
+        assertFileNotContains(holder, "@Valid", "@Size", "@Pattern", "@Email", "@Min", "@Max", "@DecimalMin", "@DecimalMax");
+    }
+
+    @Test
+    public void collectionItemAnnotationsReachApiSignaturesWithImports() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, SERVICE_IMPLEMENTATION, true, USE_SPRING_BOOT3, true)));
+
+        Path controller = files.get("PetsApiController.kt").toPath();
+        assertFileContains(controller,
+                "@Valid @RequestBody pet: kotlin.collections.List<@Valid Pet>",
+                "tags: kotlin.collections.List<@Size(max=10) kotlin.String>?",
+                // return types are left unannotated (Hibernate Validator cannot look inside ResponseEntity)
+                "): ResponseEntity<List<kotlin.String>> {",
+                "): ResponseEntity<Map<String, kotlin.collections.List<kotlin.String>>> {");
+        assertFileNotContains(controller, "ResponseEntity<List<@", "ResponseEntity<Map<String, kotlin.collections.List<@");
+        for (String file : List.of("PetsApiController.kt", "PetsApiService.kt", "PetsApiServiceImpl.kt", "PetsApiTest.kt")) {
+            assertFileContains(files.get(file).toPath(),
+                    "import jakarta.validation.Valid", "import jakarta.validation.constraints.Size");
+        }
+
+        Map<String, File> delegate = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, DELEGATE_PATTERN, true, "useJakartaEe", false)));
+        assertFileContains(delegate.get("PetsApiDelegate.kt").toPath(),
+                "import javax.validation.Valid", "import javax.validation.constraints.Size",
+                "fun addPets(pet: kotlin.collections.List<@Valid Pet>): ResponseEntity<List<kotlin.String>> {");
+    }
+
+    @Test
+    public void elementTypeValidationImportsAreOnlyAddedWhereUsed() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, SERVICE_IMPLEMENTATION, true, USE_SPRING_BOOT3, true)));
+
+        Path petsService = files.get("PetsApiService.kt").toPath();
+        assertFileContains(petsService, "import jakarta.validation.Valid", "import jakarta.validation.constraints.Size");
+        assertFileNotContains(petsService, "constraints.Pattern", "constraints.Email", "constraints.NotNull", "constraints.Min");
+        for (String file : List.of("StatusApiService.kt", "StatusApiServiceImpl.kt", "StatusApiTest.kt")) {
+            assertFileNotContains(files.get(file).toPath(), "import jakarta.validation");
+        }
+    }
+
+    @Test
+    public void buildFilesEmitJvmTypeAnnotationsOnlyWithBeanValidation() throws IOException {
+        List<Map<String, Object>> springBootVersions = List.of(Map.of(), Map.of(USE_SPRING_BOOT3, true), Map.of(USE_SPRING_BOOT4, true));
+        for (Map<String, Object> springBootVersion : springBootVersions) {
+            for (boolean useBeanValidation : new boolean[]{true, false}) {
+                Map<String, Object> properties = new HashMap<>(springBootVersion);
+                properties.put(USE_BEANVALIDATION, useBeanValidation);
+                Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC, properties);
+                Path pom = files.get("pom.xml").toPath();
+                Path gradle = files.get("build.gradle.kts").toPath();
+                if (useBeanValidation) {
+                    assertFileContains(pom, "<arg>-Xemit-jvm-type-annotations</arg>");
+                    assertFileContains(gradle, "\"-Xemit-jvm-type-annotations\"");
+                } else {
+                    assertFileNotContains(pom, "-Xemit-jvm-type-annotations");
+                    assertFileNotContains(gradle, "-Xemit-jvm-type-annotations");
+                }
+            }
+        }
+    }
+
+    @Test
+    public void reactiveStringArrayReturnWorkaroundStillAppliesWithItemAnnotations() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, REACTIVE, true, DELEGATE_PATTERN, true)));
+
+        assertFileContains(files.get("PetsApiDelegate.kt").toPath(),
+                "suspend fun addPets(pet: Flow<Pet>): ResponseEntity<List<kotlin.String>> {");
+    }
+
+    @Test
+    public void otherKotlinGeneratorsDoNotAnnotateCollectionItems() throws IOException {
+        for (String[] generatorAndLibrary : new String[][]{{"kotlin", "jvm-okhttp4"}, {"kotlin-server", "ktor"}}) {
+            Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                    new HashMap<>(Map.of(USE_BEANVALIDATION, true, KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@NotNull")),
+                    new HashMap<>(),
+                    configurator -> configurator.setGeneratorName(generatorAndLibrary[0]).setLibrary(generatorAndLibrary[1]));
+            Path holder = files.get("Holder.kt").toPath();
+
+            assertFileContains(holder, "kotlin.collections.List<Pet>", "kotlin.collections.List<kotlin.String>");
+            assertFileNotContains(holder, "<@");
+        }
+    }
+
+    @Test
+    public void collectionItemsReviewEdgeCases() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, SERVICE_IMPLEMENTATION, true,
+                        KotlinSpringServerCodegen.ADDITIONAL_ITEMS_ANNOTATIONS, "@com.example.Qux")));
+        Path holder = files.get("Holder.kt").toPath();
+
+        assertFileContains(holder, "val refNullablePets: kotlin.collections.List<@com.example.Qux @Valid NullablePet?>? = null");
+        // validation messages are escaped as Kotlin string literals
+        assertFileContains(holder,
+                "val messages: kotlin.collections.List<@com.example.Qux @Size(max=3, message=\"Must be \\\"small\\\" \\$x \\\\ ok\") kotlin.String>? = null");
+        // x-extra-imports reach every file whose signatures render the custom element annotation
+        for (String file : List.of("PetsApiController.kt", "PetsApiService.kt", "PetsApiServiceImpl.kt", "PetsApiTest.kt")) {
+            assertFileContains(files.get(file).toPath(), "import com.example.Foo");
+        }
+        assertFileContains(files.get("PetsApiService.kt").toPath(), "labels: kotlin.collections.List<@com.example.Qux @Foo kotlin.String>?");
     }
 }

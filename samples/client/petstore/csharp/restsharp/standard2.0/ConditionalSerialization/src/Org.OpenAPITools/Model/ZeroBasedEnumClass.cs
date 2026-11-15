@@ -83,9 +83,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="zeroBasedEnum">zeroBasedEnum.</param>
         public ZeroBasedEnumClass(ZeroBasedEnumEnum? zeroBasedEnum = default)
         {
-            this._ZeroBasedEnum = zeroBasedEnum;
-            if (this.ZeroBasedEnum != null)
+            if (zeroBasedEnum != null)
             {
+                this._ZeroBasedEnum = zeroBasedEnum.Value;
                 this._flagZeroBasedEnum = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

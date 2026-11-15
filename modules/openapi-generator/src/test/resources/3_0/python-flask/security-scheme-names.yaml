@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Security scheme name sanitization test
+  version: 1.0.0
+  description: |
+    Scheme names containing '-' or '.' are valid OpenAPI component keys but are
+    not valid Python identifiers. The generated security_controller.py must use
+    sanitized, unique function names that match the x-*Func references.
+servers:
+  - url: /v1
+paths:
+  /ping:
+    get:
+      tags: [health]
+      operationId: ping
+      security:
+        - api-key: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /pets:
+    get:
+      tags: [pet]
+      operationId: list_pets
+      security:
+        - petstore.auth: [read:pets]
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /whoami:
+    get:
+      tags: [health]
+      operationId: whoami
+      security:
+        - basic-auth: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /ping-alt:
+    get:
+      tags: [health]
+      operationId: ping_alt
+      security:
+        - api.key: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /digit:
+    get:
+      tags: [health]
+      operationId: ping_digit
+      security:
+        - 1st-key: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /token:
+    get:
+      tags: [health]
+      operationId: check_token
+      security:
+        - bearer-token: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /alias:
+    get:
+      tags: [health]
+      operationId: ping_alias
+      security:
+        - alias-key: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /collide:
+    get:
+      tags: [health]
+      operationId: ping_collide
+      security:
+        - api_key_2: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+  /plain:
+    get:
+      tags: [health]
+      operationId: ping_plain
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    # Sanitizes to "api_key", but that suffix and "api_key_2" are kept by the
+    # already-valid names below, so this is bumped to "api_key_3".
+    api-key:
+      type: apiKey
+      name: X-API-Key
+      in: header
+    # Already a valid identifier even though listed after "api-key", which
+    # sanitizes to the same suffix: it must keep "api_key" unnumbered (the same
+    # function name as before the names were sanitized).
+    api_key:
+      type: apiKey
+      name: X-Plain-Key
+      in: header
+    petstore.auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://example.com/api/oauth/dialog
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    basic-auth:
+      type: http
+      scheme: basic
+    # Already a valid identifier and literally "api_key_2": it claims that
+    # suffix, so the colliding "api-key" and "api.key" skip it.
+    api_key_2:
+      type: apiKey
+      name: X-Third-Key
+      in: header
+    # Sanitizes to the same suffix as "api-key"; "api_key" through "api_key_3"
+    # are taken, so this must get "api_key_4".
+    api.key:
+      type: apiKey
+      name: X-API-Key-Alt
+      in: header
+    # Starts with a digit; the info_from_/validate_scope_ prefixes keep it a valid
+    # Python identifier without an extra leading '_'.
+    1st-key:
+      type: apiKey
+      name: X-First-Key
+      in: header
+    bearer-token:
+      type: http
+      scheme: bearer
+    # User-provided x-apikeyInfoFunc must be preserved, not overwritten.
+    alias-key:
+      type: apiKey
+      name: X-Alias-Key
+      in: header
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller.info_from_api_key

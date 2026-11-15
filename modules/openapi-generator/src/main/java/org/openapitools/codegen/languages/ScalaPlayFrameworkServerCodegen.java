@@ -183,6 +183,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
         supportingFiles.add(new SupportingFile("conf/logback.xml.mustache", "conf", "logback.xml"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt.mustache", "project", "plugins.sbt"));
+        supportingFiles.add(new SupportingFile("scalafmt.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("conf/routes.mustache", "conf", routesFileName));
         supportingFiles.add(new SupportingFile("app/module.scala.mustache", getBasePackagePath(), "Module.scala"));
         supportingFiles.add(new SupportingFile("app/errorHandler.scala.mustache", getBasePackagePath(), "ErrorHandler.scala"));

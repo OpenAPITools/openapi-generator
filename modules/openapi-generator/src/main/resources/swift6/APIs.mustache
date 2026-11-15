@@ -275,6 +275,9 @@ import Alamofire{{/useAlamofire}}
                             continuation.resume(throwing: error)
                         }
                     }
+                    if Task.isCancelled {
+                        requestTask.cancel()
+                    }
                 }
             } onCancel: {
                 requestTask.cancel()

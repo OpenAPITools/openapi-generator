@@ -60,7 +60,8 @@ class PetAPITests: XCTestCase {
         }
 
         do {
-            let _ = try await PetAPI().uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageData)
+            let response = try await PetAPI().uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageData)
+            XCTAssertTrue(response.message?.contains("File uploaded to ./file, \(imageData.count) bytes") == true, response.message ?? "no message")
         } catch {
             XCTFail("error uploading file")
         }

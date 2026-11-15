@@ -1,6 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -12,7 +13,7 @@ import java.util.Optional
  * A delegate to be called by the {@link UserApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.26.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.28.0-SNAPSHOT")
 interface UserApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -26,13 +27,13 @@ interface UserApiDelegate {
     /**
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): ResponseEntity<Unit>
+    fun createUsersWithArrayInput(user: kotlin.collections.List<@Valid User>): ResponseEntity<Unit>
 
 
     /**
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): ResponseEntity<Unit>
+    fun createUsersWithListInput(user: kotlin.collections.List<@Valid User>): ResponseEntity<Unit>
 
 
     /**

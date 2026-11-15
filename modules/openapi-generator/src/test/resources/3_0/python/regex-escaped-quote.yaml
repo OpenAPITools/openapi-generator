@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Python regex escaped quote
+  version: 1.0.0
+paths:
+  /example:
+    get:
+      operationId: getExample
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternModel'
+components:
+  schemas:
+    PatternModel:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: '[^\/:?*<>\"|]*'
+        unescapedQuote:
+          type: string
+          pattern: '^a"b$'
+        alreadyEscapedQuote:
+          type: string
+          pattern: '^a\"b$'
+        evenBackslashes:
+          type: string
+          pattern: '^a\\"b$'
+        oddBackslashes:
+          type: string
+          pattern: '^a\\\"b$'
+        trailingBackslashes:
+          type: string
+          pattern: 'a\\'
+        trailingFourBackslashes:
+          type: string
+          pattern: 'a\\\\'

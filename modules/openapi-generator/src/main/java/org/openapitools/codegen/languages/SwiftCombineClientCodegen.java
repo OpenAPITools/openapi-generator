@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 /**
@@ -397,7 +398,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+        if (isEnumSchema(p)) {
             if (p.getDefault() != null) {
                 return "." + toEnumVarName(escapeText(String.valueOf(p.getDefault())), p.getType());
             }
@@ -443,11 +444,6 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
     @Override
     public String toModelDocFilename(String name) {
         return toModelName(name);
-    }
-
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
     }
 
     @Override

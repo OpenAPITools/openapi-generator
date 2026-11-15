@@ -268,4 +268,53 @@ public class PythonFastAPIServerCodegenTest {
         Assert.assertFalse(content.contains("\n,\n"),
                 "comma wrapped onto its own line in: " + api);
     }
+
+    @Test(description = "security imports are emitted only for APIs with authenticated operations (#23008)")
+    public void testSecurityImportsRequireAuthenticatedOperations() throws IOException {
+        final DefaultCodegen unauthenticatedCodegen = new PythonFastAPIServerCodegen();
+        final String unauthenticatedOutputPath = generateFiles(unauthenticatedCodegen, "src/test/resources/bugs/issue_23008.yaml");
+        final Path unauthenticatedApi = Paths.get(unauthenticatedOutputPath + "src/openapi_server/apis/default_api.py");
+
+        assertFileExists(unauthenticatedApi);
+        assertFileNotContains(unauthenticatedApi, "from openapi_server.models.extra_models import TokenModel");
+        assertFileNotContains(unauthenticatedApi, "from openapi_server.security_api import");
+
+        final DefaultCodegen authenticatedCodegen = new PythonFastAPIServerCodegen();
+        final String authenticatedOutputPath = generateFiles(authenticatedCodegen, "src/test/resources/3_0/python-fastapi/petstore.yaml");
+        final Path authenticatedApi = Paths.get(authenticatedOutputPath + "src/openapi_server/apis/pet_api.py");
+
+        assertFileExists(authenticatedApi);
+        assertFileContains(authenticatedApi, "from openapi_server.models.extra_models import TokenModel");
+        assertFileContains(authenticatedApi, "from openapi_server.security_api import get_token_");
+    }
+
+    @Test(description = "webhooks receive FastAPI security imports, UploadFile typing, and their own requestBody examples")
+    public void testWebhookSecurityAndMultipartUploadFile() throws IOException {
+        final DefaultCodegen codegen = new PythonFastAPIServerCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+        final Path api = Paths.get(outputPath + "src/openapi_server/apis/hooks_api.py");
+        final Path baseApi = Paths.get(outputPath + "src/openapi_server/apis/hooks_api_base.py");
+        final Path pathPetsApi = Paths.get(outputPath + "src/openapi_server/apis/path_pets_api.py");
+
+        assertFileExists(api);
+        assertFileExists(baseApi);
+        assertFileExists(pathPetsApi);
+
+        assertFileContains(
+                api,
+                "from openapi_server.models.extra_models import TokenModel",
+                "from openapi_server.security_api import get_token_api_key",
+                "from fastapi import File, UploadFile",
+                "file: Optional[UploadFile] = File(None, description=\"\", alias=\"file\")",
+                "examples=[{\"path\": \"/from-webhook\", \"recursive\": True}]");
+        assertFileNotContains(api, "/from-path");
+        assertFileContains(
+                baseApi,
+                "from fastapi import File, UploadFile",
+                "file: Optional[UploadFile]");
+        assertFileContains(
+                pathPetsApi,
+                "examples=[{\"path\": \"/from-path\", \"recursive\": False}]");
+        assertFileNotContains(pathPetsApi, "/from-webhook");
+    }
 }

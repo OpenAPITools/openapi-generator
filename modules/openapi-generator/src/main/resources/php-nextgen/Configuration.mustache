@@ -29,7 +29,20 @@ use InvalidArgumentException;
  */
 class Configuration
 {
+    /**
+     * Serialize booleans in query strings as "1" or "0"
+     *
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
+     */
     public const BOOLEAN_FORMAT_INT = 'int';
+
+    /**
+     * Serialize booleans in query strings as "true" or "false" (default)
+     *
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
+     */
     public const BOOLEAN_FORMAT_STRING = 'string';
 
     /**
@@ -62,8 +75,10 @@ class Configuration
      * Boolean format for query string
      *
      * @var string
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
      */
-    protected string $booleanFormatForQueryString = self::BOOLEAN_FORMAT_INT;
+    protected string $booleanFormatForQueryString = self::BOOLEAN_FORMAT_STRING;
 
     /**
      * Username for HTTP basic authentication
@@ -132,14 +147,18 @@ class Configuration
     /**
      * Sets API key
      *
-     * @param string $apiKeyIdentifier API key identifier (authentication scheme)
-     * @param string $key              API key or token
+     * @param string      $apiKeyIdentifier API key identifier (authentication scheme)
+     * @param string|null $key              API key or token
      *
      * @return $this
      */
-    public function setApiKey(string $apiKeyIdentifier, string $key): static
+    public function setApiKey(string $apiKeyIdentifier, ?string $key): static
     {
-        $this->apiKeys[$apiKeyIdentifier] = $key;
+        if ($key === null) {
+            unset($this->apiKeys[$apiKeyIdentifier]);
+        } else {
+            $this->apiKeys[$apiKeyIdentifier] = $key;
+        }
         return $this;
     }
 
@@ -158,14 +177,18 @@ class Configuration
     /**
      * Sets the prefix for API key (e.g. Bearer)
      *
-     * @param string $apiKeyIdentifier API key identifier (authentication scheme)
-     * @param string $prefix           API key prefix, e.g. Bearer
+     * @param string      $apiKeyIdentifier API key identifier (authentication scheme)
+     * @param string|null $prefix           API key prefix, e.g. Bearer
      *
      * @return $this
      */
-    public function setApiKeyPrefix(string $apiKeyIdentifier, string $prefix): static
+    public function setApiKeyPrefix(string $apiKeyIdentifier, ?string $prefix): static
     {
-        $this->apiKeyPrefixes[$apiKeyIdentifier] = $prefix;
+        if ($prefix === null) {
+            unset($this->apiKeyPrefixes[$apiKeyIdentifier]);
+        } else {
+            $this->apiKeyPrefixes[$apiKeyIdentifier] = $prefix;
+        }
         return $this;
     }
 
@@ -210,6 +233,8 @@ class Configuration
      * @param string $booleanFormat Boolean format for query string
      *
      * @return $this
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
      */
     public function setBooleanFormatForQueryString(string $booleanFormat): static
     {
@@ -222,6 +247,8 @@ class Configuration
      * Gets boolean format for query string.
      *
      * @return string Boolean format for query string
+     * @deprecated since 7.27.0, will be removed in 8.0.0; booleans in query strings will always be
+     *             serialized as "true" or "false"
      */
     public function getBooleanFormatForQueryString(): string
     {

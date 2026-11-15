@@ -6,7 +6,7 @@
 
 import Foundation
 
-internal final class OpenAPIMutex<Value>: @unchecked Sendable {
+internal {{#nonisolatedModels}}nonisolated {{/nonisolatedModels}}final class OpenAPIMutex<Value>: @unchecked Sendable {
 
     private var _value: Value
     private let lock = NSRecursiveLock()

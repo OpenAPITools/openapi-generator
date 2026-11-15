@@ -31,6 +31,39 @@ public class PythonFastapiCodegenTest {
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileExists(Paths.get(output.getAbsolutePath(), "/src", "/nodesc", IMPL_PKG, "__init__.py"));
+        TestUtils.assertFileContains(Paths.get(output + "/src/nodesc/apis/nodesc_api.py"),
+                "import nodesc." + IMPL_PKG + "\n");
+    }
+
+    @Test
+    public void testExternalImplementationPackage() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // A fully qualified package living outside the generated one, owned by the user
+        final String EXTERNAL_IMPL_PKG = "my_company.handlers";
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-fastapi")
+                .setPackageName("nodesc")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setInputSpec("src/test/resources/3_1/nodesc.yaml")
+                .addAdditionalProperty(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, EXTERNAL_IMPL_PKG)
+                .addAdditionalProperty(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE, true);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // Imported as-is, not prefixed with the package name
+        final String apiFile = output + "/src/nodesc/apis/nodesc_api.py";
+        TestUtils.assertFileContains(Paths.get(apiFile), "import " + EXTERNAL_IMPL_PKG + "\n");
+        TestUtils.assertFileContains(Paths.get(apiFile), "ns_pkg = " + EXTERNAL_IMPL_PKG + "\n");
+        TestUtils.assertFileNotContains(Paths.get(apiFile), "nodesc." + EXTERNAL_IMPL_PKG);
+
+        // Nothing is generated in a package the generator does not own
+        TestUtils.assertFileNotExists(Paths.get(output.getAbsolutePath(), "/src", "/nodesc", "impl", "__init__.py"));
+        TestUtils.assertFileNotExists(Paths.get(output.getAbsolutePath(), "/src", "/my_company", "/handlers", "__init__.py"));
+        TestUtils.assertFileNotExists(Paths.get(output.getAbsolutePath(), "/src", "/nodesc", "/my_company", "/handlers", "__init__.py"));
     }
 
     @Test

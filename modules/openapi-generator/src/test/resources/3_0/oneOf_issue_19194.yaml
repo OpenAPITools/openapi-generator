@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: test
+  contact:
+    email: support@company.de
+  license:
+    name: company Licence
+    url: https://company.de/
+  version: 0.1.1
+servers:
+  - url: https://webservice.company.org
+paths:
+  /doSomething:
+    post:
+      summary: test
+      description: description for test operation
+      operationId: doSomething
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/doSomethingRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/doSomethingResponse'
+components:
+  schemas:
+    doSomethingRequest:
+      title: doSomethingRequest
+      type: object
+      properties:
+        cargo:
+          $ref: '#/components/schemas/cargoInterface'
+      required:
+        - cargo
+    doSomethingResponse:
+      title: doSomethingResponse
+      type: object
+    cargoInterface:
+      oneOf:
+        - $ref: '#/components/schemas/TONS'
+        - $ref: '#/components/schemas/KILOGRAMS'
+      discriminator:
+        propertyName: unit
+    TONS:
+      allOf:
+        - $ref: '#/components/schemas/cargoGeneralParameter'
+        - type: object
+          properties:
+            amount:
+              type: integer
+          required:
+            - amount
+    KILOGRAMS:
+      allOf:
+        - $ref: '#/components/schemas/cargoGeneralParameter'
+        - type: object
+          properties:
+            amount:
+              type: number
+              format: double
+              example: 1000
+              minimum: 0
+          required:
+            - amount
+    cargoGeneralParameter:
+      type: object
+      properties:
+        unit:
+          type: string
+          enum:
+            - KILOGRAMS
+            - TONS
+        cargoId:
+          type: integer
+      required:
+        - unit
+        - cargoId

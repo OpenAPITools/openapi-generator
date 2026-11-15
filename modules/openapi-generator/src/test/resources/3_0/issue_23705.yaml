@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: issue 23705 x-field-extra-annotation on array.items
+  version: 1.0.0
+components:
+  schemas:
+    Code:
+      type: string
+    Stubb:
+      type: object
+      properties:
+        name:
+          type: string
+    SampleModel:
+      type: object
+      properties:
+        listStringNullable:
+          type: array
+          items:
+            type: string
+            nullable: true
+            x-field-extra-annotation: '@Size(max=50)'
+        listString:
+          type: array
+          items:
+            x-field-extra-annotation:
+              - '@NotNull'
+              - '@Size(max=50)'
+            type: string
+        listInteger:
+          type: array
+          items:
+            type: integer
+            format: int32
+            minimum: 0
+        listSample:
+          type: array
+          items:
+            $ref: '#/components/schemas/Stubb'
+        listCode:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Code'
+            x-field-extra-annotation: '@Size(max=10)'
+        listRef:
+          type: array
+          x-items-x-field-extra-annotation: '@NotEmpty'
+          items:
+            $ref: '#/components/schemas/Stubb'
+        listInline:
+          type: array
+          x-items-x-field-extra-annotation: '@NotEmpty'
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+

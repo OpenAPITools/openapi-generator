@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (number.IsSet && number.Value == null)
-                throw new ArgumentNullException(nameof(number), "Property is not nullable for class Parent.");
+                throw new JsonException("Property is not nullable for class Parent: number.");
 
             return new Parent(number);
         }
@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Parent parent, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,9 +164,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="parent"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Parent parent, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (parent.NumberOption.IsSet && parent.Number == null)
+                throw new JsonException("Cannot write null property Parent.Number to non-nullable JSON property 'number'.");
+
             if (parent.NumberOption.IsSet)
             {
                 var numberRawValue = NumberValueConverter.ToJsonValue(parent.Number!.Value);

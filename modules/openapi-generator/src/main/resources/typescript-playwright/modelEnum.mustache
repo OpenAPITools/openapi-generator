@@ -1,0 +1,24 @@
+{{>modelEnumInterfaces}}
+
+export function instanceOf{{classname}}(value: any): boolean {
+    for (const key in {{classname}}) {
+        if (Object.prototype.hasOwnProperty.call({{classname}}, key)) {
+            if (({{classname}} as Record<string, {{classname}}>)[key] === value) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    return {{classname}}FromJSONTyped(json, false);
+}
+
+export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
+    return json as {{classname}};
+}
+
+export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    return value as any;
+}

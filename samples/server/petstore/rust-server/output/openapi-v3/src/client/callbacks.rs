@@ -292,6 +292,7 @@ where
                         Err(err) => {
                             return Ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
+                                        .header(CONTENT_TYPE, mime::TEXT_PLAIN.as_ref())
                                         .body(body_from_string(format!("Invalid header Information - {err}")))
                                         .expect("Unable to create Bad Request response for invalid header Information"));
 
@@ -325,6 +326,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }
@@ -380,6 +385,10 @@ where
                                                 // Application code returned an error. This should not happen, as the implementation should
                                                 // return a valid response.
                                                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                response.headers_mut().insert(
+                                                    CONTENT_TYPE,
+                                                    HeaderValue::from_static("text/plain"),
+                                                );
                                                 *response.body_mut() = body_from_str("An internal error occurred");
                                             },
                                         }

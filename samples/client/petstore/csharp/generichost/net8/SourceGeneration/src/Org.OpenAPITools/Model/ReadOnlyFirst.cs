@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -137,7 +136,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -206,10 +205,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
+                throw new JsonException("Property is not nullable for class ReadOnlyFirst: bar.");
 
             if (baz.IsSet && baz.Value == null)
-                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
+                throw new JsonException("Property is not nullable for class ReadOnlyFirst: baz.");
 
             return new ReadOnlyFirst(bar, baz);
         }
@@ -220,7 +219,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="readOnlyFirst"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -235,14 +233,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="readOnlyFirst"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
             if (readOnlyFirst.BarOption.IsSet && readOnlyFirst.Bar == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");
+                throw new JsonException("Cannot write null property ReadOnlyFirst.Bar to non-nullable JSON property 'bar'.");
 
             if (readOnlyFirst.BazOption.IsSet && readOnlyFirst.Baz == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
+                throw new JsonException("Cannot write null property ReadOnlyFirst.Baz to non-nullable JSON property 'baz'.");
 
             if (readOnlyFirst.BarOption.IsSet)
                 writer.WriteString("bar", readOnlyFirst.Bar);
@@ -251,11 +248,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("baz", readOnlyFirst.Baz);
         }
     }
-
-    /// <summary>
-    /// The ReadOnlyFirstSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ReadOnlyFirst))]
-    public partial class ReadOnlyFirstSerializationContext : JsonSerializerContext { }
 }

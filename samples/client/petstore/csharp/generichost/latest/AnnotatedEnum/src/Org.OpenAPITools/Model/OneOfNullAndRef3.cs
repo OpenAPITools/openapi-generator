@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (number.IsSet && number.Value == null)
-                throw new ArgumentNullException(nameof(number), "Property is not nullable for class OneOfNullAndRef3.");
+                throw new JsonException("Property is not nullable for class OneOfNullAndRef3: number.");
 
             return new OneOfNullAndRef3(number);
         }
@@ -150,7 +150,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfNullAndRef3"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, OneOfNullAndRef3 oneOfNullAndRef3, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -165,9 +164,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="oneOfNullAndRef3"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, OneOfNullAndRef3 oneOfNullAndRef3, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (oneOfNullAndRef3.NumberOption.IsSet && oneOfNullAndRef3.Number == null)
+                throw new JsonException("Cannot write null property OneOfNullAndRef3.Number to non-nullable JSON property 'number'.");
+
             if (oneOfNullAndRef3.NumberOption.IsSet)
             {
                 var numberRawValue = NumberValueConverter.ToJsonValue(oneOfNullAndRef3.Number!.Value);

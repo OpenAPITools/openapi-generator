@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -92,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -161,13 +160,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Category.", nameof(name));
+                throw new JsonException("Property is required for class Category: name.");
 
             if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
+                throw new JsonException("Property is not nullable for class Category: id.");
 
             if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
+                throw new JsonException("Property is not nullable for class Category: name.");
 
             return new Category(id, name.Value!);
         }
@@ -178,7 +177,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="category"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -193,11 +191,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="category"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (category.Name == null)
-                throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
+            if (category.IdOption.IsSet && category.Id == null)
+                throw new JsonException("Cannot write null property Category.Id to non-nullable JSON property 'id'.");
 
             if (category.IdOption.IsSet)
                 writer.WriteNumber("id", category.IdOption.Value!.Value);
@@ -205,11 +202,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", category.Name);
         }
     }
-
-    /// <summary>
-    /// The CategorySerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Category))]
-    public partial class CategorySerializationContext : JsonSerializerContext { }
 }

@@ -5,8 +5,8 @@ package {{packageName}}.infrastructure
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun collectionDelimiter(collectionFormat: String): String = when(collectionFormat) {
     "csv" -> ","
     "tsv" -> "\t"
-    "pipe" -> "|"
-    "space" -> " "
+    "pipes" -> "|"
+    "ssv" -> " "
     else -> ""
 }
 

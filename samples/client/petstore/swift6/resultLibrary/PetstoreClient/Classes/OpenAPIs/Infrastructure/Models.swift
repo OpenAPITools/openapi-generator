@@ -92,6 +92,14 @@ internal enum DownloadException: Error, Sendable {
     case requestMissingURL
 }
 
+internal enum RequestBuilderError: Error, Sendable {
+    case bodyEncodingFailed(any Error)
+    case unsupportedHTTPMethod(String)
+    case unsupportedMediaType(String)
+    case unsupportedParameterValue(key: String)
+    case unsupportedResponseType(String)
+}
+
 internal enum DecodableRequestBuilderError: Error, Sendable {
     case emptyDataResponse
     case nilHTTPResponse

@@ -10,7 +10,7 @@ title: Documentation for the python-fastapi Generator
 | generator stability | BETA | |
 | generator type | SERVER | |
 | generator language | Python | |
-| generator language version | 3.10 | |
+| generator language version | 3.11 | |
 | generator default templating engine | mustache | |
 | helpTxt | Generates a Python FastAPI server (beta). Models are defined with the pydantic library | |
 
@@ -32,6 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|directory for generated python source code| |src|
+|useExternalImplementationPackage|If true, fastapiImplementationPackage is a fully qualified python package that already exists outside the generated package: it is imported as-is (not prefixed with packageName) and its __init__.py is not generated.| |false|
 
 ## IMPORT MAPPING
 

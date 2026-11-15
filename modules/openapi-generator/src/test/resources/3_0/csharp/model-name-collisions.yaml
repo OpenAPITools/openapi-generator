@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: Schemas named like framework types
+  version: 1.0.0
+paths:
+  /tasks:
+    get:
+      operationId: getTask
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        parameter:
+          $ref: '#/components/schemas/Parameter'
+        validation:
+          $ref: '#/components/schemas/ValidationResult'
+    Parameter:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/ParameterType'
+    ParameterType:
+      type: string
+      enum: [text, number]
+    ValidationResult:
+      type: object
+      properties:
+        message:
+          type: string
+          maxLength: 100

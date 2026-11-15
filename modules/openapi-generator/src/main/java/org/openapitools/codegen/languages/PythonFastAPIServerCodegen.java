@@ -34,12 +34,14 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Consumer;
 
 import static org.openapitools.codegen.CodegenConstants.*;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -63,6 +65,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final String X_FASTAPI_REQUEST_BODY_EXAMPLE = "x-python-fastapi-request-body-example";
 
     private String implPackage;
+    private boolean useExternalImplementationPackage = false;
 
     @Override
     public CodegenType getTag() {
@@ -128,17 +131,28 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 .defaultValue(DEFAULT_SOURCE_FOLDER));
         cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
                 .defaultValue(implPackage));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE, CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
         super.preprocessOpenAPI(openAPI);
 
-        if (openAPI == null || openAPI.getPaths() == null) {
+        if (openAPI == null) {
             return;
         }
 
-        for (PathItem pathItem : openAPI.getPaths().values()) {
+        if (openAPI.getPaths() != null) {
+            preprocessPathItems(openAPI.getPaths().values());
+        }
+        if (openAPI.getWebhooks() != null) {
+            preprocessPathItems(openAPI.getWebhooks().values());
+        }
+    }
+
+    private void preprocessPathItems(Collection<PathItem> pathItems) {
+        for (PathItem pathItem : pathItems) {
             for (Operation operation : pathItem.readOperations()) {
                 Object example = getExplicitRequestBodyExample(operation.getRequestBody());
                 if (example != null) {
@@ -172,16 +186,22 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             this.sourceFolder = ((String) additionalProperties.get(CodegenConstants.SOURCE_FOLDER));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE)) {
+            this.useExternalImplementationPackage = convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_EXTERNAL_IMPLEMENTATION_PACKAGE);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE)) {
             this.implPackage = ((String) additionalProperties.get(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE));
-            // Prefix templating value with the package name
-            additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE,
-                    this.packageName + "." + this.implPackage);
         }
 
         modelPackage = packageName + "." + modelPackage;
         apiPackage = packageName + "." + apiPackage;
-        implPackage = packageName + "." + implPackage;
+        if (!useExternalImplementationPackage) {
+            // The implementation package is a sub-package of the generated one
+            implPackage = packageName + "." + implPackage;
+        }
+        // Templating value: the fully qualified implementation package
+        additionalProperties.put(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, implPackage);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("openapi.mustache", "", "openapi.yaml"));
@@ -200,7 +220,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(modelFileFolder(), outputFolder), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiFileFolder(), outputFolder), "__init__.py"));
-        supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
+        if (!useExternalImplementationPackage) {
+            // An external implementation package already exists and is owned by the user: nothing to generate in it
+            supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
+        }
 
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage.replace('.', File.separatorChar), "conftest.py"));
 
@@ -277,8 +300,23 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
+        postProcessFastAPIOperationMap(objs, objs.getOperations(), objs.getImports(), objs::setImports);
+        return objs;
+    }
 
-        OperationMap operations = objs.getOperations();
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        super.postProcessWebhooksWithModels(objs, allModels);
+        postProcessFastAPIOperationMap(objs, objs.getWebhooks(), objs.getImports(), objs::setImports);
+        return objs;
+    }
+
+    // OperationsMap and WebhooksMap share no common interface for getImports/setImports, so pass both objs and imports/setImports.
+    private void postProcessFastAPIOperationMap(
+            Map<String, Object> objs,
+            OperationMap operations,
+            List<Map<String, String>> imports,
+            Consumer<List<Map<String, String>>> setImports) {
         // Set will make sure that no duplicated items are used.
         Set<String> securityImports = new HashSet<>();
         boolean hasFileFormParam = false;
@@ -300,12 +338,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
 
         if (hasFileFormParam) {
-            addFastAPIUploadFileImport(objs);
+            addFastAPIUploadFileImport(imports, setImports);
         }
 
         objs.put("securityImports", new ArrayList<>(securityImports));
-
-        return objs;
     }
 
     /**
@@ -353,11 +389,12 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return param.required ? "UploadFile" : "Optional[UploadFile]";
     }
 
-    private void addFastAPIUploadFileImport(OperationsMap objs) {
-        List<Map<String, String>> imports = objs.getImports();
+    private void addFastAPIUploadFileImport(
+            List<Map<String, String>> imports,
+            Consumer<List<Map<String, String>>> setImports) {
         if (imports == null) {
             imports = new ArrayList<>();
-            objs.setImports(imports);
+            setImports.accept(imports);
         }
         String importLine = "from fastapi import File, UploadFile";
         for (Map<String, String> existing : imports) {
@@ -375,13 +412,9 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             return;
         }
 
-        Operation sourceOperation = findOpenAPIOperation(operation);
-        if (sourceOperation == null || sourceOperation.getExtensions() == null) {
-            clearBodyParamExample(operation);
-            return;
-        }
-
-        Object example = sourceOperation.getExtensions().get(X_FASTAPI_REQUEST_BODY_EXAMPLE);
+        Object example = operation.vendorExtensions != null
+                ? operation.vendorExtensions.get(X_FASTAPI_REQUEST_BODY_EXAMPLE)
+                : null;
         if (example != null) {
             setBodyParamExample(operation, toPythonBodyLiteral(example));
         } else {
@@ -423,34 +456,6 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
             return null;
         }
         return Json.mapper().convertValue(example, Object.class);
-    }
-
-    private Operation findOpenAPIOperation(CodegenOperation operation) {
-        if (openAPI == null || openAPI.getPaths() == null) {
-            return null;
-        }
-
-        PathItem pathItem = openAPI.getPaths().get(operation.path);
-        if (pathItem == null) {
-            return null;
-        }
-
-        for (Map.Entry<PathItem.HttpMethod, Operation> entry : pathItem.readOperationsMap().entrySet()) {
-            if (operation.httpMethod != null && operation.httpMethod.equalsIgnoreCase(entry.getKey().name())) {
-                return entry.getValue();
-            }
-        }
-
-        for (Operation sourceOperation : pathItem.readOperations()) {
-            if (operation.operationIdOriginal != null && operation.operationIdOriginal.equals(sourceOperation.getOperationId())) {
-                return sourceOperation;
-            }
-            if (operation.operationId != null && operation.operationId.equals(sourceOperation.getOperationId())) {
-                return sourceOperation;
-            }
-        }
-
-        return null;
     }
 
     private void clearBodyParamExample(CodegenOperation operation) {
@@ -579,7 +584,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
 
     @Override
     public String generatorLanguageVersion() {
-        return "3.10";
+        return "3.11";
     }
 
     @Override

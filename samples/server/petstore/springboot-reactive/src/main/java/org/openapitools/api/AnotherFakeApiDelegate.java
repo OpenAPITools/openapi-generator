@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link AnotherFakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface AnotherFakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -37,7 +37,7 @@ public interface AnotherFakeApiDelegate {
      * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> client,
+    default @Valid Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> client,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     

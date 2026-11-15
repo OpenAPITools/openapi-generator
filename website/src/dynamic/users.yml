@@ -299,6 +299,11 @@
   infoLink: "https://developer.here.com/"
   pinned: false
 -
+  caption: "Hypha by Demeter Mycolabs"
+  image: "img/companies/hypha-demeter-mycolabs.png"
+  infoLink: "https://hyphaapp.com/"
+  pinned: false
+-
   caption: "IBM"
   image: "img/companies/ibm.svg"
   infoLink: "https://www.ibm.com"

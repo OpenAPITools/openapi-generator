@@ -61,8 +61,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>int</li>
 <li>int32</li>
 <li>int64</li>
-<li>interface{}</li>
-<li>map[string]interface{}</li>
+<li>interface&#123;&#125;</li>
+<li>map[string]interface&#123;&#125;</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>

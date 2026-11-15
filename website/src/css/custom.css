@@ -56,6 +56,24 @@ html[data-theme=''] .navbar__logo {
     -moz-columns: 2;
 }
 
+.generators-list > ul {
+    column-count: 1;
+    column-gap: 2rem;
+}
+
+.generators-list > ul > li {
+    break-inside: avoid-column;
+    overflow-wrap: anywhere;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .generators-list > ul {
+        columns: 15rem 3;
+    }
+}
+
 dd {
     margin-bottom: 0.5em;
 }

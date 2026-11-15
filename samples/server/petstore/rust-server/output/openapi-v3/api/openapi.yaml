@@ -655,6 +655,9 @@ components:
   schemas:
     AnyOfProperty:
       description: Test containing an anyOf object
+      example:
+        requiredAnyOf: FOO
+        optionalAnyOf: FOO
       properties:
         requiredAnyOf:
           $ref: "#/components/schemas/AnyOfObject"
@@ -667,6 +670,10 @@ components:
         $ref: "#/components/schemas/AnyOfProperty"
       description: Check that an object with only additional properties that references
         another object (e.g. an anyOf object) isn't treated as freeForm
+      example:
+        key:
+          requiredAnyOf: FOO
+          optionalAnyOf: FOO
       type: object
     AnyOfObject:
       anyOf:

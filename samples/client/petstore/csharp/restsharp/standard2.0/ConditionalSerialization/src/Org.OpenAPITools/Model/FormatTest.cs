@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="stringFormattedAsDecimalRequired">stringFormattedAsDecimalRequired (required).</param>
         /// <param name="duplicatePropertyName2">duplicatePropertyName2.</param>
         /// <param name="duplicatePropertyName">duplicatePropertyName.</param>
-        public FormatTest(int integer = default, int int32 = default, int int32Range = default, int int64Positive = default, int int64Negative = default, int int64PositiveExclusive = default, int int64NegativeExclusive = default, uint unsignedInteger = default, long int64 = default, ulong unsignedLong = default, decimal number = default, float varFloat = default, double varDouble = default, decimal varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime dateTime = default, Guid uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default, string duplicatePropertyName2 = default, string duplicatePropertyName = default)
+        public FormatTest(int? integer = default, int? int32 = default, int? int32Range = default, int? int64Positive = default, int? int64Negative = default, int? int64PositiveExclusive = default, int? int64NegativeExclusive = default, uint? unsignedInteger = default, long? int64 = default, ulong? unsignedLong = default, decimal number = default, float? varFloat = default, double? varDouble = default, decimal? varDecimal = default, string varString = default, byte[] varByte = default, System.IO.Stream binary = default, DateTime date = default, DateTime? dateTime = default, Guid? uuid = default, string password = default, string patternWithDigits = default, string patternWithDigitsAndDelimiter = default, string patternWithBackslash = default, decimal? stringFormattedAsDecimal = default, decimal stringFormattedAsDecimalRequired = default, string duplicatePropertyName2 = default, string duplicatePropertyName = default)
         {
             this._Number = number;
             // to ensure "varByte" is required (not null)
@@ -88,69 +88,69 @@ namespace Org.OpenAPITools.Model
             }
             this._Password = password;
             this._StringFormattedAsDecimalRequired = stringFormattedAsDecimalRequired;
-            this._Integer = integer;
-            if (this.Integer != null)
+            if (integer != null)
             {
+                this._Integer = integer.Value;
                 this._flagInteger = true;
             }
-            this._Int32 = int32;
-            if (this.Int32 != null)
+            if (int32 != null)
             {
+                this._Int32 = int32.Value;
                 this._flagInt32 = true;
             }
-            this._Int32Range = int32Range;
-            if (this.Int32Range != null)
+            if (int32Range != null)
             {
+                this._Int32Range = int32Range.Value;
                 this._flagInt32Range = true;
             }
-            this._Int64Positive = int64Positive;
-            if (this.Int64Positive != null)
+            if (int64Positive != null)
             {
+                this._Int64Positive = int64Positive.Value;
                 this._flagInt64Positive = true;
             }
-            this._Int64Negative = int64Negative;
-            if (this.Int64Negative != null)
+            if (int64Negative != null)
             {
+                this._Int64Negative = int64Negative.Value;
                 this._flagInt64Negative = true;
             }
-            this._Int64PositiveExclusive = int64PositiveExclusive;
-            if (this.Int64PositiveExclusive != null)
+            if (int64PositiveExclusive != null)
             {
+                this._Int64PositiveExclusive = int64PositiveExclusive.Value;
                 this._flagInt64PositiveExclusive = true;
             }
-            this._Int64NegativeExclusive = int64NegativeExclusive;
-            if (this.Int64NegativeExclusive != null)
+            if (int64NegativeExclusive != null)
             {
+                this._Int64NegativeExclusive = int64NegativeExclusive.Value;
                 this._flagInt64NegativeExclusive = true;
             }
-            this._UnsignedInteger = unsignedInteger;
-            if (this.UnsignedInteger != null)
+            if (unsignedInteger != null)
             {
+                this._UnsignedInteger = unsignedInteger.Value;
                 this._flagUnsignedInteger = true;
             }
-            this._Int64 = int64;
-            if (this.Int64 != null)
+            if (int64 != null)
             {
+                this._Int64 = int64.Value;
                 this._flagInt64 = true;
             }
-            this._UnsignedLong = unsignedLong;
-            if (this.UnsignedLong != null)
+            if (unsignedLong != null)
             {
+                this._UnsignedLong = unsignedLong.Value;
                 this._flagUnsignedLong = true;
             }
-            this._Float = varFloat;
-            if (this.Float != null)
+            if (varFloat != null)
             {
+                this._Float = varFloat.Value;
                 this._flagFloat = true;
             }
-            this._Double = varDouble;
-            if (this.Double != null)
+            if (varDouble != null)
             {
+                this._Double = varDouble.Value;
                 this._flagDouble = true;
             }
-            this._Decimal = varDecimal;
-            if (this.Decimal != null)
+            if (varDecimal != null)
             {
+                this._Decimal = varDecimal.Value;
                 this._flagDecimal = true;
             }
             this._String = varString;
@@ -163,14 +163,14 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagBinary = true;
             }
-            this._DateTime = dateTime;
-            if (this.DateTime != null)
+            if (dateTime != null)
             {
+                this._DateTime = dateTime.Value;
                 this._flagDateTime = true;
             }
-            this._Uuid = uuid;
-            if (this.Uuid != null)
+            if (uuid != null)
             {
+                this._Uuid = uuid.Value;
                 this._flagUuid = true;
             }
             this._PatternWithDigits = patternWithDigits;
@@ -188,9 +188,9 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagPatternWithBackslash = true;
             }
-            this._StringFormattedAsDecimal = stringFormattedAsDecimal;
-            if (this.StringFormattedAsDecimal != null)
+            if (stringFormattedAsDecimal != null)
             {
+                this._StringFormattedAsDecimal = stringFormattedAsDecimal.Value;
                 this._flagStringFormattedAsDecimal = true;
             }
             this._DuplicatePropertyName2 = duplicatePropertyName2;
@@ -1053,114 +1053,114 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Integer (int) maximum
             if (this.Integer > (int)100)
             {
-                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
             // Integer (int) minimum
             if (this.Integer < (int)10)
             {
-                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
             // Int32 (int) maximum
             if (this.Int32 > (int)200)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int) minimum
             if (this.Int32 < (int)20)
             {
-                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
             // Int32Range (int) maximum
             if (this.Int32Range > (int)2147483647)
             {
-                yield return new ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32Range, must be a value less than or equal to 2147483647.", new [] { "Int32Range" });
             }
 
             // Int32Range (int) minimum
             if (this.Int32Range < (int)-2147483648)
             {
-                yield return new ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32Range, must be a value greater than or equal to -2147483648.", new [] { "Int32Range" });
             }
 
             // Int64Positive (long) minimum
             if (this.Int64Positive < (long)2147483648)
             {
-                yield return new ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64Positive, must be a value greater than or equal to 2147483648.", new [] { "Int64Positive" });
             }
 
             // Int64Negative (long) maximum
             if (this.Int64Negative > (long)-2147483649)
             {
-                yield return new ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64Negative, must be a value less than or equal to -2147483649.", new [] { "Int64Negative" });
             }
 
             // Int64PositiveExclusive (long) minimum
             if (this.Int64PositiveExclusive < (long)2147483647)
             {
-                yield return new ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64PositiveExclusive, must be a value greater than 2147483647.", new [] { "Int64PositiveExclusive" });
             }
 
             // Int64NegativeExclusive (long) maximum
             if (this.Int64NegativeExclusive <= (long)-2147483648)
             {
-                yield return new ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int64NegativeExclusive, must be a value less than -2147483648.", new [] { "Int64NegativeExclusive" });
             }
 
             // UnsignedInteger (uint) maximum
             if (this.UnsignedInteger > (uint)200)
             {
-                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
             }
 
             // UnsignedInteger (uint) minimum
             if (this.UnsignedInteger < (uint)20)
             {
-                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
 
             // Number (decimal) maximum
             if (this.Number > (decimal)543.2)
             {
-                yield return new ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
             // Number (decimal) minimum
             if (this.Number < (decimal)32.1)
             {
-                yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
             // Float (float) maximum
             if (this.Float > (float)987.6)
             {
-                yield return new ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value less than or equal to 987.6.", new [] { "Float" });
             }
 
             // Float (float) minimum
             if (this.Float < (float)54.3)
             {
-                yield return new ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Float, must be a value greater than or equal to 54.3.", new [] { "Float" });
             }
 
             // Double (double) maximum
             if (this.Double > (double)123.4)
             {
-                yield return new ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value less than or equal to 123.4.", new [] { "Double" });
             }
 
             // Double (double) minimum
             if (this.Double < (double)67.8)
             {
-                yield return new ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Double, must be a value greater than or equal to 67.8.", new [] { "Double" });
             }
 
             if (this.String != null) {
@@ -1175,13 +1175,13 @@ namespace Org.OpenAPITools.Model
             // Password (string) maxLength
             if (this.Password != null && this.Password.Length > 64)
             {
-                yield return new ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
             }
 
             // Password (string) minLength
             if (this.Password != null && this.Password.Length < 10)
             {
-                yield return new ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
 
             if (this.PatternWithDigits != null) {

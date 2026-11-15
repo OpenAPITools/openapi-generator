@@ -11,6 +11,8 @@ repositories {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
+        // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
+        freeCompilerArgs.add("-Xemit-jvm-type-annotations")
     }
 }
 
@@ -29,7 +31,7 @@ dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webmvc")
 
     implementation("com.google.code.findbugs:jsr305:3.0.2")
-    val jackson3Version = "3.1.0"
+    val jackson3Version = "3.1.6"
     implementation("tools.jackson.dataformat:jackson-dataformat-yaml:$jackson3Version")
     implementation("tools.jackson.dataformat:jackson-dataformat-xml:$jackson3Version")
     implementation("tools.jackson.module:jackson-module-kotlin:$jackson3Version")

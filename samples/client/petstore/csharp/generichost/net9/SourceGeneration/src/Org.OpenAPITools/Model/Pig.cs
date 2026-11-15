@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -88,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -98,7 +97,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -156,7 +155,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName?.Equals("className") ?? false)
                     {
-                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string? discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "className");
                         if (discriminator?.Equals("BasquePig") ?? false)
                         {
                             Utf8JsonReader utf8JsonReaderBasquePig = utf8JsonReader;
@@ -196,10 +195,10 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Pig.", nameof(className));
+                throw new JsonException("Property is required for class Pig: className.");
 
             if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
+                throw new JsonException("Property is not nullable for class Pig: className.");
 
             if (basquePig != null)
                 return new Pig(basquePig);
@@ -216,7 +215,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pig"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -243,17 +241,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="pig"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
 
         }
     }
-
-    /// <summary>
-    /// The PigSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Pig))]
-    public partial class PigSerializationContext : JsonSerializerContext { }
 }

@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: pattern with control characters
+  version: "1.0"
+paths:
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestModel"
+components:
+  schemas:
+    TestModel:
+      type: object
+      properties:
+        no_control_characters:
+          type: string
+          pattern: "^[^\u0000-\u001f\u007f-\u009f]+$"
+        byte_order_mark:
+          type: string
+          pattern: "^[^\ufeff]*$"

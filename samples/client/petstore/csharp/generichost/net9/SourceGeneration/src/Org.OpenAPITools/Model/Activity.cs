@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -83,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -148,7 +147,7 @@ namespace Org.OpenAPITools.Model
             }
 
             if (activityOutputs.IsSet && activityOutputs.Value == null)
-                throw new ArgumentNullException(nameof(activityOutputs), "Property is not nullable for class Activity.");
+                throw new JsonException("Property is not nullable for class Activity: activity_outputs.");
 
             return new Activity(activityOutputs);
         }
@@ -159,7 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activity"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -174,11 +172,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="activity"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
             if (activity.ActivityOutputsOption.IsSet && activity.ActivityOutputs == null)
-                throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
+                throw new JsonException("Cannot write null property Activity.ActivityOutputs to non-nullable JSON property 'activity_outputs'.");
 
             if (activity.ActivityOutputsOption.IsSet)
             {
@@ -187,11 +184,4 @@ namespace Org.OpenAPITools.Model
             }
         }
     }
-
-    /// <summary>
-    /// The ActivitySerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Activity))]
-    public partial class ActivitySerializationContext : JsonSerializerContext { }
 }

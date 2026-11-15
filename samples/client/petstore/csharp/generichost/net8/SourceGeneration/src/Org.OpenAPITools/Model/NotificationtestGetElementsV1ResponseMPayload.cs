@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -85,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -154,16 +153,16 @@ namespace Org.OpenAPITools.Model
             }
 
             if (!aObjVariableobject.IsSet)
-                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(aObjVariableobject));
+                throw new JsonException("Property is required for class NotificationtestGetElementsV1ResponseMPayload: a_objVariableobject.");
 
             if (!pkiNotificationtestID.IsSet)
-                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(pkiNotificationtestID));
+                throw new JsonException("Property is required for class NotificationtestGetElementsV1ResponseMPayload: pkiNotificationtestID.");
 
             if (aObjVariableobject.IsSet && aObjVariableobject.Value == null)
-                throw new ArgumentNullException(nameof(aObjVariableobject), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+                throw new JsonException("Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload: a_objVariableobject.");
 
             if (pkiNotificationtestID.IsSet && pkiNotificationtestID.Value == null)
-                throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+                throw new JsonException("Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload: pkiNotificationtestID.");
 
             return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value!, pkiNotificationtestID.Value!.Value!);
         }
@@ -174,7 +173,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="notificationtestGetElementsV1ResponseMPayload"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -189,22 +187,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="notificationtestGetElementsV1ResponseMPayload"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (notificationtestGetElementsV1ResponseMPayload.AObjVariableobject == null)
-                throw new ArgumentNullException(nameof(notificationtestGetElementsV1ResponseMPayload.AObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
-
             writer.WritePropertyName("a_objVariableobject");
             JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions);
             writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);
         }
     }
-
-    /// <summary>
-    /// The NotificationtestGetElementsV1ResponseMPayloadSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(NotificationtestGetElementsV1ResponseMPayload))]
-    public partial class NotificationtestGetElementsV1ResponseMPayloadSerializationContext : JsonSerializerContext { }
 }

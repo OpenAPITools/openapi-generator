@@ -36,12 +36,6 @@ public class CodegenConstants {
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
 
-    /**
-     * Wildcard token for {@code forcedGenerateSchemas}: when this value is present in the set,
-     * all schemas are generated even if they appear in schemaMappings or importMappings.
-     */
-    public static final String FORCE_GENERATE_ALL_SCHEMAS = "*";
-
     public static final String API_NAME = "apiName";
 
     public static final String API_PACKAGE = "apiPackage";
@@ -274,6 +268,9 @@ public class CodegenConstants {
     // Codegen constants should define a description and provide proper input validation for the value of serializationLibrary
     public static final String SERIALIZATION_LIBRARY = "serializationLibrary";
 
+    public static final String TYPE_INFO_DEFAULT_IMPLS = "typeInfoDefaultImpls";
+    public static final String TYPE_INFO_DEFAULT_IMPLS_DESC = "Map of schema name to default Jackson deserialization class for @JsonTypeInfo(defaultImpl=...). Applies to both deduction-based and discriminator-based oneOf interfaces. Overrides x-jackson-default-impl when both are set for the same schema. Example: yaml `typeInfoDefaultImpls: {PostRegistrationRequest: PostRegistrationBasicRequest}`";
+
     public static final String API_NAME_PREFIX = "apiNamePrefix";
     public static final String API_NAME_PREFIX_DESC = "Prefix that will be appended to all API names ('tags'). Default: empty string. e.g. Pet => Pet.";
 
@@ -340,6 +337,7 @@ public class CodegenConstants {
     // Not user-configurable. System provided for use in templates.
     public static final String GENERATE_MODELS = "generateModels";
     public static final String GENERATE_MODEL_DOCS = "generateModelDocs";
+    public static final String GENERATE_SUPPORTING_FILES = "generateSupportingFiles";
 
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String VIRTUAL_SERVICE_DESC = "Generate Spring boot rest service as virtual service with Virtualan";
@@ -478,6 +476,9 @@ public class CodegenConstants {
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE = "useExternalImplementationPackage";
+    public static final String USE_EXTERNAL_IMPLEMENTATION_PACKAGE_DESC = "If true, fastapiImplementationPackage is a fully qualified python package that already exists outside the generated package: it is imported as-is (not prefixed with packageName) and its __init__.py is not generated.";
+
     public static final String WITH_XML = "withXml";
 
     public static final String WITH_GO_MOD = "withGoMod";
@@ -525,6 +526,8 @@ public class CodegenConstants {
     public static final String X_MODIFIER_PREFIX = "x-modifier-";
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
     public static final String X_MODEL_IS_OPERATION_INPUT = "x-model-is-operation-input";
+    public static final String X_ENUM_AS_STRING = "x-enum-as-string";
+    public static final String X_IS_JACKSON_OPTIONAL_NULLABLE = "x-is-jackson-optional-nullable";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
     public static final String USE_ENUM_VALUE_INTERFACE = "useEnumValueInterface";

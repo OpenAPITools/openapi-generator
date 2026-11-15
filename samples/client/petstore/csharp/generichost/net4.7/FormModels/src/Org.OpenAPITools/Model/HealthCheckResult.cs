@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -153,7 +153,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="healthCheckResult"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -168,7 +167,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="healthCheckResult"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
             if (healthCheckResult.NullableMessageOption.IsSet)

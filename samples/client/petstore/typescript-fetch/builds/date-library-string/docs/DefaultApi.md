@@ -21,11 +21,11 @@ All URIs are relative to *http://localhost*
 import {
   Configuration,
   DefaultApi,
-} from '';
-import type { CreateEventRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { CreateEventRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new DefaultApi();
 
   const body = {
@@ -89,11 +89,11 @@ No authorization required
 import {
   Configuration,
   DefaultApi,
-} from '';
-import type { ListEventsRequest } from '';
+} from '@openapitools/typescript-fetch-petstore';
+import type { ListEventsRequest } from '@openapitools/typescript-fetch-petstore';
 
 async function example() {
-  console.log("🚀 Testing  SDK...");
+  console.log("🚀 Testing @openapitools/typescript-fetch-petstore SDK...");
   const api = new DefaultApi();
 
   const body = {

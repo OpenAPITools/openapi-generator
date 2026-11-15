@@ -6,7 +6,9 @@
    * @param value the value of the property
    * @return self reference
    */
+  {{#jackson}}
   @JsonAnySetter
+  {{/jackson}}
   public {{classname}} putAdditionalProperty(String key, {{{datatypeWithEnum}}} value) {
     this.put(key, value);
     return this;
@@ -16,7 +18,9 @@
    * Return the additional (undeclared) properties.
    * @return the additional (undeclared) properties
    */
+  {{#jackson}}
   @JsonAnyGetter
+  {{/jackson}}
   public Map<String, {{{datatypeWithEnum}}}> getAdditionalProperties() {
     return this;
   }

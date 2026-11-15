@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.*;
@@ -70,6 +71,81 @@ public class DefaultCodegenTest {
     private static final String APP_XML = "application/xml";
     private static final String APP_TEXT = "application/text";
     private static final Logger testLogger = (Logger) LoggerFactory.getLogger(ModelUtils.class);
+
+    @Test
+    public void testBuildEnumVarsPreservesRawValueAlignmentAcrossNulls() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        List<EnumVarMap> enumVars = codegen.buildEnumVars(
+                Arrays.asList("first", null, "_42"), "string", Arrays.asList("original", null, 42));
+
+        Assert.assertEquals(enumVars.size(), 2);
+        Assert.assertEquals(enumVars.get(0).getEnumRawValue(), "original");
+        Assert.assertEquals(enumVars.get(1).getEnumRawValue(), Integer.valueOf(42));
+        Assert.assertEquals(enumVars.get(1).getEnumValue(), "\"_42\"");
+    }
+
+    @Test
+    public void testPostProcessEnumVarsKeepsRenamedEntriesUnique() {
+        // typescript names of "Etc/GMT+12", "Etc/GMT+1", "Etc/GMT0", "Etc/GMT-1" and "Etc/GMT-12"
+        List<EnumVarMap> enumVars = new ArrayList<>();
+        for (String name : Arrays.asList("EtcGmt12", "EtcGmt1", "EtcGmt0", "EtcGmt1", "EtcGmt12")) {
+            EnumVarMap enumVar = new EnumVarMap();
+            enumVar.setEnumName(name);
+            enumVars.add(enumVar);
+        }
+
+        new DefaultCodegen().postProcessEnumVars(enumVars);
+
+        assertThat(enumVars).extracting(EnumVarMap::getEnumName)
+                .containsExactly("EtcGmt122", "EtcGmt1", "EtcGmt0", "EtcGmt12", "EtcGmt1222");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBuildEnumVarsRejectsMismatchedRawValues() {
+        new DefaultCodegen().buildEnumVars(Collections.singletonList("value"), "string", Collections.emptyList());
+    }
+
+    @Test
+    public void testAnyPropertyMatchesHandlesCyclesAndSharedProperties() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty child = new CodegenProperty();
+        root.items = child;
+        root.additionalProperties = child;
+        child.items = root;
+        final List<CodegenProperty> visited = new ArrayList<>();
+
+        assertFalse(codegen.anyPropertyMatches(root, property -> {
+            visited.add(property);
+            return property.isUuid;
+        }));
+        assertEquals(2, visited.size());
+
+        final CodegenProperty uuid = new CodegenProperty();
+        uuid.isUuid = true;
+        child.vars.add(uuid);
+        assertTrue(codegen.anyPropertyMatches(root, property -> property.isUuid));
+    }
+
+    @Test
+    public void testAnyPropertyMatchesUsesIdentityAndStopsAtMatch() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final CodegenProperty root = new CodegenProperty();
+        final CodegenProperty first = new CodegenProperty();
+        final CodegenProperty second = new CodegenProperty();
+        assertEquals(first, second);
+        root.vars = Arrays.asList(first, second);
+
+        assertTrue(codegen.anyPropertyMatches(root, property -> property == second));
+        assertTrue(codegen.anyPropertyMatches(root, property -> {
+            assertSame(root, property);
+            return true;
+        }));
+        assertFalse(codegen.anyPropertyMatches(null, property -> {
+            fail("A null root must not invoke the predicate");
+            return true;
+        }));
+    }
 
     @Test
     public void testDeeplyNestedAdditionalPropertiesImports() {
@@ -286,6 +362,126 @@ public class DefaultCodegenTest {
 
         assertEquals("1971-12-19T03:39:57-08:00", codegenParameter.defaultValue);
         Assertions.assertNull(codegenParameter.getSchema());
+    }
+
+    @Test
+    public void testOAS31NullableTypeArrayIsInheritedThroughAllOf() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/allof-nullable-type-array.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        // `id`, the items of `tags` and the values of `meta` are all declared with the OAS 3.1
+        // `type: [<type>, 'null']` form on Base, so they must stay nullable both on Base itself
+        // and on Derived, which pulls them in via `allOf: [$ref: Base, {...}]`. Nullability must
+        // survive at every nesting level, not just on the property itself.
+        for (String modelName : List.of("Base", "Derived", "Control")) {
+            Schema<?> schema = openAPI.getComponents().getSchemas().get(modelName);
+            CodegenModel model = codegen.fromModel(modelName, schema);
+
+            assertTrue(varNamed(model, "id").isNullable,
+                    "`id` must be nullable on " + modelName);
+            assertTrue(varNamed(model, "tags").items.isNullable,
+                    "the items of `tags` must be nullable on " + modelName);
+            assertTrue(varNamed(model, "meta").additionalProperties.isNullable,
+                    "the values of `meta` must be nullable on " + modelName);
+        }
+    }
+
+    private static CodegenProperty varNamed(CodegenModel model, String baseName) {
+        return model.vars.stream()
+                .filter(v -> baseName.equals(v.baseName))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("no `" + baseName + "` var on " + model.name));
+    }
+
+    private static OpenAPI parseIssue23445() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_23445.yaml");
+        new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true")).normalize();
+        new InlineModelResolver().flatten(openAPI);
+        return openAPI;
+    }
+
+    @Test
+    public void testIntegerBoundsNextToRefOrAllOfStayIntegers() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel model = codegen.fromModel("Bounds", openAPI.getComponents().getSchemas().get("Bounds"));
+
+        CodegenProperty refWithMaximum = varNamed(model, "refWithMaximum");
+        assertEquals("1", refWithMaximum.getMinimum());
+        assertEquals("5000", refWithMaximum.getMaximum());
+
+        CodegenProperty allOfWithMaximum = varNamed(model, "allOfWithMaximum");
+        assertEquals("1", allOfWithMaximum.getMinimum());
+        assertEquals("5000", allOfWithMaximum.getMaximum());
+
+        // more digits than a double can hold
+        CodegenProperty largeBounds = varNamed(model, "largeBounds");
+        assertEquals("-9007199254740993", largeBounds.getMinimum());
+        assertEquals("9007199254740993", largeBounds.getMaximum());
+    }
+
+    @Test
+    public void testIntegerBoundsNextToAllOfInRequestBody() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenParameter body = codegen.fromOperation("/allof-body", "post",
+                openAPI.getPaths().get("/allof-body").getPost(), null).bodyParam;
+        assertEquals("1", body.getMinimum());
+        assertEquals("5000", body.getMaximum());
+    }
+
+    @Test
+    public void testIntegerBoundsNextToRefInRequestBody() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenParameter body = codegen.fromOperation("/ref-body", "post",
+                openAPI.getPaths().get("/ref-body").getPost(), null).bodyParam;
+        assertEquals("1", body.getMinimum());
+        assertEquals("5000", body.getMaximum());
+    }
+
+    @Test
+    public void testFractionalBoundsOnIntegerSchemasAreRoundedIntoRange() {
+        final OpenAPI openAPI = parseIssue23445();
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        CodegenModel model = codegen.fromModel("FractionalBounds",
+                openAPI.getComponents().getSchemas().get("FractionalBounds"));
+
+        // 1.5 <= x <= 9.5 accepts the integers 2..9
+        CodegenProperty inline = varNamed(model, "inline");
+        assertEquals("2", inline.getMinimum());
+        assertEquals("9", inline.getMaximum());
+
+        // -9.5 <= x <= -1.5 accepts -9..-2
+        CodegenProperty inlineNegative = varNamed(model, "inlineNegative");
+        assertEquals("-9", inlineNegative.getMinimum());
+        assertEquals("-2", inlineNegative.getMaximum());
+
+        // -1.5 < x < 1.5 accepts -1..1, i.e. -2 < x < 2
+        CodegenProperty inlineExclusive = varNamed(model, "inlineExclusive");
+        assertEquals("-2", inlineExclusive.getMinimum());
+        assertTrue(inlineExclusive.getExclusiveMinimum());
+        assertEquals("2", inlineExclusive.getMaximum());
+        assertTrue(inlineExclusive.getExclusiveMaximum());
+
+        CodegenProperty refWithBounds = varNamed(model, "refWithBounds");
+        assertEquals("2", refWithBounds.getMinimum());
+        assertEquals("9", refWithBounds.getMaximum());
+
+        CodegenProperty allOfWithBounds = varNamed(model, "allOfWithBounds");
+        assertEquals("-9", allOfWithBounds.getMinimum());
+        assertEquals("-2", allOfWithBounds.getMaximum());
     }
 
     @Test
@@ -741,6 +937,59 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testInheritedInlineEnumIsDroppedFromChildModel() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty animalStatus = inlineEnumProperty("status", "StatusEnum", "ACTIVE", "INACTIVE");
+        CodegenModel animal = modelWithVars("Animal", animalStatus);
+
+        CodegenProperty catStatusBeforeReconcile = animalStatus.clone();
+        CodegenProperty catMood = property("mood");
+        CodegenModel cat = modelWithVars("Cat", catStatusBeforeReconcile, catMood);
+
+        assertTrue(animalStatus.isEnum);
+        assertEquals(animalStatus.get_enum(), Arrays.asList("ACTIVE", "INACTIVE"));
+
+        // Before reconciliation, the child still has its mirrored inline enum property.
+        assertTrue(catStatusBeforeReconcile.isEnum);
+        assertEquals(catStatusBeforeReconcile.get_enum(), Arrays.asList("ACTIVE", "INACTIVE"));
+        assertEquals(catStatusBeforeReconcile.enumName, animalStatus.enumName);
+        assertThat(cat.vars.stream().filter(property -> "status".equals(property.name)).count()).isEqualTo(1);
+
+        cat = codegen.reconcileInlineEnums(cat, animal);
+
+        // After reconciliation, the mirrored child property is dropped from vars.
+        assertThat(getNames(cat.vars)).containsExactly("mood");
+        assertThat(cat.vars.stream().filter(property -> "status".equals(property.name)).count()).isEqualTo(0);
+    }
+
+    @Test
+    public void testInheritedInlineEnumThatIsNarrowedIsKeptInChildModel() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty animalType = inlineEnumProperty("type", "TypeEnum", "cat", "dog");
+        CodegenModel animal = modelWithVars("Animal", animalType);
+
+        CodegenProperty dogTypeBeforeReconcile = animalType.clone();
+        dogTypeBeforeReconcile.set_enum(Collections.singletonList("dog"));
+        CodegenModel dog = modelWithVars("Dog", dogTypeBeforeReconcile);
+
+        assertTrue(animalType.isEnum);
+        assertEquals(animalType.get_enum(), Arrays.asList("cat", "dog"));
+
+        // Before reconciliation, the narrowed child enum exists on the child model.
+        assertTrue(dogTypeBeforeReconcile.isEnum);
+        assertEquals(dogTypeBeforeReconcile.get_enum(), Collections.singletonList("dog"));
+        assertThat(dog.vars.stream().filter(property -> "type".equals(property.name)).count()).isEqualTo(1);
+
+        dog = codegen.reconcileInlineEnums(dog, animal);
+
+        // Narrowed enum is not identical to parent enum, so child property must be retained.
+        CodegenProperty dogTypeAfterReconcile = varNamed(dog, "type");
+        assertTrue(dogTypeAfterReconcile.isEnum);
+        assertEquals(dogTypeAfterReconcile.get_enum(), Collections.singletonList("dog"));
+        assertThat(dog.vars.stream().filter(property -> "type".equals(property.name)).count()).isEqualTo(1);
+    }
+
+    @Test
     public void testOneOfMergeProperties() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue15859.json");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -898,6 +1147,7 @@ public class DefaultCodegenTest {
         Assertions.assertNotNull(testedEnumVar);
         assertEquals("_1", testedEnumVar.getOrDefault("name", ""));
         assertEquals("\"1\"", testedEnumVar.getOrDefault("value", ""));
+        assertEquals(1, testedEnumVar.getOrDefault("rawValue", ""));
         assertEquals(false, testedEnumVar.getOrDefault("isString", ""));
     }
 
@@ -5302,6 +5552,29 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testHeaderIsJsonMimeType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/java/json-header-content.yaml");
+        codegen.setOpenAPI(openAPI);
+        String path = "/test";
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "POST", openAPI.getPaths().get(path).getPost(), null);
+
+        assertThat(codegenOperation.headerParams).hasSize(2);
+
+        CodegenParameter jsonHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Json-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(jsonHeader.headerIsJsonMimeType).isTrue();
+
+        CodegenParameter plainHeader = codegenOperation.headerParams.stream()
+                .filter(param -> "X-Plain-Arg".equals(param.baseName))
+                .findFirst()
+                .orElseThrow();
+        assertThat(plainHeader.headerIsJsonMimeType).isFalse();
+    }
+
+    @Test
     public void testDefaultOauthIsNotNull() {
         final DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/issue_20662.yaml");
@@ -5408,6 +5681,58 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void splitOperationsByContentTypeNarrowsProducesToTheVariantMediaType() {
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setSplitOperationsByContentType(true);
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue6708-split-by-content-type-error-responses.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        // GET /reports/{id}: 200 is json | csv, 400 and 404 are json. produces is the Accept a client
+        // sends, so each variant carries the single media-type it was narrowed to: widened back to json by
+        // the error responses, the csv variant would ask the server for json.
+        Operation get = openAPI.getPaths().get("/reports/{id}").getGet();
+        List<Operation> variants = codegen.divideOperationsByContentType(openAPI, "/reports/{id}", "get", get);
+        assertThat(variants).extracting(Operation::getOperationId, v -> DefaultCodegen.getProducesInfo(openAPI, v))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", Set.of("application/json")),
+                        tuple("getReportAsCsv", Set.of("text/csv")));
+        List<CodegenOperation> ops = variants.stream()
+                .map(v -> codegen.fromOperation("/reports/{id}", "get", v, null))
+                .collect(Collectors.toList());
+        assertThat(ops).extracting(op -> op.operationId, op -> mediaTypes(op.produces))
+                .containsExactlyInAnyOrder(
+                        tuple("getReportAsJson", List.of("application/json")),
+                        tuple("getReportAsCsv", List.of("text/csv")));
+        // the error responses are left as they are: they still type their json body
+        assertThat(ops).allSatisfy(op -> assertThat(op.responses).filteredOn(r -> "400".equals(r.code))
+                .extracting(r -> r.getContent().keySet()).containsExactly(Set.of("application/json")));
+
+        // POST /reports: split on both axes. consumes follows the narrowed request body, produces the
+        // narrowed success response, whatever the json 400 declares.
+        Operation post = openAPI.getPaths().get("/reports").getPost();
+        assertThat(codegen.divideOperationsByContentType(openAPI, "/reports", "post", post))
+                .extracting(v -> codegen.fromOperation("/reports", "post", v, null))
+                .extracting(op -> op.operationId, op -> mediaTypes(op.consumes), op -> mediaTypes(op.produces))
+                .containsExactlyInAnyOrder(
+                        tuple("createReportWithJsonAsJson", List.of("application/json"), List.of("application/json")),
+                        tuple("createReportWithJsonAsPdf", List.of("application/json"), List.of("application/pdf")),
+                        tuple("createReportWithXmlAsJson", List.of("application/xml"), List.of("application/json")),
+                        tuple("createReportWithXmlAsPdf", List.of("application/xml"), List.of("application/pdf")));
+
+        // an operation the split leaves alone keeps the union of every response, as it always has - and a
+        // spec-authored axis extension, with no variant group, does not make it a variant
+        Operation voucher = openAPI.getPaths().get("/reports/{id}/voucher").getGet();
+        voucher.addExtension(CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE, "text/csv");
+        assertThat(DefaultCodegen.getProducesInfo(openAPI, voucher)).containsExactlyInAnyOrder("application/pdf", "application/json");
+        assertThat(mediaTypes(codegen.fromOperation("/reports/{id}/voucher", "get", voucher, null).produces))
+                .containsExactlyInAnyOrder("application/pdf", "application/json");
+    }
+
+    private static List<String> mediaTypes(List<Map<String, String>> media) {
+        return media.stream().map(m -> m.get(MEDIA_TYPE)).collect(Collectors.toList());
+    }
+
+    @Test
     public void splitOperationsByContentTypeIsAGlobalOption() {
         // the behaviour is language-neutral, so the option is global rather than declared - and documented -
         // by every single generator
@@ -5426,5 +5751,85 @@ public class DefaultCodegenTest {
         DefaultCodegen off = new DefaultCodegen();
         off.processOpts();
         assertThat(off.splitOperationsByContentType).isFalse();
+    }
+
+    @Test
+    public void testGetEnumValueForPropertyWithNullAllowableValues() {
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setIsEnum(true);
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+
+        String result = DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, var);
+        assertEquals("defaultType", result);
+
+        Assertions.assertNull(DefaultCodegen.getEnumValueForProperty("TestModel", discriminator, null));
+        assertEquals("defaultType", DefaultCodegen.getEnumValueForProperty("TestModel", null, var));
+    }
+
+    @Test
+    public void testSetEnumDiscriminatorDefaultValue() {
+        CodegenModel model = new CodegenModel();
+        model.name = "TestModel";
+        model.schemaName = "TestModel";
+
+        CodegenDiscriminator discriminator = new CodegenDiscriminator();
+        discriminator.setPropertyBaseName("type");
+        discriminator.setPropertyName("type");
+        discriminator.setIsEnum(true);
+        model.discriminator = discriminator;
+
+        CodegenProperty var = new CodegenProperty();
+        var.baseName = "type";
+        var.defaultValue = "defaultType";
+        var.allowableValues = null;
+        model.vars.add(var);
+        model.allVars.add(var);
+
+        // 1. With mapping defined and null allowableValues:
+        // Verifies the discriminator matching path executes and assigns mapped value without NPE
+        discriminator.setMapping(Map.of("CustomModel", "TestModel"));
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("CustomModel", var.defaultValue);
+
+        // 2. With allowableValues populated matching modelName:
+        // Verifies allowableValues matching path assigns the enum value
+        discriminator.setMapping(Collections.emptyMap());
+        var.allowableValues = Map.of(EnumVarMap.ENUM_VALUES, List.of("TestModel"));
+        var.defaultValue = "defaultType";
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("TestModel", var.defaultValue);
+
+        // 3. With null allowableValues and no mapping match:
+        // Verifies fallback to defaultValue runs safely without NPE (issue #22177)
+        var.allowableValues = null;
+        var.defaultValue = "defaultType";
+        DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
+        assertEquals("defaultType", var.defaultValue);
+    }
+
+    private static CodegenModel modelWithVars(String modelName, CodegenProperty... vars) {
+        CodegenModel model = new CodegenModel();
+        model.name = modelName;
+        model.vars.addAll(Arrays.asList(vars));
+        model.hasEnums = model.vars.stream().filter(Objects::nonNull).anyMatch(v -> v.isEnum);
+        return model;
+    }
+
+    private static CodegenProperty inlineEnumProperty(String propertyName, String enumName, String... enumValues) {
+        CodegenProperty property = property(propertyName);
+        property.isEnum = true;
+        property.enumName = enumName;
+        property.set_enum(Arrays.asList(enumValues));
+        return property;
+    }
+
+    private static CodegenProperty property(String propertyName) {
+        CodegenProperty property = new CodegenProperty();
+        property.baseName = propertyName;
+        property.name = propertyName;
+        return property;
     }
 }

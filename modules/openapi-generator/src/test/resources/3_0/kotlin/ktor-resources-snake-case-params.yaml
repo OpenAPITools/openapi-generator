@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: ktor resources snake_case parameters
+  version: 1.0.0
+paths:
+  /items/{item_id}:
+    get:
+      operationId: getItem
+      parameters:
+        - name: item_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: "a&b"
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: sortOrder
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /ping:
+    get:
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pong'
+components:
+  schemas:
+    Pong:
+      type: object
+      properties:
+        message:
+          type: string

@@ -103,9 +103,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayEnum">arrayEnum.</param>
         public EnumArrays(JustSymbolEnum? justSymbol = default, List<ArrayEnumEnum> arrayEnum = default)
         {
-            this._JustSymbol = justSymbol;
-            if (this.JustSymbol != null)
+            if (justSymbol != null)
             {
+                this._JustSymbol = justSymbol.Value;
                 this._flagJustSymbol = true;
             }
             this._ArrayEnum = arrayEnum;
@@ -217,7 +217,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -118,7 +117,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -191,13 +190,13 @@ namespace Org.OpenAPITools.Model
             }
 
             if (code.IsSet && code.Value == null)
-                throw new ArgumentNullException(nameof(code), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: code.");
 
             if (data.IsSet && data.Value == null)
-                throw new ArgumentNullException(nameof(data), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: data.");
 
             if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class Result.");
+                throw new JsonException("Property is not nullable for class Result: uuid.");
 
             return new Result(code, data, uuid);
         }
@@ -208,7 +207,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="result"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void Write(Utf8JsonWriter writer, Result result, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteStartObject();
@@ -223,17 +221,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="writer"></param>
         /// <param name="result"></param>
         /// <param name="jsonSerializerOptions"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, Result result, JsonSerializerOptions jsonSerializerOptions)
         {
             if (result.CodeOption.IsSet && result.Code == null)
-                throw new ArgumentNullException(nameof(result.Code), "Property is required for class Result.");
+                throw new JsonException("Cannot write null property Result.Code to non-nullable JSON property 'code'.");
 
             if (result.DataOption.IsSet && result.Data == null)
-                throw new ArgumentNullException(nameof(result.Data), "Property is required for class Result.");
+                throw new JsonException("Cannot write null property Result.Data to non-nullable JSON property 'data'.");
 
             if (result.UuidOption.IsSet && result.Uuid == null)
-                throw new ArgumentNullException(nameof(result.Uuid), "Property is required for class Result.");
+                throw new JsonException("Cannot write null property Result.Uuid to non-nullable JSON property 'uuid'.");
 
             if (result.CodeOption.IsSet)
                 writer.WriteString("code", result.Code);
@@ -247,11 +244,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("uuid", result.Uuid);
         }
     }
-
-    /// <summary>
-    /// The ResultSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Result))]
-    public partial class ResultSerializationContext : JsonSerializerContext { }
 }

@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: map query params
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        - name: labels
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: counts
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              type: integer
+      responses:
+        '200':
+          description: ok

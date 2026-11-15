@@ -57,7 +57,7 @@ import tools.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @JsonDeserialize(using = Triangle.TriangleDeserializer.class)
 @JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
@@ -197,17 +197,17 @@ public class Triangle extends AbstractOpenApiSchema {
     }
 
     public Triangle(EquilateralTriangle o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 
     public Triangle(IsoscelesTriangle o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 
     public Triangle(ScaleneTriangle o) {
-        super("oneOf", Boolean.FALSE);
+        this();
         setActualInstance(o);
     }
 

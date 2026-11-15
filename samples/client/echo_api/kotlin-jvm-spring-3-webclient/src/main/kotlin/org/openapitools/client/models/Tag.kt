@@ -28,10 +28,8 @@ import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * 
- *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 
 

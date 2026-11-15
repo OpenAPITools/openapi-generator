@@ -1,0 +1,115 @@
+openapi: 3.0.3
+info:
+  title: Models constructed by a default
+  version: "1"
+paths: {}
+components:
+  schemas:
+    Sub:
+      type: object
+      properties:
+        x:
+          type: string
+        n:
+          type: integer
+          default: 3
+    Named:
+      type: object
+      properties:
+        x:
+          type: string
+    Outer:
+      type: object
+      properties:
+        inner:
+          $ref: '#/components/schemas/Leaf'
+    Leaf:
+      type: object
+      properties:
+        v:
+          type: string
+    ListItem:
+      type: object
+      properties:
+        x:
+          type: string
+    SetItem:
+      type: object
+      properties:
+        x:
+          type: string
+    Hollow:
+      allOf:
+        - type: object
+    LooseSub:
+      type: object
+      additionalProperties: true
+      properties:
+        x:
+          type: string
+    Quiet:
+      type: object
+      properties:
+        x:
+          type: string
+    QuietItem:
+      type: object
+      properties:
+        x:
+          type: string
+    Untouched:
+      type: object
+      properties:
+        x:
+          type: string
+    Holder:
+      type: object
+      properties:
+        inner:
+          allOf:
+            - $ref: '#/components/schemas/Sub'
+          default: {}
+        named:
+          allOf:
+            - $ref: '#/components/schemas/Named'
+          default:
+            x: a
+        chain:
+          allOf:
+            - $ref: '#/components/schemas/Outer'
+          default:
+            inner:
+              v: r
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListItem'
+          default: [{}]
+        uniqueItems:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/SetItem'
+          default: [{}]
+        hollow:
+          allOf:
+            - $ref: '#/components/schemas/Hollow'
+          default: {}
+        loose:
+          allOf:
+            - $ref: '#/components/schemas/LooseSub'
+          default: {}
+        text:
+          type: string
+          default: new Untouched()
+        quiet:
+          allOf:
+            - $ref: '#/components/schemas/Quiet'
+          nullable: true
+          default: {}
+        quietItems:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/QuietItem'
+          default: [{}]

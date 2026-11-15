@@ -1,0 +1,30 @@
+import 'package:json_annotation/json_annotation.dart';
+
+{{#description}}
+/// {{{description}}}
+{{/description}}
+{{#isDeprecated}}
+@Deprecated('{{{classname}}} has been deprecated')
+{{/isDeprecated}}
+enum {{{classname}}} {
+{{#allowableValues}}
+{{#enumVars}}
+  {{^isNull}}
+  {{#enumDescription}}
+  /**
+   * {{#lambda.dartdoc_2}}{{{.}}}{{/lambda.dartdoc_2}}
+   */
+  {{/enumDescription}}
+  @JsonValue({{#isString}}r{{/isString}}{{{value}}})
+  {{{name}}}({{#isString}}r{{{value}}}{{/isString}}{{^isString}}{{#isInteger}}'{{{value}}}'{{/isInteger}}{{#isLong}}'{{{value}}}'{{/isLong}}{{^isInteger}}{{^isLong}}{{{value}}}{{/isLong}}{{/isInteger}}{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+  {{/isNull}}
+{{/enumVars}}
+{{/allowableValues}}
+
+  const {{{classname}}}(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
+}

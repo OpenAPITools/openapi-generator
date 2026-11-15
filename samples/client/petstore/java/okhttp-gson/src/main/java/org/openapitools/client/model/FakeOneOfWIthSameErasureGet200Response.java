@@ -51,7 +51,7 @@ import com.google.gson.JsonParseException;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.26.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FakeOneOfWIthSameErasureGet200Response.class.getName());
 
@@ -80,8 +80,8 @@ public class FakeOneOfWIthSameErasureGet200Response extends AbstractOpenApiSchem
 
                     // check if the actual instance is of the type `List<String>`
                     if (value.getActualInstance() instanceof List<?>) {
-                        JsonPrimitive primitive = adapterListString.toJsonTree((List<String>)value.getActualInstance()).getAsJsonPrimitive();
-                        elementAdapter.write(out, primitive);
+                        JsonArray array = adapterListString.toJsonTree((List<String>)value.getActualInstance()).getAsJsonArray();
+                        elementAdapter.write(out, array);
                         return;
                     }
                     throw new IOException("Failed to serialize as the type doesn't match oneOf schemas: List<Integer>, List<String>");

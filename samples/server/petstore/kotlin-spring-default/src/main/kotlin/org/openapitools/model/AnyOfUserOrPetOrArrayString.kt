@@ -109,7 +109,7 @@ data class AnyOfUserOrPetOrArrayString(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @Schema(description = "pet status in the store")
     @Deprecated(message = "")
@@ -128,12 +128,12 @@ data class AnyOfUserOrPetOrArrayString(
         available("available"),
         pending("pending"),
         sold("sold");
-
+    
         companion object {
             @JvmStatic
             @JsonCreator
             fun forValue(value: kotlin.String): Status {
-                return values().firstOrNull{it -> it.value == value}
+                return values().firstOrNull{ it.value == value }
                     ?: throw IllegalArgumentException("Unexpected value '$value' for enum 'Status'")
             }
         }

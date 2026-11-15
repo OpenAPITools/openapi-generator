@@ -36,11 +36,11 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="DateOnlyClass" /> class.
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty.</param>
-        public DateOnlyClass(DateTime dateOnlyProperty = default)
+        public DateOnlyClass(DateTime? dateOnlyProperty = default)
         {
-            this._DateOnlyProperty = dateOnlyProperty;
-            if (this.DateOnlyProperty != null)
+            if (dateOnlyProperty != null)
             {
+                this._DateOnlyProperty = dateOnlyProperty.Value;
                 this._flagDateOnlyProperty = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

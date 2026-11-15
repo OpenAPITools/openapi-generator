@@ -27,16 +27,14 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
- *
- * @param propertyInt 
- * @param propertyLong 
- * @param propertyFloat1 
- * @param propertyFloat2 
- * @param propertyFloat3 
- * @param propertyDouble1 
- * @param propertyDouble2 
- * @param propertyDouble3 
+ * @param propertyInt
+ * @param propertyLong
+ * @param propertyFloat1
+ * @param propertyFloat2
+ * @param propertyFloat3
+ * @param propertyDouble1
+ * @param propertyDouble2
+ * @param propertyDouble3
  */
 
 

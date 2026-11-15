@@ -1,4 +1,15 @@
-class {{classname}}
+{{#rbNamespaceOnly}}
+class {{rbNamespaceClassName}}
+  def initialize(connection)
+    @connection = connection
+  end
+{{#rbNamespaceResources}}
+
+  def {{accessor}}
+    @{{accessor}} ||= {{className}}.new(@connection)
+  end
+{{/rbNamespaceResources}}
+end{{/rbNamespaceOnly}}{{^rbNamespaceOnly}}class {{classname}}
   def initialize(connection)
     @connection = connection
   end
@@ -34,4 +45,12 @@ class {{classname}}
     )
   end
 {{/operation}}
-end
+{{#rbNamespaceHasDirectOperations}}
+{{#rbNamespaceResources}}
+
+  def {{accessor}}
+    @{{accessor}} ||= {{className}}.new(@connection)
+  end
+{{/rbNamespaceResources}}
+{{/rbNamespaceHasDirectOperations}}
+end{{/rbNamespaceOnly}}
