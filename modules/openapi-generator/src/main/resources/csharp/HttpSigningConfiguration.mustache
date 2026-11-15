@@ -25,8 +25,10 @@ namespace {{packageName}}.Client
         {
             HashAlgorithm = HashAlgorithmName.SHA256;
             SigningAlgorithm = "PKCS1-v15";
+            {{^useHttpClient}}
             _skipUrlEncode = RuntimeInformation.FrameworkDescription.StartsWith(".NET ") &&
                 int.TryParse(RuntimeInformation.FrameworkDescription.Substring(5).Split('.')[0], out int fwMajor) && fwMajor >= 9;
+            {{/useHttpClient}}
         }
 
         /// <summary>
@@ -69,6 +71,7 @@ namespace {{packageName}}.Client
         /// </summary>
         public int SignatureValidityPeriod { get; set; }
 
+        {{^useHttpClient}}
         // On .NET 9+, HttpUtility.ParseQueryString already URL-encodes keys internally,
         // so calling UrlEncode again would cause double-encoding and produce a signature
         // that does not match the actual request sent by RestSharp 112+.
@@ -76,6 +79,7 @@ namespace {{packageName}}.Client
         // characters (e.g. '$' in OData params like $filter) are encoded the same way
         // in the signature as they are in the outgoing HTTP request.
         private readonly bool _skipUrlEncode;
+        {{/useHttpClient}}
 
         private enum PrivateKeyType
         {
@@ -139,6 +143,7 @@ namespace {{packageName}}.Client
                 }
             }
 
+            {{^useHttpClient}}
             var httpValues = HttpUtility.ParseQueryString(string.Empty);
             foreach (var parameter in requestOptions.QueryParameters)
             {
@@ -171,6 +176,22 @@ namespace {{packageName}}.Client
             }
             var uriBuilder = new UriBuilder(string.Concat(basePath, path));
             uriBuilder.Query = httpValues.ToString().Replace("+", "%20");
+            {{/useHttpClient}}
+            {{#useHttpClient}}
+            var httpValues = HttpUtility.ParseQueryString(string.Empty);
+            foreach (var parameter in requestOptions.QueryParameters)
+            {
+                if (parameter.Value.Count > 1)
+                {
+                    foreach (var value in parameter.Value)
+                        httpValues.Add(parameter.Key + "[]", value);
+                }
+                else
+                    httpValues.Add(parameter.Key, parameter.Value[0]);
+            }
+            var uriBuilder = new UriBuilder(string.Concat(basePath, path));
+            uriBuilder.Query = httpValues.ToString().Replace("+", "%20").Replace("%24", "$");
+            {{/useHttpClient}}
 
             var dateTime = DateTime.Now;
             string Digest = string.Empty;

@@ -1,6 +1,9 @@
 {{>partial_header}}
 using System;
 using System.Collections.Generic;
+{{#useHttpClient}}
+using System.Web;
+{{/useHttpClient}}
 
 namespace {{packageName}}.Client
 {
@@ -28,6 +31,18 @@ namespace {{packageName}}.Client
 
             public void AddQueryParameters(Multimap<string, string> parameters)
             {
+                {{#useHttpClient}}
+                var httpValues = HttpUtility.ParseQueryString(string.Empty);
+                foreach (var parameter in parameters)
+                {
+                    foreach (var value in parameter.Value)
+                    {
+                        httpValues.Add(parameter.Key, value);
+                    }
+                }
+                _query = httpValues.ToString().Replace("+", "%20").Replace("%24", "$");
+                {{/useHttpClient}}
+                {{^useHttpClient}}
                 foreach (var parameter in parameters)
                 {
                     foreach (var value in parameter.Value)
@@ -35,11 +50,17 @@ namespace {{packageName}}.Client
                         _query = _query + parameter.Key + "=" + Uri.EscapeDataString(value) + "&";
                     }
                 }
+                {{/useHttpClient}}
             }
 
             public string GetFullUri()
             {
+                {{#useHttpClient}}
+                return new UriBuilder(_baseUrl + _path) { Query = _query }.Uri.AbsoluteUri;
+                {{/useHttpClient}}
+                {{^useHttpClient}}
                 return _baseUrl + _path + _query.Substring(0, _query.Length - 1);
+                {{/useHttpClient}}
             }
     }
 }
