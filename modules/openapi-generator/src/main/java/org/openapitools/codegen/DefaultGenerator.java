@@ -1482,14 +1482,28 @@ public class DefaultGenerator implements Generator {
     }
 
     public Map<String, List<CodegenOperation>> processPaths(Paths paths) {
+        return processPathItems(paths);
+    }
+
+    public Map<String, List<CodegenOperation>> processWebhooks(Map<String, PathItem> webhooks) {
+        return processPathItems(webhooks);
+    }
+
+    /**
+     * Collects the operations of the given path items (paths or webhooks), grouped by tag.
+     *
+     * @param pathItems The path items by path or webhook name, may be null
+     * @return The operations by tag
+     */
+    private Map<String, List<CodegenOperation>> processPathItems(Map<String, PathItem> pathItems) {
         Map<String, List<CodegenOperation>> ops = new TreeMap<>();
-        // when input file is not valid and doesn't contain any paths
-        if (paths == null) {
+        // no paths (the input file is not valid) or no webhooks
+        if (pathItems == null) {
             return ops;
         }
-        for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
-            String resourcePath = pathsEntry.getKey();
-            PathItem path = pathsEntry.getValue();
+        for (Map.Entry<String, PathItem> pathItemEntry : pathItems.entrySet()) {
+            String resourcePath = pathItemEntry.getKey();
+            PathItem path = pathItemEntry.getValue();
             processOperation(resourcePath, "get", path.getGet(), ops, path);
             processOperation(resourcePath, "head", path.getHead(), ops, path);
             processOperation(resourcePath, "put", path.getPut(), ops, path);
@@ -1498,27 +1512,6 @@ public class DefaultGenerator implements Generator {
             processOperation(resourcePath, "patch", path.getPatch(), ops, path);
             processOperation(resourcePath, "options", path.getOptions(), ops, path);
             processOperation(resourcePath, "trace", path.getTrace(), ops, path);
-        }
-        return ops;
-    }
-
-    public Map<String, List<CodegenOperation>> processWebhooks(Map<String, PathItem> webhooks) {
-        Map<String, List<CodegenOperation>> ops = new TreeMap<>();
-        // when input file is not valid and doesn't contain any paths
-        if (webhooks == null) {
-            return ops;
-        }
-        for (Map.Entry<String, PathItem> webhooksEntry : webhooks.entrySet()) {
-            String resourceKey = webhooksEntry.getKey();
-            PathItem path = webhooksEntry.getValue();
-            processOperation(resourceKey, "get", path.getGet(), ops, path);
-            processOperation(resourceKey, "head", path.getHead(), ops, path);
-            processOperation(resourceKey, "put", path.getPut(), ops, path);
-            processOperation(resourceKey, "post", path.getPost(), ops, path);
-            processOperation(resourceKey, "delete", path.getDelete(), ops, path);
-            processOperation(resourceKey, "patch", path.getPatch(), ops, path);
-            processOperation(resourceKey, "options", path.getOptions(), ops, path);
-            processOperation(resourceKey, "trace", path.getTrace(), ops, path);
         }
         return ops;
     }
