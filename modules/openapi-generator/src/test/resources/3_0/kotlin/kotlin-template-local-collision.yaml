@@ -1,0 +1,58 @@
+openapi: 3.0.4
+info:
+  title: Kotlin template-local name collision repro
+  version: 1.0.0
+paths:
+  /collide-body:
+    post:
+      operationId: collideBody
+      parameters:
+        - name: localVariableQuery
+          in: query
+          schema:
+            type: string
+        - name: localVariableConfig
+          in: query
+          schema:
+            type: string
+        - name: localVariableAuthNames
+          in: query
+          schema:
+            type: string
+        - name: local-var-response
+          in: query
+          schema:
+            type: string
+        - name: localVarError
+          in: query
+          schema:
+            type: string
+        - name: localVariant
+          in: query
+          schema:
+            type: string
+        - name: normalParam
+          in: query
+          schema:
+            type: string
+        - name: localVariableHeaders
+          in: header
+          schema:
+            type: string
+      requestBody:
+        required: true
+        x-codegen-request-body-name: local_variable_body
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                foo:
+                  type: string
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
