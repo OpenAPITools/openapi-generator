@@ -344,6 +344,9 @@ public class PythonFastAPIServerCodegenTest {
         assertFileNotContains(api, "status_code=200", "status_code=202");
 
         // the generated test stubs expect the same status code
-        assertFileContains(apiTest, "#assert response.status_code == 204", "#assert response.status_code == 200");
+        assertFileContains(apiTest,
+                "#assert response.status_code == 201",
+                "#assert response.status_code == 204",
+                "#assert response.status_code == 200");
     }
 }
