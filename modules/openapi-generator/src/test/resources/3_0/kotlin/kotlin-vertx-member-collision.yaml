@@ -1,10 +1,17 @@
 openapi: 3.0.3
-info: {title: a4 repro, version: '1.0'}
+info: {title: Kotlin jvm-vertx ApiClient member name collision, version: '1.0'}
 components:
   securitySchemes:
     basicAuth: {type: http, scheme: basic}
     bearerAuth: {type: http, scheme: bearer}
     apiKeyAuth: {type: apiKey, in: header, name: X-API-KEY}
+    apiKeyQueryAuth: {type: apiKey, in: query, name: api_key_q}
+    oauthAuth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes: {}
 paths:
   /basic:
     get:
@@ -28,6 +35,21 @@ paths:
       parameters:
         - {name: apiKey, in: query, schema: {type: string}}
         - {name: apiKeyPrefix, in: query, schema: {type: string}}
+      responses: {'200': {description: ok}}
+  /apikey-query:
+    get:
+      operationId: apiKeyQueryOp
+      security: [{apiKeyQueryAuth: []}]
+      parameters:
+        - {name: apiKey, in: query, schema: {type: string}}
+        - {name: apiKeyPrefix, in: query, schema: {type: string}}
+      responses: {'200': {description: ok}}
+  /oauth:
+    get:
+      operationId: oauthOp
+      security: [{oauthAuth: []}]
+      parameters:
+        - {name: accessToken, in: query, schema: {type: string}}
       responses: {'200': {description: ok}}
   /base:
     get:
