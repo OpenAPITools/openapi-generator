@@ -7472,7 +7472,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param propertyKey   property key
      * @param initializerFunction the setter function that also returns the actual value after calling the setter.
-     * @return result of call to booleanSetterAndGetter.apply() or false if it does not exist
+     * @return result of call to initializerFunction.apply() or false if it does not exist
      */
     public boolean convertPropertyToBooleanAndWriteBackTransformedValue(String propertyKey, Function<Boolean, Boolean> initializerFunction) {
         if (additionalProperties.containsKey(propertyKey)) {
