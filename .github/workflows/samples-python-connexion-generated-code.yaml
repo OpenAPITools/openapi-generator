@@ -9,6 +9,8 @@ on:
       - samples/server/petstore/python-blueplanet/**
       - bin/utils/check-python-connexion-generated.py
       - bin/utils/test-python-connexion-generated.sh
+      - modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
+      - modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
       - .github/workflows/samples-python-connexion-generated-code.yaml
   pull_request:
     paths:
@@ -18,6 +20,8 @@ on:
       - samples/server/petstore/python-blueplanet/**
       - bin/utils/check-python-connexion-generated.py
       - bin/utils/test-python-connexion-generated.sh
+      - modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
+      - modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
       - .github/workflows/samples-python-connexion-generated-code.yaml
 jobs:
   build:

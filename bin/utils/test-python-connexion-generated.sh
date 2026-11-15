@@ -5,9 +5,13 @@
 # python-blueplanet) and check each output with
 # check-python-connexion-generated.py.
 #
-# Prerequisite: modules/openapi-generator-cli/target/openapi-generator-cli.jar
-# must already be built.
+# Prerequisites:
+#   - modules/openapi-generator-cli/target/openapi-generator-cli.jar
+#     must already be built.
+#   - java and python3 with PyYAML (python3 -m pip install pyyaml).
 # Usage: test-python-connexion-generated.sh [output_dir]   (default: mktemp -d)
+#   A relative output_dir is resolved against the repository root,
+#   because this script changes to the repository root first.
 
 set -euo pipefail
 
@@ -21,6 +25,7 @@ if [ ! -f "$executable" ]; then
 fi
 
 out_dir="${1:-$(mktemp -d)}"
+echo "Output directory: $out_dir"
 specs=(
   modules/openapi-generator/src/test/resources/3_0/python/connexion-json-header-test-values.yaml
   modules/openapi-generator/src/test/resources/3_0/python/info-title-special-chars.yaml
