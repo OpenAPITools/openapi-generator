@@ -355,6 +355,31 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
+    // ApiClient properties (basePath, accessToken, apiKey, apiKeyPrefix, username,
+    // password, vertx) must be referenced through `this.` in jvm-vertx APIs, or an
+    // operation parameter with the same name shadows them.
+    @Test
+    public void testJvmVertxApiClientMembersAreThisQualified() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-vertx-member-collision.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_VERTX);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        assertFileContainsLine(lines, "val vertxClient = WebClient.create(this.vertx)");
+        assertFileContainsLine(lines, "val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of(\"${this.basePath}/base\"))");
+        assertFileContainsLine(lines, "this.username?.let { username ->");
+        assertFileContainsLine(lines, "this.password?.let { password ->");
+        assertFileContainsLine(lines, "this.accessToken?.let { accessToken ->");
+        assertFileContainsLine(lines, "if (this.apiKey[\"X-API-KEY\"] != null) {");
+        // the spec's own parameters still reach the wire unqualified
+        assertFileContainsLine(lines, "username?.let { request.queryParams().add(\"username\", listOf(it.toString())) }");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }

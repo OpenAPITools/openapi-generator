@@ -137,8 +137,8 @@ import {{packageName}}.infrastructure.*
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Future<ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("${this.basePath}{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
 
         {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
@@ -164,40 +164,40 @@ import {{packageName}}.infrastructure.*
 
         {{#authMethods}}
         {{#isApiKey}}
-        if (apiKey["{{keyParamName}}"] != null) {
-            if (apiKeyPrefix["{{keyParamName}}"] != null) {
+        if (this.apiKey["{{keyParamName}}"] != null) {
+            if (this.apiKeyPrefix["{{keyParamName}}"] != null) {
                 {{#isKeyInHeader}}
-                request.putHeader("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+                request.putHeader("{{keyParamName}}", this.apiKeyPrefix["{{keyParamName}}"]!! + " " + this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-               request.queryParams().add("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+               request.queryParams().add("{{keyParamName}}", this.apiKeyPrefix["{{keyParamName}}"]!! + " " + this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInQuery}}
             } else {
                 {{#isKeyInHeader}}
-                request.putHeader("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                request.putHeader("{{keyParamName}}", this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-                request.queryParams().add("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                request.queryParams().add("{{keyParamName}}", this.apiKey["{{keyParamName}}"]!!)
                 {{/isKeyInQuery}}
             }
         }
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}
-        username?.let { username ->
-            password?.let { password ->
+        this.username?.let { username ->
+            this.password?.let { password ->
                 request.basicAuthentication(username, password)
             }
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
            request.bearerTokenAuthentication(accessToken)
         }
         {{/isBasicBearer}}
         {{/isBasic}}
         {{#isOAuth}}
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
         {{/isOAuth}}
