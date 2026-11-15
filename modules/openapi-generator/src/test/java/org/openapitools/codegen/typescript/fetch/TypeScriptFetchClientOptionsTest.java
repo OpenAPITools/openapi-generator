@@ -54,6 +54,7 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSagasAndRecords(Boolean.valueOf(TypeScriptFetchClientOptionsProvider.SAGAS_AND_RECORDS));
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
         verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.STRING_ENUMS));
+        verify(clientCodegen).setGenerateAnyOfAsUnion(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.GENERATE_ANY_OF_AS_UNION));
         verify(clientCodegen).setFileNaming(TypeScriptFetchClientOptionsProvider.FILE_NAMING_VALUE);
         verify(clientCodegen).setDateLibrary(TypeScriptFetchClientOptionsProvider.DATE_LIBRARY_VALUE);
     }

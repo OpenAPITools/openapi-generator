@@ -44,7 +44,7 @@ export function TestArrayResponseFromJSONTyped(json: any, ignoreDiscriminator: b
         return json;
     }
     if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'object')) {
+        if (json.every(item => item !== null && typeof item === 'object')) {
             if (json.every(item => instanceOfTestA(item))) {
                 return json.map(value => TestAFromJSONTyped(value, true));
             }
@@ -73,7 +73,7 @@ export function TestArrayResponseToJSONTyped(value?: TestArrayResponse | null, i
         return value;
     }
     if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'object')) {
+        if (value.every(item => item !== null && typeof item === 'object')) {
             if (value.every(item => instanceOfTestA(item))) {
                 return value.map(value => TestAToJSON(value as TestA));
             }

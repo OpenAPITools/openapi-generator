@@ -44,20 +44,44 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOfModels}}
+    {{#oneOfObjectModels}}
     {{#-first}}
-    if (typeof json !== 'object') {
-        return json;
-    }
+    if (typeof json === 'object') {
+    {{#isAnyOfUnion}}
+        // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+        let anyOfResult: any = {};
+        let anyOfMatched = false;
+    {{/isAnyOfUnion}}
     {{/-first}}
+    {{#isAnyOfUnion}}
+        if (instanceOf{{{.}}}(json)) {
+            anyOfResult = { ...anyOfResult, ...{{{.}}}FromJSONTyped(json, true) };
+            anyOfMatched = true;
+        }
+    {{/isAnyOfUnion}}
+    {{^isAnyOfUnion}}
+        if (instanceOf{{{.}}}(json)) {
+            return {{{.}}}FromJSONTyped(json, true);
+        }
+    {{/isAnyOfUnion}}
+    {{#-last}}
+    {{#isAnyOfUnion}}
+        if (anyOfMatched) {
+            return anyOfResult;
+        }
+    {{/isAnyOfUnion}}
+    }
+    {{/-last}}
+    {{/oneOfObjectModels}}
+    {{#oneOfEnumModels}}
     if (instanceOf{{{.}}}(json)) {
         return {{{.}}}FromJSONTyped(json, true);
     }
-    {{/oneOfModels}}
+    {{/oneOfEnumModels}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'object')) {
+        if (json.every(item => item !== null && typeof item === 'object')) {
     {{/-first}}
             if (json.every(item => instanceOf{{{.}}}(item))) {
                 return json.map(value => {{{.}}}FromJSONTyped(value, true));
@@ -197,20 +221,44 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOfModels}}
+    {{#oneOfObjectModels}}
     {{#-first}}
-    if (typeof value !== 'object') {
-        return value;
-    }
+    if (typeof value === 'object') {
+    {{#isAnyOfUnion}}
+        // anyOf: a value may match several members, so combine all of them instead of keeping the first match
+        let anyOfResult: any = {};
+        let anyOfMatched = false;
+    {{/isAnyOfUnion}}
     {{/-first}}
+    {{#isAnyOfUnion}}
+        if (instanceOf{{{.}}}(value)) {
+            anyOfResult = { ...anyOfResult, ...{{{.}}}ToJSON(value as {{{.}}}) };
+            anyOfMatched = true;
+        }
+    {{/isAnyOfUnion}}
+    {{^isAnyOfUnion}}
+        if (instanceOf{{{.}}}(value)) {
+            return {{{.}}}ToJSON(value as {{{.}}});
+        }
+    {{/isAnyOfUnion}}
+    {{#-last}}
+    {{#isAnyOfUnion}}
+        if (anyOfMatched) {
+            return anyOfResult;
+        }
+    {{/isAnyOfUnion}}
+    }
+    {{/-last}}
+    {{/oneOfObjectModels}}
+    {{#oneOfEnumModels}}
     if (instanceOf{{{.}}}(value)) {
         return {{{.}}}ToJSON(value as {{{.}}});
     }
-    {{/oneOfModels}}
+    {{/oneOfEnumModels}}
     {{#oneOfArrays}}
     {{#-first}}
     if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'object')) {
+        if (value.every(item => item !== null && typeof item === 'object')) {
     {{/-first}}
             if (value.every(item => instanceOf{{{.}}}(item))) {
                 return value.map(value => {{{.}}}ToJSON(value as {{{.}}}));
