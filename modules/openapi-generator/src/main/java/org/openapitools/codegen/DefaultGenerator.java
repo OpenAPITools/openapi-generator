@@ -395,12 +395,7 @@ public class DefaultGenerator implements Generator {
                     this.templateProcessor.skip(modelTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
                 } else {
                     File written = processTemplateToFile(models, templateName, filename, generateModelTests, CodegenConstants.MODEL_TESTS, config.modelTestFileFolder());
-                    if (written != null) {
-                        files.add(written);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(written, "model-test");
-                        }
-                    }
+                    addGeneratedFile(files, written, "model-test");
                 }
             } else if (dryRun) {
                 Path skippedPath = java.nio.file.Paths.get(filename);
@@ -416,12 +411,7 @@ public class DefaultGenerator implements Generator {
             String filename = config.modelDocFileFolder() + File.separator + config.toModelDocFilename(modelName) + suffix;
 
             File written = processTemplateToFile(models, templateName, filename, generateModelDocumentation, CodegenConstants.MODEL_DOCS);
-            if (written != null) {
-                files.add(written);
-                if (config.isEnablePostProcessFile() && !dryRun) {
-                    config.postProcessFile(written, "model-doc");
-                }
-            }
+            addGeneratedFile(files, written, "model-doc");
         }
     }
 
@@ -436,12 +426,7 @@ public class DefaultGenerator implements Generator {
                 String filename = config.modelFilename(templateName, modelName);
                 written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
             }
-            if (written != null) {
-                files.add(written);
-                if (config.isEnablePostProcessFile() && !dryRun) {
-                    config.postProcessFile(written, "model");
-                }
-            }
+            addGeneratedFile(files, written, "model");
         }
     }
 
@@ -797,12 +782,7 @@ public class DefaultGenerator implements Generator {
                             LOGGER.info("Implementation file {} is not overwritten", filename);
                         }
                     }
-                    if (written != null) {
-                        files.add(written);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(written, "api");
-                        }
-                    }
+                    addGeneratedFile(files, written, "api");
                 }
 
                 // to generate api test files
@@ -814,12 +794,7 @@ public class DefaultGenerator implements Generator {
                         this.templateProcessor.skip(apiTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
                     } else {
                         File written = processTemplateToFile(operation, templateName, filename, generateApiTests, CodegenConstants.API_TESTS, config.apiTestFileFolder());
-                        if (written != null) {
-                            files.add(written);
-                            if (config.isEnablePostProcessFile() && !dryRun) {
-                                config.postProcessFile(written, "api-test");
-                            }
-                        }
+                        addGeneratedFile(files, written, "api-test");
                     }
                 }
 
@@ -827,12 +802,7 @@ public class DefaultGenerator implements Generator {
                 for (String templateName : config.apiDocTemplateFiles().keySet()) {
                     String filename = config.apiDocFilename(templateName, tag);
                     File written = processTemplateToFile(operation, templateName, filename, generateApiDocumentation, CodegenConstants.API_DOCS);
-                    if (written != null) {
-                        files.add(written);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(written, "api-doc");
-                        }
-                    }
+                    addGeneratedFile(files, written, "api-doc");
                 }
 
             } catch (Exception e) {
@@ -956,12 +926,7 @@ public class DefaultGenerator implements Generator {
                             LOGGER.info("Implementation file {} is not overwritten", filename);
                         }
                     }
-                    if (written != null) {
-                        files.add(written);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(written, "api");
-                        }
-                    }
+                    addGeneratedFile(files, written, "api");
                 }
 
                 // to generate api test files
@@ -973,12 +938,7 @@ public class DefaultGenerator implements Generator {
                         this.templateProcessor.skip(apiTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
                     } else {
                         File written = processTemplateToFile(operation, templateName, filename, generateApiTests, CodegenConstants.API_TESTS, config.apiTestFileFolder());
-                        if (written != null) {
-                            files.add(written);
-                            if (config.isEnablePostProcessFile() && !dryRun) {
-                                config.postProcessFile(written, "api-test");
-                            }
-                        }
+                        addGeneratedFile(files, written, "api-test");
                     }
                 }
 
@@ -986,12 +946,7 @@ public class DefaultGenerator implements Generator {
                 for (String templateName : config.apiDocTemplateFiles().keySet()) {
                     String filename = config.apiDocFilename(templateName, tag);
                     File written = processTemplateToFile(operation, templateName, filename, generateApiDocumentation, CodegenConstants.API_DOCS);
-                    if (written != null) {
-                        files.add(written);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(written, "api-doc");
-                        }
-                    }
+                    addGeneratedFile(files, written, "api-doc");
                 }
 
             } catch (Exception e) {
@@ -1112,12 +1067,7 @@ public class DefaultGenerator implements Generator {
                 }
 
                 File written = processTemplateToFile(bundle, support.getTemplateFile(), outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
-                if (written != null) {
-                    files.add(written);
-                    if (config.isEnablePostProcessFile() && !dryRun) {
-                        config.postProcessFile(written, "supporting-file");
-                    }
-                }
+                addGeneratedFile(files, written, "supporting-file");
             } catch (Exception e) {
                 throw new RuntimeException("Could not generate supporting file '" + support + "'", e);
             }
@@ -1137,12 +1087,7 @@ public class DefaultGenerator implements Generator {
                         shouldGenerate = supportingFilesToGenerate.contains(openapiGeneratorIgnore);
                     }
                     File written = processTemplateToFile(bundle, openapiGeneratorIgnore, ignoreFileNameTarget, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
-                    if (written != null) {
-                        files.add(written);
-                        if (config.isEnablePostProcessFile() && !dryRun) {
-                            config.postProcessFile(written, "openapi-generator-ignore");
-                        }
-                    }
+                    addGeneratedFile(files, written, "openapi-generator-ignore");
                 } catch (Exception e) {
                     throw new RuntimeException("Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
                 }
@@ -1441,6 +1386,22 @@ public class DefaultGenerator implements Generator {
                                 break;
                         }
                     });
+        }
+    }
+
+    /**
+     * Tracks a generated file and post-processes it if enabled (never on a dry run).
+     *
+     * @param files    The list tracking generated files
+     * @param written  The file that was written, or null if no file was written
+     * @param fileType The file type passed to {@link CodegenConfig#postProcessFile(File, String)}
+     */
+    private void addGeneratedFile(List<File> files, File written, String fileType) {
+        if (written != null) {
+            files.add(written);
+            if (config.isEnablePostProcessFile() && !dryRun) {
+                config.postProcessFile(written, fileType);
+            }
         }
     }
 
