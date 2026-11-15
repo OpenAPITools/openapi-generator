@@ -88,7 +88,6 @@ import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -7466,22 +7465,19 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * reads propertyKey from additionalProperties, converts it to a boolean,
-     * call the booleanSetter and
-     * writes back the result of actualValueSupplier.get() to additionalProperties to be usable as a boolean in
+     * call the initializerFunction and
+     * writes back the result of it to additionalProperties to be usable as a boolean in
      * mustache files.
-     * To be used when the booleanSetter modifies the value of the property and we want to write back the modified value to additionalProperties.
-     *
+     * To be used when the initializerFunction modifies the value of the property and we want to write back the modified value to additionalProperties.
      *
      * @param propertyKey   property key
-     * @param booleanSetter the setter function reference
-     * @param actualValueSupplier the supplier function reference for the actual value after calling the booleanSetter
-     * @return result of call to actualValueSupplier.get() or false if it does not exist
+     * @param initializerFunction the setter function that also returns the actual value after calling the setter.
+     * @return result of call to booleanSetterAndGetter.apply() or false if it does not exist
      */
-    public boolean convertPropertyToBooleanAndWriteBack(String propertyKey, Consumer<Boolean> booleanSetter, Supplier<Boolean> actualValueSupplier) {
+    public boolean convertPropertyToBooleanAndWriteBackWithFunction(String propertyKey, Function<Boolean, Boolean> initializerFunction) {
         if (additionalProperties.containsKey(propertyKey)) {
             boolean result = convertPropertyToBoolean(propertyKey);
-            booleanSetter.accept(result);
-            Boolean actualValue = actualValueSupplier.get();
+            Boolean actualValue = initializerFunction.apply(result);
             writePropertyBack(propertyKey, actualValue);
             return Boolean.TRUE.equals(actualValue);
         }

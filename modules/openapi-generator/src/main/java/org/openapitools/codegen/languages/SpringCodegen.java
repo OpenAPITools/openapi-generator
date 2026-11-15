@@ -735,7 +735,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
-        convertPropertyToBooleanAndWriteBack(OPENAPI_NULLABLE_USE_PRESENT, this::setOpenApiNullableUsePresent, this::isOpenApiNullableUsePresent);
+        convertPropertyToBooleanAndWriteBackWithFunction(OPENAPI_NULLABLE_USE_PRESENT, this::initOpenApiNullableUsePresent);
 
         // Validate an explicitly supplied value for every library so typos are not silently ignored;
         // the resolved mode is only used (and written back) when Pageable is supported.
@@ -2437,9 +2437,13 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     /**
      * set openApiNullableUsePresent to true if openApiNullable is true and useBeanValidation is true.
+     *
+     * @param openApiNullableUsePresent the value to set.
+     * @return the actual value of openApiNullableUsePresent
      */
-    public void setOpenApiNullableUsePresent(boolean openApiNullableUsePresent) {
+    protected boolean initOpenApiNullableUsePresent(boolean openApiNullableUsePresent) {
         this.openApiNullableUsePresent = openApiNullableUsePresent && useBeanValidation && openApiNullable;
+        return this.openApiNullableUsePresent;
     }
 
     @Override
