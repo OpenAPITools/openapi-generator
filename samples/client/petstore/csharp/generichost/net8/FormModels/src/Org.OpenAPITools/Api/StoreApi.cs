@@ -313,45 +313,17 @@ namespace Org.OpenAPITools.Api
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="BearerToken"/>
-        /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BasicTokenProvider"/>
-        /// </summary>
-        public TokenProvider<BasicToken> BasicTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
-        /// </summary>
-        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="OauthTokenProvider"/>
-        /// </summary>
-        public TokenProvider<OAuthToken> OauthTokenProvider { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="StoreApi"/> class.
         /// </summary>
         /// <returns></returns>
         public StoreApi(ILogger<StoreApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, StoreApiEvents storeApiEvents,
-            TokenProvider<ApiKeyToken> apiKeyProvider,
-            TokenProvider<BearerToken> bearerTokenProvider,
-            TokenProvider<BasicToken> basicTokenProvider,
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider)
+            TokenProvider<ApiKeyToken> apiKeyProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             Events = storeApiEvents;
             ApiKeyProvider = apiKeyProvider;
-            BearerTokenProvider = bearerTokenProvider;
-            BasicTokenProvider = basicTokenProvider;
-            HttpSignatureTokenProvider = httpSignatureTokenProvider;
-            OauthTokenProvider = oauthTokenProvider;
         }
 
         partial void FormatDeleteOrder(ref string orderId);

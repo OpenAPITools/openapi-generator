@@ -123,22 +123,15 @@ namespace Org.OpenAPITools.Api
         public ApiKeysApiEvents Events { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="ApiKeyProvider"/>
-        /// </summary>
-        public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ApiKeysApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public ApiKeysApi(ILogger<ApiKeysApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, ApiKeysApiEvents apiKeysApiEvents,
-            TokenProvider<ApiKeyToken> apiKeyProvider)
+        public ApiKeysApi(ILogger<ApiKeysApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, ApiKeysApiEvents apiKeysApiEvents)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             Events = apiKeysApiEvents;
-            ApiKeyProvider = apiKeyProvider;
         }
 
         partial void FormatGetApiKeysId(ref int id);

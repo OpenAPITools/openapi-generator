@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: Mixed Security Scheme Usage
+  version: "1"
+paths:
+  /secured:
+    get:
+      tags:
+        - secured
+      operationId: GetSecured
+      security:
+        - api_key: []
+      responses:
+        "200":
+          description: ok
+  /open:
+    get:
+      tags:
+        - open
+      operationId: GetOpen
+      responses:
+        "200":
+          description: ok
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-API-KEY
