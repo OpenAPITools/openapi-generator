@@ -884,6 +884,74 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testUniquenessRenameOfFormParametersWhenPrepended() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation operation = new Operation()
+                .operationId("dupform")
+                .requestBody(new RequestBody()
+                        .required(true)
+                        .content(new Content().addMediaType("application/x-www-form-urlencoded",
+                                new MediaType().schema(new ObjectSchema()
+                                        .addProperty("a-b", new StringSchema())
+                                        .addProperty("a_b", new StringSchema())))))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setPrependFormOrBodyParameters(true);
+        CodegenOperation co = codegen.fromOperation("/dup", "post", operation, null);
+        assertEquals(2, co.allParams.size());
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        assertEquals(Arrays.asList("aB", "aB2"), allParamsNames);
+        List<String> formParamsNames = co.formParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        assertEquals(Arrays.asList("aB", "aB2"), formParamsNames);
+    }
+
+    @Test
+    public void testFormParametersNotRenamedWhenPrependedAndEnsureUniqueParamsDisabled() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation operation = new Operation()
+                .operationId("dupform")
+                .requestBody(new RequestBody()
+                        .required(true)
+                        .content(new Content().addMediaType("application/x-www-form-urlencoded",
+                                new MediaType().schema(new ObjectSchema()
+                                        .addProperty("a-b", new StringSchema())
+                                        .addProperty("a_b", new StringSchema())))))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setPrependFormOrBodyParameters(true);
+        codegen.setEnsureUniqueParams(false);
+        CodegenOperation co = codegen.fromOperation("/dup", "post", operation, null);
+        assertEquals(2, co.allParams.size());
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        assertEquals(Arrays.asList("aB", "aB"), allParamsNames);
+    }
+
+    @Test
+    public void testUniquenessRenameOfFormParametersNotPrepended() {
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        Operation operation = new Operation()
+                .operationId("dupform")
+                .requestBody(new RequestBody()
+                        .required(true)
+                        .content(new Content().addMediaType("application/x-www-form-urlencoded",
+                                new MediaType().schema(new ObjectSchema()
+                                        .addProperty("a-b", new StringSchema())
+                                        .addProperty("a_b", new StringSchema())))))
+                .responses(new ApiResponses().addApiResponse("200", new ApiResponse().description("OK")));
+
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        CodegenOperation co = codegen.fromOperation("/dup", "post", operation, null);
+        assertEquals(2, co.allParams.size());
+        List<String> allParamsNames = co.allParams.stream().map(p -> p.paramName).collect(Collectors.toList());
+        assertEquals(Arrays.asList("aB", "aB2"), allParamsNames);
+    }
+
+    @Test
     public void testGetSchemaTypeWithComposedSchemaWithOneOf() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-oneof.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();

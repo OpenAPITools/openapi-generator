@@ -5111,6 +5111,11 @@ public class DefaultCodegen implements CodegenConfig {
                 // add form parameters to the beginning of all parameter list
                 if (prependFormOrBodyParameters) {
                     for (CodegenParameter cp : formParams) {
+                        if (ensureUniqueParams) {
+                            while (!isParameterNameUnique(cp, allParams)) {
+                                cp.paramName = generateNextName(cp.paramName);
+                            }
+                        }
                         allParams.add(cp.copy());
                     }
                 }
