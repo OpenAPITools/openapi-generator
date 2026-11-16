@@ -1656,6 +1656,7 @@ components:
           type: string
         password:
           type: string
+          format: password
         phone:
           type: string
         userStatus:

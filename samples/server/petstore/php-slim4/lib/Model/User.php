@@ -65,7 +65,8 @@ class User extends BaseModel
       "type" : "string"
     },
     "password" : {
-      "type" : "string"
+      "type" : "string",
+      "format" : "password"
     },
     "phone" : {
       "type" : "string"

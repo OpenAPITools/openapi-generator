@@ -131,6 +131,7 @@ components:
               id:
                 type: string
               password:
+                format: password
                 type: string
             required:
             - id
@@ -203,6 +204,7 @@ components:
         id:
           type: string
         password:
+          format: password
           type: string
       required:
       - id

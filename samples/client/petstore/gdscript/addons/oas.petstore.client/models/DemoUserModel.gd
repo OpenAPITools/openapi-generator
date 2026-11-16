@@ -53,7 +53,7 @@ var __email__was__set := false
 
 # Required: False
 # isArray: false
-@export var password: String = "":
+@export var password: String:
 	set(value):
 		__password__was__set = true
 		password = value
