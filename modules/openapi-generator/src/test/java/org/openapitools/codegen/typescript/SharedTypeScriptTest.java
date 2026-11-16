@@ -229,6 +229,28 @@ public class SharedTypeScriptTest {
         TestUtils.assertFileNotContains(apiFile, "&lt;");
     }
 
+    @Test(description = "Issue #14063")
+    public void nullableComponentSchemaUsedAsArrayItemOrMapValueStaysNullable() throws Exception {
+        Map<String, String> modelFiles = Map.of(
+                "typescript-angular", "model/shelf.ts",
+                "typescript-fetch", "models/Shelf.ts",
+                "typescript", "models/Shelf.ts");
+        for (Map.Entry<String, String> entry : modelFiles.entrySet()) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_14063.yaml")
+                    .setGeneratorName(entry.getKey())
+                    .setOutputDir(output.getAbsolutePath());
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path model = new File(output, entry.getValue()).toPath();
+            TestUtils.assertFileContains(model,
+                    "Array<Book | null>", "{ [key: string]: Book | null; }", "Array<Plain>", "{ [key: string]: Plain; }");
+        }
+    }
+
     @Test(description = "Issue #20877, #22747 - Maps/arrays of inner enums should use correct enum name")
     public void givenMapWithArrayOfEnumsThenCorrectEnumNameIsUsed() throws Exception {
         // This tests the fix for the issue where maps with array of enums generated
