@@ -74,8 +74,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -1338,6 +1340,19 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     protected boolean needToImport(String type) {
         return super.needToImport(typeWithoutGeneric(type));
+    }
+
+    @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> schemaMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, schemaMappings);
+        // a mapped generic such as Record<string, unknown> is a TypeScript type, not a model with FromJSON
+        if (op.returnBaseType != null && languageSpecificPrimitives.contains(typeWithoutGeneric(op.returnBaseType))) {
+            op.returnTypeIsPrimitive = true;
+        }
     }
 
     private String typeWithoutGeneric(String type) {
