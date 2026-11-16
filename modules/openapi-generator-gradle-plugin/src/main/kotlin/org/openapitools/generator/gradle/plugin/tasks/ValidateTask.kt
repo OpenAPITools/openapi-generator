@@ -88,9 +88,14 @@ abstract class ValidateTask : DefaultTask() {
     @get:Input
     abstract val treatWarningsAsErrors: Property<Boolean>
 
+    @get:Optional
+    @get:Input
+    abstract val skipUnusedModels: Property<Boolean>
+
     init {
         recommend.convention(true)
         treatWarningsAsErrors.convention(false)
+        skipUnusedModels.convention(false)
     }
 
     @Suppress("unused")
@@ -116,6 +121,7 @@ abstract class ValidateTask : DefaultTask() {
 
         val recommendations = recommend.get()
         val failOnWarnings = treatWarningsAsErrors.get()
+        val shouldSkipUnusedModels = skipUnusedModels.get()
 
         logger.lifecycle("Validating spec $specLocation")
 
@@ -128,6 +134,9 @@ abstract class ValidateTask : DefaultTask() {
 
         val ruleConfiguration = RuleConfiguration()
         ruleConfiguration.isEnableRecommendations = recommendations
+        if (shouldSkipUnusedModels) {
+            ruleConfiguration.isEnableUnusedSchemasRecommendation = false
+        }
 
         val evaluator = OpenApiEvaluator(ruleConfiguration)
         val validationResult = evaluator.validate(result.openAPI)
