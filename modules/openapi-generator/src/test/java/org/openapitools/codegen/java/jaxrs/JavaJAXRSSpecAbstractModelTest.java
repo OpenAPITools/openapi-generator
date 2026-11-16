@@ -186,6 +186,8 @@ public class JavaJAXRSSpecAbstractModelTest {
             // an abstract intermediate type resolved by a second discriminator is not readable through the root type
             cases.add(new Object[]{"abstract_mapped_intermediate.yaml", legacy,
                     "The discriminator value 'CAT' of property 'petType' in model 'Pet' maps to model 'Cat', which is marked 'x-abstract'"});
+            cases.add(new Object[]{"abstract_self_named_discriminator_value.yaml", legacy,
+                    "The discriminator value 'Cat' of property 'petType' in model 'Pet' maps to model 'Cat', which is marked 'x-abstract'"});
             cases.add(new Object[]{"abstract_sealed_parent_without_subclass.yaml", legacy,
                     "Model 'Fish' is marked 'x-abstract' and is a permitted subtype of the sealed type 'Pet', but no generated model extends it"});
             cases.add(new Object[]{"abstract_sealed_oneof_member_without_subclass.yaml", legacy,
