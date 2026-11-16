@@ -3013,7 +3013,11 @@ impl std::str::FromStr for FormatTest {
                         <chrono::DateTime<chrono::Utc> as std::str::FromStr>::from_str(val)
                             .map_err(|x| x.to_string())?,
                     ),
-                    "uuid" => intermediate_rep.uuid.push(val.to_string()),
+                    #[allow(clippy::redundant_clone)]
+                    "uuid" => intermediate_rep.uuid.push(
+                        <uuid::Uuid as std::str::FromStr>::from_str(val)
+                            .map_err(|x| x.to_string())?,
+                    ),
                     "password" => intermediate_rep.password.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
@@ -3639,7 +3643,8 @@ impl std::str::FromStr for MixedPropertiesAndAdditionalPropertiesClass {
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                       "uuid" => intermediate_rep.uuid.push(val.to_string()),
+                       #[allow(clippy::redundant_clone)]
+                       "uuid" => intermediate_rep.uuid.push(<uuid::Uuid as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                         #[allow(clippy::redundant_clone)]
                        "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "map" => return std::result::Result::Err("Parsing a container in this style is not supported in MixedPropertiesAndAdditionalPropertiesClass".to_string()),

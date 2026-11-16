@@ -1317,7 +1317,13 @@ impl std::str::FromStr for {{{classname}}} {
                   {{/isNullable}}
                   {{^isNullable}}
                     {{#isString}}
+                     {{^isUuid}}
                        "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(val.to_string()),
+                     {{/isUuid}}
+                     {{#isUuid}}
+                       #[allow(clippy::redundant_clone)]
+                       "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                     {{/isUuid}}
                     {{/isString}}
                     {{^isString}}
                         #[allow(clippy::redundant_clone)]
