@@ -25,6 +25,8 @@ on:
       - samples/client/petstore/java/jersey3-jackson3/**
       - samples/client/petstore/java/microprofile-oneof-sealed/**
       - samples/client/petstore/java/rest-assured-jackson3/**
+      - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
@@ -49,6 +51,8 @@ on:
       - samples/client/petstore/java/jersey3-jackson3/**
       - samples/client/petstore/java/microprofile-oneof-sealed/**
       - samples/client/petstore/java/rest-assured-jackson3/**
+      - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue/**
+      - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -86,6 +90,8 @@ jobs:
           - samples/client/petstore/java/jersey3-jackson3
           - samples/client/petstore/java/microprofile-oneof-sealed
           - samples/client/petstore/java/rest-assured-jackson3
+          - samples/client/others/java/restclient-additonal-properties-in-multipart-request-issue
+          - samples/client/others/java/webclient-additonal-properties-in-multipart-request-issue
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
