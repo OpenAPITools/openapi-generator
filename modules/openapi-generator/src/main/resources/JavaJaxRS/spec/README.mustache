@@ -19,7 +19,7 @@ To run the server from the command line, you can use maven to provision and star
 Please execute the following:
 
 ```
-mvn -Dtomee-embedded-plugin.http={{serverPort}} package org.apache.tomee.maven:tomee-embedded-maven-plugin:7.0.5:run
+mvn -Dtomee-embedded-plugin.http={{serverPort}} package org.apache.tomee.maven:tomee-embedded-maven-plugin:{{#useJakartaEe}}10.0.0{{/useJakartaEe}}{{^useJakartaEe}}7.0.5{{/useJakartaEe}}:run
 ```
 
 You can then call your server endpoints under:

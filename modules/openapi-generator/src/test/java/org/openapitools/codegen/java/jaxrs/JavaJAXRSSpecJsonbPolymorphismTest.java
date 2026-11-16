@@ -623,6 +623,7 @@ public class JavaJAXRSSpecJsonbPolymorphismTest {
      */
     @Test
     public void testDiscriminatorDefaultsOnlyForStringsAndEnums() throws Exception {
+        requireJdk(17);
         Path output = generate("src/test/resources/3_0/oneOfDiscriminator.yaml", properties(true));
         compileModels(output, classpath(Jsonb.class, JsonParser.class));
         assertFileContains(modelDir(output).resolve("PetUriDisc.java"), "public PetUriDisc() { }", "private URI petType;");
@@ -637,6 +638,7 @@ public class JavaJAXRSSpecJsonbPolymorphismTest {
      */
     @Test(dataProvider = "legacyDiscriminatorBehavior")
     public void testConcreteTypeResolutionComparedWithJackson(boolean legacy) throws Exception {
+        requireJdk(17);
         Map<String, String> same = new LinkedHashMap<>();
         same.put("Machine<-{\"machineType\":\"Machine\"}", "Machine");
         same.put("Machine<-{\"machineType\":\"ROBOT\"}", "Robot");

@@ -102,6 +102,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/Vehicle'
         - type: object
+          required:
+            - carType
           properties:
             carType:
               type: string
