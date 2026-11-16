@@ -109,7 +109,7 @@ test {
 idea {
     module {
         sourceDirs += file('src/main/kotlin')
-        testSourceDirs += file('src/test/kotlin')
+        testSources.from(file('src/test/kotlin'))
     }
 }
 {{/idea}}
