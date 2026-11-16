@@ -177,17 +177,14 @@ impl std::str::FromStr for Goodbye {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Goodbye".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "op" => intermediate_rep.op.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "d" => intermediate_rep.d.push(
                         <models::GoodbyeD as std::str::FromStr>::from_str(val)
@@ -196,7 +193,7 @@ impl std::str::FromStr for Goodbye {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Goodbye".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -322,21 +319,18 @@ impl std::str::FromStr for GoodbyeD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GoodbyeD".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "goodbye_message" => intermediate_rep.goodbye_message.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "goodbye_message" => intermediate_rep.goodbye_message.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GoodbyeD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -481,7 +475,7 @@ impl std::str::FromStr for Greeting {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Greeting".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -493,14 +487,11 @@ impl std::str::FromStr for Greeting {
                         <models::GreetingD as std::str::FromStr>::from_str(val)
                             .map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "op" => intermediate_rep.op.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Greeting".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -626,21 +617,18 @@ impl std::str::FromStr for GreetingD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GreetingD".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "greet_message" => intermediate_rep.greet_message.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "greet_message" => intermediate_rep.greet_message.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GreetingD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -787,17 +775,14 @@ impl std::str::FromStr for Hello {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Hello".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "op" => intermediate_rep.op.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "d" => intermediate_rep.d.push(
                         <models::HelloD as std::str::FromStr>::from_str(val)
@@ -806,7 +791,7 @@ impl std::str::FromStr for Hello {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Hello".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -930,21 +915,18 @@ impl std::str::FromStr for HelloD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing HelloD".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "welcome_message" => intermediate_rep.welcome_message.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "welcome_message" => intermediate_rep.welcome_message.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing HelloD".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1207,7 +1189,7 @@ impl std::str::FromStr for YoMessage {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing YoMessage".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1219,14 +1201,11 @@ impl std::str::FromStr for YoMessage {
                         <models::YoMessageD as std::str::FromStr>::from_str(val)
                             .map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "op" => intermediate_rep.op.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "op" => intermediate_rep.op.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing YoMessage".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1352,21 +1331,18 @@ impl std::str::FromStr for YoMessageD {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing YoMessageD".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "nickname" => intermediate_rep.nickname.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "nickname" => intermediate_rep.nickname.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing YoMessageD".to_string(),
-                        )
+                        );
                     }
                 }
             }
