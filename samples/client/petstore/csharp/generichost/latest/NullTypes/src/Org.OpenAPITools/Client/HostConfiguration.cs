@@ -38,13 +38,14 @@ namespace Org.OpenAPITools.Client
         public HostConfiguration(IServiceCollection services)
         {
             _services = services;
-            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new ColorJsonConverter());
             _jsonOptions.Converters.Add(new ColorOrNullJsonConverter());
             _jsonOptions.Converters.Add(new NullTypeDirectJsonConverter());
             _jsonOptions.Converters.Add(new ShapeJsonConverter());
             _jsonOptions.Converters.Add(new ShapeOrNullJsonConverter());
             _jsonOptions.Converters.Add(new WidgetJsonConverter());
+            // Registered last so the generated schema-specific converters take precedence (System.Text.Json uses the first matching converter).
+            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
