@@ -36,10 +36,11 @@ namespace Org.OpenAPITools.Client
         public HostConfiguration(IServiceCollection services)
         {
             _services = services;
-            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new AdultJsonConverter());
             _jsonOptions.Converters.Add(new ChildJsonConverter());
             _jsonOptions.Converters.Add(new PersonJsonConverter());
+            // Registered last so the generated schema-specific converters take precedence (System.Text.Json uses the first matching converter).
+            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new JsonSerializerOptionsProvider(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();

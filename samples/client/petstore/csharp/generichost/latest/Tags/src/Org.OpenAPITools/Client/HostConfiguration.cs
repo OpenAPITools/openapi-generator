@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Client
         public HostConfiguration(IServiceCollection services)
         {
             _services = services;
+            // Registered last so the generated schema-specific converters take precedence (System.Text.Json uses the first matching converter).
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
