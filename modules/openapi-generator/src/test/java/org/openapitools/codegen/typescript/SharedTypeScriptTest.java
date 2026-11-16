@@ -205,6 +205,30 @@ public class SharedTypeScriptTest {
         TestUtils.assertFileNotContains(axiosApiFile.toPath(), "AxiosPromise<UserSummary>");
     }
 
+    @Test(description = "Issue #22251")
+    public void givenTypeMappingToGenericUtilityTypeThenResponseIsNotDeserializedAsModel() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Generator generator = new DefaultGenerator();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_1/issue_22251.yaml")
+                .setGeneratorName("typescript-fetch")
+                .addTypeMapping("object", "Record<string,unknown>")
+                .addTypeMapping("UserSummary", "Pick<User, \"email\">")
+                .setOutputDir(output.getAbsolutePath());
+        generator.opts(configurator.toClientOptInput())
+                .generate();
+
+        Path apiFile = new File(output, "/apis/DefaultApi.ts").toPath();
+
+        TestUtils.assertFileContains(apiFile, "return new runtime.JSONApiResponse<Record<string,unknown>>(response);");
+        TestUtils.assertFileContains(apiFile, "return new runtime.JSONApiResponse<Pick<User, \"email\">>(response);");
+        TestUtils.assertFileContains(apiFile, "Promise<Array<Pick<User, \"email\">>>");
+        TestUtils.assertFileNotContains(apiFile, "FromJSON");
+        TestUtils.assertFileNotContains(apiFile, "&lt;");
+    }
+
     @Test(description = "Issue #20877, #22747 - Maps/arrays of inner enums should use correct enum name")
     public void givenMapWithArrayOfEnumsThenCorrectEnumNameIsUsed() throws Exception {
         // This tests the fix for the issue where maps with array of enums generated
