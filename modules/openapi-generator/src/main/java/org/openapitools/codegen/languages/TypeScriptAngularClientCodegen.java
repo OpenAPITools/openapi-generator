@@ -740,8 +740,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public String removeModelPrefixSuffix(String name) {
         String result = name;
-        if (modelSuffix.length() > 0 && result.endsWith(modelSuffix)) {
-            result = result.substring(0, result.length() - modelSuffix.length());
+        // toModelName camelizes the suffix, so "dto" ends up as "Dto" in class names
+        String classSuffix = capitalize(this.modelSuffix);
+        if (classSuffix.length() > 0 && result.endsWith(classSuffix)) {
+            result = result.substring(0, result.length() - classSuffix.length());
         }
         String prefix = capitalize(this.modelNamePrefix);
         String suffix = capitalize(this.modelNameSuffix);
