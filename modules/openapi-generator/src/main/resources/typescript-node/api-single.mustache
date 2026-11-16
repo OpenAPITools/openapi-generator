@@ -30,7 +30,7 @@ let defaultBasePath = '{{{basePath}}}';
 export enum {{classname}}ApiKeys {
 {{#authMethods}}
 {{#isApiKey}}
-    {{name}},
+    {{{vendorExtensions.x-auth-enum-member}}},
 {{/isApiKey}}
 {{/authMethods}}
 }
@@ -118,23 +118,23 @@ export class {{classname}} {
 {{#isBasicBasic}}
 
     set username(username: string) {
-        this.authentications.{{name}}.username = username;
+        this.authentications{{{vendorExtensions.x-auth-accessor}}}.username = username;
     }
 
     set password(password: string) {
-        this.authentications.{{name}}.password = password;
+        this.authentications{{{vendorExtensions.x-auth-accessor}}}.password = password;
     }
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 
     set accessToken(accessToken: string | (() => string)) {
-        this.authentications.{{name}}.accessToken = accessToken;
+        this.authentications{{{vendorExtensions.x-auth-accessor}}}.accessToken = accessToken;
     }
 {{/isBasicBearer}}
 {{#isOAuth}}
 
     set accessToken(token: string) {
-        this.authentications.{{name}}.accessToken = token;
+        this.authentications{{{vendorExtensions.x-auth-accessor}}}.accessToken = token;
     }
 {{/isOAuth}}
 {{/authMethods}}
@@ -237,23 +237,23 @@ export class {{classname}} {
         let authenticationPromise = Promise.resolve();
 {{#authMethods}}
     {{#isApiKey}}
-        if (this.authentications.{{name}}.apiKey) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        if (this.authentications{{{vendorExtensions.x-auth-accessor}}}.apiKey) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications{{{vendorExtensions.x-auth-accessor}}}.applyToRequest(localVarRequestOptions));
         }
     {{/isApiKey}}
     {{#isBasicBasic}}
-        if (this.authentications.{{name}}.username && this.authentications.{{name}}.password) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        if (this.authentications{{{vendorExtensions.x-auth-accessor}}}.username && this.authentications{{{vendorExtensions.x-auth-accessor}}}.password) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications{{{vendorExtensions.x-auth-accessor}}}.applyToRequest(localVarRequestOptions));
         }
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-        if (this.authentications.{{name}}.accessToken) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        if (this.authentications{{{vendorExtensions.x-auth-accessor}}}.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications{{{vendorExtensions.x-auth-accessor}}}.applyToRequest(localVarRequestOptions));
         }
     {{/isBasicBearer}}
     {{#isOAuth}}
-        if (this.authentications.{{name}}.accessToken) {
-            authenticationPromise = authenticationPromise.then(() => this.authentications.{{name}}.applyToRequest(localVarRequestOptions));
+        if (this.authentications{{{vendorExtensions.x-auth-accessor}}}.accessToken) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications{{{vendorExtensions.x-auth-accessor}}}.applyToRequest(localVarRequestOptions));
         }
     {{/isOAuth}}
 {{/authMethods}}

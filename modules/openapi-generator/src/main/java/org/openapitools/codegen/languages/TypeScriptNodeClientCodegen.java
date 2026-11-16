@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.codegen.*;
@@ -34,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -43,6 +45,9 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
  * <p>Mustache templates are located in {@code src/main/resources/typescript-node/}.
  */
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final Pattern IDENTIFIER = Pattern.compile("^[A-Za-z_$][A-Za-z0-9_$]*$");
+    private static final String X_AUTH_ACCESSOR = "x-auth-accessor";
+    private static final String X_AUTH_ENUM_MEMBER = "x-auth-enum-member";
     private final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
 
     public static final String NPM_REPOSITORY = "npmRepository";
@@ -210,6 +215,18 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
             }
         }
         return tsImports;
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+        List<CodegenSecurity> securities = super.fromSecurity(securitySchemeMap);
+        for (CodegenSecurity sec : securities) {
+            // scheme names such as api-key are not identifiers: quote them as enum members and use bracket access
+            boolean isIdentifier = IDENTIFIER.matcher(sec.name).matches();
+            sec.vendorExtensions.put(X_AUTH_ACCESSOR, isIdentifier ? "." + sec.name : "['" + sec.name + "']");
+            sec.vendorExtensions.put(X_AUTH_ENUM_MEMBER, isIdentifier ? sec.name : "'" + sec.name + "'");
+        }
+        return securities;
     }
 
     @Override
