@@ -563,6 +563,38 @@ public class KotlinClientCodegenModelTest {
                 "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
     }
 
+    @Test(description = "gson anyOf/oneOf wrappers for [number, string] compile")
+    public void testGsonAnyOfOneOfNumberStringWrappersCompile() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary(ClientLibrary.JVM_RETROFIT2.getLibraryName())
+                .setInputSpec("src/test/resources/3_0/kotlin/issue25452-anyof-oneof-number.yaml")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path modelsDir = modelPath(output, "AnyOfValue").getParent();
+        List<String> sources = files.stream()
+                .filter(file -> file.toPath().startsWith(modelsDir) && file.getName().endsWith(".kt"))
+                .map(File::getAbsolutePath)
+                .collect(java.util.stream.Collectors.toList());
+        Assert.assertFalse(sources.isEmpty(), "no model sources generated");
+
+        ClassLoader compiled = KotlinTestUtils.buildModule(sources, getClass().getClassLoader());
+        try {
+            compiled.loadClass("org.openapitools.client.models.AnyOfValue");
+            compiled.loadClass("org.openapitools.client.models.OneOfValue");
+        } catch (ClassNotFoundException e) {
+            Assert.fail("compiled wrapper class not found", e);
+        }
+    }
+
     @Test(description = "Issue #20960")
     private void givenSchemaObjectPropertyNameContainsDollarSignWhenGenerateThenDollarSignIsProperlyEscapedInAnnotation() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
