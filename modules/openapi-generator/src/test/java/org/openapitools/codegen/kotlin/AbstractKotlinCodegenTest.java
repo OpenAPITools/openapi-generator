@@ -56,6 +56,13 @@ public class AbstractKotlinCodegenTest {
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NullDefault", schema)));
         Schema reference = new Schema().$ref("#/components/schemas/NullDefault");
         assertNull(codegen.toDefaultParameterValue(property, reference));
+        reference.setDefault("null");
+        assertEquals(codegen.toDefaultParameterValue(property, reference), "\"null\"");
+        assertSame(schema.getDefault(), NullNode.getInstance());
+        reference.setDefault(NullNode.getInstance());
+        schema.setDefault("fallback");
+        assertNull(codegen.toDefaultParameterValue(property, reference));
+        reference.setDefault(null);
         schema.setDefault("null");
         assertEquals(codegen.toDefaultParameterValue(property, reference), "\"null\"");
         assertEquals(codegen.toDefaultParameterValue(property, schema), "\"null\"");
