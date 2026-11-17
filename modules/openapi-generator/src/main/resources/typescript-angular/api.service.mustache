@@ -1,7 +1,13 @@
 {{>licenseInfo}}
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { inject, Injectable }                      from '@angular/core';
+{{#useInjectionFunction}}
+import { inject, Injectable } from '@angular/core';
+{{/useInjectionFunction}}
+{{^useInjectionFunction}}
+import { Inject, Injectable, Optional } from '@angular/core';
+{{/useInjectionFunction}}
+
 import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent{{#httpContextInOptions}}, HttpContext {{/httpContextInOptions}}
         }       from '@angular/common/http';
@@ -66,6 +72,7 @@ export class {{classname}} extends BaseService implements {{classname}}Interface
 export class {{classname}} extends BaseService {
 {{/withInterfaces}}
 
+    {{#useInjectionFunction}}
     protected httpClient: HttpClient = inject(HttpClient);
 
     constructor() {
@@ -74,6 +81,12 @@ export class {{classname}} extends BaseService {
           inject({{configurationClassName}}, { optional: true }) ?? undefined
         );
     }
+    {{/useInjectionFunction}}
+    {{^useInjectionFunction}}
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: {{configurationClassName}}) {
+        super(basePath, configuration);
+    }
+    {{/useInjectionFunction}}
 
 {{#operation}}
     /**
