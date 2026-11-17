@@ -14,7 +14,7 @@ import javax.validation.Valid;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
-public class AdditionalPropertiesArray extends HashMap<String, List>  {
+public class AdditionalPropertiesArray extends HashMap<String, List<Object>>  {
   @JsonProperty("name")
   
   private String name;

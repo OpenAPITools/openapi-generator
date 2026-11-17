@@ -3030,4 +3030,137 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         new DefaultGenerator().opts(configuratorFalse.toClientOptInput()).generate();
         assertFileNotContains(outputFalse.toPath().resolve("pom.xml"), "jackson-databind-nullable");
     }
+
+    // additionalProperties value schema -> expected Java value type, from the schemas in
+    // 3_0/java-additional-properties-value-generics.yaml (the same types a property of that schema gets)
+    private static final String ADD_PROPS_VALUE_SPEC = "src/test/resources/3_0/java-additional-properties-value-generics.yaml";
+    private static final Map<String, String> ADD_PROPS_GENERIC_VALUES = new java.util.LinkedHashMap<>();
+    private static final Map<String, String> ADD_PROPS_UNCHANGED_VALUES = new java.util.LinkedHashMap<>();
+
+    static {
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsInts", "List<Integer>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsUnique", "Set<Integer>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsRefs", "List<Item>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsDates", "List<OffsetDateTime>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsNested", "List<List<Integer>>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsMapStr", "Map<String, String>");
+        ADD_PROPS_GENERIC_VALUES.put("AddPropsMapInts", "Map<String, List<Integer>>");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsTrue", "Object");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsEmpty", "Object");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsString", "String");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsItem", "Item");
+        ADD_PROPS_UNCHANGED_VALUES.put("AddPropsLong", "Long");
+    }
+
+    private static String shortFailure(AssertionError e) {
+        String message = String.valueOf(e.getMessage());
+        return message.lines().findFirst().orElse(message);
+    }
+
+    /** Runs the check and records the first line of its failure, so one run reports every shape. */
+    private static void collectFailure(List<String> failures, String what, Runnable check) {
+        try {
+            check.run();
+        } catch (AssertionError e) {
+            failures.add(what + " -> " + shortFailure(e));
+        }
+    }
+
+    private static void collectAccessors(List<String> failures, Map<String, File> files, String model, String value) {
+        collectFailure(failures, model + " accessors for " + value, () -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                .fileContains(
+                        "public " + model + " putAdditionalProperty(String key, " + value + " value) {",
+                        "public Map<String, " + value + "> getAdditionalProperties() {",
+                        "public " + value + " getAdditionalProperty(String key) {"));
+    }
+
+    private static void collectNoGenericImports(List<String> failures, Map<String, File> files) {
+        files.forEach((name, file) -> {
+            if (!name.endsWith(".java")) {
+                return;
+            }
+            try {
+                for (String line : Files.readAllLines(file.toPath())) {
+                    if (line.startsWith("import ") && line.contains("<")) {
+                        failures.add(name + " has a generic import: " + line);
+                    }
+                }
+            } catch (IOException e) {
+                throw new java.io.UncheckedIOException(e);
+            }
+        });
+    }
+
+    private Map<String, File> generateAddPropsValueModels(Map<String, Object> properties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setAdditionalProperties(properties)
+                .setValidateSpec(false)
+                .setInputSpec(ADD_PROPS_VALUE_SPEC)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        return new DefaultGenerator().opts(configurator.toClientOptInput()).generate().stream()
+                .filter(file -> file.getName().endsWith(".java"))
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+    }
+
+    @Test
+    public void additionalPropertiesValueKeepsGenericsInParentAndAccessors() throws IOException {
+        Map<String, File> files = generateAddPropsValueModels(new HashMap<>(Map.of("dateLibrary", "java8")));
+        List<String> failures = new java.util.ArrayList<>();
+
+        ADD_PROPS_GENERIC_VALUES.forEach((model, value) -> {
+            collectFailure(failures, model + " parent for " + value, () -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                    .fileContains("public class " + model + " extends HashMap<String, " + value + ">"));
+            if (!"AddPropsRefs".equals(model)) {
+                // the accessors of AddPropsRefs come from the property path, which adds @Valid (List<@Valid Item>);
+                // that is bean validation and out of the scope of this fix, so only its parent is asserted
+                collectAccessors(failures, files, model, value);
+            }
+        });
+        collectFailure(failures, "AddPropsDates imports", () -> JavaFileAssert.assertThat(files.get("AddPropsDates.java"))
+                .hasImports("java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        org.assertj.core.api.Assertions.assertThat(failures).as("generic value types lost").isEmpty();
+    }
+
+    @Test
+    public void additionalPropertiesValueOfPlainTypesIsUnchangedInParent() throws IOException {
+        Map<String, File> files = generateAddPropsValueModels(new HashMap<>(Map.of("dateLibrary", "java8")));
+
+        ADD_PROPS_UNCHANGED_VALUES.forEach((model, value) -> JavaFileAssert.assertThat(files.get(model + ".java"))
+                .fileContains("public class " + model + " extends HashMap<String, " + value + ">"));
+    }
+
+
+    @Test
+    public void arrayAliasParentImportsNestedGenericArgumentInParent() throws IOException {
+        Map<String, File> files = generateAddPropsValueModels(new HashMap<>(Map.of("dateLibrary", "java8", "generateAliasAsModel", "true")));
+        List<String> failures = new java.util.ArrayList<>();
+
+        collectFailure(failures, "AliasArr2", () -> JavaFileAssert.assertThat(files.get("AliasArr2.java"))
+                .fileContains("extends ArrayList<List<OffsetDateTime>>")
+                .hasImports("java.util.ArrayList", "java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        org.assertj.core.api.Assertions.assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
+
+    @Test
+    public void mapParentImportsItsGenericArgumentInParent() throws IOException {
+        Map<String, File> files = generateAddPropsValueModels(new HashMap<>(Map.of("dateLibrary", "java8", "generateAliasAsModel", "true")));
+        List<String> failures = new java.util.ArrayList<>();
+
+        collectFailure(failures, "MapOfDateLists parent", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .fileContains("extends HashMap<String, List<OffsetDateTime>>"));
+        collectFailure(failures, "MapOfDateLists imports", () -> JavaFileAssert.assertThat(files.get("MapOfDateLists.java"))
+                .hasImports("java.util.HashMap", "java.util.List", "java.time.OffsetDateTime"));
+        collectNoGenericImports(failures, files);
+
+        org.assertj.core.api.Assertions.assertThat(failures).as("generic argument of the parent not imported").isEmpty();
+    }
 }

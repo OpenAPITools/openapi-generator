@@ -11,7 +11,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-public class AdditionalPropertiesArray extends HashMap<String, List> {
+public class AdditionalPropertiesArray extends HashMap<String, List<Object>> {
   
   @ApiModelProperty(value = "")
 

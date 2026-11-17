@@ -41,7 +41,7 @@ import jakarta.validation.Valid;
 })
 @JsonFormat(shape=JsonFormat.Shape.OBJECT)
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
-public class AdditionalPropertiesArray extends HashMap<String, List> {
+public class AdditionalPropertiesArray extends HashMap<String, List<Object>> {
   public static final String JSON_PROPERTY_NAME = "name";
   @jakarta.annotation.Nullable
   private String name;
@@ -84,7 +84,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @return self reference
    */
   @JsonAnySetter
-  public AdditionalPropertiesArray putAdditionalProperty(String key, List value) {
+  public AdditionalPropertiesArray putAdditionalProperty(String key, List<Object> value) {
     this.put(key, value);
     return this;
   }
@@ -94,7 +94,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @return the additional (undeclared) properties
    */
   @JsonAnyGetter
-  public Map<String, List> getAdditionalProperties() {
+  public Map<String, List<Object>> getAdditionalProperties() {
     return this;
   }
 
@@ -103,7 +103,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * @param key the name of the property
    * @return the additional (undeclared) property with the specified name
    */
-  public List getAdditionalProperty(String key) {
+  public List<Object> getAdditionalProperty(String key) {
     return this.get(key);
   }
 

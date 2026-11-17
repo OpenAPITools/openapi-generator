@@ -79,7 +79,7 @@ public class AdditionalPropertiesArray {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  private Map<String, List> additionalProperties;
+  private Map<String, List<Object>> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.
@@ -89,9 +89,9 @@ public class AdditionalPropertiesArray {
    * @return self reference
    */
   @JsonAnySetter
-  public AdditionalPropertiesArray putAdditionalProperty(String key, List value) {
+  public AdditionalPropertiesArray putAdditionalProperty(String key, List<Object> value) {
     if (this.additionalProperties == null) {
-        this.additionalProperties = new HashMap<String, List>();
+        this.additionalProperties = new HashMap<String, List<Object>>();
     }
     this.additionalProperties.put(key, value);
     return this;
@@ -102,7 +102,7 @@ public class AdditionalPropertiesArray {
    * @return the additional (undeclared) properties
    */
   @JsonAnyGetter
-  public Map<String, List> getAdditionalProperties() {
+  public Map<String, List<Object>> getAdditionalProperties() {
     return additionalProperties;
   }
 
@@ -111,7 +111,7 @@ public class AdditionalPropertiesArray {
    * @param key the name of the property
    * @return the additional (undeclared) property with the specified name
    */
-  public List getAdditionalProperty(String key) {
+  public List<Object> getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
         return null;
     }
