@@ -998,6 +998,11 @@ public class JavaClientCodegenTest {
         assertThat(Files.readString(readOnlyModel))
                 .containsOnlyOnce("@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)");
 
+        // a required nullable property is still required, only its value may be null
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/NullableRequiredModel.java")).content().contains(
+                "@JsonProperty(value = JSON_PROPERTY_ID, required = true)",
+                "@JsonProperty(value = JSON_PROPERTY_LABEL, required = false)");
+
         // a model overriding an inherited property with an incompatible type, and its descendants,
         // fall back to the no-arg constructor instead of generating uncompilable code
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/OverrideBase.java")).content()
@@ -1025,6 +1030,14 @@ public class JavaClientCodegenTest {
         List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
         validateJavaSourceFiles(files);
+        assertThat(output.resolve("pom.xml")).content().contains(
+                "<groupId>tools.jackson.dataformat</groupId>",
+                "<artifactId>jackson-dataformat-xml</artifactId>",
+                "<groupId>javax.xml.bind</groupId>",
+                "<artifactId>jaxb-api</artifactId>");
+        assertThat(output.resolve("build.gradle")).content().contains(
+                "tools.jackson.dataformat:jackson-dataformat-xml",
+                "javax.xml.bind:jaxb-api");
         assertThat(output.resolve("src/main/java/xyz/abcdef/model/CoreIntentAuthorService.java")).content().contains(
                 // Jackson 3 XML annotations live in tools.jackson.dataformat
                 "import tools.jackson.dataformat.xml.annotation.*;",

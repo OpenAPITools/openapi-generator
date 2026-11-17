@@ -75,6 +75,16 @@ components:
         createdAt:
           type: string
           readOnly: true
+    NullableRequiredModel:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          nullable: true
+        label:
+          type: string
     OverrideBase:
       type: object
       discriminator:
