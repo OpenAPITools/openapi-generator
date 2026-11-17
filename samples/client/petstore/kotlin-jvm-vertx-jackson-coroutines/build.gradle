@@ -59,7 +59,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.22.1"
-    implementation "io.vertx:vertx-web-client:$vertx_version"
+    api "io.vertx:vertx-web-client:$vertx_version"
     api "io.vertx:vertx-core:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
     implementation "io.vertx:vertx-uri-template:$vertx_version"
