@@ -1,4 +1,5 @@
 import { NgModule, ModuleWithProviders, inject } from '@angular/core';
+
 import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 

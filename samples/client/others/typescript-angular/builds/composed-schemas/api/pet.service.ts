@@ -9,7 +9,8 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { inject, Injectable }                      from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+
 import { HttpClient, HttpHeaders, HttpParams,
          HttpResponse, HttpEvent, HttpContext 
         }       from '@angular/common/http';
