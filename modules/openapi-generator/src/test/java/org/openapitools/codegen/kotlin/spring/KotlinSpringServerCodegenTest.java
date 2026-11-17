@@ -8376,6 +8376,23 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/Pet.kt"), "sealed interface Pet");
     }
 
+    @Test(description = "nullable property on allOf discriminator parent interface is declared nullable")
+    public void testDiscriminatorParentInterfaceNullableProperty() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/polymorphism-discriminator-nullable.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+
+        assertFileContains(Paths.get(outputPath + "/Pet.kt"), "val nickname: kotlin.String?");
+    }
+
     @Test(description = "allOf sealed interface correctly composes external x-kotlin-implements supertypes")
     public void testSealedInterfaceWithExternalSupertypes() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
