@@ -1,0 +1,39 @@
+# note: declared 3.1.0 because the 3.0 parser drops `webhooks` entirely;
+# no 3.1-only feature is otherwise used. `paths` is omitted on purpose:
+# OAS 3.1 permits a webhooks-only document, and it exercises the
+# getPaths() == null branch in the generator
+openapi: 3.1.0
+info:
+  title: webhook-only model test
+  version: '1.0'
+webhooks:
+  # webhook referencing a component model: generators that only scan
+  # openAPI.getPaths() for operation input models would miss this
+  petChanged:
+    post:
+      operationId: onPetChanged
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnimalChoice'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    AnimalChoice:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+    Cat:
+      type: object
+      properties:
+        name:
+          type: string
+    Dog:
+      type: object
+      properties:
+        bark:
+          type: string

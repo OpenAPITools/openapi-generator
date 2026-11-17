@@ -167,25 +167,19 @@ impl std::str::FromStr for LiveUpdatesGet200Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing LiveUpdatesGet200Response".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "data" => intermediate_rep.data.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "event" => intermediate_rep.event.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "data" => intermediate_rep.data.push(val.to_string()),
+                    "event" => intermediate_rep.event.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing LiveUpdatesGet200Response".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -265,10 +259,11 @@ impl LiveUpdatesGet201Response {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for LiveUpdatesGet201Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .data
-            .as_ref()
-            .map(|data| ["data".to_string(), data.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.data
+                .as_ref()
+                .map(|data| ["data".to_string(), data.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -304,21 +299,18 @@ impl std::str::FromStr for LiveUpdatesGet201Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing LiveUpdatesGet201Response".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "data" => intermediate_rep.data.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "data" => intermediate_rep.data.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing LiveUpdatesGet201Response".to_string(),
-                        )
+                        );
                     }
                 }
             }
