@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -2925,6 +2926,26 @@ public class DefaultCodegenTest {
         assertTrue(codegenParameter.isContainer);
         assertTrue(codegenParameter.items.isModel);
         assertFalse(codegenParameter.items.isContainer);
+    }
+
+    // TypeScript names unions "number | string", which must not replace the model name of a $ref body
+    @Test
+    public void referencedPrimitiveUnionBodyKeepsModelName() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-primitive-request-body.yaml");
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Map.of("/one-of", "NodeId", "/any-of", "NodeKey").forEach((path, modelName) -> {
+            Set<String> imports = new HashSet<>();
+            RequestBody body = openAPI.getPaths().get(path).getPost().getRequestBody();
+
+            CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+
+            assertEquals(modelName, codegenParameter.dataType);
+            assertEquals(modelName, codegenParameter.baseType);
+            assertEquals(codegen.toParamName(modelName), codegenParameter.paramName);
+            assertEquals(Set.of(modelName), imports);
+        });
     }
 
     @Test

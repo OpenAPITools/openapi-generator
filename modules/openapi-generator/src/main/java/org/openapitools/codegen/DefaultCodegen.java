@@ -8086,7 +8086,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+            // inline unions only: a named model (e.g. a $ref oneOf of primitives) keeps its name below
+            if (codegenModel == null && codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
                 // TODO move this splitting logic to the generator that needs it only
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                 imports.addAll(parts);
