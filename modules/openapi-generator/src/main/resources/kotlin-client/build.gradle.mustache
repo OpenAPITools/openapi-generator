@@ -198,7 +198,7 @@ dependencies {
     {{/jvm-okhttp4}}
     {{#jvm-spring-webclient}}
     api "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
-    implementation "io.projectreactor:reactor-core:3.8.6"
+    api "io.projectreactor:reactor-core:3.8.6"
     {{/jvm-spring-webclient}}
     {{#jvm-spring-restclient}}
     api "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
@@ -234,7 +234,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
     {{#jvm-vertx}}
-    implementation "io.vertx:vertx-web-client:$vertx_version"
+    api "io.vertx:vertx-web-client:$vertx_version"
     api "io.vertx:vertx-core:$vertx_version"
     implementation "io.vertx:vertx-lang-kotlin:$vertx_version"
     implementation "io.vertx:vertx-uri-template:$vertx_version"
