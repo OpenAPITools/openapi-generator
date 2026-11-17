@@ -112,7 +112,6 @@ jobs:
           - samples/client/others/java/native-oneOf-array/
           - samples/client/others/java/resttemplate-list-schema-validation/
           - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
-          - samples/client/petstore/java/okhttp-3.1-duplicated-operationid/
           - samples/client/others/java/okhttp-gson-streaming/
           - samples/client/petstore/java/resteasy/
           - samples/client/petstore/java/apache-httpclient/
