@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -172,7 +171,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName?.Equals("triangleType") ?? false)
                     {
-                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string? discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "triangleType");
                         if (discriminator?.Equals("EquilateralTriangle") ?? false)
                         {
                             Utf8JsonReader utf8JsonReaderEquilateralTriangle = utf8JsonReader;
@@ -277,11 +276,4 @@ namespace Org.OpenAPITools.Model
 
         }
     }
-
-    /// <summary>
-    /// The TriangleSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Triangle))]
-    public partial class TriangleSerializationContext : JsonSerializerContext { }
 }

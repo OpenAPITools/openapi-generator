@@ -3055,7 +3055,7 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Schema> allProperties = new LinkedHashMap<>();
         List<String> allRequired = new ArrayList<>();
 
-        // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+        // if schema has properties outside allOf/oneOf/anyOf, also add them to m
         if (ModelUtils.hasProperties(composed)) {
             if (ModelUtils.hasOneOf(composed)) {
                 LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
@@ -3247,20 +3247,14 @@ public class DefaultCodegen implements CodegenConfig {
      * that schema for items like enum include all possible values.
      */
     private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties) {
-        // https://github.com/OpenAPITools/openapi-generator/issues/12545
-        if (null != existingProperties && null != newProperties) {
+        if (existingProperties != null && newProperties != null) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             newProperties.forEach((key, value) ->
                     existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
             );
-            if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
-                for (Object e : newType.getEnum()) {
-                    // ensure all interface enum types are added to schema
-                    if (null != existingType.getEnum() && !existingType.getEnum().contains(e)) {
-                        existingType.addEnumItemObject(e);
-                    }
-                }
+            if (existingType != null && newType != null && isEnumSchema(newType)) {
+                mergeEnum(existingType, newType, EnumMergeOperation.UNION);
                 existingProperties.put("type", existingType);
             }
         }
@@ -3396,6 +3390,36 @@ public class DefaultCodegen implements CodegenConfig {
             model.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
             if (ModelUtils.isShortSchema(schema)) { // int32
                 model.setIsShort(Boolean.TRUE);
+            }
+        }
+    }
+
+    /**
+     * Deduplicate inline enum properties when a child repeats the same enum from its parent model
+     *
+     * @param codegenModel the child CodegenModel, will have enums removed if they collide with the parent's definition
+     * @param parentCodegenModel the parent CodegenModel
+     * @return the mutated child CodegenModel which has had any parent enum collisions removed
+     */
+    protected CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        if (parentCodegenModel == null || !parentCodegenModel.hasEnums) {
+            return codegenModel;
+        }
+
+        for (CodegenProperty parentModelCodegenProperty : parentCodegenModel.vars) {
+            if (parentModelCodegenProperty.isEnum) {
+                reconcileInlineEnum(parentModelCodegenProperty, codegenModel.vars);
+            }
+        }
+        return codegenModel;
+    }
+
+    private void reconcileInlineEnum(CodegenProperty parentModelCodegenProperty, List<CodegenProperty> codegenProperties) {
+        Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+        while (iterator.hasNext()) {
+            CodegenProperty codegenProperty = iterator.next();
+            if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                iterator.remove();
             }
         }
     }
@@ -4365,10 +4389,10 @@ public class DefaultCodegen implements CodegenConfig {
                 property.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                property.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                property.setMaximum(ModelUtils.formatNumericBound(original.getMaximum(), referencedSchema, false, property.getExclusiveMaximum()));
             }
             if (original.getMinimum() != null) {
-                property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                property.setMinimum(ModelUtils.formatNumericBound(original.getMinimum(), referencedSchema, true, property.getExclusiveMinimum()));
             }
             if (original.getTitle() != null) {
                 property.setTitle(original.getTitle());
@@ -7162,7 +7186,14 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(var, enumName);
+                if (!var.isEnum && ModelUtils.isRefToSchemaWithProperties(var.getRef())) {
+                    // A reference to another model's property does not declare an enum type here.
+                    // Preserve ordinary scalar defaults, but discard the unquoted discriminator
+                    // mapping value synthesized by setEnumDiscriminatorDefaultValue (#24874).
+                    var.defaultValue = var.isDiscriminator ? null : enumDefaultValue;
+                } else {
+                    var.defaultValue = toEnumDefaultValue(var, enumName);
+                }
             }
         }
     }
@@ -7285,17 +7316,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void postProcessEnumVars(List<EnumVarMap> enumVars) {
-        Collections.reverse(enumVars);
-        enumVars.forEach(v -> {
-            String name = (String) v.getEnumName();
-            long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
-            if (count > 1) {
-                String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
-                v.setEnumName(uniqueEnumName);
-            }
-        });
-        Collections.reverse(enumVars);
+        // a new name can already be taken ("EtcGmt1" + "2" is "EtcGmt12"), so repeat until names are unique
+        do {
+            Collections.reverse(enumVars);
+            enumVars.forEach(v -> {
+                String name = (String) v.getEnumName();
+                long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
+                if (count > 1) {
+                    String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                    LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
+                    v.setEnumName(uniqueEnumName);
+                }
+            });
+            Collections.reverse(enumVars);
+        } while (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size());
     }
 
     private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {
@@ -8419,6 +8453,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
         codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
         codegenParameter.description = escapeText(body.getDescription());
+        codegenParameter.unescapedDescription = body.getDescription();
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
         if (body.getExtensions() != null) {
@@ -8547,10 +8582,10 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                codegenParameter.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                codegenParameter.setMaximum(ModelUtils.formatNumericBound(original.getMaximum(), schema, false, codegenParameter.getExclusiveMaximum()));
             }
             if (original.getMinimum() != null) {
-                codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                codegenParameter.setMinimum(ModelUtils.formatNumericBound(original.getMinimum(), schema, true, codegenParameter.getExclusiveMinimum()));
             }
             /* comment out below as we don't store `title` in the codegen parametera the moment
             if (original.getTitle() != null) {

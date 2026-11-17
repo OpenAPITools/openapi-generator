@@ -167,6 +167,21 @@ paths:
             application/json:
               schema:
                 type: object
+  /nested:
+    get:
+      operationId: get_nested
+      parameters:
+        - name: nested_filter
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/NestedFilter'
+      responses:
+        '200':
+          description: OK
+
 components:
   schemas:
     StatusEnum:
@@ -183,6 +198,15 @@ components:
       type: object
       properties:
         tag:
+          type: string
+    NestedFilter:
+      type: object
+      required:
+        - inner
+      properties:
+        inner:
+          $ref: '#/components/schemas/QueryFilter'
+        note:
           type: string
     BodyPayload:
       type: object

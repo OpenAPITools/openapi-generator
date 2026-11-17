@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   FileContent.JSON_PROPERTY_SIZE,
   FileContent.JSON_PROPERTY_VIRUS_SCAN
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class FileContent {
   public static final String JSON_PROPERTY_NAME = "name";
   
@@ -141,7 +141,7 @@ public class FileContent {
 
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     if (this == o) {
       return true;
     }
@@ -174,7 +174,7 @@ public class FileContent {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 

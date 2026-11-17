@@ -23,6 +23,7 @@ on:
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
       - samples/openapi3/server/petstore/spring-boot-oneof-jackson-default-impl/**
       - samples/openapi3/server/petstore/spring-boot-records/**
+      - samples/openapi3/server/petstore/spring-boot-4-records/**
       - samples/client/petstore/spring-http-interface-oauth/**
   pull_request:
     paths:
@@ -46,6 +47,7 @@ on:
       - samples/openapi3/server/petstore/spring-boot-oneof-interface/**
       - samples/openapi3/server/petstore/spring-boot-oneof-jackson-default-impl/**
       - samples/openapi3/server/petstore/spring-boot-records/**
+      - samples/openapi3/server/petstore/spring-boot-4-records/**
       - samples/client/petstore/spring-http-interface-oauth/**
 jobs:
   build:
@@ -77,6 +79,7 @@ jobs:
           - samples/openapi3/server/petstore/spring-boot-oneof-interface
           - samples/openapi3/server/petstore/spring-boot-oneof-jackson-default-impl
           - samples/openapi3/server/petstore/spring-boot-records
+          - samples/openapi3/server/petstore/spring-boot-4-records
           - samples/client/petstore/spring-http-interface-oauth
     steps:
       - uses: actions/checkout@v7

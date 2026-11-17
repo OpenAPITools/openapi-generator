@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link VersioningApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface VersioningApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -34,7 +34,7 @@ public interface VersioningApiDelegate {
      * @return successful operation (status code 200)
      * @see VersioningApi#versioningHeaders
      */
-    default ResponseEntity<ModelApiResponse> versioningHeaders(String versionWithDefaultValue,
+    default @Valid ResponseEntity<ModelApiResponse> versioningHeaders(String versionWithDefaultValue,
         String versionNoDefaultValue,
         Long petId) {
         getRequest().ifPresent(request -> {
@@ -61,7 +61,7 @@ public interface VersioningApiDelegate {
      * @return successful operation (status code 200)
      * @see VersioningApi#versioningMix
      */
-    default ResponseEntity<ModelApiResponse> versioningMix(String versionWithDefaultValueQuery,
+    default @Valid ResponseEntity<ModelApiResponse> versioningMix(String versionWithDefaultValueQuery,
         String versionNoDefaultValueQuery,
         String versionWithDefaultValueHeader,
         String versionNoDefaultValueHeader,
@@ -88,7 +88,7 @@ public interface VersioningApiDelegate {
      * @return successful operation (status code 200)
      * @see VersioningApi#versioningQueryParams
      */
-    default ResponseEntity<ModelApiResponse> versioningQueryParams(String versionWithDefaultValue,
+    default @Valid ResponseEntity<ModelApiResponse> versioningQueryParams(String versionWithDefaultValue,
         String versionNoDefaultValue,
         Long petId) {
         getRequest().ifPresent(request -> {

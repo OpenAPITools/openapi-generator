@@ -56,6 +56,9 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
+{{#jvm-microprofile}}
+apply plugin: 'java-library'
+{{/jvm-microprofile}}
 {{#moshiCodeGen}}
 apply plugin: 'com.google.devtools.ksp'
 {{/moshiCodeGen}}
@@ -134,6 +137,14 @@ kotlin {
     }
 }
 {{/jvm-spring-restclient}}
+{{#jvm-microprofile}}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xjvm-default=all")
+    }
+}
+{{/jvm-microprofile}}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -231,6 +242,20 @@ dependencies {
     implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertx_version"
     {{/useCoroutines}}
     {{/jvm-vertx}}
+    {{#jvm-microprofile}}
+    compileOnly "org.eclipse.microprofile.rest.client:microprofile-rest-client-api:{{microprofileRestClientVersion}}"
+    {{#useJakartaEe}}
+    compileOnly "jakarta.ws.rs:jakarta.ws.rs-api:3.0.0"
+    compileOnly "jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0"
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
+    compileOnly "javax.ws.rs:javax.ws.rs-api:2.1.1"
+    compileOnly "javax.enterprise:cdi-api:2.0.SP1"
+    {{/useJakartaEe}}
+    {{#microprofileMutiny}}
+    api "io.smallrye.reactive:mutiny:2.9.4"
+    {{/microprofileMutiny}}
+    {{/jvm-microprofile}}
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     {{#jvm-spring}}
     testImplementation "org.springframework.boot:spring-boot-test:$spring_boot_version"

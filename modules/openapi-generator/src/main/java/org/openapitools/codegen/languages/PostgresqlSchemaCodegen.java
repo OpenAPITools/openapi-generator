@@ -451,37 +451,43 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
     }
 
     /**
-     * Processes each model's property mapped to integer type and adds related
-     * vendor extensions
+     * Column definition shared by the {@code process*TypeProperty} methods: the maps
+     * stored in the {@code x-postgresql-schema} vendor extension plus the column name
+     * and comment computed by {@link #startColumn(CodegenModel, CodegenProperty)}.
+     */
+    private static final class ColumnContext {
+        final Map<String, Object> postgresqlSchema = new HashMap<>();
+        final Map<String, Object> columnDefinition = new HashMap<>();
+        final String colName;
+        final String description;
+
+        ColumnContext(String colName, String description) {
+            this.colName = colName;
+            this.description = description;
+        }
+    }
+
+    /**
+     * Shared prologue of the {@code process*TypeProperty} methods: computes the column
+     * name, skips the property when it already carries {@code x-postgresql-schema},
+     * records the original name in the column comment when snake_case renamed it and
+     * wires the vendor extension maps with the column and table names.
      *
      * @param model    model
      * @param property model's property
+     * @return the column context, or null when autogeneration was skipped
      */
-    public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
+    private ColumnContext startColumn(CodegenModel model, CodegenProperty property) {
         Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        Map<String, Object> typeDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
         String baseName = property.getBaseName();
         String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
         String description = property.getDescription();
-        String minimum = property.getMinimum();
-        String maximum = property.getMaximum();
-        boolean exclusiveMinimum = property.getExclusiveMinimum();
-        boolean exclusiveMaximum = property.getIExclusiveMaximum();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
-        Boolean isUuid = property.isUuid;
-        Boolean isEnum = property.isEnum;
         String tableName = this.toTableName(model.getName());
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
             // user already specified schema values
             LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
-            return;
+            return null;
         }
 
         if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
@@ -491,40 +497,106 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
                     : description + ". " + commentExtra;
         }
 
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
-            columnDefinition.put("colNameQuoted", true);
-        } else {
-            columnDefinition.put("colNameQuoted", false);
+        ColumnContext column = new ColumnContext(colName, description);
+        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, column.postgresqlSchema);
+        column.postgresqlSchema.put("columnDefinition", column.columnDefinition);
+        column.columnDefinition.put("colName", colName);
+        // Output column name in double quotes if it is a reserved word
+        column.columnDefinition.put("colNameQuoted", isReservedWord(colName));
+        column.columnDefinition.put("tblName", tableName);
+        // Output table name (for column comment) in double quotes if it is a reserved word
+        column.columnDefinition.put("tblNameQuoted", isReservedWord(model.getName()));
+        return column;
+    }
+
+    /**
+     * Shared enum handling: declares a PostgreSQL enum type named
+     * {@code <table>_<column>} and uses it as the column data type.
+     *
+     * @param model    model
+     * @param property model's property
+     * @param column   column context from {@link #startColumn(CodegenModel, CodegenProperty)}
+     */
+    private void putEnumType(CodegenModel model, CodegenProperty property, ColumnContext column) {
+        Map<String, Object> typeDefinition = new HashMap<>();
+        List<Map<String, Object>> typeArguments = new ArrayList<>();
+        List<Object> enumValues = getEnumValues(property.getAllowableValues());
+        String typeName = this.toTableName(model.getName())
+                + "_" + this.toColumnName(property.getName());
+        column.postgresqlSchema.put("typeDefinition", typeDefinition);
+        column.columnDefinition.put("colDataType", typeName);
+        typeDefinition.put("typeName", typeName);
+        typeDefinition.put("typeArguments", typeArguments);
+        for (int i = 0; i < enumValues.size(); i++) {
+            if (i > ENUM_MAX_ELEMENTS - 1) {
+                LOGGER.warn(
+                        "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
+                        ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
+                break;
+            }
+            String value = String.valueOf(enumValues.get(i));
+            typeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
         }
-        columnDefinition.put("tblName", tableName);
-        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-            // reserved word
-            columnDefinition.put("tblNameQuoted", true);
-        } else {
-            columnDefinition.put("tblNameQuoted", false);
+    }
+
+    /**
+     * Shared epilogue of the {@code process*TypeProperty} methods: NOT NULL or default
+     * value, then the column comment. Auto-incremented SERIAL/BIGSERIAL columns, which
+     * only the integer path produces, get neither.
+     *
+     * @param model    model
+     * @param property model's property
+     * @param column   column context from {@link #startColumn(CodegenModel, CodegenProperty)}
+     */
+    private void finishColumn(CodegenModel model, CodegenProperty property, ColumnContext column) {
+        Map<String, Object> columnDefinition = column.columnDefinition;
+        String colDataType = (String) columnDefinition.get("colDataType");
+
+        // No default value for autoincremented IDs
+        if (!"SERIAL".equals(colDataType) && !"BIGSERIAL".equals(colDataType)) {
+            if (Boolean.TRUE.equals(property.getRequired())) {
+                columnDefinition.put("colNotNull", true);
+            } else {
+                columnDefinition.put("colNotNull", false);
+                try {
+                    columnDefinition.put("colDefault",
+                            toCodegenPostgresqlDataTypeDefault(property.getDefaultValue(), colDataType));
+                } catch (RuntimeException exception) {
+                    LOGGER.warn(
+                            "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
+                            property.getBaseName(), model.getName());
+                    columnDefinition.put("colDefault", null);
+                }
+            }
         }
 
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.getAllowableValues());
-            String typeName = this.toTableName(model.getName())
-                    + "_" + this.toColumnName(property.getName());
-            postgresqlSchema.put("typeDefinition", typeDefinition);
-            columnDefinition.put("colDataType", typeName);
-            typeDefinition.put("typeName", typeName);
-            typeDefinition.put("typeArguments", columnDataTypeArguments);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
-            }
+        if (column.description != null) {
+            columnDefinition.put("colComment", column.description);
+        }
+    }
+
+    /**
+     * Processes each model's property mapped to integer type and adds related
+     * vendor extensions
+     *
+     * @param model    model
+     * @param property model's property
+     */
+    public void processIntegerTypeProperty(CodegenModel model, CodegenProperty property) {
+        ColumnContext column = startColumn(model, property);
+        if (column == null) {
+            return;
+        }
+
+        Map<String, Object> columnDefinition = column.columnDefinition;
+        String colName = column.colName;
+        String dataFormat = property.getDataFormat();
+        String minimum = property.getMinimum();
+        String maximum = property.getMaximum();
+        boolean exclusiveMinimum = property.getExclusiveMinimum();
+
+        if (property.isEnum) {
+            putEnumType(model, property, column);
         } else {
             if ("int64".equals(dataFormat)) {
                 if (colName.equals("id") && Boolean.valueOf(additionalProperties.get(ID_AUTOINC_ENABLED).toString())) {
@@ -549,29 +621,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             }
         }
 
-        if (!columnDefinition.get("colDataType").equals("SERIAL")
-                && !columnDefinition.get("colDataType").equals("BIGSERIAL")) { // No default value for autoincremented
-            // IDs
-            if (Boolean.TRUE.equals(required)) {
-                columnDefinition.put("colNotNull", true);
-            } else {
-                columnDefinition.put("colNotNull", false);
-                try {
-                    columnDefinition.put("colDefault",
-                            toCodegenPostgresqlDataTypeDefault(defaultValue,
-                                    (String) columnDefinition.get("colDataType")));
-                } catch (RuntimeException exception) {
-                    LOGGER.warn(
-                            "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                            baseName, model.getName());
-                    columnDefinition.put("colDefault", null);
-                }
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -582,103 +632,24 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processDecimalTypeProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        Map<String, Object> typeDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
-        String baseName = property.getBaseName();
-        String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
-        String description = property.getDescription();
-        String minimum = property.getMinimum();
-        String maximum = property.getMaximum();
-        boolean exclusiveMinimum = property.getExclusiveMinimum();
-        boolean exclusiveMaximum = property.getIExclusiveMaximum();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
-        Boolean isEnum = property.isEnum;
-        String tableName = this.toTableName(model.getName());
-
-        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
-            // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+        ColumnContext column = startColumn(model, property);
+        if (column == null) {
             return;
         }
 
-        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
-            // add original name in column comment
-            String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra
-                    : description + ". " + commentExtra;
-        }
+        Map<String, Object> columnDefinition = column.columnDefinition;
 
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
-            columnDefinition.put("colNameQuoted", true);
+        if (property.isEnum) {
+            putEnumType(model, property, column);
         } else {
-            columnDefinition.put("colNameQuoted", false);
-        }
-        columnDefinition.put("tblName", tableName);
-        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-            // reserved word
-            columnDefinition.put("tblNameQuoted", true);
-        } else {
-            columnDefinition.put("tblNameQuoted", false);
-        }
-
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.allowableValues);
-            String typeName = this.toTableName(model.getName())
-                    + "_" + this.toColumnName(property.getName());
-            postgresqlSchema.put("typeDefinition", typeDefinition);
-            columnDefinition.put("colDataType", typeName);
-            typeDefinition.put("typeName", typeName);
-            typeDefinition.put("typeArguments", columnDataTypeArguments);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
-            }
-        } else {
-            Float min = (minimum != null) ? Float.valueOf(minimum) : null;
-            Float max = (maximum != null) ? Float.valueOf(maximum) : null;
-            if (exclusiveMinimum && min != null)
-                min += 1;
-            if (exclusiveMaximum && max != null)
-                max -= 1;
+            List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
             columnDefinition.put("colDataType", "DECIMAL");
             columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
             columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(20));
             columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(9));
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -689,100 +660,31 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processStringTypeProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        Map<String, Object> typeDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
-        String baseName = property.getBaseName();
-        String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
-        String dataFormat = property.getDataFormat();
-        String description = property.getDescription();
-        Integer minLength = property.getMinLength();
-        Integer maxLength = property.getMaxLength();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
-        Boolean isEnum = property.isEnum;
-        String tableName = this.toTableName(model.getName());
-
-        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
-            // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+        ColumnContext column = startColumn(model, property);
+        if (column == null) {
             return;
         }
 
-        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
-            // add original name in column comment
-            String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra
-                    : description + ". " + commentExtra;
-        }
+        Map<String, Object> columnDefinition = column.columnDefinition;
+        String dataType = property.getDataType();
+        Integer minLength = property.getMinLength();
+        Integer maxLength = property.getMaxLength();
 
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
-            columnDefinition.put("colNameQuoted", true);
-        } else {
-            columnDefinition.put("colNameQuoted", false);
-        }
-        columnDefinition.put("tblName", tableName);
-        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-            // reserved word
-            columnDefinition.put("tblNameQuoted", true);
-        } else {
-            columnDefinition.put("tblNameQuoted", false);
-        }
-
-        if (Boolean.TRUE.equals(isEnum)) {
-            List<Object> enumValues = getEnumValues(property.allowableValues);
-            String typeName = this.toTableName(model.getName())
-                    + "_" + this.toColumnName(property.getName());
-            postgresqlSchema.put("typeDefinition", typeDefinition);
-            columnDefinition.put("colDataType", typeName);
-            typeDefinition.put("typeName", typeName);
-            typeDefinition.put("typeArguments", columnDataTypeArguments);
-            for (int i = 0; i < enumValues.size(); i++) {
-                if (i > ENUM_MAX_ELEMENTS - 1) {
-                    LOGGER.warn(
-                            "ENUM column can have maximum of {} distinct elements, following value will be skipped: {}",
-                            ENUM_MAX_ELEMENTS, (String) enumValues.get(i));
-                    break;
-                }
-                String value = String.valueOf(enumValues.get(i));
-                columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument(value));
-            }
+        if (property.isEnum) {
+            putEnumType(model, property, column);
         } else if (dataType.equals("BYTEA")) {
             columnDefinition.put("colDataType", "BYTEA");
         } else {
             String matchedStringType = getPostgresqlMatchedStringDataType(minLength, maxLength);
             columnDefinition.put("colDataType", matchedStringType);
             if (matchedStringType.equals("VARCHAR")) {
+                List<Map<String, Object>> columnDataTypeArguments = new ArrayList<>();
                 columnDefinition.put("colDataTypeArguments", columnDataTypeArguments);
                 columnDataTypeArguments.add(toCodegenPostgresqlDataTypeArgument((maxLength != null) ? maxLength : 255));
             }
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
-
+        finishColumn(model, property, column);
     }
 
     /**
@@ -793,66 +695,16 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processBooleanTypeProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        ArrayList columnDataTypeArguments = new ArrayList();
-        String baseName = property.getBaseName();
-        String colName = this.toColumnName(baseName);
-        String description = property.getDescription();
-        String defaultValue = property.getDefaultValue();
-        Boolean required = property.getRequired();
-        String tableName = this.toTableName(model.getName());
-
-        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
-            // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+        ColumnContext column = startColumn(model, property);
+        if (column == null) {
             return;
         }
 
-        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
-            // add original name in column comment
-            String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra
-                    : description + ". " + commentExtra;
-        }
-
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
-            columnDefinition.put("colNameQuoted", true);
-        } else {
-            columnDefinition.put("colNameQuoted", false);
-        }
-        columnDefinition.put("tblName", tableName);
-        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-            // reserved word
-            columnDefinition.put("tblNameQuoted", true);
-        } else {
-            columnDefinition.put("tblNameQuoted", false);
-        }
+        Map<String, Object> columnDefinition = column.columnDefinition;
 
         columnDefinition.put("colDataType", "BOOLEAN");
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -863,66 +715,17 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processDateTypeProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        String baseName = property.getBaseName();
-        String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
-        Boolean required = property.getRequired();
-        String description = property.getDescription();
-        String defaultValue = property.getDefaultValue();
-        String tableName = this.toTableName(model.getName());
-
-        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
-            // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+        ColumnContext column = startColumn(model, property);
+        if (column == null) {
             return;
         }
 
-        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
-            // add original name in column comment
-            String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra
-                    : description + ". " + commentExtra;
-        }
-
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
-            columnDefinition.put("colNameQuoted", true);
-        } else {
-            columnDefinition.put("colNameQuoted", false);
-        }
-        columnDefinition.put("tblName", tableName);
-        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-            // reserved word
-            columnDefinition.put("tblNameQuoted", true);
-        } else {
-            columnDefinition.put("tblNameQuoted", false);
-        }
+        Map<String, Object> columnDefinition = column.columnDefinition;
+        String dataType = property.getDataType();
 
         columnDefinition.put("colDataType", dataType);
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -933,45 +736,13 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processJsonTypeProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        String baseName = property.getBaseName();
-        String colName = this.toColumnName(baseName);
-        String dataType = property.getDataType();
-        Boolean required = property.getRequired();
-        String description = property.getDescription();
-        String defaultValue = property.getDefaultValue();
-        String tableName = this.toTableName(model.getName());
-
-        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
-            // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+        ColumnContext column = startColumn(model, property);
+        if (column == null) {
             return;
         }
 
-        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
-            // add original name in column comment
-            String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra
-                    : description + ". " + commentExtra;
-        }
-
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
-            columnDefinition.put("colNameQuoted", true);
-        } else {
-            columnDefinition.put("colNameQuoted", false);
-        }
-        columnDefinition.put("tblName", tableName);
-        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-            // reserved word
-            columnDefinition.put("tblNameQuoted", true);
-        } else {
-            columnDefinition.put("tblNameQuoted", false);
-        }
+        Map<String, Object> columnDefinition = column.columnDefinition;
+        String dataType = property.getDataType();
 
         columnDefinition.put("colDataType", dataType);
 
@@ -983,24 +754,7 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
             columnDefinition.put("colDataType", "JSONB");
         }
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**
@@ -1012,65 +766,16 @@ public class PostgresqlSchemaCodegen extends DefaultCodegen {
      * @param property model's property
      */
     public void processUnknownTypeProperty(CodegenModel model, CodegenProperty property) {
-        Map<String, Object> vendorExtensions = property.getVendorExtensions();
-        Map<String, Object> postgresqlSchema = new HashMap<>();
-        Map<String, Object> columnDefinition = new HashMap<>();
-        String baseName = property.getBaseName();
-        String colName = this.toColumnName(baseName);
-        Boolean required = property.getRequired();
-        String description = property.getDescription();
-        String defaultValue = property.getDefaultValue();
-        String tableName = this.toTableName(model.getName());
-
-        if (vendorExtensions.containsKey(VENDOR_EXTENSION_POSTGRESQL_SCHEMA)) {
-            // user already specified schema values
-            LOGGER.info("Found vendor extension in '{}' property, autogeneration skipped", baseName);
+        ColumnContext column = startColumn(model, property);
+        if (column == null) {
             return;
         }
 
-        if (this.getIdentifierNamingConvention().equals("snake_case") && !baseName.equals(colName)) {
-            // add original name in column comment
-            String commentExtra = "Original param name - " + baseName + ".";
-            description = (description == null || description.isEmpty()) ? commentExtra
-                    : description + ". " + commentExtra;
-        }
-
-        vendorExtensions.put(VENDOR_EXTENSION_POSTGRESQL_SCHEMA, postgresqlSchema);
-        postgresqlSchema.put("columnDefinition", columnDefinition);
-        columnDefinition.put("colName", colName);
-        if (isReservedWord(colName)) { // Output column name in double quotes if it is a reserved word
-            columnDefinition.put("colNameQuoted", true);
-        } else {
-            columnDefinition.put("colNameQuoted", false);
-        }
-        columnDefinition.put("tblName", tableName);
-        if (isReservedWord(model.getName())) { // Output table name (for column comment) in double quotes if it is a
-            // reserved word
-            columnDefinition.put("tblNameQuoted", true);
-        } else {
-            columnDefinition.put("tblNameQuoted", false);
-        }
+        Map<String, Object> columnDefinition = column.columnDefinition;
 
         columnDefinition.put("colDataType", "TEXT");
 
-        if (Boolean.TRUE.equals(required)) {
-            columnDefinition.put("colNotNull", true);
-        } else {
-            columnDefinition.put("colNotNull", false);
-            try {
-                columnDefinition.put("colDefault",
-                        toCodegenPostgresqlDataTypeDefault(defaultValue, (String) columnDefinition.get("colDataType")));
-            } catch (RuntimeException exception) {
-                LOGGER.warn(
-                        "Property '{}' of model '{}' mapped to PostgreSQL data type which doesn't support default value",
-                        baseName, model.getName());
-                columnDefinition.put("colDefault", null);
-            }
-        }
-
-        if (description != null) {
-            columnDefinition.put("colComment", description);
-        }
+        finishColumn(model, property, column);
     }
 
     /**

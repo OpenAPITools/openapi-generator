@@ -3,7 +3,7 @@ from typing import List
 {{#authMethods}}
 {{#isOAuth}}
 
-def info_from_{{name}}(token: str) -> dict:
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(token: str) -> dict:
     """
     Validate and decode token.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.
@@ -14,14 +14,14 @@ def info_from_{{name}}(token: str) -> dict:
     return {'scopes': ['read:pets', 'write:pets'], 'uid': 'user_id'}
 
 
-def validate_scope_{{name}}(required_scopes: List[str], token_scopes: List[str]) -> bool:
+def validate_scope_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(required_scopes: List[str], token_scopes: List[str]) -> bool:
     """ Validate required scopes are included in token scope """
     return set(required_scopes).issubset(set(token_scopes))
 
 {{/isOAuth}}
 {{#isApiKey}}
 
-def info_from_{{name}}(api_key: str, required_scopes: None) -> dict:
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(api_key: str, required_scopes: None) -> dict:
     """
     Check and retrieve authentication information from api_key.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.
@@ -33,7 +33,7 @@ def info_from_{{name}}(api_key: str, required_scopes: None) -> dict:
 {{/isApiKey}}
 {{#isBasicBasic}}
 
-def info_from_{{name}}(username: str, password: str, required_scopes: None) -> dict:
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(username: str, password: str, required_scopes: None) -> dict:
     """
     Check and retrieve authentication information from basic auth.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.
@@ -45,7 +45,7 @@ def info_from_{{name}}(username: str, password: str, required_scopes: None) -> d
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 
-def info_from_{{name}}(token: str) -> dict:
+def info_from_{{{vendorExtensions.x-python-connexion-security-function-suffix}}}(token: str) -> dict:
     """
     Check and retrieve authentication information from custom bearer token.
     Returned value will be passed in 'token_info' parameter of your operation function, if there is one.

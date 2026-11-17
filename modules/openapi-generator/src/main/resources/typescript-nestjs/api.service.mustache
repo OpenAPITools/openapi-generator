@@ -191,7 +191,7 @@ export class {{classname}} {
 {{/isApiKey}}
 {{#isBasicBasic}}
         if (this.configuration.username || this.configuration.password) {
-            headers['Authorization'] = 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password);
+            headers['Authorization'] = 'Basic ' + btoa((this.configuration.username || '') + ':' + (this.configuration.password || ''));
         }
 
 {{/isBasicBasic}}

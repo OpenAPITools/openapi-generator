@@ -1,0 +1,13 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-jvm-microprofile-mutiny
+library: jvm-microprofile
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/microprofile.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-microprofile-mutiny-client
+  microprofileMutiny: true
+  configKey: pet-service
+  omitGradleWrapper: true
+globalProperties:
+  apiTests: false
+  modelTests: false

@@ -110,6 +110,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String USE_JSPECIFY = "useJspecify";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
+    /**
+     * Vendor extension set on array, set and map properties: the class their {@code add<Name>Item} and
+     * {@code put<Name>Item} helpers instantiate when the container is still {@code null}. It is the configured
+     * {@code instantiationTypes} entry for the property's container type, {@code ArrayList}, {@code LinkedHashSet}
+     * or {@code HashMap} unless overridden.
+     */
+    public static final String X_JAVA_CONTAINER_INSTANTIATION_TYPE = "x-java-container-instantiation-type";
     public static final String DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES = "disableDiscriminatorJsonIgnoreProperties";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
@@ -206,6 +213,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected AnnotationLibrary annotationLibrary;
     @Setter protected boolean implicitHeaders = false;
     @Setter protected String implicitHeadersRegex = null;
+    private Pattern implicitHeadersPattern = null;
     @Setter protected boolean camelCaseDollarSign = false;
     @Setter protected boolean useJakartaEe = false;
     @Setter protected boolean containerDefaultToNull = false;
@@ -372,7 +380,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newString(ADDITIONAL_ONE_OF_TYPE_ANNOTATIONS, "Additional annotations for oneOf interfaces(class level annotations). List separated by semicolon(;) or new line (Linux or Windows)"));
         cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library. Not supported by `microprofile` library.", this.openApiNullable));
         cliOptions.add(CliOption.newBoolean(IMPLICIT_HEADERS, "Skip header parameters in the generated API methods using @ApiImplicitParams annotation.", implicitHeaders));
-        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true"));
+        cliOptions.add(CliOption.newString(IMPLICIT_HEADERS_REGEX, "Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. The match is case insensitive, like HTTP header names. Note: this parameter is ignored when implicitHeaders=true"));
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
@@ -1481,6 +1489,59 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
+        CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        if (property != null) {
+            String instantiationType = containerInstantiationType(property.containerType);
+            if (instantiationType != null) {
+                property.vendorExtensions.put(X_JAVA_CONTAINER_INSTANTIATION_TYPE, instantiationType);
+            }
+        }
+        return property;
+    }
+
+    /**
+     * Import the class the {@code add<Name>Item}/{@code put<Name>Item} helpers instantiate. A fully qualified name
+     * needs no import; a simple name is imported through {@code importMapping}, which gets a {@code java.util} entry
+     * when the name is a {@code java.util} collection or map that isn't mapped yet.
+     */
+    private void addContainerInstantiationTypeImport(CodegenModel model, CodegenProperty property) {
+        Object type = property.vendorExtensions.get(X_JAVA_CONTAINER_INSTANTIATION_TYPE);
+        if (!(type instanceof String) || ((String) type).contains(".")) {
+            return;
+        }
+        String simpleName = (String) type;
+        if (!importMapping.containsKey(simpleName) && isJavaUtilContainer(simpleName)) {
+            importMapping.put(simpleName, "java.util." + simpleName);
+        }
+        if (importMapping.containsKey(simpleName)) {
+            model.imports.add(simpleName);
+        }
+    }
+
+    private static boolean isJavaUtilContainer(String simpleName) {
+        try {
+            Class<?> type = Class.forName("java.util." + simpleName);
+            return Collection.class.isAssignableFrom(type) || Map.class.isAssignableFrom(type);
+        } catch (ClassNotFoundException | LinkageError e) {
+            return false;
+        }
+    }
+
+    private String containerInstantiationType(String containerType) {
+        if ("array".equals(containerType)) {
+            return instantiationTypes().getOrDefault("array", "ArrayList");
+        }
+        if ("set".equals(containerType)) {
+            return instantiationTypes().getOrDefault("set", "LinkedHashSet");
+        }
+        if ("map".equals(containerType)) {
+            return instantiationTypes().getOrDefault("map", "HashMap");
+        }
+        return null;
+    }
+
+    @Override
     public String toDefaultValue(CodegenProperty cp, Schema schema) {
         Schema originalSchema = schema;
         Schema resolvedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
@@ -2045,7 +2106,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (allDefinitions != null && codegenModel.parentSchema != null && codegenModel.hasEnums) {
             final Schema parentModel = allDefinitions.get(codegenModel.parentSchema);
             final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel);
-            codegenModel = AbstractJavaCodegen.reconcileInlineEnums(codegenModel, parentCodegenModel);
+            codegenModel = reconcileInlineEnums(codegenModel, parentCodegenModel);
         }
         if ("BigDecimal".equals(codegenModel.dataType)) {
             codegenModel.imports.add("BigDecimal");
@@ -2113,6 +2174,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("map".equals(property.containerType)) {
             model.imports.add("HashMap");
         }
+        addContainerInstantiationTypeImport(model, property);
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             // needed by all pojos, but not enums
@@ -2669,48 +2731,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return op;
     }
 
-    private static CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
-        // This generator uses inline classes to define enums, which breaks when
-        // dealing with models that have subTypes. To clean this up, we will analyze
-        // the parent and child models, look for enums that match, and remove
-        // them from the child models and leave them in the parent.
-        // Because the child models extend the parents, the enums will be available via the parent.
-
-        // Only bother with reconciliation if the parent model has enums.
-        if (!parentCodegenModel.hasEnums) {
-            return codegenModel;
-        }
-
-        // Get the properties for the parent and child models
-        final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
-        List<CodegenProperty> codegenProperties = codegenModel.vars;
-
-        // Iterate over all of the parent model properties
-        boolean removedChildEnum = false;
-        for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-            // Look for enums
-            if (parentModelCodegenProperty.isEnum) {
-                // Now that we have found an enum in the parent class,
-                // and search the child class for the same enum.
-                Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-                while (iterator.hasNext()) {
-                    CodegenProperty codegenProperty = iterator.next();
-                    if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
-                        // We found an enum in the child class that is
-                        // a duplicate of the one in the parent, so remove it.
-                        iterator.remove();
-                        removedChildEnum = true;
-                    }
-                }
-            }
-        }
-
-        if (removedChildEnum) {
-            codegenModel.vars = codegenProperties;
-        }
-        return codegenModel;
-    }
-
     private static String sanitizePackageName(String packageName) {
         packageName = packageName.trim(); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         packageName = packageName.replaceAll("[^a-zA-Z0-9_\\.]", "_");
@@ -2937,7 +2957,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
-        return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
+        if (StringUtils.isBlank(implicitHeadersRegex)) {
+            return false;
+        }
+        // Compiled once and kept in step with the field. HTTP header names are case insensitive, so the regex is too
+        if (implicitHeadersPattern == null || !implicitHeadersPattern.pattern().equals(implicitHeadersRegex)) {
+            implicitHeadersPattern = Pattern.compile(implicitHeadersRegex, Pattern.CASE_INSENSITIVE);
+        }
+        return implicitHeadersPattern.matcher(parameter.baseName).matches();
     }
 
     @Override

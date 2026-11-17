@@ -163,7 +163,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName?.Equals("className") ?? false)
                     {
-                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string? discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "className");
                         if (discriminator?.Equals("Pig") ?? false)
                         {
                             Utf8JsonReader utf8JsonReaderPig = utf8JsonReader;
@@ -233,6 +233,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mammal.Pig != null)
+            {
+                JsonSerializer.Serialize(writer, mammal.Pig, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (mammal.Whale != null)

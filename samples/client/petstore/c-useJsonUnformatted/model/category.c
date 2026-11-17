@@ -106,6 +106,10 @@ category_t *category_parseFromJSON(cJSON *categoryJSON){
         name && !cJSON_IsNull(name) ? strdup(name->valuestring) : NULL
         );
 
+    if (!category_local_var) {
+        goto end;
+    }
+
     return category_local_var;
 end:
     return NULL;

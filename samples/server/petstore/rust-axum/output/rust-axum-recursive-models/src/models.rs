@@ -162,7 +162,7 @@ impl std::str::FromStr for Circle {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Circle".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -181,7 +181,7 @@ impl std::str::FromStr for Circle {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Circle".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -311,17 +311,14 @@ impl std::str::FromStr for Department {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Department".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "head" => intermediate_rep.head.push(
                         <models::Employee as std::str::FromStr>::from_str(val)
@@ -330,7 +327,7 @@ impl std::str::FromStr for Department {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Department".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -475,28 +472,25 @@ impl std::str::FromStr for Employee {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Employee".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(val.to_string()),
                     "manager" => {
                         return std::result::Result::Err(
                             "Parsing a nullable type in this style is not supported in Employee"
                                 .to_string(),
-                        )
+                        );
                     }
                     "mentor" => {
                         return std::result::Result::Err(
                             "Parsing a nullable type in this style is not supported in Employee"
                                 .to_string(),
-                        )
+                        );
                     }
                     #[allow(clippy::redundant_clone)]
                     "department" => intermediate_rep.department.push(
@@ -506,7 +500,7 @@ impl std::str::FromStr for Employee {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Employee".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -651,17 +645,16 @@ impl std::str::FromStr for Node {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Node".to_string())
+                    return std::result::Result::Err(
+                        "Missing value while parsing Node".to_string(),
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "parent" => intermediate_rep.parent.push(
                         <models::Node as std::str::FromStr>::from_str(val)
@@ -671,12 +664,12 @@ impl std::str::FromStr for Node {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in Node"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Node".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -759,10 +752,11 @@ impl Owner {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for Owner {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .name
-            .as_ref()
-            .map(|name| ["name".to_string(), name.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.name
+                .as_ref()
+                .map(|name| ["name".to_string(), name.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -798,21 +792,18 @@ impl std::str::FromStr for Owner {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Owner".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Owner".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -937,17 +928,14 @@ impl std::str::FromStr for Pet {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string())
+                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "owner" => intermediate_rep.owner.push(
                         <models::Owner as std::str::FromStr>::from_str(val)
@@ -956,7 +944,7 @@ impl std::str::FromStr for Pet {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Pet".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1070,10 +1058,11 @@ impl Square {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for Square {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .side
-            .as_ref()
-            .map(|side| ["side".to_string(), side.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.side
+                .as_ref()
+                .map(|side| ["side".to_string(), side.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -1109,7 +1098,7 @@ impl std::str::FromStr for Square {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Square".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1123,7 +1112,7 @@ impl std::str::FromStr for Square {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Square".to_string(),
-                        )
+                        );
                     }
                 }
             }

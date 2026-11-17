@@ -322,7 +322,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if ("number".equals(datatype)) {
             return value;
         } else {
-            return "\'" + escapeText(value) + "\'";
+            return "\'" + escapeTextForStringLiteral(value) + "\'";
         }
     }
 

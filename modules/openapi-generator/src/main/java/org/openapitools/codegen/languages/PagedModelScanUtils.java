@@ -77,15 +77,6 @@ public final class PagedModelScanUtils {
      * <p>When {@link #scanPagedModels(OpenAPI)} is used (no transform), the raw and transformed
      * names are identical.  When {@link #scanPagedModels(OpenAPI, UnaryOperator)} is used, they
      * may differ (e.g. {@code rawSchemaName="UserPage"}, {@code schemaName="UserPageDto"}).</p>
-     *
-     * @param schemaName        Transformed model name of the detected paged schema.
-     * @param itemSchemaName    Raw item schema name (always raw; callers apply
-     *                          {@code toModelName()} at the point of use).
-     * @param metaSchemaName    Transformed model name of the pagination-metadata schema,
-     *                          or {@code null} if unresolved.
-     * @param rawSchemaName     Raw OpenAPI schema name of the paged schema (for {@code objs.remove}).
-     * @param rawMetaSchemaName Raw OpenAPI schema name of the pagination-metadata schema
-     *                          (for {@code objs.remove}), or {@code null} if unresolved.
      */
     public static final class DetectedPagedModel {
         /** Transformed model name — use for import removal / import-presence checks. */

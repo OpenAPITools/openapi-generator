@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -253,11 +252,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("unsafe", varReturn.Unsafe);
         }
     }
-
-    /// <summary>
-    /// The ReturnSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Return))]
-    public partial class ReturnSerializationContext : JsonSerializerContext { }
 }

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -114,34 +113,25 @@ namespace Org.OpenAPITools.Model
         {
             int currentDepth = utf8JsonReader.CurrentDepth;
 
-            if (utf8JsonReader.TokenType != JsonTokenType.StartObject && utf8JsonReader.TokenType != JsonTokenType.StartArray)
-                throw new JsonException();
-
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
+            bool isScalarToken = startingTokenType != JsonTokenType.StartObject && startingTokenType != JsonTokenType.StartArray;
 
             AppleReq? appleReq = default;
             BananaReq? bananaReq = default;
 
-            Utf8JsonReader utf8JsonReaderOneOf = utf8JsonReader;
-            while (utf8JsonReaderOneOf.Read())
+            if (startingTokenType == JsonTokenType.StartObject)
             {
-                if (startingTokenType == JsonTokenType.StartObject && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (startingTokenType == JsonTokenType.StartArray && utf8JsonReaderOneOf.TokenType == JsonTokenType.EndArray && currentDepth == utf8JsonReaderOneOf.CurrentDepth)
-                    break;
-
-                if (utf8JsonReaderOneOf.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderOneOf.CurrentDepth - 1)
-                {
-                    Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
-                    ClientUtils.TryDeserialize<AppleReq?>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
-
-                    Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
-                    ClientUtils.TryDeserialize<BananaReq?>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
-                }
+                Utf8JsonReader utf8JsonReaderAppleReq = utf8JsonReader;
+                ClientUtils.TryDeserialize<AppleReq?>(ref utf8JsonReaderAppleReq, jsonSerializerOptions, out appleReq);
             }
 
-            while (utf8JsonReader.Read())
+            if (startingTokenType == JsonTokenType.StartObject)
+            {
+                Utf8JsonReader utf8JsonReaderBananaReq = utf8JsonReader;
+                ClientUtils.TryDeserialize<BananaReq?>(ref utf8JsonReaderBananaReq, jsonSerializerOptions, out bananaReq);
+            }
+
+            while (!isScalarToken && utf8JsonReader.Read())
             {
                 if (startingTokenType == JsonTokenType.StartObject && utf8JsonReader.TokenType == JsonTokenType.EndObject && currentDepth == utf8JsonReader.CurrentDepth)
                     break;
@@ -181,6 +171,18 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
+            if (fruitReq.AppleReq != null)
+            {
+                AppleReqJsonConverter appleReqJsonConverter = (AppleReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruitReq.AppleReq.GetType()));
+                appleReqJsonConverter.WriteProperties(writer, fruitReq.AppleReq, jsonSerializerOptions);
+            }
+
+            if (fruitReq.BananaReq != null)
+            {
+                BananaReqJsonConverter bananaReqJsonConverter = (BananaReqJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruitReq.BananaReq.GetType()));
+                bananaReqJsonConverter.WriteProperties(writer, fruitReq.BananaReq, jsonSerializerOptions);
+            }
+
             WriteProperties(writer, fruitReq, jsonSerializerOptions);
             writer.WriteEndObject();
         }
@@ -196,11 +198,4 @@ namespace Org.OpenAPITools.Model
 
         }
     }
-
-    /// <summary>
-    /// The FruitReqSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(FruitReq))]
-    public partial class FruitReqSerializationContext : JsonSerializerContext { }
 }
