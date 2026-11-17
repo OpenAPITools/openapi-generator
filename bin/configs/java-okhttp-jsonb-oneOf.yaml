@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/client/others/java/okhttp-jsonb-oneOf
+library: okhttp
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_twoPrimitives.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: okhttp-jsonb-oneOf
+  hideGenerationTimestamp: "true"
+  serializationLibrary: jsonb
