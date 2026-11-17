@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
@@ -1401,6 +1402,10 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toDefaultParameterValue(CodegenProperty cp, Schema schema) {
         Schema<?> referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (referencedSchema.getDefault() instanceof JsonNode
+                && ((JsonNode) referencedSchema.getDefault()).isNull()) {
+            return null;
+        }
         if (ModelUtils.isArraySchema(referencedSchema) && cp.items != null && cp.items.isEnum) {
             // inline enum items of a parameter have no enum class of their own,
             // so the default must use the plain item values (e.g. setOf("a", "b"))
