@@ -37,4 +37,13 @@ describe('JSON Query Param testing', () => {
     const req = httpTesting.expectOne(`http://localhost/search?filter=${filterJsonEncoded}`);
     expect(req.request.method).toEqual('GET');
   });
+
+  it('should serialize a Set query parameter as a JSON array', () => {
+    const tags = new Set(['a', 'b']);
+    const tagsJsonEncoded = encodeURIComponent('["a","b"]');
+
+    service.search(undefined, tags).subscribe();
+    const req = httpTesting.expectOne(`http://localhost/search?tags=${tagsJsonEncoded}`);
+    expect(req.request.method).toEqual('GET');
+  });
 });

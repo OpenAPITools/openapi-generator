@@ -67,6 +67,23 @@
           }
         },
         "required" : [ "type" ]
+      },
+      "CatOrType": {
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/Type"
+        }, {
+          "$ref" : "#/components/schemas/Cat"
+        } ]
+      },
+      "Type": {
+        "type" : "object",
+        "title": "String",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          }
+        },
+        "required" : [ "type" ]
       }
     }
   }
