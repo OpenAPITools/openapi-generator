@@ -1659,7 +1659,7 @@ public class KotlinClientCodegenModelTest {
             // kotlinx.serialization has no serializer for java.math.BigDecimal, so this call cannot compile
             TestUtils.assertFileNotContains(modelPath(output, model), "java.math.BigDecimal.serializer()");
             TestUtils.assertFileContains(modelPath(output, model),
-                    "is " + model + ".BigDecimalValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))");
+                    "is " + model + ".BigDecimalValue -> jsonEncoder.encodeJsonElement(JsonUnquotedLiteral(value.value.toPlainString()))");
             // the number is a JsonPrimitive and a plain Json has no BigDecimal serializer, so it is read from the content
             TestUtils.assertFileNotContains(modelPath(output, model), "decodeFromJsonElement<java.math.BigDecimal>");
             TestUtils.assertFileContains(modelPath(output, model),
