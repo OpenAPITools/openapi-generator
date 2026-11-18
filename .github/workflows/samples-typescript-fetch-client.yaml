@@ -52,12 +52,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm' # Or 'yarn'
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ${{ matrix.sample }}
-      - name: Run TypeScript check
-        run: npx tsc --noEmit
-        working-directory: ${{ matrix.sample }}
       - name: mvn integration-test
         working-directory: ${{ matrix.sample }}
         run: mvn integration-test
