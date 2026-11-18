@@ -272,6 +272,30 @@ public class ScalaPekkoClientCodegen extends AbstractScalaCodegen implements Cod
         return formatIdentifier(property.baseName, true);
     }
 
+    /**
+     * For an array of enums, the enum is generated for the inner type only, so datatypeWithEnum must be the name of
+     * that enum (e.g. "Colors") instead of the container type ("Seq[Colors]"), which is not a valid Scala identifier.
+     * The model template wraps it in the container again. Same as {@link ScalaSttpClientCodegen}.
+     *
+     * @param property Codegen property
+     */
+    @Override
+    protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        CodegenProperty baseItem = property.items;
+        while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
+                || Boolean.TRUE.equals(baseItem.isArray))) {
+            baseItem = baseItem.items;
+        }
+        if (baseItem != null) {
+            // only the inner type is an enum
+            property.datatypeWithEnum = toEnumName(baseItem);
+            property.enumName = toEnumName(property);
+            property._enum = baseItem._enum;
+
+            updateCodegenPropertyEnum(property);
+        }
+    }
+
     @Override
     public String toDefaultValue(Schema p) {
         if (p.getRequired() != null && p.getRequired().contains(p.getName())) {

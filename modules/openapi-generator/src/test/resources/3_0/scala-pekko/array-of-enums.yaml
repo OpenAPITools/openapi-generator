@@ -1,0 +1,16 @@
+openapi: 3.0.1
+info: { title: repro, version: 1.0.0 }
+paths: {}
+components:
+  schemas:
+    Holder:
+      type: object
+      required: [id]
+      properties:
+        id: { type: string }
+        colors:
+          type: array
+          items: { type: string, enum: [red, green] }
+        status:
+          type: string
+          enum: [active, inactive]
