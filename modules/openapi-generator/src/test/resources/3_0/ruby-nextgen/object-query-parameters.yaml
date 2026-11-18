@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info:
+  title: Object query parameters
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: filter
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: defaultFilter
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: flatFilter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: deepFilter
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: tags
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: contentFilter
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      responses:
+        '200':
+          description: OK

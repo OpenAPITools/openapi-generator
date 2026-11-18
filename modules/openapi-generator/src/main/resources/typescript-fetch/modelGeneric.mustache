@@ -89,6 +89,10 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
             ...json,
         {{/additionalPropertiesType}}
         {{#vars}}
+        {{#vendorExtensions.x-nestedFromJson}}
+        '{{name}}': {{^required}}{{#isNullable}}json['{{baseName}}'] === undefined ? undefined : json['{{baseName}}'] === null ? null : {{/isNullable}}{{^isNullable}}json['{{baseName}}'] == null ? undefined : {{/isNullable}}{{/required}}({{#required}}{{#isNullable}}json['{{baseName}}'] == null ? null : {{/isNullable}}{{/required}}{{{.}}}),
+        {{/vendorExtensions.x-nestedFromJson}}
+        {{^vendorExtensions.x-nestedFromJson}}
         {{#isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
@@ -136,6 +140,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
         {{/isMap}}
         {{/isArray}}
         {{/isPrimitiveType}}
+        {{/vendorExtensions.x-nestedFromJson}}
         {{/vars}}
     };
     {{/hasVars}}
@@ -174,6 +179,10 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
         {{/additionalPropertiesType}}
         {{#vars}}
         {{^isReadOnly}}
+        {{#vendorExtensions.x-nestedToJson}}
+        '{{baseName}}': {{^required}}value['{{name}}'] == null ? undefined : {{/required}}({{#required}}{{#isNullable}}value['{{name}}'] == null ? null : {{/isNullable}}{{/required}}{{{.}}}),
+        {{/vendorExtensions.x-nestedToJson}}
+        {{^vendorExtensions.x-nestedToJson}}
         {{#isPrimitiveType}}
         {{#isDateType}}
         '{{baseName}}': value['{{name}}'] == null ? value['{{name}}'] : serializeDate(value['{{name}}']),
@@ -215,6 +224,7 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
         {{/isMap}}
         {{/isArray}}
         {{/isPrimitiveType}}
+        {{/vendorExtensions.x-nestedToJson}}
         {{/isReadOnly}}
         {{/vars}}
     };

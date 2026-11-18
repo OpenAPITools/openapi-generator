@@ -1316,8 +1316,19 @@ impl std::str::FromStr for {{{classname}}} {
                     "{{{baseName}}}" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in {{{classname}}}".to_string()),
                   {{/isNullable}}
                   {{^isNullable}}
-                    #[allow(clippy::redundant_clone)]
-                    "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    {{#isString}}
+                     {{^isUuid}}
+                       "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(val.to_string()),
+                     {{/isUuid}}
+                     {{#isUuid}}
+                       #[allow(clippy::redundant_clone)]
+                       "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                     {{/isUuid}}
+                    {{/isString}}
+                    {{^isString}}
+                        #[allow(clippy::redundant_clone)]
+                       "{{{baseName}}}" => intermediate_rep.{{{name}}}.push(<{{{dataType}}} as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    {{/isString}}
                   {{/isNullable}}
                 {{/isContainer}}
               {{/isByteArray}}

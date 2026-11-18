@@ -44,6 +44,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 
@@ -502,6 +503,46 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testThrowOnAnyErrorWrapsOneOfDeserializationFailure() throws IOException {
+        // both restsharp ApiClient templates: the default one and the useIntForTimeout v7.9.0 fallback
+        for (boolean useIntForTimeout : new boolean[]{false, true}) {
+            for (boolean throwOnAnyError : new boolean[]{false, true}) {
+                File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+                output.deleteOnExit();
+                final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+                final DefaultGenerator defaultGenerator = new DefaultGenerator();
+                final ClientOptInput clientOptInput = new ClientOptInput();
+                clientOptInput.openAPI(openAPI);
+                CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+                cSharpClientCodegen.setLibrary("restsharp");
+                cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+                cSharpClientCodegen.additionalProperties().put("useIntForTimeout", useIntForTimeout);
+                cSharpClientCodegen.additionalProperties().put("throwOnAnyError", throwOnAnyError);
+                clientOptInput.config(cSharpClientCodegen);
+                defaultGenerator.opts(clientOptInput);
+
+                Map<String, File> files = defaultGenerator.generate().stream()
+                        .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+                File apiClient = files
+                        .get(Paths.get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Client", "ApiClient.cs").toString());
+                assertNotNull(apiClient);
+                String wrapped = "throw new ApiException((int)response.StatusCode, string.Format(\"Error calling {0}: {1}\", request.Resource, error.Message), response.Content, ToApiResponse(response).Headers, error);";
+                // 4xx/5xx must still reach ExceptionFactory, so only lower status codes are wrapped here
+                String wrappedBelow400 = "if ((int)response.StatusCode < 400) { var error = ex.InnerException != null ? ex.InnerException : ex; " + wrapped + " }";
+                String rethrown = "throw ex.InnerException != null ? ex.InnerException : ex;";
+                if (throwOnAnyError) {
+                    assertFileContains(apiClient.toPath(), wrappedBelow400);
+                    assertFileNotContains(apiClient.toPath(), rethrown);
+                } else {
+                    assertFileContains(apiClient.toPath(), rethrown);
+                    assertFileNotContains(apiClient.toPath(), wrapped);
+                }
+            }
+        }
+    }
+
+    @Test
     public void testSelectHeaderAcceptKeepsAllTypesJsonFirst() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -696,6 +737,47 @@ public class CSharpClientCodegenTest {
         assertFileContains(file.toPath(),
             "appleAnyOfDiscJsonConverter.WriteProperties(writer, fruitAnyOfDisc.AppleAnyOfDiscOption.Value, jsonSerializerOptions);",
             "bananaAnyOfDiscJsonConverter.WriteProperties(writer, fruitAnyOfDisc.BananaAnyOfDiscOption.Value, jsonSerializerOptions);");
+    }
+
+    @Test
+    public void testOneOfDiscriminatorManyToOneMappingDoesNotEmitDuplicateLocals() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_0/oneOfDiscriminator.yaml");
+        // many-to-one mapping: two discriminator values point at the same schema
+        openAPI.getComponents().getSchemas().get("FruitOneOfDisc").getDiscriminator().setMapping(Map.of(
+                "apple", "#/components/schemas/AppleOneOfDisc",
+                "appleRed", "#/components/schemas/AppleOneOfDisc",
+                "banana", "#/components/schemas/BananaOneOfDisc"));
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        String modelName = "FruitOneOfDisc";
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", modelName + ".cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: " + modelName);
+        // one local per distinct mapped schema, not one per mapping value (many-to-one mappings used to emit the same local twice, CS0128)
+        assertFileContains(file.toPath(),
+            "AppleOneOfDisc? appleOneOfDisc = null;\n            BananaOneOfDisc? bananaOneOfDisc = null;\n\n            Utf8JsonReader utf8JsonReaderDiscriminator");
+        Assert.assertEquals(TestUtils.countOccurrences(Files.readString(file.toPath()), "appleOneOfDisc = null;"), 1,
+            "The local for a mapped schema must be declared exactly once.");
+        // each mapping value still gets its own deserialization branch
+        assertFileContains(file.toPath(),
+            "if (discriminator?.Equals(\"apple\") ?? false)",
+            "if (discriminator?.Equals(\"appleRed\") ?? false)");
     }
 
     @Test
@@ -1179,5 +1261,39 @@ public class CSharpClientCodegenTest {
         File model = files.get(path);
         assertNotNull(model, "Could not find generated model: " + path);
         return model;
+    }
+
+    @Test
+    public void testGenerichostWebhookModelGetsPublicCtor() throws IOException {
+        // the AnimalChoice schema is referenced only by a webhook operation;
+        // models reachable only via openAPI.getWebhooks() must still be marked
+        // as operation inputs or their ctor stays `internal`
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+            "src/test/resources/3_1/csharp/webhook-only-model.yaml");
+        // the fixture omits `paths` entirely (a webhooks-only 3.1 document),
+        // so this test also covers the getPaths() == null branch
+        assertNull(openAPI.getPaths());
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+            .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File file = files.get(Paths
+            .get(output.getAbsolutePath(), "src", "Org.OpenAPITools", "Model", "AnimalChoice.cs")
+            .toString()
+        );
+        assertNotNull(file, "Could not find file for model: AnimalChoice");
+        assertFileContains(file.toPath(), "public AnimalChoice(");
+        assertFileNotContains(file.toPath(), "internal AnimalChoice(");
     }
 }

@@ -3055,7 +3055,7 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Schema> allProperties = new LinkedHashMap<>();
         List<String> allRequired = new ArrayList<>();
 
-        // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+        // if schema has properties outside allOf/oneOf/anyOf, also add them to m
         if (ModelUtils.hasProperties(composed)) {
             if (ModelUtils.hasOneOf(composed)) {
                 LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
@@ -3247,20 +3247,14 @@ public class DefaultCodegen implements CodegenConfig {
      * that schema for items like enum include all possible values.
      */
     private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties) {
-        // https://github.com/OpenAPITools/openapi-generator/issues/12545
-        if (null != existingProperties && null != newProperties) {
+        if (existingProperties != null && newProperties != null) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             newProperties.forEach((key, value) ->
                     existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
             );
-            if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
-                for (Object e : newType.getEnum()) {
-                    // ensure all interface enum types are added to schema
-                    if (null != existingType.getEnum() && !existingType.getEnum().contains(e)) {
-                        existingType.addEnumItemObject(e);
-                    }
-                }
+            if (existingType != null && newType != null && isEnumSchema(newType)) {
+                mergeEnum(existingType, newType, EnumMergeOperation.UNION);
                 existingProperties.put("type", existingType);
             }
         }
@@ -8092,7 +8086,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+            // inline unions only: a named model (e.g. a $ref oneOf of primitives) keeps its name below
+            if (codegenModel == null && codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
                 // TODO move this splitting logic to the generator that needs it only
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                 imports.addAll(parts);

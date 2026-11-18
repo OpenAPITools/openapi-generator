@@ -226,6 +226,10 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
         complete ? complete->valueint : 0
         );
 
+    if (!order_local_var) {
+        goto end;
+    }
+
     return order_local_var;
 end:
     return NULL;

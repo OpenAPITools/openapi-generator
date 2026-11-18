@@ -899,6 +899,15 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             // guard block followed by a single blank line (and omit both when there are none).
             boolean hasRequired = co.allParams.stream().anyMatch(p -> p.required);
             co.vendorExtensions.put("x-rb-has-required-params", hasRequired);
+            boolean hasFormMapQuery =
+                    co.queryParams.stream()
+                            .anyMatch(
+                                    p ->
+                                            p.isMap
+                                                    && p.isFormStyle
+                                                    && p.isExplode
+                                                    && !p.queryIsJsonMimeType);
+            co.vendorExtensions.put("x-rb-has-form-map-query", hasFormMapQuery);
         }
         return objs;
     }

@@ -1,0 +1,76 @@
+openapi: 3.0.1
+info:
+  title: Nested containers of models
+  version: 1.0.0
+paths:
+  /foo:
+    get:
+      operationId: getFoo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FooResponse'
+components:
+  schemas:
+    FooResponse:
+      type: object
+      required:
+        - requiredMapOfArrays
+      properties:
+        mapOfArrays:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Bar'
+        requiredMapOfArrays:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Bar'
+        arrayOfArrays:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/Bar'
+        arrayOfMaps:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Bar'
+        mapOfMaps:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Bar'
+        mapOfArraysOfColors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Color'
+        mapOfArraysOfStrings:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    Color:
+      type: string
+      enum:
+        - red
+        - green
+    Bar:
+      type: object
+      properties:
+        when:
+          type: string
+          format: date-time
