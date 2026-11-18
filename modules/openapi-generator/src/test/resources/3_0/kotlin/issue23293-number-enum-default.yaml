@@ -1,0 +1,40 @@
+openapi: 3.0.1
+info: { title: repro, version: 1.0.0 }
+paths: {}
+components:
+  schemas:
+    BaseWebhook:
+      type: object
+      required: [req_number]
+      properties:
+        is_active:
+          type: number
+          default: 1
+          enum: [0, 1]
+        level:
+          type: integer
+          default: 2
+          enum: [1, 2, 3]
+        ratio:
+          type: number
+          format: double
+          default: 0.5
+          enum: [0.5, 1.5]
+        req_number:
+          type: number
+          default: 1
+          enum: [0, 1]
+        mode:
+          type: string
+          default: fast
+          enum: [fast, slow]
+        plain_number:
+          type: number
+          default: 3
+    Flag:
+      type: number
+      enum: [0, 1]
+    Holder:
+      type: object
+      properties:
+        flag: { $ref: '#/components/schemas/Flag' }

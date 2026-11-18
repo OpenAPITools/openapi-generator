@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
@@ -1463,5 +1464,36 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         extensions.add(VendorExtension.X_FIELD_EXTRA_ANNOTATION);
         extensions.add(VendorExtension.X_JACKSON_DEFAULT_IMPL);
         return extensions;
+    }
+
+    private static final String BIG_DECIMAL_TYPE = "java.math.BigDecimal";
+
+    /**
+     * Key of the Kotlin expression passed to the enum constructor, e.g. {@code _1(java.math.BigDecimal("1"))}.
+     * {@code value} cannot be used for BigDecimal enums: it is a string literal, which is also what the
+     * serialization annotations ({@code @Json(name = ...)} etc.) need.
+     */
+    private static final String ENUM_CONSTRUCTOR_ARGUMENT = "constructorArgument";
+
+    @Override
+    protected List<EnumVarMap> buildEnumVars(List<Object> values, String dataType, List<Object> rawValues) {
+        List<EnumVarMap> enumVars = super.buildEnumVars(values, dataType, rawValues);
+        for (EnumVarMap enumVar : enumVars) {
+            Object value = enumVar.get(EnumVarMap.ENUM_VALUE);
+            enumVar.put(ENUM_CONSTRUCTOR_ARGUMENT, BIG_DECIMAL_TYPE.equals(dataType) ? BIG_DECIMAL_TYPE + "(" + value + ")" : value);
+        }
+        return enumVars;
+    }
+
+    /**
+     * The values of BigDecimal enums are quoted (see {@link #toEnumValue(String, String)}), so the default value
+     * has to be quoted as well to be matched against them and converted to the enum constant.
+     */
+    @Override
+    protected String getEnumDefaultValue(String defaultValue, String dataType) {
+        if (BIG_DECIMAL_TYPE.equals(dataType)) {
+            return toEnumValue(defaultValue, dataType);
+        }
+        return super.getEnumDefaultValue(defaultValue, dataType);
     }
 }

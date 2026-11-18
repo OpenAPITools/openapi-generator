@@ -97,7 +97,7 @@ import kotlinx.serialization.encoding.Encoder
     {{/isList}}
     {{/isArray}}
     {{^isArray}}
-    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{#name}}{{^isEmpty}}{{&name}}{{/isEmpty}}{{#isEmpty}}_{{/isEmpty}}{{/name}}({{{constructorArgument}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
     {{/isArray}}
 {{/enumVars}}{{/allowableValues}}
     /**
