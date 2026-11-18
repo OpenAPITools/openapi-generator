@@ -22,3 +22,5 @@ components:
         - available
         - 2nd place
         - new
+        - New
+        - say "hi"

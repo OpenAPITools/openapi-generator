@@ -240,7 +240,8 @@ public class CppOatppClientCodegen extends AbstractCppCodegen {
             var = "_" + var;
         }
 
-        if (isReservedWord(var)) {
+        // C++ keywords are case-sensitive, so only escape exact matches (isReservedWord ignores case)
+        if (reservedWords.contains(var)) {
             return escapeReservedWord(var);
         }
 

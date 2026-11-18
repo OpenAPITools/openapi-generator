@@ -27,6 +27,8 @@ public class CppOatppClientCodegenTest {
                 "static EnumFoo Enum_Foo_Foo(void) { return \"Enum-Foo-Foo\"; }",
                 "static EnumFoo available(void) { return \"available\"; }",
                 "static EnumFoo _2nd_place(void) { return \"2nd place\"; }",
-                "static EnumFoo r_new(void) { return \"new\"; }");
+                "static EnumFoo r_new(void) { return \"new\"; }",
+                "static EnumFoo New(void) { return \"New\"; }",
+                "static EnumFoo say_hi_(void) { return \"say \\\"hi\\\"\"; }");
     }
 }
