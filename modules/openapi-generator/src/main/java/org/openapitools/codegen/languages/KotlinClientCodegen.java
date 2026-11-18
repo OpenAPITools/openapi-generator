@@ -1269,9 +1269,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                             .collect(Collectors.toList());
                     operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
 
-                    operation.produces = operation.produces == null ? null : operation.produces.stream()
-                            .filter(isSerializable)
-                            .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
 
                     // form style with explode puts a map-typed query parameter on the wire as one parameter

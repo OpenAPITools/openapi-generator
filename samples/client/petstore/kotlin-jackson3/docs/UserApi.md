@@ -232,7 +232,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a id="loginUser"></a>
 # **loginUser**
@@ -278,7 +278,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a id="logoutUser"></a>
 # **logoutUser**
