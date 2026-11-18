@@ -15,12 +15,43 @@
  */
 package org.openapitools.codegen.rubynextgen;
 
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.RubyNextgenClientCodegen;
 import org.testng.annotations.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.testng.Assert.assertEquals;
 
 public class RubyNextgenClientCodegenTest {
+    @Test
+    public void testObjectQueryParametersRespectStyleAndExplode() throws Exception {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        ClientOptInput input =
+                new CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec(
+                                "src/test/resources/3_0/ruby-nextgen/object-query-parameters.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new DefaultGenerator(false).opts(input).generate();
+
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/things.rb"),
+                "query: [(filter || {}).compact.transform_keys(&:to_s), (default_filter ||"
+                    + " {}).compact.transform_keys(&:to_s), { 'flatFilter' => flat_filter"
+                    + " }.compact, { 'deepFilter' => deep_filter }.compact, { 'limit' => limit"
+                    + " }.compact, { 'tags' => tags }.compact, { 'contentFilter' => content_filter"
+                    + " }.compact].reduce({}, :merge)");
+    }
+
     @Test
     public void testGeneratorName() {
         RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();

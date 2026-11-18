@@ -252,6 +252,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
+    private static final Pattern LITERAL_TYPE_PATTERN = Pattern.compile("['\"]|^-?\\d");
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
@@ -681,19 +682,31 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return toModelName(name);
     }
 
+    /**
+     * Whether an array item or map value can be null. A {@code $ref} item has no nullability of its own,
+     * it comes from the referenced schema, as it does for a property.
+     */
+    protected boolean isNullableItem(Schema<?> item) {
+        if (Boolean.TRUE.equals(item.getNullable())) {
+            return true;
+        }
+        return item.get$ref() != null && openAPI != null
+                && ModelUtils.isNullable(ModelUtils.getReferencedSchema(openAPI, item));
+    }
+
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = ModelUtils.getSchemaItems(p);
             String postfix = "";
-            if (Boolean.TRUE.equals(items.getNullable())) {
+            if (isNullableItem(items)) {
                 postfix = " | null";
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(unaliasSchema(items)) + postfix + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
-            if (Boolean.TRUE.equals(inner.getNullable())) {
+            if (isNullableItem(inner)) {
                 nullSafeSuffix += " | null";
             }
             return "{ [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + "; }";
@@ -1339,7 +1352,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     protected boolean needToImport(String type) {
+        if (type != null && isLiteralUnion(type)) {
+            return false;
+        }
         return super.needToImport(typeWithoutGeneric(type));
+    }
+
+    // 'a' | 'b' or 1 | 2 from an inlined enum: its members are values, never model names
+    private boolean isLiteralUnion(String type) {
+        return Arrays.stream(splitComposedType(type))
+                .filter(StringUtils::isNotEmpty)
+                .allMatch(member -> LITERAL_TYPE_PATTERN.matcher(member).find());
     }
 
     @Override

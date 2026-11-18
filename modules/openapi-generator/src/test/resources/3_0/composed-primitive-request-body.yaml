@@ -1,0 +1,41 @@
+openapi: 3.0.3
+info:
+  title: Request bodies that are unions of primitives
+  version: 1.0.0
+paths:
+  /one-of:
+    post:
+      operationId: lookupByOneOf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeId'
+      responses:
+        '200':
+          description: ok
+  /any-of:
+    post:
+      operationId: lookupByAnyOf
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NodeKey'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    NodeId:
+      oneOf:
+        - type: integer
+          format: int32
+        - type: string
+    NodeKey:
+      anyOf:
+        - type: integer
+          format: int32
+        - type: string
