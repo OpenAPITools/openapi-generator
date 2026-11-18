@@ -556,4 +556,27 @@ public class RubyNextgenClientCodegenTest {
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/stables/ponies.rb"), "class Stables::Ponies");
     }
+
+    @Test
+    public void testResponseDoesNotAdvertiseToHashWithoutHashData() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+
+        java.nio.file.Path response = target.resolve("lib/petstore/response.rb");
+        org.openapitools.codegen.TestUtils.assertFileNotContains(response,
+                "def_delegators :data, :[], :each, :map, :to_a, :to_hash, :dig");
+        org.openapitools.codegen.TestUtils.assertFileContains(response,
+                "def respond_to_missing?(name, include_private = false)",
+                "(name == :to_hash && data.respond_to?(:to_hash, include_private)) || super",
+                "return data.to_hash(*args, &block) if name == :to_hash && data.respond_to?(:to_hash)");
+    }
 }
