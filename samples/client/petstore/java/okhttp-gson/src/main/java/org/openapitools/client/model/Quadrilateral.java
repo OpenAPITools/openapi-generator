@@ -255,6 +255,19 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        if (jsonObject.get("quadrilateralType") == null) {
+            throw new IOException("Failed to deserialize as the discriminator field 'quadrilateralType' is missing.");
+        }
+        String discriminatorValue = jsonObject.get("quadrilateralType").getAsString();
+        if ("ComplexQuadrilateral".equals(discriminatorValue)) {
+            ComplexQuadrilateral.validateJsonElement(jsonElement);
+            return;
+        }
+        if ("SimpleQuadrilateral".equals(discriminatorValue)) {
+            SimpleQuadrilateral.validateJsonElement(jsonElement);
+            return;
+        }
         // validate the json string with SimpleQuadrilateral
         try {
             SimpleQuadrilateral.validateJsonElement(jsonElement);

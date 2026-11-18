@@ -255,6 +255,19 @@ public class Pig extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        if (jsonObject.get("className") == null) {
+            throw new IOException("Failed to deserialize as the discriminator field 'className' is missing.");
+        }
+        String discriminatorValue = jsonObject.get("className").getAsString();
+        if ("BasquePig".equals(discriminatorValue)) {
+            BasquePig.validateJsonElement(jsonElement);
+            return;
+        }
+        if ("DanishPig".equals(discriminatorValue)) {
+            DanishPig.validateJsonElement(jsonElement);
+            return;
+        }
         // validate the json string with BasquePig
         try {
             BasquePig.validateJsonElement(jsonElement);

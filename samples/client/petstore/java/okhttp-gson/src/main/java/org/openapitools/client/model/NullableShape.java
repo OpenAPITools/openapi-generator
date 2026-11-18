@@ -260,6 +260,19 @@ public class NullableShape extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        if (jsonObject.get("shapeType") == null) {
+            throw new IOException("Failed to deserialize as the discriminator field 'shapeType' is missing.");
+        }
+        String discriminatorValue = jsonObject.get("shapeType").getAsString();
+        if ("Quadrilateral".equals(discriminatorValue)) {
+            Quadrilateral.validateJsonElement(jsonElement);
+            return;
+        }
+        if ("Triangle".equals(discriminatorValue)) {
+            Triangle.validateJsonElement(jsonElement);
+            return;
+        }
         // validate the json string with Triangle
         try {
             Triangle.validateJsonElement(jsonElement);

@@ -297,6 +297,23 @@ public class Mammal extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        if (jsonObject.get("className") == null) {
+            throw new IOException("Failed to deserialize as the discriminator field 'className' is missing.");
+        }
+        String discriminatorValue = jsonObject.get("className").getAsString();
+        if ("Pig".equals(discriminatorValue)) {
+            Pig.validateJsonElement(jsonElement);
+            return;
+        }
+        if ("whale".equals(discriminatorValue)) {
+            Whale.validateJsonElement(jsonElement);
+            return;
+        }
+        if ("zebra".equals(discriminatorValue)) {
+            Zebra.validateJsonElement(jsonElement);
+            return;
+        }
         // validate the json string with Whale
         try {
             Whale.validateJsonElement(jsonElement);
