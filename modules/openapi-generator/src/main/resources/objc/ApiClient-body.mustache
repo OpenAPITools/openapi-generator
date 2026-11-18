@@ -25,6 +25,11 @@ static NSString * {{classPrefix}}__fileNameForResponse(NSURLResponse *response) 
     NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSString *contentDispositionHeader = headers[k{{classPrefix}}ContentDispositionKey];
     NSTextCheckingResult *match = [regexp firstMatchInString:contentDispositionHeader options:0 range:NSMakeRange(0, [contentDispositionHeader length])];
+    if(match == nil){ // match utf8 => filename*=utf-8"xxx.zip
+       pattern = @"filename\\*?=[^'\"\\s]*[']?[']?([^'\"\\s]+)['\"]?";
+       regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpression    CaseInsensitive error:nil];
+       match = [regexp firstMatchInString:contentDispositionHeader options:0 range:NSMakeRange(0, [co    ntentDispositionHeader length])];
+    }
     return [contentDispositionHeader substringWithRange:[match rangeAtIndex:1]];
 }
 
