@@ -423,10 +423,15 @@ export function serializeDate(value: Date): string {
     if (isNaN(value.getTime())) {
         throw new RangeError('Invalid time value');
     }
+{{#isDateAnchorUtc}}
+    return value.toISOString().substring(0, 10);
+{{/isDateAnchorUtc}}
+{{^isDateAnchorUtc}}
     const year = ('000' + value.getFullYear()).slice(-4);
     const month = ('0' + (value.getMonth() + 1)).slice(-2);
     const day = ('0' + value.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
+{{/isDateAnchorUtc}}
 }
 
 
@@ -434,6 +439,10 @@ export function parseDate(value: Date | string): Date {
     if (value instanceof Date) {
         return value;
     }
+{{#isDateAnchorUtc}}
+    return new Date(value);
+{{/isDateAnchorUtc}}
+{{^isDateAnchorUtc}}
     // `new Date("2026-08-05")` would parse as UTC midnight: a different day west of UTC.
     // Local midnight is the stated day everywhere. setFullYear avoids the 1900 offset the
     // multi-argument constructor applies to years 0-99.
@@ -453,6 +462,7 @@ export function parseDate(value: Date | string): Date {
         return date;
     }
     return new Date(value);
+{{/isDateAnchorUtc}}
 }
 
 export function parseDateTime(value: any): Date {
