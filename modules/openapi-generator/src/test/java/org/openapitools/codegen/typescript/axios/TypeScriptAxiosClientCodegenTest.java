@@ -1,5 +1,6 @@
 package org.openapitools.codegen.typescript.axios;
 
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -304,5 +305,125 @@ public class TypeScriptAxiosClientCodegenTest {
         assertThat(Files.readString(Paths.get(output + "/tsconfig.json")))
                 .doesNotContain("\"moduleResolution\": \"node\"");
 
+    }
+
+    @Test(description = "generateAnyOfAsUnion is an opt-in option that is off by default")
+    public void testGenerateAnyOfAsUnionOption() {
+        final CliOption option = codegen.cliOptions().stream()
+                .filter(o -> TypeScriptAxiosClientCodegen.GENERATE_ANY_OF_AS_UNION.equals(o.getOpt()))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("generateAnyOfAsUnion option is not registered"));
+        assertEquals(option.getDefault(), "false");
+
+        codegen.processOpts();
+        assertThat(codegen.isGenerateAnyOfAsUnion()).isFalse();
+
+        final TypeScriptAxiosClientCodegen enabled = new TypeScriptAxiosClientCodegen();
+        enabled.additionalProperties().put(TypeScriptAxiosClientCodegen.GENERATE_ANY_OF_AS_UNION, "true");
+        enabled.processOpts();
+        assertThat(enabled.isGenerateAnyOfAsUnion()).isTrue();
+    }
+
+    @Test(description = "Without generateAnyOfAsUnion an anyOf keeps being rendered as one merged interface")
+    public void testAnyOfIsAMergedInterfaceByDefault() throws Exception {
+        final Path output = generateAnyOfUnionSample(null, false);
+
+        final Path api = output.resolve("api.ts");
+        TestUtils.assertFileContains(api,
+                "export interface ListItems200ResponseItemsInner {",
+                "export interface GetSettings200ResponseListUnion {",
+                "export interface ListItems422Response {");
+        TestUtils.assertFileNotContains(api,
+                "export type ListItems200ResponseItemsInner",
+                "export type ListItems422Response");
+    }
+
+    @Test(description = "generateAnyOfAsUnion renders anyOf as a union type with separate models and api")
+    public void testAnyOfAsUnionWithSeparateModelsAndApi() throws Exception {
+        final Path output = generateAnyOfUnionSample(true, true);
+        final Path models = output.resolve("models");
+
+        // anyOf of objects: before, one interface requiring the fields of every member
+        TestUtils.assertFileContains(models.resolve("list-items200-response-items-inner.ts"),
+                "import type { Detailed } from './detailed';",
+                "import type { Summary } from './summary';",
+                "export type ListItems200ResponseItemsInner = Detailed | Summary;");
+        TestUtils.assertFileNotContains(models.resolve("list-items200-response-items-inner.ts"), "'size': number;");
+        // anyOf of an object and a dictionary: before, the dictionary was lost
+        TestUtils.assertFileContains(models.resolve("get-settings200-response-meta.ts"),
+                "export type GetSettings200ResponseMeta = Known | { [key: string]: string; };");
+        // anyOf of a value or a list of values: before, an empty interface
+        TestUtils.assertFileContains(models.resolve("get-settings200-response-overrides-value.ts"),
+                "export type GetSettings200ResponseOverridesValue = Array<string> | string;");
+        // anyOf of two lists: before, an empty interface
+        TestUtils.assertFileContains(models.resolve("get-settings200-response-list-union.ts"),
+                "export type GetSettings200ResponseListUnion = Array<Detailed> | Array<Summary>;");
+        // anyOf of two error bodies: before, one interface requiring the fields of both
+        TestUtils.assertFileContains(models.resolve("list-items422-response.ts"),
+                "export type ListItems422Response = ActionError | Message;");
+        // anyOf of primitives and a dictionary; nullability is kept where the schema is referenced
+        TestUtils.assertFileContains(models.resolve("mixed-value.ts"),
+                "export type MixedValue = boolean | number | string | { [key: string]: object; };");
+        TestUtils.assertFileContains(models.resolve("holder.ts"), "'value': MixedValue | null;");
+        // an anyOf that declares its own properties stays an interface
+        TestUtils.assertFileContains(models.resolve("labelled.ts"),
+                "export interface Labelled {",
+                "'label'?: string;");
+    }
+
+    @Test(description = "generateAnyOfAsUnion renders anyOf as a union type when models are generated in api.ts")
+    public void testAnyOfAsUnionInSingleApiFile() throws Exception {
+        final Path output = generateAnyOfUnionSample(true, false);
+
+        TestUtils.assertFileContains(output.resolve("api.ts"),
+                "export type ListItems200ResponseItemsInner = Detailed | Summary;",
+                "export type GetSettings200ResponseMeta = Known | { [key: string]: string; };",
+                "export type GetSettings200ResponseOverridesValue = Array<string> | string;",
+                "export type GetSettings200ResponseListUnion = Array<Detailed> | Array<Summary>;",
+                "export type ListItems422Response = ActionError | Message;",
+                "export type MixedValue = boolean | number | string | { [key: string]: object; };",
+                "export interface Labelled {");
+        TestUtils.assertFileNotContains(output.resolve("api.ts"),
+                "export interface ListItems200ResponseItemsInner",
+                "export interface ListItems422Response");
+    }
+
+    @Test(description = "generateAnyOfAsUnion renders an anyOf with a discriminator as a discriminated union")
+    public void testAnyOfWithDiscriminatorAsUnion() throws Exception {
+        final String discriminatedUnion = "export type Pet = { petType: 'cat' } & Cat | { petType: 'dog' } & Dog;";
+
+        // separate models
+        TestUtils.assertFileContains(generateAnyOfUnionSample(true, true).resolve("models/pet.ts"),
+                "import type { Cat } from './cat';",
+                "import type { Dog } from './dog';",
+                discriminatedUnion);
+        // models in api.ts
+        final Path api = generateAnyOfUnionSample(true, false).resolve("api.ts");
+        TestUtils.assertFileContains(api, discriminatedUnion);
+        TestUtils.assertFileNotContains(api, "export interface Pet {");
+        // without the option the anyOf is still one interface merging the members
+        TestUtils.assertFileContains(generateAnyOfUnionSample(null, false).resolve("api.ts"), "export interface Pet {");
+    }
+
+    private Path generateAnyOfUnionSample(Boolean generateAnyOfAsUnion, boolean separateModelsAndApi) throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_any_of_union_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/typescript-axios/any-of-union.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        if (generateAnyOfAsUnion != null) {
+            configurator.addAdditionalProperty(TypeScriptAxiosClientCodegen.GENERATE_ANY_OF_AS_UNION, generateAnyOfAsUnion);
+        }
+        if (separateModelsAndApi) {
+            configurator.addAdditionalProperty(TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true)
+                    .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "models")
+                    .addAdditionalProperty(CodegenConstants.API_PACKAGE, "api");
+        }
+
+        final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+        return output.toPath();
     }
 }

@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: anyOf as union
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: listItems
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      anyOf:
+                        - $ref: '#/components/schemas/Summary'
+                        - $ref: '#/components/schemas/Detailed'
+        '422':
+          description: failed
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Message'
+                  - $ref: '#/components/schemas/ActionError'
+  /settings:
+    get:
+      operationId: getSettings
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [meta, overrides, listUnion, holder]
+                properties:
+                  meta:
+                    anyOf:
+                      - $ref: '#/components/schemas/Known'
+                      - type: object
+                        additionalProperties: {type: string}
+                  overrides:
+                    type: object
+                    additionalProperties:
+                      anyOf:
+                        - type: string
+                        - type: array
+                          items: {type: string}
+                  listUnion:
+                    anyOf:
+                      - type: array
+                        items: {$ref: '#/components/schemas/Summary'}
+                      - type: array
+                        items: {$ref: '#/components/schemas/Detailed'}
+                  holder:
+                    $ref: '#/components/schemas/Holder'
+                  labelled:
+                    $ref: '#/components/schemas/Labelled'
+components:
+  schemas:
+    Summary:
+      type: object
+      required: [id, name]
+      properties:
+        id: {type: integer}
+        name: {type: string}
+    Detailed:
+      type: object
+      required: [id, name, size]
+      properties:
+        id: {type: integer}
+        name: {type: string}
+        size: {type: integer}
+    Message:
+      type: object
+      required: [message]
+      properties:
+        message: {type: string}
+    ActionError:
+      type: object
+      required: [action, errors]
+      properties:
+        action: {type: integer}
+        errors:
+          type: array
+          items:
+            type: object
+            required: [message]
+            properties:
+              message: {type: string}
+    Known:
+      type: object
+      required: [version]
+      properties:
+        version: {type: string}
+    MixedValue:
+      nullable: true
+      anyOf:
+        - type: boolean
+        - type: integer
+          format: int64
+        - type: number
+          format: double
+        - type: string
+        - type: object
+          additionalProperties:
+            type: object
+    Holder:
+      type: object
+      required: [value]
+      properties:
+        value:
+          $ref: '#/components/schemas/MixedValue'
+    Labelled:
+      type: object
+      properties:
+        label: {type: string}
+      anyOf:
+        - $ref: '#/components/schemas/Summary'
+        - $ref: '#/components/schemas/Detailed'
+    Cat:
+      type: object
+      required: [petType, meow]
+      properties:
+        petType: {type: string}
+        meow: {type: string}
+    Dog:
+      type: object
+      required: [petType, bark]
+      properties:
+        petType: {type: string}
+        bark: {type: string}
+    Pet:
+      anyOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'

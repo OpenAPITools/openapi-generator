@@ -32,9 +32,11 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -56,6 +58,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String AXIOS_VERSION = "axiosVersion";
     public static final String DEFAULT_AXIOS_VERSION = "^1.18.0";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
+    public static final String GENERATE_ANY_OF_AS_UNION = "generateAnyOfAsUnion";
+    public static final String GENERATE_ANY_OF_AS_UNION_DESC = "Generate anyOf schemas as TypeScript union types instead of one interface merging the properties of all members. An anyOf schema that also declares its own properties stays an interface.";
 
     @Getter @Setter
     protected String npmRepository = null;
@@ -65,6 +69,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Getter @Setter
     protected String axiosVersion = DEFAULT_AXIOS_VERSION;
     protected boolean withAWSV4Signature = false;
+    @Getter @Setter
+    protected boolean generateAnyOfAsUnion = false;
+
+    // Names of the anyOf models that declare properties next to their members. They stay interfaces.
+    private final Set<String> anyOfModelsWithOwnProperties = new HashSet<>();
 
     private String tsModelPackage = "";
 
@@ -100,6 +109,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, "Setting this property to true will add brackets to array attribute names, e.g. my_values[].", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(AXIOS_VERSION, "Use this property to override the axios version in package.json").defaultValue(DEFAULT_AXIOS_VERSION));
         this.cliOptions.add(new CliOption(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
+        this.cliOptions.add(new CliOption(GENERATE_ANY_OF_AS_UNION, GENERATE_ANY_OF_AS_UNION_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
@@ -193,6 +203,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         }
         additionalProperties.put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, withAWSV4Signature);
 
+        if (additionalProperties.containsKey(GENERATE_ANY_OF_AS_UNION)) {
+            this.setGenerateAnyOfAsUnion(convertPropertyToBoolean(GENERATE_ANY_OF_AS_UNION));
+        }
     }
 
     @Override
@@ -242,6 +255,14 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         for (ModelsMap entry : result.values()) {
             for (ModelMap model : entry.getModels()) {
                 CodegenModel codegenModel = model.getModel();
+                if (generateAnyOfAsUnion
+                        && !codegenModel.anyOf.isEmpty()
+                        && codegenModel.oneOf.isEmpty()
+                        && codegenModel.allOf.isEmpty()
+                        && !anyOfModelsWithOwnProperties.contains(codegenModel.name)) {
+                    // The oneOf templates render a union of the members, which is what an anyOf describes as a type.
+                    codegenModel.oneOf.addAll(codegenModel.anyOf);
+                }
                 model.put("hasAllOf", codegenModel.allOf.size() > 0);
                 model.put("hasOneOf", codegenModel.oneOf.size() > 0);
             }
@@ -249,6 +270,17 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         return result;
     }
 
+
+    @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel codegenModel = super.fromModel(name, schema);
+        // The union template renders no properties, so an anyOf declaring its own properties stays an interface.
+        if (schema != null && schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()
+                && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            anyOfModelsWithOwnProperties.add(codegenModel.name);
+        }
+        return codegenModel;
+    }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
