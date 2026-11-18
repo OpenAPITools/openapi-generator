@@ -48,10 +48,16 @@ jobs:
           distribution: 'temurin' # Or 'adopt', 'oracle', etc.
           cache: maven # Cache Maven dependencies for faster builds
       - name: Use Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm' # Or 'yarn'
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ${{ matrix.sample }}
+      - name: Run TypeScript check
+        run: npx tsc --noEmit
+        working-directory: ${{ matrix.sample }}
       - name: mvn integration-test
         working-directory: ${{ matrix.sample }}
         run: mvn integration-test
