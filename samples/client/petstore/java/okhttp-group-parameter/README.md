@@ -1,8 +1,8 @@
-# openapi-java-client
+# petstore-okhttp-group-parameter
 
 OpenAPI Petstore
 - API version: 1.0.0
-  - Generator version: 7.6.0-SNAPSHOT
+  - Generator version: 7.28.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
   <groupId>org.openapitools</groupId>
-  <artifactId>openapi-java-client</artifactId>
+  <artifactId>petstore-okhttp-group-parameter</artifactId>
   <version>1.0.0</version>
   <scope>compile</scope>
 </dependency>
@@ -51,12 +51,12 @@ Add this dependency to your project's build file:
 
 ```groovy
   repositories {
-    mavenCentral()     // Needed if the 'openapi-java-client' jar has been published to maven central.
-    mavenLocal()       // Needed if the 'openapi-java-client' jar has been published to the local maven repo.
+    mavenCentral()     // Needed if the 'petstore-okhttp-group-parameter' jar has been published to maven central.
+    mavenLocal()       // Needed if the 'petstore-okhttp-group-parameter' jar has been published to the local maven repo.
   }
 
   dependencies {
-     implementation "org.openapitools:openapi-java-client:1.0.0"
+     implementation "org.openapitools:petstore-okhttp-group-parameter:1.0.0"
   }
 ```
 
@@ -70,7 +70,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/openapi-java-client-1.0.0.jar`
+* `target/petstore-okhttp-group-parameter-1.0.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -84,7 +84,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.PetApi;
 
 public class Example {
@@ -99,7 +99,8 @@ public class Example {
     PetApi apiInstance = new PetApi(defaultClient);
     Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
-      Pet result = apiInstance.addPet(pet);
+      Pet result = apiInstance.addPet(pet)
+            .execute();
       System.out.println(result);
     } catch (ApiException e) {
       System.err.println("Exception when calling PetApi#addPet");
@@ -127,18 +128,6 @@ Class | Method | HTTP request | Description
 *PetApi* | [**updatePet**](docs/PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
 *PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**uploadFile**](docs/PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
-*StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{orderId} | Delete purchase order by ID
-*StoreApi* | [**getInventory**](docs/StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
-*StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
-*StoreApi* | [**placeOrder**](docs/StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
-*UserApi* | [**createUser**](docs/UserApi.md#createUser) | **POST** /user | Create user
-*UserApi* | [**createUsersWithArrayInput**](docs/UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-*UserApi* | [**createUsersWithListInput**](docs/UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-*UserApi* | [**deleteUser**](docs/UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-*UserApi* | [**getUserByName**](docs/UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-*UserApi* | [**loginUser**](docs/UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-*UserApi* | [**logoutUser**](docs/UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-*UserApi* | [**updateUser**](docs/UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
 ## Documentation for Models

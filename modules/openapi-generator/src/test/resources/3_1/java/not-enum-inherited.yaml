@@ -1,0 +1,27 @@
+openapi: 3.1.0
+
+info:
+  title: not enum on an inherited property
+  version: 1.0.0
+
+paths: {}
+
+components:
+  schemas:
+    Base:
+      type: object
+      x-parent: true
+      properties:
+        kind:
+          type: string
+          not:
+            enum:
+              - known
+
+    Derived:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            name:
+              type: string
