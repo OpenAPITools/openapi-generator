@@ -1029,7 +1029,7 @@ public class CodeGenMojo extends AbstractMojo {
             }
 
             // Apply injected model vendor extensions
-            if (injectModelVendorExtensions != null && (configOptions == null || !configOptions.containsKey("inject-model-vendor-extensions"))) {
+            if (injectModelVendorExtensions != null) {
                 applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
             }
 
