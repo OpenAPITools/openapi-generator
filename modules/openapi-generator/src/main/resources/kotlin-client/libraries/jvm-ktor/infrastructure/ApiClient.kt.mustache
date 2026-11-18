@@ -28,6 +28,7 @@ import com.google.gson.GsonBuilder
 import java.text.DateFormat
 {{/gson}}
 {{#jackson}}
+{{^useJackson3}}
 import io.ktor.serialization.jackson.*
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -35,6 +36,14 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+{{/useJackson3}}
+{{#useJackson3}}
+import io.ktor.serialization.jackson3.*
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.databind.SerializationFeature
+import tools.jackson.core.util.DefaultIndenter
+import tools.jackson.core.util.DefaultPrettyPrinter
+{{/useJackson3}}
 {{/jackson}}
 import {{packageName}}.auth.*
 
@@ -46,7 +55,12 @@ import {{packageName}}.auth.*
         jsonBlock: GsonBuilder.() -> Unit = JSON_DEFAULT,
         {{/gson}}
         {{#jackson}}
+        {{^useJackson3}}
         jsonBlock: ObjectMapper.() -> Unit = JSON_DEFAULT,
+        {{/useJackson3}}
+        {{#useJackson3}}
+        jsonBlock: JsonMapper.Builder.() -> Unit = JSON_DEFAULT,
+        {{/useJackson3}}
         {{/jackson}}
 ) {
 
@@ -90,6 +104,7 @@ import {{packageName}}.auth.*
           }
         {{/gson}}
         {{#jackson}}
+        {{^useJackson3}}
           {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val JSON_DEFAULT: ObjectMapper.() -> Unit = {
             configure(SerializationFeature.INDENT_OUTPUT, true)
             setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
@@ -98,6 +113,15 @@ import {{packageName}}.auth.*
             })
             registerModule(JavaTimeModule())
           }
+        {{/useJackson3}}
+        {{#useJackson3}}
+          {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val JSON_DEFAULT: JsonMapper.Builder.() -> Unit = {
+            configure(SerializationFeature.INDENT_OUTPUT, true)
+            defaultPrettyPrinter(DefaultPrettyPrinter()
+              .withArrayIndenter(DefaultPrettyPrinter.FixedSpaceIndenter.instance())
+              .withObjectIndenter(DefaultIndenter("  ", "\n")))
+          }
+        {{/useJackson3}}
         {{/jackson}}
           protected val UNSAFE_HEADERS: List<String> = listOf(HttpHeaders.ContentType)
     }

@@ -137,6 +137,16 @@ kotlin {
     }
 }
 {{/jvm-spring-restclient}}
+{{#jvm-ktor}}
+{{#useJackson3}}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+{{/useJackson3}}
+{{/jvm-ktor}}
 {{#jvm-microprofile}}
 
 kotlin {
@@ -189,8 +199,13 @@ dependencies {
     implementation "io.ktor:ktor-client-gson:$ktor_version"
     {{/gson}}
     {{#jackson}}
+    {{^useJackson3}}
     implementation "io.ktor:ktor-client-jackson:$ktor_version"
     implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
+    {{/useJackson3}}
+    {{#useJackson3}}
+    implementation "io.ktor:ktor-serialization-jackson3:$ktor_version"
+    {{/useJackson3}}
     {{/jackson}}
     {{/jvm-ktor}}
     {{#jvm-okhttp4}}

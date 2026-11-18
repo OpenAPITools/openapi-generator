@@ -1,0 +1,10 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-jvm-ktor-jackson3
+library: jvm-ktor
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-petstore-jvm-ktor-jackson3
+  enumUnknownDefaultCase: true
+  serializationLibrary: jackson
+  useJackson3: true
