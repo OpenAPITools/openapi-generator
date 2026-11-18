@@ -28,6 +28,9 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -740,6 +743,41 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void postProcessEmitDefaultValue(Map<String, Object> vendorExtensions) {
         vendorExtensions.put("x-emit-default-value", optionalEmitDefaultValuesFlag);
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        if (!GENERICHOST.equals(getLibrary()) || objs == null) {
+            return objs;
+        }
+        putTokenProviderFlags(objs.getOperations());
+        return objs;
+    }
+
+    @Override
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessWebhooksWithModels(objs, allModels);
+        if (!GENERICHOST.equals(getLibrary()) || objs == null) {
+            return objs;
+        }
+        putTokenProviderFlags(objs.getWebhooks());
+        return objs;
+    }
+
+    private void putTokenProviderFlags(OperationMap operations) {
+        if (operations == null) {
+            return;
+        }
+        List<List<CodegenSecurity>> authMethods = operations.getOperation().stream()
+                .map(operation -> operation.authMethods)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        operations.put("classHasApiKeyMethods", authMethods.stream().anyMatch(ProcessUtils::hasApiKeyMethods));
+        operations.put("classHasHttpBearerMethods", authMethods.stream().anyMatch(ProcessUtils::hasHttpBearerMethods));
+        operations.put("classHasHttpBasicMethods", authMethods.stream().anyMatch(ProcessUtils::hasHttpBasicMethods));
+        operations.put("classHasHttpSignatureMethods", authMethods.stream().anyMatch(ProcessUtils::hasHttpSignatureMethods));
+        operations.put("classHasOAuthMethods", authMethods.stream().anyMatch(ProcessUtils::hasOAuthMethods));
     }
 
     @Override

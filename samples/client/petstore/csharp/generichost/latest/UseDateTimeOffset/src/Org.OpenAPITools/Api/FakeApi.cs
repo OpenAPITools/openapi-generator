@@ -1244,11 +1244,6 @@ namespace Org.OpenAPITools.Api
         public FakeApiEvents Events { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="ApiKeyProvider"/>
-        /// </summary>
-        public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-
-        /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
         public TokenProvider<BearerToken> BearerTokenProvider { get; }
@@ -1259,35 +1254,19 @@ namespace Org.OpenAPITools.Api
         public TokenProvider<BasicToken> BasicTokenProvider { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
-        /// </summary>
-        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="OauthTokenProvider"/>
-        /// </summary>
-        public TokenProvider<OAuthToken> OauthTokenProvider { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="FakeApi"/> class.
         /// </summary>
         /// <returns></returns>
         public FakeApi(ILogger<FakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeApiEvents fakeApiEvents,
-            TokenProvider<ApiKeyToken> apiKeyProvider,
             TokenProvider<BearerToken> bearerTokenProvider,
-            TokenProvider<BasicToken> basicTokenProvider,
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider)
+            TokenProvider<BasicToken> basicTokenProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             Events = fakeApiEvents;
-            ApiKeyProvider = apiKeyProvider;
             BearerTokenProvider = bearerTokenProvider;
             BasicTokenProvider = basicTokenProvider;
-            HttpSignatureTokenProvider = httpSignatureTokenProvider;
-            OauthTokenProvider = oauthTokenProvider;
         }
 
         /// <summary>

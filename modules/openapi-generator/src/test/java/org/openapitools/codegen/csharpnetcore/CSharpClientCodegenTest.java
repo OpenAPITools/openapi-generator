@@ -1119,6 +1119,37 @@ public class CSharpClientCodegenTest {
         assertFileNotContains(api.toPath(), "Model.Dictionary<");
     }
 
+    @Test(description = "generichost: token providers are only injected into Api classes whose operations use the matching security scheme")
+    public void testGenerichostTokenProvidersBasedOnOperationsAuthMethods() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/issue_25575.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.additionalProperties().put("packageName", "Example.Api.Sdk");
+        cSharpClientCodegen.additionalProperties().put("netCoreProjectFile", true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File securedApi = files.get(Paths.get(output.getAbsolutePath(), "src", "Example.Api.Sdk", "Api", "SecuredApi.cs").toString());
+        assertNotNull(securedApi, "Could not find generated SecuredApi.cs");
+        assertFileContains(securedApi.toPath(),
+                "public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }",
+                "TokenProvider<ApiKeyToken> apiKeyProvider)");
+
+        File publicApi = files.get(Paths.get(output.getAbsolutePath(), "src", "Example.Api.Sdk", "Api", "PublicApi.cs").toString());
+        assertNotNull(publicApi, "Could not find generated PublicApi.cs");
+        assertFileNotContains(publicApi.toPath(), "TokenProvider<ApiKeyToken>");
+        assertFileContains(publicApi.toPath(),
+                "public PublicApi(ILogger<PublicApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PublicApiEvents publicApiEvents)");
+    }
+
     @Test(description = "conditionalSerialization: an all-optional model's public constructor must not raise the serialization flag for value-typed properties the caller never passed")
     public void testConditionalSerializationValueTypeConstructorFlags() throws IOException {
         Map<String, File> files = generateConditionalSerializationValueTypeModels(true);
