@@ -297,22 +297,42 @@ public class Triangle extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        if (jsonObject.get("triangleType") == null) {
-            throw new IOException("Failed to deserialize as the discriminator field 'triangleType' is missing.");
-        }
-        String discriminatorValue = jsonObject.get("triangleType").getAsString();
-        if ("EquilateralTriangle".equals(discriminatorValue)) {
-            EquilateralTriangle.validateJsonElement(jsonElement);
-            return;
-        }
-        if ("IsoscelesTriangle".equals(discriminatorValue)) {
-            IsoscelesTriangle.validateJsonElement(jsonElement);
-            return;
-        }
-        if ("ScaleneTriangle".equals(discriminatorValue)) {
-            ScaleneTriangle.validateJsonElement(jsonElement);
-            return;
+        if (jsonElement.isJsonObject()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement discriminatorElement = jsonObject.get("triangleType");
+            if (discriminatorElement != null && discriminatorElement.isJsonPrimitive()) {
+                String discriminatorValue = discriminatorElement.getAsString();
+                if ("EquilateralTriangle".equals(discriminatorValue)) {
+                    try {
+                        EquilateralTriangle.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'EquilateralTriangle'", e);
+                    }
+                }
+                if ("IsoscelesTriangle".equals(discriminatorValue)) {
+                    try {
+                        IsoscelesTriangle.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'IsoscelesTriangle'", e);
+                    }
+                }
+                if ("ScaleneTriangle".equals(discriminatorValue)) {
+                    try {
+                        ScaleneTriangle.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'ScaleneTriangle'", e);
+                    }
+                }
+            }
         }
         // validate the json string with EquilateralTriangle
         try {

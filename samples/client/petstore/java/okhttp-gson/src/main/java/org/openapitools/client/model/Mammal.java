@@ -297,22 +297,42 @@ public class Mammal extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        if (jsonObject.get("className") == null) {
-            throw new IOException("Failed to deserialize as the discriminator field 'className' is missing.");
-        }
-        String discriminatorValue = jsonObject.get("className").getAsString();
-        if ("Pig".equals(discriminatorValue)) {
-            Pig.validateJsonElement(jsonElement);
-            return;
-        }
-        if ("whale".equals(discriminatorValue)) {
-            Whale.validateJsonElement(jsonElement);
-            return;
-        }
-        if ("zebra".equals(discriminatorValue)) {
-            Zebra.validateJsonElement(jsonElement);
-            return;
+        if (jsonElement.isJsonObject()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement discriminatorElement = jsonObject.get("className");
+            if (discriminatorElement != null && discriminatorElement.isJsonPrimitive()) {
+                String discriminatorValue = discriminatorElement.getAsString();
+                if ("Pig".equals(discriminatorValue)) {
+                    try {
+                        Pig.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Pig'", e);
+                    }
+                }
+                if ("whale".equals(discriminatorValue)) {
+                    try {
+                        Whale.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Whale'", e);
+                    }
+                }
+                if ("zebra".equals(discriminatorValue)) {
+                    try {
+                        Zebra.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Zebra'", e);
+                    }
+                }
+            }
         }
         // validate the json string with Whale
         try {

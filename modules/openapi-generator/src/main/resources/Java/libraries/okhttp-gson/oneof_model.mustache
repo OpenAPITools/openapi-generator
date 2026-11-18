@@ -406,17 +406,25 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         ArrayList<String> errorMessages = new ArrayList<>();
         {{#useOneOfDiscriminatorLookup}}
         {{#discriminator}}
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        if (jsonObject.get("{{{propertyBaseName}}}") == null) {
-            throw new IOException("Failed to deserialize as the discriminator field '{{{propertyBaseName}}}' is missing.");
+        if (jsonElement.isJsonObject()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement discriminatorElement = jsonObject.get("{{{propertyBaseName}}}");
+            if (discriminatorElement != null && discriminatorElement.isJsonPrimitive()) {
+                String discriminatorValue = discriminatorElement.getAsString();
+                {{#mappedModels}}
+                if ("{{{mappingName}}}".equals(discriminatorValue)) {
+                    try {
+                        {{{modelName}}}.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema '{{{modelName}}}'", e);
+                    }
+                }
+                {{/mappedModels}}
+            }
         }
-        String discriminatorValue = jsonObject.get("{{{propertyBaseName}}}").getAsString();
-        {{#mappedModels}}
-        if ("{{{mappingName}}}".equals(discriminatorValue)) {
-            {{{modelName}}}.validateJsonElement(jsonElement);
-            return;
-        }
-        {{/mappedModels}}
         {{/discriminator}}
         {{/useOneOfDiscriminatorLookup}}
         {{#composedSchemas}}
