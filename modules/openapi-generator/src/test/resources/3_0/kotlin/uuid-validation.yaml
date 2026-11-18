@@ -39,5 +39,13 @@ components:
           type: array
           minItems: 2
           items:
+            $ref: '#/components/schemas/ItemId'
+        customIds:
+          type: array
+          minItems: 1
+          maxItems: 4
+          items:
             type: string
-            format: uuid
+            format: custom-uuid
+            minLength: 36
+            pattern: '[0-9a-f-]+'

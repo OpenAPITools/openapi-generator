@@ -3569,7 +3569,8 @@ public class KotlinSpringServerCodegenTest {
 
     @Test
     public void uuidSkipsStringValidation_issue9256() throws IOException {
-        Map<String, File> files = generateFromContract(UUID_VALIDATION_SPEC, Map.of(INTERFACE_ONLY, true));
+        Map<String, File> files = generateFromContract(UUID_VALIDATION_SPEC, Map.of(INTERFACE_ONLY, true), Map.of(),
+                config -> config.addTypeMapping("string+custom-uuid", "UUID"));
         Path api = files.get("ItemsApi.kt").toPath();
         Path model = files.get("Item.kt").toPath();
 
@@ -3577,6 +3578,8 @@ public class KotlinSpringServerCodegenTest {
         assertFileNotContains(api, "@Size(", "@Pattern(");
         assertFileContains(model, "val id: java.util.UUID", "@get:Size(max=8)", "@get:Size(min=2)");
         assertFileNotContains(model, "@get:Size(min=36)", "@get:Pattern(");
+        assertFileContains(model, "val relatedIds: kotlin.collections.List<java.util.UUID>",
+                "val customIds: kotlin.collections.List<java.util.UUID>", "@get:Size(min=1,max=4)");
     }
 
     @Test

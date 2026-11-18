@@ -1565,7 +1565,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     private String getItemsStringBeanValidation(Schema<?> items) {
-        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items) || isJavaUuid(getTypeDeclaration(items))) {
             return "";
         }
         List<String> annotations = new ArrayList<>();
@@ -1659,9 +1659,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     private void markJavaUuid(String dataType, Map<String, Object> vendorExtensions) {
         // A UUID schema mapped to kotlin.String still supports string validation.
-        if (UUID.class.getName().equals(importMapping.getOrDefault(dataType, dataType))) {
+        if (isJavaUuid(dataType)) {
             vendorExtensions.put("x-is-java-uuid", true);
         }
+    }
+
+    private boolean isJavaUuid(String dataType) {
+        return UUID.class.getName().equals(importMapping.getOrDefault(dataType, dataType));
     }
 
     @Override
