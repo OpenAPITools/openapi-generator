@@ -52,6 +52,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm' # Or 'yarn'
+      - name: Install TypeScript globally
+        run: npm install -g typescript
       - name: mvn integration-test
         working-directory: ${{ matrix.sample }}
         run: mvn integration-test
