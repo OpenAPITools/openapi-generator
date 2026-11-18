@@ -897,7 +897,7 @@ operationId: addPet
 x-objc-operationId: CreateNewPet
 ```  
 
-### Java (Feign)
+### Java (Feign), Kotlin Spring (spring-declarative-http-interface)
 #### x-accepts
 
 A single `Accepts` value as the Feign API client needs a single value for `Accepts` header, e.g.
@@ -908,6 +908,8 @@ consumes:
 x-accepts: application/json
 ```
 
+For the `kotlin-spring` `spring-declarative-http-interface` library, `x-accepts` (a single value or a list) is rendered as `@HttpExchange(accept = [...])`. Without it, all `produces` media types of the operation are used.
+
 ### x-content-type
 
 A single "Content-Type" value as the Feign API client needs a single value for `Content-Type` header, e.g.
@@ -917,6 +919,8 @@ produces:
   - application/json
 x-content-type: application/json
 ```
+
+For the `kotlin-spring` `spring-declarative-http-interface` library, `x-content-type` is rendered as `@HttpExchange(contentType = "...")`. Without it, the first `consumes` media type of the operation is used.
 
 ### Rust-server
 

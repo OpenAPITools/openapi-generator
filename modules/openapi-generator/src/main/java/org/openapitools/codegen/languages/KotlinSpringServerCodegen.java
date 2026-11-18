@@ -1281,6 +1281,27 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     codegenOperation.operationId, library);
         }
 
+        // x-accepts may be authored as a single string or a list; templates iterate it as a list
+        if (codegenOperation.vendorExtensions.containsKey(VendorExtension.X_ACCEPTS.getName())) {
+            normalizeVendorExtensionWithStringList(codegenOperation.vendorExtensions, VendorExtension.X_ACCEPTS.getName());
+            if (((List<?>) codegenOperation.vendorExtensions.get(VendorExtension.X_ACCEPTS.getName())).isEmpty()) {
+                codegenOperation.vendorExtensions.remove(VendorExtension.X_ACCEPTS.getName());
+            }
+        }
+
+        // Like the Java clients, the declarative client sends the first consumes media type as Content-Type
+        // and all produces media types as Accept, unless the spec sets x-content-type / x-accepts
+        if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+            if (codegenOperation.hasConsumes) {
+                codegenOperation.vendorExtensions.putIfAbsent(VendorExtension.X_CONTENT_TYPE.getName(),
+                        codegenOperation.consumes.get(0).get("mediaType"));
+            }
+            if (codegenOperation.hasProduces) {
+                codegenOperation.vendorExtensions.putIfAbsent(VendorExtension.X_ACCEPTS.getName(),
+                        codegenOperation.produces.stream().map(p -> p.get("mediaType")).collect(Collectors.toList()));
+            }
+        }
+
         if (isPageableSupported()
                 && Boolean.TRUE.equals(SpringPageableScanUtils.getXSpringPaginated(operation))) {
             // add Pageable import only if x-spring-paginated explicitly used AND the library supports it

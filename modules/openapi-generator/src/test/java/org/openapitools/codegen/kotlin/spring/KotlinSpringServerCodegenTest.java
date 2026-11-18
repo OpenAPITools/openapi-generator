@@ -1436,7 +1436,8 @@ public class KotlinSpringServerCodegenTest {
                 "    @HttpExchange(\n"
                         + "        // \"/store/inventory\"\n"
                         + "        url = PATH_GET_INVENTORY,\n"
-                        + "        method = \"GET\"\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/json\"]\n"
                         + "    )\n"
                         + "    fun getInventory(\n"
                         + "    ): Mono<ResponseEntity<Map<String, kotlin.Int>>>",
@@ -1451,7 +1452,9 @@ public class KotlinSpringServerCodegenTest {
                 "    @HttpExchange(\n"
                         + "        // \"/store/order\"\n"
                         + "        url = PATH_PLACE_ORDER,\n"
-                        + "        method = \"POST\"\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json\",\n"
+                        + "        accept = [\"application/xml\", \"application/json\"]\n"
                         + "    )\n"
                         + "    fun placeOrder(\n"
                         + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
@@ -1509,7 +1512,8 @@ public class KotlinSpringServerCodegenTest {
                         + "    @HttpExchange(\n"
                         + "        // \"/store/inventory\"\n"
                         + "        url = PATH_GET_INVENTORY,\n"
-                        + "        method = \"GET\"\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/json\"]\n"
                         + "    )\n"
                         + "    fun getInventory("
         );
@@ -4555,6 +4559,63 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>", "Mono<ResponseEntity<Set<kotlin.String>>>");
         assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
                 "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
+    }
+
+    @Test(description = "declarative http interface: x-content-type and x-accepts override the consumes/produces defaults")
+    public void declarativeHttpInterfaceUsesContentTypeExtensions() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
+
+        assertFileContains(apiPath,
+                "        url = PATH_WITH_EXTENSIONS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/xml\",\n"
+                        + "        accept = [\"text/plain\", \"application/xml\"]\n"
+                        + "    )",
+                "        url = PATH_ACCEPTS_STRING,\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/xml\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "declarative http interface: contentType defaults to the first consumes and accept to all produces")
+    public void declarativeHttpInterfaceDerivesContentTypeFromConsumesAndProduces() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
+
+        assertFileContains(apiPath,
+                "        url = PATH_SINGLE_TYPES,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json\",\n"
+                        + "        accept = [\"application/json\"]\n"
+                        + "    )",
+                "        url = PATH_MULTI_CONSUMES,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/xml\"\n"
+                        + "    )",
+                "        url = PATH_MULTI_PRODUCES,\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/json\", \"application/xml\"]\n"
+                        + "    )",
+                "        url = PATH_NO_TYPES,\n        method = \"GET\"\n    )");
+    }
+
+    @Test(description = "x-accepts authored as a single string renders as a one-element produces list")
+    public void springBootSingleContentTypesNormalizesStringXAccepts() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                Map.of("singleContentTypes", true));
+
+        assertFileContains(files.get("CtApiController.kt").toPath(),
+                "value = [PATH_ACCEPTS_STRING],\n        produces = [\"application/xml\"]");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
