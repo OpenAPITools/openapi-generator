@@ -671,6 +671,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (anyOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
+                        demoteInlineEnum(property);
                         patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
@@ -682,6 +683,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
                 if (oneOf != null) {
                     removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
+                        demoteInlineEnum(property);
                         patchProperty(enumRefs, model, property);
                         property.name = patchPropertyName(model, property, camelize(property.baseType), composedPropertyNames);
                         property.isNullable = true;
@@ -895,6 +897,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen {
         }
 
         return name;
+    }
+
+    /**
+     * An inline enum used directly as a oneOf/anyOf member (e.g. {@code oneOf: [{type: number}, {type: string, enum: [A, B]}]})
+     * does not get an enum type generated for it, so referencing its enum name in the templates produces code that
+     * does not compile. Treat such a member as its underlying type instead.
+     */
+    private void demoteInlineEnum(CodegenProperty property) {
+        if (property.isEnum && !property.isEnumRef && !property.isContainer) {
+            property.isEnum = false;
+            property.isInnerEnum = false;
+            property.datatypeWithEnum = property.dataType;
+        }
     }
 
     private void patchPropertyVendorExtensions(CodegenProperty property) {
