@@ -6665,4 +6665,35 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("src/main/java/org/openapitools/client/ApiCallback.java")).content()
                 .doesNotContain("import java.io.IOException;");
     }
+
+    @Test(description = "test useOneOfDiscriminatorLookup in validateJsonElement for okhttp-gson")
+        public void testOneOfDiscriminatorLookupValidateJsonElement() {
+            Map<String, Object> additionalProperties = new HashMap<>();
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, true);
+            additionalProperties.put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
+
+            Map<String, File> files = generateFromContract(
+                    "src/test/resources/3_0/java/oneof-discriminator-lookup.yaml",
+                    JavaClientCodegen.OKHTTP_GSON,
+                    additionalProperties
+            );
+
+            File petFile = files.get("Pet.java");
+            assertNotNull(petFile);
+
+            // Verify validateJsonElement contains discriminator check before the oneOf loop
+            JavaFileAssert.assertThat(petFile).fileContains(
+                    "JsonObject jsonObject = jsonElement.getAsJsonObject();",
+                    "if (jsonObject.get(\"petType\") == null) {",
+                    "String discriminatorValue = jsonObject.get(\"petType\").getAsString();",
+                    "if (\"cat\".equals(discriminatorValue)) {",
+                    "    Cat.validateJsonElement(jsonElement);",
+                    "    return;",
+                    "}",
+                    "if (\"dog\".equals(discriminatorValue)) {",
+                    "    Dog.validateJsonElement(jsonElement);",
+                    "    return;",
+                    "}"
+            );
+        }
 }
