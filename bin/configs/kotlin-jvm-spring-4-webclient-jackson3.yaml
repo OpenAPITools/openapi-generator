@@ -1,0 +1,10 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-jvm-spring-4-webclient-jackson3
+library: jvm-spring-webclient
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  artifactId: kotlin-petstore-spring4-webclient-jackson3
+  enumUnknownDefaultCase: true
+  serializationLibrary: jackson
+  useSpringBoot4: true
