@@ -529,7 +529,7 @@ public interface FakeApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<Void> testInlineAdditionalProperties(
-        @Parameter(name = "request_body", description = "request body", required = true) @RequestBody Map<String, String> requestBody
+        @Parameter(name = "request_body", description = "request body", required = true) @Valid @RequestBody Map<String, String> requestBody
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
