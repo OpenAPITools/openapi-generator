@@ -18,7 +18,7 @@
 package org.openapitools.codegen.online.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +35,7 @@ public class GeneratorInput {
     //FILTER=operationId:updatePet
     @Getter private List<String> openapiNormalizer;
 
-    @ApiModelProperty(example = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml")
+    @Schema(example = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml")
     public String getOpenAPIUrl() {
         return openAPIUrl;
     }
