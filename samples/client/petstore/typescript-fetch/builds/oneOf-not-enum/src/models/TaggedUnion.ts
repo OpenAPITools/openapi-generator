@@ -55,8 +55,8 @@ export function TaggedUnionFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {} as any;
 }
 
-export function TaggedUnionToJSON(json: any): any {
-    return TaggedUnionToJSONTyped(json, false);
+export function TaggedUnionToJSON(value?: TaggedUnion | null): any {
+    return TaggedUnionToJSONTyped(value, false);
 }
 
 export function TaggedUnionToJSONTyped(value?: TaggedUnion | null, ignoreDiscriminator: boolean = false): any {

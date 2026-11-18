@@ -57,8 +57,8 @@ export function EventFromJSONTyped(json: any, ignoreDiscriminator: boolean): Eve
     };
 }
 
-export function EventToJSON(json: any): Event {
-    return EventToJSONTyped(json, false);
+export function EventToJSON(value?: Event | null): any {
+    return EventToJSONTyped(value, false);
 }
 
 export function EventToJSONTyped(value?: Event | null, ignoreDiscriminator: boolean = false): any {

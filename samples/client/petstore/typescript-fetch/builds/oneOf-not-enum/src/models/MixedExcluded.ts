@@ -47,8 +47,8 @@ export function MixedExcludedFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function MixedExcludedToJSON(json: any): MixedExcluded {
-    return MixedExcludedToJSONTyped(json, false);
+export function MixedExcludedToJSON(value?: MixedExcluded | null): any {
+    return MixedExcludedToJSONTyped(value, false);
 }
 
 export function MixedExcludedToJSONTyped(value?: MixedExcluded | null, ignoreDiscriminator: boolean = false): any {

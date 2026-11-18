@@ -51,8 +51,8 @@ export function ReportFromJSONTyped(json: any, ignoreDiscriminator: boolean): Re
     };
 }
 
-export function ReportToJSON(json: any): Report {
-    return ReportToJSONTyped(json, false);
+export function ReportToJSON(value?: Report | null): any {
+    return ReportToJSONTyped(value, false);
 }
 
 export function ReportToJSONTyped(value?: Report | null, ignoreDiscriminator: boolean = false): any {

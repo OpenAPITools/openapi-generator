@@ -35,8 +35,8 @@ export function HolidaysFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {} as any;
 }
 
-export function HolidaysToJSON(json: any): any {
-    return HolidaysToJSONTyped(json, false);
+export function HolidaysToJSON(value?: Holidays | null): any {
+    return HolidaysToJSONTyped(value, false);
 }
 
 export function HolidaysToJSONTyped(value?: Holidays | null, ignoreDiscriminator: boolean = false): any {
