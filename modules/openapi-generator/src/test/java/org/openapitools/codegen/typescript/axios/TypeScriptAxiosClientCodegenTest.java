@@ -430,6 +430,13 @@ public class TypeScriptAxiosClientCodegenTest {
         TestUtils.assertFileContains(models.resolve("required-with-any-of.ts"),
                 "export interface RequiredWithAnyOf {",
                 "'message': string;");
+        TestUtils.assertFileContains(models.resolve("one-of-with-any-of.ts"), "export interface OneOfWithAnyOf {");
+        // models in api.ts: the schemas must be present as interfaces, not only absent as types
+        TestUtils.assertFileContains(generateAnyOfUnionSample(true, false).resolve("api.ts"),
+                "export interface AllOfWithAnyOf {",
+                "export interface OneOfWithAnyOf {",
+                "export interface DictionaryWithAnyOf {",
+                "export interface RequiredWithAnyOf {");
     }
 
     private Path generateAnyOfUnionSample(Boolean generateAnyOfAsUnion, boolean separateModelsAndApi) throws Exception {
