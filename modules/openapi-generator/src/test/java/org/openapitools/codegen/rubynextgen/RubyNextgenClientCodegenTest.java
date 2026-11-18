@@ -556,4 +556,28 @@ public class RubyNextgenClientCodegenTest {
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/stables/ponies.rb"), "class Stables::Ponies");
     }
+
+    @Test
+    public void testPatternValidationGuardsNonStringValue() throws Exception {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        ClientOptInput input =
+                new CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec(
+                                "src/test/resources/3_0/ruby-nextgen/pattern-validation.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new DefaultGenerator(false).opts(input).generate();
+
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/validations.rb"),
+                "out << \"\\\"#{name}\\\" does not match #{rules[:pattern]}\" if"
+                    + " rules[:pattern] && (!value.is_a?(String) || value !~"
+                    + " rules[:pattern])");
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/models/pet.rb"), "pattern: /^[a-z]+$/");
+    }
 }
