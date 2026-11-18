@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Web;
 
 namespace Org.OpenAPITools.Client
 {
@@ -36,18 +37,20 @@ namespace Org.OpenAPITools.Client
 
             public void AddQueryParameters(Multimap<string, string> parameters)
             {
+                var httpValues = HttpUtility.ParseQueryString(string.Empty);
                 foreach (var parameter in parameters)
                 {
                     foreach (var value in parameter.Value)
                     {
-                        _query = _query + parameter.Key + "=" + Uri.EscapeDataString(value) + "&";
+                        httpValues.Add(parameter.Key, value);
                     }
                 }
+                _query = httpValues.ToString().Replace("+", "%20").Replace("%24", "$");
             }
 
             public string GetFullUri()
             {
-                return _baseUrl + _path + _query.Substring(0, _query.Length - 1);
+                return new UriBuilder(_baseUrl + _path) { Query = _query }.Uri.AbsoluteUri;
             }
     }
 }
