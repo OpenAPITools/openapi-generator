@@ -138,19 +138,15 @@ namespace Org.OpenAPITools.Client
                 }
             }
 
-            var httpValues = HttpUtility.ParseQueryString(string.Empty);
+            // Build the pairs directly: HttpUtility.ParseQueryString is case-insensitive and would merge keys such as "tag" and "Tag".
+            var queryPairs = new List<string>();
             foreach (var parameter in requestOptions.QueryParameters)
             {
-                if (parameter.Value.Count > 1)
-                {
-                    foreach (var value in parameter.Value)
-                        httpValues.Add(parameter.Key + "[]", value);
-                }
-                else
-                    httpValues.Add(parameter.Key, parameter.Value[0]);
+                foreach (var value in parameter.Value)
+                    queryPairs.Add(HttpUtility.UrlEncode(parameter.Key) + "=" + HttpUtility.UrlEncode(value));
             }
             var uriBuilder = new UriBuilder(string.Concat(basePath, path));
-            uriBuilder.Query = httpValues.ToString().Replace("+", "%20").Replace("%24", "$");
+            uriBuilder.Query = string.Join("&", queryPairs).Replace("+", "%20").Replace("%24", "$");
 
             var dateTime = DateTime.Now;
             string Digest = string.Empty;

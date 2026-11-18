@@ -37,15 +37,16 @@ namespace Org.OpenAPITools.Client
 
             public void AddQueryParameters(Multimap<string, string> parameters)
             {
-                var httpValues = HttpUtility.ParseQueryString(string.Empty);
+                // Build the pairs directly: HttpUtility.ParseQueryString is case-insensitive and would merge keys such as "tag" and "Tag".
+                var queryPairs = new List<string>();
                 foreach (var parameter in parameters)
                 {
                     foreach (var value in parameter.Value)
                     {
-                        httpValues.Add(parameter.Key, value);
+                        queryPairs.Add(HttpUtility.UrlEncode(parameter.Key) + "=" + HttpUtility.UrlEncode(value));
                     }
                 }
-                _query = httpValues.ToString().Replace("+", "%20").Replace("%24", "$");
+                _query = string.Join("&", queryPairs).Replace("+", "%20").Replace("%24", "$");
             }
 
             public string GetFullUri()
