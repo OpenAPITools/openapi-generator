@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { GetSettings200ResponseMeta } from './api';
+import { GetSettings200ResponseMeta } from 'any-of-union';
 
 const instance: GetSettings200ResponseMeta = {
     version,

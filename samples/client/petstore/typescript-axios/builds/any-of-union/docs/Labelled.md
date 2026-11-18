@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Labelled } from './api';
+import { Labelled } from 'any-of-union';
 
 const instance: Labelled = {
     label,

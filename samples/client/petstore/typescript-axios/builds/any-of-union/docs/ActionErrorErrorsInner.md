@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ActionErrorErrorsInner } from './api';
+import { ActionErrorErrorsInner } from 'any-of-union';
 
 const instance: ActionErrorErrorsInner = {
     message,

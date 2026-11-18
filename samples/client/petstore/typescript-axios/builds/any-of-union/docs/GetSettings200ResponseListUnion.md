@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { GetSettings200ResponseListUnion } from './api';
+import { GetSettings200ResponseListUnion } from 'any-of-union';
 
 const instance: GetSettings200ResponseListUnion = {
 };

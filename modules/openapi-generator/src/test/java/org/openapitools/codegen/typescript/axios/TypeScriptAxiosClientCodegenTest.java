@@ -405,6 +405,33 @@ public class TypeScriptAxiosClientCodegenTest {
         TestUtils.assertFileContains(generateAnyOfUnionSample(null, false).resolve("api.ts"), "export interface Pet {");
     }
 
+    @Test(description = "generateAnyOfAsUnion keeps an anyOf combined with other keywords as an interface")
+    public void testAnyOfCombinedWithOtherKeywordsStaysAnInterface() throws Exception {
+        for (boolean separateModelsAndApi : new boolean[]{true, false}) {
+            final Path output = generateAnyOfUnionSample(true, separateModelsAndApi);
+            final Path[] files = separateModelsAndApi
+                    ? new Path[]{output.resolve("models/all-of-with-any-of.ts"), output.resolve("models/one-of-with-any-of.ts"),
+                    output.resolve("models/dictionary-with-any-of.ts"), output.resolve("models/required-with-any-of.ts")}
+                    : new Path[]{output.resolve("api.ts")};
+            for (Path file : files) {
+                // allOf or oneOf members would be dropped, and so would additionalProperties and required
+                TestUtils.assertFileNotContains(file,
+                        "export type AllOfWithAnyOf",
+                        "export type OneOfWithAnyOf",
+                        "export type DictionaryWithAnyOf",
+                        "export type RequiredWithAnyOf");
+            }
+        }
+        final Path models = generateAnyOfUnionSample(true, true).resolve("models");
+        TestUtils.assertFileContains(models.resolve("all-of-with-any-of.ts"), "export interface AllOfWithAnyOf {");
+        TestUtils.assertFileContains(models.resolve("dictionary-with-any-of.ts"),
+                "export interface DictionaryWithAnyOf {",
+                "[key: string]: string | any;");
+        TestUtils.assertFileContains(models.resolve("required-with-any-of.ts"),
+                "export interface RequiredWithAnyOf {",
+                "'message': string;");
+    }
+
     private Path generateAnyOfUnionSample(Boolean generateAnyOfAsUnion, boolean separateModelsAndApi) throws Exception {
         final File output = Files.createTempDirectory("typescript_axios_any_of_union_").toFile();
         output.deleteOnExit();

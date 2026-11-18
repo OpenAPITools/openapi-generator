@@ -1,7 +1,9 @@
 export * from './action-error';
 export * from './action-error-errors-inner';
+export * from './all-of-with-any-of';
 export * from './cat';
 export * from './detailed';
+export * from './dictionary-with-any-of';
 export * from './dog';
 export * from './get-settings200-response';
 export * from './get-settings200-response-list-union';
@@ -15,5 +17,7 @@ export * from './list-items200-response-items-inner';
 export * from './list-items422-response';
 export * from './message';
 export * from './mixed-value';
+export * from './one-of-with-any-of';
 export * from './pet';
+export * from './required-with-any-of';
 export * from './summary';

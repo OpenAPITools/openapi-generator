@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Message } from './api';
+import { Message } from 'any-of-union';
 
 const instance: Message = {
     message,

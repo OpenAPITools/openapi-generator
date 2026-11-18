@@ -7,3 +7,5 @@ additionalProperties:
   modelPackage: models
   withSeparateModelsAndApi: true
   generateAnyOfAsUnion: true
+  npmName: any-of-union
+  npmVersion: 1.0.0

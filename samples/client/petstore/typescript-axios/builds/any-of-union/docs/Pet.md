@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Pet } from './api';
+import { Pet } from 'any-of-union';
 
 const instance: Pet = {
     petType,

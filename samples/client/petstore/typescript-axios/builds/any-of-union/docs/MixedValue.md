@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { MixedValue } from './api';
+import { MixedValue } from 'any-of-union';
 
 const instance: MixedValue = {
 };

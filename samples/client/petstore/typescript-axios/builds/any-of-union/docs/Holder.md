@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Holder } from './api';
+import { Holder } from 'any-of-union';
 
 const instance: Holder = {
     value,

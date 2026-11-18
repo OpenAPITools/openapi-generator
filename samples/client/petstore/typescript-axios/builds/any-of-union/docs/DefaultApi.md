@@ -17,7 +17,7 @@ All URIs are relative to *http://localhost*
 import {
     DefaultApi,
     Configuration
-} from './api';
+} from 'any-of-union';
 
 const configuration = new Configuration();
 const apiInstance = new DefaultApi(configuration);
@@ -60,7 +60,7 @@ No authorization required
 import {
     DefaultApi,
     Configuration
-} from './api';
+} from 'any-of-union';
 
 const configuration = new Configuration();
 const apiInstance = new DefaultApi(configuration);

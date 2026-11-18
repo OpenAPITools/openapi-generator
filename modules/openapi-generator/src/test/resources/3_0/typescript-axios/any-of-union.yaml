@@ -146,3 +146,31 @@ components:
         mapping:
           cat: '#/components/schemas/Cat'
           dog: '#/components/schemas/Dog'
+    # The schemas below combine anyOf with other keywords. They stay interfaces, as a union of the
+    # anyOf members would drop the other keywords.
+    AllOfWithAnyOf:
+      allOf:
+        - $ref: '#/components/schemas/Summary'
+      anyOf:
+        - $ref: '#/components/schemas/Message'
+        - $ref: '#/components/schemas/Known'
+    OneOfWithAnyOf:
+      oneOf:
+        - $ref: '#/components/schemas/Summary'
+        - $ref: '#/components/schemas/Detailed'
+      anyOf:
+        - $ref: '#/components/schemas/Message'
+        - $ref: '#/components/schemas/Known'
+    DictionaryWithAnyOf:
+      type: object
+      additionalProperties:
+        type: string
+      anyOf:
+        - $ref: '#/components/schemas/Message'
+        - $ref: '#/components/schemas/Known'
+    RequiredWithAnyOf:
+      type: object
+      required: [message]
+      anyOf:
+        - $ref: '#/components/schemas/Message'
+        - $ref: '#/components/schemas/Known'

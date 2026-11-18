@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ListItems200Response } from './api';
+import { ListItems200Response } from 'any-of-union';
 
 const instance: ListItems200Response = {
     items,

@@ -32,11 +32,9 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -59,7 +57,9 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DEFAULT_AXIOS_VERSION = "^1.18.0";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
     public static final String GENERATE_ANY_OF_AS_UNION = "generateAnyOfAsUnion";
-    public static final String GENERATE_ANY_OF_AS_UNION_DESC = "Generate anyOf schemas as TypeScript union types instead of one interface merging the properties of all members. An anyOf schema that also declares its own properties stays an interface.";
+    public static final String GENERATE_ANY_OF_AS_UNION_DESC = "Generate anyOf schemas as TypeScript union types instead of one interface merging the properties of all members. An anyOf schema that also declares its own properties, required, or additionalProperties, or that is combined with allOf or oneOf, stays an interface.";
+    // Marks the models that are rendered as a union of their anyOf members. It is set in fromModel, where the schema is still available.
+    private static final String X_ANY_OF_AS_UNION = "x-typescript-axios-any-of-as-union";
 
     @Getter @Setter
     protected String npmRepository = null;
@@ -71,9 +71,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean withAWSV4Signature = false;
     @Getter @Setter
     protected boolean generateAnyOfAsUnion = false;
-
-    // Names of the anyOf models that declare properties next to their members. They stay interfaces.
-    private final Set<String> anyOfModelsWithOwnProperties = new HashSet<>();
 
     private String tsModelPackage = "";
 
@@ -255,11 +252,8 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         for (ModelsMap entry : result.values()) {
             for (ModelMap model : entry.getModels()) {
                 CodegenModel codegenModel = model.getModel();
-                if (generateAnyOfAsUnion
-                        && !codegenModel.anyOf.isEmpty()
-                        && codegenModel.oneOf.isEmpty()
-                        && codegenModel.allOf.isEmpty()
-                        && !anyOfModelsWithOwnProperties.contains(codegenModel.name)) {
+                if (Boolean.TRUE.equals(codegenModel.vendorExtensions.get(X_ANY_OF_AS_UNION))
+                        && !codegenModel.anyOf.isEmpty()) {
                     // The oneOf templates render a union of the members, which is what an anyOf describes as a type.
                     codegenModel.oneOf.addAll(codegenModel.anyOf);
                 }
@@ -274,12 +268,26 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public CodegenModel fromModel(String name, Schema schema) {
         CodegenModel codegenModel = super.fromModel(name, schema);
-        // The union template renders no properties, so an anyOf declaring its own properties stays an interface.
-        if (schema != null && schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()
-                && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            anyOfModelsWithOwnProperties.add(codegenModel.name);
+        if (generateAnyOfAsUnion && isPlainAnyOf(schema)) {
+            codegenModel.vendorExtensions.put(X_ANY_OF_AS_UNION, true);
         }
         return codegenModel;
+    }
+
+    /**
+     * Whether the schema is only a list of anyOf members. The union template renders no
+     * properties, so an anyOf that declares properties, required or additionalProperties next
+     * to its members stays an interface. The same holds when it is combined with allOf or oneOf,
+     * as those members are not part of the union and would be dropped.
+     */
+    private static boolean isPlainAnyOf(Schema schema) {
+        return schema != null
+                && schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()
+                && (schema.getAllOf() == null || schema.getAllOf().isEmpty())
+                && (schema.getOneOf() == null || schema.getOneOf().isEmpty())
+                && (schema.getProperties() == null || schema.getProperties().isEmpty())
+                && (schema.getRequired() == null || schema.getRequired().isEmpty())
+                && schema.getAdditionalProperties() == null;
     }
 
     @Override

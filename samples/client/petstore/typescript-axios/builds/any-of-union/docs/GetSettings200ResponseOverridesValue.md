@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { GetSettings200ResponseOverridesValue } from './api';
+import { GetSettings200ResponseOverridesValue } from 'any-of-union';
 
 const instance: GetSettings200ResponseOverridesValue = {
 };

@@ -1,5 +1,6 @@
 .gitignore
 .npmignore
+README.md
 api.ts
 api/default-api.ts
 base.ts
@@ -7,9 +8,11 @@ common.ts
 configuration.ts
 docs/ActionError.md
 docs/ActionErrorErrorsInner.md
+docs/AllOfWithAnyOf.md
 docs/Cat.md
 docs/DefaultApi.md
 docs/Detailed.md
+docs/DictionaryWithAnyOf.md
 docs/Dog.md
 docs/GetSettings200Response.md
 docs/GetSettings200ResponseListUnion.md
@@ -23,14 +26,18 @@ docs/ListItems200ResponseItemsInner.md
 docs/ListItems422Response.md
 docs/Message.md
 docs/MixedValue.md
+docs/OneOfWithAnyOf.md
 docs/Pet.md
+docs/RequiredWithAnyOf.md
 docs/Summary.md
 git_push.sh
 index.ts
 models/action-error-errors-inner.ts
 models/action-error.ts
+models/all-of-with-any-of.ts
 models/cat.ts
 models/detailed.ts
+models/dictionary-with-any-of.ts
 models/dog.ts
 models/get-settings200-response-list-union.ts
 models/get-settings200-response-meta.ts
@@ -45,5 +52,9 @@ models/list-items200-response.ts
 models/list-items422-response.ts
 models/message.ts
 models/mixed-value.ts
+models/one-of-with-any-of.ts
 models/pet.ts
+models/required-with-any-of.ts
 models/summary.ts
+package.json
+tsconfig.json

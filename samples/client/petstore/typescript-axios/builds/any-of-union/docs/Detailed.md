@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Detailed } from './api';
+import { Detailed } from 'any-of-union';
 
 const instance: Detailed = {
     id,

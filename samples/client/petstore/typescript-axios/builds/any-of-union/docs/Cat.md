@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Cat } from './api';
+import { Cat } from 'any-of-union';
 
 const instance: Cat = {
     petType,

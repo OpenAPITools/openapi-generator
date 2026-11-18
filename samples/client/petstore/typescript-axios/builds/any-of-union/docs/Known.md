@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Known } from './api';
+import { Known } from 'any-of-union';
 
 const instance: Known = {
     version,

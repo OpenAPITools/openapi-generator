@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Summary } from './api';
+import { Summary } from 'any-of-union';
 
 const instance: Summary = {
     id,

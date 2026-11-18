@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ActionError } from './api';
+import { ActionError } from 'any-of-union';
 
 const instance: ActionError = {
     action,

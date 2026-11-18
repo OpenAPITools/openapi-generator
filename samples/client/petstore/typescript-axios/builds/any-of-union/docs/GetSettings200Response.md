@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { GetSettings200Response } from './api';
+import { GetSettings200Response } from 'any-of-union';
 
 const instance: GetSettings200Response = {
     meta,

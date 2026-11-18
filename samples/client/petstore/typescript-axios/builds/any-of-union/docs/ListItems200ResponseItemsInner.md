@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { ListItems200ResponseItemsInner } from './api';
+import { ListItems200ResponseItemsInner } from 'any-of-union';
 
 const instance: ListItems200ResponseItemsInner = {
     id,
