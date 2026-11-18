@@ -1339,7 +1339,7 @@ public class KotlinClientCodegenModelTest {
                 () -> generator.opts(configurator.toClientOptInput()).generate());
     }
 
-    @Test(description = "useJackson3 is only wired up for jvm-okhttp4 and jvm-spring-restclient so far")
+    @Test(description = "useJackson3 is only wired up for jvm-okhttp4, jvm-spring-restclient and jvm-spring-webclient so far")
     public void shouldRefuseJackson3WithUnsupportedLibrary() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -1523,6 +1523,84 @@ public class KotlinClientCodegenModelTest {
         DefaultGenerator generator = new DefaultGenerator();
         Assert.assertThrows(RuntimeException.class,
                 () -> generator.opts(configurator.toClientOptInput()).generate());
+    }
+
+    private File generateWebClient(Map<String, Object> properties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-spring-webclient")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        properties.forEach(configurator::addAdditionalProperty);
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
+    }
+
+    @Test(description = "useSpringBoot4 auto-enables useJackson3 for jvm-spring-webclient")
+    public void shouldAutoEnableJackson3WithSpringBoot4OnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(KotlinClientCodegen.USE_SPRING_BOOT4, true));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder",
+                "jacksonJsonEncoder(JacksonJsonEncoder(", "jacksonJsonDecoder(JacksonJsonDecoder(");
+        TestUtils.assertFileNotContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import tools.jackson");
+        TestUtils.assertFileNotContains(serializerPath, "com.fasterxml.jackson.databind");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "spring_boot_version = \"4.1.0\"",
+                "tools.jackson.module:jackson-module-kotlin", "JavaLanguageVersion.of(17)");
+        TestUtils.assertFileNotContains(buildGradlePath, "com.fasterxml.jackson.module:jackson-module-kotlin");
+    }
+
+    @Test(description = "an explicit useJackson3=false is honored with useSpringBoot4 on jvm-spring-webclient")
+    public void shouldRespectExplicitJackson3FalseWithSpringBoot4OnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(
+                KotlinClientCodegen.USE_SPRING_BOOT4, true,
+                KotlinClientCodegen.USE_JACKSON_3, false));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import com.fasterxml.jackson.databind.ObjectMapper");
+        TestUtils.assertFileNotContains(serializerPath, "tools.jackson");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "com.fasterxml.jackson.module:jackson-module-kotlin",
+                "JavaLanguageVersion.of(17)");
+        TestUtils.assertFileNotContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
+    }
+
+    @Test(description = "useJackson3=true without useSpringBoot4 must be refused on jvm-spring-webclient")
+    public void shouldRefuseJackson3WithoutSpringBoot4OnWebClient() {
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generateWebClient(Map.of(KotlinClientCodegen.USE_JACKSON_3, true)));
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generateWebClient(Map.of(
+                        KotlinClientCodegen.USE_SPRING_BOOT3, true,
+                        KotlinClientCodegen.USE_JACKSON_3, true)));
+    }
+
+    @Test(description = "jvm-spring-webclient with useSpringBoot3 keeps generating Jackson 2 code")
+    public void shouldKeepJackson2WithSpringBoot3OnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(KotlinClientCodegen.USE_SPRING_BOOT3, true));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "JavaLanguageVersion.of(17)");
+        TestUtils.assertFileNotContains(buildGradlePath, "tools.jackson");
     }
 
     private static class ModelNameTest {
