@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -950,6 +951,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
 
+        if (isLibrary(FEIGN) && jackson && objs.getOperations() != null) {
+            for (CodegenOperation operation : objs.getOperations().getOperation()) {
+                if (operation.allParams.stream().anyMatch(p -> p.isHeaderParam && p.headerIsJsonMimeType)) {
+                    additionalProperties.put("hasFeignJsonHeader", true);
+                    if (operation.allParams.stream().anyMatch(p -> p.isHeaderParam && p.headerIsJsonMimeType && p.isArray)) {
+                        additionalProperties.put("hasFeignJsonHeaderArrays", true);
+                    }
+                }
+            }
+        }
+
         if (this.getSingleRequestParameter() && (isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(OKHTTP_GSON) || isLibrary(NATIVE))) {
             // loop through operations to set x-group-parameters extension to true if useSingleRequestParameter option is enabled
             OperationMap operations = objs.getOperations();
@@ -1142,6 +1154,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
         return false;
+    }
+
+    @Override
+    public void processOpenAPI(OpenAPI openAPI) {
+        super.processOpenAPI(openAPI);
+        additionalProperties.remove("hasFeignJsonHeader");
+        additionalProperties.remove("hasFeignJsonHeaderArrays");
     }
 
     @Override

@@ -53,7 +53,7 @@ public interface {{classname}} extends ApiClient.Api {
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
     {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{#jackson}}{{#headerIsJsonMimeType}}@Param(value="{{paramName}}", expander=ApiClient.JsonHeaderParamExpander.class) {{/headerIsJsonMimeType}}{{/jackson}}{{^headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{^jackson}}{{#headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{/jackson}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
   /**
    * {{summary}}
@@ -83,7 +83,7 @@ public interface {{classname}} extends ApiClient.Api {
     "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
     {{/-last}}{{/headerParams}}
   })
-  ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+  ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isBodyParam}}{{^isFormParam}}{{#jackson}}{{#headerIsJsonMimeType}}@Param(value="{{paramName}}", expander=ApiClient.JsonHeaderParamExpander.class) {{/headerIsJsonMimeType}}{{/jackson}}{{^headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{^jackson}}{{#headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{/jackson}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 
 
   {{#hasQueryParams}}
@@ -128,7 +128,7 @@ public interface {{classname}} extends ApiClient.Api {
       "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
   })
-  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap {{operationIdCamelCase}}QueryParams queryParams);
+  {{#returnType}}{{{.}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}}({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{#jackson}}{{#headerIsJsonMimeType}}@Param(value="{{paramName}}", expander=ApiClient.JsonHeaderParamExpander.class) {{/headerIsJsonMimeType}}{{/jackson}}{{^headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{^jackson}}{{#headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{/jackson}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap {{operationIdCamelCase}}QueryParams queryParams);
 
   /**
   * {{summary}}
@@ -168,7 +168,7 @@ public interface {{classname}} extends ApiClient.Api {
           "{{baseName}}: {{=<% %>=}}{<%paramName%>}<%={{ }}=%>"{{^-last}},
       {{/-last}}{{/headerParams}}
       })
-   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap {{operationIdCamelCase}}QueryParams queryParams);
+   ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{nickname}}WithHttpInfo({{#allParams}}{{^isQueryParam}}{{^isBodyParam}}{{^isFormParam}}{{#jackson}}{{#headerIsJsonMimeType}}@Param(value="{{paramName}}", expander=ApiClient.JsonHeaderParamExpander.class) {{/headerIsJsonMimeType}}{{/jackson}}{{^headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{^jackson}}{{#headerIsJsonMimeType}}{{^legacyDates}}@Param("{{paramName}}") {{/legacyDates}}{{#legacyDates}}@Param(value="{{paramName}}", expander=ParamExpander.class) {{/legacyDates}}{{/headerIsJsonMimeType}}{{/jackson}}{{/isFormParam}}{{#isFormParam}}@Param("{{baseName}}") {{/isFormParam}}{{/isBodyParam}}{{>nullable_var_annotations}} {{{dataType}}} {{paramName}}, {{/isQueryParam}}{{/allParams}}@QueryMap {{operationIdCamelCase}}QueryParams queryParams);
 
 
    /**
