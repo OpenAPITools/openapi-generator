@@ -9,8 +9,10 @@ import type { IExecuteFunctions, IDataObject, IHttpRequestOptions } from 'n8n-wo
  * 
  * This spec declares more than one security scheme, so more than one credential type was
  * generated (see credentials/). Each call site passes the credential name appropriate for
- * that operation's own declared security requirement (see node.mustache's execute()), falling
- * back to "apiKeyCredentials" when an operation declares no security of its own.
+ * that operation's own security requirement (see node.mustache's execute()) - its own declared
+ * scheme, or the spec's global default when the operation declares none of its own. An
+ * operation with no security requirement at all, locally or globally, passes an empty
+ * credential name here, and this function sends the request unauthenticated.
  * 
  * 
  * 

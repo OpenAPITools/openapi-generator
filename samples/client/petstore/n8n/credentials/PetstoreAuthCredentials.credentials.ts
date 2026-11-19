@@ -6,9 +6,11 @@ import type {
 
 /**
  * Generated from one of the OpenAPI spec's declared security schemes. Each declared scheme gets
- * its own credential class/file this way (see data-model.md "CredentialDefinition"); the generated
- * node's execute() still only applies the single highest-priority one to outgoing requests by
- * default when a spec declares more than one - see the generated README's "Known limitations".
+ * its own credential class/file this way (see data-model.md "CredentialDefinition"); the
+ * generated node's execute() applies whichever of these matches each individual operation's own
+ * security requirement (its own declared scheme, or the spec's global default when the
+ * operation declares none of its own) - see GenericFunctions.ts's apiRequest. An operation with
+ * no security requirement at all, locally or globally, sends an unauthenticated request.
  */
 export class PetstoreAuthCredentials implements ICredentialType {
 	name = 'petstoreAuthCredentials';

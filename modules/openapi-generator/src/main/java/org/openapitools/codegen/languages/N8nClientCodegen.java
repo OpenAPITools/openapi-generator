@@ -295,9 +295,13 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * Also stamps each individual {@code CodegenOperation} with {@code
      * vendorExtensions.n8nOperationCredentialName} (T052 / spec.md Edge Cases #4, 2nd clause:
      * "let the generated node reference the one appropriate per operation"): looked up from
-     * that operation's own, already-framework-filtered {@code authMethods} when it declares a
-     * security requirement of its own, falling back to the single highest-priority generated
-     * credential otherwise. This has to happen here, in this hook, rather than in {@link
+     * that operation's own, already-framework-filtered {@code authMethods}, which the
+     * framework itself already resolves correctly - the operation's own declared scheme, or
+     * the spec's global default when it declares none of its own, or {@code null} when neither
+     * applies (including an explicit {@code security: []} opt-out). An operation with no
+     * resolvable scheme gets an empty credential name (T056 - see {@link
+     * #applyPerOperationCredentialNames}'s own Javadoc for why no fallback is applied). This
+     * has to happen here, in this hook, rather than in {@link
      * #postProcessOperationsWithModels} - at that point {@code op.authMethods} has not been set
      * yet; {@code DefaultGenerator} only calls {@code addAuthenticationSwitches(operation)}
      * afterward. By the time this hook runs (during {@code buildSupportFileBundle}, after
