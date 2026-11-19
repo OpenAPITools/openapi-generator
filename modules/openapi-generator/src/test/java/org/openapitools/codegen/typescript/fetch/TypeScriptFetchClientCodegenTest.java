@@ -1534,6 +1534,11 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(runtime, "export function parseDate(");
         TestUtils.assertFileNotContains(runtime, "export function serializeDate(");
         TestUtils.assertFileNotContains(runtime, "return value.toISOString().substring(0, 10);");
+
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().putAll(properties);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get("isDateAnchorUtc"), Boolean.FALSE);
     }
 
     @Test(description = "Verify format: date is serialized as a calendar date in every parameter location, not as a date-time")
