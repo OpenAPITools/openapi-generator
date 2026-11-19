@@ -745,6 +745,74 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testNormalize31MultipleTypes() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_25756.yaml");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Map.of("NORMALIZE_31SPEC", "true"));
+        openAPINormalizer.normalize();
+
+        Map<String, Schema> companyProperties = openAPI.getComponents().getSchemas().get("Company").getProperties();
+
+        Schema tradingNames = companyProperties.get("tradingNames");
+        assertNull(tradingNames.getTypes());
+        assertEquals(tradingNames.getAnyOf().size(), 2);
+        assertNull(tradingNames.getItems());
+        ArraySchema tradingNamesArray = null;
+        Schema tradingNamesString = null;
+        for (Object subSchema : tradingNames.getAnyOf()) {
+            if (subSchema instanceof ArraySchema) {
+                tradingNamesArray = (ArraySchema) subSchema;
+            } else if (subSchema instanceof StringSchema) {
+                tradingNamesString = (StringSchema) subSchema;
+            }
+        }
+        assertNotNull(tradingNamesArray);
+        assertNotNull(tradingNamesString);
+        assertEquals(tradingNamesArray.getDescription(), "A list for most countries, a single string for some.");
+        assertEquals(tradingNamesArray.getItems().getType(), "string");
+
+        Schema objOrArray = companyProperties.get("objOrArray");
+        assertNull(objOrArray.getTypes());
+        assertEquals(objOrArray.getAnyOf().size(), 2);
+        assertNull(objOrArray.getItems());
+        ObjectSchema objOrArrayObject = null;
+        ArraySchema objOrArrayArray = null;
+        for (Object subSchema : objOrArray.getAnyOf()) {
+            if (subSchema instanceof ObjectSchema) {
+                objOrArrayObject = (ObjectSchema) subSchema;
+            } else if (subSchema instanceof ArraySchema) {
+                objOrArrayArray = (ArraySchema) subSchema;
+            }
+        }
+        assertNotNull(objOrArrayObject);
+        assertNotNull(objOrArrayArray);
+        assertEquals(objOrArrayArray.getDescription(), "Related case from the issue.");
+        assertEquals(objOrArrayArray.getItems().getType(), "string");
+
+        Schema nullableArrOrStr = companyProperties.get("nullableArrOrStr");
+        assertTrue(nullableArrOrStr.getNullable());
+        assertNull(nullableArrOrStr.getTypes());
+        assertEquals(nullableArrOrStr.getAnyOf().size(), 2);
+
+        Schema mapOrString = openAPI.getComponents().getSchemas().get("MapOrString");
+        assertNull(mapOrString.getTypes());
+        assertEquals(mapOrString.getAnyOf().size(), 2);
+        ObjectSchema mapOrStringObject = null;
+        Schema mapOrStringString = null;
+        for (Object subSchema : mapOrString.getAnyOf()) {
+            if (subSchema instanceof ObjectSchema) {
+                mapOrStringObject = (ObjectSchema) subSchema;
+            } else if (subSchema instanceof StringSchema) {
+                mapOrStringString = (StringSchema) subSchema;
+            }
+        }
+        assertNotNull(mapOrStringObject);
+        assertNotNull(mapOrStringString);
+        assertNotNull(mapOrStringObject.getAdditionalProperties());
+        assertEquals(((Schema) mapOrStringObject.getAdditionalProperties()).getType(), "string");
+    }
+
+    @Test
     public void testNormalize31ExclusiveMinMaxNumericOnly() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/exclusive-min-max.yaml");
 

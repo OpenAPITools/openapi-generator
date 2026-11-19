@@ -2322,41 +2322,7 @@ public class OpenAPINormalizer {
         if (schema.getTypes().size() == 1) {
             String type = String.valueOf(schema.getTypes().iterator().next());
             if (ModelUtils.isArraySchema(schema)) {
-                ArraySchema as = new ArraySchema();
-                as.setDescription(schema.getDescription());
-                as.setDefault(schema.getDefault());
-                as.setTitle(schema.getTitle());
-                if (schema.getExample() != null) {
-                    as.setExample(schema.getExample());
-                }
-                if (schema.getExamples() != null) {
-                    as.setExamples(schema.getExamples());
-                }
-                as.setMinItems(schema.getMinItems());
-                as.setMaxItems(schema.getMaxItems());
-                as.setExtensions(schema.getExtensions());
-                as.setXml(schema.getXml());
-                as.setNullable(schema.getNullable());
-                as.setUniqueItems(schema.getUniqueItems());
-                as.setDeprecated(schema.getDeprecated());
-                as.setReadOnly(schema.getReadOnly());
-                as.setWriteOnly(schema.getWriteOnly());
-                if (schema.getItems() != null) {
-                    // `items` is also a json schema
-                    if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
-                        Schema ref = new Schema();
-                        ref.set$ref(schema.getItems().get$ref());
-                        as.setItems(ref);
-                    } else { // inline schema (e.g. model, string, etc)
-                        Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
-                        as.setItems(updatedItems);
-                    }
-                } else {
-                    // when items is not defined, default to any type
-                    as.setItems(new Schema());
-                }
-
-                return as;
+                return build31ArraySchema(schema, visitedSchemas);
             } else { // other primitive type such as string
                 // set type (3.0 spec) directly
                 schema.setType(type);
@@ -2364,6 +2330,7 @@ public class OpenAPINormalizer {
         } else { // more than 1 item
             // convert to anyOf and keep all other attributes (e.g. nullable, description)
             // the same. No need to handle null as it should have been removed at this point.
+            boolean allTypesConverted = true;
             for (Object type : schema.getTypes()) {
                 switch (String.valueOf(type)) {
                     case "string":
@@ -2378,14 +2345,127 @@ public class OpenAPINormalizer {
                     case "boolean":
                         schema.addAnyOfItem(new BooleanSchema());
                         break;
+                    case "array":
+                        schema.addAnyOfItem(build31ArraySchema(schema, visitedSchemas));
+                        schema.setItems(null);
+                        break;
+                    case "object":
+                        schema.addAnyOfItem(build31ObjectSchema(schema, visitedSchemas));
+                        schema.setProperties(null);
+                        schema.setAdditionalProperties(null);
+                        break;
                     default:
+                        allTypesConverted = false;
                         LOGGER.error("Type {} not yet supported in openapi-normalizer to process OpenAPI 3.1 spec with multiple types.", String.valueOf(type));
                         LOGGER.error("Please report the issue via https://github.com/OpenAPITools/openapi-generator/issues/new/.");
                 }
             }
+            if (allTypesConverted) {
+                schema.setTypes(null);
+            }
         }
 
         return schema;
+    }
+
+    /**
+     * Builds an OAS 3.0 style array schema out of an OAS 3.1 schema which defines
+     * the array type (as part of its type array), moving `items` and the array
+     * related constraints into the resulting schema.
+     *
+     * @param schema          Schema to convert
+     * @param visitedSchemas  Set of visited schemas
+     * @return the resulting array schema
+     */
+    protected Schema build31ArraySchema(Schema schema, Set<Schema> visitedSchemas) {
+        ArraySchema as = new ArraySchema();
+        as.setDescription(schema.getDescription());
+        as.setDefault(schema.getDefault());
+        as.setTitle(schema.getTitle());
+        if (schema.getExample() != null) {
+            as.setExample(schema.getExample());
+        }
+        if (schema.getExamples() != null) {
+            as.setExamples(schema.getExamples());
+        }
+        as.setMinItems(schema.getMinItems());
+        as.setMaxItems(schema.getMaxItems());
+        as.setExtensions(schema.getExtensions());
+        as.setXml(schema.getXml());
+        as.setNullable(schema.getNullable());
+        as.setUniqueItems(schema.getUniqueItems());
+        as.setDeprecated(schema.getDeprecated());
+        as.setReadOnly(schema.getReadOnly());
+        as.setWriteOnly(schema.getWriteOnly());
+        if (schema.getItems() != null) {
+            // `items` is also a json schema
+            if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
+                Schema ref = new Schema();
+                ref.set$ref(schema.getItems().get$ref());
+                as.setItems(ref);
+            } else { // inline schema (e.g. model, string, etc)
+                Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
+                as.setItems(updatedItems);
+            }
+        } else {
+            // when items is not defined, default to any type
+            as.setItems(new Schema());
+        }
+
+        return as;
+    }
+
+    /**
+     * Builds an OAS 3.0 style object schema out of an OAS 3.1 schema which defines
+     * the object type (as part of its type array), moving `properties` and
+     * `additionalProperties` into the resulting schema.
+     *
+     * @param schema          Schema to convert
+     * @param visitedSchemas  Set of visited schemas
+     * @return the resulting object schema
+     */
+    protected Schema build31ObjectSchema(Schema schema, Set<Schema> visitedSchemas) {
+        ObjectSchema os = new ObjectSchema();
+        os.setDescription(schema.getDescription());
+        os.setDefault(schema.getDefault());
+        os.setTitle(schema.getTitle());
+        if (schema.getExample() != null) {
+            os.setExample(schema.getExample());
+        }
+        if (schema.getExamples() != null) {
+            os.setExamples(schema.getExamples());
+        }
+        os.setMinProperties(schema.getMinProperties());
+        os.setMaxProperties(schema.getMaxProperties());
+        os.setRequired(schema.getRequired());
+        os.setExtensions(schema.getExtensions());
+        os.setXml(schema.getXml());
+        os.setNullable(schema.getNullable());
+        os.setDeprecated(schema.getDeprecated());
+        os.setReadOnly(schema.getReadOnly());
+        os.setWriteOnly(schema.getWriteOnly());
+        if (schema.getProperties() != null) {
+            Map<String, Schema> properties = schema.getProperties();
+            for (Map.Entry<String, Schema> entry : properties.entrySet()) {
+                os.addProperties(entry.getKey(), normalizeSchema(entry.getValue(), visitedSchemas));
+            }
+        }
+        if (schema.getAdditionalProperties() != null) {
+            if (schema.getAdditionalProperties() instanceof Schema) {
+                Schema additionalProperties = (Schema) schema.getAdditionalProperties();
+                if (StringUtils.isNotEmpty(additionalProperties.get$ref())) {
+                    Schema ref = new Schema();
+                    ref.set$ref(additionalProperties.get$ref());
+                    os.setAdditionalProperties(ref);
+                } else {
+                    os.setAdditionalProperties(normalizeSchema(additionalProperties, visitedSchemas));
+                }
+            } else {
+                os.setAdditionalProperties(schema.getAdditionalProperties());
+            }
+        }
+
+        return os;
     }
 
     /**
