@@ -30,14 +30,24 @@ import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY;
 import static org.openapitools.codegen.CodegenConstants.INTERFACE_ONLY_DESC;
@@ -66,6 +76,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public static final String USE_JAKARTA_SECURITY_ANNOTATIONS = "useJakartaSecurityAnnotations";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SEALED = "useSealed";
+    public static final String JSONB_DISCRIMINATOR_DESERIALIZERS = "jsonbDiscriminatorDeserializers";
     public static final String SERIALIZATION_LIBRARY_JACKSON = "jackson";
     public static final String SERIALIZATION_LIBRARY_JSONB = "jsonb";
 
@@ -92,6 +103,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     @Setter
     protected boolean useSealed = false;
+
+    @Getter @Setter
+    protected boolean jsonbDiscriminatorDeserializers = false;
 
     private final JakartaSecurityAnnotationProcessor jakartaSecurityAnnotationProcessor = new JakartaSecurityAnnotationProcessor();
 
@@ -178,7 +192,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(GENERATE_JSON_CREATOR, "Whether to generate a JSON creator constructor for required properties.", generateJsonCreator));
         cliOptions.add(CliOption.newBoolean(USE_ENUM_CASE_INSENSITIVE, "Use `equalsIgnoreCase` when String for enum comparison", useEnumCaseInsensitive));
         cliOptions.add(CliOption.newBoolean(USE_SEALED, "Whether to generate sealed model interfaces and classes.", useSealed));
-        CliOption serializationLibraryOption = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library used for the generated models. 'jsonb' is only supported by the default library (" + DEFAULT_LIBRARY + "). With 'jsonb', dateLibrary defaults to 'java8' ('java8-localdatetime' is also supported, 'joda' and 'legacy' are not), openApiNullable is disabled and no type annotations are generated for discriminator/oneOf polymorphism. Models with additionalProperties are generated as subclasses of HashMap without a JSON-B specific mapping, so they are (de)serialized as plain maps: declared properties are not written and are read into map entries instead of their fields. Properties with a null value are omitted, except required nullable properties, which are written as null; JsonbConfig.withNullValues(true) does not change this because the generated @JsonbProperty annotations default to nillable = false. Depending on the JSON-B implementation, enum values inside maps (and, with older implementations, inside lists) may not use the generated enum serializers/deserializers.")
+        cliOptions.add(CliOption.newBoolean(JSONB_DISCRIMINATOR_DESERIALIZERS, "With 'serializationLibrary=jsonb' and 'useJakartaEe=true': generate "
+                + "JSON-B deserializers that resolve the concrete class of a model, also in list, set and map properties, from its "
+                + "discriminator mapping, and create concrete models with their discriminator values. With Yasson before 3.0.5, "
+                + "this does not cover root containers, such as a request body of type Map<String, Pet> (with Yasson 3.0.2 also "
+                + "List<Pet>). With Johnzon 2.0.2 and 2.2.0, reading a model fails when a required list, set or map property "
+                + "with elements of such models is absent from the JSON (an explicit null is read).", jsonbDiscriminatorDeserializers));
+        CliOption serializationLibraryOption = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, "Serialization library used for the generated models. 'jsonb' is only supported by the default library (" + DEFAULT_LIBRARY + "). With 'jsonb', dateLibrary defaults to 'java8' ('java8-localdatetime' is also supported, 'joda' and 'legacy' are not), openApiNullable is disabled and no type annotations are generated for discriminator/oneOf polymorphism (see jsonbDiscriminatorDeserializers). Models with additionalProperties are generated as subclasses of HashMap without a JSON-B specific mapping, so they are (de)serialized as plain maps: declared properties are not written and are read into map entries instead of their fields. Properties with a null value are omitted, except required nullable properties, which are written as null; JsonbConfig.withNullValues(true) does not change this because the generated @JsonbProperty annotations default to nillable = false. Depending on the JSON-B implementation, enum values inside maps (and, with older implementations, inside lists) may not use the generated enum serializers/deserializers.")
                 .defaultValue(SERIALIZATION_LIBRARY_JACKSON);
         Map<String, String> serializationOptions = new HashMap<>();
         serializationOptions.put(SERIALIZATION_LIBRARY_JACKSON, "Use Jackson as serialization library");
@@ -231,6 +251,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         convertPropertyToBooleanAndWriteBack(GENERATE_JSON_CREATOR, this::setGenerateJsonCreator);
         convertPropertyToBooleanAndWriteBack(USE_ENUM_CASE_INSENSITIVE, this::setUseEnumCaseInsensitive);
         convertPropertyToBooleanAndWriteBack(USE_SEALED, this::setUseSealed);
+        convertPropertyToBooleanAndWriteBack(JSONB_DISCRIMINATOR_DESERIALIZERS, this::setJsonbDiscriminatorDeserializers);
 
         if (additionalProperties.containsKey(OPEN_API_SPEC_FILE_LOCATION)) {
             openApiSpecFileLocation = additionalProperties.get(OPEN_API_SPEC_FILE_LOCATION).toString();
@@ -269,6 +290,15 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
         if (isJsonb()) {
             applyJsonbSerialization();
+        }
+        if (jsonbDiscriminatorDeserializers && !isJsonb()) {
+            LOGGER.warn("'{}' only applies to '{}={}' and is ignored.", JSONB_DISCRIMINATOR_DESERIALIZERS, CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_JSONB);
+            jsonbDiscriminatorDeserializers = false;
+            additionalProperties.put(JSONB_DISCRIMINATOR_DESERIALIZERS, false);
+        }
+        if (jsonbDiscriminatorDeserializers && !useJakartaEe) {
+            throw new IllegalArgumentException("'" + JSONB_DISCRIMINATOR_DESERIALIZERS + "=true' requires '" + USE_JAKARTA_EE
+                    + "=true': the generated deserializers use the Jakarta JSON-B 3.0 API (jakarta.json.bind).");
         }
 
         // expose flags to templates
@@ -364,6 +394,13 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public String getName() {
         return "jaxrs-spec";
+    }
+
+    @Override
+    public List<VendorExtension> getSupportedVendorExtensions() {
+        List<VendorExtension> extensions = super.getSupportedVendorExtensions();
+        extensions.add(VendorExtension.X_ABSTRACT);
+        return extensions;
     }
 
     public String getSerializationLibrary() {
@@ -492,6 +529,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        List<CodegenModel> allModels = new ArrayList<>();
+        result.values().forEach(modelsMap -> modelsMap.getModels().forEach(modelMap -> allModels.add(modelMap.getModel())));
+        List<CodegenModel> abstractModels = supportsAbstractModels() ? applyAbstractModels(allModels) : Collections.emptyList();
 
         // Index the discriminators of the generated oneOf interfaces by classname. A child of a oneOf
         // interface (useOneOfInterfaces) inherits a shared base via allOf and therefore has no Java
@@ -500,8 +540,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         for (ModelsMap modelsMap : result.values()) {
             for (ModelMap modelMap : modelsMap.getModels()) {
                 CodegenModel model = modelMap.getModel();
-                if (Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))
-                        && model.getDiscriminator() != null) {
+                if (isOneOfInterface(model) && model.getDiscriminator() != null) {
                     oneOfInterfaceDiscriminators.put(model.classname, model.getDiscriminator());
                 }
             }
@@ -515,24 +554,273 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 CodegenDiscriminator discriminator = model.parentModel != null
                         ? model.parentModel.getDiscriminator()
                         : discriminatorOfImplementedOneOfInterface(model, oneOfInterfaceDiscriminators);
-                if (discriminator != null) {
-                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
-                        if (mappedModel.getSchemaName().equals(model.schemaName)) {
-                            model.getVendorExtensions().put("x-discriminator-value", mappedModel.getMappingName());
-                            break;
-                        }
-                    }
+                String discriminatorValue = mappingNameOf(discriminator, model);
+                if (discriminatorValue == null) {
+                    // a grandchild may be mapped by the discriminator of a more distant ancestor; without it Jackson
+                    // would write the class name as type id
+                    discriminatorValue = ancestorMappingNameOf(model);
+                }
+                if (discriminatorValue != null) {
+                    model.getVendorExtensions().put("x-discriminator-value", discriminatorValue);
                 }
                 // A oneOf container rendered as a plain class (useOneOfInterfaces disabled or the model
                 // not selected for interface generation) must not be sealed over its oneOf members: they
                 // do not extend it, so a permits clause would not compile. Only child-derived permits
                 // (subclasses that actually extend the model) may remain.
-                if (useSealed && !Boolean.TRUE.equals(model.getVendorExtensions().get("x-is-one-of-interface"))) {
+                if (useSealed && !isOneOfInterface(model)) {
                     model.permits.removeAll(model.oneOf);
                 }
             }
         }
+        validateAbstractModelsHaveSubclasses(allModels, abstractModels);
+        if (jsonbDiscriminatorDeserializers) {
+            new JsonbPolymorphismProcessor(this, allModels).apply();
+        }
         return result;
+    }
+
+    /**
+     * Whether this generator's templates implement the {@code x-abstract} vendor extension.
+     */
+    protected boolean supportsAbstractModels() {
+        return true;
+    }
+
+    /**
+     * Normalizes {@code x-abstract} to a {@link Boolean} (a string {@code "false"} would be truthy in the templates) and
+     * ensures that no discriminator value resolves to an abstract class, which neither Jackson nor JSON-B can
+     * instantiate: an explicit mapping (a {@code mapping} entry or {@code x-discriminator-value}) to an abstract model
+     * fails the generation, an implicit one is replaced by mappings to its concrete subclasses. Every copy of a
+     * discriminator is checked, since with {@code legacyDiscriminatorBehavior=false} children inherit their parent's.
+     *
+     * @return the models marked abstract
+     */
+    private List<CodegenModel> applyAbstractModels(List<CodegenModel> allModels) {
+        String xAbstract = VendorExtension.X_ABSTRACT.getName();
+        Map<String, CodegenModel> abstractModelsBySchemaName = new HashMap<>();
+        for (CodegenModel model : allModels) {
+            Object value = model.getVendorExtensions().get(xAbstract);
+            if (value == null) {
+                continue;
+            }
+            boolean isAbstract = Boolean.parseBoolean(String.valueOf(value));
+            if (isAbstract && (model.isEnum || isOneOfInterface(model))) {
+                LOGGER.warn("Ignoring '{}' on model '{}': only model classes can be abstract.", xAbstract, model.name);
+                isAbstract = false;
+            }
+            model.getVendorExtensions().put(xAbstract, isAbstract);
+            if (isAbstract) {
+                abstractModelsBySchemaName.put(model.schemaName, model);
+            }
+        }
+        if (abstractModelsBySchemaName.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Visit the models that declare a discriminator before those that inherit a copy of it, so that an
+        // error names the schema where the offending mapping is written.
+        List<CodegenModel> discriminatorOwners = allModels.stream()
+                .filter(model -> model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null)
+                .sorted(Comparator.comparing(model -> declaresDiscriminator(model) ? 0 : 1))
+                .collect(Collectors.toList());
+        for (CodegenModel owner : discriminatorOwners) {
+            CodegenDiscriminator discriminator = owner.getDiscriminator();
+            List<CodegenModel> droppedAbstractModels = new ArrayList<>();
+            Iterator<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels().iterator();
+            while (mappedModels.hasNext()) {
+                CodegenDiscriminator.MappedModel mappedModel = mappedModels.next();
+                CodegenModel target = abstractModelsBySchemaName.get(mappedModel.getSchemaName());
+                if (target == null) {
+                    continue;
+                }
+                if (mappedModel.isExplicitMapping()) {
+                    throw new IllegalArgumentException(String.format(Locale.ROOT,
+                            "The discriminator value '%s' of property '%s' in model '%s' maps to model '%s', which is marked '%s'. "
+                                    + "An abstract class cannot be instantiated: map each discriminator value directly to a concrete "
+                                    + "subclass, or remove '%s'.",
+                            mappedModel.getMappingName(), discriminator.getPropertyBaseName(), owner.name, target.name, xAbstract, xAbstract));
+                }
+                LOGGER.info("Dropping the implicit discriminator mapping '{}' of model '{}': model '{}' is marked '{}'.",
+                        mappedModel.getMappingName(), owner.name, target.name, xAbstract);
+                mappedModels.remove();
+                droppedAbstractModels.add(target);
+            }
+            for (CodegenModel droppedAbstractModel : droppedAbstractModels) {
+                mapConcreteDescendants(owner, droppedAbstractModel, allModels);
+            }
+        }
+        return new ArrayList<>(abstractModelsBySchemaName.values());
+    }
+
+    /**
+     * Replaces a dropped implicit mapping to an abstract model by mappings to the concrete classes that extend it, under
+     * every value that Jackson would resolve them by transitively through the abstract model. Without this, a concrete
+     * descendant of an abstract oneOf member could not be read through the oneOf interface. The Java hierarchy and the
+     * {@code permits} clauses stay unchanged.
+     */
+    private void mapConcreteDescendants(CodegenModel owner, CodegenModel abstractModel, List<CodegenModel> allModels) {
+        CodegenDiscriminator discriminator = owner.getDiscriminator();
+        for (CodegenModel descendant : allModels) {
+            if (isAbstract(descendant) || !extendsModel(descendant, abstractModel)) {
+                continue;
+            }
+            for (String mappingName : transitiveMappingNamesOf(descendant, abstractModel)) {
+                Optional<CodegenDiscriminator.MappedModel> existing = discriminator.getMappedModels().stream()
+                        .filter(mappedModel -> mappingName.equals(mappedModel.getMappingName()))
+                        .findFirst();
+                if (existing.isPresent()) {
+                    if (descendant.schemaName.equals(existing.get().getSchemaName())) {
+                        continue;
+                    }
+                    throw new IllegalArgumentException(String.format(Locale.ROOT,
+                            "The discriminator value '%s' of property '%s' in model '%s' would map to both model '%s' and model '%s' "
+                                    + "(a concrete subclass of the '%s' model '%s'). Give the models distinct discriminator values.",
+                            mappingName, discriminator.getPropertyBaseName(), owner.name, existing.get().getModelName(), descendant.name,
+                            VendorExtension.X_ABSTRACT.getName(), abstractModel.name));
+                }
+                // only a value that is not mapped yet must be dispatchable by the owner's discriminator property
+                validateSameDiscriminatorProperty(owner, abstractModel, descendant);
+                CodegenDiscriminator.MappedModel mappedModel =
+                        new CodegenDiscriminator.MappedModel(mappingName, descendant.classname, descendant.schemaName, false);
+                mappedModel.setModel(descendant);
+                discriminator.getMappedModels().add(mappedModel);
+                LOGGER.info("Mapping the discriminator value '{}' of model '{}' to model '{}', a concrete subclass of the '{}' model '{}'.",
+                        mappingName, owner.name, descendant.name, VendorExtension.X_ABSTRACT.getName(), abstractModel.name);
+            }
+        }
+    }
+
+    /**
+     * The values that Jackson resolves the descendant by through the abstract model: its own type name and every value
+     * that a model on the inheritance path up to the abstract model maps to it.
+     */
+    private static Set<String> transitiveMappingNamesOf(CodegenModel descendant, CodegenModel abstractModel) {
+        Set<String> mappingNames = new LinkedHashSet<>();
+        mappingNames.add(Objects.requireNonNullElse(ancestorMappingNameOf(descendant), descendant.schemaName));
+        for (CodegenModel ancestor = descendant.parentModel; ancestor != null; ancestor = ancestor.parentModel) {
+            CodegenDiscriminator ancestorDiscriminator = ancestor.getDiscriminator();
+            if (ancestorDiscriminator != null && ancestorDiscriminator.getMappedModels() != null) {
+                ancestorDiscriminator.getMappedModels().stream()
+                        .filter(mappedModel -> descendant.schemaName.equals(mappedModel.getSchemaName()))
+                        .forEach(mappedModel -> mappingNames.add(mappedModel.getMappingName()));
+            }
+            if (ancestor.classname.equals(abstractModel.classname)) {
+                break;
+            }
+        }
+        return mappingNames;
+    }
+
+    /**
+     * Multi-level discriminators are not supported here: every model on the inheritance path from the descendant up to
+     * the abstract model must dispatch by the owner's discriminator property (the abstract model must have a
+     * discriminator, intermediate models may have none), otherwise the owner cannot dispatch on the descendant's type id.
+     */
+    private static void validateSameDiscriminatorProperty(CodegenModel owner, CodegenModel abstractModel, CodegenModel descendant) {
+        String property = owner.getDiscriminator().getPropertyBaseName();
+        for (CodegenModel ancestor = descendant.parentModel; ancestor != null; ancestor = ancestor.parentModel) {
+            boolean isAbstractModel = ancestor.classname.equals(abstractModel.classname);
+            CodegenDiscriminator ancestorDiscriminator = ancestor.getDiscriminator();
+            if ((ancestorDiscriminator == null && isAbstractModel)
+                    || (ancestorDiscriminator != null && !Objects.equals(ancestorDiscriminator.getPropertyBaseName(), property))) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "Model '%s' extends model '%s', which is marked '%s' and is implicitly mapped by the discriminator "
+                                + "property '%s' of model '%s'. Model '%s' on this inheritance path resolves its subclasses by %s, "
+                                + "so model '%s' cannot be mapped by '%s' instead: use the same discriminator property on every "
+                                + "level or map the values of '%s' explicitly to concrete classes.",
+                        descendant.name, abstractModel.name, VendorExtension.X_ABSTRACT.getName(), property, owner.name, ancestor.name,
+                        ancestorDiscriminator == null
+                                ? "no discriminator"
+                                : "the discriminator property '" + ancestorDiscriminator.getPropertyBaseName() + "'",
+                        descendant.name, property, owner.name));
+            }
+            if (isAbstractModel) {
+                return;
+            }
+        }
+    }
+
+    private static boolean extendsModel(CodegenModel model, CodegenModel ancestor) {
+        for (CodegenModel parent = model.parentModel; parent != null; parent = parent.parentModel) {
+            if (parent.classname.equals(ancestor.classname)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static boolean isAbstract(CodegenModel model) {
+        return Boolean.TRUE.equals(model.getVendorExtensions().get(VendorExtension.X_ABSTRACT.getName()));
+    }
+
+    static boolean isOneOfInterface(CodegenModel model) {
+        return Boolean.TRUE.equals(model.getVendorExtensions().get(CodegenConstants.X_IS_ONE_OF_INTERFACE));
+    }
+
+    /**
+     * An abstract model without generated subclasses could only be extended by hand-written code. Under
+     * {@code useSealed} that subclass would have to be {@code non-sealed}, which reopens the sealed hierarchy, so such a
+     * model is rejected there.
+     */
+    private void validateAbstractModelsHaveSubclasses(List<CodegenModel> allModels, List<CodegenModel> abstractModels) {
+        if (abstractModels.isEmpty()) {
+            return;
+        }
+        String xAbstract = VendorExtension.X_ABSTRACT.getName();
+        Set<String> extendedClassnames = allModels.stream()
+                .map(CodegenModel::getParent)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        for (CodegenModel model : abstractModels) {
+            if (extendedClassnames.contains(model.classname)) {
+                continue;
+            }
+            Optional<CodegenModel> sealedSupertype = useSealed
+                    ? allModels.stream().filter(candidate -> candidate.permits.contains(model.classname)).findFirst()
+                    : Optional.empty();
+            if (sealedSupertype.isPresent()) {
+                throw new IllegalArgumentException(String.format(Locale.ROOT,
+                        "Model '%s' is marked '%s' and is a permitted subtype of the sealed type '%s', but no generated model "
+                                + "extends it. With '%s=true' it could only be declared non-sealed, which would reopen the sealed "
+                                + "hierarchy. Remove '%s' or add a subclass to the specification.",
+                        model.name, xAbstract, sealedSupertype.get().classname, USE_SEALED, xAbstract));
+            }
+            LOGGER.warn("Model '{}' is marked '{}', but no generated model extends it.", model.name, xAbstract);
+        }
+    }
+
+    /**
+     * Returns the discriminator value that the given discriminator maps to the model, or {@code null}.
+     */
+    private static String mappingNameOf(CodegenDiscriminator discriminator, CodegenModel model) {
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return null;
+        }
+        for (CodegenDiscriminator.MappedModel mappedModel : discriminator.getMappedModels()) {
+            if (model.schemaName.equals(mappedModel.getSchemaName())) {
+                return mappedModel.getMappingName();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the discriminator value that the nearest ancestor whose discriminator maps the model assigns to it, or
+     * {@code null}.
+     */
+    private static String ancestorMappingNameOf(CodegenModel model) {
+        for (CodegenModel ancestor = model.parentModel; ancestor != null; ancestor = ancestor.parentModel) {
+            String mappingName = mappingNameOf(ancestor.getDiscriminator(), model);
+            if (mappingName != null) {
+                return mappingName;
+            }
+        }
+        return null;
+    }
+
+    private boolean declaresDiscriminator(CodegenModel model) {
+        Schema schema = ModelUtils.getSchema(openAPI, model.schemaName);
+        return schema != null && schema.getDiscriminator() != null;
     }
 
     /**

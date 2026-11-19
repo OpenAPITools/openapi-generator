@@ -1,0 +1,60 @@
+
+  /**
+   * Deserializes a list, set or map property (also a nested one) of {{classname}} elements with the deserializer of
+   * {{classname}}. Yasson 3.0.2 to 3.0.4 does not apply the deserializer of a class to the values of a map and the
+   * elements of an array or a nested container (Yasson 3.0.2 also to the elements of a list), and caches that binding
+   * for the class (fixed in Yasson 3.0.5); it does apply the deserializer of a property. A root container, such as a
+   * request body of type {@code Map<String, {{classname}}>}, has no property and is not covered.
+   * <p>
+   * Johnzon 2.0.2 to 2.2.0 fails internally, before calling this deserializer, when a required container (a parameter
+   * of a JSON-B creator) is missing in the JSON; an explicit JSON null, a missing optional container and the contents
+   * of a present container are deserialized as usual.
+   */
+  public static final class {{vendorExtensions.x-jsonb-container-deserializer-name}} implements jakarta.json.bind.serializer.JsonbDeserializer<Object> {
+
+    @Override
+    public Object deserialize(jakarta.json.stream.JsonParser parser, jakarta.json.bind.serializer.DeserializationContext ctx, java.lang.reflect.Type rtType) {
+      return read(parser.getValue(), rtType, ctx);
+    }
+
+    {{! the type is that of the property; Johnzon passes that of an element instead for some lists }}
+    private static Object read(jakarta.json.JsonValue value, java.lang.reflect.Type type, jakarta.json.bind.serializer.DeserializationContext ctx) {
+      if (value == null || value.getValueType() == jakarta.json.JsonValue.ValueType.NULL) {
+        return null;
+      }
+      Class<?> rawType = type instanceof java.lang.reflect.ParameterizedType
+          ? (Class<?>) ((java.lang.reflect.ParameterizedType) type).getRawType() : type instanceof Class ? (Class<?>) type : Object.class;
+      if (java.util.Map.class.isAssignableFrom(rawType)) {
+        java.lang.reflect.Type valueType = typeArgument(type, 1);
+        java.util.Map<String, Object> result = new java.util.LinkedHashMap<>();
+        for (java.util.Map.Entry<String, jakarta.json.JsonValue> entry : asStructure(value, jakarta.json.JsonValue.ValueType.OBJECT, type).asJsonObject().entrySet()) {
+          result.put(entry.getKey(), read(entry.getValue(), valueType, ctx));
+        }
+        return result;
+      }
+      if (java.util.Collection.class.isAssignableFrom(rawType)) {
+        java.lang.reflect.Type elementType = typeArgument(type, 0);
+        java.util.Collection<Object> result = java.util.Set.class.isAssignableFrom(rawType) ? new java.util.LinkedHashSet<>() : new java.util.ArrayList<>();
+        for (jakarta.json.JsonValue element : asStructure(value, jakarta.json.JsonValue.ValueType.ARRAY, type).asJsonArray()) {
+          result.add(read(element, elementType, ctx));
+        }
+        return result;
+      }
+      return {{package}}.{{classname}}.{{vendorExtensions.x-jsonb-deserializer-name}}.fromJsonObject(asStructure(value, jakarta.json.JsonValue.ValueType.OBJECT, type).asJsonObject(), ctx);
+    }
+
+    private static jakarta.json.JsonValue asStructure(jakarta.json.JsonValue value, jakarta.json.JsonValue.ValueType expected, java.lang.reflect.Type type) {
+      if (value.getValueType() != expected) {
+        throw new jakarta.json.bind.JsonbException("Expected a JSON " + expected.name().toLowerCase(java.util.Locale.ROOT) + " for "
+            + type.getTypeName() + " but got " + value.getValueType());
+      }
+      return value;
+    }
+
+    private static java.lang.reflect.Type typeArgument(java.lang.reflect.Type type, int index) {
+      if (!(type instanceof java.lang.reflect.ParameterizedType)) {
+        throw new jakarta.json.bind.JsonbException("The element type of " + type.getTypeName() + " is unknown");
+      }
+      return ((java.lang.reflect.ParameterizedType) type).getActualTypeArguments()[index];
+    }
+  }
