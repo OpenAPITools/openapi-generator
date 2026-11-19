@@ -110,6 +110,13 @@ public class DefaultGenerator implements Generator {
     public DefaultGenerator(Boolean dryRun) {
         this.dryRun = Boolean.TRUE.equals(dryRun);
         LOGGER.info("Generating with dryRun={}", this.dryRun);
+        // Exposed via GlobalSettings (the existing, established mechanism for cross-cutting
+        // flags - see the generateApis/generateModels/etc. reads just below) so that a
+        // CodegenConfig which needs to write a file outside the standard SupportingFile/
+        // templateProcessor pipeline (e.g. one file per dynamically-discovered item, which
+        // SupportingFile's fixed-destination model can't express) can still honor dry-run,
+        // without DefaultGenerator needing to know about that generator's custom file writes.
+        GlobalSettings.setProperty("dryRun", String.valueOf(this.dryRun));
     }
 
     @SuppressWarnings("deprecation")

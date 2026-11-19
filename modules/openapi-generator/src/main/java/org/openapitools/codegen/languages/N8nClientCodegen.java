@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -482,8 +483,19 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * {@code <className>} - a mismatch is silently swallowed as a logged warning rather than a
      * hard error, and the credential then fails at runtime with "Unknown credential name"
      * (confirmed by actually loading generated output into a real n8n instance).
+     * <p>
+     * This writes directly via {@link Files#write}, bypassing the framework's normal
+     * {@code SupportingFile}/{@code templateProcessor} pipeline (which can't express "one file
+     * per dynamically-discovered item" - see the Javadoc on {@link #postProcessSupportingFileData}).
+     * That pipeline is also what the framework's {@code --dry-run} mode intercepts, so this
+     * method has to check {@code GlobalSettings}' {@code dryRun} flag itself (confirmed by
+     * actually running {@code generate ... --dry-run}: without this check, these files were
+     * written to disk for real despite dry-run, and didn't even appear in the dry-run report).
      */
     private void writeCredentialFile(String className, String content) {
+        if (Boolean.parseBoolean(GlobalSettings.getProperty("dryRun"))) {
+            return;
+        }
         try {
             Path dir = Paths.get(outputFolder(), "credentials");
             Files.createDirectories(dir);

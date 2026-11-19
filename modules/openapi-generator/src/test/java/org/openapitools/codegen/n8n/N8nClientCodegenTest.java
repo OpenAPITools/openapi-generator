@@ -5,6 +5,7 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConfigLoader;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.N8nClientCodegen;
 import org.testng.Assert;
 import org.testng.SkipException;
@@ -551,6 +552,40 @@ public class N8nClientCodegenTest {
         Files.createDirectories(dir);
         Files.write(file, content.getBytes(StandardCharsets.UTF_8));
         return file;
+    }
+
+    /**
+     * Regression test for T060 (convergence): confirmed by actually running
+     * `generate -g n8n ... --dry-run` that {@code writeCredentialFile}'s direct
+     * {@code Files.write} call bypassed the framework's dry-run mode entirely, writing real
+     * credential files to disk despite `--dry-run` - and the framework's own "Dry Run Results"
+     * report didn't even list them, since they never went through the tracked
+     * {@code templateProcessor}. No credential file (or any file at all) should be written to
+     * the target directory when dry-run is enabled, per FR-002.
+     */
+    @Test
+    public void writesNoCredentialFileInDryRunMode() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            generateDryRun(target);
+            Assert.assertTrue(find(target, "ApiKeyCredentials.credentials.ts").isEmpty(),
+                    "no credential file should be written to disk in dry-run mode");
+            Assert.assertTrue(find(target, "PetstoreAuthCredentials.credentials.ts").isEmpty(),
+                    "no credential file should be written to disk in dry-run mode");
+        } finally {
+            GlobalSettings.clearProperty("dryRun");
+            deleteRecursively(target);
+        }
+    }
+
+    private static void generateDryRun(Path target) {
+        ClientOptInput clientOptInput = new CodegenConfigurator()
+                .setGeneratorName("n8n")
+                .setInputSpec(PETSTORE_SPEC)
+                .setOutputDir(target.toAbsolutePath().toString())
+                .toClientOptInput();
+
+        new DefaultGenerator(true).opts(clientOptInput).generate();
     }
 
     private static void generate(Path target) {
