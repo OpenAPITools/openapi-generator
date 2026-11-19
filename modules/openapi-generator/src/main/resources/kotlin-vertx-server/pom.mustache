@@ -12,7 +12,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <kotlin.version>1.6.10</kotlin.version>
+        <kotlin.version>2.4.20</kotlin.version>
+        <kotlinx-coroutines.version>1.11.0</kotlinx-coroutines.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         {{#useJakartaEe}}
         <jakarta-annotation-version>2.1.1</jakarta-annotation-version>
@@ -68,7 +69,7 @@
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-core</artifactId>
-            <version>RELEASE</version>
+            <version>${kotlinx-coroutines.version}</version>
         </dependency>
 
         <dependency>
@@ -137,7 +138,7 @@
                                 <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                                 <sourceDir>${project.basedir}/src/main/java</sourceDir>
                             </sourceDirs>
-                            <jvmTarget>1.8</jvmTarget>
+                            <jvmTarget>${java.version}</jvmTarget>
                         </configuration>
                     </execution>
                     <execution>
@@ -150,7 +151,7 @@
                                 <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
                                 <sourceDir>${project.basedir}/src/test/java</sourceDir>
                             </sourceDirs>
-                            <jvmTarget>1.8</jvmTarget>
+                            <jvmTarget>${java.version}</jvmTarget>
                         </configuration>
                     </execution>
                 </executions>

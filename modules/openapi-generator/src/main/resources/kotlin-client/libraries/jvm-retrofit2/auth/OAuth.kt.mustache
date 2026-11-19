@@ -130,13 +130,13 @@ import okhttp3.Response
     @Throws(IOException::class)
     @Synchronized
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun updateAccessToken(requestAccessToken: String?): Boolean {
-        if (accessToken == null || accessToken.equals(requestAccessToken)) {
+        if (accessToken == null || accessToken == requestAccessToken) {
             return try {
                 val accessTokenResponse = oauthClient.accessToken(this.tokenRequestBuilder.buildBodyMessage())
                 if (accessTokenResponse != null && accessTokenResponse.accessToken != null) {
                     accessToken = accessTokenResponse.accessToken
                     accessTokenListener?.notify(accessTokenResponse.oAuthToken as BasicOAuthToken)
-                    !accessToken.equals(requestAccessToken)
+                    accessToken != requestAccessToken
                 } else {
                     false
                 }

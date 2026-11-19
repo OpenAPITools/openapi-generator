@@ -6,7 +6,7 @@ group = "org.openapitools"
 version = "1.0.0"
 
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.4.20"
     id("io.ktor.plugin") version "2.3.12"
 }
 

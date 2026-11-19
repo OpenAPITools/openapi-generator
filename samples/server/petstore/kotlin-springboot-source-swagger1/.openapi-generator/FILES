@@ -1,5 +1,6 @@
 README.md
 build.gradle.kts
+gradle.properties
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew

@@ -94,13 +94,13 @@ data class ApiAnnotation (
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                String.format("The required field(s) %s in ApiAnnotation is not found in the empty JSON string", ApiAnnotation.openapiRequiredFields.toString())
+                "The required field(s) ${openapiRequiredFields} in ApiAnnotation is not found in the empty JSON string"
               }
             }
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["id"] != null && !jsonObj["id"].isJsonNull) {
-              require(jsonObj.get("id").isJsonPrimitive) {
-                String.format("Expected the field `id` to be a primitive type in the JSON string but got `%s`", jsonObj["id"].toString())
+              require(jsonObj["id"].isJsonPrimitive) {
+                "Expected the field `id` to be a primitive type in the JSON string but got `${jsonObj["id"]}`"
               }
             }
         }

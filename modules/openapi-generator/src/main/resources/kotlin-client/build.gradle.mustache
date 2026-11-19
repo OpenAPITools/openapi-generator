@@ -9,7 +9,7 @@ wrapper {
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '2.4.0'
+    ext.kotlin_version = '2.4.20'
     {{#jvm-ktor}}
     ext.ktor_version = '3.5.1'
     {{/jvm-ktor}}
@@ -141,13 +141,13 @@ kotlin {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.add("-Xjvm-default=all")
+        jvmDefault.set(org.jetbrains.kotlin.gradle.dsl.JvmDefaultMode.NO_COMPATIBILITY)
     }
 }
 {{/jvm-microprofile}}
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
     {{#useCoroutines}}
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0"
@@ -179,7 +179,7 @@ dependencies {
     {{/useJackson3}}
     {{/jackson}}
     {{#kotlinx_serialization}}
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0"
     {{/kotlinx_serialization}}
     {{#jvm-ktor}}
     implementation "io.ktor:ktor-client-core:$ktor_version"

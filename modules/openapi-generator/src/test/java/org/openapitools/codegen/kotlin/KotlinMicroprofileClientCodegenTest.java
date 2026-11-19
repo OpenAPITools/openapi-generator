@@ -84,7 +84,7 @@ public class KotlinMicroprofileClientCodegenTest {
                 .isAssignableFrom(compiled.loadClass("org.openapitools.client.models.FirstChoice"));
         assertThat(find(files, "Choice.kt")).content().doesNotContain("val text", "val number");
         assertThat(find(files, "build.gradle")).content()
-                .contains("microprofile-rest-client-api:" + version, "apply plugin: 'java-library'", "-Xjvm-default=all")
+                .contains("microprofile-rest-client-api:" + version, "apply plugin: 'java-library'", "JvmDefaultMode.NO_COMPATIBILITY")
                 .doesNotContain("okhttp", "moshi", "retrofit", "ApiClient.kt");
         assertThat(find(files, "beans.xml")).content()
                 .contains("bean-discovery-mode=\"annotated\"", "version=\"" + version + "\"",
