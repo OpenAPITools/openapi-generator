@@ -121,50 +121,15 @@ namespace Org.OpenAPITools.Api
         public AnotherFakeApiEvents Events { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="ApiKeyProvider"/>
-        /// </summary>
-        public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BearerToken"/>
-        /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BasicTokenProvider"/>
-        /// </summary>
-        public TokenProvider<BasicToken> BasicTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
-        /// </summary>
-        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="OauthTokenProvider"/>
-        /// </summary>
-        public TokenProvider<OAuthToken> OauthTokenProvider { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="AnotherFakeApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public AnotherFakeApi(ILogger<AnotherFakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, AnotherFakeApiEvents anotherFakeApiEvents,
-            TokenProvider<ApiKeyToken> apiKeyProvider,
-            TokenProvider<BearerToken> bearerTokenProvider,
-            TokenProvider<BasicToken> basicTokenProvider,
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider)
+        public AnotherFakeApi(ILogger<AnotherFakeApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, AnotherFakeApiEvents anotherFakeApiEvents)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             Events = anotherFakeApiEvents;
-            ApiKeyProvider = apiKeyProvider;
-            BearerTokenProvider = bearerTokenProvider;
-            BasicTokenProvider = basicTokenProvider;
-            HttpSignatureTokenProvider = httpSignatureTokenProvider;
-            OauthTokenProvider = oauthTokenProvider;
         }
 
         partial void FormatCall123TestSpecialTags(ModelClient modelClient);

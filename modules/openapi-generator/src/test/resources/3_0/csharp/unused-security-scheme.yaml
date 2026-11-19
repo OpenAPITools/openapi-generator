@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Unused Security Scheme
+  version: "1"
+paths:
+  /things:
+    get:
+      tags:
+        - things
+      operationId: GetThings
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-API-KEY

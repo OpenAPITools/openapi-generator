@@ -28,6 +28,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -1070,6 +1071,46 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         return op;
+    }
+
+    /**
+     * Computes class-level auth switches from the security schemes actually referenced by the
+     * operations of the API class, rather than from every scheme declared in
+     * components.securitySchemes.
+     * <p>
+     * The generichost library declares a TokenProvider constructor dependency on an API class
+     * when the corresponding switch is set, so the switch must reflect the operations of that
+     * class only. The switches computed here are exposed with a "class" prefix to keep them
+     * independent from the document-wide switches added by the generator afterwards.
+     */
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+
+        if (objs != null && GENERICHOST.equals(getLibrary())) {
+            List<CodegenSecurity> classAuthMethods = objs.getOperations().getOperation().stream()
+                    .filter(op -> op.hasAuthMethods && op.authMethods != null)
+                    .flatMap(op -> op.authMethods.stream())
+                    .collect(Collectors.toList());
+
+            if (ProcessUtils.hasApiKeyMethods(classAuthMethods)) {
+                objs.put("classHasApiKeyMethods", true);
+            }
+            if (ProcessUtils.hasHttpBearerMethods(classAuthMethods)) {
+                objs.put("classHasHttpBearerMethods", true);
+            }
+            if (ProcessUtils.hasHttpBasicMethods(classAuthMethods)) {
+                objs.put("classHasHttpBasicMethods", true);
+            }
+            if (ProcessUtils.hasHttpSignatureMethods(classAuthMethods)) {
+                objs.put("classHasHttpSignatureMethods", true);
+            }
+            if (ProcessUtils.hasOAuthMethods(classAuthMethods)) {
+                objs.put("classHasOAuthMethods", true);
+            }
+        }
+
+        return objs;
     }
 
     public void addSupportingFiles(final String clientPackageDir, final String packageFolder,
