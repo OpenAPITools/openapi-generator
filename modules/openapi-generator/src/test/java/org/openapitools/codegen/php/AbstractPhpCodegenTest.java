@@ -19,6 +19,7 @@ package org.openapitools.codegen.php;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.Answers;
 import org.openapitools.codegen.*;
@@ -202,6 +203,35 @@ public class AbstractPhpCodegenTest {
         Assertions.assertNotNull(enumVars.get(1));
         assertEquals("CATVAR", enumVars.get(1).getOrDefault("name", ""));
         assertEquals("'cat'", enumVars.get(1).getOrDefault("value", ""));
+    }
+
+    @Test(description = "Issue #25354")
+    public void testAllOfWrappedArrayItemsKeepModelNamespace() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_25354.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Schema result = openAPI.getComponents().getSchemas().get("Result");
+        CodegenModel cm = codegen.fromModel("Result", result);
+
+        CodegenProperty wrapped = cm.vars.get(0);
+        CodegenProperty plain = cm.vars.get(1);
+        CodegenProperty named = cm.vars.get(2);
+        Assert.assertEquals(wrapped.baseName, "errors_wrapped");
+        Assert.assertEquals(plain.baseName, "errors_plain");
+        Assert.assertEquals(named.baseName, "errors_named");
+
+        // both spellings must produce the same usable model reference
+        Assert.assertEquals(wrapped.dataType, plain.dataType);
+        Assert.assertEquals(plain.dataType, "\\php\\Model\\Error[]");
+        Assert.assertEquals(named.dataType, "\\php\\Model\\CustomError[]");
+
+        // same wrapping on a query parameter schema
+        Parameter wrappedParam = openAPI.getPaths().get("/things").getGet().getParameters().get(0);
+        Parameter plainParam = openAPI.getPaths().get("/things").getGet().getParameters().get(1);
+        CodegenParameter wrappedCp = codegen.fromParameter(wrappedParam, new HashSet<>());
+        CodegenParameter plainCp = codegen.fromParameter(plainParam, new HashSet<>());
+        Assert.assertEquals(wrappedCp.dataType, plainCp.dataType);
+        Assert.assertEquals(plainCp.dataType, "\\php\\Model\\SortDir");
     }
 
     private ModelsMap codegenModelWithXEnumVarNameAsMap() {
