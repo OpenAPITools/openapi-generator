@@ -27,6 +27,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1478,6 +1479,36 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(runtime, "export function parseDateTime(");
         TestUtils.assertFileNotContains(runtime, "export function serializeDate(");
         TestUtils.assertFileContains(runtime, "export function serializeDateTime(");
+    }
+
+    @Test(description = "Verify oneOf date and date-time branches use their mapped runtime type, for scalars and arrays")
+    public void testOneOfDateStrings() throws IOException {
+        for (String library : Arrays.asList("string", "date", "temporal")) {
+            Map<String, Object> properties = new HashMap<>();
+            properties.put(TypeScriptFetchClientCodegen.DATE_LIBRARY, library);
+            File output = generate(properties, "src/test/resources/3_0/typescript-fetch/oneof-date-strings.yaml");
+
+            for (String model : Arrays.asList("DateChoice", "DateTimeChoice", "DateArrayChoice", "DateTimeArrayChoice")) {
+                Path path = output.toPath().resolve("models/" + model + ".ts");
+                boolean array = model.contains("Array");
+                boolean dateTime = model.startsWith("DateTime");
+                if ("string".equals(library)) {
+                    TestUtils.assertFileContains(path,
+                            array ? "json.every(item => typeof item === 'string')" : "typeof json === 'string'",
+                            array ? "value.every(item => typeof item === 'string')" : "typeof value === 'string'",
+                            "return json;", "return value;");
+                    TestUtils.assertFileNotContains(path, "parseDate", "serializeDate", "instanceof Date", "Temporal.");
+                } else {
+                    String runtimeType = "date".equals(library) ? "Date"
+                            : dateTime ? "Temporal.Instant" : "Temporal.PlainDate";
+                    TestUtils.assertFileContains(path,
+                            (array ? "item" : "value") + " instanceof " + runtimeType,
+                            dateTime ? "parseDateTime(" : "parseDate(",
+                            dateTime ? "serializeDateTime(" : "serializeDate(");
+                    TestUtils.assertFileNotContains(path, "typeof value === 'string'", "typeof item === 'string'");
+                }
+            }
+        }
     }
 
     @Test(description = "Verify withoutRuntimeChecks forces dateLibrary=string, since there is no model code left to convert with")

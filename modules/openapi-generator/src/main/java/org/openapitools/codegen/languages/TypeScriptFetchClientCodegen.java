@@ -1843,6 +1843,11 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         public boolean keepAsJSObject;
         public boolean isReservedRecordField;
 
+        public boolean isStringType() {
+            // Date schemas retain their format flags even when dateLibrary maps them to strings.
+            return isString || ((isDate || isDateTime) && "string".equals(dataType));
+        }
+
         public boolean itemsAreUniqueId() {
             return TypeScriptFetchClientCodegen.itemsAreUniqueId(this.items);
         }
