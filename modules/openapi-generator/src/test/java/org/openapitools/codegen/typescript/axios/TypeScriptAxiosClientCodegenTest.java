@@ -300,9 +300,35 @@ public class TypeScriptAxiosClientCodegenTest {
         files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/package.json"),
-                "\"typescript\": \"^4.0 || ^5.0 || ^6.0\"");
-        assertThat(Files.readString(Paths.get(output + "/tsconfig.json")))
-                .doesNotContain("\"moduleResolution\": \"node\"");
+                "\"typescript\": \"^4.9 || ^5.0 || ^6.0\"",
+                "\"@types/node\": \"^20.0.0\"");
+        final String tsconfig = Files.readString(Paths.get(output + "/tsconfig.json"));
+        assertThat(tsconfig).doesNotContain("\"moduleResolution\": \"node\"");
+        // TypeScript 6 no longer loads every package under node_modules/@types by default,
+        // so @types/node must be listed explicitly for Object.entries and the "url" import.
+        assertThat(tsconfig).contains("\"types\": [\n      \"node\"\n    ]");
+    }
 
+    @Test(description = "Generated package.json keeps TypeScript 5 for the ES5 target")
+    public void testGeneratedPackageJsonKeepsTypeScript5ForEs5Target() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_es5_typescript_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .addAdditionalProperty("npmName", "@openapi/typescript-axios-petstore")
+                .addAdditionalProperty("snapshot", false)
+                .addAdditionalProperty("npmVersion", "1.0.0-SNAPSHOT")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        // TypeScript 6 rejects target ES5 unless ignoreDeprecations is "6.0", a value TypeScript 5 rejects.
+        TestUtils.assertFileContains(Paths.get(output + "/package.json"),
+                "\"typescript\": \"^4.9 || ^5.0\"",
+                "\"@types/node\": \"^20.0.0\"");
+        TestUtils.assertFileNotContains(Paths.get(output + "/package.json"), "^6.0");
     }
 }
