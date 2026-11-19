@@ -5,17 +5,15 @@ format: email
 pattern set
 }}{{#pattern}}
     @get:Pattern(regexp="{{{pattern}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}){{/pattern}}{{!
-URI properties are java.net.URI, which is not supported by Bean Validation @Size
-}}{{^isUri}}{{!
-minLength && maxLength set
-}}{{#minLength}}{{#maxLength}}
-    @get:Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
+minLength && maxLength set; URI is not supported by Bean Validation @Size
+}}{{#minLength}}{{#maxLength}}{{^isUri}}
+    @get:Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/isUri}}{{/maxLength}}{{/minLength}}{{!
 minLength set, maxLength not
-}}{{#minLength}}{{^maxLength}}
-    @get:Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
+}}{{#minLength}}{{^maxLength}}{{^isUri}}
+    @get:Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/isUri}}{{/maxLength}}{{/minLength}}{{!
 minLength not set, maxLength set
-}}{{^minLength}}{{#maxLength}}
-    @get:Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{/isUri}}{{!
+}}{{^minLength}}{{#maxLength}}{{^isUri}}
+    @get:Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/isUri}}{{/maxLength}}{{/minLength}}{{!
 @Size: minItems && maxItems set
 }}{{#minItems}}{{#maxItems}}
     @get:Size(min={{minItems}},max={{maxItems}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxItems}}{{/minItems}}{{!
