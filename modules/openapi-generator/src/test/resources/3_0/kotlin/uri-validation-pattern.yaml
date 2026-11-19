@@ -15,11 +15,35 @@ paths:
             pattern: '^https?://'
             minLength: 1
         - in: query
+          name: uriParamMaxLength
+          schema:
+            type: string
+            format: uri
+            maxLength: 10
+        - in: query
+          name: uriParamMinMaxLength
+          schema:
+            type: string
+            format: uri
+            minLength: 2
+            maxLength: 12
+        - in: query
           name: plainStringParam
           schema:
             type: string
             pattern: '^[a-z]+$'
             minLength: 1
+        - in: query
+          name: plainStringParamMaxLength
+          schema:
+            type: string
+            maxLength: 10
+        - in: query
+          name: plainStringParamMinMaxLength
+          schema:
+            type: string
+            minLength: 2
+            maxLength: 12
       responses:
         '200':
           description: URI payload
@@ -41,3 +65,19 @@ components:
           type: string
           pattern: '^[a-z]+$'
           minLength: 1
+        uriMaxLength:
+          type: string
+          format: uri
+          maxLength: 10
+        uriMinMaxLength:
+          type: string
+          format: uri
+          minLength: 2
+          maxLength: 12
+        plainStringMaxLength:
+          type: string
+          maxLength: 10
+        plainStringMinMaxLength:
+          type: string
+          minLength: 2
+          maxLength: 12
