@@ -56,9 +56,9 @@ test {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
+    api "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.22.1"
-    implementation "io.ktor:ktor-client-core:$ktor_version"
+    api "io.ktor:ktor-client-core:$ktor_version"
     implementation "io.ktor:ktor-client-content-negotiation:$ktor_version"
     implementation "io.ktor:ktor-client-jackson:$ktor_version"
     implementation "io.ktor:ktor-serialization-jackson:$ktor_version"
