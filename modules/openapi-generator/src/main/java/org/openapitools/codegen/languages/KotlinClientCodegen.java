@@ -330,7 +330,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(new CliOption(CONFIG_KEY, "Configuration key in @RegisterRestClient for jvm-microprofile. Mutually exclusive with configKeyFromClassName=true."));
         cliOptions.add(CliOption.newBoolean(CONFIG_KEY_FROM_CLASS_NAME, "Derive the jvm-microprofile configuration key from the API class name. Mutually exclusive with configKey.", false));
 
-        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable. Supported by jvm-okhttp4, jvm-spring-restclient and jvm-spring-webclient; for the Spring libraries it requires useSpringBoot4 and defaults to true when useSpringBoot4 is enabled."));
 
         // AbstractKotlinCodegen calls cliOptions.clear(), dropping DefaultCodegen's registration.
         // Re-registered on kotlin alone: no other Kotlin generator's templates implement the fallback.
