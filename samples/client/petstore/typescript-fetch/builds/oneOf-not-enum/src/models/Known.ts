@@ -59,8 +59,8 @@ export function KnownFromJSONTyped(json: any, ignoreDiscriminator: boolean): Kno
     };
 }
 
-export function KnownToJSON(json: any): Known {
-    return KnownToJSONTyped(json, false);
+export function KnownToJSON(value?: Known | null): any {
+    return KnownToJSONTyped(value, false);
 }
 
 export function KnownToJSONTyped(value?: Known | null, ignoreDiscriminator: boolean = false): any {

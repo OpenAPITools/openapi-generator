@@ -46,8 +46,8 @@ export function ReceiptFromJSONTyped(json: any, ignoreDiscriminator: boolean): R
     };
 }
 
-export function ReceiptToJSON(json: any): Receipt {
-    return ReceiptToJSONTyped(json, false);
+export function ReceiptToJSON(value?: Receipt | null): any {
+    return ReceiptToJSONTyped(value, false);
 }
 
 export function ReceiptToJSONTyped(value?: Receipt | null, ignoreDiscriminator: boolean = false): any {

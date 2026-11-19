@@ -46,8 +46,8 @@ export function VenueFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ven
     };
 }
 
-export function VenueToJSON(json: any): Venue {
-    return VenueToJSONTyped(json, false);
+export function VenueToJSON(value?: Venue | null): any {
+    return VenueToJSONTyped(value, false);
 }
 
 export function VenueToJSONTyped(value?: Venue | null, ignoreDiscriminator: boolean = false): any {

@@ -48,8 +48,8 @@ export function SanitizedExcludedFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function SanitizedExcludedToJSON(json: any): SanitizedExcluded {
-    return SanitizedExcludedToJSONTyped(json, false);
+export function SanitizedExcludedToJSON(value?: SanitizedExcluded | null): any {
+    return SanitizedExcludedToJSONTyped(value, false);
 }
 
 export function SanitizedExcludedToJSONTyped(value?: SanitizedExcluded | null, ignoreDiscriminator: boolean = false): any {

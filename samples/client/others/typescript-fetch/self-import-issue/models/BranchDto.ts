@@ -46,8 +46,8 @@ export function BranchDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function BranchDtoToJSON(json: any): BranchDto {
-    return BranchDtoToJSONTyped(json, false);
+export function BranchDtoToJSON(value?: BranchDto | null): any {
+    return BranchDtoToJSONTyped(value, false);
 }
 
 export function BranchDtoToJSONTyped(value?: BranchDto | null, ignoreDiscriminator: boolean = false): any {

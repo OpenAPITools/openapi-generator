@@ -45,10 +45,10 @@ export function EnumClassFromJSONTyped(json: any, ignoreDiscriminator: boolean):
 }
 
 export function EnumClassToJSON(value?: EnumClass | null): any {
-    return value as any;
+    return EnumClassToJSONTyped(value, false);
 }
 
-export function EnumClassToJSONTyped(value: any, ignoreDiscriminator: boolean): EnumClass {
-    return value as EnumClass;
+export function EnumClassToJSONTyped(value?: EnumClass | null, ignoreDiscriminator: boolean = false): any {
+    return value as any;
 }
 
