@@ -36,7 +36,6 @@ namespace {{packageName}}.{{clientPackage}}
         public HostConfiguration(IServiceCollection services)
         {
             _services = services;
-            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             {{#models}}
             {{#model}}
             {{#isEnum}}
@@ -48,6 +47,8 @@ namespace {{packageName}}.{{clientPackage}}
             {{/isEnum}}
             {{/model}}
             {{/models}}
+            // Registered last so the generated schema-specific converters take precedence (System.Text.Json uses the first matching converter).
+            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new{{^net60OrLater}} JsonSerializerOptionsProvider{{/net60OrLater}}(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             {{#useSourceGeneration}}

@@ -38,7 +38,6 @@ namespace Org.OpenAPITools.Client
         public HostConfiguration(IServiceCollection services)
         {
             _services = services;
-            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new AnyOfStringArrayOfStringJsonConverter());
             _jsonOptions.Converters.Add(new NumberJsonConverter());
             _jsonOptions.Converters.Add(new NumberNullableJsonConverter());
@@ -57,6 +56,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new SingleAnyOfTestNullableJsonConverter());
             _jsonOptions.Converters.Add(new TypeIntegerWithOneOfJsonConverter());
             _jsonOptions.Converters.Add(new TypeIntegerWithOneOfNullableJsonConverter());
+            // Registered last so the generated schema-specific converters take precedence (System.Text.Json uses the first matching converter).
+            _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
