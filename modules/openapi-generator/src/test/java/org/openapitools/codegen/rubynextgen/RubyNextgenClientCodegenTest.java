@@ -437,7 +437,8 @@ public class RubyNextgenClientCodegenTest {
         new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/configuration.rb"),
-                "def use(", "@middlewares.each");
+                "def use(", "@middlewares.each",
+                "*args, **kwargs, &block", "*mw_args, **mw_kwargs, &mw_block");
     }
 
     @Test
