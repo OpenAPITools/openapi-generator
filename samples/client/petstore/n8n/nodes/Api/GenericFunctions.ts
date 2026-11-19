@@ -1,9 +1,22 @@
 import type { IExecuteFunctions, IDataObject, IHttpRequestOptions } from 'n8n-workflow';
 
 /**
- * Builds and sends a single HTTP request against the OpenAPI Petstore API, applying
- * whichever credential type this node package was generated with (see
- * credentials/ApiCredentials.credentials.ts).
+ * Builds and sends a single HTTP request against the OpenAPI Petstore API.
+ * 
+ * 
+ * 
+ * This spec declares more than one security scheme, so more than one credential type was
+ * generated (see credentials/); only the highest-priority one, "apiKeyCredentials", is applied
+ * to outgoing requests here by default - see the generated README's "Known limitations".
+ * 
+ * 
+ * 
+ * 
+ * This spec declares more than one security scheme, so more than one credential type was
+ * generated (see credentials/); only the highest-priority one, "petstoreAuthCredentials", is applied
+ * to outgoing requests here by default - see the generated README's "Known limitations".
+ * 
+ * 
  */
 export async function apiRequest(
 	this: IExecuteFunctions,
@@ -12,7 +25,7 @@ export async function apiRequest(
 	body: IDataObject = {},
 	qs: IDataObject = {},
 ): Promise<unknown> {
-	const credentials = await this.getCredentials('apiCredentialsApi');
+	const credentials = await this.getCredentials('apiKeyCredentials');
 	const baseUrl = (credentials.baseUrl as string) || 'http://petstore.swagger.io/v2';
 
 	const options: IHttpRequestOptions = {
@@ -27,5 +40,5 @@ export async function apiRequest(
 		delete options.body;
 	}
 
-	return this.helpers.httpRequestWithAuthentication.call(this, 'apiCredentialsApi', options);
+	return this.helpers.httpRequestWithAuthentication.call(this, 'apiKeyCredentials', options);
 }

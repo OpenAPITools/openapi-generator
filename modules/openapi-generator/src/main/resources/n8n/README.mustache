@@ -17,40 +17,42 @@ into `~/.n8n/custom/` and running `npm install && npm run build` there works wel
 
 ## Credentials
 
-{{#hasAuthMethods}}
-This node ships one generated credential type, **{{apiTitle}} API**, covering:
-
-{{#hasApiKeyMethods}}
-- **API Key** - sent as {{#apiKeyMethods}}{{#-first}}{{#isKeyInHeader}}the `{{keyParamName}}` header{{/isKeyInHeader}}{{#isKeyInQuery}}the `{{keyParamName}}` query parameter{{/isKeyInQuery}}{{/-first}}{{/apiKeyMethods}}.
-{{/hasApiKeyMethods}}
-{{^hasApiKeyMethods}}
-{{#hasHttpBasicMethods}}
-- **HTTP Basic authentication** (username/password).
-{{/hasHttpBasicMethods}}
-{{^hasHttpBasicMethods}}
-{{#hasHttpBearerMethods}}
-- **HTTP Bearer token**.
-{{/hasHttpBearerMethods}}
-{{^hasHttpBearerMethods}}
-{{#hasOAuthMethods}}
-- **OAuth2** - partial support. See "Known limitations" below.
-{{/hasOAuthMethods}}
-{{/hasHttpBearerMethods}}
-{{/hasHttpBasicMethods}}
-{{/hasApiKeyMethods}}
-
-Set the **Base URL** field to your API's base URL (defaults to `{{{basePath}}}`, the base URL declared in the source spec).
-{{/hasAuthMethods}}
-{{^hasAuthMethods}}
+{{#n8nCredentialRefs}}
+{{#n8nSingleCredential}}
+This node ships one generated credential type: **{{displayName}}**.
+{{/n8nSingleCredential}}
+{{^n8nSingleCredential}}
+{{#-first}}
+This spec declares more than one security scheme, so this package ships one generated credential
+type per scheme:
+{{/-first}}
+- **{{displayName}}**
+{{/n8nSingleCredential}}
+{{/n8nCredentialRefs}}
+{{^n8nCredentialRefs}}
 This API's spec declares no security scheme, so no credential type was generated. Requests are sent unauthenticated.
-{{/hasAuthMethods}}
+{{/n8nCredentialRefs}}
+{{#n8nCredentialRefs}}
+{{#-first}}
+
+Set the **Base URL** field on whichever credential you use to your API's base URL (defaults to
+`{{{basePath}}}`, the base URL declared in the source spec).
+{{/-first}}
+{{/n8nCredentialRefs}}
 
 ### Known limitations
 
-- Only the highest-priority security scheme declared in the spec (API key, then HTTP basic, then HTTP
-  bearer, then OAuth2) is wired up automatically. If the spec declares more than one scheme, the
-  others are **not** automatically configured; add the relevant headers/query parameters yourself if
-  you need them.
+{{#n8nCredentialRefs}}
+{{^n8nSingleCredential}}
+{{#-first}}
+- This spec declares more than one security scheme. All of them get a usable, correctly-shaped
+  credential type above, but the node's requests are only automatically authenticated with the
+  highest-priority one, **{{displayName}}**, by default (API key, then HTTP basic, then HTTP
+  bearer, then OAuth2 priority order). If you need a different one applied, edit
+  `nodes/Api/GenericFunctions.ts`'s `apiRequest` function.
+{{/-first}}
+{{/n8nSingleCredential}}
+{{/n8nCredentialRefs}}
 {{#hasOAuthMethods}}
 - This spec declares an OAuth2 scheme. Full OAuth2 flow automation (authorization redirects, token
   refresh) is out of scope for this generator; the generated credential accepts a pre-obtained access

@@ -16,7 +16,9 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -27,6 +29,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.escape;
@@ -47,6 +56,11 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String NODE_PREFIX = "nodePrefix";
 
     private final Logger LOGGER = LoggerFactory.getLogger(N8nClientCodegen.class);
+
+    /** Tracks which raw OpenAPI tag first claimed each sanitized Resource name, so a second,
+     * different raw tag that happens to sanitize to the same value can be disambiguated
+     * instead of silently merging into the first tag's Resource. See {@link #sanitizeTag}. */
+    private final Map<String, String> sanitizedTagOwners = new HashMap<>();
 
     @Override
     public CodegenType getTag() {
@@ -81,9 +95,15 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = "nodes";
         modelPackage = "nodes";
 
+        // credentials.mustache is deliberately NOT registered as a fixed-destination
+        // SupportingFile: a spec can declare more than one security scheme, and each needs its
+        // own file/class pair (n8n's directory loader derives the expected class name from the
+        // filename - see the Javadoc on writeCredentialFile()), which the SupportingFile
+        // mechanism's one-template-one-fixed-path model can't produce. Instead,
+        // postProcessSupportingFileData() below renders this template manually, once per
+        // declared scheme.
         supportingFiles.add(new SupportingFile("node.mustache", "nodes" + File.separator + "Api", "Api.node.ts"));
         supportingFiles.add(new SupportingFile("genericFunctions.mustache", "nodes" + File.separator + "Api", "GenericFunctions.ts"));
-        supportingFiles.add(new SupportingFile("credentials.mustache", "credentials", "ApiCredentials.credentials.ts"));
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -156,6 +176,51 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Disambiguates two distinct raw OpenAPI tags that sanitize/normalize to the same Resource
+     * label (e.g. "Pet Store" and "pet_store" both camelizing to "PetStore") by appending a
+     * deterministic suffix to every tag after the first one to claim that sanitized value, per
+     * FR-011 / spec.md Edge Cases #3. Deterministic on the raw tag string, so repeated calls for
+     * the same colliding tag (one per operation under it) keep returning the same disambiguated
+     * value, letting those operations still group together under one Resource.
+     */
+    @Override
+    public String sanitizeTag(String tag) {
+        String sanitized = super.sanitizeTag(tag);
+        String existingOwner = sanitizedTagOwners.putIfAbsent(sanitized, tag);
+        if (existingOwner == null || existingOwner.equals(tag)) {
+            return sanitized;
+        }
+        return sanitized + "_" + Integer.toHexString(tag.hashCode());
+    }
+
+    /**
+     * Operations with no OpenAPI tag at all are, by default, grouped under the framework's
+     * literal fallback tag {@code "default"} (see {@code DefaultGenerator.processOperation}) -
+     * meaning every untagged operation across the whole spec would be lumped into one single
+     * "Default" Resource. spec.md US2 Acceptance Scenario 3 requires them instead to be grouped
+     * into a Resource derived from the operation's own path, so untagged operations under
+     * different paths become different Resources rather than one catch-all.
+     */
+    @Override
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
+        if (operation.getTags() == null || operation.getTags().isEmpty()) {
+            tag = sanitizeTag(pathDerivedResourceName(resourcePath));
+        }
+        super.addOperationToGroup(tag, resourcePath, operation, co, operations);
+    }
+
+    private static String pathDerivedResourceName(String resourcePath) {
+        if (resourcePath != null) {
+            for (String segment : resourcePath.split("/")) {
+                if (!segment.isEmpty() && !segment.startsWith("{")) {
+                    return segment;
+                }
+            }
+        }
+        return "default";
+    }
+
+    /**
      * Computes the n8n node-property {@code type} for each parameter/field (data-model.md
      * "Field"/{@code n8nType}), exposed to templates as {@code vendorExtensions.n8nFieldType}.
      * <p>
@@ -209,6 +274,157 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         p.vendorExtensions.put("n8nIsNumber", "number".equals(n8nFieldType));
         p.vendorExtensions.put("n8nIsString", "string".equals(n8nFieldType));
         p.vendorExtensions.put("n8nIsJson", "json".equals(n8nFieldType));
+    }
+
+    /**
+     * Renders one {@code <Scheme>Credentials.credentials.ts} file per declared security scheme
+     * that this generator knows how to map (apiKey, HTTP basic, HTTP bearer, OAuth2 - per
+     * research.md §3), and exposes the resulting list as {@code n8nCredentialRefs} /
+     * {@code n8nSingleCredential} so {@code node.mustache}, {@code package.mustache}, {@code
+     * genericFunctions.mustache}, and {@code README.mustache} (all rendered from this same
+     * bundle) can reference every generated credential, not just one. See FR-005's edge case
+     * ("generate credentials for each declared scheme") and
+     * contracts/generated-package-contract.md's one-credential-per-scheme design.
+     * <p>
+     * The runtime request helper ({@code genericFunctions.mustache}) still only authenticates
+     * with the single highest-priority credential by default when a spec declares more than
+     * one - see the generated README's "Known limitations" - but every declared scheme now
+     * gets its own correctly-shaped, independently valid credential definition.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        objs = super.postProcessSupportingFileData(objs);
+
+        List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
+        List<Map<String, Object>> credentialRefs = new ArrayList<>();
+
+        if (authMethods != null && !authMethods.isEmpty()) {
+            List<CodegenSecurity> supported = new ArrayList<>();
+            for (CodegenSecurity scheme : authMethods) {
+                if (schemePriority(scheme) != Integer.MAX_VALUE) {
+                    supported.add(scheme);
+                }
+            }
+            supported.sort(Comparator.comparingInt(N8nClientCodegen::schemePriority));
+
+            String credentialsTemplate = readClasspathResource("n8n/credentials.mustache");
+            Mustache.Compiler compiler = Mustache.compiler().defaultValue("");
+
+            for (CodegenSecurity scheme : supported) {
+                String pascal = toPascalCase(scheme.name);
+                String className = pascal + "Credentials";
+                String credentialName = Character.toLowerCase(pascal.charAt(0)) + pascal.substring(1) + "Credentials";
+                String displayName = objs.get("apiTitle") + " API - " + schemeKindLabel(scheme);
+
+                Map<String, Object> data = new HashMap<>(objs);
+                data.put("className", className);
+                data.put("credentialName", credentialName);
+                data.put("displayName", displayName);
+                data.put("isApiKey", scheme.isApiKey);
+                data.put("isBasicBasic", scheme.isBasicBasic);
+                data.put("isBasicBearer", scheme.isBasicBearer);
+                data.put("isOAuth", scheme.isOAuth);
+                data.put("isKeyInHeader", scheme.isKeyInHeader);
+                data.put("isKeyInQuery", scheme.isKeyInQuery);
+                data.put("keyParamName", scheme.keyParamName);
+
+                String rendered = compiler.compile(credentialsTemplate).execute(data);
+                writeCredentialFile(className, rendered);
+
+                Map<String, Object> ref = new HashMap<>();
+                ref.put("className", className);
+                ref.put("credentialName", credentialName);
+                ref.put("displayName", displayName);
+                credentialRefs.add(ref);
+            }
+        }
+
+        boolean single = credentialRefs.size() == 1;
+        for (Map<String, Object> ref : credentialRefs) {
+            ref.put("n8nSingleCredential", single);
+        }
+
+        objs.put("n8nCredentialRefs", credentialRefs);
+        objs.put("n8nSingleCredential", single);
+        return objs;
+    }
+
+    private static int schemePriority(CodegenSecurity scheme) {
+        if (Boolean.TRUE.equals(scheme.isApiKey)) {
+            return 0;
+        }
+        if (Boolean.TRUE.equals(scheme.isBasicBasic)) {
+            return 1;
+        }
+        if (Boolean.TRUE.equals(scheme.isBasicBearer)) {
+            return 2;
+        }
+        if (Boolean.TRUE.equals(scheme.isOAuth)) {
+            return 3;
+        }
+        // openIdConnect, httpSignature, or any other scheme type this generator doesn't map:
+        // no credential is generated for it (documented as a limitation elsewhere), per FR-010.
+        return Integer.MAX_VALUE;
+    }
+
+    private static String schemeKindLabel(CodegenSecurity scheme) {
+        if (Boolean.TRUE.equals(scheme.isApiKey)) {
+            return "API Key";
+        }
+        if (Boolean.TRUE.equals(scheme.isBasicBasic)) {
+            return "HTTP Basic Auth";
+        }
+        if (Boolean.TRUE.equals(scheme.isBasicBearer)) {
+            return "Bearer Token";
+        }
+        if (Boolean.TRUE.equals(scheme.isOAuth)) {
+            return "OAuth2";
+        }
+        return "API";
+    }
+
+    private static String toPascalCase(String raw) {
+        String[] parts = raw.split("[^a-zA-Z0-9]+");
+        StringBuilder sb = new StringBuilder();
+        for (String part : parts) {
+            if (!part.isEmpty()) {
+                sb.append(Character.toUpperCase(part.charAt(0))).append(part.substring(1));
+            }
+        }
+        if (sb.length() == 0 || Character.isDigit(sb.charAt(0))) {
+            sb.insert(0, "Scheme");
+        }
+        return sb.toString();
+    }
+
+    private String readClasspathResource(String path) {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream(path)) {
+            if (in == null) {
+                throw new IllegalStateException("Could not find classpath resource: " + path);
+            }
+            return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new UncheckedIOException("Failed to read classpath resource: " + path, e);
+        }
+    }
+
+    /**
+     * n8n's {@code CustomDirectoryLoader}/{@code DirectoryLoader.loadClass} derives the expected
+     * exported class name directly from the filename (splitting on "." and taking the first
+     * segment), so {@code <className>.credentials.ts} MUST export a class literally named
+     * {@code <className>} - a mismatch is silently swallowed as a logged warning rather than a
+     * hard error, and the credential then fails at runtime with "Unknown credential name"
+     * (confirmed by actually loading generated output into a real n8n instance).
+     */
+    private void writeCredentialFile(String className, String content) {
+        try {
+            Path dir = Paths.get(outputFolder(), "credentials");
+            Files.createDirectories(dir);
+            Files.write(dir.resolve(className + ".credentials.ts"), content.getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            throw new UncheckedIOException("Failed to write generated credential file for class " + className, e);
+        }
     }
 
     @Override

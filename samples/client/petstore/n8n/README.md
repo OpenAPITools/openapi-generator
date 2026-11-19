@@ -17,18 +17,21 @@ into `~/.n8n/custom/` and running `npm install && npm run build` there works wel
 
 ## Credentials
 
-This node ships one generated credential type, **OpenAPI Petstore API**, covering:
+This spec declares more than one security scheme, so this package ships one generated credential
+type per scheme:
+- **OpenAPI Petstore API - API Key**
+- **OpenAPI Petstore API - OAuth2**
 
-- **API Key** - sent as the `api_key` header.
-
-Set the **Base URL** field to your API's base URL (defaults to `http://petstore.swagger.io/v2`, the base URL declared in the source spec).
+Set the **Base URL** field on whichever credential you use to your API's base URL (defaults to
+`http://petstore.swagger.io/v2`, the base URL declared in the source spec).
 
 ### Known limitations
 
-- Only the highest-priority security scheme declared in the spec (API key, then HTTP basic, then HTTP
-  bearer, then OAuth2) is wired up automatically. If the spec declares more than one scheme, the
-  others are **not** automatically configured; add the relevant headers/query parameters yourself if
-  you need them.
+- This spec declares more than one security scheme. All of them get a usable, correctly-shaped
+  credential type above, but the node's requests are only automatically authenticated with the
+  highest-priority one, **OpenAPI Petstore API - API Key**, by default (API key, then HTTP basic, then HTTP
+  bearer, then OAuth2 priority order). If you need a different one applied, edit
+  `nodes/Api/GenericFunctions.ts`'s `apiRequest` function.
 - This spec declares an OAuth2 scheme. Full OAuth2 flow automation (authorization redirects, token
   refresh) is out of scope for this generator; the generated credential accepts a pre-obtained access
   token instead. See [n8n's OAuth2 credential docs](https://docs.n8n.io/integrations/creating-nodes/build/reference/credentials-files/)

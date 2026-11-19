@@ -5,15 +5,15 @@ import type {
 } from 'n8n-workflow';
 
 /**
- * Generated from the OpenAPI spec's declared security scheme(s). When more than one
- * scheme is declared, the first one found (priority: apiKey, then HTTP basic, then HTTP
- * bearer, then OAuth2) is wired up automatically here; any additional schemes are listed
- * in the generated README as a manual-setup limitation rather than silently dropped.
+ * Generated from one of the OpenAPI spec's declared security schemes. Each declared scheme gets
+ * its own credential class/file this way (see data-model.md "CredentialDefinition"); the generated
+ * node's execute() still only applies the single highest-priority one to outgoing requests by
+ * default when a spec declares more than one - see the generated README's "Known limitations".
  */
-export class ApiCredentials implements ICredentialType {
-	name = 'apiCredentialsApi';
+export class ApiKeyCredentials implements ICredentialType {
+	name = 'apiKeyCredentials';
 
-	displayName = "OpenAPI Petstore API";
+	displayName = "OpenAPI Petstore API - API Key";
 
 	properties: INodeProperties[] = [
 		{

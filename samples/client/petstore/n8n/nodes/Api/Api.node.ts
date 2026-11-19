@@ -23,8 +23,12 @@ export class Api implements INodeType {
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'apiCredentialsApi',
-				required: true,
+				name: 'apiKeyCredentials',
+				required: false,
+			},
+			{
+				name: 'petstoreAuthCredentials',
+				required: false,
 			},
 		],
 		properties: [

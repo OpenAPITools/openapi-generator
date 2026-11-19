@@ -17,7 +17,9 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ApiCredentials.credentials.js"
+      {{#n8nCredentialRefs}}
+      "dist/credentials/{{className}}.credentials.js"{{^-last}},{{/-last}}
+      {{/n8nCredentialRefs}}
     ],
     "nodes": [
       "dist/nodes/Api/Api.node.js"

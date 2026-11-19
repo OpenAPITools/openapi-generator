@@ -22,12 +22,12 @@ export class Api implements INodeType {
 		inputs: ['main'],
 		outputs: ['main'],
 		credentials: [
-			{{#hasAuthMethods}}
+			{{#n8nCredentialRefs}}
 			{
-				name: 'apiCredentialsApi',
-				required: true,
+				name: '{{credentialName}}',
+				required: {{#n8nSingleCredential}}true{{/n8nSingleCredential}}{{^n8nSingleCredential}}false{{/n8nSingleCredential}},
 			},
-			{{/hasAuthMethods}}
+			{{/n8nCredentialRefs}}
 		],
 		properties: [
 			{

@@ -1,9 +1,17 @@
 import type { IExecuteFunctions, IDataObject, IHttpRequestOptions } from 'n8n-workflow';
 
 /**
- * Builds and sends a single HTTP request against the {{apiTitle}} API, applying
- * whichever credential type this node package was generated with (see
- * credentials/ApiCredentials.credentials.ts).
+ * Builds and sends a single HTTP request against the {{apiTitle}} API.
+ * {{#n8nCredentialRefs}}
+ * {{#n8nSingleCredential}}
+ * Applies the one generated credential type (see credentials/{{className}}.credentials.ts).
+ * {{/n8nSingleCredential}}
+ * {{^n8nSingleCredential}}
+ * This spec declares more than one security scheme, so more than one credential type was
+ * generated (see credentials/); only the highest-priority one, "{{credentialName}}", is applied
+ * to outgoing requests here by default - see the generated README's "Known limitations".
+ * {{/n8nSingleCredential}}
+ * {{/n8nCredentialRefs}}
  */
 export async function apiRequest(
 	this: IExecuteFunctions,
@@ -12,13 +20,15 @@ export async function apiRequest(
 	body: IDataObject = {},
 	qs: IDataObject = {},
 ): Promise<unknown> {
-	{{#hasAuthMethods}}
-	const credentials = await this.getCredentials('apiCredentialsApi');
+	{{#n8nCredentialRefs}}
+	{{#-first}}
+	const credentials = await this.getCredentials('{{credentialName}}');
 	const baseUrl = (credentials.baseUrl as string) || '{{{basePath}}}';
-	{{/hasAuthMethods}}
-	{{^hasAuthMethods}}
+	{{/-first}}
+	{{/n8nCredentialRefs}}
+	{{^n8nCredentialRefs}}
 	const baseUrl = '{{{basePath}}}';
-	{{/hasAuthMethods}}
+	{{/n8nCredentialRefs}}
 
 	const options: IHttpRequestOptions = {
 		method: method as IHttpRequestOptions['method'],
@@ -32,10 +42,12 @@ export async function apiRequest(
 		delete options.body;
 	}
 
-	{{#hasAuthMethods}}
-	return this.helpers.httpRequestWithAuthentication.call(this, 'apiCredentialsApi', options);
-	{{/hasAuthMethods}}
-	{{^hasAuthMethods}}
+	{{#n8nCredentialRefs}}
+	{{#-first}}
+	return this.helpers.httpRequestWithAuthentication.call(this, '{{credentialName}}', options);
+	{{/-first}}
+	{{/n8nCredentialRefs}}
+	{{^n8nCredentialRefs}}
 	return this.helpers.httpRequest(options);
-	{{/hasAuthMethods}}
+	{{/n8nCredentialRefs}}
 }
