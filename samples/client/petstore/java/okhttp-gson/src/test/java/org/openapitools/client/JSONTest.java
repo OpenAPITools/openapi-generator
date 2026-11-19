@@ -766,6 +766,39 @@ public class JSONTest {
     }
 
     /**
+     * Test additional properties with a null value.
+     *
+     * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24393:
+     * the CustomTypeAdapterFactory used to throw IllegalStateException("Not a JSON Object: null")
+     * when serializing a model whose undeclared-property map contains a null value.
+     */
+    @Test
+    public void testAdditionalPropertiesNullValue() throws Exception {
+        // serialize: a null undeclared-property value no longer throws and is written as JSON null
+        AdditionalPropertiesClass model = new AdditionalPropertiesClass();
+        model.putAdditionalProperty("unknownField", null);
+        // Gson drops named nulls unless serializeNulls is enabled
+        Gson gsonWithNulls = json.getGson().newBuilder().serializeNulls().create();
+        JsonObject serialized = gsonWithNulls.toJsonTree(model).getAsJsonObject();
+        assertTrue(serialized.get("unknownField").isJsonNull());
+        // the ApiClient's Gson does not enable serializeNulls, so the named null is omitted from the text output
+        assertFalse(model.toJson().contains("unknownField"));
+
+        // deserialize: JSON null undeclared properties are stored as null-valued entries
+        AdditionalPropertiesClass deserialized = AdditionalPropertiesClass.fromJson("{\"map_property\":{\"key\":\"value\"},\"unknownField\":null}");
+        assertEquals(deserialized.getMapProperty(), Collections.singletonMap("key", "value"));
+        assertTrue(deserialized.getAdditionalProperties().containsKey("unknownField"));
+        assertNull(deserialized.getAdditionalProperties().get("unknownField"));
+
+        // serialize -> deserialize -> serialize round trip preserves the null entry
+        JsonObject roundTripped = gsonWithNulls.toJsonTree(deserialized).getAsJsonObject();
+        assertEquals(roundTripped.get("map_property").getAsJsonObject().get("key").getAsString(), "value");
+        assertTrue(roundTripped.get("unknownField").isJsonNull());
+        // text re-serialization does not throw
+        deserialized.toJson();
+    }
+
+    /**
      * Validate a oneOf, anyOf schema with array sub-schema can be deserialized into the expected class.
      */
     @Test
