@@ -8032,8 +8032,8 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(itemFile.toPath(), "@param `2ndField` ");
     }
 
-    @Test(description = "URI properties do not get unsupported Bean Validation annotations")
-    public void uriPropertiesDoNotGetPatternOrSizeConstraints() throws IOException {
+    @Test(description = "URI properties and parameters do not get unsupported Bean Validation annotations")
+    public void uriPropertiesAndParametersDoNotGetPatternOrSizeConstraints() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/uri-validation-pattern.yaml",
                 new HashMap<>(Map.of(USE_BEANVALIDATION, true))
@@ -8049,6 +8049,16 @@ public class KotlinSpringServerCodegenTest {
         String sizeConstraint = "@get:Size(min=1)";
         assertThat(model).contains(sizeConstraint);
         assertThat(model.indexOf(sizeConstraint)).isEqualTo(model.lastIndexOf(sizeConstraint));
+
+        File apiFile = files.get("UriPayloadApiController.kt");
+        assertThat(apiFile).isNotNull();
+        String api = Files.readString(apiFile.toPath());
+        assertThat(api).contains("uriParam: java.net.URI?");
+        assertThat(api).doesNotContain("@Pattern(regexp=\"^https?://\")");
+        assertThat(api).contains("@Pattern(regexp=\"^[a-z]+$\")");
+        String parameterSizeConstraint = "@Size(min=1)";
+        assertThat(api).contains(parameterSizeConstraint);
+        assertThat(api.indexOf(parameterSizeConstraint)).isEqualTo(api.lastIndexOf(parameterSizeConstraint));
     }
 
 

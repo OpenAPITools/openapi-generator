@@ -6,6 +6,20 @@ paths:
   /uri-payload:
     get:
       operationId: getUriPayload
+      parameters:
+        - in: query
+          name: uriParam
+          schema:
+            type: string
+            format: uri
+            pattern: '^https?://'
+            minLength: 1
+        - in: query
+          name: plainStringParam
+          schema:
+            type: string
+            pattern: '^[a-z]+$'
+            minLength: 1
       responses:
         '200':
           description: URI payload
