@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: URI validation annotations
+  version: 1.0.0
+paths:
+  /uri-payload:
+    get:
+      operationId: getUriPayload
+      responses:
+        '200':
+          description: URI payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UriPayload'
+components:
+  schemas:
+    UriPayload:
+      type: object
+      properties:
+        uri:
+          type: string
+          format: uri
+          pattern: '^https?://'
+          minLength: 1
+        plainString:
+          type: string
+          pattern: '^[a-z]+$'
+          minLength: 1

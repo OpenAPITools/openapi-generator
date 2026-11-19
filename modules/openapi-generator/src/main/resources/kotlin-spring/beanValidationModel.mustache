@@ -2,9 +2,9 @@
 format: email
 }}{{#isEmail}}
     @get:Email{{/isEmail}}{{!
-pattern set
-}}{{#pattern}}
-    @get:Pattern(regexp="{{{pattern}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}){{/pattern}}{{!
+pattern set; URI is not supported by Bean Validation @Pattern
+}}{{#pattern}}{{^isUri}}
+    @get:Pattern(regexp="{{{pattern}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}){{/isUri}}{{/pattern}}{{!
 minLength && maxLength set; URI is not supported by Bean Validation @Size
 }}{{#minLength}}{{#maxLength}}{{^isUri}}
     @get:Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/isUri}}{{/maxLength}}{{/minLength}}{{!

@@ -8032,6 +8032,25 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(itemFile.toPath(), "@param `2ndField` ");
     }
 
+    @Test(description = "URI properties do not get unsupported Bean Validation annotations")
+    public void uriPropertiesDoNotGetPatternOrSizeConstraints() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/uri-validation-pattern.yaml",
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true))
+        );
+
+        File modelFile = files.get("UriPayload.kt");
+        assertThat(modelFile).isNotNull();
+        String model = Files.readString(modelFile.toPath());
+
+        assertThat(model).contains("uri: java.net.URI?");
+        assertThat(model).doesNotContain("@get:Pattern(regexp=\"^https?://\")");
+        assertThat(model).contains("@get:Pattern(regexp=\"^[a-z]+$\")");
+        String sizeConstraint = "@get:Size(min=1)";
+        assertThat(model).contains(sizeConstraint);
+        assertThat(model.indexOf(sizeConstraint)).isEqualTo(model.lastIndexOf(sizeConstraint));
+    }
+
 
     /**
      * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
