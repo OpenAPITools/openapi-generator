@@ -154,10 +154,18 @@ public final class RubyApiRouting {
         if (actionStart < lits.size()) {
             StringBuilder sb = new StringBuilder();
             for (int i = actionStart; i < lits.size(); i++) {
+                String lit = lits.get(i).replaceAll("\\{[^}]*\\}", "").replaceAll("[^A-Za-z0-9_]+", "_");
+                lit = lit.replaceAll("^_+|_+$", "");
+                if (lit.isEmpty()) continue;
                 if (sb.length() > 0) sb.append("_");
-                sb.append(underscore(lits.get(i)));
+                sb.append(underscore(lit));
             }
-            return sb.toString();
+            if (sb.length() > 0) {
+                if (Character.isDigit(sb.charAt(0))) {
+                    sb.insert(0, '_');
+                }
+                return sb.toString();
+            }
         }
         // (c) collection-aware verb CRUD
         return verbAction(httpMethod, item);
