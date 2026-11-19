@@ -31,7 +31,6 @@ module {{moduleName}}
       conn.request :multipart
       conn.request :url_encoded
       conn.request :json
-      conn.response :json, content_type: /\bjson$/
       conn.options.timeout = timeout
       conn.response :logger, logger if logger && debugging
       @middlewares.each { |mw, mw_args, mw_block| conn.use(mw, *mw_args, &mw_block) }
