@@ -158,15 +158,54 @@ public class N8nClientCodegenTest {
             Assert.assertTrue(credentialsSource.contains("'api_key'"));
             Assert.assertTrue(credentialsSource.contains("headers"));
 
-            // ... and, because it's the higher-priority scheme, it must be the one the
-            // generated runtime request helper actually authenticates with by default.
-            List<Path> genericFunctionsFiles = find(target, "GenericFunctions.ts");
-            Assert.assertFalse(genericFunctionsFiles.isEmpty());
-            String genericFunctionsSource = Files.readString(genericFunctionsFiles.get(0));
-            Assert.assertTrue(genericFunctionsSource.contains("getCredentials('apiKeyCredentials')"));
+            // ... and getPetById, which declares `security: [api_key: []]` on itself in the
+            // spec, must authenticate with that exact credential (spec.md Edge Cases #4).
+            String nodeSource = readNodeSource(target);
+            Assert.assertEquals(operationCredentialName(nodeSource, "getPetById"), "apiKeyCredentials");
         } finally {
             deleteRecursively(target);
         }
+    }
+
+    /**
+     * Regression test for T052 (convergence): the generated node used to apply only the single
+     * highest-priority credential to every outgoing request, regardless of what security an
+     * individual operation actually declared. Petstore's own spec declares `addPet`'s security
+     * as `petstore_auth` (oauth2) and `getPetById`'s as `api_key`, so each must authenticate
+     * with its OWN matching credential within the same generated file, per spec.md Edge Cases
+     * #4 (2nd clause: "let the generated node reference the one appropriate per operation").
+     */
+    @Test
+    public void appliesDifferentCredentialsToDifferentOperationsPerTheirOwnSecurityScheme() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            generate(target);
+            String nodeSource = readNodeSource(target);
+
+            Assert.assertEquals(operationCredentialName(nodeSource, "addPet"), "petstoreAuthCredentials");
+            Assert.assertEquals(operationCredentialName(nodeSource, "updatePet"), "petstoreAuthCredentials");
+            Assert.assertEquals(operationCredentialName(nodeSource, "getPetById"), "apiKeyCredentials");
+            Assert.assertEquals(operationCredentialName(nodeSource, "getInventory"), "apiKeyCredentials");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Extracts the credential name passed as apiRequest's 5th argument within the given
+     * operation's `if (operation === '...') { ... }` branch in the generated node source.
+     */
+    private static String operationCredentialName(String nodeSource, String operationId) {
+        String marker = "operation === '" + operationId + "'";
+        int branchStart = nodeSource.indexOf(marker);
+        Assert.assertTrue(branchStart >= 0, "expected an execute() branch for operation '" + operationId + "'");
+        int callStart = nodeSource.indexOf("apiRequest.call(", branchStart);
+        Assert.assertTrue(callStart >= 0, "expected an apiRequest.call(...) within the '" + operationId + "' branch");
+        int callEnd = nodeSource.indexOf(";", callStart);
+        String callText = nodeSource.substring(callStart, callEnd);
+        int lastQuote = callText.lastIndexOf('\'');
+        int secondLastQuote = callText.lastIndexOf('\'', lastQuote - 1);
+        return callText.substring(secondLastQuote + 1, lastQuote);
     }
 
     @Test

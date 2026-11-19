@@ -23,6 +23,7 @@ import io.swagger.v3.oas.models.info.Info;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
@@ -286,10 +287,17 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * ("generate credentials for each declared scheme") and
      * contracts/generated-package-contract.md's one-credential-per-scheme design.
      * <p>
-     * The runtime request helper ({@code genericFunctions.mustache}) still only authenticates
-     * with the single highest-priority credential by default when a spec declares more than
-     * one - see the generated README's "Known limitations" - but every declared scheme now
-     * gets its own correctly-shaped, independently valid credential definition.
+     * Also stamps each individual {@code CodegenOperation} with {@code
+     * vendorExtensions.n8nOperationCredentialName} (T052 / spec.md Edge Cases #4, 2nd clause:
+     * "let the generated node reference the one appropriate per operation"): looked up from
+     * that operation's own, already-framework-filtered {@code authMethods} when it declares a
+     * security requirement of its own, falling back to the single highest-priority generated
+     * credential otherwise. This has to happen here, in this hook, rather than in {@link
+     * #postProcessOperationsWithModels} - at that point {@code op.authMethods} has not been set
+     * yet; {@code DefaultGenerator} only calls {@code addAuthenticationSwitches(operation)}
+     * afterward. By the time this hook runs (during {@code buildSupportFileBundle}, after
+     * {@code generateApis()} has fully finished), every operation's {@code authMethods} is
+     * already populated.
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -298,6 +306,7 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
         List<Map<String, Object>> credentialRefs = new ArrayList<>();
+        Map<String, String> schemeNameToCredentialName = new HashMap<>();
 
         if (authMethods != null && !authMethods.isEmpty()) {
             List<CodegenSecurity> supported = new ArrayList<>();
@@ -337,6 +346,8 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 ref.put("credentialName", credentialName);
                 ref.put("displayName", displayName);
                 credentialRefs.add(ref);
+
+                schemeNameToCredentialName.put(scheme.name, credentialName);
             }
         }
 
@@ -347,7 +358,39 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         objs.put("n8nCredentialRefs", credentialRefs);
         objs.put("n8nSingleCredential", single);
+
+        String primaryCredentialName = credentialRefs.isEmpty() ? "" : (String) credentialRefs.get(0).get("credentialName");
+        applyPerOperationCredentialNames(objs, schemeNameToCredentialName, primaryCredentialName);
+
         return objs;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void applyPerOperationCredentialNames(Map<String, Object> objs, Map<String, String> schemeNameToCredentialName, String primaryCredentialName) {
+        Object apiInfo = objs.get("apiInfo");
+        if (!(apiInfo instanceof ApiInfoMap)) {
+            return;
+        }
+        List<OperationsMap> apis = ((ApiInfoMap) apiInfo).getApis();
+        if (apis == null) {
+            return;
+        }
+        for (OperationsMap api : apis) {
+            List<CodegenOperation> operations = api.getOperations().getOperation();
+            for (CodegenOperation op : operations) {
+                String chosen = primaryCredentialName;
+                if (op.authMethods != null) {
+                    for (CodegenSecurity scheme : op.authMethods) {
+                        String mapped = schemeNameToCredentialName.get(scheme.name);
+                        if (mapped != null) {
+                            chosen = mapped;
+                            break;
+                        }
+                    }
+                }
+                op.vendorExtensions.put("n8nOperationCredentialName", chosen);
+            }
+        }
     }
 
     private static int schemePriority(CodegenSecurity scheme) {

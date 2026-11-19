@@ -146,7 +146,7 @@ export class Api implements INodeType {
 					{{/isPrimitiveType}}
 					{{/isBodyParam}}
 					{{/allParams}}
-					responseData = (await apiRequest.call(this, '{{httpMethod}}', path, body, qs)) as IDataObject;
+					responseData = (await apiRequest.call(this, '{{httpMethod}}', path, body, qs, '{{vendorExtensions.n8nOperationCredentialName}}')) as IDataObject;
 				}
 				{{/operation}}
 				{{/operations}}
