@@ -17,9 +17,8 @@ part 'class_model.g.dart';
   explicitToJson: true,
 )
 class ClassModel {
-  /// Returns a new [ClassModel] instance.
+/// Returns a new [ClassModel] instance.
   ClassModel({
-
      this.class_,
   });
 
@@ -39,6 +38,7 @@ class ClassModel {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ClassModel &&
+    runtimeType == other.runtimeType &&
       other.class_ == class_;
 
     @override

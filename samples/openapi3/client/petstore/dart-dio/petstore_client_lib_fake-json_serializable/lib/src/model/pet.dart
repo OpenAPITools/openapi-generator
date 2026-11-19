@@ -19,19 +19,13 @@ part 'pet.g.dart';
   explicitToJson: true,
 )
 class Pet {
-  /// Returns a new [Pet] instance.
+/// Returns a new [Pet] instance.
   Pet({
-
      this.id,
-
      this.category,
-
     required  this.name,
-
     required  this.photoUrls,
-
      this.tags,
-
      this.status,
   });
 
@@ -113,6 +107,7 @@ class Pet {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Pet &&
+    runtimeType == other.runtimeType &&
       other.id == id &&
       other.category == category &&
       other.name == name &&

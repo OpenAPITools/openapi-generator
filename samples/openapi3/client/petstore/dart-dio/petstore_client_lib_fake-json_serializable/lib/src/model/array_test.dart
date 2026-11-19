@@ -18,13 +18,10 @@ part 'array_test.g.dart';
   explicitToJson: true,
 )
 class ArrayTest {
-  /// Returns a new [ArrayTest] instance.
+/// Returns a new [ArrayTest] instance.
   ArrayTest({
-
      this.arrayOfString,
-
      this.arrayArrayOfInteger,
-
      this.arrayArrayOfModel,
   });
 
@@ -68,6 +65,7 @@ class ArrayTest {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
+    runtimeType == other.runtimeType &&
       other.arrayOfString == arrayOfString &&
       other.arrayArrayOfInteger == arrayArrayOfInteger &&
       other.arrayArrayOfModel == arrayArrayOfModel;
