@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: x-abstract on a model its own discriminator maps to
+  description: >
+    Pet is marked x-abstract while its discriminator maps PET to Pet itself. Resolving PET would require
+    instantiating an abstract class, so generation must fail.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          PET: '#/components/schemas/Pet'
+          DOG: '#/components/schemas/Dog'
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean
