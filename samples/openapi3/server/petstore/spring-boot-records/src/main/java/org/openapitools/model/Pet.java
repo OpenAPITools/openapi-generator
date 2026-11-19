@@ -46,7 +46,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "Pet", description = "A pet with an owner")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public record Pet(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotNull @Size(min = 2) 

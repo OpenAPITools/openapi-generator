@@ -21,7 +21,7 @@ import {
 
 export interface TestClassnameRequest {
     /**
-     * 
+     * client model
      */
     client: Client;
 }

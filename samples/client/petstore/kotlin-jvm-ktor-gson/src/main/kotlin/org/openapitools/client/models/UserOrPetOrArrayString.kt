@@ -33,18 +33,18 @@ import com.google.gson.annotations.SerializedName
 /**
  * A schema that can be either a User, a Pet, or an array of strings
  *
- * @param username 
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param firstName 
- * @param lastName 
- * @param email 
- * @param password 
- * @param phone 
+ * @param username
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @param phone
  * @param userStatus User Status
- * @param category 
- * @param tags 
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 

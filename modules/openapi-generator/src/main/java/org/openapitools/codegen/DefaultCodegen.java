@@ -98,6 +98,7 @@ import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.DiscriminatorUtils.*;
 import static org.openapitools.codegen.utils.EnumUtils.*;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -3054,7 +3055,7 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Schema> allProperties = new LinkedHashMap<>();
         List<String> allRequired = new ArrayList<>();
 
-        // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+        // if schema has properties outside allOf/oneOf/anyOf, also add them to m
         if (ModelUtils.hasProperties(composed)) {
             if (ModelUtils.hasOneOf(composed)) {
                 LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
@@ -3246,20 +3247,14 @@ public class DefaultCodegen implements CodegenConfig {
      * that schema for items like enum include all possible values.
      */
     private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties) {
-        // https://github.com/OpenAPITools/openapi-generator/issues/12545
-        if (null != existingProperties && null != newProperties) {
+        if (existingProperties != null && newProperties != null) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             newProperties.forEach((key, value) ->
                     existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
             );
-            if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
-                for (Object e : newType.getEnum()) {
-                    // ensure all interface enum types are added to schema
-                    if (null != existingType.getEnum() && !existingType.getEnum().contains(e)) {
-                        existingType.addEnumItemObject(e);
-                    }
-                }
+            if (existingType != null && newType != null && isEnumSchema(newType)) {
+                mergeEnum(existingType, newType, EnumMergeOperation.UNION);
                 existingProperties.put("type", existingType);
             }
         }
@@ -3400,6 +3395,36 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Deduplicate inline enum properties when a child repeats the same enum from its parent model
+     *
+     * @param codegenModel the child CodegenModel, will have enums removed if they collide with the parent's definition
+     * @param parentCodegenModel the parent CodegenModel
+     * @return the mutated child CodegenModel which has had any parent enum collisions removed
+     */
+    protected CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        if (parentCodegenModel == null || !parentCodegenModel.hasEnums) {
+            return codegenModel;
+        }
+
+        for (CodegenProperty parentModelCodegenProperty : parentCodegenModel.vars) {
+            if (parentModelCodegenProperty.isEnum) {
+                reconcileInlineEnum(parentModelCodegenProperty, codegenModel.vars);
+            }
+        }
+        return codegenModel;
+    }
+
+    private void reconcileInlineEnum(CodegenProperty parentModelCodegenProperty, List<CodegenProperty> codegenProperties) {
+        Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+        while (iterator.hasNext()) {
+            CodegenProperty codegenProperty = iterator.next();
+            if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                iterator.remove();
+            }
+        }
+    }
+
+    /**
      * Convert OAS Model object to Codegen Model object.
      *
      * @param name   the name of the model
@@ -3459,7 +3484,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlNamespace = schema.getXml().getNamespace();
             m.xmlName = schema.getXml().getName();
         }
-        if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) && schema.get$ref() == null && schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+        if (!ModelUtils.isAnyType(schema) && !ModelUtils.isTypeObjectSchema(schema) && !ModelUtils.isArraySchema(schema) && schema.get$ref() == null && isEnumSchema(schema)) {
             // TODO remove the anyType check here in the future ANyType models can have enums defined
             m.isEnum = true;
             // comment out below as allowableValues is not set in post processing model enum
@@ -3673,114 +3698,6 @@ public class DefaultCodegen implements CodegenConfig {
         return DiscriminatorUtils.recursiveGetDiscriminator(openAPI, this.getLegacyDiscriminatorBehavior(), sc, visitedSchemas);
     }
 
-    /**
-     * This function is only used for composed schemas which have a discriminator
-     * Process oneOf and anyOf models in a composed schema and adds them into
-     * a list if the oneOf and anyOf models contain
-     * the required discriminator. If they don't contain the required
-     * discriminator or the discriminator is the wrong type then an error is
-     * thrown
-     *
-     * @param composedSchemaName The String model name of the composed schema where we are setting the discriminator map
-     * @param discPropName       The String that is the discriminator propertyName in the schema
-     * @param c                  The ComposedSchema that contains the discriminator and oneOf/anyOf schemas
-     * @return the list of oneOf and anyOf MappedModel that need to be added to the discriminator map
-     */
-    protected List<MappedModel> getOneOfAnyOfDescendants(String composedSchemaName, String discPropName, Schema c) {
-        ArrayList<List<Schema>> listOLists = new ArrayList<>();
-        listOLists.add(c.getOneOf());
-        listOLists.add(c.getAnyOf());
-        List<MappedModel> descendentSchemas = new ArrayList<>();
-        for (List<Schema> schemaList : listOLists) {
-            if (schemaList == null) {
-                continue;
-            }
-            for (Schema sc : schemaList) {
-                if (ModelUtils.isNullType(sc)) {
-                    continue;
-                }
-                String ref = sc.get$ref();
-                if (ref == null) {
-                    // for schemas with no ref, it is not possible to build the discriminator map
-                    // because ref is how we get the model name
-                    // we only hit this use case for a schema with inline composed schemas, and one of those
-                    // schemas also has inline composed schemas
-                    // Note: if it is only inline one level, then the inline model resolver will move it into its own
-                    // schema and make it a $ref schema in the oneOf/anyOf location
-                    once(LOGGER).warn(
-                            "Invalid inline schema defined in oneOf/anyOf in '{}'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition",
-                            composedSchemaName);
-                }
-                CodegenProperty df = DiscriminatorUtils.discriminatorFound(openAPI, composedSchemaName, sc, discPropName, new TreeSet<String>());
-                String modelName = ModelUtils.getSimpleRef(ref);
-                if (df == null || !df.isString || !df.required) {
-                    once(LOGGER).warn(getDiscriminatorSchemaError(df, discPropName, modelName, composedSchemaName));
-                }
-                MappedModel mm = new MappedModel(modelName, modelName, modelName, false);
-                descendentSchemas.add(mm);
-                Schema cs = ModelUtils.getSchema(openAPI, modelName);
-                if (cs == null) { // cannot lookup the model based on the name
-                    once(LOGGER).error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
-                } else {
-                    discriminatorVendorExtensionValue(cs)
-                            .ifPresent(discriminatorValue -> descendentSchemas.add(new MappedModel(discriminatorValue, modelName, modelName, true)));
-                }
-            }
-        }
-        return descendentSchemas;
-    }
-
-    protected List<MappedModel> getAllOfDescendants(String thisSchemaName) {
-        ArrayList<String> queue = new ArrayList();
-        List<MappedModel> descendentSchemas = new ArrayList();
-        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
-        String currentSchemaName = thisSchemaName;
-        Set<String> keys = schemas.keySet();
-
-        int count = 0;
-        // hack: avoid infinite loop on potential self-references in event our checks fail.
-        while (100000 > count++) {
-            for (String childName : keys) {
-                if (childName.equals(thisSchemaName)) {
-                    continue;
-                }
-                Schema child = schemas.get(childName);
-                if (ModelUtils.isComposedSchema(child)) {
-                    List<Schema> parents = child.getAllOf();
-                    if (parents != null) {
-                        for (Schema parent : parents) {
-                            String ref = parent.get$ref();
-                            if (ref == null) {
-                                // for schemas with no ref, it is not possible to build the discriminator map
-                                // because ref is how we get the model name
-                                // we hit this use case when an allOf composed schema contains an inline schema
-                                continue;
-                            }
-                            String parentName = ModelUtils.getSimpleRef(ref);
-                            if (parentName != null && parentName.equals(currentSchemaName)) {
-                                if (queue.contains(childName) || descendentSchemas.stream().anyMatch(i -> childName.equals(i.getMappingName()))) {
-                                    throw new RuntimeException("Stack overflow hit when looking for " + thisSchemaName + " an infinite loop starting and ending at " + childName + " was seen");
-                                }
-                                queue.add(childName);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (queue.size() == 0) {
-                break;
-            }
-            currentSchemaName = queue.remove(0);
-            Schema cs = schemas.get(currentSchemaName);
-            String mappingName = discriminatorVendorExtensionValue(cs)
-                            .orElse(currentSchemaName);
-            MappedModel mm = new MappedModel(mappingName, currentSchemaName, currentSchemaName, !mappingName.equals(currentSchemaName));
-            descendentSchemas.add(mm);
-        }
-        return descendentSchemas;
-    }
-
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema) {
         DiscriminatorData sourceDiscriminator = recursiveGetDiscriminator(schema, new ArrayList<Schema>());
         if (sourceDiscriminator == null) {
@@ -3821,33 +3738,18 @@ public class DefaultCodegen implements CodegenConfig {
 
         // check to see if the discriminator property is an enum string
         boolean isEnum = Optional
-                .ofNullable(DiscriminatorUtils.discriminatorFound(openAPI, schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
+                .ofNullable(discriminatorFound(openAPI, schemaName, schema, discriminatorPropertyName, new TreeSet<>()))
                 .map(CodegenProperty::getIsEnum)
                 .orElse(false);
         discriminator.setIsEnum(isEnum);
 
         discriminator.setMapping(sourceDiscriminator.getMapping());
-        List<MappedModel> uniqueDescendants = new ArrayList<>();
-        if (sourceDiscriminator.getMapping() != null && !sourceDiscriminator.getMapping().isEmpty()) {
-            for (Entry<String, String> e : sourceDiscriminator.getMapping().entrySet()) {
-                String name;
-                if (e.getValue().indexOf('/') >= 0) {
-                    name = ModelUtils.getSimpleRef(e.getValue());
-                    if (ModelUtils.getSchema(openAPI, name) == null) {
-                        once(LOGGER).error("Failed to lookup the schema '{}' when processing the discriminator mapping of oneOf/anyOf. Please check to ensure it's defined properly.", name);
-                    }
-                } else {
-                    name = e.getValue();
-                }
-                uniqueDescendants.add(new MappedModel(e.getKey(), toModelName(name), name, true));
-            }
-        }
+        List<MappedModel> uniqueDescendants = adjustModelNames(getUniqueDescendants(openAPI, sourceDiscriminator.getDiscriminator()));
 
         boolean legacyUseCase = (this.getLegacyDiscriminatorBehavior() && uniqueDescendants.isEmpty());
         if (!this.getLegacyDiscriminatorBehavior() || legacyUseCase) {
             // for schemas that allOf inherit from this schema, add those descendants to this discriminator map
-            List<MappedModel> otherDescendants =
-                    adjustModelNames(getAllOfDescendants(schemaName));
+            List<MappedModel> otherDescendants = adjustModelNames(getAllOfDescendants(openAPI, schemaName));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the mapping names are not the same and the model names are not the same
                 boolean matched = false;
@@ -3867,7 +3769,7 @@ public class DefaultCodegen implements CodegenConfig {
         // if there are composed oneOf/anyOf schemas, add them to this discriminator
         if (ModelUtils.isComposedSchema(schema) && !this.getLegacyDiscriminatorBehavior()) {
             List<MappedModel> otherDescendants =
-                    adjustModelNames(getOneOfAnyOfDescendants(schemaName, discriminatorPropertyName, schema));
+                    adjustModelNames(getOneOfAnyOfDescendants(openAPI, schemaName, discriminatorPropertyName, schema));
             for (MappedModel otherDescendant : otherDescendants) {
                 // add only if the model names are not the same
                 if (uniqueDescendants.stream().map(MappedModel::getModelName).noneMatch(it -> it.equals(otherDescendant.getModelName()))) {
@@ -3905,7 +3807,7 @@ public class DefaultCodegen implements CodegenConfig {
      * <p>
      * @param schemas  the list of schemas to compare.
      *
-     * @Return the comman type
+     * @return the common type
      */
     protected String getCommonSchemaType(List<Schema> schemas) {
         switch (schemas.size()) {
@@ -3935,16 +3837,6 @@ public class DefaultCodegen implements CodegenConfig {
                 break;
         }
 
-//        boolean allRef = schemas.stream().allMatch(s -> s.get$ref() != null);
-//        if (allRef) {
-//            Set<String> modelNames = schemas.stream()
-//                    .map(s -> toModelName(ModelUtils.getSimpleRef(s.get$ref())))
-//                    .filter(Objects::nonNull)
-//                    .collect(Collectors.toSet());
-//            if (modelNames.size() == 1) {
-//                return modelNames.iterator().next();
-//            }
-//        }
         schemas = schemas.stream().map(s -> ModelUtils.getReferencedSchema(openAPI, s)).collect(Collectors.toList());
         return getCommonTypeMapping(schemas);
     }
@@ -4326,7 +4218,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         //Inline enum case:
-        if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+        if (isEnumSchema(p)) {
             List<Object> _enum = p.getEnum();
             property._enum = new ArrayList<>();
             for (Object i : _enum) {
@@ -4351,7 +4243,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema referencedSchema = ModelUtils.getReferencedSchema(this.openAPI, p);
 
         //Referenced enum case:
-        if (referencedSchema != p && referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (referencedSchema != p && isEnumSchema(referencedSchema)) {
             List<Object> _enum = referencedSchema.getEnum();
 
             property.isEnumRef = true;
@@ -4497,10 +4389,10 @@ public class DefaultCodegen implements CodegenConfig {
                 property.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                property.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                property.setMaximum(ModelUtils.formatNumericBound(original.getMaximum(), referencedSchema, false, property.getExclusiveMaximum()));
             }
             if (original.getMinimum() != null) {
-                property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                property.setMinimum(ModelUtils.formatNumericBound(original.getMinimum(), referencedSchema, true, property.getExclusiveMinimum()));
             }
             if (original.getTitle() != null) {
                 property.setTitle(original.getTitle());
@@ -4751,6 +4643,71 @@ public class DefaultCodegen implements CodegenConfig {
             currentProperty = currentProperty.items;
         }
         return currentProperty;
+    }
+
+    /**
+     * Applies an action to every property recursively reachable from a model.
+     * Properties are de-duplicated by identity to avoid repeated processing and cycles.
+     *
+     * @param model  model whose properties should be visited
+     * @param action action to apply to each property
+     */
+    protected void forEachModelPropertyRecursively(CodegenModel model, Consumer<CodegenProperty> action) {
+        Set<CodegenProperty> visited = Collections.newSetFromMap(new IdentityHashMap<>());
+        visitNestedProperties(model, visited, action);
+    }
+
+    /**
+     * Applies an action to a property and recursively visits its nested properties.
+     */
+    private void visitProperty(CodegenProperty property, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (property == null || !visited.add(property)) {
+            return;
+        }
+
+        action.accept(property);
+        visitNestedProperties(property, visited, action);
+    }
+
+    /**
+     * Visits every canonical location in which a schema can contain another {@link CodegenProperty}.
+     * Other derived views such as {@code mostInnerItems} are intentionally omitted
+     * because their properties are already reachable through {@code items}. Note that
+     * {@code requiredVarsMap} is traversed explicitly below.
+     */
+    private void visitNestedProperties(IJsonSchemaValidationProperties schema,
+            Set<CodegenProperty> visited, Consumer<CodegenProperty> action) {
+        visitProperties(schema.getVars(), visited, action);
+        visitProperty(schema.getItems(), visited, action);
+        visitProperty(schema.getAdditionalProperties(), visited, action);
+        visitProperty(schema.getContains(), visited, action);
+
+        Map<String, CodegenProperty> requiredVarsMap = schema.getRequiredVarsMap();
+        if (requiredVarsMap != null) {
+            visitProperties(requiredVarsMap.values(), visited, action);
+        }
+
+        CodegenComposedSchemas composedSchemas = schema.getComposedSchemas();
+        if (composedSchemas != null) {
+            visitProperties(composedSchemas.getAllOf(), visited, action);
+            visitProperties(composedSchemas.getOneOf(), visited, action);
+            visitProperties(composedSchemas.getAnyOf(), visited, action);
+            visitProperty(composedSchemas.getNot(), visited, action);
+        }
+    }
+
+    /**
+     * Visits each property in a collection and its nested properties.
+     */
+    private void visitProperties(Collection<CodegenProperty> properties, Set<CodegenProperty> visited,
+            Consumer<CodegenProperty> action) {
+        if (properties == null) {
+            return;
+        }
+        for (CodegenProperty property : properties) {
+            visitProperty(property, visited, action);
+        }
     }
 
     protected Map<String, Object> getInnerEnumAllowableValues(CodegenProperty property) {
@@ -5942,7 +5899,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
         Schema referencedSchema = ModelUtils.getReferencedSchema(openAPI, parameterSchema);
-        if (referencedSchema.getEnum() != null && !referencedSchema.getEnum().isEmpty()) {
+        if (isEnumSchema(referencedSchema)) {
             referencedSchema = parameterSchema;
         }
         return referencedSchema;
@@ -7229,7 +7186,14 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
             if (enumName != null) {
-                var.defaultValue = toEnumDefaultValue(var, enumName);
+                if (!var.isEnum && ModelUtils.isRefToSchemaWithProperties(var.getRef())) {
+                    // A reference to another model's property does not declare an enum type here.
+                    // Preserve ordinary scalar defaults, but discard the unquoted discriminator
+                    // mapping value synthesized by setEnumDiscriminatorDefaultValue (#24874).
+                    var.defaultValue = var.isDiscriminator ? null : enumDefaultValue;
+                } else {
+                    var.defaultValue = toEnumDefaultValue(var, enumName);
+                }
             }
         }
     }
@@ -7352,17 +7316,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void postProcessEnumVars(List<EnumVarMap> enumVars) {
-        Collections.reverse(enumVars);
-        enumVars.forEach(v -> {
-            String name = (String) v.getEnumName();
-            long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
-            if (count > 1) {
-                String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
-                v.setEnumName(uniqueEnumName);
-            }
-        });
-        Collections.reverse(enumVars);
+        // a new name can already be taken ("EtcGmt1" + "2" is "EtcGmt12"), so repeat until names are unique
+        do {
+            Collections.reverse(enumVars);
+            enumVars.forEach(v -> {
+                String name = (String) v.getEnumName();
+                long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
+                if (count > 1) {
+                    String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                    LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
+                    v.setEnumName(uniqueEnumName);
+                }
+            });
+            Collections.reverse(enumVars);
+        } while (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size());
     }
 
     private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {
@@ -8119,7 +8086,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+            // inline unions only: a named model (e.g. a $ref oneOf of primitives) keeps its name below
+            if (codegenModel == null && codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
                 // TODO move this splitting logic to the generator that needs it only
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                 imports.addAll(parts);
@@ -8486,6 +8454,7 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = "UNKNOWN_BASE_NAME";
         codegenParameter.paramName = "UNKNOWN_PARAM_NAME";
         codegenParameter.description = escapeText(body.getDescription());
+        codegenParameter.unescapedDescription = body.getDescription();
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
         if (body.getExtensions() != null) {
@@ -8614,10 +8583,10 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.setMinItems(original.getMinItems());
             }
             if (original.getMaximum() != null) {
-                codegenParameter.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+                codegenParameter.setMaximum(ModelUtils.formatNumericBound(original.getMaximum(), schema, false, codegenParameter.getExclusiveMaximum()));
             }
             if (original.getMinimum() != null) {
-                codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+                codegenParameter.setMinimum(ModelUtils.formatNumericBound(original.getMinimum(), schema, true, codegenParameter.getExclusiveMinimum()));
             }
             /* comment out below as we don't store `title` in the codegen parametera the moment
             if (original.getTitle() != null) {

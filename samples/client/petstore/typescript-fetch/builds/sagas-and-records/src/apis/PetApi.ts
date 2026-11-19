@@ -46,7 +46,7 @@ import {
 
 export interface AddPetRequest {
     /**
-     * 
+     * dummy category for testing
      */
     dummyCat: Category;
 }
@@ -106,7 +106,7 @@ export interface GetPetRegionsRequest {
 
 export interface UpdatePetRequest {
     /**
-     * 
+     * Pet object that needs to be updated in the store
      */
     body: Pet;
 }

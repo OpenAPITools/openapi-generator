@@ -108,8 +108,8 @@ case class PetApi[Auth <: org.openapitools.client.core.Authorization] private (b
   def findPetsByStatus(status: Seq[String], statusList: Seq[PetStatus]): sttp.client4.Request[Either[ResponseException[String], Seq[Pet]]] =
     val requestURL =
       uri"$baseUrl/pet/findByStatus"
-        .addParams(FormSerializable.serialize("status", status, FormStyleFormat.FORM, false): _*)
-        .addParams(FormSerializable.serialize("statusList", statusList, FormStyleFormat.FORM, true): _*)
+        .addParams(FormSerializable.serialize("status", status, FormStyleFormat.FORM, false)*)
+        .addParams(FormSerializable.serialize("statusList", statusList, FormStyleFormat.FORM, true)*)
 
     basicRequest
       .method(Method.GET, requestURL)
@@ -130,9 +130,9 @@ case class PetApi[Auth <: org.openapitools.client.core.Authorization] private (b
   def findPetsByTags(tags: Seq[String], colors: Set[PetColor], uniqueTags: Set[String]): sttp.client4.Request[Either[ResponseException[String], Seq[Pet]]] =
     val requestURL =
       uri"$baseUrl/pet/findByTags"
-        .addParams(FormSerializable.serialize("tags", tags, FormStyleFormat.FORM, false): _*)
-        .addParams(FormSerializable.serialize("colors", colors, FormStyleFormat.FORM, false): _*)
-        .addParams(FormSerializable.serialize("uniqueTags", uniqueTags, FormStyleFormat.FORM, true): _*)
+        .addParams(FormSerializable.serialize("tags", tags, FormStyleFormat.FORM, false)*)
+        .addParams(FormSerializable.serialize("colors", colors, FormStyleFormat.FORM, false)*)
+        .addParams(FormSerializable.serialize("uniqueTags", uniqueTags, FormStyleFormat.FORM, true)*)
 
     basicRequest
       .method(Method.GET, requestURL)

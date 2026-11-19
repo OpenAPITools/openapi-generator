@@ -433,11 +433,6 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String addRegularExpressionDelimiter(String pattern) {
         return pattern;
     }

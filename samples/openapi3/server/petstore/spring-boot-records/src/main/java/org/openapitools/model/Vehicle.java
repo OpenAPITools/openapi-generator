@@ -32,8 +32,8 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = Car.class, name = "car")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
-public class Vehicle {
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+public sealed class Vehicle permits Car {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private String type;

@@ -464,21 +464,20 @@ public class JavaValidationArrayPrimitivesTest {
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
                 .fileContains(
-                        "ResponseEntity<" + arrayMapping + "<ListOfObjectsInner>>",
+                        "ResponseEntity<" + arrayMapping + "<@Valid ListOfObjectsInner>>",
                         arrayMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
                 .fileContainsPattern("@Size\\(min = 5\\)\\s*@RequestBody");
 
-        String myItem = typeMappings.getOrDefault("MyItem", "MyItem");
         JavaFileAssert.assertThat(files.get("ListOfQualifiedItemApi.java"))
                 .fileContains(
-                        "ResponseEntity<" + arrayMapping + "<" + myItem + ">>",
+                        "ResponseEntity<" + arrayMapping + "<" + expectedMyItemArgument + ">>",
                         arrayMapping + "<" + expectedMyItemArgument + ">");
 
         if (!typeMappings.containsKey("array")) {
             // the mapping to Set is done automatically with uniqueItems: true
             JavaFileAssert.assertThat(files.get("ListOfUniqueItemApi.java"))
                     .fileContains(
-                            "ResponseEntity<Set<" + myItem + ">>",
+                            "ResponseEntity<Set<" + expectedMyItemArgument + ">>",
                             "Set<" + expectedMyItemArgument + "> ");
         }
     }

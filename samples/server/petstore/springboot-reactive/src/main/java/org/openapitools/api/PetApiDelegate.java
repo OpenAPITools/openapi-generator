@@ -25,7 +25,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface PetApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -83,7 +83,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(List<String> status,
+    default @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(List<String> status,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -118,7 +118,7 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(Set<String> tags,
+    default @Valid Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(Set<String> tags,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -152,7 +152,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    default Mono<ResponseEntity<Pet>> getPetById(Long petId,
+    default @Valid Mono<ResponseEntity<Pet>> getPetById(Long petId,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -231,7 +231,7 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFile(Long petId,
+    default @Valid Mono<ResponseEntity<ModelApiResponse>> uploadFile(Long petId,
         String additionalMetadata,
         Part file,
         ServerWebExchange exchange) {

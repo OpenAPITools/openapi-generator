@@ -1,0 +1,29 @@
+openapi: 3.1.0
+
+info:
+  title: Webhook request parameter name test
+  version: 1.0.0
+
+paths:
+  /things:
+    get:
+      operationId: list_things
+      responses:
+        '200':
+          description: ok
+
+webhooks:
+  newThing:
+    post:
+      operationId: on_new_thing
+      tags:
+        - hooks
+      parameters:
+        - name: request
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok

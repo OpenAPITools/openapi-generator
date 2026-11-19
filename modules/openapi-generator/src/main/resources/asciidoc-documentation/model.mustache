@@ -21,7 +21,7 @@
 | {{#required}}X{{/required}}
 | {{#isNullable}}X{{/isNullable}}
 | {{#isModel}}<<{{ dataType }}>>{{/isModel}} {{^container}}{{^allowableValues}} {{^isModel}}{{ dataType }}{{/isModel}}{{/allowableValues}}{{#allowableValues}}{{^allowableValues.empty}}<<{{ dataType }}>>{{/allowableValues.empty}}{{/allowableValues}} {{/container}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}}
-| {{#tablecellcontent}}{{description}}{{/tablecellcontent}}
+a| {{#tablecellcontent}}{{unescapedDescription}}{{/tablecellcontent}}
 | {{#tablecellcontent}}{{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}} {{^isEnum}}{{^container}}{{^allowableValues.empty}} {{#allowableValues.values}}{{this}}, {{/allowableValues.values}} {{/allowableValues.empty}}{{/container}}{{/isEnum}}{{/tablecellcontent}}
 
 {{/vars}}

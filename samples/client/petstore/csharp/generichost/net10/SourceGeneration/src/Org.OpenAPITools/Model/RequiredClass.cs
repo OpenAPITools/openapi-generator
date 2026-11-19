@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -1699,7 +1698,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -2302,8 +2301,11 @@ namespace Org.OpenAPITools.Model
             if (requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.IsSet)
                 writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value!.Value));
 
-            var notrequiredNotnullableEnumStringRawValue = RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumStringOption.Value!.Value);
-            writer.WriteString("notrequired_notnullable_enum_string", notrequiredNotnullableEnumStringRawValue);
+            if (requiredClass.NotrequiredNotnullableEnumStringOption.IsSet)
+            {
+                var notrequiredNotnullableEnumStringRawValue = RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumStringOption.Value!.Value);
+                writer.WriteString("notrequired_notnullable_enum_string", notrequiredNotnullableEnumStringRawValue);
+            }
             if (requiredClass.NotrequiredNotnullableOuterEnumDefaultValueOption.IsSet)
             {
                 var notrequiredNotnullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.NotrequiredNotnullableOuterEnumDefaultValue!.Value);
@@ -2350,11 +2352,16 @@ namespace Org.OpenAPITools.Model
                 else
                     writer.WriteNull("notrequired_nullable_enum_integer_only");
 
-            var notrequiredNullableEnumStringRawValue = RequiredClass.NotrequiredNullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNullableEnumStringOption.Value!.Value);
-            if (notrequiredNullableEnumStringRawValue != null)
-                writer.WriteString("notrequired_nullable_enum_string", notrequiredNullableEnumStringRawValue);
-            else
-                writer.WriteNull("notrequired_nullable_enum_string");
+            if (requiredClass.NotrequiredNullableEnumStringOption.IsSet)
+            {
+                if (requiredClass.NotrequiredNullableEnumStringOption.Value == null)
+                    writer.WriteNull("notrequired_nullable_enum_string");
+                else
+                {
+                    var notrequiredNullableEnumStringRawValue = RequiredClass.NotrequiredNullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNullableEnumStringOption.Value!.Value);
+                    writer.WriteString("notrequired_nullable_enum_string", notrequiredNullableEnumStringRawValue);
+                }
+            }
 
             if (requiredClass.NotrequiredNullableOuterEnumDefaultValueOption.IsSet)
                 if (requiredClass.NotrequiredNullableOuterEnumDefaultValueOption!.Value != null)
@@ -2414,11 +2421,13 @@ namespace Org.OpenAPITools.Model
             else
                 writer.WriteNull("required_nullable_enum_integer_only");
 
-            var requiredNullableEnumStringRawValue = RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClass.RequiredNullableEnumString!.Value);
-            if (requiredNullableEnumStringRawValue != null)
-                writer.WriteString("required_nullable_enum_string", requiredNullableEnumStringRawValue);
-            else
+            if (requiredClass.RequiredNullableEnumString == null)
                 writer.WriteNull("required_nullable_enum_string");
+            else
+            {
+                var requiredNullableEnumStringRawValue = RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClass.RequiredNullableEnumString!.Value);
+                writer.WriteString("required_nullable_enum_string", requiredNullableEnumStringRawValue);
+            }
 
             if (requiredClass.RequiredNullableIntegerProp != null)
                 writer.WriteNumber("required_nullable_integer_prop", requiredClass.RequiredNullableIntegerProp.Value);
@@ -2447,11 +2456,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("required_nullable_uuid");
         }
     }
-
-    /// <summary>
-    /// The RequiredClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(RequiredClass))]
-    public partial class RequiredClassSerializationContext : JsonSerializerContext { }
 }

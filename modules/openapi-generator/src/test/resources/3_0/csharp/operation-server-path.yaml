@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: Server path reproduction
+  version: 1.0.0
+paths:
+  /files/{id}:
+    get:
+      operationId: getFile
+      servers:
+        - url: https://example.com:8443/base
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok

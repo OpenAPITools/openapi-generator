@@ -37,7 +37,7 @@ packages = [
 include = ["{{#sourceFolder}}{{{sourceFolder}}}/{{/sourceFolder}}{{packageName}}/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.11"
 {{^async}}
 urllib3 = ">= 2.7.0, < 3.0.0"
 {{/async}}
@@ -60,7 +60,7 @@ pydantic = ">= 2.11"
 typing-extensions = ">= 4.7.1"
 {{/poetry1}}
 {{^poetry1}}
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 
 dependencies = [
 {{^async}}

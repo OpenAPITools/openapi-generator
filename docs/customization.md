@@ -523,6 +523,10 @@ For example, to name the inline schema `meta_200_response` as `MetaObject`, use 
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings meta_200_response=MetaObject,arbitraryObjectRequestBodyProperty_request=ArbitraryRequest
 ```
 
+Note that inline schema names used with `--inline-schema-name-mappings` are internal identifiers and may differ from generated class/type names. Generators often apply language-specific naming conventions (for example, Java may render `meta_200_response` as `Meta200Response`).
+
+So for Java, to rename `Meta200Response.java`, use `--inline-schema-name-mappings meta_200_response=MetaObject` (not `--inline-schema-name-mappings Meta200Response=MetaObject`).
+
 Another useful option is `inlineSchemaOptions`, which allows you to customize how inline schemas are handled or named
 ```
 --inline-schema-options ARRAY_ITEM_SUFFIX=_array_item,MAP_ITEM_SUFFIX=_map_item,RESOLVE_INLINE_ENUMS=true

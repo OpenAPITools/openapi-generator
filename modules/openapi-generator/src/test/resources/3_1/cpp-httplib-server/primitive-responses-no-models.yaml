@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Primitive Response Test
+  version: 1.0.0
+paths:
+  /text:
+    get:
+      operationId: getText
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+  /file:
+    get:
+      operationId: getFile
+      responses:
+        '200':
+          description: Binary response
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary

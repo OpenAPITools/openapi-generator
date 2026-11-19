@@ -3,15 +3,23 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.model.EnumVarMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_DEPRECATED;
 import static org.openapitools.codegen.CodegenConstants.X_ENUM_DESCRIPTIONS;
+import static org.openapitools.codegen.CodegenConstants.X_ENUM_VARNAMES;
 import static org.openapitools.codegen.model.EnumVarMap.*;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class EnumUtils {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnumUtils.class);
+    private static final String ENUM_VENDOR_EXTENSIONS_REMOVED =
+            "Enum vendor extensions removed from composite schema due to merge. This may cause loss of information if the enum values are not aligned.";
 
     public static final String BUNGIE_X_ENUM_VALUES = "x-enum-values";
     private static final String BUNGIE_ENUM_DESCRIPTION = "description";
@@ -20,6 +28,11 @@ public class EnumUtils {
 
     public static final String ONE_OF = "oneOf";
     public static final String ANY_OF = "anyOf";
+
+    public enum EnumMergeOperation {
+        UNION,
+        INTERSECTION
+    }
 
     /**
      *
@@ -71,6 +84,54 @@ public class EnumUtils {
         @SuppressWarnings("unchecked")
         List<String> enumValues = (List<String>) allowableValues.get(ENUM_VALUES);
         return enumValues;
+    }
+
+    /**
+     * Union or intersect enum values using {@link Object#equals(Object)}.
+     * Null lists are treated as empty, and duplicates are removed. A union preserves
+     * the order of both inputs; an intersection preserves the order of the first input.
+     *
+     * @param existingEnumValues previously-collected enum values
+     * @param newEnumValues newly-discovered enum values
+     * @param operation union or intersection
+     * @return merged enum values without duplicates
+     */
+    public static List<Object> mergeEnumValues(List<?> existingEnumValues, List<?> newEnumValues,
+                                               EnumMergeOperation operation) {
+        Set<Object> mergedEnumValues = new LinkedHashSet<>();
+        if (existingEnumValues != null) {
+            mergedEnumValues.addAll(existingEnumValues);
+        }
+        if (operation == EnumMergeOperation.INTERSECTION) {
+            mergedEnumValues.retainAll(newEnumValues == null ? Collections.emptySet() : new HashSet<>(newEnumValues));
+        } else if (newEnumValues != null) {
+            mergedEnumValues.addAll(newEnumValues);
+        }
+        return new ArrayList<>(mergedEnumValues);
+    }
+
+    /**
+     * Merge two enum schemas of the same type into the existing schema.
+     * Null schemas, non-enums, different types and multi-type schemas are left unchanged.
+     * Per-value enum extensions on the existing schema are discarded because their
+     * alignment may no longer match the merged values.
+     *
+     * @param existingSchema schema to modify
+     * @param newSchema schema providing additional enum values, left unchanged
+     * @return whether the enum schemas were merged
+     */
+    public static boolean mergeEnum(Schema existingSchema, Schema newSchema, EnumMergeOperation operation) {
+        if (!isEnumSchemaWithSingleType(existingSchema) || !isEnumSchemaWithSingleType(newSchema)
+                || !Objects.equals(ModelUtils.getType(existingSchema), ModelUtils.getType(newSchema))) {
+            return false;
+        }
+
+        existingSchema.setEnum(mergeEnumValues(existingSchema.getEnum(), newSchema.getEnum(), operation));
+        boolean removedEnumVendorExtensions = removeEnumVendorExtensions(existingSchema);
+        if (removedEnumVendorExtensions) {
+            once(LOGGER).warn(ENUM_VENDOR_EXTENSIONS_REMOVED);
+        }
+        return true;
     }
 
     /**
@@ -133,7 +194,7 @@ public class EnumUtils {
             Schema subSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) item);
 
             // Check if this sub-schema has an enum or const value (OAS 3.1 uses const for single-value enums)
-            boolean definesEnum = ModelUtils.hasEnum(subSchema);
+            boolean definesEnum = ModelUtils.isEnumSchema(subSchema);
             if (!definesEnum && subSchema.getConst() == null) {
                 return schema;
             }
@@ -165,6 +226,21 @@ public class EnumUtils {
             schema.setAnyOf(null);
         }
         return createSimplifiedEnumSchema(schema, enumExtensions, schemaType);
+    }
+
+    private static boolean removeEnumVendorExtensions(Schema<?> schema) {
+        if (schema.getExtensions() != null) {
+            Map<String, Object> extensions = new HashMap<>(schema.getExtensions());
+            boolean removedValues = extensions.keySet().removeAll(Arrays.asList(
+                    X_ENUM_VARNAMES,
+                    X_ENUM_DESCRIPTIONS,
+                    X_ENUM_DEPRECATED,
+                    BUNGIE_X_ENUM_VALUES
+            ));
+            schema.setExtensions(extensions);
+            return removedValues;
+        }
+        return false;
     }
 
     private static Map<Object, EnumExtensions> getEnumExtensions(Schema schema,
@@ -218,6 +294,10 @@ public class EnumUtils {
         }
 
         return schema;
+    }
+
+    private static boolean isEnumSchemaWithSingleType(Schema<?> schema) {
+        return schema != null && ModelUtils.isEnumSchema(schema) && ModelUtils.getTypes(schema).size() == 1;
     }
 
     private static class EnumExtensions {

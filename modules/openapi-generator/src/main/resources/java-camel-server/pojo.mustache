@@ -117,6 +117,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/vendorExtensions.x-java-no-args-constructor}}
   {{^lombok.Data}}
   {{^lombok.RequiredArgsConstructor}}
+  {{^vendorExtensions.x-java-lombok-duplicates-required-args-constructor}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
@@ -140,6 +141,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{/hasRequired}}
   {{/generatedConstructorWithRequiredArgs}}
+  {{/vendorExtensions.x-java-lombok-duplicates-required-args-constructor}}
   {{/lombok.RequiredArgsConstructor}}
   {{#vendorExtensions.x-java-all-args-constructor}}
 
@@ -179,13 +181,13 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{#isNullable}}){{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{{vendorExtensions.x-java-container-instantiation-type}}}<>(){{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
+      this.{{name}} = new {{{vendorExtensions.x-java-container-instantiation-type}}}<>();
     }
     this.{{name}}.add({{name}}Item);
     {{/openApiNullable}}
@@ -197,13 +199,13 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>(){{#isNullable}}){{/isNullable}};
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}new {{{vendorExtensions.x-java-container-instantiation-type}}}<>(){{#isNullable}}){{/isNullable}};
     }
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.put(key, {{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
-      this.{{name}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}HashMap{{/uniqueItems}}<>();
+      this.{{name}} = new {{{vendorExtensions.x-java-container-instantiation-type}}}<>();
     }
     this.{{name}}.put(key, {{name}}Item);
     {{/openApiNullable}}

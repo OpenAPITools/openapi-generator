@@ -32,14 +32,14 @@ import com.fasterxml.jackson.annotation.JsonValue
 /**
  * to test the default value of properties
  *
- * @param arrayStringEnumRefDefault 
- * @param arrayStringEnumDefault 
- * @param arrayStringDefault 
- * @param arrayIntegerDefault 
- * @param arrayString 
- * @param arrayStringNullable 
- * @param arrayStringExtensionNullable 
- * @param stringNullable 
+ * @param arrayStringEnumRefDefault
+ * @param arrayStringEnumDefault
+ * @param arrayStringDefault
+ * @param arrayIntegerDefault
+ * @param arrayString
+ * @param arrayStringNullable
+ * @param arrayStringExtensionNullable
+ * @param stringNullable
  */
 
 
@@ -80,8 +80,6 @@ data class DefaultValue (
 ) {
 
     /**
-     * 
-     *
      * Values: success,failure,unclassified,unknown_default_open_api
      */
     enum class ArrayStringEnumDefault(@get:JsonValue val value: kotlin.String) {

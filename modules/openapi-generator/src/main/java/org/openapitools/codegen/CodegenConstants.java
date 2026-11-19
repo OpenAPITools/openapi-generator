@@ -337,6 +337,7 @@ public class CodegenConstants {
     // Not user-configurable. System provided for use in templates.
     public static final String GENERATE_MODELS = "generateModels";
     public static final String GENERATE_MODEL_DOCS = "generateModelDocs";
+    public static final String GENERATE_SUPPORTING_FILES = "generateSupportingFiles";
 
     public static final String VIRTUAL_SERVICE = "virtualService";
     public static final String VIRTUAL_SERVICE_DESC = "Generate Spring boot rest service as virtual service with Virtualan";
@@ -525,6 +526,8 @@ public class CodegenConstants {
     public static final String X_MODIFIER_PREFIX = "x-modifier-";
     public static final String X_MODEL_IS_MUTABLE = "x-model-is-mutable";
     public static final String X_MODEL_IS_OPERATION_INPUT = "x-model-is-operation-input";
+    public static final String X_ENUM_AS_STRING = "x-enum-as-string";
+    public static final String X_IS_JACKSON_OPTIONAL_NULLABLE = "x-is-jackson-optional-nullable";
     public static final String X_IMPLEMENTS = "x-implements";
     public static final String X_IS_ONE_OF_INTERFACE = "x-is-one-of-interface";
     public static final String USE_ENUM_VALUE_INTERFACE = "useEnumValueInterface";

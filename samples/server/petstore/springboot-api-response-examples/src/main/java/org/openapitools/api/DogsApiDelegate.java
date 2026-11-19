@@ -20,7 +20,7 @@ import jakarta.annotation.Generated;
  * A delegate to be called by the {@link DogsApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public interface DogsApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -35,7 +35,7 @@ public interface DogsApiDelegate {
      *         or Bad Request (status code 400)
      * @see DogsApi#createDog
      */
-    default ResponseEntity<Dog> createDog(Dog dog) {
+    default @Valid ResponseEntity<Dog> createDog(Dog dog) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

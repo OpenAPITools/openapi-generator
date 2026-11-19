@@ -299,6 +299,11 @@
   infoLink: "https://developer.here.com/"
   pinned: false
 -
+  caption: "Hypha by Demeter Mycolabs"
+  image: "img/companies/hypha-demeter-mycolabs.png"
+  infoLink: "https://hyphaapp.com/"
+  pinned: false
+-
   caption: "IBM"
   image: "img/companies/ibm.svg"
   infoLink: "https://www.ibm.com"
@@ -387,6 +392,11 @@
   caption: MoonVision
   image: "img/companies/moonvision.png"
   infoLink: "https://www.moonvision.io/"
+  pinned: false
+-
+  caption: "MyNET30"
+  image: "img/companies/mynet30.png"
+  infoLink: "https://mynet30.com/"
   pinned: false
 -
   caption: Myworkout

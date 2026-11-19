@@ -29,12 +29,10 @@ import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
 /**
- * 
- *
- * @param i0 
- * @param n0 
- * @param i1 
- * @param n1 
+ * @param i0
+ * @param n0
+ * @param i1
+ * @param n1
  */
 @Serializable
 

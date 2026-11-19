@@ -11,6 +11,10 @@ repositories {
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_17)
+{{#useBeanValidation}}
+        // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
+        freeCompilerArgs.add("-Xemit-jvm-type-annotations")
+{{/useBeanValidation}}
     }
 }
 
@@ -72,7 +76,7 @@ dependencies {
 {{#useBeanValidation}}
     implementation("jakarta.validation:jakarta.validation-api"){{/useBeanValidation}}
 {{#openApiNullable}}
-    implementation("org.openapitools:jackson-databind-nullable:0.2.12"){{/openApiNullable}}
+    implementation("org.openapitools:jackson-databind-nullable:0.2.13"){{/openApiNullable}}
     implementation("jakarta.annotation:jakarta.annotation-api:3.0.0")
 
 }

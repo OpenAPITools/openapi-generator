@@ -31,7 +31,6 @@ using RestSharpMethod = RestSharp.Method;
 using FileIO = System.IO.File;
 using Polly;
 using Org.OpenAPITools.Client.Auth;
-using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Client
 {
@@ -72,10 +71,10 @@ namespace Org.OpenAPITools.Client
         /// <returns>A JSON string.</returns>
         public string Serialize(object obj)
         {
-            if (obj != null && obj is AbstractOpenAPISchema)
+            if (obj != null && obj is Org.OpenAPITools.Model.AbstractOpenAPISchema)
             {
                 // the object to be serialized is an oneOf/anyOf schema
-                return ((AbstractOpenAPISchema)obj).ToJson();
+                return ((Org.OpenAPITools.Model.AbstractOpenAPISchema)obj).ToJson();
             }
             else
             {
@@ -501,7 +500,7 @@ namespace Org.OpenAPITools.Client
                 }
 
                 // if the response type is oneOf/anyOf, call FromJSON to deserialize the data
-                if (typeof(AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
+                if (typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema).IsAssignableFrom(typeof(T)))
                 {
                     try
                     {
@@ -509,7 +508,12 @@ namespace Org.OpenAPITools.Client
                     }
                     catch (Exception ex)
                     {
-                        throw ex.InnerException != null ? ex.InnerException : ex;
+                        // 4xx/5xx are left to ExceptionFactory, like the ErrorException check above
+                        if ((int)response.StatusCode < 400)
+                        {
+                            var error = ex.InnerException != null ? ex.InnerException : ex;
+                            throw new ApiException((int)response.StatusCode, string.Format("Error calling {0}: {1}", request.Resource, error.Message), response.Content, ToApiResponse(response).Headers, error);
+                        }
                     }
                 }
                 else if (typeof(T).Name == "Stream") // for binary response

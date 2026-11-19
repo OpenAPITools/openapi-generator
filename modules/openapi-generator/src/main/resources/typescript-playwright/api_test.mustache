@@ -1,0 +1,44 @@
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+
+import { test, expect } from '@playwright/test';
+{{#operations}}
+import { {{classname}} } from '../../apis/index{{importFileExtension}}';
+{{/operations}}
+{{#imports.0}}
+import type {
+  {{#imports}}
+  {{className}},
+  {{/imports}}
+} from '../../models/index{{importFileExtension}}';
+{{/imports.0}}
+
+{{#operations}}
+/**
+ * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
+ *
+ * These specs are generated as a starting point. They issue a real request
+ * through Playwright's `request` fixture and assert on the response status.
+ * Fill in realistic request data and extend the assertions as needed, then
+ * point `baseURL` (see `playwright.config.ts`) at a running server.
+ */
+test.describe('{{classname}}', () => {
+{{#operation}}
+    test('{{{vendorExtensions.x-playwright-test-name}}}', async ({ request }) => {
+        const api = new {{classname}}(request);
+
+        const response = await api.{{nickname}}Raw({{#allParams.0}}{
+{{#allParams}}
+{{#required}}
+            {{paramName}}: {{{vendorExtensions.x-playwright-example}}},
+{{/required}}
+{{/allParams}}
+        }{{/allParams.0}});
+
+        expect(response.raw.status()).toBe({{vendorExtensions.x-playwright-status}});
+    });
+
+{{/operation}}
+});
+{{/operations}}

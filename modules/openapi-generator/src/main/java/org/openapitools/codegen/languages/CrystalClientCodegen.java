@@ -531,11 +531,6 @@ public class CrystalClientCodegen extends DefaultCodegen {
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toApiTestFilename(String name) {
         return toApiFilename(name) + "_spec";
     }

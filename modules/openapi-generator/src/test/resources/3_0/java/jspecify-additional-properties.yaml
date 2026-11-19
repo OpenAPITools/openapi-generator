@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: jspecify additionalProperties
+  version: 1.0.0
+paths:
+  /extensible:
+    get:
+      operationId: getExtensible
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Extensible'
+components:
+  schemas:
+    Extensible:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+    ExtensibleWithTimestamps:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties:
+        type: string
+        format: date-time
