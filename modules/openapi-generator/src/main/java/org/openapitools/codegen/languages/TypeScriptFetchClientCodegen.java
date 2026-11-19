@@ -255,7 +255,12 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     public void setDateAnchor(String dateAnchor) {
-        this.dateAnchor = dateAnchor;
+        if (DATE_ANCHOR_LOCAL.equals(dateAnchor) || DATE_ANCHOR_UTC.equals(dateAnchor)) {
+            this.dateAnchor = dateAnchor;
+        } else {
+            throw new IllegalArgumentException("Invalid dateAnchor '" +
+                    dateAnchor + "'. Must be 'local' or 'utc'");
+        }
     }
 
     public Boolean getStringEnums() {

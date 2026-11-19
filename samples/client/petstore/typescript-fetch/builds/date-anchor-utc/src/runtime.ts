@@ -363,8 +363,8 @@ export function exists(json: any, key: string): boolean {
  * Every generated date call site routes through these.
  *
  * `format: date` is a calendar date, with no time and no offset, so it is converted
- * against the local calendar on both ends: they have to agree or the date shifts by
- * a day. `format: date-time` is an instant and uses UTC.
+ * against UTC on both ends: the UTC calendar day is preserved everywhere.
+ * `format: date-time` is an instant and uses UTC.
  */
 export function serializeDateTime(value: Date): string {
     return value.toISOString();

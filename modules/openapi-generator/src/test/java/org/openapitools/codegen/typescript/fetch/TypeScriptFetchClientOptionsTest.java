@@ -73,4 +73,18 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         );
     }
 
+    @Test(description = "Verify if an exception is thrown when invalid values are used with dateAnchor option")
+    public void testDateAnchorInvalidValues() {
+        final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        Assert.assertThrows(IllegalArgumentException.class, () ->
+                codegen.setDateAnchor(null)
+        );
+        Assert.assertThrows(IllegalArgumentException.class, () ->
+                codegen.setDateAnchor("")
+        );
+        Assert.assertThrows(IllegalArgumentException.class, () ->
+                codegen.setDateAnchor("UTC")
+        );
+    }
+
 }
