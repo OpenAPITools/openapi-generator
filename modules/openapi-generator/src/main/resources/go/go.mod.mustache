@@ -8,7 +8,8 @@ require (
 	golang.org/x/oauth2 v0.27.0
 	{{/hasOAuthMethods}}
 	{{#withAWSV4Signature}}
-	github.com/aws/aws-sdk-go-v2 v1.37.0
+	github.com/aws/aws-sdk-go-v2 v1.30.4
+	github.com/aws/aws-sdk-go-v2/credentials v1.17.8
 	{{/withAWSV4Signature}}
 	{{#importValidator}}
 	gopkg.in/validator.v2 v2.0.1
@@ -16,6 +17,9 @@ require (
 )
 
 require (
+	{{#withAWSV4Signature}}
+	github.com/aws/smithy-go v1.20.4 // indirect
+	{{/withAWSV4Signature}}
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
