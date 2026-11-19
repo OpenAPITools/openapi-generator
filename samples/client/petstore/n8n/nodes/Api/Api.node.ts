@@ -602,7 +602,7 @@ export class Api implements INodeType {
 					const body: IDataObject = {};
 					let path = '/store/order/{orderId}';
 					path = path.replace('{' + 'orderId' + '}', encodeURIComponent(this.getNodeParameter('orderId', i) as string));
-					responseData = (await apiRequest.call(this, 'DELETE', path, body, qs, 'apiKeyCredentials')) as IDataObject;
+					responseData = (await apiRequest.call(this, 'DELETE', path, body, qs, '')) as IDataObject;
 				}
 				if (operation === 'getInventory') {
 					const qs: IDataObject = {};
@@ -615,14 +615,14 @@ export class Api implements INodeType {
 					const body: IDataObject = {};
 					let path = '/store/order/{orderId}';
 					path = path.replace('{' + 'orderId' + '}', encodeURIComponent(this.getNodeParameter('orderId', i) as string));
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'apiKeyCredentials')) as IDataObject;
+					responseData = (await apiRequest.call(this, 'GET', path, body, qs, '')) as IDataObject;
 				}
 				if (operation === 'placeOrder') {
 					const qs: IDataObject = {};
 					const body: IDataObject = {};
 					let path = '/store/order';
 					Object.assign(body, this.getNodeParameter('Order', i) as IDataObject);
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'apiKeyCredentials')) as IDataObject;
+					responseData = (await apiRequest.call(this, 'POST', path, body, qs, '')) as IDataObject;
 				}
 			}
 			if (resource === 'User') {
@@ -659,7 +659,7 @@ export class Api implements INodeType {
 					const body: IDataObject = {};
 					let path = '/user/{username}';
 					path = path.replace('{' + 'username' + '}', encodeURIComponent(this.getNodeParameter('username', i) as string));
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'apiKeyCredentials')) as IDataObject;
+					responseData = (await apiRequest.call(this, 'GET', path, body, qs, '')) as IDataObject;
 				}
 				if (operation === 'loginUser') {
 					const qs: IDataObject = {};
@@ -667,7 +667,7 @@ export class Api implements INodeType {
 					let path = '/user/login';
 					qs['username'] = this.getNodeParameter('username', i);
 					qs['password'] = this.getNodeParameter('password', i);
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'apiKeyCredentials')) as IDataObject;
+					responseData = (await apiRequest.call(this, 'GET', path, body, qs, '')) as IDataObject;
 				}
 				if (operation === 'logoutUser') {
 					const qs: IDataObject = {};

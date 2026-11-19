@@ -192,6 +192,83 @@ public class N8nClientCodegenTest {
     }
 
     /**
+     * Regression test for T056 (convergence): operations that genuinely need no authentication
+     * - either because they declare no `security:` key at all with no spec-wide default to
+     * inherit, or because they explicitly opt out with `security: []` - must send an
+     * unauthenticated request, not be force-authenticated with the node's fallback credential.
+     * Petstore's own spec exercises the first case directly: placeOrder, getOrderById,
+     * getUserByName, loginUser, and deleteOrder declare no security at all (confirmed against
+     * the live API, which accepts these unauthenticated).
+     */
+    @Test
+    public void leavesOperationsWithNoDeclaredSecurityUnauthenticated() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            generate(target);
+            String nodeSource = readNodeSource(target);
+
+            for (String operationId : new String[]{"placeOrder", "getOrderById", "getUserByName", "loginUser", "deleteOrder"}) {
+                Assert.assertEquals(operationCredentialName(nodeSource, operationId), "",
+                        "operation '" + operationId + "' declares no security in the spec and must send an unauthenticated request");
+            }
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Regression test for T056 (convergence), the explicit-opt-out variant: an operation with
+     * `security: []` must also be unauthenticated, even when the spec declares a global default
+     * security scheme that would otherwise apply to every other operation.
+     */
+    @Test
+    public void leavesExplicitlyUnsecuredOperationUnauthenticatedEvenWithGlobalDefault() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "explicit-no-security.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: explicit no security test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "security:\n"
+                    + "  - apiKeyAuth: []\n"
+                    + "paths:\n"
+                    + "  /secured:\n"
+                    + "    get:\n"
+                    + "      operationId: getSecured\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n"
+                    + "  /public:\n"
+                    + "    get:\n"
+                    + "      operationId: getPublic\n"
+                    + "      security: []\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n"
+                    + "components:\n"
+                    + "  securitySchemes:\n"
+                    + "    apiKeyAuth:\n"
+                    + "      type: apiKey\n"
+                    + "      name: x-api-key\n"
+                    + "      in: header\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+            String nodeSource = readNodeSource(outputDir);
+
+            Assert.assertEquals(operationCredentialName(nodeSource, "getSecured"), "apiKeyAuthCredentials",
+                    "getSecured inherits the spec-wide default security scheme");
+            Assert.assertEquals(operationCredentialName(nodeSource, "getPublic"), "",
+                    "getPublic explicitly opts out with security: [] and must stay unauthenticated");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
      * Extracts the credential name passed as apiRequest's 5th argument within the given
      * operation's `if (operation === '...') { ... }` branch in the generated node source.
      */

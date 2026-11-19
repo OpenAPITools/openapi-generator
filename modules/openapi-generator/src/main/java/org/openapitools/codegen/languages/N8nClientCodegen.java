@@ -45,11 +45,16 @@ import static org.openapitools.codegen.utils.StringUtils.escape;
  * <p>Mustache templates are located in {@code src/main/resources/n8n/}.
  * <p>Generates a partial n8n community node package (node definition, credentials
  * definition, package manifest, README) from an OpenAPI spec, following the same
- * overall approach as {@link ZapierClientCodegen}: a thin {@code DefaultCodegen}
- * subclass whose templates lean on the framework's existing per-tag operation
- * grouping ({@code apiInfo.apis}) and auto-populated security-scheme bundle
- * variables ({@code apiKeyMethods}, {@code httpBasicMethods}, {@code httpBearerMethods},
- * {@code oauthMethods}) rather than re-implementing that grouping/mapping logic here.
+ * overall approach as {@link ZapierClientCodegen}: a thin {@code DefaultCodegen} subclass.
+ * Templates still lean on the framework's existing per-tag operation grouping
+ * ({@code apiInfo.apis}) and auto-populated security-scheme bundle variables
+ * ({@code apiKeyMethods}, {@code httpBasicMethods}, {@code httpBearerMethods},
+ * {@code oauthMethods}) wherever they already produce the right shape, but this class does
+ * override {@link #sanitizeTag} and {@link #addOperationToGroup} to fix up Resource grouping
+ * (path-derived fallback for untagged operations, disambiguation of colliding sanitized tag
+ * names) and {@link #postProcessSupportingFileData} to generate one credential per declared
+ * security scheme and resolve each operation's own matching credential - see those methods'
+ * own Javadoc for why the framework's defaults weren't sufficient as-is.
  */
 public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String NPM_NAME = "npmName";
@@ -359,14 +364,28 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         objs.put("n8nCredentialRefs", credentialRefs);
         objs.put("n8nSingleCredential", single);
 
-        String primaryCredentialName = credentialRefs.isEmpty() ? "" : (String) credentialRefs.get(0).get("credentialName");
-        applyPerOperationCredentialNames(objs, schemeNameToCredentialName, primaryCredentialName);
+        applyPerOperationCredentialNames(objs, schemeNameToCredentialName);
 
         return objs;
     }
 
+    /**
+     * {@code CodegenOperation.authMethods} is {@code null} for exactly two cases that must be
+     * treated identically here: an operation with no {@code security:} key of its own (and no
+     * spec-wide default to inherit), and one that explicitly opts out with {@code security: []}
+     * (per OpenAPI semantics - see {@code DefaultGenerator.processOperation}'s {@code
+     * if (securities != null && securities.isEmpty()) continue;}). Both mean "this operation
+     * genuinely needs no authentication" - confirmed against Petstore's own spec, where
+     * {@code placeOrder}/{@code getOrderById}/{@code getUserByName}/{@code loginUser}/{@code
+     * deleteOrder} declare no security at all and the live API accepts them unauthenticated.
+     * An earlier version of this method fell back to the single highest-priority generated
+     * credential in this case, which forced authentication onto operations the spec never
+     * asked to be authenticated - fixed by leaving {@code n8nOperationCredentialName} empty
+     * instead, which {@code genericFunctions.mustache}'s {@code apiRequest} already treats as
+     * "send unauthenticated" (falsy {@code credentialName} argument).
+     */
     @SuppressWarnings("unchecked")
-    private static void applyPerOperationCredentialNames(Map<String, Object> objs, Map<String, String> schemeNameToCredentialName, String primaryCredentialName) {
+    private static void applyPerOperationCredentialNames(Map<String, Object> objs, Map<String, String> schemeNameToCredentialName) {
         Object apiInfo = objs.get("apiInfo");
         if (!(apiInfo instanceof ApiInfoMap)) {
             return;
@@ -378,7 +397,7 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         for (OperationsMap api : apis) {
             List<CodegenOperation> operations = api.getOperations().getOperation();
             for (CodegenOperation op : operations) {
-                String chosen = primaryCredentialName;
+                String chosen = "";
                 if (op.authMethods != null) {
                     for (CodegenSecurity scheme : op.authMethods) {
                         String mapped = schemeNameToCredentialName.get(scheme.name);

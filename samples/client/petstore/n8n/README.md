@@ -27,11 +27,11 @@ Set the **Base URL** field on whichever credential you use to your API's base UR
 
 ### Known limitations
 
-- This spec declares more than one security scheme. All of them get a usable, correctly-shaped
-  credential type above, but the node's requests are only automatically authenticated with the
-  highest-priority one, **OpenAPI Petstore API - API Key**, by default (API key, then HTTP basic, then HTTP
-  bearer, then OAuth2 priority order). If you need a different one applied, edit
-  `nodes/Api/GenericFunctions.ts`'s `apiRequest` function.
+- This spec declares more than one security scheme. Each operation automatically authenticates
+  with the credential matching the security scheme it declares for itself in the source spec
+  (see the Resources and Operations list below for which operation uses which); an operation
+  that declares no security requirement at all (and has no spec-wide default to inherit) sends
+  an unauthenticated request, matching what the source spec actually requires.
 - This spec declares an OAuth2 scheme. Full OAuth2 flow automation (authorization redirects, token
   refresh) is out of scope for this generator; the generated credential accepts a pre-obtained access
   token instead. See [n8n's OAuth2 credential docs](https://docs.n8n.io/integrations/creating-nodes/build/reference/credentials-files/)
