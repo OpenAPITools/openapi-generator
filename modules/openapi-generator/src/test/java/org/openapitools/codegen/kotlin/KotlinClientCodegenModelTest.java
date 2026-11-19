@@ -1580,6 +1580,22 @@ public class KotlinClientCodegenModelTest {
         TestUtils.assertFileNotContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
     }
 
+    @Test(description = "regression test: useSpringBoot4=false must not silently enable Jackson 3 on jvm-spring-webclient "
+            + "(the additionalProperties key merely being *present* is not the same as it being true)")
+    public void shouldNotEnableJackson3WhenSpringBoot4ExplicitlyFalseOnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(
+                KotlinClientCodegen.USE_SPRING_BOOT3, true,
+                KotlinClientCodegen.USE_SPRING_BOOT4, false));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import com.fasterxml.jackson.databind.ObjectMapper");
+        TestUtils.assertFileNotContains(serializerPath, "tools.jackson");
+    }
+
     @Test(description = "useJackson3=true without useSpringBoot4 must be refused on jvm-spring-webclient")
     public void shouldRefuseJackson3WithoutSpringBoot4OnWebClient() {
         Assert.assertThrows(IllegalArgumentException.class,
