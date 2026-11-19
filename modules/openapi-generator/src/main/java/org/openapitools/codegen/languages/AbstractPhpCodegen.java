@@ -503,6 +503,19 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             type = openAPIType;
         }
 
+        // A composed schema whose members are $refs resolves to a fully qualified
+        // model name, e.g. a nullable reference (oneOf/anyOf with the OAS 3.1 'null'
+        // type, or an OAS 3.0 allOf-wrapped $ref with nullable: true) inside an array
+        // item or a map value. toModelName() strips the namespace separators from such
+        // a name (issue #25574), so keep an already qualified type as-is.
+        if (type.startsWith("\\")) {
+            // Emitting the type verbatim requires valid PHP namespace separators: a
+            // qualified name may arrive with doubled separators (e.g. a typeMapping
+            // value written with too many backslashes). toModelName()'s camelize()
+            // used to collapse them as a side effect, so keep collapsing here.
+            return type.replaceAll("\\\\{2,}", "\\\\");
+        }
+
         return toModelName(type);
     }
 
