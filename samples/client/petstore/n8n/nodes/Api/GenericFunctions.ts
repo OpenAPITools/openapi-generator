@@ -1,0 +1,31 @@
+import type { IExecuteFunctions, IDataObject, IHttpRequestOptions } from 'n8n-workflow';
+
+/**
+ * Builds and sends a single HTTP request against the OpenAPI Petstore API, applying
+ * whichever credential type this node package was generated with (see
+ * credentials/ApiCredentials.credentials.ts).
+ */
+export async function apiRequest(
+	this: IExecuteFunctions,
+	method: string,
+	path: string,
+	body: IDataObject = {},
+	qs: IDataObject = {},
+): Promise<unknown> {
+	const credentials = await this.getCredentials('apiCredentialsApi');
+	const baseUrl = (credentials.baseUrl as string) || 'http://petstore.swagger.io/v2';
+
+	const options: IHttpRequestOptions = {
+		method: method as IHttpRequestOptions['method'],
+		url: baseUrl + path,
+		qs,
+		body,
+		json: true,
+	};
+
+	if (Object.keys(body).length === 0) {
+		delete options.body;
+	}
+
+	return this.helpers.httpRequestWithAuthentication.call(this, 'apiCredentialsApi', options);
+}

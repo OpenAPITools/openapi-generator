@@ -1,0 +1,7 @@
+.openapi-generator-ignore
+README.md
+credentials/ApiCredentials.credentials.ts
+nodes/Api/Api.node.ts
+nodes/Api/GenericFunctions.ts
+package.json
+tsconfig.json

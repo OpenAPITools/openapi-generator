@@ -50,6 +50,7 @@ The following generators are available:
 * [kotlin](generators/kotlin.md)  
 * [lua (beta)](generators/lua.md)  
 * [n4js (beta)](generators/n4js.md)  
+* [n8n (beta)](generators/n8n.md)  
 * [nim (beta)](generators/nim.md)  
 * [objc](generators/objc.md)  
 * [ocaml](generators/ocaml.md)  

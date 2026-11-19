@@ -1,0 +1,162 @@
+import type {
+	IExecuteFunctions,
+	IDataObject,
+	INodeExecutionData,
+	INodeType,
+	INodeTypeDescription,
+} from 'n8n-workflow';
+
+import { apiRequest } from './GenericFunctions';
+
+export class Api implements INodeType {
+	description: INodeTypeDescription = {
+		displayName: "{{apiTitle}}",
+		name: 'api',
+		icon: 'fa:plug',
+		group: ['transform'],
+		version: 1,
+		description: "Interact with the {{apiTitle}} API",
+		defaults: {
+			name: "{{apiTitle}}",
+		},
+		inputs: ['main'],
+		outputs: ['main'],
+		credentials: [
+			{{#hasAuthMethods}}
+			{
+				name: 'apiCredentialsApi',
+				required: true,
+			},
+			{{/hasAuthMethods}}
+		],
+		properties: [
+			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				noDataExpression: true,
+				options: [
+					{{#apiInfo}}
+					{{#apis}}
+					{
+						name: '{{baseName}}',
+						value: '{{baseName}}',
+					},
+					{{/apis}}
+					{{/apiInfo}}
+				],
+				default: '{{#apiInfo}}{{#apis}}{{#-first}}{{baseName}}{{/-first}}{{/apis}}{{/apiInfo}}',
+			},
+			{{#apiInfo}}
+			{{#apis}}
+			{
+				displayName: 'Operation',
+				name: 'operation',
+				type: 'options',
+				noDataExpression: true,
+				displayOptions: {
+					show: {
+						resource: ['{{baseName}}'],
+					},
+				},
+				options: [
+					{{#operations}}
+					{{#operation}}
+					{
+						name: "{{summary}}{{^summary}}{{operationId}}{{/summary}}",
+						value: '{{operationId}}',
+						action: "{{summary}}{{^summary}}{{operationId}}{{/summary}}",
+					},
+					{{/operation}}
+					{{/operations}}
+				],
+				default: '{{#operations}}{{#operation}}{{#-first}}{{operationId}}{{/-first}}{{/operation}}{{/operations}}',
+			},
+			{{/apis}}
+			{{/apiInfo}}
+			{{#apiInfo}}
+			{{#apis}}
+			{{#operations}}
+			{{#operation}}
+			{{#allParams}}
+			{
+				displayName: "{{description}}{{^description}}{{baseName}}{{/description}}",
+				name: '{{paramName}}',
+				type: '{{vendorExtensions.n8nFieldType}}',
+				{{#vendorExtensions.n8nIsOptions}}
+				options: [
+					{{#allowableValues}}
+					{{#enumVars}}
+					{ name: "{{name}}", value: {{{value}}} },
+					{{/enumVars}}
+					{{/allowableValues}}
+				],
+				{{/vendorExtensions.n8nIsOptions}}
+				default: {{#vendorExtensions.n8nIsBoolean}}false{{/vendorExtensions.n8nIsBoolean}}{{#vendorExtensions.n8nIsNumber}}0{{/vendorExtensions.n8nIsNumber}}{{#vendorExtensions.n8nIsString}}''{{/vendorExtensions.n8nIsString}}{{#vendorExtensions.n8nIsJson}}{}{{/vendorExtensions.n8nIsJson}}{{#vendorExtensions.n8nIsOptions}}{{#allowableValues}}{{#enumVars}}{{#-first}}{{{value}}}{{/-first}}{{/enumVars}}{{/allowableValues}}{{/vendorExtensions.n8nIsOptions}},
+				required: {{#required}}true{{/required}}{{^required}}false{{/required}},
+				displayOptions: {
+					show: {
+						operation: ['{{operationId}}'],
+					},
+				},
+				description: "{{description}}{{^description}}{{baseName}}{{/description}}",
+			},
+			{{/allParams}}
+			{{/operation}}
+			{{/operations}}
+			{{/apis}}
+			{{/apiInfo}}
+		],
+	};
+
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const items = this.getInputData();
+		const returnData: IDataObject[] = [];
+		const resource = this.getNodeParameter('resource', 0) as string;
+		const operation = this.getNodeParameter('operation', 0) as string;
+
+		for (let i = 0; i < items.length; i++) {
+			let responseData: IDataObject = {};
+
+			{{#apiInfo}}
+			{{#apis}}
+			if (resource === '{{baseName}}') {
+				{{#operations}}
+				{{#operation}}
+				if (operation === '{{operationId}}') {
+					const qs: IDataObject = {};
+					const body: IDataObject = {};
+					let path = '{{{path}}}';
+					{{#allParams}}
+					{{#isPathParam}}
+					path = path.replace('{' + '{{baseName}}' + '}', encodeURIComponent(this.getNodeParameter('{{paramName}}', i) as string));
+					{{/isPathParam}}
+					{{#isQueryParam}}
+					qs['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
+					{{/isQueryParam}}
+					{{#isHeaderParam}}
+					qs['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
+					{{/isHeaderParam}}
+					{{#isBodyParam}}
+					{{#isPrimitiveType}}
+					body['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
+					{{/isPrimitiveType}}
+					{{^isPrimitiveType}}
+					Object.assign(body, this.getNodeParameter('{{paramName}}', i) as IDataObject);
+					{{/isPrimitiveType}}
+					{{/isBodyParam}}
+					{{/allParams}}
+					responseData = (await apiRequest.call(this, '{{httpMethod}}', path, body, qs)) as IDataObject;
+				}
+				{{/operation}}
+				{{/operations}}
+			}
+			{{/apis}}
+			{{/apiInfo}}
+
+			returnData.push(responseData);
+		}
+
+		return [this.helpers.returnJsonArray(returnData)];
+	}
+}
