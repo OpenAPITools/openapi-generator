@@ -920,7 +920,7 @@ produces:
 x-content-type: application/json
 ```
 
-For `kotlin-spring`, `x-content-type` is rendered as `@HttpExchange(contentType = "...")` with the `spring-declarative-http-interface` library and as `@RequestMapping(consumes = ["..."])` with the other libraries. Without it, the declarative client uses the first `consumes` media type and the other libraries use all of them.
+For `kotlin-spring`, `x-content-type` is rendered as `@HttpExchange(contentType = "...")` with the `spring-declarative-http-interface` library and as `@RequestMapping(consumes = ["..."])` with the other libraries. Without it, the declarative client uses the first non-wildcard `consumes` media type (omitting `contentType` if there is none) and the other libraries use all of them.
 
 ### Rust-server
 
