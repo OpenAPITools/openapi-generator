@@ -8032,6 +8032,72 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(itemFile.toPath(), "@param `2ndField` ");
     }
 
+    @Test(description = "URI properties and parameters do not get unsupported Bean Validation annotations")
+    public void uriPropertiesAndParametersDoNotGetPatternOrSizeConstraints() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/uri-validation-pattern.yaml",
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true))
+        );
+
+        File modelFile = files.get("UriPayload.kt");
+        assertThat(modelFile).isNotNull();
+        String model = Files.readString(modelFile.toPath());
+
+        assertThat(model).contains("uri: java.net.URI?");
+        assertThat(getKotlinPropertyAnnotations(model, "uri"))
+                .doesNotContain("@get:Pattern(regexp=\"^https?://\")")
+                .doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "uriMaxLength")).doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "uriMinMaxLength")).doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "plainString"))
+                .contains("@get:Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@get:Size(min=1)");
+        assertThat(getKotlinPropertyAnnotations(model, "plainStringMaxLength")).contains("@get:Size(max=10)");
+        assertThat(getKotlinPropertyAnnotations(model, "plainStringMinMaxLength"))
+                .contains("@get:Size(min=2,max=12)");
+
+        File apiFile = files.get("UriPayloadApiController.kt");
+        assertThat(apiFile).isNotNull();
+        String api = Files.readString(apiFile.toPath());
+        assertThat(api).contains("uriParam: java.net.URI?");
+        assertThat(getKotlinParameterAnnotations(api, "uriParam"))
+                .doesNotContain("@Pattern(regexp=\"^https?://\")")
+                .doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "uriParamMaxLength")).doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "uriParamMinMaxLength")).doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))
+                .contains("@Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@Size(min=1)");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParamMaxLength")).contains("@Size(max=10)");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParamMinMaxLength"))
+                .contains("@Size(min=2,max=12)");
+    }
+
+    private String getKotlinPropertyAnnotations(String model, String propertyName) {
+        String declaration = "val " + propertyName + ":";
+        int declarationIndex = model.indexOf(declaration);
+        assertThat(declarationIndex).as("property declaration for %s", propertyName).isGreaterThanOrEqualTo(0);
+
+        int previousPropertyIndex = model.lastIndexOf("val ", declarationIndex - 1);
+        int annotationsStart;
+        if (previousPropertyIndex >= 0) {
+            annotationsStart = model.indexOf('\n', previousPropertyIndex) + 1;
+        } else {
+            int classDeclarationIndex = model.lastIndexOf("data class ", declarationIndex);
+            annotationsStart = model.indexOf('\n', classDeclarationIndex) + 1;
+        }
+        return model.substring(annotationsStart, declarationIndex);
+    }
+
+    private String getKotlinParameterAnnotations(String api, String parameterName) {
+        String declaration = parameterName + ":";
+        int declarationIndex = api.indexOf(declaration);
+        assertThat(declarationIndex).as("parameter declaration for %s", parameterName).isGreaterThanOrEqualTo(0);
+
+        int lineStart = api.lastIndexOf('\n', declarationIndex) + 1;
+        return api.substring(lineStart, declarationIndex);
+    }
+
 
     /**
      * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/24139
