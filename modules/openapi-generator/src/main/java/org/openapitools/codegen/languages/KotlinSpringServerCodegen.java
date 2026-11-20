@@ -89,6 +89,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String SPRING_BOOT = "spring-boot";
     public static final String SPRING_CLOUD_LIBRARY = "spring-cloud";
     public static final String SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY = "spring-declarative-http-interface";
+    private static final String JSON_VALUE_ENUM_TO_STRING_CONVERTER_FILE = "JsonValueEnumToStringConverter.kt";
     public static final String EXCEPTION_HANDLER = "exceptionHandler";
     public static final String GRADLE_BUILD_FILE = "gradleBuildFile";
     public static final String SERVICE_INTERFACE = "serviceInterface";
@@ -1122,6 +1123,12 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
                         gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
             }
+
+            String converterFolder = (sourceFolder + File.separator + configPackage).replace(".", File.separator);
+            additionalProperties.put("jsonValueEnumToStringConverterPath",
+                    (converterFolder + File.separator + JSON_VALUE_ENUM_TO_STRING_CONVERTER_FILE).replace(File.separator, "/"));
+            supportingFiles.add(new SupportingFile("jsonValueEnumToStringConverter.mustache",
+                    converterFolder, JSON_VALUE_ENUM_TO_STRING_CONVERTER_FILE));
 
             apiTemplateFiles.put("apiInterface.mustache", ".kt");
             apiTestTemplateFiles.clear();

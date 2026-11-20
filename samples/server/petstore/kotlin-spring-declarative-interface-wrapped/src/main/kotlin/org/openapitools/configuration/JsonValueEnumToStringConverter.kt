@@ -1,0 +1,50 @@
+package org.openapitools.configuration
+
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.springframework.core.convert.converter.Converter
+
+/**
+ * Converts enum arguments of the generated HTTP interfaces to the value of their `@JsonValue`
+ * property instead of their constant name.
+ *
+ * Spring's HTTP interface client converts query, path, header, cookie and form arguments with a
+ * `ConversionService`. By default it uses `Enum.name`, so for example a `sort` argument
+ * `PetSort.NAME_COMMA_ASC` would be sent as `NAME_COMMA_ASC` instead of the `name,asc` value
+ * declared in the OpenAPI specification. This converter delegates to Jackson, which honors the
+ * `@JsonValue` annotation of the generated enum classes. It also applies to the elements of
+ * list arguments.
+ *
+ * The converter has no effect until it is registered with the `HttpServiceProxyFactory`:
+ *
+ * ```kotlin
+ * val conversionService = DefaultFormattingConversionService().apply {
+ *     addConverter(JsonValueEnumToStringConverter())
+ * }
+ * val factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient))
+ *     .conversionService(conversionService)
+ *     .build()
+ * ```
+ *
+ * The class is generic and does not depend on any other generated code. When several clients are
+ * generated into one project, you can copy this class once into your own code (for example a
+ * shared module), register that single copy for all clients and suppress its generation.
+ *
+ * To suppress the generation of this file, add its path to the `.openapi-generator-ignore` file
+ * in the output directory:
+ *
+ * ```
+ * src/main/kotlin/org/openapitools/configuration/JsonValueEnumToStringConverter.kt
+ * ```
+ *
+ * Ignore rules are matched relative to the directory containing the ignore file. When using
+ * `--ignore-file-override` (`ignoreFileOverride` in the Maven and Gradle plugins) with a file
+ * outside the output directory, use the globstar rule shown in the generated README instead.
+ *
+ * @param objectMapper the mapper used to resolve the `@JsonValue` of an enum constant
+ */
+class JsonValueEnumToStringConverter(
+    private val objectMapper: ObjectMapper = ObjectMapper()
+) : Converter<Enum<*>, String> {
+
+    override fun convert(source: Enum<*>): String = objectMapper.convertValue(source, String::class.java)
+}
