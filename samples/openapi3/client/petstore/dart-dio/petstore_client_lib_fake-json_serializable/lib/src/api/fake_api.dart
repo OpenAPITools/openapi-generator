@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:openapi/src/deserialize.dart';
 import 'package:dio/dio.dart';
 
+import 'package:openapi/src/api_util.dart';
 import 'package:openapi/src/model/child_with_nullable.dart';
 import 'package:openapi/src/model/fake_big_decimal_map200_response.dart';
 import 'package:openapi/src/model/file_schema_test_class.dart';
@@ -1227,6 +1228,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         if (password != null) r'password': password,
         if (callback != null) r'callback': callback,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1322,6 +1329,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         if (enumFormStringArray != null) r'enum_form_string_array': enumFormStringArray,
         if (enumFormString != null) r'enum_form_string': enumFormString,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
@@ -1600,6 +1613,12 @@ _responseData = rawData == null ? null : deserialize<ModelClient, ModelClient>(r
         r'param': param,
         r'param2': param2,
       };
+      removeNullParametersExcept(
+        _bodyData,
+        <String>{
+          
+        },
+      );
 
     } catch(error, stackTrace) {
       throw DioException(
