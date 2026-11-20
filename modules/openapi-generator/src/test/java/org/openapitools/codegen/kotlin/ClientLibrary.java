@@ -12,7 +12,8 @@ enum ClientLibrary {
     JVM_RETROFIT2("main/kotlin"),
     MULTIPLATFORM("commonMain/kotlin"),
     JVM_VOLLEY("gson", "main/java"),
-    JVM_VERTX("main/kotlin");
+    JVM_VERTX("main/kotlin"),
+    JVM_MICROPROFILE("main/kotlin");
     private final String serializationLibrary;
     private final String libraryName;
     private final String sourceRoot;
