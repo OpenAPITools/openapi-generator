@@ -29,6 +29,8 @@ module {{moduleName}}
     end
 
     def self.cast_raw(type_name, data)
+      return nil if data.nil?
+
       case type_name
       when 'Boolean'
         [true, false].include?(data) ? data : NO_MATCH
@@ -47,7 +49,7 @@ module {{moduleName}}
       when HASH_TYPE
         cast_hash(Regexp.last_match[:sub_type], data)
       else
-        data.nil? ? nil : cast_model(type_name, data)
+        cast_model(type_name, data)
       end
     end
     private_class_method :cast_raw
