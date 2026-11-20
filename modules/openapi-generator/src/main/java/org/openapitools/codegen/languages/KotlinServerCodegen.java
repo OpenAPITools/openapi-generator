@@ -856,10 +856,6 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         return Constants.KTOR.equals(library);
     }
 
-    private boolean isKtor2() {
-        return Constants.KTOR2.equals(library);
-    }
-
     /** Computes the longest common path prefix shared by all operations. */
     private static String computeCommonPath(List<CodegenOperation> ops) {
         String commonPath = null;

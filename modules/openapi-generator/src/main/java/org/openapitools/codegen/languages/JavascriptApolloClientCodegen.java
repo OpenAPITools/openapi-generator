@@ -861,12 +861,6 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
         return codegenModel;
     }
 
-    /*
-    private String sanitizePath(String p) {
-        //prefer replace a ', instead of a fuLL URL encode for readability
-        return p.replaceAll("'", "%27");
-    }*/
-
     private String trimBrackets(String s) {
         if (s != null) {
             int beginIdx = s.charAt(0) == '[' ? 1 : 0;
