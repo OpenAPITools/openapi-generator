@@ -28,6 +28,11 @@ export function HolidaysFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         return json;
     }
     if (Array.isArray(json)) {
+        if (json.every(item => typeof item === 'string')) {
+            return json;
+        }
+    }
+    if (Array.isArray(json)) {
         if (json.every(item => typeof item === 'number')) {
             return json;
         }
@@ -42,6 +47,11 @@ export function HolidaysToJSON(json: any): any {
 export function HolidaysToJSONTyped(value?: Holidays | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
+    }
+    if (Array.isArray(value)) {
+        if (value.every(item => typeof item === 'string')) {
+            return value;
+        }
     }
     if (Array.isArray(value)) {
         if (value.every(item => typeof item === 'number')) {
