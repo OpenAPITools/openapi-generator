@@ -135,6 +135,37 @@ public class EnumUtils {
     }
 
     /**
+     * Merge enum schemas when possible and select which schema to keep.
+     * For intersections, an enum schema is kept when only one schema is an enum.
+     * Otherwise, the existing schema is kept when the new schema is an enum;
+     * if not, the new schema is used.
+     *
+     * @param existingSchema previously-collected schema
+     * @param newSchema newly-discovered schema
+     * @param operation union or intersection
+     * @return the non-null schema if either schema is null, otherwise the schema to use after merging
+     */
+    public static Schema mergeEnumSchemas(Schema existingSchema, Schema newSchema, EnumMergeOperation operation) {
+        if (existingSchema == null) {
+            return newSchema;
+        }
+        if (newSchema == null) {
+            return existingSchema;
+        }
+        boolean existingSchemaIsEnum = ModelUtils.isEnumSchema(existingSchema);
+        boolean newSchemaIsEnum = ModelUtils.isEnumSchema(newSchema);
+        boolean onlyOneSchemaIsEnum = existingSchemaIsEnum ^ newSchemaIsEnum;
+        if (operation == EnumMergeOperation.INTERSECTION && onlyOneSchemaIsEnum) {
+            return existingSchemaIsEnum ? existingSchema : newSchema;
+        }
+        if (newSchemaIsEnum) {
+            mergeEnum(existingSchema, newSchema, operation);
+            return existingSchema;
+        }
+        return newSchema;
+    }
+
+    /**
      * Bungie has defined their own enum extension to describe enum values.
      * See <a href="https://github.com/Bungie-net/api?tab=readme-ov-file">documentation</a> and the section with
      * {@code x-enum-values} for more information.

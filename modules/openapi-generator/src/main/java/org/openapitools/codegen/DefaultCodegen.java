@@ -3162,7 +3162,8 @@ public class DefaultCodegen implements CodegenConfig {
                         // composition
                         Map<String, Schema> newProperties = new LinkedHashMap<>();
                         addProperties(newProperties, required, refSchema, new HashSet<>());
-                        mergeProperties(properties, newProperties);
+                        EnumMergeOperation operation = ModelUtils.hasAllOf(composed) ? EnumMergeOperation.INTERSECTION : EnumMergeOperation.UNION;
+                        mergeProperties(properties, newProperties, operation);
                         addProperties(allProperties, allRequired, refSchema, new HashSet<>());
                     }
                 }
@@ -3246,16 +3247,18 @@ public class DefaultCodegen implements CodegenConfig {
      * Combines all previously-detected type entries for a schema with newly-discovered ones, to ensure
      * that schema for items like enum include all possible values.
      */
-    private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties) {
+    private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties, EnumMergeOperation operation) {
         if (existingProperties != null && newProperties != null) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             newProperties.forEach((key, value) ->
                     existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
             );
-            if (existingType != null && newType != null && isEnumSchema(newType)) {
-                mergeEnum(existingType, newType, EnumMergeOperation.UNION);
-                existingProperties.put("type", existingType);
+            if (existingType != null && newType != null) {
+                Schema mergedType = mergeEnumSchemas(existingType, newType, operation);
+                if (mergedType == existingType) {
+                    existingProperties.put("type", existingType);
+                }
             }
         }
     }

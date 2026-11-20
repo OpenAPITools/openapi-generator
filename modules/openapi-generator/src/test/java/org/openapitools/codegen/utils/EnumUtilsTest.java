@@ -58,6 +58,24 @@ public class EnumUtilsTest {
         assertEquals(added.getEnum(), Collections.singletonList("b"));
     }
 
+    @Test
+    public void testMergeEnumSchemasSelectsSchemaAndMergesEnums() {
+        StringSchema existingEnum = stringEnum("a");
+        StringSchema newEnum = stringEnum("b");
+        Schema existingNonEnum = new StringSchema();
+        Schema newNonEnum = new StringSchema();
+
+        assertEquals(EnumUtils.mergeEnumSchemas(null, newEnum, EnumUtils.EnumMergeOperation.UNION), newEnum);
+        assertEquals(EnumUtils.mergeEnumSchemas(existingEnum, null, EnumUtils.EnumMergeOperation.UNION), existingEnum);
+        assertEquals(EnumUtils.mergeEnumSchemas(null, null, EnumUtils.EnumMergeOperation.UNION), null);
+        assertEquals(EnumUtils.mergeEnumSchemas(existingEnum, newEnum, EnumUtils.EnumMergeOperation.UNION), existingEnum);
+        assertEquals(existingEnum.getEnum(), Arrays.asList("a", "b"));
+        assertEquals(EnumUtils.mergeEnumSchemas(existingEnum, newNonEnum, EnumUtils.EnumMergeOperation.INTERSECTION), existingEnum);
+        assertEquals(EnumUtils.mergeEnumSchemas(existingNonEnum, newEnum, EnumUtils.EnumMergeOperation.INTERSECTION), newEnum);
+        assertEquals(EnumUtils.mergeEnumSchemas(existingNonEnum, newEnum, EnumUtils.EnumMergeOperation.UNION), existingNonEnum);
+        assertEquals(EnumUtils.mergeEnumSchemas(existingEnum, newNonEnum, EnumUtils.EnumMergeOperation.UNION), newNonEnum);
+    }
+
     @DataProvider
     public Object[][] incompatibleEnumSchemas() {
         StringSchema existing = stringEnum("a");
