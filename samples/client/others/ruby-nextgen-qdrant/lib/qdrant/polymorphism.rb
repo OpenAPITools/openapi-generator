@@ -40,6 +40,8 @@ module Qdrant
         data.is_a?(String) ? data : NO_MATCH
       when 'Time'
         cast_time(data)
+      when 'Date'
+        cast_date(data)
       when 'Object', 'Hash'
         data.is_a?(Hash) ? data : NO_MATCH
       when ARRAY_TYPE
@@ -60,6 +62,15 @@ module Qdrant
       NO_MATCH
     end
     private_class_method :cast_time
+
+    def self.cast_date(data)
+      return NO_MATCH unless data.is_a?(String)
+
+      Date.parse(data)
+    rescue ArgumentError, TypeError
+      NO_MATCH
+    end
+    private_class_method :cast_date
 
     def self.cast_array(sub_type, data)
       return NO_MATCH unless data.is_a?(Array)
@@ -121,6 +132,8 @@ module Qdrant
         data.is_a?(Numeric) ? data.to_f : data
       when 'Time'
         coerce_time(data)
+      when 'Date'
+        coerce_date(data)
       when ARRAY_TYPE
         sub_type = Regexp.last_match[:sub_type]
         data.is_a?(Array) ? data.map { |item| coerce(sub_type, item) } : data
@@ -142,6 +155,17 @@ module Qdrant
       end
     end
     private_class_method :coerce_time
+
+    def self.coerce_date(data)
+      return data unless data.is_a?(String)
+
+      begin
+        Date.parse(data)
+      rescue ArgumentError, TypeError
+        data
+      end
+    end
+    private_class_method :coerce_date
 
     # Resolves a bare model name under Models:: and dispatches according to
     # what kind of generated constant it is, without any `valid?` gating:
