@@ -1207,6 +1207,25 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void containerRequestBodyValidationWithSpringBuiltInValidation_issue25734() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseBeanValidation(true);
+        codegen.setUseSpringBuiltInValidation(true);
+
+        final Map<String, File> files = generateFiles(codegen,
+                "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        JavaFileAssert.assertThat(files.get("UserApi.java"))
+                .fileContains("@Valid @RequestBody List<@Valid User> user");
+
+        JavaFileAssert.assertThat(files.get("FakeApi.java"))
+                .fileContains("@Valid @RequestBody Map<String, String> requestBody");
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .fileContains("@Valid @RequestBody Pet pet");
+    }
+
+    @Test
     public void testXImplements() throws IOException {
         final SpringCodegen codegen = new SpringCodegen();
 
