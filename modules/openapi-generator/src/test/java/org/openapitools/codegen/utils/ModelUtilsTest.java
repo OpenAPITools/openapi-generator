@@ -68,6 +68,17 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testAdditionalPropertiesSelfReferenceIsStillFixed() {
+        Schema<?> additionalProperties = new Schema<>().$ref("#/components/schemas/SelfReference");
+        Schema<?> selfReference = new ObjectSchema().additionalProperties(additionalProperties);
+
+        new OpenAPINormalizer(new OpenAPI(), new HashMap<>())
+                .fixSelfReferenceSchema("SelfReference", selfReference);
+
+        assertNull(((Schema<?>) selfReference.getAdditionalProperties()).get$ref());
+    }
+
+    @Test
     public void testGetAllUsedSchemas() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/unusedSchemas.yaml");
         List<String> allUsedSchemas = ModelUtils.getAllUsedSchemas(openAPI);
