@@ -112,7 +112,7 @@ open class BodyApi(basePath: kotlin.String = defaultBasePath, client: Call.Facto
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        
+        localVariableHeaders["Accept"] = "image/gif"
 
         return RequestConfig(
             method = RequestMethod.POST,

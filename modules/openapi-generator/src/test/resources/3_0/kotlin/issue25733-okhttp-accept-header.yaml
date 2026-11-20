@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Accept header repro
+  version: 1.0.0
+paths:
+  /download:
+    get:
+      operationId: download
+      responses:
+        "200":
+          description: gzip file
+          content:
+            application/gzip:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /download-only-gzip:
+    get:
+      operationId: downloadOnlyGzip
+      responses:
+        "200":
+          description: gzip file
+          content:
+            application/gzip:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string

@@ -210,6 +210,22 @@ public class KotlinClientCodegenApiTest {
     }
 
     @Test
+    public void testJvmOkHttp4AcceptHeaderKeepsNonJsonResponseMediaTypes() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/issue25733-okhttp-accept-header.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        assertFileContainsLine(lines, "localVariableHeaders[\"Accept\"] = \"application/gzip, application/json\"");
+        assertFileContainsLine(lines, "localVariableHeaders[\"Accept\"] = \"application/gzip\"");
+    }
+
+    @Test
     public void testJvmOkHttp4ApiClientUsesExplicitDateTypeArgumentsForQuerySerialization() throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
 

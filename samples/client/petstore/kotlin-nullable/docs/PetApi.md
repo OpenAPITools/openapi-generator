@@ -170,7 +170,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
@@ -224,7 +224,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a id="getPetById"></a>
 # **getPetById**
@@ -273,7 +273,7 @@ Configure api_key:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
 <a id="updatePet"></a>
 # **updatePet**

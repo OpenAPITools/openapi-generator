@@ -116,7 +116,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.POST,
@@ -285,7 +285,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
                 put("status", toMultiValue(status.toList(), "csv"))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -366,7 +366,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
                 put("tags", toMultiValue(tags.toList(), "csv"))
             }
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -439,7 +439,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.GET,
@@ -513,7 +513,7 @@ open class PetApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
-        localVariableHeaders["Accept"] = "application/json"
+        localVariableHeaders["Accept"] = "application/xml, application/json"
 
         return RequestConfig(
             method = RequestMethod.PUT,
