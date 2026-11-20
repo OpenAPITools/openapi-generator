@@ -23,7 +23,7 @@ import type { RequestArgs } from './base{{importFileExtension}}';
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base{{importFileExtension}}';
 
 {{#models}}
-{{#model}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}{{/model}}
+{{#model}}{{#vendorExtensions.x-typescript-primitive-type}}{{>modelGeneric}}{{/vendorExtensions.x-typescript-primitive-type}}{{^vendorExtensions.x-typescript-primitive-type}}{{#isEnum}}{{>modelEnum}}{{/isEnum}}{{#oneOf}}{{#-first}}{{>modelOneOf}}{{/-first}}{{/oneOf}}{{^isEnum}}{{^oneOf}}{{>modelGeneric}}{{/oneOf}}{{/isEnum}}{{/vendorExtensions.x-typescript-primitive-type}}{{/model}}
 {{/models}}
 {{#apiInfo}}{{#apis}}
 {{>apiInner}}

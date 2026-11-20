@@ -36,6 +36,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Test(groups = {TypeScriptGroups.TYPESCRIPT, TypeScriptGroups.TYPESCRIPT_FETCH})
 public class TypeScriptFetchClientCodegenTest {
     @Test
+    public void testPrimitiveCompositionSerialization() throws IOException {
+        File output = Files.createTempDirectory("typescript-fetch-primitive-composition").toFile();
+        output.deleteOnExit();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-fetch")
+                .setInputSpec("src/test/resources/3_1/primitive-composition-runtime.yaml")
+                .setOutputDir(output.getAbsolutePath());
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+        // A validation-only oneOf must not route a scalar through an empty-object
+        // model converter, which would silently encode and decode "letters" as {}.
+        TestUtils.assertFileContains(output.toPath().resolve("models/Envelope.ts"),
+                "'value': json['value'],", "'value': value['value'],");
+    }
+
+    @Test
     public void testJsonContentHeaders() throws IOException {
         File output = Files.createTempDirectory("typescript-fetch-json-header").toFile();
         output.deleteOnExit();
