@@ -99,6 +99,7 @@ public class Pet  {
  /**
   * pet status in the store
   */
+  @Deprecated
   @JsonbProperty("status")
   protected StatusEnum status;
 
@@ -232,10 +233,12 @@ public class Pet  {
   /**
    * Set status
    */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
+  @Deprecated
   public Pet status(StatusEnum status) {
     this.status = status;
     return this;
