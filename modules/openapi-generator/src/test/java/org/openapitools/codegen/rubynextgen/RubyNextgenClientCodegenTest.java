@@ -53,6 +53,26 @@ public class RubyNextgenClientCodegenTest {
     }
 
     @Test
+    public void testJsonStringBodyResponseIsDeserializedOnce() throws Exception {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        ClientOptInput input =
+                new CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/json-string-body.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new DefaultGenerator(false).opts(input).generate();
+
+        TestUtils.assertFileNotContains(
+                target.resolve("lib/petstore/configuration.rb"),
+                "conn.response :json");
+        TestUtils.assertFileContains(target.resolve("lib/petstore/connection.rb"), "JSON.parse(body)");
+    }
+
+    @Test
     public void testGeneratorName() {
         RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();
         assertEquals(gen.getName(), "ruby-nextgen");
