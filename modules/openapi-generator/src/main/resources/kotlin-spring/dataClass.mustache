@@ -43,6 +43,11 @@
         {{>interfaceOptVar}}{{! prevent indent}}
     {{/optionalVars}}
 {{/discriminator}}
+{{#vendorExtensions.x-inherited-enum-condition}}
+    init {
+        require({{{.}}}) { "Invalid value for the discriminator" }
+    }
+{{/vendorExtensions.x-inherited-enum-condition}}
 {{#vendorExtensions.x-is-open-class}}
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

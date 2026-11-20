@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Inherited enum discriminator
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Kind:
+      type: string
+      enum: [A, B, C]
+      x-enum-varnames: [FIRST, SECOND, THIRD]
+    TaggedValue:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          $ref: '#/components/schemas/Kind'
+      discriminator:
+        propertyName: kind
+        mapping:
+          A: '#/components/schemas/OnlyA'
+          B: '#/components/schemas/OnlyB'
+    OnlyA:
+      allOf:
+        - $ref: '#/components/schemas/TaggedValue'
+        - type: object
+          required: [value]
+          properties:
+            value:
+              type: string
+            kind:
+              type: string
+              enum: [A]
+    OnlyB:
+      allOf:
+        - $ref: '#/components/schemas/TaggedValue'
+        - type: object
+          required: [kind]
+          properties:
+            kind:
+              type: string
+              enum: [B]
+              default: B

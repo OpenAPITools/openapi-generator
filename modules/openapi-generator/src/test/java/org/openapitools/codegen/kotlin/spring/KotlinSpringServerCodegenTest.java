@@ -88,6 +88,31 @@ public class KotlinSpringServerCodegenTest {
     }
 
     @Test
+    public void narrowsAnInheritedAllOfDiscriminatorEnum() throws Exception {
+        Path output = Files.createTempDirectory("kotlin-spring-inherited-enum");
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.toString());
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/allof-inherited-enum-discriminator.yaml"))
+                        .config(codegen))
+                .generate();
+
+        Path models = output.resolve("src/main/kotlin/org/openapitools/model");
+        assertFileContains(models.resolve("OnlyA.kt"), "override val kind: Kind");
+        assertFileNotContains(models.resolve("OnlyA.kt"), "enum class Kind");
+        assertFileContains(models.resolve("OnlyB.kt"), "override val kind: Kind = Kind.SECOND");
+
+        ClassLoader loader = KotlinTestUtils.buildModule(List.of(models.toString()), Thread.currentThread().getContextClassLoader());
+        Class<?> kind = loader.loadClass("org.openapitools.model.Kind");
+        Class<?> onlyA = loader.loadClass("org.openapitools.model.OnlyA");
+        Object first = kind.getField("FIRST").get(null);
+        Object second = kind.getField("SECOND").get(null);
+        var constructor = onlyA.getConstructor(String.class, kind);
+        assertThat(onlyA.getMethod("getKind").invoke(constructor.newInstance("value", first))).isEqualTo(first);
+        assertThatThrownBy(() -> constructor.newInstance("value", second)).hasCauseInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     public void testInitialConfigValues() throws Exception {
         final KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.processOpts();

@@ -32,11 +32,13 @@ import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.languages.features.SwaggerUIFeatures;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
+import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.JsonAnnotationPolicyUtils;
 import org.openapitools.codegen.utils.JsonIncludePolicy;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -1811,6 +1813,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        allModelsMap.values().forEach(model -> reuseInheritedDiscriminatorEnum(model, allModelsMap));
+
         // For each oneOf interface with a discriminator, mark the discriminator property
         // as inherited in each subtype and set its default value from the discriminator mapping
         for (CodegenModel cm : allModelsMap.values()) {
@@ -1941,6 +1945,79 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
 
         return objs;
+    }
+
+    private void reuseInheritedDiscriminatorEnum(CodegenModel model, Map<String, CodegenModel> allModels) {
+        CodegenModel parent = model.parentModel;
+        if (model.discriminator != null || parent == null || parent.discriminator == null) {
+            return;
+        }
+
+        String baseName = parent.discriminator.getPropertyBaseName();
+        CodegenProperty inherited = parent.requiredVars.stream()
+                .filter(p -> baseName.equals(p.baseName) && p.isEnumRef && !p.isNullable)
+                .findFirst().orElse(null);
+        CodegenProperty narrowed = model.vars.stream()
+                .filter(p -> baseName.equals(p.baseName) && p.isEnum && p.isString)
+                .findFirst().orElse(null);
+        if (inherited == null || narrowed == null) {
+            return;
+        }
+
+        CodegenModel enumModel = allModels.get(inherited.dataType);
+        if (enumModel == null || !enumModel.isEnum || !isDataTypeString(enumModel.dataType)) {
+            return;
+        }
+
+        List<Object> narrowedValues = EnumUtils.getEnumValues(narrowed.allowableValues);
+        List<EnumVarMap> allowedMembers = EnumUtils.getEnumVars(enumModel.allowableValues).stream()
+                .filter(member -> member.getEnumRawValue() != null && narrowedValues.contains(member.getEnumRawValue()))
+                .collect(Collectors.toList());
+        String enumType = inherited.dataType;
+        String allowedCondition = allowedMembers.stream()
+                .map(member -> narrowed.name + " == " + enumType + "." + member.getEnumName())
+                .collect(Collectors.joining(" || "));
+        if (allowedCondition.isEmpty()) {
+            allowedCondition = "false";
+        }
+
+        // The local enum may use different names from the component enum for the same wire values.
+        Object defaultValue = EnumUtils.getEnumVars(narrowed.allowableValues).stream()
+                .filter(member -> member.getEnumRawValue() != null
+                        && toEnumDefaultValue(narrowed, (String) member.getEnumName()).equals(narrowed.defaultValue))
+                .map(EnumVarMap::getEnumRawValue)
+                .findFirst().orElse(null);
+        String enumDefault = allowedMembers.stream()
+                .filter(member -> member.getEnumRawValue().equals(defaultValue))
+                .map(member -> toEnumDefaultValue((String) member.getEnumName(), enumType))
+                .findFirst().orElse(null);
+
+        for (List<CodegenProperty> properties : List.of(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
+            for (CodegenProperty property : properties) {
+                if (baseName.equals(property.baseName)) {
+                    property.dataType = enumType;
+                    property.datatypeWithEnum = enumType;
+                    property.baseType = inherited.baseType;
+                    property.complexType = inherited.complexType;
+                    property.isEnum = false;
+                    property.isInnerEnum = false;
+                    property.isEnumRef = true;
+                    property.isString = false;
+                    property.isInherited = true;
+                    property.isNullable = false;
+                    property.required = true;
+                    property.defaultValue = enumDefault;
+                }
+            }
+        }
+
+        model.optionalVars.stream().filter(p -> baseName.equals(p.baseName)).findFirst().ifPresent(property -> {
+            model.optionalVars.remove(property);
+            model.requiredVars.add(property);
+        });
+        model.hasRequired = !model.requiredVars.isEmpty();
+        model.hasOptional = !model.optionalVars.isEmpty();
+        model.vendorExtensions.put("x-inherited-enum-condition", allowedCondition);
     }
 
     /**
