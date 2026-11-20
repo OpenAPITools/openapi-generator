@@ -73,12 +73,6 @@ namespace Org.OpenAPITools.Model
         public string? AnyofNullableString { get { return this.AnyofNullableStringOption.Value; } set { this.AnyofNullableStringOption = new(value); } }
 
         /// <summary>
-        /// Gets or Sets additional properties
-        /// </summary>
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement> AdditionalProperties { get; } = new Dictionary<string, JsonElement>();
-
-        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -88,7 +82,6 @@ namespace Org.OpenAPITools.Model
             sb.Append("class PropertiesWithAnyOf {\n");
             sb.Append("  AnyofNullableNumber: ").Append(AnyofNullableNumber).Append("\n");
             sb.Append("  AnyofNullableString: ").Append(AnyofNullableString).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
