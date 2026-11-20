@@ -156,6 +156,16 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public ArrayAnyOf(Integer o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public ArrayAnyOf(List<String> o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("Integer", Integer.class);
         schemas.put("List<String>", List.class);
@@ -212,6 +222,15 @@ public class ArrayAnyOf extends AbstractOpenApiSchema {
      */
     public Integer getInteger() throws ClassCastException {
         return (Integer)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `Integer`.
+     *
+     * @return true if the actual instance is of the type `Integer`
+     */
+    public boolean isInteger() {
+        return super.getActualInstance() instanceof Integer;
     }
 
     /**
