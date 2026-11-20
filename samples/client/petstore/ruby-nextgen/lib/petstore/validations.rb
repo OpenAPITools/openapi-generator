@@ -80,7 +80,7 @@ module Petstore
       out << "\"#{name}\" must be >= #{rules[:minimum]}" if rules[:minimum] && value.is_a?(Numeric) && value < rules[:minimum]
       out << "\"#{name}\" too many items (max #{rules[:max_items]})" if rules[:max_items] && value.respond_to?(:length) && value.length > rules[:max_items]
       out << "\"#{name}\" too few items (min #{rules[:min_items]})" if rules[:min_items] && value.respond_to?(:length) && value.length < rules[:min_items]
-      out << "\"#{name}\" does not match #{rules[:pattern]}" if rules[:pattern] && value !~ rules[:pattern]
+      out << "\"#{name}\" does not match #{rules[:pattern]}" if rules[:pattern] && (!value.is_a?(String) || value !~ rules[:pattern])
       out
     end
   end
