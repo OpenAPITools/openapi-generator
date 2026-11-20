@@ -32,6 +32,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedCli
     public static final String STRING_ENUMS = "false";
     public static final String FILE_NAMING_VALUE = PASCAL_CASE;
     public static final String DATE_LIBRARY_VALUE = TypeScriptFetchClientCodegen.DATE_LIBRARY_STRING;
+    public static final String DATE_ANCHOR_VALUE = TypeScriptFetchClientCodegen.DATE_ANCHOR_UTC;
 
 
     @Override
@@ -52,6 +53,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedCli
                 .put(TypeScriptFetchClientCodegen.IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_VALUE)
                 .put(TypeScriptFetchClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(TypeScriptFetchClientCodegen.DATE_LIBRARY, DATE_LIBRARY_VALUE)
+                .put(TypeScriptFetchClientCodegen.DATE_ANCHOR, DATE_ANCHOR_VALUE)
                 .put(TypeScriptFetchClientCodegen.STRING_ENUMS, STRING_ENUMS)
                 .put(TypeScriptFetchClientCodegen.USE_SQUARE_BRACKETS_IN_ARRAY_NAMES, Boolean.FALSE.toString())
                 .put(TypeScriptFetchClientCodegen.VALIDATION_ATTRIBUTES, Boolean.FALSE.toString())
