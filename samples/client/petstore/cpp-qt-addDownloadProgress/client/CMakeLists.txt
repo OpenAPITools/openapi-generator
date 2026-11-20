@@ -10,7 +10,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Network Gui)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-add_library(${PROJECT_NAME}
+set(HEADER_FILES
   PFXApiResponse.h
   PFXCategory.h
   PFXEnumStatus.h
@@ -32,6 +32,10 @@ add_library(${PROJECT_NAME}
   PFXServerConfiguration.h
   PFXServerVariable.h
   PFXOauth.h
+  )
+
+add_library(${PROJECT_NAME}
+  ${HEADER_FILES}
   PFXApiResponse.cpp
   PFXCategory.cpp
   PFXEnumStatus.cpp

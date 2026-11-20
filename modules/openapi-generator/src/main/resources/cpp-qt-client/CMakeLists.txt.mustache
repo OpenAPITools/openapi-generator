@@ -10,7 +10,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Network Gui)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 
-add_library(${PROJECT_NAME}
+set(HEADER_FILES
 {{#models}}
 {{#model}}
   {{classname}}.h
@@ -31,6 +31,10 @@ add_library(${PROJECT_NAME}
   {{prefix}}ServerConfiguration.h
   {{prefix}}ServerVariable.h
   {{prefix}}Oauth.h
+  )
+
+add_library(${PROJECT_NAME}
+  ${HEADER_FILES}
 {{#models}}
 {{#model}}
   {{classname}}.cpp
