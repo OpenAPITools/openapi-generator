@@ -1,0 +1,27 @@
+# NOTE: 'descripton' (typo for 'description') below is intentional -- this is
+# the regression fixture for issue #24212's "a typo nested inside a path-level
+# server variable must not be reported as a dropped operation" test
+# (CodegenConfiguratorTest#shouldNotFalsePositiveOnNestedServerVariableTypo).
+# Do not "fix" this typo; it exists specifically to make swagger-parser emit
+# its nested unexpected-attribute message, whose member name contains dots even
+# though it is not a custom method:
+#   attribute paths.'/tasks'.variables.env.descripton is unexpected
+# (swagger-parser 2.1.48 reports path-level server members without a "servers"
+# segment, hence the dotted "variables.env.descripton" member name).
+openapi: 3.0.3
+info:
+  title: issue 24212 server-variable false-positive regression test
+  version: '1.0'
+paths:
+  /tasks:
+    get:
+      operationId: getTasks
+      responses:
+        '200':
+          description: OK
+    servers:
+      - url: https://api.example.com/{env}
+        variables:
+          env:
+            default: prod
+            descripton: typo
