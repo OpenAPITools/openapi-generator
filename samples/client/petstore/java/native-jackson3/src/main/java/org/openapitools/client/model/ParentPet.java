@@ -54,6 +54,18 @@ public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ParentPet(
+    @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String petType
+  ) {
+    super(petType);
+  }
+
   @Override
   public ParentPet petType(@javax.annotation.Nonnull String petType) {
     this.setPetType(petType);

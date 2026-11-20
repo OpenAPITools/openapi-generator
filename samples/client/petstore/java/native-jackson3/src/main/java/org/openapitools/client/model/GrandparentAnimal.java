@@ -59,6 +59,19 @@ public class GrandparentAnimal {
   public GrandparentAnimal() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public GrandparentAnimal(
+    @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String petType
+  ) {
+    this();
+    this.petType = petType;
+  }
+
   public GrandparentAnimal petType(@javax.annotation.Nonnull String petType) {
     this.petType = petType;
     return this;

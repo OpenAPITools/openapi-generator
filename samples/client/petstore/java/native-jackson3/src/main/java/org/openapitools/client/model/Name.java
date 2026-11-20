@@ -60,12 +60,23 @@ public class Name {
   public Name() { 
   }
 
-  @JsonCreator
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
   public Name(
-    @JsonProperty(JSON_PROPERTY_SNAKE_CASE) Integer snakeCase, 
-    @JsonProperty(JSON_PROPERTY_123NUMBER) Integer _123number
+    @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull Integer name,
+    @JsonProperty(value = JSON_PROPERTY_SNAKE_CASE, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @javax.annotation.Nullable Integer snakeCase,
+    @JsonProperty(value = JSON_PROPERTY_123NUMBER, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @javax.annotation.Nullable Integer _123number
   ) {
-  this();
+    this();
+    this.name = name;
     this.snakeCase = snakeCase;
     this._123number = _123number;
   }
