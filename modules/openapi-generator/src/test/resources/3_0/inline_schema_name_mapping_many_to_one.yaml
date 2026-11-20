@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: inlineSchemaNameMappings many-to-one
+  version: "1"
+paths:
+  /preview:
+    get:
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Preview"
+components:
+  schemas:
+    Preview:
+      type: object
+      properties:
+        balance:
+          type: object
+          description: The balance at the end of the range.
+          properties:
+            amount:
+              type: string
+            currency:
+              type: string
+        interest:
+          type: object
+          description: The interest accrued over the range.
+          properties:
+            amount:
+              type: string
+            currency:
+              type: string
