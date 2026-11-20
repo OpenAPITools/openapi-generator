@@ -1,4 +1,3 @@
-{{#isContainer}}{{^isPrimitiveType}}{{^isEnum}}
-    @field:Valid{{/isEnum}}{{/isPrimitiveType}}{{/isContainer}}{{!
-}}{{^isContainer}}{{^isPrimitiveType}}{{^isNumber}}{{^isUuid}}{{^isDateTime}}
-    @field:Valid{{/isDateTime}}{{/isUuid}}{{/isNumber}}{{/isPrimitiveType}}{{/isContainer}}
+{{! @field:Valid cascades only into bean-typed properties. Containers (List/Set/Map) cascade via element-type annotations instead (e.g. List<@Valid T>, Map<String, @Valid V>) - a container-level @Valid is deprecated by Hibernate Validator 9.1+ and logs HV000271, and free-form / Any-typed properties render as kotlin.Any with nothing to cascade into (HV000272). }}{{!
+}}{{^isContainer}}{{^isPrimitiveType}}{{^isNumber}}{{^isUuid}}{{^isDateTime}}{{^isFreeFormObject}}{{^isAnyType}}
+    @field:Valid{{/isAnyType}}{{/isFreeFormObject}}{{/isDateTime}}{{/isUuid}}{{/isNumber}}{{/isPrimitiveType}}{{/isContainer}}

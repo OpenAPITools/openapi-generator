@@ -8455,10 +8455,54 @@ public class KotlinSpringServerCodegenTest {
         // nested arrays -> annotation on the innermost element
         assertFileContains(holder,
                 "val nested: kotlin.collections.List<kotlin.collections.List<@Size(max=3) kotlin.String>>? = null");
-        // map values are out of scope
-        assertFileContains(holder, "val petMap: kotlin.collections.Map<kotlin.String, Pet>? = null");
-        // container-level annotations are unchanged
-        assertFileContains(holder, "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"pets\")");
+        // map values cascade through the type argument (a container-level @field:Valid would log HV000271)
+        assertFileContains(holder, "val petMap: kotlin.collections.Map<kotlin.String, @Valid Pet>? = null");
+        // container-level @field:Valid is gone; bean-typed non-container properties still cascade
+        assertFileNotContains(holder,
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"pets\")",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"petMap\")");
+    }
+
+    @Test(description = "@field:Valid is emitted only for bean-typed properties (HV000271/HV000272, issue #25347)")
+    public void fieldValidOnlyOnBeanTypedProperties() throws IOException {
+        Map<String, File> files = generateFromContract(COLLECTION_ITEM_ANNOTATIONS_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true)));
+        Path holder = files.get("Holder.kt").toPath();
+
+        // bean-typed ($ref) property keeps the cascading @field:Valid
+        assertFileContains(holder,
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"singlePet\")",
+                "val singlePet: Pet? = null");
+        // inline oneOf/anyOf/allOf properties are hoisted into generated models before the property
+        // templates render, so they are still bean-typed (HolderAnyOfPetInline, ...) and keep the
+        // cascading @field:Valid - only truly Any-typed properties lose it
+        assertFileContains(holder,
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"anyOfPetInline\")",
+                "val anyOfPetInline: HolderAnyOfPetInline? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"oneOfPetInline\")",
+                "val oneOfPetInline: HolderOneOfPetInline? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"allOfPetInline\")",
+                "val allOfPetInline: HolderAllOfPetInline? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"composedPrimitives\")",
+                "val composedPrimitives: HolderComposedPrimitives? = null",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"inlineObjAnyOf\")",
+                "val inlineObjAnyOf: HolderInlineObjAnyOf? = null");
+        // free-form object and AnyType render as kotlin.Any and cascade nothing (HV000272)
+        assertFileContains(holder,
+                "val customInfo: kotlin.Any? = null",
+                "val anything: kotlin.Any? = null");
+        // free-form map values render as kotlin.Any without any @Valid
+        assertFileContains(holder, "val anyMap: kotlin.collections.Map<kotlin.String, kotlin.Any>? = null");
+        // containers and Any-typed fields carry none
+        assertFileNotContains(holder,
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"pets\")",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"customInfo\")",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"anything\")",
+                "@field:Valid\n    @Schema(description = \"\")\n    @param:JsonProperty(\"anyMap\")");
+        // and the count adds up: exactly the six bean-typed properties above carry @field:Valid
+        String holderContent = Files.readString(holder);
+        Assert.assertEquals(TestUtils.countOccurrences(holderContent, "@field:Valid"), 6,
+                "@field:Valid should appear once per bean-typed property in Holder.kt");
     }
 
     @Test
@@ -8492,9 +8536,9 @@ public class KotlinSpringServerCodegenTest {
                 "val enumExtra: kotlin.collections.List<@com.example.Qux @com.example.Baz @com.example.Foo Holder.EnumExtra>? = null",
                 // nullable items keep the annotations; nullability stays in the Kotlin type
                 "val nullableNames: kotlin.collections.List<@com.example.Qux @com.example.Baz @Size(max=3) kotlin.String?>? = null",
-                "val nullablePets: kotlin.collections.List<@com.example.Qux @com.example.Baz @Valid Pet?>? = null");
-        // map values are out of scope
-        assertFileContains(holder, "val petMap: kotlin.collections.Map<kotlin.String, Pet>? = null");
+                "val nullablePets: kotlin.collections.List<@com.example.Qux @com.example.Baz @Valid Pet?>? = null",
+                // map values are annotated like array/set items now
+                "val petMap: kotlin.collections.Map<kotlin.String, @com.example.Qux @com.example.Baz @Valid Pet>? = null");
     }
 
     @Test

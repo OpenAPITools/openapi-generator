@@ -44,14 +44,12 @@ data class Pet(
     @param:JsonProperty("category")
     @get:JsonProperty("category") val category: Category? = null,
 
-    @field:Valid
     @param:JsonProperty("tags")
     @get:JsonProperty("tags") val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @param:JsonProperty("ratings")
     @get:JsonProperty("ratings") val ratings: kotlin.collections.List<@Min(value=1) @Max(value=5) kotlin.Int>? = null,
 
-    @field:Valid
     @param:JsonProperty("weights")
     @get:JsonProperty("weights") val weights: kotlin.collections.Set<@DecimalMin(value="0", inclusive=false) java.math.BigDecimal>? = null,
 

@@ -104,7 +104,6 @@ data class AnyOfUserOrPet(
     @param:JsonProperty("category")
     @get:JsonProperty("category") val category: Category? = null,
 
-    @field:Valid
     @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
