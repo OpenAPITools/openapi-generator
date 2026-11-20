@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info: {title: Kotlin jvm-volley API class member name collision, version: '1.0'}
+paths:
+  /base:
+    get:
+      operationId: baseOp
+      parameters:
+        - {name: basePath, in: query, schema: {type: string}}
+      responses: {'200': {description: ok}}
+  /members:
+    get:
+      operationId: membersOp
+      parameters:
+        - {name: requestFactory, in: query, schema: {type: string}}
+        - {name: postProcessors, in: query, schema: {type: string}}
+        - {name: requestQueue, in: query, schema: {type: string}}
+        - {name: context, in: query, schema: {type: string}}
+      responses: {'200': {description: ok}}

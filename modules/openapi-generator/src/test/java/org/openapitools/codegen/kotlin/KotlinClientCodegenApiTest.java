@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -352,6 +353,46 @@ public class KotlinClientCodegenApiTest {
             assertFileContains(searchApi.toPath(),
                     "put(\"filter-a[status]\", listOf(filterA.status.toString()))",
                     "put(\"filter-b[status]\", listOf(filterB.status.toString()))");
+        }
+    }
+
+    // In jvm-volley the API class properties requestFactory, basePath,
+    // postProcessors and requestQueue must be read through `this.` inside the
+    // suspendCoroutine block, or an operation parameter with the same name
+    // shadows them: basePath silently replaces the configured URL and the
+    // others do not even compile. Unqualified member access has one of these
+    // shapes; spec-parameter uses (parameterToString arguments, the class
+    // constructor) never match them.
+    private static final Pattern UNQUALIFIED_VOLLEY_MEMBER_ACCESS = Pattern.compile(
+            "(?<!this\\.)requestFactory\\.build\\(" +
+            "|\"\\$basePath" +
+            "|(?<!this\\.)postProcessors\\.forEach" +
+            "|(?<!this\\.)requestQueue\\.value");
+
+    @Test
+    public void testJvmVolleyApiClassMembersAreThisQualified() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-volley-member-collision.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_VOLLEY);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        assertFileContainsLine(lines, "val request: Request<Unit> = this.requestFactory.build(");
+        assertFileContainsLine(lines, "\"${this.basePath}$path\",");
+        assertFileContainsLine(lines, "this.postProcessors.forEach { it.invoke(request) }");
+        assertFileContainsLine(lines, "this.requestQueue.value.add(request)");
+
+        // the spec's own parameters still reach the wire unqualified
+        assertFileContainsLine(lines, "\"basePath\" to IRequestFactory.parameterToString(basePath)");
+        assertFileContainsLine(lines, "\"requestQueue\" to IRequestFactory.parameterToString(requestQueue),");
+
+        // the four property reads this test pins must not appear without `this.`
+        for (String line : lines) {
+            Assert.assertFalse(UNQUALIFIED_VOLLEY_MEMBER_ACCESS.matcher(line).find(), "unqualified member reference: " + line);
         }
     }
 
