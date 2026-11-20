@@ -3,12 +3,26 @@
 {{#description}}{{&description}}
 {{/description}}
 
+{{#vendorExtensions.x-py-scalar-union}}
+## Any of
+
+`{{classname}}` is a type alias, so a value of this type is the value itself: the first of these types it validates against, in this order.
+
+{{#composedSchemas.anyOf}}
+* {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}}
+{{/composedSchemas.anyOf}}
+{{#isNullable}}
+* **None**
+{{/isNullable}}
+
+{{/vendorExtensions.x-py-scalar-union}}
+{{^vendorExtensions.x-py-scalar-union}}
 {{^isEnum}}
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-{{#vars}}**{{#vendorExtensions.x-py-public-name-differs-from-storage}}{{vendorExtensions.x-py-public-name}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}{{^vendorExtensions.x-py-public-name-differs-from-storage}}{{name}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} |{{#vendorExtensions.x-py-public-name-differs-from-storage}}{{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}{{#defaultValue}} [default to {{{.}}}]{{/defaultValue}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}{{^vendorExtensions.x-py-public-name-differs-from-storage}} {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}
+{{#vars}}**{{#vendorExtensions.x-py-public-name-differs-from-storage}}{{vendorExtensions.x-py-public-name}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}{{^vendorExtensions.x-py-public-name-differs-from-storage}}{{name}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}** | {{#isPrimitiveType}}{{#vendorExtensions.x-py-scalar-union-value}}[**{{dataType}}**]({{complexType}}.md){{/vendorExtensions.x-py-scalar-union-value}}{{^vendorExtensions.x-py-scalar-union-value}}**{{dataType}}**{{/vendorExtensions.x-py-scalar-union-value}}{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{complexType}}.md){{/isPrimitiveType}} | {{description}} |{{#vendorExtensions.x-py-public-name-differs-from-storage}}{{^required}} [optional]{{/required}}{{#isReadOnly}} [readonly]{{/isReadOnly}}{{#defaultValue}} [default to {{{.}}}]{{/defaultValue}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}{{^vendorExtensions.x-py-public-name-differs-from-storage}} {{^required}}[optional] {{/required}}{{#isReadOnly}}[readonly] {{/isReadOnly}}{{#defaultValue}}[default to {{{.}}}]{{/defaultValue}}{{/vendorExtensions.x-py-public-name-differs-from-storage}}
 {{/vars}}
 
 ## Example
@@ -29,6 +43,7 @@ print({{classname}}.to_json())
 {{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_from_dict = {{classname}}.from_dict({{#lambda.snakecase}}{{classname}}{{/lambda.snakecase}}_dict)
 ```
 {{/isEnum}}
+{{/vendorExtensions.x-py-scalar-union}}
 {{#isEnum}}
 ## Enum
 {{#allowableValues}}{{#enumVars}}

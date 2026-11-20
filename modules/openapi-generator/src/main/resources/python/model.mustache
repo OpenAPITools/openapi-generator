@@ -10,7 +10,7 @@
 
 {{/isEnum}}
 {{^isEnum}}
-{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_generic}}{{/anyOf}}{{/oneOf}}
+{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{#vendorExtensions.x-py-scalar-union}}{{>model_anyof_scalar}}{{/vendorExtensions.x-py-scalar-union}}{{^vendorExtensions.x-py-scalar-union}}{{>model_anyof}}{{/vendorExtensions.x-py-scalar-union}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_generic}}{{/anyOf}}{{/oneOf}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

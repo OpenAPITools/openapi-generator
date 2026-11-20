@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: Scalar anyOf as Union
+  description: anyOf schemas that generateScalarAnyOfAsUnion turns into Union type aliases, and ones it leaves as models
+  version: 1.0.0
+servers:
+  - url: http://localhost
+paths:
+  /holder:
+    post:
+      operationId: postHolder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Holder'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holder'
+  /pet-status:
+    get:
+      operationId: getPetStatus
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/OpenPetStatus'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpenPetStatus'
+components:
+  schemas:
+    PetStatus:
+      type: string
+      enum:
+        - available
+        - pending
+        - sold
+    OpenPetStatus:
+      description: A PetStatus, or any other string.
+      anyOf:
+        - $ref: '#/components/schemas/PetStatus'
+        - type: string
+          maxLength: 32
+    CountOrFlag:
+      anyOf:
+        - type: integer
+        - type: boolean
+    DateOrText:
+      anyOf:
+        - type: string
+          format: date
+        - type: string
+    NumberOrText:
+      anyOf:
+        - type: number
+        - type: string
+    IdOrText:
+      anyOf:
+        - type: string
+          format: uuid
+        - type: string
+    NullablePetStatus:
+      nullable: true
+      anyOf:
+        - $ref: '#/components/schemas/PetStatus'
+        - type: string
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    PetOrName:
+      anyOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: string
+    PetOrStatus:
+      anyOf:
+        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/OpenPetStatus'
+    NamesOrName:
+      anyOf:
+        - type: array
+          items:
+            type: string
+        - type: string
+    Holder:
+      type: object
+      required:
+        - required_status
+      properties:
+        status:
+          $ref: '#/components/schemas/OpenPetStatus'
+        required_status:
+          $ref: '#/components/schemas/OpenPetStatus'
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpenPetStatus'
+        statuses_by_name:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/OpenPetStatus'
+        nullable_status:
+          $ref: '#/components/schemas/NullablePetStatus'
+        count_or_flag:
+          $ref: '#/components/schemas/CountOrFlag'
+        date_or_text:
+          $ref: '#/components/schemas/DateOrText'
+        number_or_text:
+          $ref: '#/components/schemas/NumberOrText'
+        id_or_text:
+          $ref: '#/components/schemas/IdOrText'
+        pet_or_name:
+          $ref: '#/components/schemas/PetOrName'
+        pet_or_status:
+          $ref: '#/components/schemas/PetOrStatus'
+        names_or_name:
+          $ref: '#/components/schemas/NamesOrName'

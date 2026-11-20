@@ -64,6 +64,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
     public static final String SET_ENSURE_ASCII_TO_FALSE = "setEnsureAsciiToFalse";
     public static final String POETRY1_FALLBACK = "poetry1";
     public static final String LAZY_IMPORTS = "lazyImports";
+    public static final String GENERATE_SCALAR_ANY_OF_AS_UNION = "generateScalarAnyOfAsUnion";
     public static final String BUILD_SYSTEM = "buildSystem";
     public static final String SUPPORT_HTTPX_SYNC = "supportHttpxSync";
     public static final String USE_INDEPENDENT_IMPLICIT_CLIENTS = "useIndependentImplicitClients";
@@ -232,6 +233,12 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(POETRY1_FALLBACK, "Fallback to formatting pyproject.toml to Poetry 1.x format."));
         cliOptions.add(new CliOption(LAZY_IMPORTS, "Enable lazy imports.").defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(CliOption.newBoolean(GENERATE_SCALAR_ANY_OF_AS_UNION,
+                "Generate an anyOf schema whose members are all enums or single values (strings, numbers, booleans, " +
+                        "dates and UUIDs) as a type alias of a Union of its members, instead of a model that wraps the " +
+                        "value in actual_instance. Properties of that type then hold the value itself, and a value " +
+                        "takes the first member it validates against, in the order the anyOf lists them.")
+                .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BUILD_SYSTEM, "Build system to use in pyproject.toml (setuptools, hatchling).").defaultValue("setuptools"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "directory for generated python source code; 'src' for _src layout_, unset (or '.') for _flat layout_."));
         cliOptions.add(CliOption.newBoolean(SUPPORT_HTTPX_SYNC, "Generate synchronous '_sync' variants of each API method (httpx and httpx2 libraries only). " +
@@ -372,6 +379,10 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
 
         if (additionalProperties.containsKey(LAZY_IMPORTS)) {
             additionalProperties.put(LAZY_IMPORTS, Boolean.valueOf(additionalProperties.get(LAZY_IMPORTS).toString()));
+        }
+
+        if (additionalProperties.containsKey(GENERATE_SCALAR_ANY_OF_AS_UNION)) {
+            setGenerateScalarAnyOfAsUnion(convertPropertyToBooleanAndWriteBack(GENERATE_SCALAR_ANY_OF_AS_UNION));
         }
 
         if (additionalProperties.containsKey(COMPATIBLE_WITH_PYTHON_LEGACY)) {
