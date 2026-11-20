@@ -26,6 +26,8 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.AccessLevel;
 import lombok.Setter;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -34,7 +36,6 @@ import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.ReplaceAllLambda;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +44,13 @@ import java.io.IOException;
 import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 
 /**
  * <p>Mustache templates are located in {@code src/main/resources/rust/}.
@@ -300,7 +305,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     String mappedName = names.remove(0);
                     oneOf.setBaseName(mappedName);
                     oneOf.setName(toModelName(mappedName));
-                } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
+                } else if (!StringUtils.isEmpty(schema.get$ref())) {
                     // use $ref if it's reference
                     String refName = ModelUtils.getSimpleRef(schema.get$ref());
                     if (refName != null) {
@@ -416,7 +421,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                                 LOGGER.debug("Found duplicated enum model (" + s.getKey() + ") in model " + cm.name + ". Adding suffix to model names.");
                                 for (var m : cm.discriminator.getMappedModels()) {
                                     if (s.getValue().contains(m.getMappingName())) {
-                                        m.setModelName(m.getModelName() + StringUtils.camelize(m.getMappingName()));
+                                        m.setModelName(m.getModelName() + camelize(m.getMappingName()));
                                     }
                                 }
                             }
@@ -487,8 +492,64 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public void postProcessFile(File file, String fileType) {
+        super.postProcessFile(file, fileType);
+        if (file == null) {
+            return;
+        }
+
+        final String fileName = file.toString();
+
+        String[] command;
+
+        String cmd = System.getenv("RUST_POST_PROCESS_FILE");
+        if (!StringUtils.isEmpty(cmd)) {
+            command = new String[]{cmd, fileName};
+        } else {
+            return;
+        }
+
+        // only process files with .rs extension
+        if ("rs".equals(FilenameUtils.getExtension(fileName))) {
+            this.executePostProcessor(command);
+        }
+    }
+
+    @Override 
+    public void postProcess() {
+        if (isEnablePostProcessFile()) {
+            File cargoToml = Paths.get(outputFolder(), "Cargo.toml").toFile();
+            if (cargoToml.exists()) {
+                final String[] clippyFix = {
+                    "cargo", "clippy", "--fix",
+                    "--allow-dirty",
+                    "--allow-no-vcs",
+                    "--manifest-path", cargoToml.toString(),
+                };
+                executePostProcessor(clippyFix);
+                final String[] cargoFmt = {
+                    "cargo", "fmt",
+                    "--manifest-path", cargoToml.toString(),
+                };
+                executePostProcessor(cargoFmt);
+            }
+        }
+        super.postProcess();
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
+
+        if (StringUtils.isEmpty(System.getenv("RUST_POST_PROCESS_FILE"))) {
+            LOGGER.info("Environment variable RUST_POST_PROCESS_FILE not defined. rustfmt will be used" +
+                    " by default. To choose a different tool, try" +
+                    " 'export RUST_POST_PROCESS_FILE=\"/usr/local/bin/rustfmt\"' (Linux/Mac)");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` " +
+                    " (--enable-post-process-file for CLI).");
+        } else if (!this.isEnablePostProcessFile()) {
+            LOGGER.info("Warning: Environment variable 'RUST_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)) {
             withAWSV4Signature = Boolean.parseBoolean(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString());
@@ -606,16 +667,16 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile("model_mod.mustache", modelFolder, "mod.rs"));
-        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
 
-        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
         supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
             supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
+        supportingFiles.add(new SupportingFile("model_mod.mustache", modelFolder, "mod.rs"));
+        supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
 
         // add lambda for sanitize version (e.g. v1.2.3-beta => 1.2.3-beta)
         additionalProperties.put("lambdaVersion", new Mustache.Lambda() {
@@ -918,7 +979,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             if (HYPER_LIBRARY.equals(getLibrary())) {
-                operation.httpMethod = StringUtils.camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+                operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
             } else if (REQWEST_LIBRARY.equals(getLibrary()) || REQWEST_TRAIT_LIBRARY.equals(getLibrary())) {
                 operation.httpMethod = operation.httpMethod.toUpperCase(Locale.ROOT);
             }

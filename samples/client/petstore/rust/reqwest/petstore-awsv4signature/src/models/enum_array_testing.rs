@@ -26,7 +26,6 @@ impl EnumArrayTesting {
         }
     }
 }
-/// 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum RequiredEnums {
     #[serde(rename = "A")]

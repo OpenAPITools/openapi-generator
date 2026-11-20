@@ -19,7 +19,9 @@ use serde_repr::{Serialize_repr,Deserialize_repr};
 {{!-- for repr(int) enum schemas --}}
 {{#isEnum}}
 {{#isInteger}}
-/// {{{description}}}
+{{#description}}
+/// {{{.}}}
+{{/description}}
 #[repr(i64)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr)]
 pub enum {{{classname}}} {
@@ -50,7 +52,9 @@ impl std::fmt::Display for {{{classname}}} {
 {{!-- for enum schemas --}}
 {{#isEnum}}
 {{^isInteger}}
-/// {{{description}}}
+{{#description}}
+/// {{{.}}}
+{{/description}}
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum {{{classname}}} {
 {{#allowableValues}}
@@ -265,7 +269,9 @@ impl Default for {{classname}} {
 {{#vars}}
 {{#isEnum}}
 {{#isInteger}}
-/// {{{description}}}
+{{#description}}
+/// {{{.}}}
+{{/description}}
 #[repr(i64)]
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize_repr, Deserialize_repr)]
 pub enum {{{enumName}}} {
@@ -294,7 +300,9 @@ impl std::fmt::Display for {{{enumName}}} {
 }
 {{/isInteger}}
 {{^isInteger}}
-/// {{{description}}}
+{{#description}}
+/// {{{.}}}
+{{/description}}
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum {{{enumName}}} {
 {{#allowableValues}}
