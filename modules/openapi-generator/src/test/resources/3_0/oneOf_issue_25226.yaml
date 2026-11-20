@@ -1,0 +1,282 @@
+openapi: 3.0.3
+info:
+  title: oneOf discriminator property typed by a $ref to a primitive alias
+  description: >
+    The discriminator property of the oneOf subtypes is a $ref. When the referenced schema is an alias of
+    a primitive type (e.g. a plain `type: string`), no model is generated for it and the getter of the
+    generated oneOf interface must use the aliased type, like the implementing classes do.
+  version: 1.0.0
+paths:
+  /all:
+    get:
+      operationId: getAll
+      responses:
+        '200':
+          description: All the oneOf parents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Holder'
+components:
+  schemas:
+    Holder:
+      type: object
+      properties:
+        shape:
+          $ref: '#/components/schemas/Shape'
+        vehicle:
+          $ref: '#/components/schemas/Vehicle'
+        document:
+          $ref: '#/components/schemas/Document'
+        fruit:
+          $ref: '#/components/schemas/Fruit'
+        pet:
+          $ref: '#/components/schemas/Pet'
+        toy:
+          $ref: '#/components/schemas/Toy'
+        tool:
+          $ref: '#/components/schemas/Tool'
+        animal:
+          $ref: '#/components/schemas/Animal'
+
+    # Both subtypes share the same alias of a string
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+      discriminator:
+        propertyName: kind
+        mapping:
+          circle: '#/components/schemas/Circle'
+          square: '#/components/schemas/Square'
+    ShapeKind:
+      type: string
+      description: The kind of shape.
+    Circle:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          $ref: '#/components/schemas/ShapeKind'
+        radius:
+          type: number
+    Square:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          $ref: '#/components/schemas/ShapeKind'
+        side:
+          type: number
+
+    # Alias of an integer
+    Vehicle:
+      oneOf:
+        - $ref: '#/components/schemas/Car'
+        - $ref: '#/components/schemas/Bike'
+      discriminator:
+        propertyName: wheels
+        mapping:
+          '4': '#/components/schemas/Car'
+          '2': '#/components/schemas/Bike'
+    Wheels:
+      type: integer
+      format: int32
+    Car:
+      type: object
+      required:
+        - wheels
+      properties:
+        wheels:
+          $ref: '#/components/schemas/Wheels'
+    Bike:
+      type: object
+      required:
+        - wheels
+      properties:
+        wheels:
+          $ref: '#/components/schemas/Wheels'
+
+    # Alias of a formatted string
+    Document:
+      oneOf:
+        - $ref: '#/components/schemas/Memo'
+        - $ref: '#/components/schemas/Note'
+      discriminator:
+        propertyName: schemaId
+        mapping:
+          memo: '#/components/schemas/Memo'
+          note: '#/components/schemas/Note'
+    SchemaId:
+      type: string
+      format: uuid
+    Memo:
+      type: object
+      required:
+        - schemaId
+      properties:
+        schemaId:
+          $ref: '#/components/schemas/SchemaId'
+    Note:
+      type: object
+      required:
+        - schemaId
+      properties:
+        schemaId:
+          $ref: '#/components/schemas/SchemaId'
+
+    # Alias of an alias
+    Fruit:
+      oneOf:
+        - $ref: '#/components/schemas/Apple'
+        - $ref: '#/components/schemas/Pear'
+      discriminator:
+        propertyName: species
+        mapping:
+          apple: '#/components/schemas/Apple'
+          pear: '#/components/schemas/Pear'
+    SpeciesBase:
+      type: string
+    Species:
+      $ref: '#/components/schemas/SpeciesBase'
+    Apple:
+      type: object
+      required:
+        - species
+      properties:
+        species:
+          $ref: '#/components/schemas/Species'
+    Pear:
+      type: object
+      required:
+        - species
+      properties:
+        species:
+          $ref: '#/components/schemas/Species'
+
+    # Alias of an enum: the enum model is generated, so it must be used
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Dog'
+        - $ref: '#/components/schemas/Cat'
+      discriminator:
+        propertyName: breed
+        mapping:
+          dog: '#/components/schemas/Dog'
+          cat: '#/components/schemas/Cat'
+    BreedEnum:
+      type: string
+      enum:
+        - dog
+        - cat
+    BreedAlias:
+      $ref: '#/components/schemas/BreedEnum'
+    Dog:
+      type: object
+      required:
+        - breed
+      properties:
+        breed:
+          $ref: '#/components/schemas/BreedAlias'
+    Cat:
+      type: object
+      required:
+        - breed
+      properties:
+        breed:
+          $ref: '#/components/schemas/BreedAlias'
+
+    # $ref to an enum: the enum model is generated, so it must be used (unchanged behavior)
+    Toy:
+      oneOf:
+        - $ref: '#/components/schemas/Ball'
+        - $ref: '#/components/schemas/Doll'
+      discriminator:
+        propertyName: kind
+        mapping:
+          ball: '#/components/schemas/Ball'
+          doll: '#/components/schemas/Doll'
+    ToyKind:
+      type: string
+      enum:
+        - ball
+        - doll
+    Ball:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          $ref: '#/components/schemas/ToyKind'
+    Doll:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          $ref: '#/components/schemas/ToyKind'
+
+    # Each subtype uses its own alias of a string
+    Tool:
+      oneOf:
+        - $ref: '#/components/schemas/Hammer'
+        - $ref: '#/components/schemas/Saw'
+      discriminator:
+        propertyName: category
+        mapping:
+          hammer: '#/components/schemas/Hammer'
+          saw: '#/components/schemas/Saw'
+    HammerCategory:
+      type: string
+    SawCategory:
+      type: string
+    Hammer:
+      type: object
+      required:
+        - category
+      properties:
+        category:
+          $ref: '#/components/schemas/HammerCategory'
+    Saw:
+      type: object
+      required:
+        - category
+      properties:
+        category:
+          $ref: '#/components/schemas/SawCategory'
+
+    # The alias property is inherited from a shared base schema through allOf
+    Animal:
+      oneOf:
+        - $ref: '#/components/schemas/Bird'
+        - $ref: '#/components/schemas/Fish'
+      discriminator:
+        propertyName: group
+        mapping:
+          bird: '#/components/schemas/Bird'
+          fish: '#/components/schemas/Fish'
+    AnimalGroup:
+      type: string
+    BaseAnimal:
+      type: object
+      required:
+        - group
+      properties:
+        group:
+          $ref: '#/components/schemas/AnimalGroup'
+    Bird:
+      allOf:
+        - $ref: '#/components/schemas/BaseAnimal'
+        - type: object
+          properties:
+            wingspan:
+              type: number
+    Fish:
+      allOf:
+        - $ref: '#/components/schemas/BaseAnimal'
+        - type: object
+          properties:
+            length:
+              type: number
