@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: unsigned integer formats
+  version: "1.0.0"
+paths:
+  /things/{id}:
+    get:
+      operationId: getThing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: uint64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: uint32
+            default: 7
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        big:
+          type: integer
+          format: uint64
+        bigWithDefault:
+          type: integer
+          format: uint64
+          default: 5
+        bigEnum:
+          type: integer
+          format: uint64
+          enum: [1, 2]
+        bigList:
+          type: array
+          items:
+            type: integer
+            format: uint64
+        small:
+          type: integer
+          format: uint32
+          default: 5
+          maximum: 4294967295
+    BigEnum:
+      type: integer
+      format: uint64
+      enum: [1, 9223372036854775807]
