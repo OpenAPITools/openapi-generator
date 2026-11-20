@@ -445,9 +445,6 @@
                     <id>central</id>
                     <name>Central Repository OSSRG Snapshots</name>
                     <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
                 </snapshotRepository>
             </distributionManagement>
             <build>
