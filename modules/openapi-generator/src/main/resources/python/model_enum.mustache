@@ -4,7 +4,7 @@ from enum import Enum
 {{#vendorExtensions.x-py-other-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-other-imports}}
-from typing_extensions import Self
+from typing import Self
 
 
 class {{classname}}({{vendorExtensions.x-py-enum-type}}, Enum):

@@ -20,8 +20,7 @@ import json
 from pydantic import ConfigDict
 from typing import Any, ClassVar, Dict, List
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):

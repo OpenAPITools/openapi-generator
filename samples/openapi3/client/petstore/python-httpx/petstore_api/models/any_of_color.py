@@ -18,10 +18,8 @@ import json
 import pprint
 import re  # noqa: F401
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
-from typing import List, Optional
-from typing_extensions import Annotated
-from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal, Self
+from typing import Annotated, List, Optional
+from typing import Union, Any, List, Set, TYPE_CHECKING, Optional, Dict, Literal, Self
 from pydantic import Field
 
 ANYOFCOLOR_ANY_OF_SCHEMAS = ["List[int]", "str"]

@@ -28,7 +28,6 @@ REQUIRES = [
     "pem >= 19.3.0",
     "pycryptodome >= 3.9.0",
     "pydantic >= 2.11",
-    "typing-extensions >= 4.7.1",
 ]
 
 setup(

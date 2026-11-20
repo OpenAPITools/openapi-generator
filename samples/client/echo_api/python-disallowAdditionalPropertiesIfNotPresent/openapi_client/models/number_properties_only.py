@@ -19,10 +19,8 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt
-from typing import Any, ClassVar, Dict, List, Optional, Union
-from typing_extensions import Annotated
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Annotated, Any, ClassVar, Dict, List, Optional, Union
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class NumberPropertiesOnly(BaseModel):

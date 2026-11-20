@@ -18,8 +18,7 @@ import http.client as httplib
 import logging
 from logging import FileHandler
 import sys
-from typing import Any, ClassVar, Dict, List, Literal, Optional, TypedDict, Union
-from typing_extensions import NotRequired, Self
+from typing import Any, ClassVar, Dict, List, Literal, NotRequired, Optional, Self, TypedDict, Union
 
 
 from petstore_api.signing import HttpSigningConfiguration

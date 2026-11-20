@@ -20,8 +20,7 @@ import json
 
 from pydantic import BaseModel, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 
 class TestQueryStyleFormExplodeTrueArrayIntegerQueryObjectParameter(BaseModel):
     """

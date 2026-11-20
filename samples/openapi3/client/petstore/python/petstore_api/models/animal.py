@@ -21,8 +21,7 @@ from collections.abc import Mapping as _Mapping
 from importlib import import_module
 from pydantic import AliasChoices, BaseModel, ConfigDict, Field, ModelWrapValidatorHandler as _ModelWrapValidatorHandler, StrictStr, model_validator as _model_validator
 from typing import Any, ClassVar, Dict, List, Optional, Union, cast as _cast
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 from typing import TYPE_CHECKING
 
