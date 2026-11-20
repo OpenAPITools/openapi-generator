@@ -128,6 +128,56 @@ paths:
             text/plain:
               schema:
                 type: string
+  /ct/wildcard:
+    post:
+      operationId: wildcardConsumes
+      requestBody:
+        content:
+          image/*:
+            schema:
+              type: string
+              format: binary
+          image/png:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: No content
+  /ct/invalid-extensions:
+    post:
+      operationId: invalidExtensions
+      x-content-type:
+        - application/json
+        - application/xml
+      x-accepts: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /ct/split:
+    post:
+      operationId: split
+      x-content-type: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/xml:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: No content
 components:
   schemas:
     Item:

@@ -1281,23 +1281,49 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     codegenOperation.operationId, library);
         }
 
+        Map<String, Object> extensions = codegenOperation.vendorExtensions;
+        String xAccepts = VendorExtension.X_ACCEPTS.getName();
+        String xContentType = VendorExtension.X_CONTENT_TYPE.getName();
+
+        // A content-type variant is narrowed to one media type on each split axis, which must win over the
+        // x-content-type / x-accepts it inherited from the operation it was split from
+        if (contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_REQUEST) != null) {
+            extensions.remove(xContentType);
+        }
+        if (contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE) != null) {
+            extensions.remove(xAccepts);
+        }
+
         // x-accepts may be authored as a single string or a list; templates iterate it as a list
-        if (codegenOperation.vendorExtensions.containsKey(VendorExtension.X_ACCEPTS.getName())) {
-            normalizeVendorExtensionWithStringList(codegenOperation.vendorExtensions, VendorExtension.X_ACCEPTS.getName());
-            if (((List<?>) codegenOperation.vendorExtensions.get(VendorExtension.X_ACCEPTS.getName())).isEmpty()) {
-                codegenOperation.vendorExtensions.remove(VendorExtension.X_ACCEPTS.getName());
+        if (extensions.containsKey(xAccepts)) {
+            List<String> accepts = getObjectAsStringList(extensions.get(xAccepts)).stream()
+                    .filter(StringUtils::isNotBlank).collect(Collectors.toList());
+            if (accepts.isEmpty()) {
+                extensions.remove(xAccepts);
+            } else {
+                extensions.put(xAccepts, accepts);
             }
+        }
+        if (extensions.containsKey(xContentType)
+                && !(extensions.get(xContentType) instanceof String && StringUtils.isNotBlank((String) extensions.get(xContentType)))) {
+            LOGGER.warn("x-content-type on operation '{}' must be a single media type string; ignoring {}",
+                    codegenOperation.operationId, extensions.get(xContentType));
+            extensions.remove(xContentType);
         }
 
         // Like the Java clients, the declarative client sends the first consumes media type as Content-Type
-        // and all produces media types as Accept, unless the spec sets x-content-type / x-accepts
+        // and all produces media types as Accept, unless the spec sets x-content-type / x-accepts.
+        // Content-Type cannot be a wildcard such as image/*, so those consumes entries are skipped.
         if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
             if (codegenOperation.hasConsumes) {
-                codegenOperation.vendorExtensions.putIfAbsent(VendorExtension.X_CONTENT_TYPE.getName(),
-                        codegenOperation.consumes.get(0).get("rawMediaType"));
+                codegenOperation.consumes.stream()
+                        .map(c -> c.get("rawMediaType"))
+                        .filter(m -> !m.split(";", 2)[0].contains("*"))
+                        .findFirst()
+                        .ifPresent(m -> extensions.putIfAbsent(xContentType, m));
             }
             if (codegenOperation.hasProduces) {
-                codegenOperation.vendorExtensions.putIfAbsent(VendorExtension.X_ACCEPTS.getName(),
+                extensions.putIfAbsent(xAccepts,
                         codegenOperation.produces.stream().map(p -> p.get("rawMediaType")).collect(Collectors.toList()));
             }
         }

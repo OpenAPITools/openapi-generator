@@ -13,6 +13,7 @@ import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
@@ -4608,14 +4609,79 @@ public class KotlinSpringServerCodegenTest {
                 "        url = PATH_NO_TYPES,\n        method = \"GET\"\n    )");
     }
 
-    @Test(description = "x-accepts authored as a single string renders as a one-element produces list")
-    public void springBootSingleContentTypesNormalizesStringXAccepts() throws IOException {
+    @Test(description = "spring-boot: x-accepts and x-content-type override produces and consumes")
+    public void springBootUsesContentTypeExtensions() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml");
+        Path controllerPath = files.get("CtApiController.kt").toPath();
+
+        assertFileContains(controllerPath,
+                "value = [PATH_WITH_EXTENSIONS],\n"
+                        + "        produces = [\"text/plain\", \"application/xml\"],\n"
+                        + "        consumes = [\"application/xml\"]\n"
+                        + "    )",
+                "value = [PATH_ACCEPTS_STRING],\n"
+                        + "        produces = [\"application/xml\"]\n"
+                        + "    )",
+                "value = [PATH_QUOTED_EXTENSIONS],\n"
+                        + "        produces = [\"text/plain; profile=\\\"\\$a\\\\b\\\"\"],\n"
+                        + "        consumes = [\"text/plain; charset=\\\"utf-8\\\"\"]\n"
+                        + "    )",
+                "value = [PATH_MULTI_CONSUMES],\n"
+                        + "        consumes = [\"application/xml\", \"application/json\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "declarative http interface: wildcard consumes and invalid x-content-type / x-accepts fall back to concrete media types")
+    public void declarativeHttpInterfaceSkipsWildcardAndInvalidContentTypes() throws IOException {
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
-                Map.of("singleContentTypes", true));
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
 
-        assertFileContains(files.get("CtApiController.kt").toPath(),
-                "value = [PATH_ACCEPTS_STRING],\n        produces = [\"application/xml\"]");
+        assertFileContains(apiPath,
+                "        url = PATH_WILDCARD_CONSUMES,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"image/png\"\n"
+                        + "    )",
+                "        url = PATH_INVALID_EXTENSIONS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json\",\n"
+                        + "        accept = [\"application/json\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "operations split by content type use the variant media type instead of the inherited x-content-type")
+    public void splitOperationsByContentTypeOverridesInheritedContentTypeExtension() throws IOException {
+        try {
+            GlobalSettings.setProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true");
+            Map<String, File> declarative = generateFromContract(
+                    "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                    new HashMap<>(),
+                    new HashMap<>(),
+                    configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+            assertFileContains(declarative.get("CtApi.kt").toPath(),
+                    "        url = PATH_SPLIT_WITH_JSON,\n"
+                            + "        method = \"POST\",\n"
+                            + "        contentType = \"application/json\"\n"
+                            + "    )",
+                    "        url = PATH_SPLIT_WITH_XML,\n"
+                            + "        method = \"POST\",\n"
+                            + "        contentType = \"application/xml\"\n"
+                            + "    )");
+
+            // the generator resets the global settings when it finishes
+            GlobalSettings.setProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true");
+            Map<String, File> springBoot = generateFromContract(
+                    "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml");
+            assertFileContains(springBoot.get("CtApiController.kt").toPath(),
+                    "value = [PATH_SPLIT_WITH_JSON],\n        consumes = [\"application/json\"]\n    )",
+                    "value = [PATH_SPLIT_WITH_XML],\n        consumes = [\"application/xml\"]\n    )");
+        } finally {
+            GlobalSettings.clearProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE);
+        }
     }
 
     @Test(description = "declarative http interface: media types with quoted parameters are kept and escaped as Kotlin strings")
@@ -4653,14 +4719,6 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(files.get("CtApiDelegate.kt").toPath(),
                 "MediaType.valueOf(\"application/json; profile=\\\"x\\$y\\\"\")",
                 "ApiUtil.setExampleResponse(request, \"application/json; profile=\\\"x\\$y\\\"\", ");
-
-        Map<String, File> singleContentTypes = generateFromContract(
-                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
-                Map.of("singleContentTypes", true));
-        assertFileContains(singleContentTypes.get("CtApiController.kt").toPath(),
-                "value = [PATH_QUOTED_EXTENSIONS],\n"
-                        + "        produces = [\"text/plain; profile=\\\"\\$a\\\\b\\\"\"],\n"
-                        + "        consumes = \"text/plain; charset=\\\"utf-8\\\"\"");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
