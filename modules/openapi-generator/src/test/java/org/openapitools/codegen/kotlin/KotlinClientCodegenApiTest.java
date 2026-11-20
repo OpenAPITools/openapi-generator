@@ -318,6 +318,82 @@ public class KotlinClientCodegenApiTest {
                 "exploded entries must be added after the declared query parameters");
     }
 
+    @DataProvider(name = "jvmKtorAndMultiplatform")
+    public static Object[][] jvmKtorAndMultiplatform() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.MULTIPLATFORM}
+        };
+    }
+
+    /**
+     * ktor/multiplatform build urlencoded form bodies inside
+     * `ParametersBuilder().also {}` whose implicit `it` is the builder. That
+     * implicit `it` shadows a function parameter derived from a spec field
+     * named `it`: inside the block `it` resolves to the builder, so the
+     * parameter value becomes unreachable. jvm-ktor then passes the builder
+     * as the append value (a type mismatch that fails to compile), while
+     * multiplatform appends `.toString()` and silently sends the builder's
+     * string representation instead of the caller's value. The builder must
+     * be bound to an explicit name.
+     */
+    @Test(dataProvider = "jvmKtorAndMultiplatform")
+    public void testKtorMultiplatformFormBuilderDoesNotUseImplicitIt(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-form-it-param.yaml");
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        // the spec `it` param keeps its name; the builder is bound explicitly
+        assertFileContains(api.toPath(), "localVariableBuilder.append(\"it\"");
+        assertFileNotContains(api.toPath(), "it.append(\"it\"", "it.append(\"name\"");
+        if (library == ClientLibrary.JVM_KTOR) {
+            // urlencoded array params go through the same named builder (a bare
+            // `append("tags", x.toString())` inside `.also {}` cannot resolve);
+            // multiplatform serializes urlencoded arrays via toString() — a
+            // separate pre-existing bug — so the array shape is asserted for
+            // jvm-ktor only
+            assertFileContains(api.toPath(), "localVariableBuilder.append(\"tags\"");
+        }
+    }
+
+    /**
+     * File parts in a multipart body are appended as whole FormPart values.
+     * multiplatform embedded the wire name as a bare expression
+     * (`append(my-file)`): `my-file` parses as a subtraction and fails to
+     * compile because `my` and `file` are unresolved identifiers.
+     */
+    @Test(dataProvider = "jvmKtorAndMultiplatform")
+    public void testKtorMultiplatformMultipartFileAppendUsesParameter(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-multipart-file.yaml");
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        assertFileContains(api.toPath(), "append(myFile)");
+        assertFileNotContains(api.toPath(), "append(my-file)");
+    }
+
+    /**
+     * `.map(block: T.() -> V)` is a receiver lambda, so `.map { value }` reads
+     * the wrapper's `value` field — unless a spec parameter named `value`
+     * shadows it, in which case the caller's argument is returned instead of
+     * the decoded response (or fails to compile when types diverge).
+     */
+    @Test
+    public void testMultiplatformWrapMapReceiverIsThisValue() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-receiver-value.yaml");
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.MULTIPLATFORM);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File api = files.stream().filter(f -> f.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        assertFileContains(api.toPath(), "map { this.value }");
+        assertFileNotContains(api.toPath(), "map { value }");
+    }
+
     @DataProvider(name = "librariesWithDeepObjectWireKeys")
     public static Object[][] librariesWithDeepObjectWireKeys() {
         return new Object[][]{
