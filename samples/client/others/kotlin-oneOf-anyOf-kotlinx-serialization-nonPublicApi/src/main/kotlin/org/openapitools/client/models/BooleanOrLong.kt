@@ -65,7 +65,7 @@ internal object BooleanOrLongSerializer : KSerializer<BooleanOrLong> {
 
         when (value) {
             is BooleanOrLong.BooleanValue -> jsonEncoder.encodeBoolean(value.value)
-            is BooleanOrLong.LongValue -> jsonEncoder.encodeLong(value.value)
+            is BooleanOrLong.LongValue -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))
         }
     }
 

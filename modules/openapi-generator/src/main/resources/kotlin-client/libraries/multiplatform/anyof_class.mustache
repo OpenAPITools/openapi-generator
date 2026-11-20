@@ -33,17 +33,9 @@ import kotlinx.serialization.json.*
                 {{#isBoolean}}
                 is kotlin.Boolean -> jsonEncoder.encodeBoolean(instance)
                 {{/isBoolean}}
-                {{#isInteger}}
-                is kotlin.Int -> jsonEncoder.encodeInt(instance)
-                {{/isInteger}}
-                {{#isNumber}}
-                {{#isDouble}}
-                is kotlin.Double -> jsonEncoder.encodeDouble(instance)
-                {{/isDouble}}
-                {{#isFloat}}
-                is kotlin.Float -> jsonEncoder.encodeFloat(instance)
-                {{/isFloat}}
-                {{/isNumber}}
+                {{#isNumeric}}
+                is {{{dataType}}} -> jsonEncoder.encodeJsonElement(JsonPrimitive(instance))
+                {{/isNumeric}}
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
                 is {{{dataType}}} -> jsonEncoder.encodeSerializableValue({{{dataType}}}.serializer(), instance)
