@@ -179,32 +179,32 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// The class containing the events
         /// </summary>
-        public {{classname}}Events Events { get; }{{#hasApiKeyMethods}}
+        public {{classname}}Events Events { get; }{{#classHasApiKeyMethods}}
 
         /// <summary>
         /// A token provider of type <see cref="ApiKeyProvider"/>
         /// </summary>
-        public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
+        public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }{{/classHasApiKeyMethods}}{{#classHasHttpBearerMethods}}
 
         /// <summary>
         /// A token provider of type <see cref="BearerToken"/>
         /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
+        public TokenProvider<BearerToken> BearerTokenProvider { get; }{{/classHasHttpBearerMethods}}{{#classHasHttpBasicMethods}}
 
         /// <summary>
         /// A token provider of type <see cref="BasicTokenProvider"/>
         /// </summary>
-        public TokenProvider<BasicToken> BasicTokenProvider { get; }{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
+        public TokenProvider<BasicToken> BasicTokenProvider { get; }{{/classHasHttpBasicMethods}}{{#classHasHttpSignatureMethods}}
 
         /// <summary>
         /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
         /// </summary>
-        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
+        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }{{/classHasHttpSignatureMethods}}{{#classHasOAuthMethods}}
 
         /// <summary>
         /// A token provider of type <see cref="OauthTokenProvider"/>
         /// </summary>
-        public TokenProvider<OAuthToken> OauthTokenProvider { get; }{{/hasOAuthMethods}}
+        public TokenProvider<OAuthToken> OauthTokenProvider { get; }{{/classHasOAuthMethods}}
 
         {{#net80OrLater}}
         {{#lambda.unique}}
@@ -223,23 +223,23 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#hasApiKeyMethods}},
-            TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
-            TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
-            TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}},
-            TokenProvider<OAuthToken> oauthTokenProvider{{/hasOAuthMethods}}{{#net80OrLater}}{{#operation}}{{#lambda.uniqueLines}}{{#vendorExtensions.x-set-cookie}},
+        public {{classname}}(ILogger<{{classname}}> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#classHasApiKeyMethods}},
+            TokenProvider<ApiKeyToken> apiKeyProvider{{/classHasApiKeyMethods}}{{#classHasHttpBearerMethods}},
+            TokenProvider<BearerToken> bearerTokenProvider{{/classHasHttpBearerMethods}}{{#classHasHttpBasicMethods}},
+            TokenProvider<BasicToken> basicTokenProvider{{/classHasHttpBasicMethods}}{{#classHasHttpSignatureMethods}},
+            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider{{/classHasHttpSignatureMethods}}{{#classHasOAuthMethods}},
+            TokenProvider<OAuthToken> oauthTokenProvider{{/classHasOAuthMethods}}{{#net80OrLater}}{{#operation}}{{#lambda.uniqueLines}}{{#vendorExtensions.x-set-cookie}},
             {{packageName}}.{{clientPackage}}.CookieContainer cookieContainer{{/vendorExtensions.x-set-cookie}}{{/lambda.uniqueLines}}{{/operation}}{{/net80OrLater}})
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
-            Events = {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}};{{#hasApiKeyMethods}}
-            ApiKeyProvider = apiKeyProvider;{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
-            BearerTokenProvider = bearerTokenProvider;{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
-            BasicTokenProvider = basicTokenProvider;{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
-            HttpSignatureTokenProvider = httpSignatureTokenProvider;{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
-            OauthTokenProvider = oauthTokenProvider;{{/hasOAuthMethods}}{{#net80OrLater}}{{#operation}}{{#lambda.uniqueLines}}{{#vendorExtensions.x-set-cookie}}
+            Events = {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}};{{#classHasApiKeyMethods}}
+            ApiKeyProvider = apiKeyProvider;{{/classHasApiKeyMethods}}{{#classHasHttpBearerMethods}}
+            BearerTokenProvider = bearerTokenProvider;{{/classHasHttpBearerMethods}}{{#classHasHttpBasicMethods}}
+            BasicTokenProvider = basicTokenProvider;{{/classHasHttpBasicMethods}}{{#classHasHttpSignatureMethods}}
+            HttpSignatureTokenProvider = httpSignatureTokenProvider;{{/classHasHttpSignatureMethods}}{{#classHasOAuthMethods}}
+            OauthTokenProvider = oauthTokenProvider;{{/classHasOAuthMethods}}{{#net80OrLater}}{{#operation}}{{#lambda.uniqueLines}}{{#vendorExtensions.x-set-cookie}}
             CookieContainer = cookieContainer;{{/vendorExtensions.x-set-cookie}}{{/lambda.uniqueLines}}{{/operation}}{{/net80OrLater}}
         }
         {{#operation}}

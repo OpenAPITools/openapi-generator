@@ -128,45 +128,17 @@ namespace Org.OpenAPITools.Api
         public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="BearerToken"/>
-        /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BasicTokenProvider"/>
-        /// </summary>
-        public TokenProvider<BasicToken> BasicTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
-        /// </summary>
-        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="OauthTokenProvider"/>
-        /// </summary>
-        public TokenProvider<OAuthToken> OauthTokenProvider { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="FakeClassnameTags123Api"/> class.
         /// </summary>
         /// <returns></returns>
         public FakeClassnameTags123Api(ILogger<FakeClassnameTags123Api> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, FakeClassnameTags123ApiEvents fakeClassnameTags123ApiEvents,
-            TokenProvider<ApiKeyToken> apiKeyProvider,
-            TokenProvider<BearerToken> bearerTokenProvider,
-            TokenProvider<BasicToken> basicTokenProvider,
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider)
+            TokenProvider<ApiKeyToken> apiKeyProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             Events = fakeClassnameTags123ApiEvents;
             ApiKeyProvider = apiKeyProvider;
-            BearerTokenProvider = bearerTokenProvider;
-            BasicTokenProvider = basicTokenProvider;
-            HttpSignatureTokenProvider = httpSignatureTokenProvider;
-            OauthTokenProvider = oauthTokenProvider;
         }
 
         partial void FormatTestClassname(ModelClient modelClient);

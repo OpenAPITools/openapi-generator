@@ -392,50 +392,15 @@ namespace Org.OpenAPITools.Api
         public DefaultApiEvents Events { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="ApiKeyProvider"/>
-        /// </summary>
-        public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BearerToken"/>
-        /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BasicTokenProvider"/>
-        /// </summary>
-        public TokenProvider<BasicToken> BasicTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
-        /// </summary>
-        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="OauthTokenProvider"/>
-        /// </summary>
-        public TokenProvider<OAuthToken> OauthTokenProvider { get; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DefaultApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents,
-            TokenProvider<ApiKeyToken> apiKeyProvider,
-            TokenProvider<BearerToken> bearerTokenProvider,
-            TokenProvider<BasicToken> basicTokenProvider,
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider)
+        public DefaultApi(ILogger<DefaultApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, DefaultApiEvents defaultApiEvents)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             Events = defaultApiEvents;
-            ApiKeyProvider = apiKeyProvider;
-            BearerTokenProvider = bearerTokenProvider;
-            BasicTokenProvider = basicTokenProvider;
-            HttpSignatureTokenProvider = httpSignatureTokenProvider;
-            OauthTokenProvider = oauthTokenProvider;
         }
 
         /// <summary>

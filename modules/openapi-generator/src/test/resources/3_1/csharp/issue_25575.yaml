@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: issue 25575
+  version: "1"
+security:
+  - api_key: []
+paths:
+  /secured:
+    get:
+      tags:
+        - Secured
+      operationId: getSecured
+      security:
+        - api_key: []
+      responses:
+        "200":
+          description: ok
+  /inherited:
+    get:
+      tags:
+        - Secured
+      operationId: getInherited
+      responses:
+        "200":
+          description: ok
+  /public:
+    get:
+      tags:
+        - Public
+      operationId: getPublic
+      security: []
+      responses:
+        "200":
+          description: ok
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: X-API-KEY
