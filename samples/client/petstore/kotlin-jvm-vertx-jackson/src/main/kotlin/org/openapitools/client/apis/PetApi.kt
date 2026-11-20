@@ -93,7 +93,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
                     request.putHeader("Content-Type", "application/json")
                     request.putHeader("Content-Type", "application/xml")
         
@@ -160,7 +159,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        
         apiKey?.apply { request.putHeader("api_key", this.toString())}
         
         
@@ -237,7 +235,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
         request.putHeader("Accept", "application/xml, application/json")
 
 
@@ -306,7 +303,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
         request.putHeader("Accept", "application/xml, application/json")
 
 
@@ -371,7 +367,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        
         
         
         request.putHeader("Accept", "application/xml, application/json")
@@ -443,7 +438,6 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         
         
-        
                     request.putHeader("Content-Type", "application/json")
                     request.putHeader("Content-Type", "application/xml")
         
@@ -512,12 +506,11 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        request.putHeader("Content-Type", "application/x-www-form-urlencoded")
         
         
         
 
-        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
+        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap()
         name?.let { form.add("name", name) }
         status?.let { form.add("status", status) }
 
@@ -527,7 +520,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         }
 
         return request
-            .send()
+            .sendForm(form)
             .map {
                 val apiResponse: ApiResponse<Unit?> = handleResponse(it)
                 apiResponse
@@ -585,14 +578,13 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         val vertxClient = WebClient.create(vertx)
         val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
-        request.putHeader("Content-Type", "multipart/form-data")
         
         
         request.putHeader("Accept", "application/json")
 
-        val form = io.vertx.core.MultiMap.caseInsensitiveMultiMap();
-        additionalMetadata?.let { form.add("additionalMetadata", additionalMetadata) }
-        file?.let { form.add("file", file.toString()) }
+        val form = io.vertx.ext.web.multipart.MultipartForm.create()
+        additionalMetadata?.let { form.attribute("additionalMetadata", additionalMetadata) }
+        file?.let { form.binaryFileUpload("file", it.name, it.absolutePath, "application/octet-stream") }
 
 
         accessToken?.let { accessToken ->
@@ -600,7 +592,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         }
 
         return request
-            .send()
+            .sendMultipartForm(form)
             .map {
                 val apiResponse: ApiResponse<ModelApiResponse?> = handleResponse(it)
                 apiResponse
