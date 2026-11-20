@@ -12,7 +12,6 @@
 
 
 import datetime
-from dateutil.parser import parse
 from enum import Enum
 import decimal
 import json
@@ -888,9 +887,7 @@ class ApiClient:
         :return: date.
         """
         try:
-            return parse(string).date()
-        except ImportError:
-            return string
+            return datetime.datetime.fromisoformat(string).date()
         except ValueError:
             raise rest.ApiException(
                 status=0,
@@ -906,9 +903,7 @@ class ApiClient:
         :return: datetime.
         """
         try:
-            return parse(string)
-        except ImportError:
-            return string
+            return datetime.datetime.fromisoformat(string)
         except ValueError:
             raise rest.ApiException(
                 status=0,
