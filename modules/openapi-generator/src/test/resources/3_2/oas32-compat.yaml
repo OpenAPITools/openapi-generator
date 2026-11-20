@@ -1,0 +1,148 @@
+openapi: 3.2.0
+$self: https://example.com/oas32-compat.yaml
+info:
+  title: OAS 3.2 compatibility fixture
+  version: 1.0.0
+servers:
+  - url: https://api.example.com
+    name: main
+tags:
+  - name: things
+    summary: Things tag
+    parent: root-tag
+    kind: nav
+paths:
+  /things:
+    # Spec 3.2.1 Parameter Locations: in:query and in:querystring must not
+    # appear in the same operation or in its path item, and a querystring
+    # parameter may appear at most once. The path item therefore carries a
+    # plain header parameter plus the single querystring parameter that all
+    # of its operations (including the query operation) inherit.
+    parameters:
+      - name: top
+        in: header
+        schema:
+          type: integer
+      - name: filter
+        in: querystring
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+    get:
+      operationId: listThings
+      responses:
+        '200':
+          summary: things list
+          description: list of things
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+              itemSchema:
+                type: object
+              itemEncoding:
+                contentType: application/json
+              prefixEncoding:
+                - contentType: application/json
+          links:
+            self:
+              operationId: listThings
+              server:
+                url: https://api.example.com
+                name: self-server
+    query:
+      operationId: queryThings
+      responses:
+        '200':
+          description: query results
+    additionalOperations:
+      PURGE:
+        operationId: purgeThings
+        responses:
+          '204':
+            description: purged
+webhooks:
+  thingChanged:
+    query:
+      tags:
+        - webhooks
+      operationId: thingChangedQuery
+      responses:
+        '200':
+          description: acknowledged
+components:
+  schemas:
+    # Thing is $ref'd from operations' responses, so its 3.2 members sit inside
+    # a reference target: they survive only because the loader absolutizes
+    # external $refs and passes location=null (same-file refs resolve from the
+    # rewritten tree instead of re-reading this file).
+    Thing:
+      type: object
+      discriminator:
+        propertyName: kind
+        defaultMapping: Thing
+      xml:
+        name: thing
+        nodeType: element
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+  responses:
+    ThingResponse:
+      summary: a thing
+      description: one thing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Thing'
+          examples:
+            basic:
+              dataValue:
+                id: '1'
+              serializedValue: '{"id":"1"}'
+  parameters:
+    RawQuery:
+      name: rawq
+      in: querystring
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              filter:
+                type: string
+          encoding:
+            filter:
+              contentType: application/json
+              itemEncoding:
+                contentType: text/plain
+              prefixEncoding:
+                - contentType: text/plain
+  mediaTypes:
+    application/vnd.example.stream:
+      itemSchema:
+        type: object
+  securitySchemes:
+    oauth:
+      type: oauth2
+      oauth2MetadataUrl: https://auth.example.com/.well-known/oauth-authorization-server
+      deprecated: true
+      flows:
+        deviceAuthorization:
+          deviceAuthorizationUrl: https://auth.example.com/device
+          tokenUrl: https://auth.example.com/token
+          scopes: {}
+        authorizationCode:
+          authorizationUrl: https://auth.example.com/auth
+          tokenUrl: https://auth.example.com/token
+          scopes: {}
+  pathItems:
+    SharedThing:
+      query:
+        operationId: sharedThingQuery
+        responses:
+          '200':
+            description: ok

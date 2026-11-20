@@ -1,0 +1,15 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2 external ref fixture
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: getThing
+      responses:
+        '200':
+          description: a thing
+          content:
+            application/json:
+              schema:
+                $ref: './oas32-external-components.yaml#/components/schemas/Thing'

@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: extension names that collide with the 3.2 compat marker names
+  version: '1'
+# the loader marks the parsed instance, never the document, so an
+# authored x-oas32-openapi marks nothing: this document must be
+# read exactly like master reads it
+x-oas32-openapi: memo
+paths:
+  /things:
+    # a plain 3.1 document may use the same extension names for unrelated
+    # purposes; never having gone through the compatibility loader, they
+    # are ordinary extensions and must pass through untouched
+    x-oas32-query: memo
+    x-oas32-additionalOperations:
+      PURGE: memo
+    get:
+      operationId: listThings
+      responses:
+        '200':
+          description: ok

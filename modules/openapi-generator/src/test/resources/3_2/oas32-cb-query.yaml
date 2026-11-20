@@ -1,0 +1,135 @@
+openapi: 3.2.0
+info:
+  title: OAS 3.2 restored operations fixture
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ids
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+    query:
+      operationId: queryThings
+      parameters:
+        - name: filter
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ids
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                term:
+                  type: string
+                limit:
+                  type: integer
+      responses:
+        '200':
+          description: inline response object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Thing'
+    additionalOperations:
+      PURGE:
+        operationId: purgeThings
+        requestBody:
+          $ref: '#/components/requestBodies/PurgeBody'
+        responses:
+          '204':
+            description: purged
+  /ext:
+    get:
+      operationId: getExt
+      responses:
+        '200':
+          description: external schema via fixed method
+          content:
+            application/json:
+              schema:
+                $ref: './oas32-external-components.yaml#/components/schemas/Thing'
+    query:
+      operationId: queryExt
+      responses:
+        '200':
+          description: external schema via QUERY
+          content:
+            application/json:
+              schema:
+                $ref: './oas32-external-components.yaml#/components/schemas/Thing'
+  /subscribe:
+    post:
+      operationId: subscribe
+      responses:
+        '202':
+          description: accepted
+      callbacks:
+        onEvent:
+          '{$request.body#/callbackUrl}':
+            post:
+              operationId: onEventPost
+              responses:
+                '200':
+                  description: ack
+            query:
+              operationId: onEventQuery
+              responses:
+                '200':
+                  description: ack via QUERY in callback
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+  requestBodies:
+    PurgeBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              olderThan:
+                type: string
+                format: date-time
