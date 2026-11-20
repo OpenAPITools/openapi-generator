@@ -260,6 +260,33 @@ public class NullableShape extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        if (jsonElement.isJsonObject()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement discriminatorElement = jsonObject.get("shapeType");
+            if (discriminatorElement != null && discriminatorElement.isJsonPrimitive()) {
+                String discriminatorValue = discriminatorElement.getAsString();
+                if ("Quadrilateral".equals(discriminatorValue)) {
+                    try {
+                        Quadrilateral.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Quadrilateral'", e);
+                    }
+                }
+                if ("Triangle".equals(discriminatorValue)) {
+                    try {
+                        Triangle.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Triangle'", e);
+                    }
+                }
+            }
+        }
         // validate the json string with Triangle
         try {
             Triangle.validateJsonElement(jsonElement);
