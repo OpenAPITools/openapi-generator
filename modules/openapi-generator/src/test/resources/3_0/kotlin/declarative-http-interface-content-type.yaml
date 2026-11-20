@@ -93,6 +93,41 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Item'
+  /ct/quoted:
+    post:
+      operationId: quotedParams
+      requestBody:
+        content:
+          'application/json; profile="a,b"':
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json; profile="x$y"':
+              schema:
+                $ref: '#/components/schemas/Item'
+              example:
+                name: quoted
+  /ct/quoted-extensions:
+    post:
+      operationId: quotedExtensions
+      x-content-type: 'text/plain; charset="utf-8"'
+      x-accepts:
+        - 'text/plain; profile="$a\b"'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   schemas:
     Item:

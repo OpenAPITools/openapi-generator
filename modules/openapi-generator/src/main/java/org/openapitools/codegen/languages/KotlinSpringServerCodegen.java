@@ -1294,11 +1294,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
             if (codegenOperation.hasConsumes) {
                 codegenOperation.vendorExtensions.putIfAbsent(VendorExtension.X_CONTENT_TYPE.getName(),
-                        codegenOperation.consumes.get(0).get("mediaType"));
+                        codegenOperation.consumes.get(0).get("rawMediaType"));
             }
             if (codegenOperation.hasProduces) {
                 codegenOperation.vendorExtensions.putIfAbsent(VendorExtension.X_ACCEPTS.getName(),
-                        codegenOperation.produces.stream().map(p -> p.get("mediaType")).collect(Collectors.toList()));
+                        codegenOperation.produces.stream().map(p -> p.get("rawMediaType")).collect(Collectors.toList()));
             }
         }
 

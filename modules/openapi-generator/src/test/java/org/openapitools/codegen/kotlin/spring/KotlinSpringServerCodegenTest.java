@@ -4618,6 +4618,51 @@ public class KotlinSpringServerCodegenTest {
                 "value = [PATH_ACCEPTS_STRING],\n        produces = [\"application/xml\"]");
     }
 
+    @Test(description = "declarative http interface: media types with quoted parameters are kept and escaped as Kotlin strings")
+    public void declarativeHttpInterfaceEscapesQuotedMediaTypes() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
+
+        assertFileContains(apiPath,
+                "        url = PATH_QUOTED_PARAMS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json; profile=\\\"a,b\\\"\",\n"
+                        + "        accept = [\"application/json; profile=\\\"x\\$y\\\"\"]\n"
+                        + "    )",
+                "        url = PATH_QUOTED_EXTENSIONS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"text/plain; charset=\\\"utf-8\\\"\",\n"
+                        + "        accept = [\"text/plain; profile=\\\"\\$a\\\\b\\\"\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "spring-boot: produces/consumes and example media types with quoted parameters are kept and escaped")
+    public void springBootEscapesQuotedMediaTypes() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                Map.of("delegatePattern", true));
+
+        assertFileContains(files.get("CtApi.kt").toPath(),
+                "value = [PATH_QUOTED_PARAMS],\n"
+                        + "        produces = [\"application/json; profile=\\\"x\\$y\\\"\"],\n"
+                        + "        consumes = [\"application/json; profile=\\\"a,b\\\"\"]");
+        assertFileContains(files.get("CtApiDelegate.kt").toPath(),
+                "MediaType.valueOf(\"application/json; profile=\\\"x\\$y\\\"\")",
+                "ApiUtil.setExampleResponse(request, \"application/json; profile=\\\"x\\$y\\\"\", ");
+
+        Map<String, File> singleContentTypes = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                Map.of("singleContentTypes", true));
+        assertFileContains(singleContentTypes.get("CtApiController.kt").toPath(),
+                "value = [PATH_QUOTED_EXTENSIONS],\n"
+                        + "        produces = [\"text/plain; profile=\\\"\\$a\\\\b\\\"\"],\n"
+                        + "        consumes = \"text/plain; charset=\\\"utf-8\\\"\"");
+    }
+
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
     }

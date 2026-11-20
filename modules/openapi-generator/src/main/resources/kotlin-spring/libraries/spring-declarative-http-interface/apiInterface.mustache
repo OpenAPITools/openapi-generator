@@ -74,8 +74,8 @@ interface {{classname}} {
         // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
         url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
         method = "{{httpMethod}}"{{#vendorExtensions.x-content-type}},
-        contentType = "{{{vendorExtensions.x-content-type}}}"{{/vendorExtensions.x-content-type}}{{#vendorExtensions.x-accepts}}{{#-first}},
-        accept = [{{/-first}}"{{{.}}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/vendorExtensions.x-accepts}}
+        contentType = "{{#lambdaEscapeInNormalString}}{{{vendorExtensions.x-content-type}}}{{/lambdaEscapeInNormalString}}"{{/vendorExtensions.x-content-type}}{{#vendorExtensions.x-accepts}}{{#-first}},
+        accept = [{{/-first}}"{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/vendorExtensions.x-accepts}}
     )
     {{/httpMethod}}{{!
     }}{{#reactiveModeCoroutines}}suspend {{/reactiveModeCoroutines}}{{!

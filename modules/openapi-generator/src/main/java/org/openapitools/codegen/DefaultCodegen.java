@@ -7657,6 +7657,8 @@ public class DefaultCodegen implements CodegenConfig {
                 continue;
             } else {
                 mediaType.put("mediaType", escapeQuotationMark(key));
+                // unescaped value, for templates that escape for their own context
+                mediaType.put("rawMediaType", key);
                 if (isJsonMimeType(key)) {
                     mediaType.put("isJson", "true");
                 } else if (isXmlMimeType(key)) {
@@ -7732,6 +7734,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", encodedKey);
+                // unescaped value, for templates that escape for their own context
+                mediaType.put("rawMediaType", key);
                 if (isJsonMimeType(encodedKey)) {
                     mediaType.put("isJson", "true");
                 } else if (isXmlMimeType(encodedKey)) {
