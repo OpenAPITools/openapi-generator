@@ -1565,7 +1565,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     private String getItemsStringBeanValidation(Schema<?> items) {
-        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items) || isJavaUuid(getTypeDeclaration(items))) {
             return "";
         }
         List<String> annotations = new ArrayList<>();
@@ -1632,9 +1632,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties) {
         CodegenProperty property = super.fromProperty(name, p, required, schemaIsFromAdditionalProperties);
+        if (property == null) {
+            return null;
+        }
+        markJavaUuid(property.dataType, property.vendorExtensions);
         // Model templates render arrays of inline enums as `{{baseType}}<{{classname}}.{{nameInPascalCase}}>`
         // instead of `{{dataType}}`, so expose the element annotations separately for that branch.
-        if (property != null && property.isArray && property.isEnum && p != null) {
+        if (property.isArray && property.isEnum && p != null) {
             Schema<?> schema = ModelUtils.getReferencedSchema(openAPI, p);
             Schema<?> items = ModelUtils.getSchemaItems(schema);
             if (items != null) {
@@ -1645,6 +1649,23 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
         return property;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        markJavaUuid(parameter.dataType, parameter.vendorExtensions);
+    }
+
+    private void markJavaUuid(String dataType, Map<String, Object> vendorExtensions) {
+        // A UUID schema mapped to kotlin.String still supports string validation.
+        if (isJavaUuid(dataType)) {
+            vendorExtensions.put("x-is-java-uuid", true);
+        }
+    }
+
+    private boolean isJavaUuid(String dataType) {
+        return UUID.class.getName().equals(importMapping.getOrDefault(dataType, dataType));
     }
 
     @Override

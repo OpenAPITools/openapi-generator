@@ -1,4 +1,4 @@
-{{#isEmail}}@Email {{/isEmail}}{{!
+{{#isEmail}}@Email {{/isEmail}}{{^vendorExtensions.x-is-java-uuid}}{{!
 pattern set
 }}{{#pattern}}@Pattern(regexp="{{{.}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}) {{/pattern}}{{!
 minLength && maxLength set
@@ -6,7 +6,7 @@ minLength && maxLength set
 minLength set, maxLength not
 }}{{#minLength}}{{^maxLength}}@Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxLength}}{{/minLength}}{{!
 minLength not set, maxLength set
-}}{{^minLength}}{{#maxLength}}@Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxLength}}{{/minLength}}{{!
+}}{{^minLength}}{{#maxLength}}@Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxLength}}{{/minLength}}{{/vendorExtensions.x-is-java-uuid}}{{!
 @Size: minItems && maxItems set
 }}{{#minItems}}{{#maxItems}}@Size(min={{minItems}},max={{maxItems}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxItems}}{{/minItems}}{{!
 @Size: minItems set, maxItems not
