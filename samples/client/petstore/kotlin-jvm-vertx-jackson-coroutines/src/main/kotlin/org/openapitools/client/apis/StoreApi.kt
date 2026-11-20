@@ -89,8 +89,8 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun deleteOrderWithHttpInfo(orderId: kotlin.String) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("${this.basePath}/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
 
         
         
@@ -150,8 +150,8 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getInventoryWithHttpInfo() : Future<ApiResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/store/inventory"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/store/inventory"))
 
         
         
@@ -160,11 +160,11 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
@@ -220,8 +220,8 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getOrderByIdWithHttpInfo(orderId: kotlin.Long) : Future<ApiResponse<Order?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString()))))
 
         
         
@@ -283,8 +283,8 @@ open class StoreApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessT
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun placeOrderWithHttpInfo(order: Order) : Future<ApiResponse<Order?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/store/order"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/store/order"))
 
         
         

@@ -88,8 +88,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun addPetWithHttpInfo(pet: Pet) : Future<ApiResponse<Pet?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/pet"))
 
         
         
@@ -101,7 +101,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
 
 
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
 
@@ -157,8 +157,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("${this.basePath}/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
         
         apiKey?.apply { request.putHeader("api_key", this.toString())}
@@ -167,7 +167,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
 
 
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
 
@@ -232,8 +232,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByStatus"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/pet/findByStatus"))
 
         
         
@@ -243,7 +243,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         status.let { request.queryParams().add("status", toMultiValue(it.toList(), "csv")) }
 
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
 
@@ -301,8 +301,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Throws(IllegalStateException::class, IOException::class)
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTagsWithHttpInfo(tags: kotlin.collections.List<kotlin.String>) : Future<ApiResponse<kotlin.collections.List<Pet>?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/findByTags"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/pet/findByTags"))
 
         
         
@@ -312,7 +312,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
         tags.let { request.queryParams().add("tags", toMultiValue(it.toList(), "csv")) }
 
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
 
@@ -368,8 +368,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getPetByIdWithHttpInfo(petId: kotlin.Long) : Future<ApiResponse<Pet?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
         
         
@@ -378,11 +378,11 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
@@ -438,8 +438,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun updatePetWithHttpInfo(pet: Pet) : Future<ApiResponse<Pet?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("$basePath/pet"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("${this.basePath}/pet"))
 
         
         
@@ -451,7 +451,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
 
 
 
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
 
@@ -509,8 +509,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
         request.putHeader("Content-Type", "application/x-www-form-urlencoded")
         
@@ -522,7 +522,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         status?.let { form.add("status", status) }
 
 
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
 
@@ -582,8 +582,8 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : Future<ApiResponse<ModelApiResponse?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString()))))
 
         request.putHeader("Content-Type", "multipart/form-data")
         
@@ -595,7 +595,7 @@ open class PetApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTok
         file?.let { form.add("file", file.toString()) }
 
 
-        accessToken?.let { accessToken ->
+        this.accessToken?.let { accessToken ->
             request.bearerTokenAuthentication(accessToken)
         }
 

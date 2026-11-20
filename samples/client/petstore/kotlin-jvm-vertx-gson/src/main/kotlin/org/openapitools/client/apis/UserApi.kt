@@ -85,8 +85,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUserWithHttpInfo(user: User) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/user"))
 
         
         
@@ -97,11 +97,11 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
@@ -155,8 +155,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUsersWithArrayInputWithHttpInfo(user: kotlin.collections.List<User>) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user/createWithArray"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/user/createWithArray"))
 
         
         
@@ -167,11 +167,11 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
@@ -225,8 +225,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun createUsersWithListInputWithHttpInfo(user: kotlin.collections.List<User>) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("$basePath/user/createWithList"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.POST, UriTemplate.of("${this.basePath}/user/createWithList"))
 
         
         
@@ -237,11 +237,11 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
@@ -295,8 +295,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun deleteUserWithHttpInfo(username: kotlin.String) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.DELETE, UriTemplate.of("${this.basePath}/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
 
         
         
@@ -305,11 +305,11 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
@@ -365,8 +365,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun getUserByNameWithHttpInfo(username: kotlin.String) : Future<ApiResponse<User?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
 
         
         
@@ -430,8 +430,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
     fun loginUserWithHttpInfo(username: kotlin.String, password: kotlin.String) : Future<ApiResponse<kotlin.String?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/login"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/user/login"))
 
         
         
@@ -491,8 +491,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun logoutUserWithHttpInfo() : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("$basePath/user/logout"))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of("${this.basePath}/user/logout"))
 
         
         
@@ -501,11 +501,11 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
@@ -561,8 +561,8 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
      */
     @Throws(IllegalStateException::class, IOException::class)
     fun updateUserWithHttpInfo(username: kotlin.String, user: User) : Future<ApiResponse<Unit?>> {
-        val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("$basePath/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
+        val vertxClient = WebClient.create(this.vertx)
+        val request = vertxClient.requestAbs(HttpMethod.PUT, UriTemplate.of("${this.basePath}/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString()))))
 
         
         
@@ -573,11 +573,11 @@ open class UserApi(basePath: kotlin.String = ApiClient.defaultBasePath, accessTo
 
 
 
-        if (apiKey["api_key"] != null) {
-            if (apiKeyPrefix["api_key"] != null) {
-                request.putHeader("api_key", apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!)
+        if (this.apiKey["api_key"] != null) {
+            if (this.apiKeyPrefix["api_key"] != null) {
+                request.putHeader("api_key", this.apiKeyPrefix["api_key"]!! + " " + this.apiKey["api_key"]!!)
             } else {
-                request.putHeader("api_key", apiKey["api_key"]!!)
+                request.putHeader("api_key", this.apiKey["api_key"]!!)
             }
         }
 
