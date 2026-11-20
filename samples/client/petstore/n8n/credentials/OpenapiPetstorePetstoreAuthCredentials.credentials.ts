@@ -12,8 +12,8 @@ import type {
  * operation declares none of its own) - see GenericFunctions.ts's apiRequest. An operation with
  * no security requirement at all, locally or globally, sends an unauthenticated request.
  */
-export class PetstoreAuthCredentials implements ICredentialType {
-	name = 'petstoreAuthCredentials';
+export class OpenapiPetstorePetstoreAuthCredentials implements ICredentialType {
+	name = 'openapiPetstorePetstoreAuthCredentials';
 
 	displayName = "OpenAPI Petstore API - OAuth2";
 

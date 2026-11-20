@@ -102,15 +102,17 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         apiPackage = "nodes";
         modelPackage = "nodes";
 
-        // credentials.mustache is deliberately NOT registered as a fixed-destination
-        // SupportingFile: a spec can declare more than one security scheme, and each needs its
-        // own file/class pair (n8n's directory loader derives the expected class name from the
-        // filename - see the Javadoc on writeCredentialFile()), which the SupportingFile
-        // mechanism's one-template-one-fixed-path model can't produce. Instead,
-        // postProcessSupportingFileData() below renders this template manually, once per
-        // declared scheme.
-        supportingFiles.add(new SupportingFile("node.mustache", "nodes" + File.separator + "Api", "Api.node.ts"));
-        supportingFiles.add(new SupportingFile("genericFunctions.mustache", "nodes" + File.separator + "Api", "GenericFunctions.ts"));
+        // node.mustache, genericFunctions.mustache, and credentials.mustache are deliberately
+        // NOT registered as fixed-destination SupportingFiles: their class/file names need to
+        // incorporate nodePrefix (so two packages generated from two different specs don't
+        // produce byte-identical node type names / class names - T061), and nodePrefix isn't
+        // known until the spec itself is parsed (preprocessOpenAPI), well after the
+        // SupportingFile list is built here in the constructor. A spec can also declare more
+        // than one security scheme, needing one credentials file/class pair each (n8n's
+        // directory loader derives the expected class name from the filename - see the Javadoc
+        // on writeGeneratedFile()). Both needs are beyond the SupportingFile mechanism's
+        // one-template-one-fixed-path model, so postProcessSupportingFileData() below renders
+        // all three templates manually instead.
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -284,8 +286,15 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Renders one {@code <Scheme>Credentials.credentials.ts} file per declared security scheme
-     * that this generator knows how to map (apiKey, HTTP basic, HTTP bearer, OAuth2 - per
+     * Computes {@code nodeClassName}/{@code nodeTypeName} from {@code nodePrefix} (T061 -
+     * `{{nodePrefix}}Api`, lowercased-first for the internal n8n type name), so two packages
+     * generated from two different specs - each with their own spec-derived nodePrefix - don't
+     * produce the byte-identical node class/file names and `INodeTypeDescription.name` that
+     * used to make one of them silently fail registration in n8n when both were installed into
+     * the same instance (confirmed via the same loader mechanism that caught the earlier
+     * filename/classname bug for credentials). Then renders one {@code
+     * <nodePrefix><Scheme>Credentials.credentials.ts} file per declared security scheme that
+     * this generator knows how to map (apiKey, HTTP basic, HTTP bearer, OAuth2 - per
      * research.md §3), and exposes the resulting list as {@code n8nCredentialRefs} /
      * {@code n8nSingleCredential} so {@code node.mustache}, {@code package.mustache}, {@code
      * genericFunctions.mustache}, and {@code README.mustache} (all rendered from this same
@@ -307,12 +316,23 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * yet; {@code DefaultGenerator} only calls {@code addAuthenticationSwitches(operation)}
      * afterward. By the time this hook runs (during {@code buildSupportFileBundle}, after
      * {@code generateApis()} has fully finished), every operation's {@code authMethods} is
-     * already populated.
+     * already populated. Finally renders {@code node.mustache}/{@code genericFunctions.mustache}
+     * from this fully-built bundle, last, so they see {@code nodeClassName}/{@code
+     * nodeTypeName}/{@code n8nCredentialRefs}/every operation's {@code n8nOperationCredentialName}.
      */
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         objs = super.postProcessSupportingFileData(objs);
+
+        Object nodePrefixValue = objs.get(NODE_PREFIX);
+        String nodePrefix = nodePrefixValue != null ? nodePrefixValue.toString() : "Generated";
+        String nodeClassName = nodePrefix + "Api";
+        String nodeTypeName = lowerFirst(nodeClassName);
+        objs.put("nodeClassName", nodeClassName);
+        objs.put("nodeTypeName", nodeTypeName);
+
+        Mustache.Compiler compiler = Mustache.compiler().defaultValue("");
 
         List<CodegenSecurity> authMethods = (List<CodegenSecurity>) objs.get("authMethods");
         List<Map<String, Object>> credentialRefs = new ArrayList<>();
@@ -328,12 +348,14 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
             supported.sort(Comparator.comparingInt(N8nClientCodegen::schemePriority));
 
             String credentialsTemplate = readClasspathResource("n8n/credentials.mustache");
-            Mustache.Compiler compiler = Mustache.compiler().defaultValue("");
 
             for (CodegenSecurity scheme : supported) {
+                // Prefixed with nodePrefix (T061), same as nodeClassName, so a credential
+                // declared in one generated package never collides with one of the same
+                // scheme name from a different generated package installed alongside it.
                 String pascal = toPascalCase(scheme.name);
-                String className = pascal + "Credentials";
-                String credentialName = Character.toLowerCase(pascal.charAt(0)) + pascal.substring(1) + "Credentials";
+                String className = nodePrefix + pascal + "Credentials";
+                String credentialName = lowerFirst(className);
                 String displayName = objs.get("apiTitle") + " API - " + schemeKindLabel(scheme);
 
                 Map<String, Object> data = new HashMap<>(objs);
@@ -349,7 +371,7 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 data.put("keyParamName", scheme.keyParamName);
 
                 String rendered = compiler.compile(credentialsTemplate).execute(data);
-                writeCredentialFile(className, rendered);
+                writeGeneratedFile("credentials" + File.separator + className + ".credentials.ts", rendered);
 
                 Map<String, Object> ref = new HashMap<>();
                 ref.put("className", className);
@@ -371,7 +393,23 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         applyPerOperationCredentialNames(objs, schemeNameToCredentialName);
 
+        // node.mustache/genericFunctions.mustache are rendered from this same, now-fully-built
+        // bundle (apiInfo, n8nCredentialRefs, nodeClassName/nodeTypeName, every operation's
+        // n8nOperationCredentialName) - see the constructor's comment on why these can't be
+        // fixed-destination SupportingFiles.
+        String nodeRendered = compiler.compile(readClasspathResource("n8n/node.mustache")).execute(objs);
+        String genericFunctionsRendered = compiler.compile(readClasspathResource("n8n/genericFunctions.mustache")).execute(objs);
+        writeGeneratedFile("nodes" + File.separator + nodeClassName + File.separator + nodeClassName + ".node.ts", nodeRendered);
+        writeGeneratedFile("nodes" + File.separator + nodeClassName + File.separator + "GenericFunctions.ts", genericFunctionsRendered);
+
         return objs;
+    }
+
+    private static String lowerFirst(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        return Character.toLowerCase(value.charAt(0)) + value.substring(1);
     }
 
     /**
@@ -477,31 +515,38 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * n8n's {@code CustomDirectoryLoader}/{@code DirectoryLoader.loadClass} derives the expected
-     * exported class name directly from the filename (splitting on "." and taking the first
-     * segment), so {@code <className>.credentials.ts} MUST export a class literally named
-     * {@code <className>} - a mismatch is silently swallowed as a logged warning rather than a
-     * hard error, and the credential then fails at runtime with "Unknown credential name"
-     * (confirmed by actually loading generated output into a real n8n instance).
+     * For credential files specifically: n8n's {@code CustomDirectoryLoader}/{@code
+     * DirectoryLoader.loadClass} derives the expected exported class name directly from the
+     * filename (splitting on "." and taking the first segment), so {@code
+     * <className>.credentials.ts} MUST export a class literally named {@code <className>} - a
+     * mismatch is silently swallowed as a logged warning rather than a hard error, and the
+     * credential then fails at runtime with "Unknown credential name" (confirmed by actually
+     * loading generated output into a real n8n instance).
      * <p>
      * This writes directly via {@link Files#write}, bypassing the framework's normal
-     * {@code SupportingFile}/{@code templateProcessor} pipeline (which can't express "one file
-     * per dynamically-discovered item" - see the Javadoc on {@link #postProcessSupportingFileData}).
-     * That pipeline is also what the framework's {@code --dry-run} mode intercepts, so this
-     * method has to check {@code GlobalSettings}' {@code dryRun} flag itself (confirmed by
-     * actually running {@code generate ... --dry-run}: without this check, these files were
-     * written to disk for real despite dry-run, and didn't even appear in the dry-run report).
+     * {@code SupportingFile}/{@code templateProcessor} pipeline (which can't express either
+     * "one file per dynamically-discovered item", for credentials, or "destination depends on
+     * spec content resolved after the SupportingFile list is built", for the node/
+     * GenericFunctions files - see the constructor's comment and {@link
+     * #postProcessSupportingFileData}'s Javadoc). That pipeline is also what the framework's
+     * {@code --dry-run} mode intercepts, so this method has to check {@code GlobalSettings}'
+     * {@code dryRun} flag itself (confirmed by actually running {@code generate ... --dry-run}:
+     * without this check, these files were written to disk for real despite dry-run, and
+     * didn't even appear in the dry-run report).
+     *
+     * @param relativePath path under the output folder, e.g. {@code "credentials/X.credentials.ts"}
+     *                      or {@code "nodes/Y/Y.node.ts"}
      */
-    private void writeCredentialFile(String className, String content) {
+    private void writeGeneratedFile(String relativePath, String content) {
         if (Boolean.parseBoolean(GlobalSettings.getProperty("dryRun"))) {
             return;
         }
         try {
-            Path dir = Paths.get(outputFolder(), "credentials");
-            Files.createDirectories(dir);
-            Files.write(dir.resolve(className + ".credentials.ts"), content.getBytes(StandardCharsets.UTF_8));
+            Path file = Paths.get(outputFolder(), relativePath);
+            Files.createDirectories(file.getParent());
+            Files.write(file, content.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
-            throw new UncheckedIOException("Failed to write generated credential file for class " + className, e);
+            throw new UncheckedIOException("Failed to write generated file: " + relativePath, e);
         }
     }
 

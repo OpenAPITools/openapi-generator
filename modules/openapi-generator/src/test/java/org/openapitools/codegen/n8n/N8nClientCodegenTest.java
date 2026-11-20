@@ -46,18 +46,20 @@ public class N8nClientCodegenTest {
             generate(target);
             for (Path credentialFile : find(target, "ApiKeyCredentials.credentials.ts")) {
                 String source = Files.readString(credentialFile);
+                String expectedClass = expectedClassNameOf(credentialFile, ".credentials.ts");
                 Assert.assertTrue(
-                        source.contains("export class ApiKeyCredentials "),
+                        source.contains("export class " + expectedClass + " "),
                         "the exported class in " + credentialFile.getFileName()
-                                + " must be named exactly 'ApiKeyCredentials' to match the filename, "
+                                + " must be named exactly '" + expectedClass + "' to match the filename, "
                                 + "per n8n's directory loader convention (DirectoryLoader.loadClass)");
             }
             for (Path credentialFile : find(target, "PetstoreAuthCredentials.credentials.ts")) {
                 String source = Files.readString(credentialFile);
+                String expectedClass = expectedClassNameOf(credentialFile, ".credentials.ts");
                 Assert.assertTrue(
-                        source.contains("export class PetstoreAuthCredentials "),
+                        source.contains("export class " + expectedClass + " "),
                         "the exported class in " + credentialFile.getFileName()
-                                + " must be named exactly 'PetstoreAuthCredentials' to match the "
+                                + " must be named exactly '" + expectedClass + "' to match the "
                                 + "filename, per n8n's directory loader convention (DirectoryLoader.loadClass)");
             }
         } finally {
@@ -102,20 +104,20 @@ public class N8nClientCodegenTest {
             Assert.assertEquals(oauthFiles.size(), 1, "expected exactly one PetstoreAuthCredentials.credentials.ts file");
 
             String apiKeySource = Files.readString(apiKeyFiles.get(0));
-            Assert.assertTrue(apiKeySource.contains("apiKeyCredentials"), "apiKey credential should use the apiKeyCredentials type name");
+            Assert.assertTrue(apiKeySource.contains("ApiKeyCredentials"), "apiKey credential should use the *ApiKeyCredentials type name");
             Assert.assertTrue(apiKeySource.contains("API Key"), "apiKey credential should collect an API Key field");
 
             String oauthSource = Files.readString(oauthFiles.get(0));
-            Assert.assertTrue(oauthSource.contains("petstoreAuthCredentials"), "oauth2 credential should use the petstoreAuthCredentials type name");
+            Assert.assertTrue(oauthSource.contains("PetstoreAuthCredentials"), "oauth2 credential should use the *PetstoreAuthCredentials type name");
             Assert.assertTrue(oauthSource.contains("Access Token"), "oauth2 credential should collect an Access Token field");
 
             String packageJson = Files.readString(target.resolve("package.json"));
-            Assert.assertTrue(packageJson.contains("dist/credentials/ApiKeyCredentials.credentials.js"));
-            Assert.assertTrue(packageJson.contains("dist/credentials/PetstoreAuthCredentials.credentials.js"));
+            Assert.assertTrue(packageJson.contains("ApiKeyCredentials.credentials.js"));
+            Assert.assertTrue(packageJson.contains("PetstoreAuthCredentials.credentials.js"));
 
             String nodeSource = readNodeSource(target);
-            Assert.assertTrue(nodeSource.contains("name: 'apiKeyCredentials'"));
-            Assert.assertTrue(nodeSource.contains("name: 'petstoreAuthCredentials'"));
+            Assert.assertTrue(nodeSource.contains("ApiKeyCredentials'"));
+            Assert.assertTrue(nodeSource.contains("PetstoreAuthCredentials'"));
         } finally {
             deleteRecursively(target);
         }
@@ -162,7 +164,7 @@ public class N8nClientCodegenTest {
             // ... and getPetById, which declares `security: [api_key: []]` on itself in the
             // spec, must authenticate with that exact credential (spec.md Edge Cases #4).
             String nodeSource = readNodeSource(target);
-            Assert.assertEquals(operationCredentialName(nodeSource, "getPetById"), "apiKeyCredentials");
+            Assert.assertTrue(operationCredentialName(nodeSource, "getPetById").endsWith("ApiKeyCredentials"));
         } finally {
             deleteRecursively(target);
         }
@@ -183,10 +185,10 @@ public class N8nClientCodegenTest {
             generate(target);
             String nodeSource = readNodeSource(target);
 
-            Assert.assertEquals(operationCredentialName(nodeSource, "addPet"), "petstoreAuthCredentials");
-            Assert.assertEquals(operationCredentialName(nodeSource, "updatePet"), "petstoreAuthCredentials");
-            Assert.assertEquals(operationCredentialName(nodeSource, "getPetById"), "apiKeyCredentials");
-            Assert.assertEquals(operationCredentialName(nodeSource, "getInventory"), "apiKeyCredentials");
+            Assert.assertTrue(operationCredentialName(nodeSource, "addPet").endsWith("PetstoreAuthCredentials"));
+            Assert.assertTrue(operationCredentialName(nodeSource, "updatePet").endsWith("PetstoreAuthCredentials"));
+            Assert.assertTrue(operationCredentialName(nodeSource, "getPetById").endsWith("ApiKeyCredentials"));
+            Assert.assertTrue(operationCredentialName(nodeSource, "getInventory").endsWith("ApiKeyCredentials"));
         } finally {
             deleteRecursively(target);
         }
@@ -260,7 +262,7 @@ public class N8nClientCodegenTest {
             generate(outputDir, spec.toAbsolutePath().toString());
             String nodeSource = readNodeSource(outputDir);
 
-            Assert.assertEquals(operationCredentialName(nodeSource, "getSecured"), "apiKeyAuthCredentials",
+            Assert.assertTrue(operationCredentialName(nodeSource, "getSecured").endsWith("ApiKeyAuthCredentials"),
                     "getSecured inherits the spec-wide default security scheme");
             Assert.assertEquals(operationCredentialName(nodeSource, "getPublic"), "",
                     "getPublic explicitly opts out with security: [] and must stay unauthenticated");
@@ -319,7 +321,8 @@ public class N8nClientCodegenTest {
             Assert.assertEquals(credentialFiles.size(), 1, "expected exactly one HttpBasicCredentials.credentials.ts file");
 
             String source = Files.readString(credentialFiles.get(0));
-            Assert.assertTrue(source.contains("export class HttpBasicCredentials "));
+            String expectedClass = expectedClassNameOf(credentialFiles.get(0), ".credentials.ts");
+            Assert.assertTrue(source.contains("export class " + expectedClass + " "));
             Assert.assertTrue(source.contains("name: 'username'"));
             Assert.assertTrue(source.contains("name: 'password'"));
             Assert.assertTrue(source.contains("auth: {"));
@@ -344,7 +347,8 @@ public class N8nClientCodegenTest {
             Assert.assertEquals(credentialFiles.size(), 1, "expected exactly one BearerAuthCredentials.credentials.ts file");
 
             String source = Files.readString(credentialFiles.get(0));
-            Assert.assertTrue(source.contains("export class BearerAuthCredentials "));
+            String expectedClass = expectedClassNameOf(credentialFiles.get(0), ".credentials.ts");
+            Assert.assertTrue(source.contains("export class " + expectedClass + " "));
             Assert.assertTrue(source.contains("name: 'token'"));
             Assert.assertTrue(source.contains("Authorization: '=Bearer {{$credentials.token}}'"));
         } finally {
@@ -561,7 +565,9 @@ public class N8nClientCodegenTest {
      * credential files to disk despite `--dry-run` - and the framework's own "Dry Run Results"
      * report didn't even list them, since they never went through the tracked
      * {@code templateProcessor}. No credential file (or any file at all) should be written to
-     * the target directory when dry-run is enabled, per FR-002.
+     * the target directory when dry-run is enabled, per FR-002. Extended for T061: the node and
+     * GenericFunctions files moved to the same manual-write path as credentials, so they must
+     * honor dry-run too.
      */
     @Test
     public void writesNoCredentialFileInDryRunMode() throws IOException {
@@ -572,6 +578,10 @@ public class N8nClientCodegenTest {
                     "no credential file should be written to disk in dry-run mode");
             Assert.assertTrue(find(target, "PetstoreAuthCredentials.credentials.ts").isEmpty(),
                     "no credential file should be written to disk in dry-run mode");
+            Assert.assertTrue(find(target, "Api.node.ts").isEmpty(),
+                    "no node file should be written to disk in dry-run mode");
+            Assert.assertTrue(find(target, "GenericFunctions.ts").isEmpty(),
+                    "no GenericFunctions file should be written to disk in dry-run mode");
         } finally {
             GlobalSettings.clearProperty("dryRun");
             deleteRecursively(target);
@@ -588,6 +598,87 @@ public class N8nClientCodegenTest {
         new DefaultGenerator(true).opts(clientOptInput).generate();
     }
 
+    /**
+     * Regression test for T061: the generated node's class name, file name, and
+     * {@code INodeTypeDescription.name} field used to be hardcoded ({@code Api} /
+     * {@code Api.node.ts} / {@code 'api'}) regardless of the source spec, so installing two
+     * generated packages side-by-side in the same n8n instance caused the second one's
+     * registration to silently fail (the same filename/classname loader convention that caught
+     * the bug fixed under T049's work). Each must now be derived from the spec's own title via
+     * nodePrefix (contracts/generator-cli-options.md), so two differently-titled specs produce
+     * distinct, non-colliding identifiers.
+     */
+    @Test
+    public void differentlyTitledSpecsProduceDistinctNodeIdentifiers() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path specA = writeTempSpec(target, "spec-a.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: First Example API\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /widgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidgets\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n");
+            Path specB = writeTempSpec(target, "spec-b.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: Second Example API\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /gadgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getGadgets\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n");
+
+            Path outA = target.resolve("out-a");
+            Path outB = target.resolve("out-b");
+            generate(outA, specA.toAbsolutePath().toString());
+            generate(outB, specB.toAbsolutePath().toString());
+
+            List<Path> nodeFilesA = find(outA, "Api.node.ts");
+            List<Path> nodeFilesB = find(outB, "Api.node.ts");
+            Assert.assertEquals(nodeFilesA.size(), 1, "expected exactly one node file for spec A");
+            Assert.assertEquals(nodeFilesB.size(), 1, "expected exactly one node file for spec B");
+
+            String nodeClassA = expectedClassNameOf(nodeFilesA.get(0), ".node.ts");
+            String nodeClassB = expectedClassNameOf(nodeFilesB.get(0), ".node.ts");
+            Assert.assertNotEquals(nodeClassA, nodeClassB,
+                    "two differently-titled specs must produce different node class/file names");
+
+            String nodeSourceA = Files.readString(nodeFilesA.get(0));
+            String nodeSourceB = Files.readString(nodeFilesB.get(0));
+            Assert.assertTrue(nodeSourceA.contains("export class " + nodeClassA + " "));
+            Assert.assertTrue(nodeSourceB.contains("export class " + nodeClassB + " "));
+
+            String nodeTypeNameA = lowerFirstForTest(nodeClassA);
+            String nodeTypeNameB = lowerFirstForTest(nodeClassB);
+            Assert.assertTrue(nodeSourceA.contains("name: '" + nodeTypeNameA + "'"));
+            Assert.assertTrue(nodeSourceB.contains("name: '" + nodeTypeNameB + "'"));
+            Assert.assertNotEquals(nodeTypeNameA, nodeTypeNameB,
+                    "two differently-titled specs must produce different INodeTypeDescription.name values");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    private static String lowerFirstForTest(String value) {
+        if (value == null || value.isEmpty()) {
+            return value;
+        }
+        return Character.toLowerCase(value.charAt(0)) + value.substring(1);
+    }
+
     private static void generate(Path target) {
         generate(target, PETSTORE_SPEC);
     }
@@ -602,24 +693,37 @@ public class N8nClientCodegenTest {
         new DefaultGenerator().opts(clientOptInput).generate();
     }
 
+    /**
+     * Matches by filename SUFFIX, not exact equality: every node/credential file name is now
+     * prefixed with the spec-derived {@code nodePrefix} (T061), so e.g. "Api.node.ts" still
+     * finds "OpenapiPetstoreApi.node.ts" without the test needing to know the exact prefix.
+     */
     private static List<Path> find(Path root, String filenameSuffix) throws IOException {
         try (Stream<Path> stream = Files.walk(root)) {
             return stream.filter(Files::isRegularFile)
-                    .filter(p -> p.getFileName().toString().equals(filenameSuffix))
+                    .filter(p -> p.getFileName().toString().endsWith(filenameSuffix))
                     .collect(Collectors.toList());
         }
     }
 
     private static String readNodeSource(Path target) throws IOException {
         List<Path> files = find(target, "Api.node.ts");
-        Assert.assertFalse(files.isEmpty(), "expected a generated Api.node.ts file");
+        Assert.assertFalse(files.isEmpty(), "expected a generated *Api.node.ts file");
         return Files.readString(files.get(0));
     }
 
     private static String readCredentialsSource(Path target) throws IOException {
         List<Path> files = find(target, "ApiKeyCredentials.credentials.ts");
-        Assert.assertFalse(files.isEmpty(), "expected a generated ApiKeyCredentials.credentials.ts file");
+        Assert.assertFalse(files.isEmpty(), "expected a generated *ApiKeyCredentials.credentials.ts file");
         return Files.readString(files.get(0));
+    }
+
+    /** Derives the class name a generated file must export, per n8n's filename-matching
+     * loader convention, directly from the file's own name (not a hardcoded expectation),
+     * so this works regardless of the spec-derived nodePrefix. */
+    private static String expectedClassNameOf(Path file, String extensionSuffix) {
+        String filename = file.getFileName().toString();
+        return filename.substring(0, filename.length() - extensionSuffix.length());
     }
 
     private static void deleteRecursively(Path root) throws IOException {

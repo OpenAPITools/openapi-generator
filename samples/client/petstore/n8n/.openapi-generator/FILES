@@ -1,6 +1,4 @@
 .openapi-generator-ignore
 README.md
-nodes/Api/Api.node.ts
-nodes/Api/GenericFunctions.ts
 package.json
 tsconfig.json

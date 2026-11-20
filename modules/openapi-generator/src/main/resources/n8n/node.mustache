@@ -8,10 +8,10 @@ import type {
 
 import { apiRequest } from './GenericFunctions';
 
-export class Api implements INodeType {
+export class {{nodeClassName}} implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: "{{apiTitle}}",
-		name: 'api',
+		name: '{{nodeTypeName}}',
 		icon: 'fa:plug',
 		group: ['transform'],
 		version: 1,

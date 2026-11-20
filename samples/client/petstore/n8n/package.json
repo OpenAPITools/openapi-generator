@@ -17,18 +17,18 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ApiKeyCredentials.credentials.js",
-      "dist/credentials/PetstoreAuthCredentials.credentials.js"
+      "dist/credentials/OpenapiPetstoreApiKeyCredentials.credentials.js",
+      "dist/credentials/OpenapiPetstorePetstoreAuthCredentials.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/Api/Api.node.js"
+      "dist/nodes/OpenapiPetstoreApi/OpenapiPetstoreApi.node.js"
     ]
   },
   "peerDependencies": {
     "n8n-workflow": "*"
   },
   "devDependencies": {
-    "n8n-workflow": "*",
-    "typescript": "^5.4.0"
+    "n8n-workflow": "^2.16.0",
+    "typescript": "^7.0.2"
   }
 }
