@@ -1188,12 +1188,32 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
+        clearTemporalDefault(parameter);
         if (parameter.hasDefaultValue) {
             parameter.vendorExtensions.put("x-spring-form-default-not-applied", true);
             LOGGER.warn("OpenAPI default for form parameter '{}' is not applied when the field is omitted; "
                     + "the generated Spring binding does not apply it.", parameter.baseName);
         }
         return parameter;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        clearTemporalDefault(parameter);
+    }
+
+    /**
+     * Date and date-time defaults are not emitted for parameters (the Kotlin generator has never
+     * produced them): swagger-parser materializes {@code format: date} defaults as a
+     * {@link java.util.Date}, losing the lexical value, so the raw default cannot be rendered reliably.
+     */
+    private static void clearTemporalDefault(CodegenParameter parameter) {
+        if (parameter.isDate || parameter.isDateTime) {
+            parameter.hasDefaultValue = false;
+            parameter.rawDefaultValue = null;
+            parameter.rawDefaultValueText = null;
+        }
     }
 
     @Override

@@ -4817,6 +4817,27 @@ public class KotlinSpringServerCodegenTest {
                 "const val PATH_ESCAPED: String = \"/escaping/operations-\\$path\"");
     }
 
+    @Test(description = "date and date-time parameter defaults are not emitted, matching the generator's existing behavior")
+    public void temporalParameterDefaultsAreNotEmitted() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-temporal-parameter-defaults.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        Path controller = files.get("QueryApiController.kt").toPath();
+        Path service = files.get("QueryApiService.kt").toPath();
+        Path formController = files.get("FormApiController.kt").toPath();
+        Path formService = files.get("FormApiService.kt").toPath();
+
+        assertFileContains(controller,
+                "@RequestParam(value = \"day\", required = false)",
+                "@RequestParam(value = \"at\", required = false)",
+                "@RequestParam(value = \"label\", required = false, defaultValue = \"plain\")");
+        assertFileNotContains(controller, "2024-03-0");
+        assertFileNotContains(formController, "2024-03-0");
+        assertFileNotContains(service, "2024-03-0");
+        assertFileNotContains(formService, "2024-03-0");
+        assertFileContains(service, "@param label  (optional, default to plain)");
+    }
+
     private void assertKotlinEscapedPaths(File source) throws IOException {
         assertFileContains(source.toPath(),
                 "@RequestMapping(\"\\${api.base-path:/server-\\$context}\")",

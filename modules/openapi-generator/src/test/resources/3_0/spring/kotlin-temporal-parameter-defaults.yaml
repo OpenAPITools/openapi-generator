@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Temporal parameter defaults
+  version: "1.0"
+paths:
+  /query:
+    get:
+      operationId: temporalQuery
+      parameters:
+        - name: day
+          in: query
+          schema:
+            type: string
+            format: date
+            default: "2024-03-05"
+        - name: at
+          in: query
+          schema:
+            type: string
+            format: date-time
+            default: "2024-03-05T10:00:00Z"
+        - name: label
+          in: query
+          schema:
+            type: string
+            default: plain
+      responses:
+        "200":
+          description: ok
+  /form:
+    post:
+      operationId: temporalForm
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                day:
+                  type: string
+                  format: date
+                  default: "2024-03-05"
+                at:
+                  type: string
+                  format: date-time
+                  default: "2024-03-05T10:00:00Z"
+      responses:
+        "200":
+          description: ok
