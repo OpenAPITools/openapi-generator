@@ -1560,6 +1560,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return String.join(" ", annotations);
     }
 
+    @Override
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
+        super.updateParameterForString(codegenParameter, parameterSchema);
+        if (ModelUtils.isURISchema(parameterSchema)) {
+            codegenParameter.isUri = true;
+        }
+    }
+
     /**
      * Bean validation for the element type of a list/set, following the rules of
      * {@code AbstractJavaCodegen#getBeanValidation} and rendered in the format of {@code beanValidationCore.mustache}.
