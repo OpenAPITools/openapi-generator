@@ -201,7 +201,7 @@ library(petstore)
 # Place an order for a pet
 #
 # prepare function argument(s)
-var_order <- Order$new(123, 123, 123, "shipDate_example", "placed", "complete_example") # Order | order placed for purchasing the pet
+var_order <- Order$new(123, 123, 123, as.POSIXct("2020-01-01T12:00:00", format = "%Y-%m-%dT%H:%M:%OS", tz = "UTC"), "placed", "complete_example") # Order | order placed for purchasing the pet
 
 api_instance <- StoreApi$new()
 result <- tryCatch(

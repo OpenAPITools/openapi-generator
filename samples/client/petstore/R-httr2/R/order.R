@@ -10,7 +10,7 @@
 #' @field id  integer [optional]
 #' @field petId  integer [optional]
 #' @field quantity  integer [optional]
-#' @field shipDate  character [optional]
+#' @field shipDate  POSIXct [optional]
 #' @field status Order Status character [optional]
 #' @field complete  character [optional]
 #' @importFrom R6 R6Class
@@ -56,8 +56,8 @@ Order <- R6::R6Class(
         self$`quantity` <- `quantity`
       }
       if (!is.null(`shipDate`)) {
-        if (!is.character(`shipDate`)) {
-          stop(paste("Error! Invalid data for `shipDate`. Must be a string:", `shipDate`))
+        if (!(inherits(`shipDate`, "POSIXt") && length(`shipDate`) == 1)) {
+          stop(paste("Error! Invalid data for `shipDate`. Must be a POSIXct/POSIXlt datetime:", `shipDate`))
         }
         self$`shipDate` <- `shipDate`
       }
@@ -123,7 +123,7 @@ Order <- R6::R6Class(
       }
       if (!is.null(self$`shipDate`)) {
         OrderObject[["shipDate"]] <-
-          self$`shipDate`
+          .format_datetime(self$`shipDate`)
       }
       if (!is.null(self$`status`)) {
         OrderObject[["status"]] <-
@@ -153,7 +153,7 @@ Order <- R6::R6Class(
         self$`quantity` <- this_object$`quantity`
       }
       if (!is.null(this_object$`shipDate`)) {
-        self$`shipDate` <- this_object$`shipDate`
+        self$`shipDate` <- .parse_datetime(this_object$`shipDate`)
       }
       if (!is.null(this_object$`status`)) {
         if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("placed", "approved", "delivered"))) {
@@ -188,7 +188,7 @@ Order <- R6::R6Class(
       self$`id` <- this_object$`id`
       self$`petId` <- this_object$`petId`
       self$`quantity` <- this_object$`quantity`
-      self$`shipDate` <- this_object$`shipDate`
+      self$`shipDate` <- if (is.null(this_object$`shipDate`)) NULL else .parse_datetime(this_object$`shipDate`)
       if (!is.null(this_object$`status`) && !(this_object$`status` %in% c("placed", "approved", "delivered"))) {
         stop(paste("Error! \"", this_object$`status`, "\" cannot be assigned to `status`. Must be \"placed\", \"approved\", \"delivered\".", sep = ""))
       }
