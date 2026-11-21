@@ -2192,6 +2192,40 @@ public class JavaClientCodegenTest {
                 .contains("new OutputFormat().order(OutputFormat.OrderEnum.SIMILARITY).limit(10)");
     }
 
+    @DataProvider
+    public Object[][] typedAllOfEnumDefaults() {
+        return new Object[][]{
+                {OKHTTP_GSON, ""},
+                {APACHE, ""},
+                {RESTTEMPLATE, ""},
+                {OKHTTP_GSON, "Custom"}
+        };
+    }
+
+    @Test(dataProvider = "typedAllOfEnumDefaults")
+    public void testTypedAllOfEnumDefaults_issue15144(String library, String modelNamePrefix) {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_15144.yaml", library,
+                Map.of(MODEL_NAME_PREFIX, modelNamePrefix));
+        File model = files.get(modelNamePrefix + "ObjectUsingEnum.java");
+        String criteriaType = modelNamePrefix + "JoinCriteria";
+        String escapedType = modelNamePrefix + "EscapedChoice";
+
+        JavaFileAssert.assertThat(model).assertProperty("criteria").asString()
+                .contains(criteriaType + " criteria = " + criteriaType + ".AT_LEAST");
+        JavaFileAssert.assertThat(model).assertProperty("quoted").asString()
+                .contains(escapedType + " quoted = " + escapedType + ".QUOTED");
+        JavaFileAssert.assertThat(model).assertProperty("backslash").asString()
+                .contains(escapedType + " backslash = " + escapedType + ".SLASH");
+        JavaFileAssert.assertThat(model).assertProperty("empty").asString()
+                .contains(escapedType + " empty = " + escapedType + ".EMPTY");
+        JavaFileAssert.assertThat(model).assertProperty("inferred").asString()
+                .contains(criteriaType + " inferred = " + criteriaType + ".AT_LEAST");
+        JavaFileAssert.assertThat(model).assertProperty("inlineChoice").asString()
+                .contains("InlineChoiceEnum inlineChoice = InlineChoiceEnum.AT_LEAST");
+        JavaFileAssert.assertThat(model).assertProperty("plain").asString()
+                .contains("String plain = \"plain value\"");
+    }
+
     @Test
     public void testDiscriminatorPropertyRefToEnumDoesNotEmitInvalidDefault_issue24874() {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_24874.yaml", OKHTTP_GSON,
