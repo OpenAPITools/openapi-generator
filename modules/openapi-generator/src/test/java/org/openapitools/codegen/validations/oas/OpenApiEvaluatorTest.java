@@ -41,6 +41,21 @@ public class OpenApiEvaluatorTest {
         return openAPI;
     }
 
+    private static OpenAPI buildSpecWithUnusedSchema() {
+        OpenAPI openAPI = new OpenAPI();
+        openAPI.openapi("3.0.1");
+        Components components = new Components();
+        components.addSchemas("Unused", new ObjectSchema().addProperty("name", new StringSchema()));
+        openAPI.setComponents(components);
+        return openAPI;
+    }
+
+    private static List<Invalid> getUnusedModelWarnings(ValidationResult result) {
+        return result.getWarnings().stream()
+                .filter(i -> i.getMessage().startsWith("Unused model"))
+                .collect(Collectors.toList());
+    }
+
     private static List<Invalid> getDefaultNotInEnumWarnings(ValidationResult result) {
         return result.getWarnings().stream()
                 .filter(i -> i.getMessage().contains("not in enum"))
@@ -282,5 +297,41 @@ public class OpenApiEvaluatorTest {
         List<Invalid> warnings = getDefaultNotInEnumWarnings(result);
         Assert.assertEquals(warnings.size(), 1);
         Assert.assertTrue(warnings.get(0).getMessage().contains("'http'"));
+    }
+
+    @Test(description = "warn about an unused schema when recommendations are enabled")
+    public void testUnusedSchema() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        ValidationResult result = evaluator.validate(buildSpecWithUnusedSchema());
+
+        List<Invalid> warnings = getUnusedModelWarnings(result);
+        Assert.assertEquals(warnings.size(), 1);
+        Assert.assertEquals(warnings.get(0).getMessage(), "Unused model: Unused");
+    }
+
+    @Test(description = "no unused schema warning when the rule is disabled individually")
+    public void testUnusedSchemaDisabledRule() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(true);
+        config.setEnableUnusedSchemasRecommendation(false);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        ValidationResult result = evaluator.validate(buildSpecWithUnusedSchema());
+
+        Assert.assertTrue(getUnusedModelWarnings(result).isEmpty());
+    }
+
+    @Test(description = "no unused schema warning when all recommendations are disabled")
+    public void testUnusedSchemaRecommendationsOff() {
+        RuleConfiguration config = new RuleConfiguration();
+        config.setEnableRecommendations(false);
+        OpenApiEvaluator evaluator = new OpenApiEvaluator(config);
+
+        ValidationResult result = evaluator.validate(buildSpecWithUnusedSchema());
+
+        Assert.assertTrue(getUnusedModelWarnings(result).isEmpty());
     }
 }
