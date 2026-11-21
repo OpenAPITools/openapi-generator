@@ -8131,6 +8131,7 @@ public class SpringCodegenTest {
     @Test(dataProvider = "jspecifyLibraries")
     public void testJspecify(String library, int springBootVersion) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        boolean useJakarta = springBootVersion >2;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         CONTAINER_DEFAULT_TO_NULL, true,
@@ -8140,7 +8141,8 @@ public class SpringCodegenTest {
                         GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
                         INTERFACE_ONLY, false,
                         GENERATE_BUILDERS, true,
-                        springVersionProperty, springBootVersion > 2
+                        springVersionProperty, springBootVersion > 2,
+                        USE_JAKARTA_EE, useJakarta
                 ),
                 codegenConfigurator ->
                         codegenConfigurator
@@ -8196,6 +8198,9 @@ public class SpringCodegenTest {
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
                 )
+                .fileDoesNotContain(
+                        ".validation.valueextraction.Unwrapping",
+                        "Present")
                 .assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         if (!library.equals(SPRING_HTTP_INTERFACE)) {
             // SPRING_HTTP_INTERFACE does not support @Schema generation (yet)
@@ -8222,16 +8227,20 @@ public class SpringCodegenTest {
     @Test(dataProvider = "jspecifyLibraries")
     public void testJspecify_openapiNullable(String library, int springBootVersion) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        boolean useJakarta = springBootVersion >2;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
-                Map.of(USE_JSPECIFY, true,
-                        CONTAINER_DEFAULT_TO_NULL, true,
-                        USE_BEANVALIDATION, true,
-                        GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
-                        GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
-                        CodegenConstants.OPENAPI_NULLABLE, true,
-                        INTERFACE_ONLY, false,
-                        GENERATE_BUILDERS, true,
-                        springVersionProperty, springBootVersion > 2
+                Map.ofEntries(
+                        Map.entry(USE_JSPECIFY, true),
+                        Map.entry(CONTAINER_DEFAULT_TO_NULL, true),
+                        Map.entry(USE_BEANVALIDATION, true),
+                        Map.entry(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true),
+                        Map.entry(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true),
+                        Map.entry(CodegenConstants.OPENAPI_NULLABLE, true),
+                        Map.entry(INTERFACE_ONLY, false),
+                        Map.entry(GENERATE_BUILDERS, true),
+                        Map.entry(springVersionProperty, springBootVersion > 2),
+                        Map.entry(USE_JAKARTA_EE, useJakarta),
+                        Map.entry(OPENAPI_NULLABLE_USE_PRESENT, true)
                 ),
                 codegenConfigurator ->
                         codegenConfigurator
@@ -8284,8 +8293,19 @@ public class SpringCodegenTest {
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)",
-                        " /* @Present */"
+                        "@Present(payload = Unwrapping.Skip.class)"
                 ).assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
+        if (useJakarta) {
+            JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                    .fileContains(
+                            "import jakarta.validation.valueextraction.Unwrapping;",
+                            "import org.openapitools.jackson.nullable.jakarta.Present;");
+        } else {
+            JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                    .fileContains(
+                            "import javax.validation.valueextraction.Unwrapping;",
+                            "import org.openapitools.jackson.nullable.javax.Present;");
+        }
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
