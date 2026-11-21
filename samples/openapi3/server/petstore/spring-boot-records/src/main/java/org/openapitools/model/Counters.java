@@ -139,6 +139,7 @@ public final class Counters {
 
     protected Builder copyOf(Counters value) { 
       this.instance.setId(value.id);
+      this.instance.additionalProperties = value.additionalProperties;
       return this;
     }
 

@@ -174,6 +174,11 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
     }
 
 
+    public TestInlineFreeformAdditionalPropertiesRequest.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built TestInlineFreeformAdditionalPropertiesRequest instance.
     *
@@ -206,7 +211,8 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   */
   public TestInlineFreeformAdditionalPropertiesRequest.Builder toBuilder() {
     return new TestInlineFreeformAdditionalPropertiesRequest.Builder()
-      .someProperty(getSomeProperty());
+      .someProperty(getSomeProperty())
+      .additionalProperties(getAdditionalProperties());
   }
 
 

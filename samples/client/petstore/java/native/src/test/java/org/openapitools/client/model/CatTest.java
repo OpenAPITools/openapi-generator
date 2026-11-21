@@ -66,4 +66,17 @@ class CatTest {
         // TODO: test declawed
     }
 
+    /**
+     * The shallow copy made by toBuilder() keeps the additional properties of the model.
+     */
+    @Test
+    void toBuilderKeepsAdditionalPropertiesTest() {
+        Cat cat = new Cat().className("cat").putAdditionalProperty("lives", 9);
+
+        Cat copy = cat.toBuilder().build();
+
+        Assertions.assertEquals(Map.of("lives", 9), copy.getAdditionalProperties());
+        Assertions.assertEquals(cat, copy);
+    }
+
 }

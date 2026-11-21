@@ -45,6 +45,21 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
 
     {{/parentVars}}
 
+{{#additionalPropertiesType}}
+    public {{classname}}.Builder additionalProperties(Map<String, {{{.}}}> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
+{{/additionalPropertiesType}}
+{{#vendorExtensions.x-inherited-additional-properties-type}}
+    @Override
+    public {{classname}}.Builder additionalProperties(Map<String, {{{.}}}> additionalProperties) {
+      super.additionalProperties(additionalProperties);
+      return this;
+    }
+
+{{/vendorExtensions.x-inherited-additional-properties-type}}
     /**
     * returns a built {{classname}} instance.
     *
@@ -78,5 +93,7 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
   */
   public {{classname}}.Builder toBuilder() {
     return new {{classname}}.Builder(){{#allVars}}
-      .{{name}}({{getter}}()){{/allVars}};
+      .{{name}}({{getter}}()){{/allVars}}{{#additionalPropertiesType}}
+      .additionalProperties(getAdditionalProperties()){{/additionalPropertiesType}}{{#vendorExtensions.x-inherited-additional-properties-type}}
+      .additionalProperties(getAdditionalProperties()){{/vendorExtensions.x-inherited-additional-properties-type}};
   }

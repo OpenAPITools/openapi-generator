@@ -89,6 +89,16 @@ class AdditionalPropertiesRecordsTest {
     }
 
     @Test
+    void theBuilderCopyOfAClassKeepsItsMap() {
+        Child child = new Child("child").putAdditionalProperty("extra", "a");
+
+        Child copy = child.toBuilder().build();
+
+        assertThat(copy.getAdditionalProperties()).containsOnly(Map.entry("extra", "a"));
+        assertThat(copy).isEqualTo(child);
+    }
+
+    @Test
     void aNestedRecordKeepsItsOwnMap() throws Exception {
         Holder holder = jsonMapper.readValue("{\"tagged\":{\"name\":\"n\",\"x\":\"1\"},\"loose\":{\"y\":true}}", Holder.class);
 
