@@ -69,7 +69,7 @@ public interface VehiclesApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"type\" : \"type\", \"wheels\" : 0 }";
+                    String exampleString = "{ \"type\" : \"type\", \"wheels\" : 0, \"fuel\" : \"petrol\", \"owner\" : { \"id\" : 6, \"email\" : \"email\" }, \"previousOwners\" : [ { \"id\" : 6, \"email\" : \"email\" }, { \"id\" : 6, \"email\" : \"email\" } ], \"registeredAt\" : \"2000-01-23T04:56:07.000+00:00\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: useRecords with allOf families and a Jackson default implementation
+  version: 1.0.0
+paths:
+  /ext:
+    get:
+      operationId: getExtParent
+      responses:
+        '200':
+          description: The pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtParent'
+  /opt:
+    get:
+      operationId: getOptParent
+      responses:
+        '200':
+          description: The pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OptParent'
+  /keep:
+    get:
+      operationId: getKeepParent
+      responses:
+        '200':
+          description: The pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeepParent'
+components:
+  schemas:
+    ExtParent:
+      type: object
+      x-jackson-default-impl: ExtParent
+      required: [kind]
+      discriminator:
+        propertyName: kind
+      properties:
+        kind:
+          type: string
+        name:
+          type: string
+    ExtChild:
+      allOf:
+        - $ref: '#/components/schemas/ExtParent'
+        - type: object
+          properties:
+            lives:
+              type: integer
+    OptParent:
+      type: object
+      required: [kind]
+      discriminator:
+        propertyName: kind
+      properties:
+        kind:
+          type: string
+        name:
+          type: string
+    OptChild:
+      allOf:
+        - $ref: '#/components/schemas/OptParent'
+        - type: object
+          properties:
+            lives:
+              type: integer
+    KeepParent:
+      type: object
+      x-jackson-default-impl: KeepCat
+      required: [kind]
+      discriminator:
+        propertyName: kind
+      properties:
+        kind:
+          type: string
+        name:
+          type: string
+    KeepCat:
+      allOf:
+        - $ref: '#/components/schemas/KeepParent'
+        - type: object
+          properties:
+            lives:
+              type: integer
+    KeepDog:
+      allOf:
+        - $ref: '#/components/schemas/KeepParent'
+        - type: object
+          properties:
+            barks:
+              type: boolean

@@ -1,0 +1,77 @@
+/**
+ * {{description}}{{^description}}{{classname}}{{/description}}{{#isDeprecated}}
+ * @deprecated{{/isDeprecated}}
+ */
+{{>additionalModelTypeAnnotations}}
+
+{{#isDeprecated}}
+@Deprecated
+{{/isDeprecated}}
+{{#description}}
+{{#swagger2AnnotationLibrary}}
+@Schema({{#name}}name = "{{name}}", {{/name}}description = "{{{description}}}"{{#deprecated}}, deprecated = true{{/deprecated}})
+{{/swagger2AnnotationLibrary}}
+{{/description}}
+{{#discriminator}}
+{{>typeInfoAnnotation}}
+
+{{/discriminator}}
+{{#jackson}}
+{{#isClassnameSanitized}}
+{{^hasDiscriminatorWithNonEmptyMapping}}
+@JsonTypeName("{{name}}")
+{{/hasDiscriminatorWithNonEmptyMapping}}
+{{/isClassnameSanitized}}
+{{/jackson}}
+{{>generatedAnnotation}}
+
+{{#vendorExtensions.x-class-extra-annotation}}
+{{{.}}}
+{{/vendorExtensions.x-class-extra-annotation}}
+public {{#useSealed}}{{#permits.0}}sealed {{/permits.0}}{{/useSealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
+  {{#vars}}
+    {{#isEnum}}
+    {{^isContainer}}
+
+{{>enumClass}}
+    {{/isContainer}}
+    {{#isContainer}}
+    {{#mostInnerItems}}
+
+{{>enumClass}}
+    {{/mostInnerItems}}
+    {{/isContainer}}
+    {{/isEnum}}
+  {{/vars}}
+  {{! the annotations are those of the record component in record.mustache, without the ones that Jackson reads from the component (JsonInclude, JsonSetter) and without x-field-extra-annotation: it is bound to a field, an interface has none, and an annotation that targets only fields does not compile on the accessor }}
+  {{#vars}}
+
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
+  {{^isContainer}}
+  {{#isDate}}
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+  {{/isDate}}
+  {{#isDateTime}}
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+  {{/isDateTime}}
+  {{/isContainer}}
+  {{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+  {{/vendorExtensions.x-extra-annotation}}
+  {{#vendorExtensions.x-setter-extra-annotation}}
+  {{{vendorExtensions.x-setter-extra-annotation}}}
+  {{/vendorExtensions.x-setter-extra-annotation}}
+  {{#useBeanValidation}}
+  {{>beanValidation}}{{! prevent indent}}
+  {{/useBeanValidation}}
+  {{#swagger2AnnotationLibrary}}
+  @Schema(name = "{{{baseName}}}"{{#isReadOnly}}, accessMode = Schema.AccessMode.READ_ONLY{{/isReadOnly}}{{#example}}, example = "{{{.}}}"{{/example}}{{#description}}, description = "{{{.}}}"{{/description}}{{#deprecated}}, deprecated = true{{/deprecated}}, requiredMode = {{#required}}Schema.RequiredMode.REQUIRED{{/required}}{{^required}}Schema.RequiredMode.NOT_REQUIRED{{/required}}{{#isNullable}}, nullable = true{{/isNullable}})
+  {{/swagger2AnnotationLibrary}}
+  {{#jackson}}
+{{>jackson_annotations}}
+  {{/jackson}}
+  {{>nullableAnnotation}}{{>nullableDataTypeBeanValidation}} {{name}}();
+  {{/vars}}
+}

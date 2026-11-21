@@ -54,7 +54,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 
 {{/isEnum}}
 {{^isEnum}}
-{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{#vendorExtensions.x-is-record}}{{>record}}{{/vendorExtensions.x-is-record}}{{^vendorExtensions.x-is-record}}{{>pojo}}{{/vendorExtensions.x-is-record}}{{/vendorExtensions.x-is-one-of-interface}}
+{{#vendorExtensions.x-is-one-of-interface}}{{>oneof_interface}}{{/vendorExtensions.x-is-one-of-interface}}{{^vendorExtensions.x-is-one-of-interface}}{{#vendorExtensions.x-is-record}}{{>record}}{{/vendorExtensions.x-is-record}}{{#vendorExtensions.x-is-record-interface}}{{>recordInterface}}{{/vendorExtensions.x-is-record-interface}}{{^vendorExtensions.x-is-record}}{{^vendorExtensions.x-is-record-interface}}{{>pojo}}{{/vendorExtensions.x-is-record-interface}}{{/vendorExtensions.x-is-record}}{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: useRecords with a field-only annotation on the parent of an allOf family
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: The stored pet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    # name carries an annotation that targets fields only; weight one that targets fields and methods
+    Pet:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+          x-field-extra-annotation: '@example.FieldOnly'
+        weight:
+          type: integer
+          x-field-extra-annotation: '@example.FieldAndMethod'
+          x-extra-annotation: '@example.OnGetter'
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    Cat:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            lives:
+              type: integer
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            bark:
+              type: string

@@ -278,15 +278,41 @@ components:
       discriminator:
         mapping:
           car: "#/components/schemas/Car"
+          bike: "#/components/schemas/Bike"
         propertyName: type
       example:
         type: type
         wheels: 0
+        fuel: petrol
+        owner:
+          id: 6
+          email: email
+        previousOwners:
+        - id: 6
+          email: email
+        - id: 6
+          email: email
+        registeredAt: 2000-01-23T04:56:07.000+00:00
       properties:
         type:
           type: string
         wheels:
           type: integer
+        fuel:
+          default: petrol
+          enum:
+          - petrol
+          - diesel
+          type: string
+        owner:
+          $ref: "#/components/schemas/Owner"
+        previousOwners:
+          items:
+            $ref: "#/components/schemas/Owner"
+          type: array
+        registeredAt:
+          format: date-time
+          type: string
       required:
       - type
       type: object
@@ -297,6 +323,9 @@ components:
           doors:
             type: integer
         type: object
+    Bike:
+      allOf:
+      - $ref: "#/components/schemas/Vehicle"
     Counters:
       additionalProperties:
         type: integer

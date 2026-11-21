@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: useRecords with an allOf family whose parent name is not in the discriminator mapping
+  version: 1.0.0
+paths:
+  /gadgets:
+    post:
+      operationId: addGadget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Gadget'
+      responses:
+        '200':
+          description: The stored gadget
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gadget'
+components:
+  schemas:
+    Gadget:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        label:
+          type: string
+      discriminator:
+        propertyName: kind
+        mapping:
+          robot: '#/components/schemas/Robot'
+          drone: '#/components/schemas/Drone'
+    Robot:
+      allOf:
+        - $ref: '#/components/schemas/Gadget'
+        - type: object
+          properties:
+            legs:
+              type: integer
+    Drone:
+      allOf:
+        - $ref: '#/components/schemas/Gadget'
+        - type: object
+          properties:
+            rotors:
+              type: integer
