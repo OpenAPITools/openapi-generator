@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Record components whose annotations would clash
+  version: 1.0.0
+paths:
+  /param:
+    get:
+      operationId: getParam
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/ClashParam'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    ClashViews:
+      type: object
+      properties:
+        p:
+          type: string
+          x-extra-annotation: '@com.fasterxml.jackson.annotation.JsonView(Object.class)'
+          x-setter-extra-annotation: '@com.fasterxml.jackson.annotation.JsonView(String.class)'
+    ClashJsonProperty:
+      type: object
+      properties:
+        p:
+          type: string
+          x-field-extra-annotation: '@com.fasterxml.jackson.annotation.JsonProperty(access = com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY)'
+    ClashSchema:
+      type: object
+      properties:
+        p:
+          type: string
+          x-field-extra-annotation: '@io.swagger.v3.oas.annotations.media.Schema(description = "x")'
+    ClashDeserialize:
+      type: object
+      properties:
+        p:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          x-field-extra-annotation: '@com.fasterxml.jackson.databind.annotation.JsonDeserialize(contentAs = String.class)'
+    ClashDeprecated:
+      type: object
+      properties:
+        p:
+          type: string
+          deprecated: true
+          x-field-extra-annotation: '@Deprecated'
+    ClashValidation:
+      type: object
+      properties:
+        p:
+          type: object
+          properties:
+            v:
+              type: string
+          x-field-extra-annotation: '@jakarta.validation.Valid'
+    Repeatable:
+      type: object
+      required:
+        - c
+      properties:
+        a:
+          type: string
+          x-field-extra-annotation: '@jakarta.validation.constraints.Size(max = 50)'
+        b:
+          type: string
+          x-field-extra-annotation: '@jakarta.validation.constraints.NotNull'
+        c:
+          type: string
+          maxLength: 10
+          x-field-extra-annotation: '@jakarta.validation.constraints.Size(max = 50)'
+    NullableRequired:
+      type: object
+      required:
+        - p
+      properties:
+        p:
+          type: string
+          x-field-extra-annotation: '@jakarta.annotation.Nullable'
+    NullableOptional:
+      type: object
+      properties:
+        p:
+          type: string
+          x-field-extra-annotation: '@jakarta.annotation.Nullable'
+    ClashListAndQualified:
+      type: object
+      properties:
+        p:
+          type: string
+          x-field-extra-annotation:
+            - '@Audited'
+            - '@com.acme.Tagged("a") @com.acme.Masked("b")'
+          x-extra-annotation: '@acme.Masked'
+    ClashParam:
+      type: object
+      properties:
+        p:
+          type: string
+          x-extra-annotation: '@com.fasterxml.jackson.annotation.JsonView(Object.class)'
+          x-setter-extra-annotation: '@com.fasterxml.jackson.annotation.JsonView(String.class)'
+        inner:
+          $ref: '#/components/schemas/ClashInner'
+    ClashInner:
+      type: object
+      properties:
+        v:
+          type: string
+    Quiet:
+      type: object
+      properties:
+        p:
+          type: string
+          x-field-extra-annotation: '@com.fasterxml.jackson.annotation.JsonView(Object.class)'
+          x-extra-annotation: '@javax.annotation.Nonnull'
+          x-setter-extra-annotation: '@Audited'
+        r:
+          type: string
+          x-field-extra-annotation: '@Deprecated'
+    Argument:
+      type: object
+      properties:
+        q:
+          type: string
+          x-field-extra-annotation:
+            - '@Audited'
+            - '@Tagged("@Masked)") @Other'
+          x-extra-annotation: '@Masked'
+    NestedArgument:
+      type: object
+      properties:
+        s:
+          type: string
+          x-field-extra-annotation: '@Audited(@Masked)'
+          x-extra-annotation: '@Masked'
+    Literal:
+      type: object
+      properties:
+        e:
+          type: string
+          x-field-extra-annotation: '@Tagged("a@b.c")'
+          x-extra-annotation: '@Mailed(to = "x@y.z")'
+    Odd:
+      type: object
+      properties:
+        a:
+          type: string
+          x-field-extra-annotation: '@'
+          x-extra-annotation: '@('
+          x-setter-extra-annotation: '@Open("'
+        b:
+          type: string
+          x-field-extra-annotation: 5
+          x-extra-annotation: ''
+          x-setter-extra-annotation: '   '
+        c:
+          type: string
+          x-field-extra-annotation: []
+          x-extra-annotation: null
+          x-setter-extra-annotation: '/* @Masked'
+        d:
+          type: string
+          x-field-extra-annotation:
+            a: '@Masked'
+          x-extra-annotation: '@@@ ) ( @'
+          x-setter-extra-annotation: "'@"
