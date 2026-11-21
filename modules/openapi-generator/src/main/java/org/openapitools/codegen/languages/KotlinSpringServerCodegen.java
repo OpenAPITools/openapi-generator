@@ -36,6 +36,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.SourceStringEscaper;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.utils.JsonAnnotationPolicyUtils;
 import org.openapitools.codegen.utils.JsonIncludePolicy;
@@ -1161,7 +1162,38 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
+                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""))
+                .put("kotlinStringLiteral", (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringLiteral(fragment.execute())))
+                .put("kotlinStringContent", (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringContent(fragment.execute())))
+                .put("kotlinDocText", (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty property, Schema schema) {
+        String value = super.toDefaultValue(property, schema);
+        Schema resolved = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (resolved != null && ModelUtils.isURISchema(resolved)
+                && resolved.getDefault() instanceof String) {
+            return "java.net.URI.create(" + SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault()) + ")";
+        }
+        if (resolved != null && ModelUtils.isStringSchema(resolved)
+                && !ModelUtils.isURISchema(resolved)
+                && (resolved.getEnum() == null || resolved.getEnum().isEmpty())
+                && resolved.getDefault() instanceof String) {
+            return SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault());
+        }
+        return value;
+    }
+
+    @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
+        if (parameter.hasDefaultValue) {
+            parameter.vendorExtensions.put("x-spring-form-default-not-applied", true);
+            LOGGER.warn("OpenAPI default for form parameter '{}' is not applied when the field is omitted; "
+                    + "the generated Spring binding does not apply it.", parameter.baseName);
+        }
+        return parameter;
     }
 
     @Override
@@ -2020,7 +2052,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         if (isEnumDiscriminator) {
                             p.defaultValue = dataType + "." + toEnumVarName(discriminatorValue, dataType);
                         } else {
-                            p.defaultValue = "\"" + escapeText(discriminatorValue) + "\"";
+                            p.defaultValue = SourceStringEscaper.kotlinStringLiteral(discriminatorValue);
                         }
                     }
                 });

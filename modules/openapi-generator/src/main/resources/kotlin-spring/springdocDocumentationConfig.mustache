@@ -18,34 +18,34 @@ class SpringDocConfiguration {
         return OpenAPI()
             .info(
                 Info(){{#appName}}
-                    .title("{{appName}}"){{/appName}}
-                    .description("{{{appDescription}}}"){{#termsOfService}}
-                    .termsOfService("{{termsOfService}}"){{/termsOfService}}{{#openAPI}}{{#info}}{{#contact}}
+                    .title({{#lambda.kotlinStringLiteral}}{{{appNameRaw}}}{{/lambda.kotlinStringLiteral}}){{/appName}}
+                    .description({{#lambda.kotlinStringLiteral}}{{{unescapedAppDescription}}}{{/lambda.kotlinStringLiteral}}){{#termsOfService}}
+                    .termsOfService({{#lambda.kotlinStringLiteral}}{{{termsOfServiceRaw}}}{{/lambda.kotlinStringLiteral}}){{/termsOfService}}{{#openAPI}}{{#info}}{{#contact}}
                     .contact(
                         Contact(){{#infoName}}
-                            .name("{{infoName}}"){{/infoName}}{{#infoUrl}}
-                            .url("{{infoUrl}}"){{/infoUrl}}{{#infoEmail}}
-                            .email("{{infoEmail}}"){{/infoEmail}}
+                            .name({{#lambda.kotlinStringLiteral}}{{{infoNameRaw}}}{{/lambda.kotlinStringLiteral}}){{/infoName}}{{#infoUrl}}
+                            .url({{#lambda.kotlinStringLiteral}}{{{infoUrlRaw}}}{{/lambda.kotlinStringLiteral}}){{/infoUrl}}{{#infoEmail}}
+                            .email({{#lambda.kotlinStringLiteral}}{{{infoEmailRaw}}}{{/lambda.kotlinStringLiteral}}){{/infoEmail}}
                     ){{/contact}}{{#license}}
                     .license(
                         License()
-                            {{#licenseInfo}}.name("{{licenseInfo}}")
-                            {{/licenseInfo}}{{#licenseUrl}}.url("{{licenseUrl}}")
+                            {{#licenseInfo}}.name({{#lambda.kotlinStringLiteral}}{{{licenseInfoRaw}}}{{/lambda.kotlinStringLiteral}})
+                            {{/licenseInfo}}{{#licenseUrl}}.url({{#lambda.kotlinStringLiteral}}{{{licenseUrlRaw}}}{{/lambda.kotlinStringLiteral}})
                             {{/licenseUrl}}
                     ){{/license}}{{/info}}{{/openAPI}}
-                    .version("{{appVersion}}")
+                    .version({{#lambda.kotlinStringLiteral}}{{{appVersionRaw}}}{{/lambda.kotlinStringLiteral}})
             ){{#hasAuthMethods}}
             .components(
                 Components(){{#authMethods}}
-                    .addSecuritySchemes("{{name}}", SecurityScheme(){{#isBasic}}
+                    .addSecuritySchemes({{#lambda.kotlinStringLiteral}}{{{name}}}{{/lambda.kotlinStringLiteral}}, SecurityScheme(){{#isBasic}}
                         .type(SecurityScheme.Type.HTTP)
-                        .scheme("{{scheme}}"){{#bearerFormat}}
-                        .bearerFormat("{{bearerFormat}}"){{/bearerFormat}}{{/isBasic}}{{#isApiKey}}
+                        .scheme({{#lambda.kotlinStringLiteral}}{{{scheme}}}{{/lambda.kotlinStringLiteral}}){{#bearerFormat}}
+                        .bearerFormat({{#lambda.kotlinStringLiteral}}{{{bearerFormat}}}{{/lambda.kotlinStringLiteral}}){{/bearerFormat}}{{/isBasic}}{{#isApiKey}}
                         .type(SecurityScheme.Type.APIKEY){{#isKeyInHeader}}
                         .`in`(SecurityScheme.In.HEADER){{/isKeyInHeader}}{{#isKeyInQuery}}
                         .`in`(SecurityScheme.In.QUERY){{/isKeyInQuery}}{{#isKeyInCookie}}
                         .`in`(SecurityScheme.In.COOKIE){{/isKeyInCookie}}
-                        .name("{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
+                        .name({{#lambda.kotlinStringLiteral}}{{{keyParamName}}}{{/lambda.kotlinStringLiteral}}){{/isApiKey}}{{#isOAuth}}
                         .type(SecurityScheme.Type.OAUTH2){{/isOAuth}}
                     ){{/authMethods}}
             ){{/hasAuthMethods}}

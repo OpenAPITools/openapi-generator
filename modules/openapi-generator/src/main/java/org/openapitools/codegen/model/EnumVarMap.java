@@ -14,6 +14,8 @@ public class EnumVarMap extends HashMap<String, Object> {
     public static final String ENUM_NAME = "name";
     // The language-specific value emitted by a template
     public static final String ENUM_VALUE = "value";
+    // The unescaped enum value from the OpenAPI specification
+    public static final String ENUM_VALUE_RAW = "valueRaw";
     // The original, unformatted value from the OpenAPI specification
     public static final String ENUM_RAW_VALUE = "rawValue";
     // If the enum is typed as a string
@@ -49,6 +51,10 @@ public class EnumVarMap extends HashMap<String, Object> {
 
     public void setEnumValue(String value) {
         put(ENUM_VALUE, value);
+    }
+
+    public void setEnumValueRaw(String value) {
+        put(ENUM_VALUE_RAW, value);
     }
 
     public Object getEnumValue() {
