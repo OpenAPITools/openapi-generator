@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_integer", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumIntegerEnum? NotrequiredNullableEnumInteger
+        public NotrequiredNullableEnumIntegerEnum NotrequiredNullableEnumInteger
         {
             get{ return _NotrequiredNullableEnumInteger;}
             set
@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumInteger = true;
             }
         }
-        private NotrequiredNullableEnumIntegerEnum? _NotrequiredNullableEnumInteger;
+        private NotrequiredNullableEnumIntegerEnum _NotrequiredNullableEnumInteger;
         private bool _flagNotrequiredNullableEnumInteger;
 
         /// <summary>
@@ -179,8 +179,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableEnumInteger
         /// </summary>
 
-        [DataMember(Name = "notrequired_notnullable_enum_integer", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumIntegerEnum? NotrequiredNotnullableEnumInteger
+        [DataMember(Name = "notrequired_notnullable_enum_integer", EmitDefaultValue = true)]
+        public NotrequiredNotnullableEnumIntegerEnum NotrequiredNotnullableEnumInteger
         {
             get{ return _NotrequiredNotnullableEnumInteger;}
             set
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumInteger = true;
             }
         }
-        private NotrequiredNotnullableEnumIntegerEnum? _NotrequiredNotnullableEnumInteger;
+        private NotrequiredNotnullableEnumIntegerEnum _NotrequiredNotnullableEnumInteger;
         private bool _flagNotrequiredNotnullableEnumInteger;
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_integer_only", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumIntegerOnlyEnum? NotrequiredNullableEnumIntegerOnly
+        public NotrequiredNullableEnumIntegerOnlyEnum NotrequiredNullableEnumIntegerOnly
         {
             get{ return _NotrequiredNullableEnumIntegerOnly;}
             set
@@ -317,7 +317,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumIntegerOnly = true;
             }
         }
-        private NotrequiredNullableEnumIntegerOnlyEnum? _NotrequiredNullableEnumIntegerOnly;
+        private NotrequiredNullableEnumIntegerOnlyEnum _NotrequiredNullableEnumIntegerOnly;
         private bool _flagNotrequiredNullableEnumIntegerOnly;
 
         /// <summary>
@@ -349,8 +349,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableEnumIntegerOnly
         /// </summary>
 
-        [DataMember(Name = "notrequired_notnullable_enum_integer_only", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumIntegerOnlyEnum? NotrequiredNotnullableEnumIntegerOnly
+        [DataMember(Name = "notrequired_notnullable_enum_integer_only", EmitDefaultValue = true)]
+        public NotrequiredNotnullableEnumIntegerOnlyEnum NotrequiredNotnullableEnumIntegerOnly
         {
             get{ return _NotrequiredNotnullableEnumIntegerOnly;}
             set
@@ -359,7 +359,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumIntegerOnly = true;
             }
         }
-        private NotrequiredNotnullableEnumIntegerOnlyEnum? _NotrequiredNotnullableEnumIntegerOnly;
+        private NotrequiredNotnullableEnumIntegerOnlyEnum _NotrequiredNotnullableEnumIntegerOnly;
         private bool _flagNotrequiredNotnullableEnumIntegerOnly;
 
         /// <summary>
@@ -593,7 +593,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_enum_string", EmitDefaultValue = true)]
-        public NotrequiredNullableEnumStringEnum? NotrequiredNullableEnumString
+        public NotrequiredNullableEnumStringEnum NotrequiredNullableEnumString
         {
             get{ return _NotrequiredNullableEnumString;}
             set
@@ -602,7 +602,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableEnumString = true;
             }
         }
-        private NotrequiredNullableEnumStringEnum? _NotrequiredNullableEnumString;
+        private NotrequiredNullableEnumStringEnum _NotrequiredNullableEnumString;
         private bool _flagNotrequiredNullableEnumString;
 
         /// <summary>
@@ -673,8 +673,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableEnumString
         /// </summary>
 
-        [DataMember(Name = "notrequired_notnullable_enum_string", EmitDefaultValue = false)]
-        public NotrequiredNotnullableEnumStringEnum? NotrequiredNotnullableEnumString
+        [DataMember(Name = "notrequired_notnullable_enum_string", EmitDefaultValue = true)]
+        public NotrequiredNotnullableEnumStringEnum NotrequiredNotnullableEnumString
         {
             get{ return _NotrequiredNotnullableEnumString;}
             set
@@ -683,7 +683,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableEnumString = true;
             }
         }
-        private NotrequiredNotnullableEnumStringEnum? _NotrequiredNotnullableEnumString;
+        private NotrequiredNotnullableEnumStringEnum _NotrequiredNotnullableEnumString;
         private bool _flagNotrequiredNotnullableEnumString;
 
         /// <summary>
@@ -752,7 +752,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
 
         [DataMember(Name = "notrequired_nullable_outerEnumDefaultValue", EmitDefaultValue = true)]
-        public OuterEnumDefaultValue? NotrequiredNullableOuterEnumDefaultValue
+        public OuterEnumDefaultValue NotrequiredNullableOuterEnumDefaultValue
         {
             get{ return _NotrequiredNullableOuterEnumDefaultValue;}
             set
@@ -761,7 +761,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNullableOuterEnumDefaultValue = true;
             }
         }
-        private OuterEnumDefaultValue? _NotrequiredNullableOuterEnumDefaultValue;
+        private OuterEnumDefaultValue _NotrequiredNullableOuterEnumDefaultValue;
         private bool _flagNotrequiredNullableOuterEnumDefaultValue;
 
         /// <summary>
@@ -777,8 +777,8 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NotrequiredNotnullableOuterEnumDefaultValue
         /// </summary>
 
-        [DataMember(Name = "notrequired_notnullable_outerEnumDefaultValue", EmitDefaultValue = false)]
-        public OuterEnumDefaultValue? NotrequiredNotnullableOuterEnumDefaultValue
+        [DataMember(Name = "notrequired_notnullable_outerEnumDefaultValue", EmitDefaultValue = true)]
+        public OuterEnumDefaultValue NotrequiredNotnullableOuterEnumDefaultValue
         {
             get{ return _NotrequiredNotnullableOuterEnumDefaultValue;}
             set
@@ -787,7 +787,7 @@ namespace Org.OpenAPITools.Model
                 _flagNotrequiredNotnullableOuterEnumDefaultValue = true;
             }
         }
-        private OuterEnumDefaultValue? _NotrequiredNotnullableOuterEnumDefaultValue;
+        private OuterEnumDefaultValue _NotrequiredNotnullableOuterEnumDefaultValue;
         private bool _flagNotrequiredNotnullableOuterEnumDefaultValue;
 
         /// <summary>
@@ -1110,7 +1110,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
-        [DataMember(Name = "not_required_notnullableinteger_prop", EmitDefaultValue = false)]
+        [DataMember(Name = "not_required_notnullableinteger_prop", EmitDefaultValue = true)]
         public int NotRequiredNotnullableintegerProp
         {
             get{ return _NotRequiredNotnullableintegerProp;}
@@ -1158,7 +1158,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets RequiredNotnullableStringProp
         /// </summary>
-        [DataMember(Name = "required_notnullable_string_prop", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "required_notnullable_string_prop", IsRequired = true, EmitDefaultValue = false)]
         public string RequiredNotnullableStringProp
         {
             get{ return _RequiredNotnullableStringProp;}
@@ -1352,7 +1352,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RequiredNotNullableDateProp
         /// </summary>
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        [DataMember(Name = "required_not_nullable_date_prop", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "required_not_nullable_date_prop", IsRequired = true, EmitDefaultValue = false)]
         public DateTime RequiredNotNullableDateProp
         {
             get{ return _RequiredNotNullableDateProp;}
@@ -1426,7 +1426,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets RequiredNotnullableDatetimeProp
         /// </summary>
-        [DataMember(Name = "required_notnullable_datetime_prop", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "required_notnullable_datetime_prop", IsRequired = true, EmitDefaultValue = false)]
         public DateTime RequiredNotnullableDatetimeProp
         {
             get{ return _RequiredNotnullableDatetimeProp;}
@@ -1552,7 +1552,7 @@ namespace Org.OpenAPITools.Model
         /*
         <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         */
-        [DataMember(Name = "required_notnullable_uuid", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "required_notnullable_uuid", IsRequired = true, EmitDefaultValue = false)]
         public Guid RequiredNotnullableUuid
         {
             get{ return _RequiredNotnullableUuid;}
@@ -1654,7 +1654,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets RequiredNotnullableArrayOfString
         /// </summary>
-        [DataMember(Name = "required_notnullable_array_of_string", IsRequired = true, EmitDefaultValue = true)]
+        [DataMember(Name = "required_notnullable_array_of_string", IsRequired = true, EmitDefaultValue = false)]
         public List<string> RequiredNotnullableArrayOfString
         {
             get{ return _RequiredNotnullableArrayOfString;}
