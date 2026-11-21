@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: Defaults on referenced string enums
+  version: '1.0'
+paths: {}
+components:
+  schemas:
+    JoinCriteria:
+      type: string
+      enum: [ALL, AT_LEAST]
+    EscapedChoice:
+      type: string
+      enum:
+        - '"quoted"'
+        - 'slash\path'
+        - ''
+      x-enum-varnames: [QUOTED, SLASH, EMPTY]
+    ObjectUsingEnum:
+      type: object
+      properties:
+        criteria:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/JoinCriteria'
+          default: AT_LEAST
+        quoted:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/EscapedChoice'
+          default: '"quoted"'
+        backslash:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/EscapedChoice'
+          default: 'slash\path'
+        empty:
+          type: string
+          allOf:
+            - $ref: '#/components/schemas/EscapedChoice'
+          default: ''
+        inferred:
+          allOf:
+            - $ref: '#/components/schemas/JoinCriteria'
+          default: AT_LEAST
+        inlineChoice:
+          type: string
+          enum: [ALL, AT_LEAST]
+          default: AT_LEAST
+        plain:
+          type: string
+          default: plain value
