@@ -209,4 +209,49 @@ public class PhpClientCodegenTest {
         Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
     }
+
+    @Test(description = "Issue #25354: allOf-wrapped array items and parameters keep the model namespace")
+    public void testAllOfWrappedArrayItemsAndParametersKeepModelNamespace() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_25354.yaml", null, new ParseOptions()).getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        List<String> modelContent = Files
+                .readAllLines(files.get("ThingList.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        Assert.assertListContains(modelContent,
+                a -> a.equals("'errors_wrapped' => '\\OpenAPI\\Client\\Model\\Error[]',"),
+                "an allOf-wrapped array item must be typed with its qualified model class");
+        Assert.assertListContains(modelContent,
+                a -> a.equals("'errors_plain' => '\\OpenAPI\\Client\\Model\\Error[]',"),
+                "a plain $ref array item keeps its qualified model class");
+        Assert.assertListNotContains(modelContent, a -> a.contains("OpenAPIClientModel"), "");
+
+        List<String> apiContent = Files
+                .readAllLines(files.get("DefaultApi.php").toPath())
+                .stream()
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        // the php generator leaves parameters untyped in the signature; the docblock carries the type
+        Assert.assertListContains(apiContent,
+                a -> a.contains("\\OpenAPI\\Client\\Model\\SortDir|null $sort"),
+                "an allOf-wrapped parameter must be documented with its qualified model class");
+        Assert.assertListNotContains(apiContent, a -> a.contains("OpenAPIClientModel"), "");
+    }
 }

@@ -2460,3 +2460,13 @@ components:
         - $ref: '#/components/schemas/Mammal'
         - $ref: '#/components/schemas/Reptile'
 
+    AllOfRefArray:
+      # issue 25354: array items wrapped in a single-member allOf must keep the
+      # model's namespace (\OpenAPI\Client\Model\Tag[], not \OpenAPIClientModelTag[])
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Tag'

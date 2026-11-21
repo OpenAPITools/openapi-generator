@@ -130,6 +130,7 @@ Class | Method | HTTP request | Description
 ## Models
 
 - [AdditionalPropertiesClass](docs/Model/AdditionalPropertiesClass.md)
+- [AllOfRefArray](docs/Model/AllOfRefArray.md)
 - [AllOfWithSingleRef](docs/Model/AllOfWithSingleRef.md)
 - [Animal](docs/Model/Animal.md)
 - [ApiResponse](docs/Model/ApiResponse.md)
