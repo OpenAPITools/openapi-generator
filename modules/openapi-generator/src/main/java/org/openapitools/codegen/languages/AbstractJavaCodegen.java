@@ -1666,7 +1666,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     _default = String.valueOf(schema.getDefault());
                 }
 
-                if (schema.getEnum() == null) {
+                if (schema.getEnum() == null && !cp.getIsEnumOrRef()) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
                     // convert to enum var name later in postProcessModels
