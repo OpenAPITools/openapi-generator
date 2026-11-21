@@ -55,6 +55,17 @@ components:
           scopes:
             'scope$"name': 'Scope description $ " \u002a/'
   schemas:
+    MultilineExample:
+      type: object
+      required:
+        - required
+      properties:
+        optional:
+          type: string
+          example: "first line\nsecond \"line\" $ \\ \ttab"
+        required:
+          type: string
+          example: "line one\r\nline two"
     UriDefault:
       type: object
       properties:

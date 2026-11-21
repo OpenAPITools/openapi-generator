@@ -4838,6 +4838,24 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(service, "@param label  (optional, default to plain)");
     }
 
+    @Test(description = "property examples keep line breaks and are escaped as Kotlin string literals")
+    public void propertyExamplesPreserveLineBreaks() throws IOException {
+        final String input = "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml";
+
+        Path swagger2Model = generateFromContract(input).get("MultilineExample.kt").toPath();
+        assertFileContains(swagger2Model,
+                "@Schema(example = \"first line\\nsecond \\\"line\\\" \\$ \\\\ \\ttab\", description = \"\")",
+                "@Schema(example = \"line one\\r\\nline two\", required = true, description = \"\")");
+
+        Path swagger1Model = generateFromContract(input, Map.of(
+                ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER1.toCliOptValue(),
+                DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue()))
+                .get("MultilineExample.kt").toPath();
+        assertFileContains(swagger1Model,
+                "@ApiModelProperty(example = \"first line\\nsecond \\\"line\\\" \\$ \\\\ \\ttab\", value = \"\")",
+                "@ApiModelProperty(example = \"line one\\r\\nline two\", required = true, value = \"\")");
+    }
+
     private void assertKotlinEscapedPaths(File source) throws IOException {
         assertFileContains(source.toPath(),
                 "@RequestMapping(\"\\${api.base-path:/server-\\$context}\")",
