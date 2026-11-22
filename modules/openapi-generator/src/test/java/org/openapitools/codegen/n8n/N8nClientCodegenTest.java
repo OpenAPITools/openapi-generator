@@ -622,8 +622,8 @@ public class N8nClientCodegenTest {
      * into one field per top-level property instead of exposed as a single opaque {@code json}
      * field - data-model.md's "Operation" entity documents {@code fields} as coming from
      * "parameters + flattened request body schema," and FR-004 requires translating request
-     * body fields with the same care as parameters. Uses Petstore's own {@code
-     * addPet}/{@code Pet} body (properties: id, category, name, photoUrls, tags, status).
+     * body fields with the same care as parameters. Uses Petstore's own {@code addPet}/{@code
+     * Pet} body (properties: id, category, name, photoUrls, tags, status).
      */
     @Test
     public void flattensJsonObjectRequestBodyIntoIndividualFields() throws IOException {
@@ -649,6 +649,57 @@ public class N8nClientCodegenTest {
             Assert.assertTrue(branch.contains("body['name'] = this.getNodeParameter('name', i);"));
             Assert.assertTrue(branch.contains("body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);"),
                     "a flattened array property must still extract collection values, not pass the raw parameter through");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Regression test for a bug found while implementing T068: {@code CodegenProperty}'s (and,
+     * for parameters, the equivalent {@code toDefaultParameterValue}-derived) {@code
+     * defaultValue} is the literal string {@code "null"} - not Java {@code null} - when the
+     * schema declares no default. Without normalizing this, a parameter/property with no
+     * declared default rendered a confusing literal {@code default: null} (numbers) or
+     * {@code default: 'null'} (strings - the text "null" pre-filled into the field) instead of
+     * falling back to the generic filler every other no-default field already gets.
+     */
+    @Test
+    public void rendersGenericFillerWhenNoDefaultDeclaredNotLiteralNullString() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "no-declared-defaults.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: no declared defaults test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /widgets/{widgetId}:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidget\n"
+                    + "      parameters:\n"
+                    + "        - name: widgetId\n"
+                    + "          in: path\n"
+                    + "          required: true\n"
+                    + "          schema:\n"
+                    + "            type: integer\n"
+                    + "        - name: label\n"
+                    + "          in: query\n"
+                    + "          schema:\n"
+                    + "            type: string\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+            String nodeSource = readNodeSource(outputDir);
+
+            Assert.assertTrue(fieldDefaultBlock(nodeSource, "widgetId").contains("default: 0"),
+                    "a number parameter with no declared default must use the generic '0' filler, not a literal null");
+            Assert.assertTrue(fieldDefaultBlock(nodeSource, "label").contains("default: ''"),
+                    "a string parameter with no declared default must use the generic '' filler, not the literal text 'null'");
         } finally {
             deleteRecursively(target);
         }
@@ -985,6 +1036,48 @@ public class N8nClientCodegenTest {
             String branch = nodeSource.substring(branchStart, branchEnd);
             Assert.assertTrue(branch.contains("Object.assign(body,"),
                     "the whole array-of-objects body must still be merged as one parameter, unaffected by T068's per-property flattening (which only applies to plain object bodies)");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Regression test for T071 (convergence): a flattened body property (T068) must not share
+     * its n8n-internal field name with another parameter already on the same operation.
+     * Petstore's own {@code updateUser} is the concrete case: its path parameter {@code
+     * username} (from {@code /user/{username}}) and its {@code User} body's own {@code
+     * username} property would otherwise collide. The real JSON body key (`body['username']`)
+     * must stay correct even though the n8n-internal parameter key backing it is disambiguated.
+     */
+    @Test
+    public void disambiguatesFlattenedBodyPropertyCollidingWithAnotherParameter() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            generate(target);
+            String nodeSource = readNodeSource(target);
+
+            int branchStart = nodeSource.indexOf("operation === 'updateUser'");
+            Assert.assertTrue(branchStart >= 0, "expected an execute() branch for updateUser");
+            int branchEnd = nodeSource.indexOf("apiRequest.call(", branchStart);
+            String branch = nodeSource.substring(branchStart, branchEnd);
+
+            Assert.assertTrue(branch.contains("path.replace('{' + 'username' + '}', encodeURIComponent(this.getNodeParameter('username', i)"),
+                    "the path parameter must keep reading from its own, undisambiguated 'username' n8n parameter");
+
+            int bodyUsernameIndex = branch.indexOf("body['username'] = this.getNodeParameter('");
+            Assert.assertTrue(bodyUsernameIndex >= 0, "expected a body['username'] assignment");
+            int quoteStart = branch.indexOf('\'', bodyUsernameIndex + "body['username'] = this.getNodeParameter(".length());
+            int quoteEnd = branch.indexOf('\'', quoteStart + 1);
+            String bodyUsernameParamName = branch.substring(quoteStart + 1, quoteEnd);
+            Assert.assertNotEquals(bodyUsernameParamName, "username",
+                    "the body's own 'username' property must read from a disambiguated n8n parameter, not the same one the path parameter uses");
+
+            // The real JSON body key sent to the API must still be 'username', regardless of
+            // which disambiguated n8n-internal parameter name backs it.
+            Assert.assertTrue(branch.contains("body['username'] = this.getNodeParameter('" + bodyUsernameParamName + "', i);"));
+
+            String fieldBlock = fieldBlockForOperation(nodeSource, bodyUsernameParamName, "updateUser");
+            Assert.assertTrue(fieldBlock.length() > 0, "expected a field definition for the disambiguated body username property");
         } finally {
             deleteRecursively(target);
         }

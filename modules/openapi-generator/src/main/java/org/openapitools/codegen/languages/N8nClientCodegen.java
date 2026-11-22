@@ -287,13 +287,30 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * existing per-key-assignment branch - correct regardless of the property's own shape,
      * since flattening already gives it its own key, unlike the old whole-body case where
      * {@code Object.assign} existed specifically to avoid double-nesting a nameless body).
+     * <p>
+     * Disambiguates a flattened property's {@code paramName} when it collides with another,
+     * non-body parameter already on the same operation (T071, convergence fix) - e.g.
+     * Petstore's own {@code updateUser}, whose path parameter {@code username} (from
+     * {@code /user/{username}}) collides with its {@code User} body's own {@code username}
+     * property. Only {@code paramName} (the n8n-internal {@code name:}/{@code
+     * getNodeParameter(...)} key) is disambiguated, with a suffix mirroring {@link
+     * #sanitizeTag}'s identical pattern for the analogous Resource-tag collision - {@code
+     * baseName} (the literal JSON key written into the request body) is left untouched, since
+     * renaming it would send the wrong key to the real API.
      */
     private List<CodegenParameter> flattenBodyProperties(List<CodegenParameter> allParams) {
+        Set<String> otherParamNames = new HashSet<>();
+        for (CodegenParameter p : allParams) {
+            if (!Boolean.TRUE.equals(p.isBodyParam)) {
+                otherParamNames.add(p.paramName);
+            }
+        }
+
         List<CodegenParameter> flattened = new ArrayList<>();
         for (CodegenParameter p : allParams) {
             if (isFlattenableObjectBody(p)) {
                 for (CodegenProperty prop : p.vars) {
-                    flattened.add(bodyPropertyToParameter(prop));
+                    flattened.add(bodyPropertyToParameter(prop, otherParamNames));
                 }
             } else {
                 flattened.add(p);
@@ -310,11 +327,18 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 && p.vars != null && !p.vars.isEmpty();
     }
 
-    private CodegenParameter bodyPropertyToParameter(CodegenProperty prop) {
+    private CodegenParameter bodyPropertyToParameter(CodegenProperty prop, Set<String> otherParamNames) {
         CodegenParameter param = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
         param.baseName = prop.baseName;
-        param.paramName = toParamName(prop.baseName);
-        param.description = prop.description;
+        String paramName = toParamName(prop.baseName);
+        boolean collides = otherParamNames.contains(paramName);
+        if (collides) {
+            paramName = paramName + "_" + Integer.toHexString(prop.baseName.hashCode());
+        }
+        param.paramName = paramName;
+        param.description = collides
+                ? ((prop.description != null && !prop.description.isEmpty()) ? prop.description : prop.baseName) + " (request body)"
+                : prop.description;
         param.dataType = prop.dataType;
         param.baseType = prop.baseType;
         param.isArray = prop.isArray;

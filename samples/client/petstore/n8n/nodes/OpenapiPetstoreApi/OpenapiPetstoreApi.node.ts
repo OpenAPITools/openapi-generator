@@ -871,8 +871,8 @@ export class OpenapiPetstoreApi implements INodeType {
 				description: "id",
 			},
 			{
-				displayName: "username",
-				name: 'username',
+				displayName: "username (request body)",
+				name: 'username_f02988d6',
 				type: 'string',
 				default: '',
 				required: false,
@@ -881,7 +881,7 @@ export class OpenapiPetstoreApi implements INodeType {
 						operation: ['updateUser'],
 					},
 				},
-				description: "username",
+				description: "username (request body)",
 			},
 			{
 				displayName: "firstName",
@@ -1139,7 +1139,7 @@ export class OpenapiPetstoreApi implements INodeType {
 					let path = '/user/{username}';
 					path = path.replace('{' + 'username' + '}', encodeURIComponent(this.getNodeParameter('username', i) as string));
 					body['id'] = this.getNodeParameter('id', i);
-					body['username'] = this.getNodeParameter('username', i);
+					body['username'] = this.getNodeParameter('username_f02988d6', i);
 					body['firstName'] = this.getNodeParameter('firstName', i);
 					body['lastName'] = this.getNodeParameter('lastName', i);
 					body['email'] = this.getNodeParameter('email', i);
