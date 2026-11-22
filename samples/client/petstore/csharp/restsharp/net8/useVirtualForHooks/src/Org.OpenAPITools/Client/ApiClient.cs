@@ -486,8 +486,15 @@ namespace Org.OpenAPITools.Client
             }
 
             using (RestClient client = new RestClient(clientOptions,
-                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)),
+                useClientFactory: true))
             {
+                // RestSharp only applies UserAgent when the factory creates the cached HttpClient, i.e. on the first request per base URL
+                if (!string.IsNullOrEmpty(configuration.UserAgent))
+                {
+                    client.DefaultParameters.ReplaceParameter(new HeaderParameter(KnownHeaders.UserAgent, configuration.UserAgent));
+                }
+
                 InterceptRequest(request);
 
                 RestResponse<T> response = await getResponse(client).ConfigureAwait(false);

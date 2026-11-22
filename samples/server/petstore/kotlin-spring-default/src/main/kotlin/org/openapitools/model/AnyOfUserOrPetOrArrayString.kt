@@ -109,7 +109,7 @@ data class AnyOfUserOrPetOrArrayString(
     @field:JsonInclude(JsonInclude.Include.NON_NULL)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @get:JsonProperty("tags") val tags: kotlin.collections.List<@Valid Tag>? = null,
 
     @Schema(description = "pet status in the store")
     @Deprecated(message = "")

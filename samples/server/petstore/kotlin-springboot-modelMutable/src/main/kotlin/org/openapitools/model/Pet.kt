@@ -59,7 +59,7 @@ data class Pet(
     @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("tags")
-    @get:JsonProperty("tags") var tags: kotlin.collections.MutableList<Tag>? = null,
+    @get:JsonProperty("tags") var tags: kotlin.collections.MutableList<@Valid Tag>? = null,
 
     @Schema(description = "pet status in the store")
     @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)

@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.27.0-SNAPSHOT</version>
+    <version>7.28.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -448,9 +448,6 @@
                     <id>central</id>
                     <name>Central Repository OSSRG Snapshots</name>
                     <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
                 </snapshotRepository>
             </distributionManagement>
             <build>
@@ -691,6 +688,46 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/java/okhttp-gson-parcelableModel</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-client-okhttp</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp</module>
+                <module>samples/client/petstore/java/okhttp-jackson</module>
+                <module>samples/client/petstore/java/okhttp-jsonb</module>
+            </modules>
+        </profile>
+        <profile>
+            <!-- Jackson 3 needs Java 17, so this sample only joins the build on a JDK that can compile it -->
+            <id>java-client-okhttp-jackson3</id>
+            <activation>
+                <jdk>[17,)</jdk>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp-jackson3</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-client-okhttp-parcelable</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/client/petstore/java/okhttp-parcelableModel</module>
             </modules>
         </profile>
         <profile>
@@ -1290,7 +1327,7 @@
         <snakeyaml.version>2.4</snakeyaml.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.48</swagger-parser.version>
+        <swagger-parser.version>2.1.49</swagger-parser.version>
         <testng.version>7.10.2</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

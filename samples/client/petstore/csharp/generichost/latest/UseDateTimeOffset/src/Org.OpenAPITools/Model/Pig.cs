@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName?.Equals("className") ?? false)
                     {
-                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string? discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "className");
                         if (discriminator?.Equals("BasquePig") ?? false)
                         {
                             Utf8JsonReader utf8JsonReaderBasquePig = utf8JsonReader;

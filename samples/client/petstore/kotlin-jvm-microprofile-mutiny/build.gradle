@@ -1,0 +1,82 @@
+group 'org.openapitools'
+version '1.0.0'
+
+buildscript {
+    ext.kotlin_version = '2.4.0'
+    ext.spotless_version = "7.2.1"
+
+    repositories {
+        maven { url "https://repo1.maven.org/maven2" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
+    }
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'com.diffplug.spotless'
+
+repositories {
+    maven { url "https://repo1.maven.org/maven2" }
+}
+
+// Use spotless plugin to automatically format code, remove unused import, etc
+// To apply changes directly to the file, run `gradlew spotlessApply`
+// Ref: https://github.com/diffplug/spotless/tree/main/plugin-gradle
+spotless {
+    // comment out below to run spotless as part of the `check` task
+    enforceCheck false
+
+    format 'misc', {
+        // define the files (e.g. '*.gradle', '*.md') to apply `misc` to
+        target '.gitignore'
+
+        // define the steps to apply to those files
+        trimTrailingWhitespace()
+        indentWithSpaces() // Takes an integer argument if you don't like 4
+        endWithNewline()
+    }
+    kotlin {
+        ktfmt()
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xjvm-default=all")
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.22.1"
+    compileOnly "org.eclipse.microprofile.rest.client:microprofile-rest-client-api:3.0"
+    compileOnly "jakarta.ws.rs:jakarta.ws.rs-api:3.0.0"
+    compileOnly "jakarta.enterprise:jakarta.enterprise.cdi-api:3.0.0"
+    api "io.smallrye.reactive:mutiny:2.9.4"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'org.openapitools'
+            artifactId = 'kotlin-microprofile-mutiny-client'
+            version = '1.0.0'
+            from components.java
+        }
+    }
+}

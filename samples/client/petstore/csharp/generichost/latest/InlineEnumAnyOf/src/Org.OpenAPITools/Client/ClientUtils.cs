@@ -296,11 +296,19 @@ namespace Org.OpenAPITools.Client
                     utf8JsonReader.Read();
 
                     if (localVarJsonPropertyName != null && localVarJsonPropertyName.Equals(discriminator))
-                        return utf8JsonReader.GetString();
+                        return GetDiscriminatorValue(utf8JsonReader, discriminator);
                 }
             }
 
             throw new JsonException("The specified discriminator was not found.");
+        }
+
+        internal static string? GetDiscriminatorValue(Utf8JsonReader utf8JsonReader, string discriminator)
+        {
+            if (utf8JsonReader.TokenType != JsonTokenType.String)
+                throw new JsonException($"The discriminator property '{discriminator}' must contain a JSON string, but found {utf8JsonReader.TokenType}.");
+
+            return utf8JsonReader.GetString();
         }
 
         /// <summary>

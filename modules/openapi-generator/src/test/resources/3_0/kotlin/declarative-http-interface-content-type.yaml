@@ -1,0 +1,187 @@
+openapi: 3.0.3
+info:
+  title: Declarative HTTP interface content types
+  version: 1.0.0
+paths:
+  /ct/single:
+    post:
+      operationId: singleTypes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /ct/multi-consumes:
+    post:
+      operationId: multiConsumes
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '204':
+          description: No content
+  /ct/multi-produces:
+    get:
+      operationId: multiProduces
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /ct/none:
+    get:
+      operationId: noTypes
+      responses:
+        '204':
+          description: No content
+  /ct/extensions:
+    post:
+      operationId: withExtensions
+      x-content-type: application/xml
+      x-accepts:
+        - text/plain
+        - application/xml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+            text/plain:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+  /ct/accepts-string:
+    get:
+      operationId: acceptsString
+      x-accepts: application/xml
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /ct/quoted:
+    post:
+      operationId: quotedParams
+      requestBody:
+        content:
+          'application/json; profile="a,b"':
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json; profile="x$y"':
+              schema:
+                $ref: '#/components/schemas/Item'
+              example:
+                name: quoted
+  /ct/quoted-extensions:
+    post:
+      operationId: quotedExtensions
+      x-content-type: 'text/plain; charset="utf-8"'
+      x-accepts:
+        - 'text/plain; profile="$a\b"'
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+  /ct/wildcard:
+    post:
+      operationId: wildcardConsumes
+      requestBody:
+        content:
+          image/*:
+            schema:
+              type: string
+              format: binary
+          image/png:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '204':
+          description: No content
+  /ct/invalid-extensions:
+    post:
+      operationId: invalidExtensions
+      x-content-type:
+        - application/json
+        - application/xml
+      x-accepts: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+  /ct/split:
+    post:
+      operationId: split
+      x-content-type: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/xml:
+            schema:
+              type: string
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        name:
+          type: string

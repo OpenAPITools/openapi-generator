@@ -80,6 +80,15 @@ public class TypeScriptAngularClientCodegenTest {
     }
 
     @Test
+    public void toEnumVarNameWithoutLatinCharacters() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toEnumVarName("À", "string"), "À");
+        Assert.assertEquals(codegen.toEnumVarName("Москва", "string"), "Москва");
+        Assert.assertEquals(codegen.toEnumVarName("Нур-Султан", "string"), "НурСултан");
+    }
+
+    @Test
     public void testModelSuffix() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         codegen.additionalProperties().put("modelSuffix", "MySuffix");
@@ -211,6 +220,28 @@ public class TypeScriptAngularClientCodegenTest {
         Assert.assertEquals("TestNamedefghi", codegen.removeModelPrefixSuffix("TestNamedefghi"));
         Assert.assertEquals("TestNameDefghi", codegen.removeModelPrefixSuffix("TestNameDefghi"));
         Assert.assertEquals("TestName", codegen.removeModelPrefixSuffix("TestNameDefGhi"));
+    }
+
+    @Test
+    public void testModelImportsWithLowercaseModelSuffix() throws IOException {
+        for (String suffix : new String[]{"Dto", "dto"}) {
+            File output = Files.createTempDirectory("angular-model-suffix").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath())
+                    .addAdditionalProperty(TypeScriptAngularClientCodegen.MODEL_SUFFIX, suffix);
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path pet = output.toPath().resolve("model/pet.ts");
+            assertThat(pet).as("modelSuffix=" + suffix).exists();
+            assertThat(Files.readString(pet)).as("modelSuffix=" + suffix)
+                    .contains("export interface PetDto {")
+                    .contains("import { CategoryDto } from './category';");
+            assertThat(Files.readString(output.toPath().resolve("api/pet.service.ts"))).as("modelSuffix=" + suffix)
+                    .contains("import { PetDto } from '../model/pet';");
+        }
     }
 
     @Test
@@ -451,6 +482,22 @@ public class TypeScriptAngularClientCodegenTest {
         // THEN
         final String fileContents = Files.readString(Paths.get(output + "/api.base.service.ts"));
         assertThat(fileContents).containsOnlyOnce("basePath = '/relative/url'");
+    }
+
+    @Test
+    public void testBasePathFromAdditionalProperties() throws IOException {
+        for (String basePath : new String[]{"", "/api"}) {
+            File output = Files.createTempDirectory("angular-base-path").toFile();
+            output.deleteOnExit();
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("typescript-angular")
+                    .setInputSpec("src/test/resources/3_0/typescript-angular/issue_20760.yaml")
+                    .setOutputDir(output.getAbsolutePath())
+                    .addAdditionalProperty("basePath", basePath);
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            String baseService = Files.readString(output.toPath().resolve("api.base.service.ts"));
+            assertThat(baseService).containsOnlyOnce("protected basePath = '" + basePath + "';");
+        }
     }
 
     @Test

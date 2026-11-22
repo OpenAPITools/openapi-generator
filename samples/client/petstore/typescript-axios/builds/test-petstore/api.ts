@@ -1715,7 +1715,7 @@ export const FakeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getArrayOfEnums(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<OuterEnum>>> {
+        async getArrayOfEnums(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<OuterEnum | null>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getArrayOfEnums(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FakeApi.getArrayOfEnums']?.[localVarOperationServerIndex]?.url;
@@ -1978,7 +1978,7 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getArrayOfEnums(options?: RawAxiosRequestConfig): AxiosPromise<Array<OuterEnum>> {
+        getArrayOfEnums(options?: RawAxiosRequestConfig): AxiosPromise<Array<OuterEnum | null>> {
             return localVarFp.getArrayOfEnums(options).then((request) => request(axios, basePath));
         },
         /**

@@ -61,10 +61,10 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{paramName}}{{^requir
     """
     {{#allParams}}
         {{#isHeaderParam}}
-    {{paramName}} = connexion.request.headers.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+    {{paramName}} = connexion.request.headers.get('{{{vendorExtensions.x-python-connexion-quoted-name}}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{/isHeaderParam}}
         {{#isCookieParam}}
-    {{paramName}} = connexion.request.cookies.get('{{baseName}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
+    {{paramName}} = connexion.request.cookies.get('{{{vendorExtensions.x-python-connexion-quoted-name}}}'{{#defaultValue}}, {{{defaultValue}}}{{/defaultValue}})
         {{/isCookieParam}}
         {{#vendorExtensions.x-python-connexion-cast-int}}
     if {{paramName}} is not None:
@@ -113,7 +113,7 @@ def {{operationId}}({{#vendorExtensions.x-handler-params}}{{paramName}}{{^requir
                         {{#isBodyParam}}
                             {{^vendorExtensions.x-python-connexion-skip-from-dict}}
     if connexion.request.is_json:
-        {{paramName}} = {{baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
+        {{paramName}} = {{baseType}}{{^baseType}}{{#dataType}}{{.}}{{/dataType}}{{/baseType}}.from_dict(connexion.request.get_json())  # noqa: E501
                             {{/vendorExtensions.x-python-connexion-skip-from-dict}}
                         {{/isBodyParam}}
                         {{^isBodyParam}}

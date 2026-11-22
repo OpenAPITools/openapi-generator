@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Model
                     utf8JsonReaderDiscriminator.Read();
                     if (localVarJsonPropertyName?.Equals("shapeType") ?? false)
                     {
-                        string? discriminator = utf8JsonReaderDiscriminator.GetString();
+                        string? discriminator = ClientUtils.GetDiscriminatorValue(utf8JsonReaderDiscriminator, "shapeType");
                         if (discriminator?.Equals("Quadrilateral") ?? false)
                         {
                             Utf8JsonReader utf8JsonReaderQuadrilateral = utf8JsonReader;
@@ -209,6 +209,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nullableShape.Triangle != null)
+            {
+                JsonSerializer.Serialize(writer, nullableShape.Triangle, jsonSerializerOptions);
+                return;
+            }
+
+            if (nullableShape.Quadrilateral != null)
+            {
+                JsonSerializer.Serialize(writer, nullableShape.Quadrilateral, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (nullableShape.Triangle != null)

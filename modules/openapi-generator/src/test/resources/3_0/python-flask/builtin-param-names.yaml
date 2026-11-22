@@ -1,0 +1,63 @@
+openapi: 3.0.3
+info: {title: builtin param names, version: 1.0.0}
+servers: [{url: /v1}]
+paths:
+  /things/{id}:
+    get:
+      operationId: getThing
+      parameters:
+        - {name: id, in: path, required: true, schema: {type: string}}
+        - {name: filter, in: query, schema: {type: string}}
+        - {name: type, in: query, schema: {type: string}}
+        - {name: format, in: query, schema: {type: string}}
+        - {name: from, in: query, schema: {type: string}}
+        - {name: pageSize, in: query, schema: {type: integer}}
+      responses: {'200': {description: OK}}
+  /probe/{id}:
+    get:
+      operationId: getProbe
+      parameters:
+        - $ref: '#/components/parameters/ThingId'
+        - {name: _from, in: query, schema: {type: string}}
+        - {name: callback, in: query, schema: {type: string}}
+        - {name: date, in: query, schema: {type: string}}
+        - {name: self, in: query, schema: {type: string}}
+        - name: json
+          in: header
+          content:
+            application/json:
+              schema: {type: object}
+      responses: {'200': {description: OK}}
+  /things-form:
+    post:
+      operationId: postThingForm
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required: [filter]
+              properties:
+                filter: {type: string}
+                type: {type: string}
+      responses: {'200': {description: OK}}
+  /things-multipart:
+    post:
+      operationId: postThingMultipart
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filter: {type: string}
+      responses: {'200': {description: OK}}
+components:
+  parameters:
+    ThingId:
+      name: id
+      in: path
+      required: true
+      schema: {type: string}

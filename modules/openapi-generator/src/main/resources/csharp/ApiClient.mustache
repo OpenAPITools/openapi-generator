@@ -488,8 +488,17 @@ namespace {{packageName}}.Client
 
             {{/hasOAuthMethods}}
             using (RestClient client = new RestClient(clientOptions,
-                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
+                configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration)){{#useClientFactory}},
+                useClientFactory: true{{/useClientFactory}}))
             {
+                {{#useClientFactory}}
+                // RestSharp only applies UserAgent when the factory creates the cached HttpClient, i.e. on the first request per base URL
+                if (!string.IsNullOrEmpty(configuration.UserAgent))
+                {
+                    client.DefaultParameters.ReplaceParameter(new HeaderParameter(KnownHeaders.UserAgent, configuration.UserAgent));
+                }
+
+                {{/useClientFactory}}
                 InterceptRequest(request);
 
                 RestResponse<T> response = await getResponse(client).ConfigureAwait(false);
@@ -511,7 +520,17 @@ namespace {{packageName}}.Client
                     }
                     catch (Exception ex)
                     {
+                        {{#throwOnAnyError}}
+                        // 4xx/5xx are left to ExceptionFactory, like the ErrorException check above
+                        if ((int)response.StatusCode < 400)
+                        {
+                            var error = ex.InnerException != null ? ex.InnerException : ex;
+                            throw new ApiException((int)response.StatusCode, string.Format("Error calling {0}: {1}", request.Resource, error.Message), response.Content, ToApiResponse(response).Headers, error);
+                        }
+                        {{/throwOnAnyError}}
+                        {{^throwOnAnyError}}
                         throw ex.InnerException != null ? ex.InnerException : ex;
+                        {{/throwOnAnyError}}
                     }
                 }
                 else if (typeof(T).Name == "Stream") // for binary response

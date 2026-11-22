@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Records with additionalProperties bound from request parameters
+  version: 1.0.0
+paths:
+  /search:
+    get:
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/QueryWithExtras'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    QueryWithExtras:
+      type: object
+      properties:
+        limit:
+          type: integer
+      additionalProperties:
+        type: string

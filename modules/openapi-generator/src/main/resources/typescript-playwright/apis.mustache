@@ -177,7 +177,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#isBasic}}
         {{#isBasicBasic}}
         if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
-            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+            headerParameters["Authorization"] = "Basic " + btoa((this.configuration.username || "") + ":" + (this.configuration.password || ""));
         }
         {{/isBasicBasic}}
         {{#isBasicBearer}}

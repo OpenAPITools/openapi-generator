@@ -969,7 +969,13 @@ fail:
         {
             goto end;
         }
-        list_addElement({{{name}}}List , {{{name}}}_local->valueint);
+        cJSON_bool *{{{name}}}_local_value = calloc(1, sizeof(cJSON_bool));
+        if(!{{{name}}}_local_value)
+        {
+            goto end;
+        }
+        *{{{name}}}_local_value = {{{name}}}_local->valueint;
+        list_addElement({{{name}}}List , {{{name}}}_local_value);
         {{/isBoolean}}
         {{/items}}
     }
@@ -1259,6 +1265,13 @@ end:
             listEntry->data = NULL;
         }
         {{/isNumeric}}
+        {{#isBoolean}}
+        listEntry_t *listEntry = NULL;
+        list_ForEach(listEntry, {{{name}}}List) {
+            free(listEntry->data);
+            listEntry->data = NULL;
+        }
+        {{/isBoolean}}
         {{/items}}
         list_freeList({{{name}}}List);
         {{{name}}}List = NULL;

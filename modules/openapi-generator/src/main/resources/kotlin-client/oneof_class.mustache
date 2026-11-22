@@ -50,7 +50,9 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.json.JsonDecoder
 {{^discriminator}}
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonUnquotedLiteral
 {{/discriminator}}
 import kotlinx.serialization.json.JsonEncoder
 {{#discriminator}}
@@ -183,6 +185,7 @@ import java.io.IOException
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object {{classname}}Serializer : KSerializer<{{classname}}> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("{{classname}}")
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: {{classname}}) {
         val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("{{classname}} can only be serialized with Json")
 
@@ -219,7 +222,12 @@ import java.io.IOException
             {{/isNumber}}
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
+            {{#isNumber}}
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeJsonElement(JsonUnquotedLiteral(value.value.toPlainString()))
+            {{/isNumber}}
+            {{^isNumber}}
             is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+            {{/isNumber}}
             {{/isPrimitiveType}}
             {{/isArray}}
             {{/vendorExtensions.x-duplicated-data-type}}
@@ -271,6 +279,16 @@ import java.io.IOException
         {{/isString}}
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
+        {{#isNumber}}
+        if (jsonElement is JsonPrimitive && !jsonElement.isString) {
+            try {
+                return {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}}(jsonElement.content.toBigDecimal())
+            } catch (e: Exception) {
+                errorMessages.add("Failed to deserialize as {{{dataType}}}: ${e.message}")
+            }
+        }
+        {{/isNumber}}
+        {{^isNumber}}
         if (jsonElement !is JsonPrimitive) {
             try {
                 val instance = jsonDecoder.json.decodeFromJsonElement<{{{dataType}}}>(jsonElement)
@@ -279,6 +297,7 @@ import java.io.IOException
                 errorMessages.add("Failed to deserialize as {{{dataType}}}: ${e.message}")
             }
         }
+        {{/isNumber}}
         {{/isPrimitiveType}}
         {{/isArray}}
         {{/vendorExtensions.x-duplicated-data-type}}

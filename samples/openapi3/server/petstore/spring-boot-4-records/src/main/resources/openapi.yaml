@@ -1,0 +1,99 @@
+openapi: 3.0.3
+info:
+  title: Records with additionalProperties
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /tagged:
+    post:
+      operationId: createTagged
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tagged"
+      responses:
+        "200":
+          description: ok
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    Tagged:
+      additionalProperties:
+        type: string
+      description: A string-valued map next to declared properties
+      example:
+        name: name
+        count: 0
+        note: note
+        secret: secret
+      properties:
+        name:
+          type: string
+        count:
+          default: 3
+          type: integer
+        note:
+          nullable: true
+          type: string
+        secret:
+          format: password
+          type: string
+      required:
+      - name
+      type: object
+    Loose:
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+      type: object
+    Typed:
+      additionalProperties:
+        $ref: "#/components/schemas/Item"
+      properties:
+        id:
+          type: string
+      type: object
+    Lists:
+      additionalProperties:
+        items:
+          type: integer
+        type: array
+      properties:
+        id:
+          type: string
+      type: object
+    Item:
+      properties:
+        value:
+          type: string
+      type: object
+    Base:
+      discriminator:
+        propertyName: kind
+      properties:
+        kind:
+          type: string
+      required:
+      - kind
+      type: object
+    Child:
+      allOf:
+      - $ref: "#/components/schemas/Base"
+      - additionalProperties:
+          type: string
+        properties:
+          x:
+            type: string
+        type: object
+    Holder:
+      properties:
+        tagged:
+          $ref: "#/components/schemas/Tagged"
+        loose:
+          $ref: "#/components/schemas/Loose"
+      type: object

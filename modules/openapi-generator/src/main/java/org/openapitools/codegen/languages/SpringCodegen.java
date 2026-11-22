@@ -137,6 +137,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
     public static final String USE_SPRING_SECURITY_PRE_AUTHORIZE = "useSpringSecurityPreAuthorize";
     public static final String SPRING_SECURITY_AUTHORITY_PREFIX = "springSecurityAuthorityPrefix";
+    public static final String OPENAPI_NULLABLE_USE_PRESENT = "openApiNullableUsePresent";
 
     @Getter
     public enum RequestMappingMode {
@@ -214,6 +215,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
     @Getter protected String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+    @Getter private boolean openApiNullableUsePresent;
     /**
      * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
      *
@@ -327,7 +329,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Whether to generate sealed model interfaces and classes"));
         cliOptions.add(CliOption.newBoolean(USE_RECORDS,
                 "Generate models as Java records where possible (requires Spring Boot 3 or 4). A model that cannot "
-                        + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties, "
+                        + "be a record yet stays a class, and the reason is logged: inheritance, additionalProperties (a record gets them only with useSpringBoot4, Jackson 2.18 or later), "
                         + "an anyOf or oneOf composition, a byte[] property, more than 250 properties, the FAIL null policy, a "
                         + "property name a record cannot have, or a request-parameter model that Spring's data binder cannot fill as a record. "
                         + "Not supported with hateoas, Lombok annotations, withXml and useOptional.", useRecords));
@@ -452,7 +454,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
                 + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
-                + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. "
+                + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec."
+                + " The number of sort orders is bounded too: a scalar 'sort' allows at most one (maxItems = 1), an array 'sort' uses the minItems/maxItems its schema defines (none defined = unbounded). An unsorted Pageable is always accepted. "
                 + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generateSortValidation));
         cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION,
@@ -470,6 +473,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE,
                 CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC,
                 useEnumValueInterface));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE_USE_PRESENT,
+                "Use `@Present` annotation to mark nullable and required properties. See (https://github.com/OpenAPITools/jackson-databind-nullable#requiring-a-property-to-be-present) for more details. Requires openApiNullable=true and useBeanValidation=true.",
+                openApiNullableUsePresent));
 
     }
 
@@ -729,6 +735,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
+        convertPropertyToBooleanAndWriteBackTransformedValue(OPENAPI_NULLABLE_USE_PRESENT, this::initOpenApiNullableUsePresent);
 
         // Validate an explicitly supplied value for every library so typos are not silently ignored;
         // the resolved mode is only used (and written back) when Pageable is supported.
@@ -934,6 +941,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+
+        additionalProperties.put("lambdaBeanValidationType", (Mustache.Lambda) (fragment, writer) -> {
+            String type = fragment.execute();
+            int genericStart = type.indexOf('<');
+            int qualifierEnd = (genericStart < 0 ? type : type.substring(0, genericStart)).lastIndexOf('.');
+            // Type-use annotations belong after the package qualifier, before the simple type name.
+            writer.write(type.substring(0, qualifierEnd + 1) + "@Valid " + type.substring(qualifierEnd + 1));
+        });
 
         // apiController: hide implementation behind undocumented flag to temporarily preserve code
         additionalProperties.put("_api_controller_impl_", false);
@@ -1935,7 +1950,8 @@ public class SpringCodegen extends AbstractJavaCodegen
                     hasInitialValue = true;
                 }
             }
-            cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue);
+            // the compact constructor also gives the additionalProperties component its empty map
+            cm.vendorExtensions.put("x-record-has-initial-values", hasInitialValue || isNotEmpty(cm.additionalPropertiesType));
             cm.vendorExtensions.put("x-record-discriminator-accessors", accessorsOfModel.get(cm.classname));
             cm.vendorExtensions.put("x-record-masks-password", cm.vars.stream().anyMatch(cp -> cp.isPassword));
         }
@@ -2246,6 +2262,29 @@ public class SpringCodegen extends AbstractJavaCodegen
         }
     }
 
+    /**
+     * A record receives the undeclared properties through {@code @JsonAnySetter} on its constructor parameter. Jackson
+     * supports that from 2.18.0 (databind #4558); 2.17 and older answer "Unrecognized field", which Spring's mapper
+     * (FAIL_ON_UNKNOWN_PROPERTIES off) turns into dropped data. The generated Spring Boot 3 project brings 2.17.3, and
+     * the generator cannot know the version a user's own parent brings, so only Spring Boot 4 (Jackson 2.20 and 3.0)
+     * gets a record. Returns null when the model may be a record.
+     */
+    private String reasonForAdditionalProperties(CodegenModel cm, ParameterObjects parameterObjects) {
+        if (!useSpringBoot4) {
+            return "it has additionalProperties, which a record receives only through Jackson 2.18 or later, "
+                    + "and Spring Boot 3 brings Jackson 2.17 (use useSpringBoot4)";
+        }
+        if (parameterObjects.boundByName.contains(cm.schemaName)) {
+            return "it has additionalProperties and is bound from request parameters";
+        }
+        for (CodegenProperty cp : cm.vars) {
+            if ("additionalProperties".equals(cp.name)) {
+                return "property '" + cp.name + "' clashes with the additionalProperties component";
+            }
+        }
+        return null;
+    }
+
     private String reasonForClass(CodegenModel cm, ParameterObjects parameterObjects,
                                   Map<String, String> constructedByDefault) {
         if (cm.parent != null) {
@@ -2258,12 +2297,15 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "it is a discriminator base";
         }
         if (isNotEmpty(cm.additionalPropertiesType)) {
-            return "it has additionalProperties";
+            String reason = reasonForAdditionalProperties(cm, parameterObjects);
+            if (reason != null) {
+                return reason;
+            }
         }
         if ((cm.oneOf != null && !cm.oneOf.isEmpty()) || (cm.anyOf != null && !cm.anyOf.isEmpty())) {
             return "it is a oneOf or anyOf composition";
         }
-        if (cm.vars.size() > RECORD_MAX_COMPONENTS) {
+        if (cm.vars.size() + (isNotEmpty(cm.additionalPropertiesType) ? 1 : 0) > RECORD_MAX_COMPONENTS) {
             return "it has more than " + RECORD_MAX_COMPONENTS + " properties";
         }
         if (parameterObjects.converted.contains(cm.schemaName)) {
@@ -2391,6 +2433,17 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseSwaggerUI(boolean useSwaggerUI) {
         this.useSwaggerUI = useSwaggerUI;
+    }
+
+    /**
+     * set openApiNullableUsePresent to true if openApiNullable is true and useBeanValidation is true.
+     *
+     * @param openApiNullableUsePresent the value to set.
+     * @return the actual value of openApiNullableUsePresent
+     */
+    protected boolean initOpenApiNullableUsePresent(boolean openApiNullableUsePresent) {
+        this.openApiNullableUsePresent = openApiNullableUsePresent && useBeanValidation && openApiNullable;
+        return this.openApiNullableUsePresent;
     }
 
     @Override
