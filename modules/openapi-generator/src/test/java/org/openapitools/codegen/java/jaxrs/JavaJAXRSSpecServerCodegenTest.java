@@ -818,34 +818,39 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
     }
 
-    @Test
-    public void generateApiForQuarkusWithGzipFeature() throws Exception {
-        final File output = Files.createTempDirectory("test").toFile();
+    /**
+     * The quarkus library depends on quarkus-rest, where org.jboss.resteasy.annotations.GZIP does
+     * not exist, so useGzipFeature uses the Quarkus HTTP compression support instead.
+     */
+    @Test(dataProvider = "interfaceOnlyVariants")
+    public void generateApiForQuarkusWithGzipFeature(boolean interfaceOnly) throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
-
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.setLibrary(QUARKUS_LIBRARY);
-        codegen.additionalProperties().put(USE_GZIP_FEATURE, true);
-
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //Using JavaJAXRSSpecServerCodegen
-
-        final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
-
-        //Then the java files are compilable
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(QUARKUS_LIBRARY)
+                .addAdditionalProperty(USE_GZIP_FEATURE, true)
+                .addAdditionalProperty(INTERFACE_ONLY, interfaceOnly)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace('\\', '/'));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         validateJavaSourceFiles(files);
 
-        //And the generated class contains CompletionStage<Response>
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
-                "\nimport org.jboss.resteasy.annotations.GZIP\n",
-                "@GZIP\n"
-        );
+        Path api = output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java");
+        // fully qualified, so that a generated model named Compressed cannot clash with an import
+        assertFileContains(api, "@io.quarkus.vertx.http.Compressed\n");
+        assertFileNotContains(api, "import io.quarkus.vertx.http.Compressed", "GZIP");
+        Path properties = output.toPath().resolve("src/main/resources/application.properties");
+        assertFileContains(properties,
+                "quarkus.http.enable-compression=true",
+                "quarkus.http.enable-decompression=true");
+        assertFileNotContains(properties, "quarkus.resteasy.gzip");
+    }
+
+    @DataProvider
+    public Object[][] interfaceOnlyVariants() {
+        return new Object[][]{{true}, {false}};
     }
 
     @Test

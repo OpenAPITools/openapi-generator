@@ -5,7 +5,7 @@
     @Deprecated
     {{/isDeprecated}}
     {{#useGzipFeature}}
-    @GZIP
+    @io.quarkus.vertx.http.Compressed
     {{/useGzipFeature}}
     @{{httpMethod}}{{#subresourceOperation}}
     @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}

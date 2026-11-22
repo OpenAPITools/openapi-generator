@@ -28,6 +28,7 @@ on:
       - samples/server/petstore/jaxrs-spec-quarkus-jspecify/**
       - samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations/**
       - samples/server/petstore/jaxrs-spec-quarkus-mutiny/**
+      - samples/server/petstore/jaxrs-spec-quarkus-gzip/**
   pull_request:
     paths:
       # clients
@@ -56,6 +57,7 @@ on:
       - samples/server/petstore/jaxrs-spec-quarkus-jspecify/**
       - samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations/**
       - samples/server/petstore/jaxrs-spec-quarkus-mutiny/**
+      - samples/server/petstore/jaxrs-spec-quarkus-gzip/**
 jobs:
   build:
     name: Build with JDK17
@@ -90,6 +92,7 @@ jobs:
           - samples/server/petstore/jaxrs-spec-quarkus-jspecify
           - samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations
           - samples/server/petstore/jaxrs-spec-quarkus-mutiny
+          - samples/server/petstore/jaxrs-spec-quarkus-gzip
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-java@v6
