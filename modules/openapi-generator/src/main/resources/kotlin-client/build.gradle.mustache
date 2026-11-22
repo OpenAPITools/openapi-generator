@@ -120,6 +120,15 @@ kotlin {
 }
 {{/explicitApi}}
 {{#jvm-spring-webclient}}
+{{#useSpringBoot4}}
+
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+{{/useSpringBoot4}}
+{{^useSpringBoot4}}
 {{#useSpringBoot3}}
 
 kotlin {
@@ -128,6 +137,7 @@ kotlin {
     }
 }
 {{/useSpringBoot3}}
+{{/useSpringBoot4}}
 {{/jvm-spring-webclient}}
 {{#jvm-spring-restclient}}
 
