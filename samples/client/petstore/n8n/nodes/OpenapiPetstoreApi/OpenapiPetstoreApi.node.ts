@@ -261,19 +261,8 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "tags",
 				name: 'tags',
-				type: 'collection',
-				typeOptions: {
-					multipleValues: true,
-				},
-				options: [
-					{
-						displayName: 'Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-					},
-				],
-				default: [],
+				type: 'json',
+				default: {},
 				required: false,
 				displayOptions: {
 					show: {
@@ -458,19 +447,8 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "tags",
 				name: 'tags',
-				type: 'collection',
-				typeOptions: {
-					multipleValues: true,
-				},
-				options: [
-					{
-						displayName: 'Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-					},
-				],
-				default: [],
+				type: 'json',
+				default: {},
 				required: false,
 				displayOptions: {
 					show: {
@@ -791,19 +769,8 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "List of user object",
 				name: 'User',
-				type: 'collection',
-				typeOptions: {
-					multipleValues: true,
-				},
-				options: [
-					{
-						displayName: 'Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-					},
-				],
-				default: [],
+				type: 'json',
+				default: {},
 				required: true,
 				displayOptions: {
 					show: {
@@ -815,19 +782,8 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "List of user object",
 				name: 'User',
-				type: 'collection',
-				typeOptions: {
-					multipleValues: true,
-				},
-				options: [
-					{
-						displayName: 'Value',
-						name: 'value',
-						type: 'string',
-						default: '',
-					},
-				],
-				default: [],
+				type: 'json',
+				default: {},
 				required: true,
 				displayOptions: {
 					show: {
@@ -1026,7 +982,7 @@ export class OpenapiPetstoreApi implements INodeType {
 					body['category'] = this.getNodeParameter('category', i);
 					body['name'] = this.getNodeParameter('name', i);
 					body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);
-					body['tags'] = (this.getNodeParameter('tags', i) as IDataObject[]).map((entry) => entry.value);
+					body['tags'] = this.getNodeParameter('tags', i);
 					body['status'] = this.getNodeParameter('status', i);
 					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
@@ -1067,7 +1023,7 @@ export class OpenapiPetstoreApi implements INodeType {
 					body['category'] = this.getNodeParameter('category', i);
 					body['name'] = this.getNodeParameter('name', i);
 					body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);
-					body['tags'] = (this.getNodeParameter('tags', i) as IDataObject[]).map((entry) => entry.value);
+					body['tags'] = this.getNodeParameter('tags', i);
 					body['status'] = this.getNodeParameter('status', i);
 					responseData = (await apiRequest.call(this, 'PUT', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}

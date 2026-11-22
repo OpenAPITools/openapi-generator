@@ -357,6 +357,16 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * instead carried into the {@code collection}'s own per-entry sub-field via {@code
      * n8nCollectionItemIsOptions}/{@code n8nCollectionItemAllowableValues} below.
      * <p>
+     * Only applies when the array's items are themselves primitive/enum-typed (T069,
+     * convergence fix) - {@code collection}'s per-entry sub-field is a single scalar value, so
+     * an array of complex objects/model references (e.g. Petstore's own {@code
+     * createUsersWithArrayInput} body, an array of {@code User}) has no way to actually
+     * represent a full object through it; confirmed empirically that, before this, such an
+     * array rendered as a {@code collection} of bare strings with no way to supply a real User
+     * object at all, making the generated node unable to correctly call that operation. Arrays
+     * of complex items fall back to the generic {@code json} field instead (as they did before
+     * T062), which can at least accept a real JSON array of full objects.
+     * <p>
      * Also computes {@code vendorExtensions.n8nDefaultLiteral} (T067 - data-model.md "Field"
      * {@code default}: "OpenAPI {@code default} - Pre-fills the n8n field"): a complete,
      * ready-to-embed JS literal for the field's {@code default:} property, built from the
@@ -376,8 +386,12 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         // `default: null` before this normalization, not the generic numeric filler.
         p.defaultValue = cleanDefaultValue(p.defaultValue);
         String n8nFieldType;
-        if (Boolean.TRUE.equals(p.isArray)) {
+        if (Boolean.TRUE.equals(p.isArray) && isPrimitiveOrEnumItemType(p.items)) {
             n8nFieldType = "collection";
+        } else if (Boolean.TRUE.equals(p.isArray)) {
+            // array of complex objects/model references: no fixed scalar sub-field to build a
+            // collection's per-entry UI from, per T069 above.
+            n8nFieldType = "json";
         } else if (Boolean.TRUE.equals(p.isEnum)) {
             n8nFieldType = "options";
         } else if (Boolean.TRUE.equals(p.isMap) || Boolean.TRUE.equals(p.isFreeFormObject)) {
@@ -654,6 +668,21 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     private static String cleanDefaultValue(String rawDefaultValue) {
         return (rawDefaultValue == null || "null".equals(rawDefaultValue)) ? null : rawDefaultValue;
+    }
+
+    /** True when an array's items are a shape {@code collection}'s single-scalar-value
+     * per-entry sub-field can actually represent (T069): no items at all (nothing to check),
+     * an enum, or a primitive boolean/integer/number/string. False for a complex object/model
+     * reference item type. */
+    private static boolean isPrimitiveOrEnumItemType(CodegenProperty items) {
+        if (items == null) {
+            return true;
+        }
+        return Boolean.TRUE.equals(items.isEnum)
+                || "boolean".equals(items.dataType)
+                || "integer".equals(items.dataType)
+                || "number".equals(items.dataType)
+                || "string".equals(items.dataType);
     }
 
     private static String escapeSingleQuotedJs(String value) {

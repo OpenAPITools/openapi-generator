@@ -950,6 +950,37 @@ public class N8nClientCodegenTest {
         }
     }
 
+    /**
+     * Regression test for T069 (convergence): an array of complex objects/model references
+     * must fall back to the generic {@code json} field type, not T062's {@code collection}
+     * mapping - a {@code collection}'s per-entry sub-field is a single scalar value, so it
+     * cannot actually represent a full object. Uses Petstore's own {@code
+     * createUsersWithArrayInput} body (an array of {@code User} objects).
+     */
+    @Test
+    public void mapsArrayOfComplexObjectsToJsonNotCollection() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            generate(target);
+            String nodeSource = readNodeSource(target);
+
+            String fieldBlock = fieldBlockForOperation(nodeSource, "User", "createUsersWithArrayInput");
+            Assert.assertTrue(fieldBlock.contains("type: 'json'"),
+                    "an array of complex objects must fall back to the generic json field type, not a collection of bare scalar values");
+            Assert.assertFalse(fieldBlock.contains("type: 'collection'"),
+                    "a collection field's single-scalar-value sub-field cannot represent a full object");
+
+            int branchStart = nodeSource.indexOf("operation === 'createUsersWithArrayInput'");
+            Assert.assertTrue(branchStart >= 0, "expected an execute() branch for createUsersWithArrayInput");
+            int branchEnd = nodeSource.indexOf("apiRequest.call(", branchStart);
+            String branch = nodeSource.substring(branchStart, branchEnd);
+            Assert.assertTrue(branch.contains("Object.assign(body,"),
+                    "the whole array-of-objects body must still be merged as one parameter, unaffected by T068's per-property flattening (which only applies to plain object bodies)");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
     private static Path writeTempSpec(Path dir, String filename, String content) throws IOException {
         Path file = dir.resolve(filename);
         Files.createDirectories(dir);
