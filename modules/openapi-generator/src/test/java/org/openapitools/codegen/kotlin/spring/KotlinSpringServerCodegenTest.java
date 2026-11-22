@@ -4846,6 +4846,40 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(service, "@param label  (optional, default to plain)");
     }
 
+    @Test(description = "omitted date and date-time defaults are reported once per parameter and model property")
+    public void omittedTemporalDefaultsAreLogged() throws IOException {
+        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)
+                org.slf4j.LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+        ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent> appender =
+                new ch.qos.logback.core.read.ListAppender<>();
+        appender.start();
+        logger.addAppender(appender);
+        List<String> warnings;
+        try {
+            generateFromContract("src/test/resources/3_0/spring/kotlin-temporal-parameter-defaults.yaml");
+            warnings = appender.list.stream()
+                    .filter(event -> event.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .map(ch.qos.logback.classic.spi.ILoggingEvent::getFormattedMessage)
+                    .collect(Collectors.toList());
+        } finally {
+            logger.detachAppender(appender);
+        }
+
+        for (String expected : List.of(
+                "date/date-time query parameter 'day'", "date/date-time query parameter 'at'",
+                "date/date-time header parameter 'headerDay'", "date/date-time cookie parameter 'cookieDay'",
+                "date/date-time cookie parameter 'cookieAt'", "date/date-time form parameter 'day'",
+                "date/date-time form parameter 'at'",
+                "date/date-time property 'TemporalDefaults.day'", "date/date-time property 'TemporalDefaults.at'")) {
+            Assert.assertEquals(warnings.stream().filter(w -> w.contains(expected)).count(), 1L,
+                    "expected exactly one warning containing: " + expected + " in " + warnings);
+        }
+        Assert.assertTrue(warnings.stream().noneMatch(w -> w.contains("noDefault") || w.contains("'label'")),
+                "unexpected warning in " + warnings);
+        Assert.assertTrue(warnings.stream().noneMatch(w -> w.contains("is not applied when the field is omitted")),
+                "date/date-time form parameters must not also get the form-default warning: " + warnings);
+    }
+
     @Test(description = "property examples keep line breaks and are escaped as Kotlin string literals")
     public void propertyExamplesPreserveLineBreaks() throws IOException {
         final String input = "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml";

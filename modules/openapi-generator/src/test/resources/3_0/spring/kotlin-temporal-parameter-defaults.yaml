@@ -65,3 +65,19 @@ paths:
       responses:
         "200":
           description: ok
+components:
+  schemas:
+    TemporalDefaults:
+      type: object
+      properties:
+        day:
+          type: string
+          format: date
+          default: "2024-03-05"
+        at:
+          type: string
+          format: date-time
+          default: "2024-03-05T10:00:00Z"
+        noDefault:
+          type: string
+          format: date

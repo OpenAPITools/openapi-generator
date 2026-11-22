@@ -76,6 +76,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
 
+    // Deduplicates the "date/date-time default is not generated" warnings within one generation run.
+    private final Set<String> temporalDefaultWarnings = new HashSet<>();
+
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
             new HashSet<>(Arrays.asList(
                     "ApiClient",
@@ -1218,8 +1221,17 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
      * produced them): swagger-parser materializes {@code format: date} defaults as a
      * {@link java.util.Date}, losing the lexical value, so the raw default cannot be rendered reliably.
      */
-    private static void clearTemporalDefault(CodegenParameter parameter) {
+    private void clearTemporalDefault(CodegenParameter parameter) {
         if (parameter.isDate || parameter.isDateTime) {
+            String location = parameter.isFormParam ? "form" : parameter.isQueryParam ? "query"
+                    : parameter.isHeaderParam ? "header" : parameter.isCookieParam ? "cookie"
+                    : parameter.isPathParam ? "path" : "body";
+            if (parameter.hasDefaultValue
+                    && temporalDefaultWarnings.add("parameter:" + location + ":" + parameter.baseName)) {
+                LOGGER.warn("OpenAPI default for date/date-time {} parameter '{}' is not generated "
+                        + "(date/date-time defaults are not supported); the parameter is null when omitted.",
+                        location, parameter.baseName);
+            }
             parameter.hasDefaultValue = false;
             parameter.defaultValue = null;
             parameter.rawDefaultValue = null;
@@ -1868,6 +1880,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
+
+        // AbstractKotlinCodegen.toDefaultValue does not emit date/date-time defaults; say so once per
+        // property declared on the model (inherited properties are reported on their own model).
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm == null || cm.vars == null) {
+                continue;
+            }
+            for (CodegenProperty property : cm.vars) {
+                if ((property.isDate || property.isDateTime) && property.hasDefaultValue
+                        && temporalDefaultWarnings.add("property:" + cm.name + "." + property.baseName)) {
+                    LOGGER.warn("OpenAPI default for date/date-time property '{}.{}' is not generated "
+                            + "(date/date-time defaults are not supported).", cm.name, property.baseName);
+                }
+            }
+        }
 
         // Collect x-extra-imports declared on each model and its properties, and add them to the
         // model file's import list so custom class/field annotations can be referenced by short name.
