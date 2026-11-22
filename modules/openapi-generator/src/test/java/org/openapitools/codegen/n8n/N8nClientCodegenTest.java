@@ -288,18 +288,55 @@ public class N8nClientCodegenTest {
         return callText.substring(secondLastQuote + 1, lastQuote);
     }
 
+    /**
+     * Regression test for T065 (convergence): a security scheme this generator cannot map at
+     * all (e.g. {@code openIdConnect} - lands in {@code schemePriority()}'s unsupported/
+     * {@code MAX_VALUE} bucket, unlike Petstore's own oauth2 scheme which DOES get a credential
+     * via the manual fallback) used to be indistinguishable, in the generated README, from a
+     * spec that declares no security at all: the "no security scheme" message rendered
+     * regardless, actively claiming something false and hiding the real limitation, contrary to
+     * FR-007/FR-010 and spec.md US3 Acceptance Scenario 3.
+     */
     @Test
-    public void documentsUnsupportedOrSecondarySchemesInsteadOfFailing() throws IOException {
+    public void documentsGenuinelyUnmappableSchemeInsteadOfClaimingNoSecurity() throws IOException {
         Path target = Files.createTempDirectory("n8n-client-codegen-test");
         try {
-            generate(target);
-            String readme = Files.readString(target.resolve("README.md"));
+            Path spec = writeTempSpec(target, "unmappable-scheme.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: unmappable scheme test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /widgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidgets\n"
+                    + "      security:\n"
+                    + "        - openIdAuth: []\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n"
+                    + "components:\n"
+                    + "  securitySchemes:\n"
+                    + "    openIdAuth:\n"
+                    + "      type: openIdConnect\n"
+                    + "      openIdConnectUrl: 'https://auth.example.com/.well-known/openid-configuration'\n");
 
-            // The oauth2 scheme ("petstore_auth") isn't the auto-wired primary scheme,
-            // so generation must still succeed and the limitation must be documented
-            // (FR-010), rather than generation failing or the limitation being silent.
-            Assert.assertTrue(readme.toLowerCase(java.util.Locale.ROOT).contains("oauth2"));
-            Assert.assertTrue(readme.toLowerCase(java.util.Locale.ROOT).contains("limitation"));
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+
+            Assert.assertTrue(find(outputDir, ".credentials.ts").isEmpty(),
+                    "an entirely unmappable scheme must not produce a credential file");
+
+            String readme = Files.readString(outputDir.resolve("README.md"));
+            String lowerReadme = readme.toLowerCase(java.util.Locale.ROOT);
+            Assert.assertFalse(lowerReadme.contains("declares no security scheme"),
+                    "the README must not claim no security scheme was declared when one actually was, just unmappable");
+            Assert.assertTrue(lowerReadme.contains("openidauth"),
+                    "the README must name the unmappable scheme");
+            Assert.assertTrue(lowerReadme.contains("limitation"),
+                    "the README must document this as a limitation, per FR-010");
         } finally {
             deleteRecursively(target);
         }

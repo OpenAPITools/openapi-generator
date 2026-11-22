@@ -30,7 +30,12 @@ type per scheme:
 {{/n8nSingleCredential}}
 {{/n8nCredentialRefs}}
 {{^n8nCredentialRefs}}
+{{#n8nHasUnmappedSchemes}}
+This API's spec declares a security scheme this generator does not support ({{#n8nUnmappedSchemeNames}}`{{.}}`{{^-last}}, {{/-last}}{{/n8nUnmappedSchemeNames}}), so no credential type was generated. Operations requiring it are sent unauthenticated - see "Known limitations" below.
+{{/n8nHasUnmappedSchemes}}
+{{^n8nHasUnmappedSchemes}}
 This API's spec declares no security scheme, so no credential type was generated. Requests are sent unauthenticated.
+{{/n8nHasUnmappedSchemes}}
 {{/n8nCredentialRefs}}
 {{#n8nCredentialRefs}}
 {{#-first}}
@@ -67,6 +72,9 @@ Set the **Base URL** field on whichever credential you use to your API's base UR
   if you want to wire up a complete OAuth2 flow by hand.
 {{/isOAuthManual}}
 {{/n8nCredentialRefs}}
+{{#n8nHasUnmappedSchemes}}
+- This spec declares a security scheme this generator does not support ({{#n8nUnmappedSchemeNames}}`{{.}}`{{^-last}}, {{/-last}}{{/n8nUnmappedSchemeNames}}); no credential was generated for it, and any operation that requires it (and has no other usable scheme to fall back to) is sent unauthenticated, which will likely fail against a real API that enforces it. You'll need to add authentication for this manually, e.g. by extending `GenericFunctions.ts`'s `apiRequest`.
+{{/n8nHasUnmappedSchemes}}
 - Request body and array/object parameters that don't map cleanly to a primitive n8n field type are
   exposed as a generic JSON field; fill them in as a JSON object/array.
 

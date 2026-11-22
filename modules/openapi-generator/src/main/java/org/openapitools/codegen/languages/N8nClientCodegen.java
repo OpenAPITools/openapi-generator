@@ -470,6 +470,27 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         objs.put("n8nCredentialRefs", credentialRefs);
         objs.put("n8nSingleCredential", single);
 
+        // Distinguishes "the spec declares no security at all" from "the spec declares a
+        // security scheme this generator cannot map" (T065 - e.g. openIdConnect, httpSignature,
+        // or any other scheme landing in schemePriority()'s unsupported/MAX_VALUE bucket):
+        // without this, README.mustache's `{{^n8nCredentialRefs}}` branch rendered the same
+        // "no security scheme declared" message for both cases, which is actively false - and
+        // silently hides the real limitation - when a scheme WAS declared but just isn't one
+        // this generator knows how to translate, per FR-007/FR-010/spec.md US3 Acceptance
+        // Scenario 3.
+        List<String> unmappedSchemeNames = new ArrayList<>();
+        if (authMethods != null) {
+            Set<String> seen = new LinkedHashSet<>();
+            for (CodegenSecurity scheme : authMethods) {
+                if (!schemeNameToCredentialName.containsKey(scheme.name)) {
+                    seen.add(scheme.name);
+                }
+            }
+            unmappedSchemeNames.addAll(seen);
+        }
+        objs.put("n8nUnmappedSchemeNames", unmappedSchemeNames);
+        objs.put("n8nHasUnmappedSchemes", !unmappedSchemeNames.isEmpty());
+
         applyPerOperationCredentialNames(objs, schemeNameToCredentialName);
 
         // node.mustache/genericFunctions.mustache are rendered from this same, now-fully-built
