@@ -4855,9 +4855,12 @@ public class KotlinSpringServerCodegenTest {
         appender.start();
         logger.addAppender(appender);
         List<String> warnings;
+        // Surefire runs test classes in parallel; only count events logged by this test's thread.
+        String testThread = Thread.currentThread().getName();
         try {
             generateFromContract("src/test/resources/3_0/spring/kotlin-temporal-parameter-defaults.yaml");
             warnings = appender.list.stream()
+                    .filter(event -> testThread.equals(event.getThreadName()))
                     .filter(event -> event.getLevel() == ch.qos.logback.classic.Level.WARN)
                     .map(ch.qos.logback.classic.spi.ILoggingEvent::getFormattedMessage)
                     .collect(Collectors.toList());
@@ -4866,10 +4869,14 @@ public class KotlinSpringServerCodegenTest {
         }
 
         for (String expected : List.of(
-                "date/date-time query parameter 'day'", "date/date-time query parameter 'at'",
-                "date/date-time header parameter 'headerDay'", "date/date-time cookie parameter 'cookieDay'",
-                "date/date-time cookie parameter 'cookieAt'", "date/date-time form parameter 'day'",
-                "date/date-time form parameter 'at'",
+                "query parameter 'day' of operation 'temporalQuery'",
+                "query parameter 'day' of operation 'temporalQueryAgain'",
+                "query parameter 'at' of operation 'temporalQuery'",
+                "header parameter 'headerDay' of operation 'temporalQuery'",
+                "cookie parameter 'cookieDay' of operation 'temporalQuery'",
+                "cookie parameter 'cookieAt' of operation 'temporalQuery'",
+                "form parameter 'day' of operation 'temporalForm'",
+                "form parameter 'at' of operation 'temporalForm'",
                 "date/date-time property 'TemporalDefaults.day'", "date/date-time property 'TemporalDefaults.at'")) {
             Assert.assertEquals(warnings.stream().filter(w -> w.contains(expected)).count(), 1L,
                     "expected exactly one warning containing: " + expected + " in " + warnings);

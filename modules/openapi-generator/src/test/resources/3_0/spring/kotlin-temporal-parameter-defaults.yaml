@@ -45,6 +45,19 @@ paths:
       responses:
         "200":
           description: ok
+  /query-again:
+    get:
+      operationId: temporalQueryAgain
+      parameters:
+        - name: day
+          in: query
+          schema:
+            type: string
+            format: date
+            default: "2024-03-06"
+      responses:
+        "200":
+          description: ok
   /form:
     post:
       operationId: temporalForm
