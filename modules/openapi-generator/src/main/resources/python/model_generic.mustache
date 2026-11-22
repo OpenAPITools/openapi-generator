@@ -516,15 +516,13 @@ https://github.com/OpenAPITools/openapi-generator/blob/c84b949df1a9ec04ba75989cb
 {{^vendorExtensions.x-py-preprocesses-input-names}}
 
 {{/vendorExtensions.x-py-preprocesses-input-names}}
-        {{#disallowAdditionalPropertiesIfNotPresent}}
-        {{^isAdditionalPropertiesTrue}}
+        {{#vendorExtensions.x-py-rejects-additional-properties}}
         # raise errors for additional fields in the input
         for _key in obj.keys():
             if _key not in cls.__properties:
                 raise ValueError("Error due to additional fields (not defined in {{classname}}) in the input: " + _key)
 
-        {{/isAdditionalPropertiesTrue}}
-        {{/disallowAdditionalPropertiesIfNotPresent}}
+        {{/vendorExtensions.x-py-rejects-additional-properties}}
         _obj = cls.model_validate({
             {{#allVars}}
             {{#isContainer}}
