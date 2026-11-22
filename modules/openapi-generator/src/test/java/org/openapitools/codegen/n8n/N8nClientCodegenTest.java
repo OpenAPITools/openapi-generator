@@ -617,6 +617,122 @@ public class N8nClientCodegenTest {
     }
 
     /**
+     * Regression test for T067 (convergence): a parameter's spec-declared OpenAPI {@code
+     * default} must pre-fill the generated field, not a generic type-based filler -
+     * {@code data-model.md}'s "Field" entity documents this mapping explicitly, but before this
+     * fix a boolean param declared {@code default: true} rendered {@code default: false}, an
+     * integer declared {@code default: 25} rendered {@code default: 0}, and a string declared
+     * {@code default: 'desc'} rendered {@code default: ''}.
+     */
+    @Test
+    public void rendersSpecDeclaredDefaultForScalarFields() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "scalar-defaults.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: scalar defaults test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /widgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidgets\n"
+                    + "      parameters:\n"
+                    + "        - name: includeArchived\n"
+                    + "          in: query\n"
+                    + "          schema:\n"
+                    + "            type: boolean\n"
+                    + "            default: true\n"
+                    + "        - name: pageSize\n"
+                    + "          in: query\n"
+                    + "          schema:\n"
+                    + "            type: integer\n"
+                    + "            default: 25\n"
+                    + "        - name: sortOrder\n"
+                    + "          in: query\n"
+                    + "          schema:\n"
+                    + "            type: string\n"
+                    + "            default: 'desc'\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+            String nodeSource = readNodeSource(outputDir);
+
+            Assert.assertTrue(fieldDefaultBlock(nodeSource, "includeArchived").contains("default: true"),
+                    "a boolean parameter's declared default must be used, not the generic 'false' filler");
+            Assert.assertTrue(fieldDefaultBlock(nodeSource, "pageSize").contains("default: 25"),
+                    "a number parameter's declared default must be used, not the generic '0' filler");
+            Assert.assertTrue(fieldDefaultBlock(nodeSource, "sortOrder").contains("default: 'desc'"),
+                    "a string parameter's declared default must be used, not the generic '' filler");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Regression test for T067 (convergence), the enum variant: before this fix, an {@code
+     * options}-typed field's default always used the FIRST enum choice regardless of what the
+     * spec actually declared as the default, e.g. an enum declared {@code default: published}
+     * (not its first choice) rendered {@code default: "draft"} instead.
+     */
+    @Test
+    public void rendersSpecDeclaredDefaultForEnumFieldNotFirstChoice() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "enum-default.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: enum default test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /widgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidgets\n"
+                    + "      parameters:\n"
+                    + "        - name: status\n"
+                    + "          in: query\n"
+                    + "          schema:\n"
+                    + "            type: string\n"
+                    + "            enum: [draft, published, archived]\n"
+                    + "            default: published\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+            String nodeSource = readNodeSource(outputDir);
+
+            Assert.assertTrue(fieldDefaultBlock(nodeSource, "status").contains("default: \"published\""),
+                    "an enum parameter's declared default must be used even when it isn't the first enum choice");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Extracts the text from a field's {@code name: '<paramName>'} line up to its {@code
+     * default:} line, so a test can assert on the rendered default without depending on the
+     * field's other property ordering.
+     */
+    private static String fieldDefaultBlock(String nodeSource, String paramName) {
+        String marker = "name: '" + paramName + "'";
+        int fieldIndex = nodeSource.indexOf(marker);
+        Assert.assertTrue(fieldIndex >= 0, "expected a field for parameter '" + paramName + "'");
+        int defaultIndex = nodeSource.indexOf("default:", fieldIndex);
+        Assert.assertTrue(defaultIndex >= 0, "expected a default: entry for parameter '" + paramName + "'");
+        int lineEnd = nodeSource.indexOf("\n", defaultIndex);
+        return nodeSource.substring(defaultIndex, lineEnd < 0 ? nodeSource.length() : lineEnd);
+    }
+
+    /**
      * Regression test for T063 (convergence): an OAuth2 security scheme declaring exactly one
      * of the "common flows" (clientCredentials/authorizationCode) that research.md §3 / spec.md
      * Assumptions commit to automating must get n8n's generic {@code oAuth2Api} credential

@@ -109,15 +109,15 @@ export class {{nodeClassName}} implements INodeType {
 							{{/enumVars}}
 							{{/vendorExtensions.n8nCollectionItemAllowableValues}}
 						],
-						default: {{#vendorExtensions.n8nCollectionItemAllowableValues}}{{#enumVars}}{{#-first}}{{{value}}}{{/-first}}{{/enumVars}}{{/vendorExtensions.n8nCollectionItemAllowableValues}},
+						default: {{{vendorExtensions.n8nCollectionItemDefaultLiteral}}},
 						{{/vendorExtensions.n8nCollectionItemIsOptions}}
 						{{^vendorExtensions.n8nCollectionItemIsOptions}}
-						default: {{#vendorExtensions.n8nCollectionItemIsBoolean}}false{{/vendorExtensions.n8nCollectionItemIsBoolean}}{{#vendorExtensions.n8nCollectionItemIsNumber}}0{{/vendorExtensions.n8nCollectionItemIsNumber}}{{#vendorExtensions.n8nCollectionItemIsString}}''{{/vendorExtensions.n8nCollectionItemIsString}},
+						default: {{{vendorExtensions.n8nCollectionItemDefaultLiteral}}},
 						{{/vendorExtensions.n8nCollectionItemIsOptions}}
 					},
 				],
 				{{/vendorExtensions.n8nIsCollection}}
-				default: {{#vendorExtensions.n8nIsBoolean}}false{{/vendorExtensions.n8nIsBoolean}}{{#vendorExtensions.n8nIsNumber}}0{{/vendorExtensions.n8nIsNumber}}{{#vendorExtensions.n8nIsString}}''{{/vendorExtensions.n8nIsString}}{{#vendorExtensions.n8nIsJson}}{}{{/vendorExtensions.n8nIsJson}}{{#vendorExtensions.n8nIsCollection}}[]{{/vendorExtensions.n8nIsCollection}}{{#vendorExtensions.n8nIsOptions}}{{#allowableValues}}{{#enumVars}}{{#-first}}{{{value}}}{{/-first}}{{/enumVars}}{{/allowableValues}}{{/vendorExtensions.n8nIsOptions}},
+				default: {{{vendorExtensions.n8nDefaultLiteral}}},
 				required: {{#required}}true{{/required}}{{^required}}false{{/required}},
 				displayOptions: {
 					show: {

@@ -279,8 +279,25 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * silently dropping its "more than one value" array-ness. The per-item enum (if any) is
      * instead carried into the {@code collection}'s own per-entry sub-field via {@code
      * n8nCollectionItemIsOptions}/{@code n8nCollectionItemAllowableValues} below.
+     * <p>
+     * Also computes {@code vendorExtensions.n8nDefaultLiteral} (T067 - data-model.md "Field"
+     * {@code default}: "OpenAPI {@code default} - Pre-fills the n8n field"): a complete,
+     * ready-to-embed JS literal for the field's {@code default:} property, built from the
+     * parameter's own spec-declared {@code defaultValue} rather than always falling back to a
+     * generic type-based filler (confirmed empirically: before this, a boolean param declared
+     * {@code default: true} rendered {@code default: false}, and an enum param declared
+     * {@code default: published} - not its first choice - rendered {@code default: "draft"}
+     * instead). Falls back to the previous generic filler only when the spec declares no
+     * default for that field (or, for {@code options}, when the declared default doesn't match
+     * any enum choice).
      */
     private static void applyN8nFieldType(CodegenParameter p) {
+        // See cleanDefaultValue's Javadoc: fromParameter/fromFormProperty-built parameters go
+        // through toDefaultParameterValue, which carries the same "null"-string sentinel as
+        // CodegenProperty.defaultValue - confirmed empirically against the committed Petstore
+        // sample, a plain path parameter with no declared default (petId) rendered
+        // `default: null` before this normalization, not the generic numeric filler.
+        p.defaultValue = cleanDefaultValue(p.defaultValue);
         String n8nFieldType;
         if (Boolean.TRUE.equals(p.isArray)) {
             n8nFieldType = "collection";
@@ -308,6 +325,29 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         p.vendorExtensions.put("n8nIsJson", "json".equals(n8nFieldType));
         p.vendorExtensions.put("n8nIsCollection", "collection".equals(n8nFieldType));
 
+        String defaultLiteral;
+        switch (n8nFieldType) {
+            case "boolean":
+                defaultLiteral = p.defaultValue != null ? p.defaultValue : "false";
+                break;
+            case "number":
+                defaultLiteral = p.defaultValue != null ? p.defaultValue : "0";
+                break;
+            case "string":
+                defaultLiteral = "'" + escapeSingleQuotedJs(p.defaultValue != null ? p.defaultValue : "") + "'";
+                break;
+            case "options":
+                defaultLiteral = enumDefaultLiteral(p.allowableValues, p.defaultValue);
+                break;
+            case "collection":
+                defaultLiteral = "[]";
+                break;
+            default:
+                // json fallback: no spec-level concept of a scalar default to pre-fill here.
+                defaultLiteral = "{}";
+        }
+        p.vendorExtensions.put("n8nDefaultLiteral", defaultLiteral);
+
         if ("collection".equals(n8nFieldType)) {
             CodegenProperty items = p.items;
             boolean itemIsOptions = items != null && Boolean.TRUE.equals(items.isEnum);
@@ -329,6 +369,19 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (itemIsOptions) {
                 p.vendorExtensions.put("n8nCollectionItemAllowableValues", items.allowableValues);
             }
+
+            String itemDefault = items != null ? cleanDefaultValue(items.defaultValue) : null;
+            String itemDefaultLiteral;
+            if (itemIsOptions) {
+                itemDefaultLiteral = enumDefaultLiteral(items.allowableValues, itemDefault);
+            } else if ("boolean".equals(itemFieldType)) {
+                itemDefaultLiteral = itemDefault != null ? itemDefault : "false";
+            } else if ("number".equals(itemFieldType)) {
+                itemDefaultLiteral = itemDefault != null ? itemDefault : "0";
+            } else {
+                itemDefaultLiteral = "'" + escapeSingleQuotedJs(itemDefault != null ? itemDefault : "") + "'";
+            }
+            p.vendorExtensions.put("n8nCollectionItemDefaultLiteral", itemDefaultLiteral);
         }
     }
 
@@ -510,6 +563,54 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
             return value;
         }
         return Character.toLowerCase(value.charAt(0)) + value.substring(1);
+    }
+
+    /**
+     * {@code CodegenProperty.defaultValue} (unlike {@code CodegenParameter.defaultValue}) is the
+     * literal string {@code "null"} - not Java {@code null} - when the schema declares no
+     * default ({@code DefaultCodegen#toDefaultValue}'s documented sentinel for "no default").
+     * Confirmed empirically: without this normalization, Petstore's {@code addPet}/{@code id}
+     * property rendered {@code default: null} (a bare, confusing literal) and its {@code name}
+     * property rendered {@code default: 'null'} (the literal text "null" pre-filled into a
+     * string field) instead of falling back to the generic filler like every other
+     * no-default field already does.
+     */
+    private static String cleanDefaultValue(String rawDefaultValue) {
+        return (rawDefaultValue == null || "null".equals(rawDefaultValue)) ? null : rawDefaultValue;
+    }
+
+    private static String escapeSingleQuotedJs(String value) {
+        return value.replace("\\", "\\\\").replace("'", "\\'");
+    }
+
+    /**
+     * Finds the enum choice matching a declared OpenAPI default, returning its already-escaped
+     * {@code value} literal (e.g. {@code "published"} for a string enum) rather than re-quoting
+     * it. Falls back to the first choice's literal when there's no declared default or it
+     * doesn't match any enum choice - the previous, only behavior (T067).
+     */
+    @SuppressWarnings("unchecked")
+    private static String enumDefaultLiteral(Map<String, Object> allowableValues, String declaredDefault) {
+        if (allowableValues == null || !(allowableValues.get("enumVars") instanceof List)) {
+            return "''";
+        }
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
+        if (enumVars.isEmpty()) {
+            return "''";
+        }
+        if (declaredDefault != null) {
+            for (Map<String, Object> enumVar : enumVars) {
+                Object rawValue = enumVar.get("rawValue");
+                if (rawValue != null && declaredDefault.equals(String.valueOf(rawValue))) {
+                    Object value = enumVar.get("value");
+                    if (value != null) {
+                        return String.valueOf(value);
+                    }
+                }
+            }
+        }
+        Object firstValue = enumVars.get(0).get("value");
+        return firstValue != null ? String.valueOf(firstValue) : "''";
     }
 
     /**
