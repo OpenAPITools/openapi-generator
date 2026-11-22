@@ -237,13 +237,24 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "Status values that need to be considered for filter",
 				name: 'status',
-				type: 'options',
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
 				options: [
-					{ name: "AVAILABLE", value: "available" },
-					{ name: "PENDING", value: "pending" },
-					{ name: "SOLD", value: "sold" },
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'options',
+						options: [
+							{ name: "AVAILABLE", value: "available" },
+							{ name: "PENDING", value: "pending" },
+							{ name: "SOLD", value: "sold" },
+						],
+						default: "available",
+					},
 				],
-				default: "available",
+				default: [],
 				required: true,
 				displayOptions: {
 					show: {
@@ -255,8 +266,19 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "Tags to filter by",
 				name: 'tags',
-				type: 'json',
-				default: {},
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				options: [
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+				default: [],
 				required: true,
 				displayOptions: {
 					show: {
@@ -424,8 +446,19 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "List of user object",
 				name: 'User',
-				type: 'json',
-				default: {},
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				options: [
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+				default: [],
 				required: true,
 				displayOptions: {
 					show: {
@@ -437,8 +470,19 @@ export class OpenapiPetstoreApi implements INodeType {
 			{
 				displayName: "List of user object",
 				name: 'User',
-				type: 'json',
-				default: {},
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				options: [
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+				default: [],
 				required: true,
 				displayOptions: {
 					show: {
@@ -557,14 +601,14 @@ export class OpenapiPetstoreApi implements INodeType {
 					const qs: IDataObject = {};
 					const body: IDataObject = {};
 					let path = '/pet/findByStatus';
-					qs['status'] = this.getNodeParameter('status', i);
+					qs['status'] = (this.getNodeParameter('status', i) as IDataObject[]).map((entry) => entry.value);
 					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'findPetsByTags') {
 					const qs: IDataObject = {};
 					const body: IDataObject = {};
 					let path = '/pet/findByTags';
-					qs['tags'] = this.getNodeParameter('tags', i);
+					qs['tags'] = (this.getNodeParameter('tags', i) as IDataObject[]).map((entry) => entry.value);
 					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'getPetById') {

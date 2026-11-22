@@ -551,6 +551,34 @@ public class N8nClientCodegenTest {
         }
     }
 
+    /**
+     * Regression test for T062 (convergence): a plain array-of-strings parameter - Petstore's
+     * own {@code findPetsByStatus} {@code status} query parameter (array of enum strings) - used
+     * to fall into the exact same generic-JSON fallback as a genuinely-unmappable {@code oneOf}
+     * shape (see {@link #mapsOneOfRequestBodyToGenericJsonFallback}), even though it is not such
+     * a shape: FR-006 requires "array" to map to an "appropriate" node field type. It must now
+     * render as n8n's {@code collection} type (with {@code multipleValues: true}), not {@code
+     * json}.
+     */
+    @Test
+    public void mapsArrayParameterToCollectionFieldType() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            generate(target);
+            String nodeSource = readNodeSource(target);
+
+            Assert.assertTrue(nodeSource.contains("name: 'status'"), "expected a field for findPetsByStatus's 'status' parameter");
+            int fieldIndex = nodeSource.indexOf("name: 'status'");
+            String fieldBlock = nodeSource.substring(fieldIndex, Math.min(nodeSource.length(), fieldIndex + 400));
+            Assert.assertTrue(fieldBlock.contains("type: 'collection'"),
+                    "a plain array-of-strings parameter must map to n8n's 'collection' field type, not the generic JSON fallback reserved for genuinely-unmappable shapes");
+            Assert.assertTrue(fieldBlock.contains("multipleValues: true"),
+                    "the collection field must allow adding more than one value");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
     private static Path writeTempSpec(Path dir, String filename, String content) throws IOException {
         Path file = dir.resolve(filename);
         Files.createDirectories(dir);

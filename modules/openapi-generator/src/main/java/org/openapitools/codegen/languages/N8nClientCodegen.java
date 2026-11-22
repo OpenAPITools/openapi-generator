@@ -259,11 +259,34 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         return objs;
     }
 
+    /**
+     * Arrays get their own {@code collection} n8nType (data-model.md "Field", T007/T062),
+     * distinct from the {@code json} fallback: FR-006 requires "array" to map to an
+     * "appropriate" node field type, and spec.md Edge Cases #2 reserves the generic-JSON
+     * fallback specifically for shapes the generator "cannot cleanly map" (its own example is
+     * deeply-nested {@code oneOf}/{@code anyOf}) - a plain array of strings or numbers (e.g.
+     * Petstore's own {@code findPetsByStatus}/{@code findPetsByTags} query parameters) is not
+     * such a shape and, before this, was rendered as an opaque free-text JSON field in the n8n
+     * UI even though n8n's {@code collection} type (with {@code multipleValues: true}) can
+     * represent "add one or more values" natively. Maps/free-form objects still fall back to
+     * {@code json}: an arbitrary key/value bag has no fixed set of sub-fields to build a
+     * {@code collection}'s {@code options} array from.
+     * <p>
+     * Checked before {@code isEnum}: the framework sets a parameter's own {@code isEnum} true
+     * whenever its array *items* are enum-typed (confirmed empirically against Petstore's own
+     * {@code status}/{@code tags} query parameters, both arrays of enum strings) - checking
+     * {@code isEnum} first would collapse an array-of-enum down to a single-select dropdown,
+     * silently dropping its "more than one value" array-ness. The per-item enum (if any) is
+     * instead carried into the {@code collection}'s own per-entry sub-field via {@code
+     * n8nCollectionItemIsOptions}/{@code n8nCollectionItemAllowableValues} below.
+     */
     private static void applyN8nFieldType(CodegenParameter p) {
         String n8nFieldType;
-        if (Boolean.TRUE.equals(p.isEnum)) {
+        if (Boolean.TRUE.equals(p.isArray)) {
+            n8nFieldType = "collection";
+        } else if (Boolean.TRUE.equals(p.isEnum)) {
             n8nFieldType = "options";
-        } else if (Boolean.TRUE.equals(p.isArray) || Boolean.TRUE.equals(p.isMap) || Boolean.TRUE.equals(p.isFreeFormObject)) {
+        } else if (Boolean.TRUE.equals(p.isMap) || Boolean.TRUE.equals(p.isFreeFormObject)) {
             n8nFieldType = "json";
         } else if ("boolean".equals(p.dataType)) {
             n8nFieldType = "boolean";
@@ -283,6 +306,30 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         p.vendorExtensions.put("n8nIsNumber", "number".equals(n8nFieldType));
         p.vendorExtensions.put("n8nIsString", "string".equals(n8nFieldType));
         p.vendorExtensions.put("n8nIsJson", "json".equals(n8nFieldType));
+        p.vendorExtensions.put("n8nIsCollection", "collection".equals(n8nFieldType));
+
+        if ("collection".equals(n8nFieldType)) {
+            CodegenProperty items = p.items;
+            boolean itemIsOptions = items != null && Boolean.TRUE.equals(items.isEnum);
+            String itemFieldType;
+            if (itemIsOptions) {
+                itemFieldType = "options";
+            } else if (items != null && "boolean".equals(items.dataType)) {
+                itemFieldType = "boolean";
+            } else if (items != null && ("integer".equals(items.dataType) || "number".equals(items.dataType))) {
+                itemFieldType = "number";
+            } else {
+                itemFieldType = "string";
+            }
+            p.vendorExtensions.put("n8nCollectionItemType", itemFieldType);
+            p.vendorExtensions.put("n8nCollectionItemIsBoolean", "boolean".equals(itemFieldType));
+            p.vendorExtensions.put("n8nCollectionItemIsNumber", "number".equals(itemFieldType));
+            p.vendorExtensions.put("n8nCollectionItemIsString", "string".equals(itemFieldType));
+            p.vendorExtensions.put("n8nCollectionItemIsOptions", itemIsOptions);
+            if (itemIsOptions) {
+                p.vendorExtensions.put("n8nCollectionItemAllowableValues", items.allowableValues);
+            }
+        }
     }
 
     /**
