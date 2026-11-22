@@ -155,7 +155,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         removeOption(CodegenConstants.LIBRARY);
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(DEFAULT_LIBRARY);
         supportedLibraries.put(DEFAULT_LIBRARY, "JAXRS spec only, to be deployed in an app server (TomEE, JBoss, WLS, ...)");
-        supportedLibraries.put(QUARKUS_LIBRARY, "Server using Quarkus");
+        supportedLibraries.put(QUARKUS_LIBRARY, "Server using Quarkus 3 (Jakarta EE only: useJakartaEe defaults to true, and useJakartaEe=false is rejected)");
         supportedLibraries.put(THORNTAIL_LIBRARY, "Server using Thorntail");
         supportedLibraries.put(OPEN_LIBERTY_LIBRARY, "Server using Open Liberty");
         supportedLibraries.put(HELIDON_LIBRARY, "Server using Helidon");
@@ -167,7 +167,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
         cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, INTERFACE_ONLY_DESC).defaultValue(String.valueOf(interfaceOnly)));
         cliOptions.add(CliOption.newBoolean(GENERATE_ROOT_RESOURCES, "Whether to generate the root resource and application classes, only useful if interfaceOnly is true.", generateRootResources));
         cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true.").defaultValue(String.valueOf(returnResponse)));
-        cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` and `useJakartaEE` set to true, because `org.jboss.resteasy.reactive.RestResponse` was introduced in Quarkus 2.x").defaultValue(String.valueOf(returnJbossResponse)));
+        cliOptions.add(CliOption.newBoolean(RETURN_JBOSS_RESPONSE, "Whether generate API interface should return `org.jboss.resteasy.reactive.RestResponse` instead of a deserialized entity. This flag cannot be combined with `returnResponse` flag. It requires the flag `interfaceOnly` set to true. Only valid when library is set to quarkus.").defaultValue(String.valueOf(returnJbossResponse)));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_ANNOTATIONS, "Whether to generate Swagger annotations.", useSwaggerAnnotations));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_V3_ANNOTATIONS, "Whether to generate Swagger v3 (OpenAPI v3) annotations.", useSwaggerV3Annotations));
         cliOptions.add(CliOption.newBoolean(USE_MICROPROFILE_OPENAPI_ANNOTATIONS, "Whether to generate Microprofile OpenAPI annotations. Only valid when library is set to quarkus.", useMicroProfileOpenAPIAnnotations));
@@ -253,18 +253,28 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             setDateLibrary("java8");
         }
 
+        // The quarkus library generates a Quarkus 3 project, which only exists for the jakarta.* namespace.
+        // The javax.* path (Quarkus 1.13.7, end of maintenance since 2021) was removed, see
+        // https://github.com/OpenAPITools/openapi-generator/issues/25770
+        // super.processOpts() resolves the library from additionalProperties only later, so read it from there too.
+        Object configuredLibrary = additionalProperties.getOrDefault(CodegenConstants.LIBRARY, library);
+        if (QUARKUS_LIBRARY.equals(String.valueOf(configuredLibrary))) {
+            Object jakartaEe = additionalProperties.get(USE_JAKARTA_EE);
+            if (jakartaEe == null) {
+                additionalProperties.put(USE_JAKARTA_EE, true);
+            } else if (!Boolean.parseBoolean(String.valueOf(jakartaEe))) {
+                throw new IllegalArgumentException("The '" + QUARKUS_LIBRARY + "' library generates a Quarkus 3 project, "
+                        + "which requires '" + USE_JAKARTA_EE + "=true'. Remove '" + USE_JAKARTA_EE + "=false' or set it "
+                        + "to true. The javax.* (Quarkus 1.x) project is no longer generated, see "
+                        + "https://github.com/OpenAPITools/openapi-generator/issues/25770");
+            }
+        }
+
         super.processOpts();
 
         // We need to call super.processOpts() before evaluating the `library`, otherwise `library` is null when set via `configOptions` instead of via `library.set("quarkus")` in Gradle
         if (QUARKUS_LIBRARY.equals(library)) {
             convertPropertyToBooleanAndWriteBack(USE_JAKARTA_SECURITY_ANNOTATIONS, value -> useJakartaSecurityAnnotations = value);
-        }
-
-        if (useJakartaSecurityAnnotations && !useJakartaEe) {
-            throw new IllegalArgumentException(
-                    "Flag '" + USE_JAKARTA_SECURITY_ANNOTATIONS + "' requires '" + USE_JAKARTA_EE
-                            + "=true'. The generated annotation '@jakarta.annotation.security.RolesAllowed' "
-                            + "is incompatible with the javax.* namespace.");
         }
 
         if (isJsonb()) {
@@ -327,12 +337,6 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
               String msg = String.format(Locale.ROOT,
                   "You cannot combine [%s] and [%s] since they are mutually exclusive",
                   RETURN_RESPONSE, RETURN_JBOSS_RESPONSE);
-              throw new IllegalArgumentException(msg);
-            }
-            if(returnJbossResponse && !useJakartaEe) {
-              String msg = String.format(Locale.ROOT,
-                  "The [%s] requires [%s] to be true, because org.jboss.resteasy.reactive.RestResponse was introduced in Quarkus 2.x",
-                  RETURN_JBOSS_RESPONSE, USE_JAKARTA_EE);
               throw new IllegalArgumentException(msg);
             }
         } else if (OPEN_LIBERTY_LIBRARY.equals(library)) {
