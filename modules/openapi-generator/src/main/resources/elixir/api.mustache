@@ -36,7 +36,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
   ### Returns
 
   - `{{{successTypesDoc}}}` on success
-  - `{:error, Tesla.Env.t}` on failure
+  - `{:error, {{{errorType}}}}` on failure
   """
   {{{typespec}}}
   def {{{operationId}}}(connection, {{#requiredParams}}{{#underscored}}{{{paramName}}}{{/underscored}}, {{/requiredParams}}{{^hasOptionalParams}}_{{/hasOptionalParams}}opts \\ []) do
@@ -79,7 +79,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> Connection.request(request)
     |> evaluate_response({{#responses}}{{#-first}}[
 {{/-first}}
-      {{=<% %>=}}{<%& codeMappingKey%>, <%decodedStruct%>}<%={{ }}=%>{{^-last}},{{/-last}}
+      {{=<% %>=}}{<%& codeMappingKey%>, <%& decodedStruct%>}<%={{ }}=%>{{^-last}},{{/-last}}
 {{#-last}}    ]{{/-last}}{{/responses}})
   end
   {{/operation}}

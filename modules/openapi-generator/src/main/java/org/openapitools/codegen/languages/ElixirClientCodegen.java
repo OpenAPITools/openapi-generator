@@ -19,9 +19,11 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,10 +40,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_VALUES;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -342,29 +347,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 writer.write(text.toUpperCase(Locale.ROOT));
             }
         });
-        additionalProperties.put("quoteIfString", new Mustache.Lambda() {
-            @Override
-            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-                String text = fragment.execute();
-                if (text != null) {
-                    try {
-                        // Try to parse as a number
-                        Double.parseDouble(text);
-                        // If parsing succeeds, it's a number, so write it as is
-                        writer.write(text);
-                    } catch (NumberFormatException e) {
-                        // Check if it's a boolean
-                        if (text.equals("true") || text.equals("false")) {
-                            writer.write(text);
-                        } else {
-                            // It's not a number or boolean, so it's a string - quote it
-                            writer.write("\"" + text + "\"");
-                        }
-                    }
-                }
-            }
-        });
-
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }
@@ -493,12 +475,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
         ecm.requiredEctoFields.clear();
         for (CodegenProperty field : requiredEctoFields) {
             ecm.requiredEctoFields.add(new ExtendedCodegenProperty(field));
-        }
-
-        List<CodegenProperty> ectoEnums = new ArrayList<>(ecm.ectoEnums);
-        ecm.ectoEnums.clear();
-        for (CodegenProperty field : ectoEnums) {
-            ecm.ectoEnums.add(new ExtendedCodegenProperty(field));
         }
 
         return ecm;
@@ -728,6 +704,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
      */
     @Override
     public String getSchemaType(Schema p) {
+        Schema<?> enumSchema = referencedEnum(p);
+        if (enumSchema != null) {
+            return enumType(enumSchema);
+        }
         String openAPIType = super.getSchemaType(p);
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
@@ -736,8 +716,76 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
     }
 
+    @Override
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        Schema<?> enumSchema = referencedEnum(schema);
+        return enumSchema == null ? super.getParameterDataType(parameter, schema) : enumType(enumSchema);
+    }
+
+    private Schema<?> referencedEnum(Schema<?> schema) {
+        if (schema == null || schema.get$ref() == null
+                || schemaMapping.containsKey(ModelUtils.getSimpleRef(schema.get$ref()))) {
+            return null;
+        }
+        Schema<?> target = ModelUtils.getReferencedSchemaChain(openAPI, schema);
+        return ModelUtils.isEnumSchema(target) && target.getEnum().stream().allMatch(this::isScalarEnumValue)
+                ? target
+                : null;
+    }
+
+    private String enumType(Schema<?> schema) {
+        String type = ModelUtils.getType(schema);
+        return type == null ? "any()" : typeMapping.getOrDefault(type, "any()");
+    }
+
+    private boolean isScalarEnumValue(Object value) {
+        return value == null || value instanceof String || value instanceof Number || value instanceof Boolean;
+    }
+
+    private String enumConstraint(CodegenProperty property, boolean referencedOnly) {
+        if (property == null) {
+            return null;
+        }
+        if (property.isArray || property.isMap) {
+            String item = enumConstraint(property.items, referencedOnly);
+            String container = property.isArray ? ":array" : ":map";
+            return item == null ? null : "{" + container + ", " + item + "}";
+        }
+
+        List<?> values;
+        if (property.isEnumRef || (!referencedOnly && property.isEnum)) {
+            values = property.allowableValues == null ? null : (List<?>) property.allowableValues.get(ENUM_VALUES);
+        } else {
+            Schema<?> enumSchema = property.getRef() == null ? null : referencedEnum(new Schema<>().$ref(property.getRef()));
+            values = enumSchema == null ? null : enumSchema.getEnum();
+        }
+        if (values == null || values.isEmpty() || !values.stream().allMatch(this::isScalarEnumValue)) {
+            return null;
+        }
+        // Ecto casts numeric fields to floats before checking inclusion.
+        boolean castsToFloat = !referencedOnly
+                && ("number()".equals(property.baseType) || "float()".equals(property.baseType));
+        return values.stream().map(value -> enumLiteral(value, castsToFloat))
+                .collect(Collectors.joining(", ", "[", "]"));
+    }
+
+    private String enumLiteral(Object value, boolean castsToFloat) {
+        if (value == null) {
+            return "nil";
+        }
+        if (value instanceof String) {
+            return Json.mapper().getNodeFactory().textNode((String) value).toString().replace("#{", "\\#{");
+        }
+        String literal = value instanceof BigDecimal ? ((BigDecimal) value).toPlainString() : value.toString();
+        if (castsToFloat && value instanceof Number && !literal.contains(".")) {
+            return literal + ".0";
+        }
+        return literal;
+    }
+
     class ExtendedCodegenResponse extends CodegenResponse {
         public boolean isDefinedDefault;
+        private final String enumConstraint;
 
         public ExtendedCodegenResponse(CodegenResponse o) {
             super();
@@ -777,6 +825,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.vendorExtensions = o.vendorExtensions;
 
             this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
+            this.enumConstraint = enumConstraint(o.returnProperty, true);
         }
 
         public String codeMappingKey() {
@@ -793,6 +842,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         public String decodedStruct() {
+            if (enumConstraint != null) {
+                return "{:enum, " + enumConstraint + "}";
+            }
             // Decode the entire response into a generic blob
             if (isMap) {
                 return "%{}";
@@ -891,8 +943,14 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 sb.append("{:ok, ").append(returnType).append("} | ");
             }
 
-            sb.append(isLibrary(REQ) ? "{:error, term()}" : "{:error, Tesla.Env.t}");
+            sb.append("{:error, ").append(errorType()).append("}");
             return sb.toString();
+        }
+
+        public String errorType() {
+            boolean hasEnumResponse = responses.stream()
+                    .anyMatch(response -> ((ExtendedCodegenResponse) response).enumConstraint != null);
+            return isLibrary(REQ) || hasEnumResponse ? "term()" : "Tesla.Env.t";
         }
 
         public String successTypesDoc() {
@@ -1005,7 +1063,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
         public boolean hasImports;
         public List<CodegenProperty> ectoFields = new ArrayList<>();
         public List<CodegenProperty> ectoEmbeds = new ArrayList<>();
-        public List<CodegenProperty> ectoEnums = new ArrayList<>();
         public List<CodegenProperty> requiredEctoFields = new ArrayList<>();
 
         public ExtendedCodegenModel(CodegenModel cm) {
@@ -1067,9 +1124,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                     if (var.required) {
                         this.requiredEctoFields.add(var);
                     }
-                    if (var.isEnum || var.isEnumRef) {
-                        this.ectoEnums.add(var);
-                    }
                 } else {
                     this.ectoEmbeds.add(var);
                 }
@@ -1078,8 +1132,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
     }
 
     class ExtendedCodegenProperty extends CodegenProperty {
-        public String enumBaseType;
-
         public ExtendedCodegenProperty(CodegenProperty cp) {
             super();
 
@@ -1144,33 +1196,15 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this._enum = cp._enum;
             this.allowableValues = cp.allowableValues;
             this.items = cp.items;
+            setRef(cp.getRef());
             this.additionalProperties = cp.additionalProperties;
             this.vars = cp.vars;
             this.requiredVars = cp.requiredVars;
             this.vendorExtensions = cp.vendorExtensions;
+        }
 
-            // For enum references, determine the base type from the enum values
-            if (cp.isEnumRef && cp.allowableValues != null && cp.allowableValues.get("values") != null) {
-                List<Object> values = (List<Object>) cp.allowableValues.get("values");
-                if (!values.isEmpty()) {
-                    Object firstValue = values.get(0);
-                    if (firstValue instanceof String) {
-                        this.enumBaseType = "String.t";
-                    } else if (firstValue instanceof Integer || firstValue instanceof Long) {
-                        this.enumBaseType = "integer()";
-                    } else if (firstValue instanceof Float || firstValue instanceof Double) {
-                        this.enumBaseType = "float()";
-                    } else if (firstValue instanceof Boolean) {
-                        this.enumBaseType = "boolean()";
-                    } else {
-                        // Default to string for unknown types
-                        this.enumBaseType = "String.t";
-                    }
-                } else {
-                    // No values, default to string
-                    this.enumBaseType = "String.t";
-                }
-            }
+        public String enumValidation() {
+            return enumConstraint(this, false);
         }
 
         public String ectoType() {
@@ -1208,28 +1242,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
             if (property == modelInMap) {
                 return moduleName + ".EmbeddedModelType";
-            }
-
-            if (property.isEnumRef) {
-                List<Object> values = (List<Object>) property.allowableValues.get("values");
-                if (!values.isEmpty()) {
-                    Object firstValue = values.get(0);
-                    if (firstValue instanceof String) {
-                        return ":string";
-                    } else if (firstValue instanceof Integer || firstValue instanceof Long) {
-                        return ":integer";
-                    } else if (firstValue instanceof Float || firstValue instanceof Double) {
-                        return ":float";
-                    } else if (firstValue instanceof Boolean) {
-                        return ":boolean";
-                    } else {
-                        // Default to string for unknown types
-                        return ":string";
-                    }
-                } else {
-                    // No values, default to string
-                    return ":string";
-                }
             }
 
             String baseType = property.baseType;

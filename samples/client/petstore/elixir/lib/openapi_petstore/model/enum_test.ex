@@ -14,10 +14,13 @@ defmodule OpenapiPetstore.Model.EnumTest do
     :outerEnum => String.t | nil,
     :outerEnumInteger => integer() | nil,
     :outerEnumDefaultValue => String.t | nil,
-    :outerEnumIntegerDefaultValue => integer() | nil
+    :outerEnumIntegerDefaultValue => integer() | nil,
+    :named_enum => String.t | nil,
+    :named_enum_array => [String.t] | nil,
+    :named_enum_map => %{optional(String.t) => String.t} | nil
   }
 
-  @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue]}
+  @derive {JSON.Encoder, only: [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue, :named_enum, :named_enum_array, :named_enum_map]}
   @primary_key false
   embedded_schema do
     field :enum_string, :string
@@ -28,6 +31,9 @@ defmodule OpenapiPetstore.Model.EnumTest do
     field :outerEnumInteger, :integer
     field :outerEnumDefaultValue, :string
     field :outerEnumIntegerDefaultValue, :integer
+    field :named_enum, :string
+    field :named_enum_array, {:array, :string}
+    field :named_enum_map, {:map, :string}
   end
 
   @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
@@ -40,15 +46,18 @@ defmodule OpenapiPetstore.Model.EnumTest do
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue])
+    |> Ecto.Changeset.cast(params, [:enum_string, :enum_string_required, :enum_integer, :enum_number, :outerEnum, :outerEnumInteger, :outerEnumDefaultValue, :outerEnumIntegerDefaultValue, :named_enum, :named_enum_array, :named_enum_map])
     |> Ecto.Changeset.validate_required([:enum_string_required])
     |> Ecto.Changeset.validate_inclusion(:enum_string, ["UPPER", "lower", ""])
     |> Ecto.Changeset.validate_inclusion(:enum_string_required, ["UPPER", "lower", ""])
     |> Ecto.Changeset.validate_inclusion(:enum_integer, [1, -1])
-    |> Ecto.Changeset.validate_inclusion(:enum_number, [1.1, -1.2])
+    |> Ecto.Changeset.validate_inclusion(:enum_number, [1.1, -1.2, 2.0])
     |> Ecto.Changeset.validate_inclusion(:outerEnum, ["placed", "approved", "delivered"])
     |> Ecto.Changeset.validate_inclusion(:outerEnumInteger, [0, 1, 2])
     |> Ecto.Changeset.validate_inclusion(:outerEnumDefaultValue, ["placed", "approved", "delivered"])
     |> Ecto.Changeset.validate_inclusion(:outerEnumIntegerDefaultValue, [0, 1, 2])
+    |> Ecto.Changeset.validate_inclusion(:named_enum, ["_abc", "-efg", "(xyz)", "42", "true", "value \"quoted\" \#{value}"])
+    |> OpenapiPetstore.EctoUtils.validate_enum(:named_enum_array, {:array, ["_abc", "-efg", "(xyz)", "42", "true", "value \"quoted\" \#{value}"]})
+    |> OpenapiPetstore.EctoUtils.validate_enum(:named_enum_map, {:map, ["_abc", "-efg", "(xyz)", "42", "true", "value \"quoted\" \#{value}"]})
   end
 end

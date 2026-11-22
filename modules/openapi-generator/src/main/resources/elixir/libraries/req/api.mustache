@@ -79,7 +79,7 @@ defmodule {{moduleName}}.Api.{{classname}} do
     |> Connection.request(request)
     |> evaluate_response({{#responses}}{{#-first}}[
 {{/-first}}
-      {{=<% %>=}}{<%& codeMappingKey%>, <%decodedStruct%>}<%={{ }}=%>{{^-last}},{{/-last}}
+      {{=<% %>=}}{<%& codeMappingKey%>, <%& decodedStruct%>}<%={{ }}=%>{{^-last}},{{/-last}}
 {{#-last}}    ]{{/-last}}{{/responses}})
   end
 {{/operation}}

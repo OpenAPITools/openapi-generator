@@ -30,7 +30,7 @@ defmodule OpenapiPetstore.Model.EnumArrays do
     struct
     |> Ecto.Changeset.cast(params, [:just_symbol, :array_enum])
     |> Ecto.Changeset.validate_required([])
-    |> Ecto.Changeset.validate_inclusion(:just_symbol, ["&gt;&#x3D;", "$"])
-    |> Ecto.Changeset.validate_inclusion(:array_enum, ["fish", "crab"])
+    |> Ecto.Changeset.validate_inclusion(:just_symbol, [">=", "$"])
+    |> OpenapiPetstore.EctoUtils.validate_enum(:array_enum, {:array, ["fish", "crab"]})
   end
 end
