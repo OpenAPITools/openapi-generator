@@ -466,7 +466,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         removeImport(objs, "java.util.List");
-        if (QUARKUS_LIBRARY.equals(library) && !returnResponse && !returnJbossResponse && useJakartaEe) {
+        if (QUARKUS_LIBRARY.equals(library) && !returnResponse && !returnJbossResponse) {
             for (CodegenOperation op : objs.getOperations().getOperation()) {
                 op.responses.stream()
                         .filter(r -> r.is2xx && r.code.matches("\\d+"))
