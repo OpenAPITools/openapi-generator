@@ -8328,6 +8328,11 @@ public class KotlinSpringServerCodegenTest {
         assertThat(declarationIndex).as("parameter declaration for %s", parameterName).isGreaterThanOrEqualTo(0);
 
         int lineStart = api.lastIndexOf('\n', declarationIndex) + 1;
+        int previousLineStart = api.lastIndexOf('\n', lineStart - 2) + 1;
+        String previousLine = api.substring(previousLineStart, lineStart).trim();
+        if (previousLine.startsWith("@") && !previousLine.contains("@Parameter")) {
+            lineStart = previousLineStart;
+        }
         return api.substring(lineStart, declarationIndex);
     }
 
