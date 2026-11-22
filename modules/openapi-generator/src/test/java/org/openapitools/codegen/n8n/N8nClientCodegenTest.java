@@ -731,6 +731,47 @@ public class N8nClientCodegenTest {
         }
     }
 
+    /**
+     * Regression test for T066 (convergence): contracts/generator-cli-options.md's Failure
+     * Contract documents, as a MUST, that a spec with zero operations still produces a valid,
+     * loadable package rather than the generator throwing - this had no automated test despite
+     * being a documented contract clause.
+     */
+    @Test
+    public void generatesValidPackageFromZeroOperationSpec() throws IOException, InterruptedException {
+        if (!isCommandAvailable("npm") || !isCommandAvailable("npx")) {
+            throw new SkipException("npm/npx not available in this environment; skipping the zero-operations compile check");
+        }
+
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "zero-operations.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: zero operations test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths: {}\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+
+            Assert.assertTrue(Files.exists(outputDir.resolve("package.json")));
+            Assert.assertTrue(Files.exists(outputDir.resolve("README.md")));
+            Assert.assertFalse(find(outputDir, ".node.ts").isEmpty(), "a node file should still be generated for a zero-operation spec");
+
+            int installExit = runProcess(outputDir, "npm", "install", "--no-audit", "--no-fund", "n8n-workflow@latest", "typescript@latest");
+            if (installExit != 0) {
+                throw new SkipException("could not install n8n-workflow/typescript (no network access?); skipping the zero-operations compile check");
+            }
+            int tscExit = runProcess(outputDir, "npx", "tsc", "--noEmit");
+            Assert.assertEquals(tscExit, 0, "the generated package for a zero-operation spec must still compile cleanly");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
     private static Path writeTempSpec(Path dir, String filename, String content) throws IOException {
         Path file = dir.resolve(filename);
         Files.createDirectories(dir);
