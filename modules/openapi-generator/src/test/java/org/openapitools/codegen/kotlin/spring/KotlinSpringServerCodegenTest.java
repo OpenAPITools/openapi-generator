@@ -8262,6 +8262,10 @@ public class KotlinSpringServerCodegenTest {
         assertThat(getKotlinPropertyAnnotations(model, "uuidPatternAndLength"))
                 .doesNotContain("@get:Pattern")
                 .doesNotContain("@get:Size");
+        assertThat(model).contains("bytePatternAndLength: kotlin.ByteArray?");
+        assertThat(getKotlinPropertyAnnotations(model, "bytePatternAndLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
         assertThat(model).contains("binaryMinLength: org.springframework.core.io.Resource?");
         assertThat(getKotlinPropertyAnnotations(model, "binaryMinLength"))
                 .doesNotContain("@get:Pattern")
@@ -8292,6 +8296,10 @@ public class KotlinSpringServerCodegenTest {
                 .doesNotContain("@Size");
         assertThat(api).contains("uuidParam: java.util.UUID?");
         assertThat(getKotlinParameterAnnotations(api, "uuidParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(api).contains("byteParam: kotlin.ByteArray?");
+        assertThat(getKotlinParameterAnnotations(api, "byteParam"))
                 .doesNotContain("@Pattern")
                 .doesNotContain("@Size");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))

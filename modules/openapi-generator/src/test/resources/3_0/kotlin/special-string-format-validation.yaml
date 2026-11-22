@@ -28,6 +28,14 @@ paths:
             minLength: 36
             maxLength: 36
         - in: query
+          name: byteParam
+          schema:
+            type: string
+            format: byte
+            pattern: '^[A-Za-z0-9+/=]+$'
+            minLength: 1
+            maxLength: 10
+        - in: query
           name: plainStringParam
           schema:
             type: string
@@ -97,6 +105,12 @@ components:
           pattern: '^[0-9a-fA-F-]{36}$'
           minLength: 36
           maxLength: 36
+        bytePatternAndLength:
+          type: string
+          format: byte
+          pattern: '^[A-Za-z0-9+/=]+$'
+          minLength: 1
+          maxLength: 10
         binaryMinLength:
           type: string
           format: binary
