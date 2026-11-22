@@ -17,6 +17,10 @@ on:
       - 'samples/server/petstore/kotlin-springboot-paged-model/**'
       - 'samples/server/petstore/kotlin-spring-oneof-jackson-default-impl/**'
       - 'samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated/**'
+      - '.github/workflows/samples-kotlin-server-jdk17.yaml'
+      - '.github/gradle/maven-central-mirror.init.gradle'
+      - '.github/scripts/retry-on-network-error.sh'
+      - '.github/scripts/setup-maven-central-mirror.sh'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
@@ -35,6 +39,10 @@ on:
       - 'samples/server/petstore/kotlin-springboot-paged-model/**'
       - 'samples/server/petstore/kotlin-spring-oneof-jackson-default-impl/**'
       - 'samples/server/petstore/kotlin-server/ktor-delegate-pattern/generated/**'
+      - '.github/workflows/samples-kotlin-server-jdk17.yaml'
+      - '.github/gradle/maven-central-mirror.init.gradle'
+      - '.github/scripts/retry-on-network-error.sh'
+      - '.github/scripts/setup-maven-central-mirror.sh'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -92,21 +100,15 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-          cache: gradle
-      - name: Cache maven dependencies
-        uses: actions/cache@v6
-        env:
-          cache-name: maven-repository
-        with:
-          path: |
-            ~/.gradle
-          key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
-      - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v3
+      # Restores/saves the Gradle User Home (written on the default branch only) and puts
+      # Gradle ${{ env.GRADLE_VERSION }} on the PATH. It must be the only cache of ~/.gradle,
+      # otherwise it finds the directory already populated and skips restoring.
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
-          build-root-directory: ${{ matrix.sample }}
-          arguments: wrapper
+      - name: Use Maven Central mirror
+        run: .github/scripts/setup-maven-central-mirror.sh
       - name: Build
         working-directory: ${{ matrix.sample }}
-        run: ./gradlew build -x test
+        run: "$GITHUB_WORKSPACE/.github/scripts/retry-on-network-error.sh gradle build -x test"
