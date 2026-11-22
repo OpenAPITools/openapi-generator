@@ -6665,4 +6665,51 @@ public class JavaClientCodegenTest {
         assertThat(output.resolve("src/main/java/org/openapitools/client/ApiCallback.java")).content()
                 .doesNotContain("import java.io.IOException;");
     }
+
+    @Test(description = "test useOneOfDiscriminatorLookup in validateJsonElement for okhttp-gson")
+    public void testOneOfDiscriminatorLookupValidateJsonElement() {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, true);
+        additionalProperties.put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/oneof-discriminator-lookup.yaml",
+                JavaClientCodegen.OKHTTP_GSON,
+                additionalProperties
+        );
+
+        File petFile = files.get("Pet.java");
+        assertNotNull(petFile);
+
+        // Verify validateJsonElement contains discriminator check before the oneOf loop
+        JavaFileAssert.assertThat(petFile)
+                .fileContains(
+                        "if (jsonElement.isJsonObject()) {",
+                        "JsonObject jsonObject = jsonElement.getAsJsonObject();",
+                        "JsonElement discriminatorElement = jsonObject.get(\"petType\");",
+                        "if (discriminatorElement != null && discriminatorElement.isJsonPrimitive()) {",
+                        "String discriminatorValue = discriminatorElement.getAsString();",
+                        "if (\"cat\".equals(discriminatorValue)) {",
+                        "    try {",
+                        "        Cat.validateJsonElement(jsonElement);",
+                        "        return;",
+                        "    } catch (IOException e) {",
+                        "        throw e;",
+                        "    } catch (Exception e) {",
+                        "        throw new IOException(\"Failed to validate against the discriminated schema 'Cat'\", e);",
+                        "    }",
+                        "}",
+                        "if (\"dog\".equals(discriminatorValue)) {",
+                        "    try {",
+                        "        Dog.validateJsonElement(jsonElement);",
+                        "        return;",
+                        "    } catch (IOException e) {",
+                        "        throw e;",
+                        "    } catch (Exception e) {",
+                        "        throw new IOException(\"Failed to validate against the discriminated schema 'Dog'\", e);",
+                        "    }",
+                        "}"
+                )
+                .fileContainsPattern("if \\(jsonElement\\.isJsonObject\\(\\)\\) \\{[\\s\\S]*?// validate the json string with Cat");
+    }
 }

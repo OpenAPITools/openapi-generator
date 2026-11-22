@@ -1,12 +1,12 @@
 {{#isEmail}}@Email {{/isEmail}}{{^vendorExtensions.x-is-java-uuid}}{{!
-pattern set
-}}{{#pattern}}@Pattern(regexp="{{{.}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}) {{/pattern}}{{!
-minLength && maxLength set
-}}{{#minLength}}{{#maxLength}}@Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxLength}}{{/minLength}}{{!
+pattern set; URI is not supported by Bean Validation @Pattern
+}}{{#pattern}}{{^isUri}}@Pattern(regexp="{{{.}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}) {{/isUri}}{{/pattern}}{{!
+minLength && maxLength set; URI is not supported by Bean Validation @Size
+}}{{#minLength}}{{#maxLength}}{{^isUri}}@Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/isUri}}{{/maxLength}}{{/minLength}}{{!
 minLength set, maxLength not
-}}{{#minLength}}{{^maxLength}}@Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxLength}}{{/minLength}}{{!
+}}{{#minLength}}{{^maxLength}}{{^isUri}}@Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/isUri}}{{/maxLength}}{{/minLength}}{{!
 minLength not set, maxLength set
-}}{{^minLength}}{{#maxLength}}@Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxLength}}{{/minLength}}{{/vendorExtensions.x-is-java-uuid}}{{!
+}}{{^minLength}}{{#maxLength}}{{^isUri}}@Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/isUri}}{{/maxLength}}{{/minLength}}{{/vendorExtensions.x-is-java-uuid}}{{!
 @Size: minItems && maxItems set
 }}{{#minItems}}{{#maxItems}}@Size(min={{minItems}},max={{maxItems}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxItems}}{{/minItems}}{{!
 @Size: minItems set, maxItems not
