@@ -1,0 +1,50 @@
+openapi: 3.0.3
+info:
+  title: date polymorphism probes
+  version: 1.0.0
+paths:
+  /greeting:
+    get:
+      operationId: getGreeting
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        birthday:
+          type: string
+          format: date
+        code:
+          type: string
+          pattern: '^[a-z]+$'
+    DateOrCode:
+      anyOf:
+        - type: string
+          format: date
+        - type: string
+          pattern: '^[a-z]+$'
+    DateOrTime:
+      oneOf:
+        - type: string
+          format: date
+        - type: string
+          format: date-time

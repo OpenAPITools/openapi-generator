@@ -13,6 +13,10 @@ module {{moduleName}}
   module Polymorphism
     ARRAY_TYPE = /\AArray<(?<sub_type>.+)>\z/
     HASH_TYPE = /\AHash<String, ?(?<sub_type>.+)>\z/
+    # OpenAPI `format: date` is an RFC 3339 full-date; keep the guard strict so
+    # a Date candidate of an anyOf/oneOf does not grab values belonging to
+    # other branches (Date.parse accepts almost any humanized date string).
+    FULL_DATE = /\A\d{4}-\d{2}-\d{2}\z/
 
     # Internal sentinel distinguishing "no candidate matched" from a
     # genuinely null value that legitimately matched a nullable candidate
@@ -64,9 +68,9 @@ module {{moduleName}}
     private_class_method :cast_time
 
     def self.cast_date(data)
-      return NO_MATCH unless data.is_a?(String)
+      return NO_MATCH unless data.is_a?(String) && FULL_DATE.match?(data)
 
-      Date.parse(data)
+      Date.iso8601(data)
     rescue ArgumentError, TypeError
       NO_MATCH
     end
@@ -157,10 +161,10 @@ module {{moduleName}}
     private_class_method :coerce_time
 
     def self.coerce_date(data)
-      return data unless data.is_a?(String)
+      return data unless data.is_a?(String) && FULL_DATE.match?(data)
 
       begin
-        Date.parse(data)
+        Date.iso8601(data)
       rescue ArgumentError, TypeError
         data
       end

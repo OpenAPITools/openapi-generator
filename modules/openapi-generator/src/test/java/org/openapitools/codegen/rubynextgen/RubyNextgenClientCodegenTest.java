@@ -590,4 +590,38 @@ public class RubyNextgenClientCodegenTest {
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/stables/ponies.rb"), "class Stables::Ponies");
     }
+
+    @Test
+    public void testDateBranchRequiresStrictFullDate() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/date-polymorphism.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "date_polymorphism")
+                        .addAdditionalProperty("moduleName", "DatePolymorphism")
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+
+        // A Date branch of an anyOf/oneOf must only match RFC 3339 full-date strings:
+        // Date.parse is lenient ("12", "may", date-time strings), so it grabbed values
+        // belonging to other branches (PR #25760 review).
+        java.nio.file.Path polymorphism = target.resolve("lib/date_polymorphism/polymorphism.rb");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                polymorphism,
+                "FULL_DATE = /\\A\\d{4}-\\d{2}-\\d{2}\\z/",
+                "Date.iso8601(data)");
+        org.openapitools.codegen.TestUtils.assertFileNotContains(polymorphism, "Date.parse(data)");
+
+        // The probe unions from the review stay wired: anyOf(Date | String) and
+        // oneOf(Date | Time).
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/date_polymorphism/models/date_or_code.rb"),
+                "'Date',", "'String',");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/date_polymorphism/models/date_or_time.rb"),
+                "'Date',", "'Time',");
+    }
 }
