@@ -20,8 +20,6 @@
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
-    <jakarta.ws.rs-version>3.1.0</jakarta.ws.rs-version>
-    <jakarta.annotation-api-version>2.1.1</jakarta.annotation-api-version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -65,13 +63,11 @@
     <dependency>
        <groupId>jakarta.ws.rs</groupId>
        <artifactId>jakarta.ws.rs-api</artifactId>
-       <version>${jakarta.ws.rs-version}</version>
        <scope>provided</scope>
     </dependency>
     <dependency>
        <groupId>jakarta.annotation</groupId>
        <artifactId>jakarta.annotation-api</artifactId>
-       <version>${jakarta.annotation-api-version}</version>
     </dependency>
     <dependency>
       <groupId>org.jspecify</groupId>

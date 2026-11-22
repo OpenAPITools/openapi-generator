@@ -27,17 +27,12 @@
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
-    <jakarta.ws.rs-version>3.1.0</jakarta.ws.rs-version>
-    <jakarta.annotation-api-version>2.1.1</jakarta.annotation-api-version>
 {{#useSwaggerAnnotations}}
     <io.swagger.annotations.version>1.6.10</io.swagger.annotations.version>
 {{/useSwaggerAnnotations}}
 {{#useSwaggerV3Annotations}}
     <io.swagger.v3.annotations.version>2.2.21</io.swagger.v3.annotations.version>
 {{/useSwaggerV3Annotations}}
-{{#useMutiny}}
-    <smallrye.rest.client.version>1.2.1</smallrye.rest.client.version>
-{{/useMutiny}}
 {{#openApiNullable}}
     <jackson-databind-nullable-version>0.2.13</jackson-databind-nullable-version>
 {{/openApiNullable}}
@@ -94,13 +89,11 @@
     <dependency>
        <groupId>jakarta.ws.rs</groupId>
        <artifactId>jakarta.ws.rs-api</artifactId>
-       <version>${jakarta.ws.rs-version}</version>
        <scope>provided</scope>
     </dependency>
     <dependency>
        <groupId>jakarta.annotation</groupId>
        <artifactId>jakarta.annotation-api</artifactId>
-       <version>${jakarta.annotation-api-version}</version>
     </dependency>
 {{#useSwaggerAnnotations}}
      <dependency>
@@ -118,14 +111,6 @@
         <scope>provided</scope>
      </dependency>
 {{/useSwaggerV3Annotations}}
-{{#useMutiny}}
-    <dependency>
-      <groupId>io.smallrye</groupId>
-      <artifactId>smallrye-rest-client</artifactId>
-      <version>${smallrye.rest.client.version}</version>
-      <scope>test</scope>
-    </dependency>
-{{/useMutiny}}
 {{#openApiNullable}}
     <dependency>
       <groupId>org.openapitools</groupId>

@@ -2704,6 +2704,32 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     /**
+     * The Quarkus BOM manages the Jakarta API versions, so the pom must not pin versions that drift
+     * from the platform, and the javax-era smallrye-rest-client is not needed for Mutiny.
+     */
+    @Test
+    public void testQuarkusPomUsesBomManagedVersions() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(QUARKUS_LIBRARY)
+                .addAdditionalProperty(USE_MUTINY, true)
+                .addAdditionalProperty(SUPPORT_ASYNC, true)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace('\\', '/'));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        validateJavaSourceFiles(files);
+
+        Path pom = output.toPath().resolve("pom.xml");
+        assertFileContains(pom,
+                "<artifactId>jakarta.ws.rs-api</artifactId>\n       <scope>provided</scope>",
+                "<artifactId>jakarta.annotation-api</artifactId>\n    </dependency>");
+        assertFileNotContains(pom, "jakarta.ws.rs-version", "jakarta.annotation-api-version", "smallrye-rest-client");
+    }
+
+    /**
      * useJspecify is generator-wide (the model/param templates are shared by every jaxrs-spec
      * library), so the annotations must appear whichever library is selected.
      */
