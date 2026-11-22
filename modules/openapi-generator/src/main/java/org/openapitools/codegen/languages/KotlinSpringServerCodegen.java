@@ -1211,6 +1211,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private static void clearTemporalDefault(CodegenParameter parameter) {
         if (parameter.isDate || parameter.isDateTime) {
             parameter.hasDefaultValue = false;
+            parameter.defaultValue = null;
             parameter.rawDefaultValue = null;
             parameter.rawDefaultValueText = null;
         }

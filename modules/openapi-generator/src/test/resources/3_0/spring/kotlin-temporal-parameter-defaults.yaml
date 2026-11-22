@@ -19,6 +19,24 @@ paths:
             type: string
             format: date-time
             default: "2024-03-05T10:00:00Z"
+        - name: headerDay
+          in: header
+          schema:
+            type: string
+            format: date
+            default: "2024-03-05"
+        - name: cookieDay
+          in: cookie
+          schema:
+            type: string
+            format: date
+            default: "2024-03-05"
+        - name: cookieAt
+          in: cookie
+          schema:
+            type: string
+            format: date-time
+            default: "2024-03-05T10:00:00Z"
         - name: label
           in: query
           schema:

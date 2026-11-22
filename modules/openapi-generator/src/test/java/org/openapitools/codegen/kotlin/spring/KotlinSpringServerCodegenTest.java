@@ -4830,7 +4830,15 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(controller,
                 "@RequestParam(value = \"day\", required = false)",
                 "@RequestParam(value = \"at\", required = false)",
+                "@RequestHeader(value = \"headerDay\", required = false)",
+                "@CookieValue(name = \"cookieDay\", required = false)",
+                "@CookieValue(name = \"cookieAt\", required = false)",
                 "@RequestParam(value = \"label\", required = false, defaultValue = \"plain\")");
+        assertFileContains(formController,
+                "@RequestParam(value = \"day\", required = false)",
+                "@RequestParam(value = \"at\", required = false)");
+        assertFileContains(service, "@param day ", "@param at ", "@param cookieDay ");
+        assertFileContains(formService, "@param day ", "@param at ");
         assertFileNotContains(controller, "2024-03-0");
         assertFileNotContains(formController, "2024-03-0");
         assertFileNotContains(service, "2024-03-0");
