@@ -78,7 +78,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
+        @Parameter(description = "List of user object", required = true) @Size /* always valid - forces Spring to validate items in container */ @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return getDelegate().createUsersWithArrayInput(user)
     }
@@ -100,7 +100,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
-        @Parameter(description = "List of user object", required = true) @Valid @RequestBody user: kotlin.collections.List<@Valid User>
+        @Parameter(description = "List of user object", required = true) @Size /* always valid - forces Spring to validate items in container */ @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return getDelegate().createUsersWithListInput(user)
     }

@@ -46,7 +46,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT]
     )
     fun createUsersWithArrayInput(
-        @Valid @RequestBody body: kotlin.collections.List<@Valid User>
+        @Size /* always valid - forces Spring to validate items in container */ @RequestBody body: kotlin.collections.List<@Valid User>
     ): Unit {
         return service.createUsersWithArrayInput(body)
     }
@@ -58,7 +58,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [PATH_CREATE_USERS_WITH_LIST_INPUT]
     )
     fun createUsersWithListInput(
-        @Valid @RequestBody body: kotlin.collections.List<@Valid User>
+        @Size /* always valid - forces Spring to validate items in container */ @RequestBody body: kotlin.collections.List<@Valid User>
     ): Unit {
         return service.createUsersWithListInput(body)
     }

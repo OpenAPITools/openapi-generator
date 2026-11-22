@@ -52,7 +52,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
-        @Valid @RequestBody user: kotlin.collections.List<@Valid User>
+        @Size /* always valid - forces Spring to validate items in container */ @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
@@ -65,7 +65,7 @@ interface UserApi {
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
-        @Valid @RequestBody user: kotlin.collections.List<@Valid User>
+        @Size /* always valid - forces Spring to validate items in container */ @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }

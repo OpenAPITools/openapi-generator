@@ -8418,6 +8418,7 @@ public class KotlinSpringServerCodegenTest {
     // ========== COLLECTION ELEMENT-TYPE ANNOTATION TESTS ==========
 
     private static final String COLLECTION_ITEM_ANNOTATIONS_SPEC = "src/test/resources/3_0/kotlin/collection-item-annotations.yaml";
+    private static final String BODY_PARAM_VALIDATION_SPEC = "src/test/resources/3_0/kotlin/kotlin-spring-body-param-validation.yaml";
 
     @Test
     public void collectionItemsGetBeanValidationOnElementType() throws IOException {
@@ -8575,7 +8576,7 @@ public class KotlinSpringServerCodegenTest {
 
         Path controller = files.get("PetsApiController.kt").toPath();
         assertFileContains(controller,
-                "@Valid @RequestBody pet: kotlin.collections.List<@Valid Pet>",
+                "@Size /* always valid - forces Spring to validate items in container */ @RequestBody pet: kotlin.collections.List<@Valid Pet>",
                 "tags: kotlin.collections.List<@Size(max=10) kotlin.String>?",
                 // return types are left unannotated (Hibernate Validator cannot look inside ResponseEntity)
                 "): ResponseEntity<List<kotlin.String>> {",
@@ -8591,6 +8592,41 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(delegate.get("PetsApiDelegate.kt").toPath(),
                 "import javax.validation.Valid", "import javax.validation.constraints.Size",
                 "fun addPets(pet: kotlin.collections.List<@Valid Pet>): ResponseEntity<List<kotlin.String>> {");
+    }
+
+    @Test(description = "container body params carry an always-valid @Size instead of @Valid so that "
+            + "Spring's built-in validation still fires for interface-built controllers and HV000271 stays gone")
+    public void containerBodyParamsUseAlwaysValidSizeInsteadOfValid() throws IOException {
+        Map<String, File> files = generateFromContract(BODY_PARAM_VALIDATION_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, INTERFACE_ONLY, true)));
+        Path api = files.get("BodiesApi.kt").toPath();
+
+        // the parameter-level @Valid would log HV000271 under Hibernate Validator 9.x and does not
+        // reach Spring's built-in validation through the generated interface for Set/optional bodies;
+        // the placeholder @Size is a real constraint on the parameter (inherited from the interface),
+        // it never rejects a request itself and lets cascading happen via the type-argument @Valid
+        assertFileContains(api,
+                "@Size /* always valid - forces Spring to validate items in container */ @RequestBody item: kotlin.collections.List<@Valid Item>",
+                "@Size /* always valid - forces Spring to validate items in container */ @RequestBody(required = false) item: kotlin.collections.List<@Valid Item>?",
+                "@Size /* always valid - forces Spring to validate items in container */ @RequestBody item: kotlin.collections.Set<@Valid Item>",
+                "@Size /* always valid - forces Spring to validate items in container */ @RequestBody requestBody: kotlin.collections.Map<kotlin.String, @Valid Item>");
+        assertFileNotContains(api, "@Valid @RequestBody");
+        // bodies with minItems/maxItems already carry a real (enforcing) @Size - no placeholder next to it
+        assertFileContains(api, "@Size(min=1,max=2)  @RequestBody item: kotlin.collections.List<@Valid Item>");
+        String apiContent = Files.readString(api);
+        Assert.assertEquals(TestUtils.countOccurrences(apiContent, "always valid - forces Spring to validate items in container"), 5,
+                "the placeholder @Size must appear exactly once per plain container body (all but the min/max-sized one)");
+
+        // reactive array/set bodies render as Flow and keep @Valid (there is no @Size validator for
+        // Flow, HV000030); only the reactive Map body swaps @Valid for the placeholder
+        Map<String, File> reactive = generateFromContract(BODY_PARAM_VALIDATION_SPEC,
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true, INTERFACE_ONLY, true, REACTIVE, true)));
+        Path reactiveApi = reactive.get("BodiesApi.kt").toPath();
+        assertFileContains(reactiveApi,
+                "@Valid @RequestBody item: Flow<Item>");
+        assertFileContains(reactiveApi,
+                "@Size /* always valid - forces Spring to validate items in container */ @RequestBody requestBody: kotlin.collections.Map<kotlin.String, @Valid Item>");
+        assertFileNotContains(reactiveApi, "@Valid @RequestBody requestBody");
     }
 
     @Test
