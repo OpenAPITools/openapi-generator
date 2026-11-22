@@ -579,6 +579,121 @@ public class N8nClientCodegenTest {
         }
     }
 
+    /**
+     * Regression test for T063 (convergence): an OAuth2 security scheme declaring exactly one
+     * of the "common flows" (clientCredentials/authorizationCode) that research.md §3 / spec.md
+     * Assumptions commit to automating must get n8n's generic {@code oAuth2Api} credential
+     * wiring (pre-filled with the spec's declared authorization/token URLs and scopes), not the
+     * manual-paste-an-access-token fallback used for every other OAuth2 flow.
+     */
+    @Test
+    public void autoWiresOAuth2CredentialForClientCredentialsFlow() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "oauth2-client-credentials.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: oauth2 client credentials test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /widgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidgets\n"
+                    + "      security:\n"
+                    + "        - clientAuth: ['read:widgets']\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n"
+                    + "components:\n"
+                    + "  securitySchemes:\n"
+                    + "    clientAuth:\n"
+                    + "      type: oauth2\n"
+                    + "      flows:\n"
+                    + "        clientCredentials:\n"
+                    + "          tokenUrl: 'https://auth.example.com/token'\n"
+                    + "          scopes:\n"
+                    + "            'read:widgets': read widgets\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+
+            List<Path> credentialFiles = find(outputDir, "ClientAuthCredentials.credentials.ts");
+            Assert.assertEquals(credentialFiles.size(), 1, "expected exactly one ClientAuthCredentials.credentials.ts file");
+            String source = Files.readString(credentialFiles.get(0));
+
+            Assert.assertTrue(source.contains("extends = ['oAuth2Api']"),
+                    "a single-flow clientCredentials OAuth2 scheme must auto-wire n8n's generic oAuth2Api credential");
+            Assert.assertTrue(source.contains("default: 'clientCredentials'"), "the grant type must be pre-filled as clientCredentials");
+            Assert.assertTrue(source.contains("https://auth.example.com/token"), "the token URL must be pre-filled from the spec");
+            Assert.assertTrue(source.contains("'read:widgets'") || source.contains("read:widgets"), "the declared scope must be pre-filled from the spec");
+            Assert.assertFalse(source.contains("name: 'accessToken'"),
+                    "an auto-wired OAuth2 credential must not also collect a manually-pasted access token");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Regression test for T063 (convergence), the ambiguous-multi-flow variant: a single OAuth2
+     * security scheme declaring BOTH clientCredentials and authorizationCode at once (the
+     * framework builds one CodegenSecurity per declared flow, all sharing the same scheme name)
+     * is ambiguous about which flow n8n should actually perform, so it must keep the
+     * manual-paste-an-access-token fallback rather than guessing - and must still produce exactly
+     * one credential file for the scheme, not one per flow.
+     */
+    @Test
+    public void keepsManualOAuth2CredentialWhenSchemeDeclaresMultipleFlows() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "oauth2-multi-flow.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: oauth2 multi flow test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /widgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidgets\n"
+                    + "      security:\n"
+                    + "        - multiAuth: ['read:widgets']\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n"
+                    + "components:\n"
+                    + "  securitySchemes:\n"
+                    + "    multiAuth:\n"
+                    + "      type: oauth2\n"
+                    + "      flows:\n"
+                    + "        clientCredentials:\n"
+                    + "          tokenUrl: 'https://auth.example.com/token'\n"
+                    + "          scopes:\n"
+                    + "            'read:widgets': read widgets\n"
+                    + "        authorizationCode:\n"
+                    + "          authorizationUrl: 'https://auth.example.com/authorize'\n"
+                    + "          tokenUrl: 'https://auth.example.com/token'\n"
+                    + "          scopes:\n"
+                    + "            'read:widgets': read widgets\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+
+            List<Path> credentialFiles = find(outputDir, "MultiAuthCredentials.credentials.ts");
+            Assert.assertEquals(credentialFiles.size(), 1, "an ambiguous multi-flow scheme must still produce exactly one credential file");
+            String source = Files.readString(credentialFiles.get(0));
+
+            Assert.assertFalse(source.contains("extends = ['oAuth2Api']"),
+                    "a scheme declaring more than one flow at once must not auto-wire n8n's generic oAuth2Api credential (ambiguous which flow to perform)");
+            Assert.assertTrue(source.contains("name: 'accessToken'"),
+                    "an ambiguous multi-flow scheme must keep the manual-paste-an-access-token fallback");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
     private static Path writeTempSpec(Path dir, String filename, String content) throws IOException {
         Path file = dir.resolve(filename);
         Files.createDirectories(dir);

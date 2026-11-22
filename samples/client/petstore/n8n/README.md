@@ -32,9 +32,10 @@ Set the **Base URL** field on whichever credential you use to your API's base UR
   (see the Resources and Operations list below for which operation uses which); an operation
   that declares no security requirement at all (and has no spec-wide default to inherit) sends
   an unauthenticated request, matching what the source spec actually requires.
-- This spec declares an OAuth2 scheme. Full OAuth2 flow automation (authorization redirects, token
-  refresh) is out of scope for this generator; the generated credential accepts a pre-obtained access
-  token instead. See [n8n's OAuth2 credential docs](https://docs.n8n.io/integrations/creating-nodes/build/reference/credentials-files/)
+- **OpenAPI Petstore API - OAuth2** declares an OAuth2 scheme this generator does not auto-wire (its flow is not
+  `clientCredentials`/`authorizationCode`, or the scheme declares more than one flow at once); the
+  generated credential accepts a pre-obtained access token instead. See
+  [n8n's OAuth2 credential docs](https://docs.n8n.io/integrations/creating-nodes/build/reference/credentials-files/)
   if you want to wire up a complete OAuth2 flow by hand.
 - Request body and array/object parameters that don't map cleanly to a primitive n8n field type are
   exposed as a generic JSON field; fill them in as a JSON object/array.

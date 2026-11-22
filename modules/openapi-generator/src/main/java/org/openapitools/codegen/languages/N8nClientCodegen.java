@@ -394,9 +394,24 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             supported.sort(Comparator.comparingInt(N8nClientCodegen::schemePriority));
 
+            // The framework emits one CodegenSecurity per declared OAuth2 flow, all sharing the
+            // same scheme name, when a single securityScheme declares more than one flow at
+            // once (DefaultCodegen#fromSecurity) - grouped back here by name so each distinct
+            // scheme still gets exactly one credential (contracts/generated-package-contract.md),
+            // and so T063 below can tell "exactly one flow" apart from "multiple simultaneous
+            // flows" for a given scheme.
+            Map<String, List<CodegenSecurity>> flowsByScheme = new LinkedHashMap<>();
+            for (CodegenSecurity scheme : supported) {
+                flowsByScheme.computeIfAbsent(scheme.name, key -> new ArrayList<>()).add(scheme);
+            }
+
             String credentialsTemplate = readClasspathResource("n8n/credentials.mustache");
 
-            for (CodegenSecurity scheme : supported) {
+            for (Map.Entry<String, List<CodegenSecurity>> schemeFlows : flowsByScheme.entrySet()) {
+                List<CodegenSecurity> flows = schemeFlows.getValue();
+                CodegenSecurity scheme = flows.get(0);
+                boolean singleFlow = flows.size() == 1;
+
                 // Prefixed with nodePrefix (T061), same as nodeClassName, so a credential
                 // declared in one generated package never collides with one of the same
                 // scheme name from a different generated package installed alongside it.
@@ -405,6 +420,16 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 String credentialName = lowerFirst(className);
                 String displayName = objs.get("apiTitle") + " API - " + schemeKindLabel(scheme);
 
+                // n8n's generic OAuth2 credential type (`extends: ['oAuth2Api']`) is only
+                // auto-wired for the "common flows" research.md §3 / spec.md Assumptions commit
+                // to automating - clientCredentials ("application") and authorizationCode
+                // ("code") - and only when the scheme declares exactly one flow; any other flow
+                // (implicit, password), or an ambiguous multi-flow scheme, keeps the
+                // manual-paste-a-token fallback instead of guessing which flow to perform (T063).
+                boolean oauth2AutoWired = singleFlow && Boolean.TRUE.equals(scheme.isOAuth)
+                        && (Boolean.TRUE.equals(scheme.isApplication) || Boolean.TRUE.equals(scheme.isCode));
+                boolean oauth2Manual = Boolean.TRUE.equals(scheme.isOAuth) && !oauth2AutoWired;
+
                 Map<String, Object> data = new HashMap<>(objs);
                 data.put("className", className);
                 data.put("credentialName", credentialName);
@@ -412,7 +437,12 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 data.put("isApiKey", scheme.isApiKey);
                 data.put("isBasicBasic", scheme.isBasicBasic);
                 data.put("isBasicBearer", scheme.isBasicBearer);
-                data.put("isOAuth", scheme.isOAuth);
+                data.put("isOAuthAutoWired", oauth2AutoWired);
+                data.put("isOAuthManual", oauth2Manual);
+                data.put("oauth2GrantType", Boolean.TRUE.equals(scheme.isApplication) ? "clientCredentials" : "authorizationCode");
+                data.put("oauth2AuthUrl", scheme.authorizationUrl);
+                data.put("oauth2TokenUrl", scheme.tokenUrl);
+                data.put("oauth2Scopes", joinScopeNames(scheme.scopes));
                 data.put("isKeyInHeader", scheme.isKeyInHeader);
                 data.put("isKeyInQuery", scheme.isKeyInQuery);
                 data.put("keyParamName", scheme.keyParamName);
@@ -424,6 +454,8 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 ref.put("className", className);
                 ref.put("credentialName", credentialName);
                 ref.put("displayName", displayName);
+                ref.put("isOAuthAutoWired", oauth2AutoWired);
+                ref.put("isOAuthManual", oauth2Manual);
                 credentialRefs.add(ref);
 
                 schemeNameToCredentialName.put(scheme.name, credentialName);
@@ -534,6 +566,25 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
             return "OAuth2";
         }
         return "API";
+    }
+
+    /** Joins an OAuth2 scheme's declared scopes into a single space-separated string, the
+     * format n8n's generic {@code oAuth2Api} credential's {@code scope} field expects. */
+    private static String joinScopeNames(List<Map<String, Object>> scopes) {
+        if (scopes == null || scopes.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Map<String, Object> scope : scopes) {
+            Object name = scope.get("scope");
+            if (name != null) {
+                if (sb.length() > 0) {
+                    sb.append(' ');
+                }
+                sb.append(name);
+            }
+        }
+        return sb.toString();
     }
 
     private static String toPascalCase(String raw) {
