@@ -9,7 +9,7 @@
 
 
   <properties>
-    <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <compiler-plugin.version>3.15.0</compiler-plugin.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
@@ -19,7 +19,7 @@
     <quarkus.platform.version>3.27.4.1</quarkus.platform.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
-    <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <surefire-plugin.version>3.5.6</surefire-plugin.version>
     <jakarta.ws.rs-version>3.1.0</jakarta.ws.rs-version>
     <jakarta.annotation-api-version>2.1.1</jakarta.annotation-api-version>
   </properties>
@@ -84,7 +84,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.9.1</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <id>add-source</id>
