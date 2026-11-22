@@ -6,9 +6,9 @@ import static org.testng.Assert.assertEquals;
 
 public class SourceStringEscaperTest {
     @Test
-    public void javaLiteralPreservesControlCharactersAndBackslashes() {
-        assertEquals(SourceStringEscaper.javaStringLiteral("quote \" slash \\ line\nliteral\\n"),
-                "\"quote \\\" slash \\\\ line\\nliteral\\\\n\"");
+    public void kotlinLiteralEscapesLineBreaksAndControlCharacters() {
+        assertEquals(SourceStringEscaper.kotlinStringLiteral("line\nnext\r\u0001end"),
+                "\"line\\nnext\\r\\u0001end\"");
     }
 
     @Test

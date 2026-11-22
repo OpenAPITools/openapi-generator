@@ -27,20 +27,51 @@ public final class SourceStringEscaper {
     private SourceStringEscaper() {
     }
 
-    public static String javaStringLiteral(String input) {
-        return "\"" + javaStringContent(input) + "\"";
-    }
-
-    public static String javaStringContent(String input) {
-        return escape(input, false);
-    }
-
     public static String kotlinStringLiteral(String input) {
         return "\"" + kotlinStringContent(input) + "\"";
     }
 
     public static String kotlinStringContent(String input) {
-        return escape(input, true);
+        if (input == null) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder(input.length() + 16);
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            switch (c) {
+                case '\\':
+                    result.append("\\\\");
+                    break;
+                case '"':
+                    result.append("\\\"");
+                    break;
+                case '$':
+                    result.append("\\$");
+                    break;
+                case '\b':
+                    result.append("\\b");
+                    break;
+                case '\t':
+                    result.append("\\t");
+                    break;
+                case '\n':
+                    result.append("\\n");
+                    break;
+                case '\r':
+                    result.append("\\r");
+                    break;
+                default:
+                    if (c < 0x20) {
+                        // Kotlin has no \f or octal escapes; use a Unicode escape for other control characters
+                        result.append(String.format(Locale.ROOT, "\\u%04x", (int) c));
+                    } else {
+                        result.append(c);
+                    }
+                    break;
+            }
+        }
+        return result.toString();
     }
 
     /**
@@ -58,67 +89,12 @@ public final class SourceStringEscaper {
                 .replace("\"", "&quot;")
                 .replace("'", "&#39;")
                 .replace("@", "&#64;")
-                // Java processes Unicode escapes before recognizing comments.
+                // Encode backslashes so Unicode escapes stay literal (Java also processes them inside comments).
                 .replace("\\", "&#92;")
                 .replace("/*", "&#47;*")
                 .replace("*/", "*&#47;")
                 .replace("\r\n", "\n")
                 .replace("\r", "\n")
                 .replace("\n", "\n     * ");
-    }
-
-    private static String escape(String input, boolean kotlin) {
-        if (input == null) {
-            return "";
-        }
-
-        StringBuilder result = new StringBuilder(input.length() + 16);
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            switch (c) {
-                case '\\':
-                    result.append("\\\\");
-                    break;
-                case '"':
-                    result.append("\\\"");
-                    break;
-                case '$':
-                    if (kotlin) {
-                        result.append("\\$");
-                    } else {
-                        result.append(c);
-                    }
-                    break;
-                case '\b':
-                    result.append("\\b");
-                    break;
-                case '\t':
-                    result.append("\\t");
-                    break;
-                case '\n':
-                    result.append("\\n");
-                    break;
-                case '\f':
-                    result.append(kotlin ? "\\u000c" : "\\f");
-                    break;
-                case '\r':
-                    result.append("\\r");
-                    break;
-                default:
-                    if (c < 0x20) {
-                        if (kotlin) {
-                            result.append(String.format(Locale.ROOT, "\\u%04x", (int) c));
-                        } else {
-                            result.append("\\0");
-                            result.append((char) ('0' + ((c >> 3) & 7)));
-                            result.append((char) ('0' + (c & 7)));
-                        }
-                    } else {
-                        result.append(c);
-                    }
-                    break;
-            }
-        }
-        return result.toString();
     }
 }
