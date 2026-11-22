@@ -76,9 +76,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <properties>
-        <slf4j.version>2.0.16</slf4j.version>
-    </properties>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
         <outputDirectory>target/classes</outputDirectory>
@@ -1323,7 +1320,7 @@
         <resolver-util-version>1.9.18</resolver-util-version>
         <rxgen.version>1.4</rxgen.version>
         <scala-maven-plugin.version>4.6.1</scala-maven-plugin.version>
-        <slf4j.version>2.0.16</slf4j.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <snakeyaml.version>2.4</snakeyaml.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
