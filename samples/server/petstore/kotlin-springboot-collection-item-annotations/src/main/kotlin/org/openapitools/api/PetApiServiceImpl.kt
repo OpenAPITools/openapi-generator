@@ -20,7 +20,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun findPetsByTags(tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+$") @Size(max=20) kotlin.String>): List<Pet> {
+    override fun findPetsByTags(tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+\$") @Size(max=20) kotlin.String>): List<Pet> {
         TODO("Implement me")
     }
 

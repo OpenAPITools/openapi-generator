@@ -33,6 +33,21 @@ paths:
       responses:
         '204':
           description: No content
+  /validation:
+    get:
+      tags:
+        - escaping
+      operationId: validatedQuery
+      parameters:
+        - name: code
+          in: query
+          schema:
+            type: string
+            pattern: '^[a-z]*/$abc\d$'
+          x-pattern-message: 'query "match" & $it'
+      responses:
+        '204':
+          description: No content
   /discriminator:
     get:
       tags:
@@ -51,10 +66,33 @@ components:
       type: oauth2
       flows:
         clientCredentials:
-          tokenUrl: https://example.test/token
+          tokenUrl: 'https://example.test/$token?a=1&b=2'
           scopes:
             'scope$"name': 'Scope description $ " \u002a/'
+    'key$"name':
+      type: apiKey
+      in: header
+      name: 'X-Key$"'
+    'basic$"name':
+      type: http
+      scheme: basic
   schemas:
+    PatternModel:
+      type: object
+      properties:
+        code:
+          type: string
+          pattern: '^[a-z]*/$abc\d$'
+          minLength: 1
+          maxLength: 5
+          x-pattern-message: 'must "match" & $it'
+          x-size-message: 'size "x" $y'
+        codes:
+          type: array
+          items:
+            type: string
+            pattern: '^\d+$name'
+            x-pattern-message: 'item "match" $it'
     MultilineExample:
       type: object
       required:

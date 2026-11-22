@@ -3566,7 +3566,7 @@ public class KotlinSpringServerCodegenTest {
                 "@NotNull", "@Valid");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApiController.kt"),
                 "@NotNull", "@Valid",
-                "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")",
+                "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+\\$\")",
                 "@Parameter(description = \"The user name for login\", required = true)",
                 "@Parameter(description = \"The password for login in clear text\", required = true)");
     }
@@ -3594,7 +3594,7 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
                 "@NotNull", "@Valid");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt"),
-                "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")");
+                "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+\\$\")");
     }
 
     @DataProvider
@@ -4862,6 +4862,39 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(swagger1Model,
                 "@ApiModelProperty(example = \"first line\\nsecond \\\"line\\\" \\$ \\\\ \\ttab\", value = \"\")",
                 "@ApiModelProperty(example = \"line one\\r\\nline two\", required = true, value = \"\")");
+    }
+
+    @Test(description = "bean validation patterns and messages are escaped as Kotlin string literals")
+    public void beanValidationPatternsAndMessagesAreKotlinLiterals() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml",
+                Map.of(USE_BEANVALIDATION, true));
+
+        assertFileContains(files.get("PatternModel.kt").toPath(),
+                "@get:Pattern(regexp=\"^[a-z]*/\\$abc\\\\d\\$\", message=\"must \\\"match\\\" & \\$it\")",
+                "@get:Size(min=1,max=5, message=\"size \\\"x\\\" \\$y\")",
+                "List<@Pattern(regexp=\"^\\\\d+\\$name\", message=\"item \\\"match\\\" \\$it\") kotlin.String>");
+        assertFileContains(files.get("ValidationApiController.kt").toPath(),
+                "@Pattern(regexp=\"^[a-z]*/\\$abc\\\\d\\$\", message=\"query \\\"match\\\" & \\$it\")");
+    }
+
+    @Test(description = "spring-cloud client configuration escapes security and server values")
+    public void springCloudClientConfigurationEscapesValues() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml",
+                new HashMap<>(), new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        assertFileContains(files.get("ClientConfiguration.kt").toPath(),
+                "@Value(\"\\${kotlintitle.security.basic\\$\\\"name.username:}\")",
+                "@ConditionalOnProperty(\"kotlintitle.security.basic\\$\\\"name.username\")",
+                "fun basicnameRequestInterceptor(): BasicAuthRequestInterceptor",
+                "@Value(\"\\${kotlintitle.security.key\\$\\\"name.key:}\")",
+                "ApiKeyRequestInterceptor(\"header\", \"X-Key\\$\\\"\", this.keynameKey)",
+                "@ConditionalOnProperty(\"kotlintitle.security.oauth\\$\\\"name.client-id\")",
+                "details.accessTokenUri = \"https://example.test/\\$token?a=1&b=2\"");
+        assertFileContains(files.get("EscapingApiClient.kt").toPath(),
+                "url=\"\\${escaping.url:http://localhost/server-\\$context}\"");
     }
 
     private void assertKotlinEscapedPaths(File source) throws IOException {
@@ -8364,7 +8397,7 @@ public class KotlinSpringServerCodegenTest {
         assertThat(getKotlinPropertyAnnotations(model, "uriMaxLength")).doesNotContain("@get:Size");
         assertThat(getKotlinPropertyAnnotations(model, "uriMinMaxLength")).doesNotContain("@get:Size");
         assertThat(getKotlinPropertyAnnotations(model, "plainString"))
-                .contains("@get:Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@get:Pattern(regexp=\"^[a-z]+\\$\")")
                 .contains("@get:Size(min=1)");
         assertThat(getKotlinPropertyAnnotations(model, "plainStringMaxLength")).contains("@get:Size(max=10)");
         assertThat(getKotlinPropertyAnnotations(model, "plainStringMinMaxLength"))
@@ -8380,7 +8413,7 @@ public class KotlinSpringServerCodegenTest {
         assertThat(getKotlinParameterAnnotations(api, "uriParamMaxLength")).doesNotContain("@Size");
         assertThat(getKotlinParameterAnnotations(api, "uriParamMinMaxLength")).doesNotContain("@Size");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))
-                .contains("@Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@Pattern(regexp=\"^[a-z]+\\$\")")
                 .contains("@Size(min=1)");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParamMaxLength")).contains("@Size(max=10)");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParamMinMaxLength"))
@@ -8814,7 +8847,7 @@ public class KotlinSpringServerCodegenTest {
         // string / number constraints
         assertFileContains(holder,
                 "val names: kotlin.collections.List<@Size(max=10) kotlin.String>,",
-                "val codes: kotlin.collections.List<@Pattern(regexp=\"^[A-Z]{2}$\") kotlin.String>? = null",
+                "val codes: kotlin.collections.List<@Pattern(regexp=\"^[A-Z]{2}\\$\") kotlin.String>? = null",
                 "val emails: kotlin.collections.List<@Email kotlin.String>? = null",
                 "val sizes: kotlin.collections.List<@Size(min=1,max=3) kotlin.String>? = null",
                 "val ints: kotlin.collections.List<@Min(value=1) @Max(value=10) kotlin.Int>? = null",

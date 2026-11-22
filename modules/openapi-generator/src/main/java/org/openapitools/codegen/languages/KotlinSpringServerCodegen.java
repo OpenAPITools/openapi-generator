@@ -1185,6 +1185,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return value;
     }
 
+    /**
+     * Keep the pattern unescaped: templates render it through {@code kotlinStringLiteral}, which is the
+     * only escaping a regular expression needs inside a Kotlin string. The inherited text escaping also
+     * rewrites comment delimiters and line breaks, which changes the expression.
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return pattern;
+    }
+
     @Override
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
         CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
@@ -1681,7 +1691,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             annotations.add("@Email");
         }
         if (StringUtils.isNotEmpty(items.getPattern())) {
-            annotations.add("@Pattern(regexp=\"" + toRegularExpression(items.getPattern()) + "\""
+            annotations.add("@Pattern(regexp=" + SourceStringEscaper.kotlinStringLiteral(items.getPattern())
                     + validationMessage(items, "x-pattern-message") + ")");
         }
         if (ModelUtils.isDecimalSchema(items)) {
@@ -1725,16 +1735,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     private static String validationMessage(Schema<?> items, String extension) {
         Object message = items.getExtensions() == null ? null : items.getExtensions().get(extension);
-        return message == null ? "" : ", message=\"" + escapeKotlinString(String.valueOf(message)) + "\"";
-    }
-
-    private static String escapeKotlinString(String value) {
-        return value.replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("$", "\\$")
-                .replace("\r", "\\r")
-                .replace("\n", "\\n")
-                .replace("\t", "\\t");
+        return message == null ? "" : ", message=" + SourceStringEscaper.kotlinStringLiteral(String.valueOf(message));
     }
 
     @Override

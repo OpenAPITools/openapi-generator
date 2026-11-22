@@ -77,85 +77,85 @@ class ClientConfiguration {
 
     {{#authMethods}}
     {{#isBasicBasic}}
-    @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username:{{closebrace}}")
+    @Value("\${{openbrace}}{{#lambda.kotlinStringContent}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username{{/lambda.kotlinStringContent}}:{{closebrace}}")
     private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Username: String
 
-    @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.password:{{closebrace}}")
+    @Value("\${{openbrace}}{{#lambda.kotlinStringContent}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.password{{/lambda.kotlinStringContent}}:{{closebrace}}")
     private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Password: String
 
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username")
-    fun {{{name}}}RequestInterceptor(): BasicAuthRequestInterceptor {
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username{{/lambda.kotlinStringLiteral}})
+    fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}RequestInterceptor(): BasicAuthRequestInterceptor {
       return BasicAuthRequestInterceptor(this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Username, this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Password)
     }
 
     {{/isBasicBasic}}
     {{#isApiKey}}
-    @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key:{{closebrace}}")
+    @Value("\${{openbrace}}{{#lambda.kotlinStringContent}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key{{/lambda.kotlinStringContent}}:{{closebrace}}")
     private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Key: String
 
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key")
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key{{/lambda.kotlinStringLiteral}})
     fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}RequestInterceptor(): ApiKeyRequestInterceptor {
-        return ApiKeyRequestInterceptor({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{{keyParamName}}}", this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Key)
+        return ApiKeyRequestInterceptor({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, {{#lambda.kotlinStringLiteral}}{{{keyParamName}}}{{/lambda.kotlinStringLiteral}}, this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Key)
     }
 
     {{/isApiKey}}
     {{#isOAuth}}
 {{^useSpringBoot4}}{{^useSpringBoot3}}
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id{{/lambda.kotlinStringLiteral}})
     fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}RequestInterceptor(oAuth2ClientContext: OAuth2ClientContext): OAuth2FeignRequestInterceptor {
         return OAuth2FeignRequestInterceptor(oAuth2ClientContext, {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails())
     }
 
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id{{/lambda.kotlinStringLiteral}})
     fun oAuth2ClientContext(): OAuth2ClientContext {
         return DefaultOAuth2ClientContext()
     }
 
     {{#isCode}}
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
-    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id{{/lambda.kotlinStringLiteral}})
+    @ConfigurationProperties({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}{{/lambda.kotlinStringLiteral}})
     fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): AuthorizationCodeResourceDetails {
         val details = AuthorizationCodeResourceDetails()
-        details.accessTokenUri = "{{{tokenUrl}}}"
-        details.userAuthorizationUri = "{{{authorizationUrl}}}"
+        details.accessTokenUri = {{#lambda.kotlinStringLiteral}}{{{tokenUrl}}}{{/lambda.kotlinStringLiteral}}
+        details.userAuthorizationUri = {{#lambda.kotlinStringLiteral}}{{{authorizationUrl}}}{{/lambda.kotlinStringLiteral}}
         return details
     }
 
     {{/isCode}}
     {{#isPassword}}
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
-    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id{{/lambda.kotlinStringLiteral}})
+    @ConfigurationProperties({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}{{/lambda.kotlinStringLiteral}})
     fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): ResourceOwnerPasswordResourceDetails {
         val details = ResourceOwnerPasswordResourceDetails()
-        details.accessTokenUri = "{{{tokenUrl}}}"
+        details.accessTokenUri = {{#lambda.kotlinStringLiteral}}{{{tokenUrl}}}{{/lambda.kotlinStringLiteral}}
         return details
     }
 
     {{/isPassword}}
     {{#isApplication}}
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
-    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id{{/lambda.kotlinStringLiteral}})
+    @ConfigurationProperties({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}{{/lambda.kotlinStringLiteral}})
     fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): ClientCredentialsResourceDetails {
         val details = ClientCredentialsResourceDetails()
-        details.accessTokenUri = "{{{tokenUrl}}}"
+        details.accessTokenUri = {{#lambda.kotlinStringLiteral}}{{{tokenUrl}}}{{/lambda.kotlinStringLiteral}}
         return details
     }
 
     {{/isApplication}}
     {{#isImplicit}}
     @Bean
-    @ConditionalOnProperty("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id")
-    @ConfigurationProperties("{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}")
+    @ConditionalOnProperty({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.client-id{{/lambda.kotlinStringLiteral}})
+    @ConfigurationProperties({{#lambda.kotlinStringLiteral}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}{{/lambda.kotlinStringLiteral}})
     fun {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}ResourceDetails(): ImplicitResourceDetails {
         val details = ImplicitResourceDetails()
-        details.userAuthorizationUri= "{{{authorizationUrl}}}"
+        details.userAuthorizationUri= {{#lambda.kotlinStringLiteral}}{{{authorizationUrl}}}{{/lambda.kotlinStringLiteral}}
         return details
     }
 
@@ -163,10 +163,10 @@ class ClientConfiguration {
 {{/useSpringBoot3}}{{/useSpringBoot4}}
 {{#useSpringBoot3}}
     @Bean
-    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
+    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{#lambda.kotlinStringContent}}{{{name}}}{{/lambda.kotlinStringContent}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
     fun {{{flow}}}OAuth2RequestInterceptor({{{flow}}}AuthorizedClientManager: OAuth2AuthorizedClientManager): OAuth2RequestInterceptor {
         return OAuth2RequestInterceptor(
-            OAuth2AuthorizeRequest.withClientRegistrationId("{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}")
+            OAuth2AuthorizeRequest.withClientRegistrationId("{{#lambda.kotlinStringContent}}{{{name}}}{{/lambda.kotlinStringContent}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}")
                 .principal(AnonymousAuthenticationToken(CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")))
                 .build(),
             {{{flow}}}AuthorizedClientManager
@@ -174,7 +174,7 @@ class ClientConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
+    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{#lambda.kotlinStringContent}}{{{name}}}{{/lambda.kotlinStringContent}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
     fun {{{flow}}}AuthorizedClientManager(
         clientRegistrationRepository: ClientRegistrationRepository,
         authorizedClientService: OAuth2AuthorizedClientService
@@ -185,10 +185,10 @@ class ClientConfiguration {
 {{/useSpringBoot3}}
 {{#useSpringBoot4}}
     @Bean
-    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
+    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{#lambda.kotlinStringContent}}{{{name}}}{{/lambda.kotlinStringContent}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
     fun {{{flow}}}OAuth2RequestInterceptor({{{flow}}}AuthorizedClientManager: OAuth2AuthorizedClientManager): OAuth2RequestInterceptor {
         return OAuth2RequestInterceptor(
-            OAuth2AuthorizeRequest.withClientRegistrationId("{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}")
+            OAuth2AuthorizeRequest.withClientRegistrationId("{{#lambda.kotlinStringContent}}{{{name}}}{{/lambda.kotlinStringContent}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}")
                 .principal(AnonymousAuthenticationToken(CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, CLIENT_PRINCIPAL_{{#lambda.uppercase}}{{{flow}}}{{/lambda.uppercase}}, AuthorityUtils.createAuthorityList("ROLE_ANONYMOUS")))
                 .build(),
             {{{flow}}}AuthorizedClientManager
@@ -196,7 +196,7 @@ class ClientConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
+    @ConditionalOnProperty(prefix = "spring.security.oauth2.client.registration.{{#lambda.kotlinStringContent}}{{{name}}}{{/lambda.kotlinStringContent}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", name = ["enabled"], havingValue = "true")
     fun {{{flow}}}AuthorizedClientManager(
         clientRegistrationRepository: ClientRegistrationRepository,
         authorizedClientService: OAuth2AuthorizedClientService

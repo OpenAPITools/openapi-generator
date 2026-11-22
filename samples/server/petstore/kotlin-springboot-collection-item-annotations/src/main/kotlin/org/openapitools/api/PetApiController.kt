@@ -78,7 +78,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         produces = ["application/xml", "application/json"]
     )
     fun findPetsByTags(
-        @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+$") @Size(max=20) kotlin.String>
+        @NotNull @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+\$") @Size(max=20) kotlin.String>
     ): ResponseEntity<List<Pet>> {
         return ResponseEntity(service.findPetsByTags(tags), HttpStatus.valueOf(200))
     }

@@ -4,8 +4,8 @@
 getRequest().ifPresent { request ->
             for (mediaType in MediaType.parseMediaTypes(request.getHeader("Accept"))) {
     {{/-first}}
-                if (mediaType.isCompatibleWith(MediaType.valueOf("{{#lambdaEscapeInNormalString}}{{{contentType}}}{{/lambdaEscapeInNormalString}}"))) {
-                    ApiUtil.setExampleResponse(request, "{{#lambdaEscapeInNormalString}}{{{contentType}}}{{/lambdaEscapeInNormalString}}", "{{#lambdaRemoveLineBreak}}{{#lambdaEscapeInNormalString}}{{{example}}}{{/lambdaEscapeInNormalString}}{{/lambdaRemoveLineBreak}}")
+                if (mediaType.isCompatibleWith(MediaType.valueOf({{#lambda.kotlinStringLiteral}}{{{contentType}}}{{/lambda.kotlinStringLiteral}}))) {
+                    ApiUtil.setExampleResponse(request, {{#lambda.kotlinStringLiteral}}{{{contentType}}}{{/lambda.kotlinStringLiteral}}, "{{#lambda.kotlinStringContent}}{{#lambdaRemoveLineBreak}}{{{example}}}{{/lambdaRemoveLineBreak}}{{/lambda.kotlinStringContent}}")
                     break
                 }
     {{#-last}}

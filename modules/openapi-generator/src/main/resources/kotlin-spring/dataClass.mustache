@@ -59,7 +59,7 @@
     override fun toString(): String {
         return "{{classname}}(" +
 {{#vendorExtensions.x-open-class-vars}}
-            "{{{vendorExtensions.x-open-class-label}}}=" + {{{name}}}{{^-last}} + ", " +{{/-last}}{{#-last}} +{{/-last}}
+            {{#lambda.kotlinStringLiteral}}{{{vendorExtensions.x-open-class-label}}}={{/lambda.kotlinStringLiteral}} + {{{name}}}{{^-last}} + ", " +{{/-last}}{{#-last}} +{{/-last}}
 {{/vendorExtensions.x-open-class-vars}}
             ")"
     }

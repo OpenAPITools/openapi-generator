@@ -71,11 +71,11 @@ interface {{classname}} {
     {{{.}}}
 {{/vendorExtensions.x-operation-extra-annotation}}{{!
 }}{{#httpMethod}}    @HttpExchange(
-        // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
+        // {{#lambda.kotlinStringLiteral}}{{{path}}}{{/lambda.kotlinStringLiteral}}
         url = PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}},
         method = "{{httpMethod}}"{{#vendorExtensions.x-content-type}},
-        contentType = "{{#lambdaEscapeInNormalString}}{{{vendorExtensions.x-content-type}}}{{/lambdaEscapeInNormalString}}"{{/vendorExtensions.x-content-type}}{{#vendorExtensions.x-accepts}}{{#-first}},
-        accept = [{{/-first}}"{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/vendorExtensions.x-accepts}}
+        contentType = {{#lambda.kotlinStringLiteral}}{{{vendorExtensions.x-content-type}}}{{/lambda.kotlinStringLiteral}}{{/vendorExtensions.x-content-type}}{{#vendorExtensions.x-accepts}}{{#-first}},
+        accept = [{{/-first}}{{#lambda.kotlinStringLiteral}}{{{.}}}{{/lambda.kotlinStringLiteral}}{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/vendorExtensions.x-accepts}}
     )
     {{/httpMethod}}{{!
     }}{{#reactiveModeCoroutines}}suspend {{/reactiveModeCoroutines}}{{!

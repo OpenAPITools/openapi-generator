@@ -123,12 +123,12 @@ interface {{classname}} {
     {{/isDeprecated}}
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
-        // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
+        // {{#lambda.kotlinStringLiteral}}{{{path}}}{{/lambda.kotlinStringLiteral}}
         value = [PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}]{{#vendorExtensions.x-accepts}}{{#-first}},
-        produces = [{{/-first}}"{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/vendorExtensions.x-accepts}}{{^vendorExtensions.x-accepts}}{{#hasProduces}},
-        produces = [{{#produces}}"{{#lambdaEscapeInNormalString}}{{{rawMediaType}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{/vendorExtensions.x-accepts}}{{#vendorExtensions.x-content-type}},
-        consumes = ["{{#lambdaEscapeInNormalString}}{{{vendorExtensions.x-content-type}}}{{/lambdaEscapeInNormalString}}"]{{/vendorExtensions.x-content-type}}{{^vendorExtensions.x-content-type}}{{#hasConsumes}},
-        consumes = [{{#consumes}}"{{#lambdaEscapeInNormalString}}{{{rawMediaType}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/vendorExtensions.x-content-type}}
+        produces = [{{/-first}}{{#lambda.kotlinStringLiteral}}{{{.}}}{{/lambda.kotlinStringLiteral}}{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/vendorExtensions.x-accepts}}{{^vendorExtensions.x-accepts}}{{#hasProduces}},
+        produces = [{{#produces}}{{#lambda.kotlinStringLiteral}}{{{rawMediaType}}}{{/lambda.kotlinStringLiteral}}{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{/vendorExtensions.x-accepts}}{{#vendorExtensions.x-content-type}},
+        consumes = [{{#lambda.kotlinStringLiteral}}{{{vendorExtensions.x-content-type}}}{{/lambda.kotlinStringLiteral}}]{{/vendorExtensions.x-content-type}}{{^vendorExtensions.x-content-type}}{{#hasConsumes}},
+        consumes = [{{#consumes}}{{#lambda.kotlinStringLiteral}}{{{rawMediaType}}}{{/lambda.kotlinStringLiteral}}{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/vendorExtensions.x-content-type}}
     )
     {{#suspendFunctions}}suspend {{/suspendFunctions}}{{^suspendFunctions}}{{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{#vendorExtensions.x-reactive-array-string-return}}suspend {{/vendorExtensions.x-reactive-array-string-return}}{{^vendorExtensions.x-reactive-array-string-return}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/vendorExtensions.x-reactive-array-string-return}}{{/isArray}}{{/reactive}}{{/suspendFunctions}}fun {{operationId}}({{#allParams}}
         {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},

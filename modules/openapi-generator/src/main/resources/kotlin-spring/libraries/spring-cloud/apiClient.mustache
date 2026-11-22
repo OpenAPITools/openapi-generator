@@ -5,7 +5,7 @@ import {{configPackage}}.ClientConfiguration
 
 @FeignClient(
     name="\${{openbrace}}{{classVarName}}.name:{{classVarName}}{{closebrace}}",
-    {{#useFeignClientUrl}}url="\${{openbrace}}{{classVarName}}.url:{{basePath}}{{closebrace}}", {{/useFeignClientUrl}}
+    {{#useFeignClientUrl}}url="\${{openbrace}}{{classVarName}}.url:{{#lambda.kotlinStringContent}}{{{basePath}}}{{/lambda.kotlinStringContent}}{{closebrace}}", {{/useFeignClientUrl}}
     configuration = [ClientConfiguration::class]
 )
 interface {{classname}}Client : {{classname}}
