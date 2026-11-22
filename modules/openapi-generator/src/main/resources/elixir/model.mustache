@@ -1,5 +1,8 @@
+{{#models}}
+{{#model}}
 {{>licenseInfo}}
-{{#models}}{{#model}}{{^isEnum}}defmodule {{moduleName}}.Model.{{classname}} do
+{{^isEnum}}
+defmodule {{moduleName}}.Model.{{classname}} do
   @moduledoc """
   {{&description}}
   """
@@ -44,4 +47,6 @@
     {{/ectoEmbeds}}
   end
 end
-{{/isEnum}}{{/model}}{{/models}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

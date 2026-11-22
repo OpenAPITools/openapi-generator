@@ -447,26 +447,26 @@ public class ElixirClientCodegen extends DefaultCodegen {
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
         ExtendedCodegenModel ecm = new ExtendedCodegenModel(cm);
-        
+
         // Convert all CodegenProperty objects to ExtendedCodegenProperty
         List<CodegenProperty> vars = new ArrayList<>(ecm.vars);
         ecm.vars.clear();
         for (CodegenProperty var : vars) {
             ecm.vars.add(new ExtendedCodegenProperty(var));
         }
-        
+
         List<CodegenProperty> allVars = new ArrayList<>(ecm.allVars);
         ecm.allVars.clear();
         for (CodegenProperty var : allVars) {
             ecm.allVars.add(new ExtendedCodegenProperty(var));
         }
-        
+
         List<CodegenProperty> requiredVars = new ArrayList<>(ecm.requiredVars);
         ecm.requiredVars.clear();
         for (CodegenProperty var : requiredVars) {
             ecm.requiredVars.add(new ExtendedCodegenProperty(var));
         }
-        
+
         List<CodegenProperty> optionalVars = new ArrayList<>(ecm.optionalVars);
         ecm.optionalVars.clear();
         for (CodegenProperty var : optionalVars) {
@@ -478,7 +478,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         for (CodegenProperty field : ectoFields) {
             ecm.ectoFields.add(new ExtendedCodegenProperty(field));
         }
-        
+
         List<CodegenProperty> ectoEmbeds = new ArrayList<>(ecm.ectoEmbeds);
         ecm.ectoEmbeds.clear();
         for (CodegenProperty embed : ectoEmbeds) {
@@ -503,7 +503,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         for (CodegenProperty field : ectoMaps) {
             ecm.ectoMaps.add(new ExtendedCodegenProperty(field));
         }
-        
+
         return ecm;
     }
 

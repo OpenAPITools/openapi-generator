@@ -522,10 +522,12 @@ defmodule OpenapiPetstore.RequestBuilder do
   defp decode(%Req.Response{} = response, false), do: {:ok, response}
 
   defp decode(%Req.Response{body: body}, mapping) when not is_atom(mapping) do
-    OpenapiPetstore.Deserializer.json_decode(body)
+    JSON.decode(body)
   end
 
   defp decode(%Req.Response{body: body}, module) do
-    OpenapiPetstore.Deserializer.json_decode(body, module)
+    with {:ok, params} <- JSON.decode(body) do
+      OpenapiPetstore.EctoUtils.cast_response(params, module)
+    end
   end
 end

@@ -1,7 +1,7 @@
 defmodule DeserializerTest do
   use ExUnit.Case, async: true
-  alias OpenapiPetstore.Deserializer
   alias OpenapiPetstore.Model.{Category, Pet, Tag}
+  alias OpenapiPetstore.RequestBuilder
 
   @valid_json """
   {
@@ -25,12 +25,14 @@ defmodule DeserializerTest do
         "name": "sea"
       }
     ],
-    "status": "foo"
+    "status": "available"
   }
   """
 
-  test "json_decode/2 with valid JSON" do
-    assert Deserializer.json_decode(@valid_json, Pet) ==
+  test "decodes a mapped Req response into an Ecto model" do
+    response = %Req.Response{status: 200, body: @valid_json}
+
+    assert RequestBuilder.evaluate_response({:ok, response}, [{200, Pet}]) ==
              {:ok,
               %Pet{
                 id: 14,
@@ -38,12 +40,21 @@ defmodule DeserializerTest do
                 name: "Nagga",
                 photoUrls: ["https://example.com/nagga1.jpg", "https://example.com/nagga2.jpg"],
                 tags: [%Tag{id: 99, name: "dragon"}, %Tag{id: 23, name: "sea"}],
-                status: "foo"
+                status: "available"
               }}
   end
 
-  test "json_decode/2 with invalid JSON" do
-    assert Deserializer.json_decode(~s/{: 1}/, Pet) ==
+  test "returns the JSON error for a malformed mapped Req response" do
+    response = %Req.Response{status: 200, body: ~s/{: 1}/}
+
+    assert RequestBuilder.evaluate_response({:ok, response}, [{200, Pet}]) ==
              {:error, {:invalid_byte, 1, 58}}
+  end
+
+  test "returns the changeset error for an invalid model in a mapped Req response" do
+    response = %Req.Response{status: 200, body: "[{}]"}
+
+    assert {:error, %Ecto.Changeset{valid?: false}} =
+             RequestBuilder.evaluate_response({:ok, response}, [{200, Pet}])
   end
 end

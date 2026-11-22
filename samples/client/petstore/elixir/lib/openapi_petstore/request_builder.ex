@@ -442,25 +442,11 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
-  defp decode(%Tesla.Env{body: body}, %{}) do
+  defp decode(%Tesla.Env{body: body}, mapping) when not is_atom(mapping) do
     {:ok, body}
   end
 
-  defp decode(%Tesla.Env{body: response}, module) when is_list(response) do
-    models = Enum.map(response, fn params ->
-      {:ok, model} = to_model(module, params)
-      model
-    end)
-    {:ok, models}
-  end
   defp decode(%Tesla.Env{body: params}, module) do
-    to_model(module, params)
-  end
-
-  defp to_model(module, params) do
-    module
-    |> struct
-    |> module.changeset(params)
-    |> Ecto.Changeset.apply_action(:insert)
+    OpenapiPetstore.EctoUtils.cast_response(params, module)
   end
 end
