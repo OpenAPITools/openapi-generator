@@ -37,6 +37,13 @@ paths:
             type: string
             format: date-time
             default: "2024-03-05T10:00:00Z"
+        - name: noDefaultDay
+          in: query
+          # an extension a spec could supply; must not be mistaken for an omitted default
+          x-kotlin-spring-omitted-temporal-default: query
+          schema:
+            type: string
+            format: date
         - name: label
           in: query
           schema:

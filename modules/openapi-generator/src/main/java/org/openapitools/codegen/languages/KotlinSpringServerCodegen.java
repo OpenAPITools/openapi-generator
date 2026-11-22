@@ -78,8 +78,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     // Deduplicates the "date/date-time default is not generated" warnings within one generation run.
     private final Set<String> temporalDefaultWarnings = new HashSet<>();
-    // Internal marker set on parameters whose date/date-time default was cleared; value is the parameter location.
-    private static final String X_OMITTED_TEMPORAL_DEFAULT = "x-kotlin-spring-omitted-temporal-default";
+    // {location, name} of the parameters whose date/date-time default was cleared while the current
+    // operation was built (postProcessParameter runs inside super.fromOperation). Kept outside
+    // vendorExtensions so a specification cannot supply the marker; reported and reset in fromOperation.
+    private final List<String[]> omittedTemporalDefaults = new ArrayList<>();
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
             new HashSet<>(Arrays.asList(
@@ -1230,7 +1232,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 String location = parameter.isFormParam ? "form" : parameter.isQueryParam ? "query"
                         : parameter.isHeaderParam ? "header" : parameter.isCookieParam ? "cookie"
                         : parameter.isPathParam ? "path" : "body";
-                parameter.vendorExtensions.put(X_OMITTED_TEMPORAL_DEFAULT, location);
+                omittedTemporalDefaults.add(new String[]{location, parameter.baseName});
             }
             parameter.hasDefaultValue = false;
             parameter.defaultValue = null;
@@ -1240,15 +1242,16 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     private void warnOmittedTemporalDefaults(CodegenOperation operation) {
-        for (CodegenParameter parameter : operation.allParams) {
-            Object location = parameter.vendorExtensions.get(X_OMITTED_TEMPORAL_DEFAULT);
-            if (location != null && temporalDefaultWarnings.add(
-                    "parameter:" + operation.operationId + ":" + location + ":" + parameter.baseName)) {
+        for (String[] omitted : omittedTemporalDefaults) {
+            String location = omitted[0];
+            String name = omitted[1];
+            if (temporalDefaultWarnings.add("parameter:" + operation.operationId + ":" + location + ":" + name)) {
                 LOGGER.warn("OpenAPI default for date/date-time {} parameter '{}' of operation '{}' is not generated "
                         + "(date/date-time defaults are not supported); the parameter is null when omitted.",
-                        location, parameter.baseName, operation.operationId);
+                        location, name, operation.operationId);
             }
         }
+        omittedTemporalDefaults.clear();
     }
 
     @Override
@@ -1356,6 +1359,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     openAPI, operation, autoXSpringPaginatedMode);
         }
 
+        omittedTemporalDefaults.clear();
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
         warnOmittedTemporalDefaults(codegenOperation);
 
