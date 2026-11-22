@@ -613,6 +613,15 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // camelize the model name
         // phone_number => PhoneNumber
         String camelizedName = camelize(name);
+
+        // camelize drops a leading underscore (the inline-model resolver guards
+        // digit-leading names as "_3d_position" -> "3dPosition"), which can leave
+        // a name starting with a digit — not a valid PHP class name. Re-guard
+        // after camelization (e.g. Model3dPositionPosition).
+        if (camelizedName.matches("^\\d.*")) {
+            camelizedName = "Model" + camelizedName;
+        }
+
         schemaKeyToModelNameCache.put(origName, camelizedName);
         return camelizedName;
     }

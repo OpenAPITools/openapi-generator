@@ -818,4 +818,38 @@ public class PhpNextgenClientCodegenTest {
                 a -> a.contains("Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()"),
                 "ObjectSerializer must only fall back to the default configuration if no configuration is given");
     }
+
+    @Test(description = "Issue #24732: digit-leading names must stay valid PHP class names")
+    public void testToModelNameNeverProducesADigitLeadingName() {
+        codegen.processOpts();
+
+        // The inline-model resolver guards digit-leading names with a leading
+        // underscore ("3d-position" + "_position" -> "_3d_position_position"),
+        // but camelize strips that underscore, re-exposing the digit.
+        Assert.assertEquals(codegen.toModelName("_3d_position_position"), "Model3dPositionPosition");
+        Assert.assertEquals(codegen.toModelName("3d-position"), "Model3dPosition");
+    }
+
+    @Test(description = "Issue #24732: digit-leading inline schemas generate a valid PHP class")
+    public void testDigitLeadingInlineModelGeneratesValidClassName() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/number-leading-model.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        java.nio.file.Path inlineModel = output.toPath().resolve("src/Model/Model3dPositionPosition.php");
+        TestUtils.assertFileExists(inlineModel);
+        TestUtils.assertFileContains(inlineModel, "class Model3dPositionPosition");
+        Assert.assertFalse(Files.exists(output.toPath().resolve("src/Model/3dPositionPosition.php")),
+                "Digit-leading class file must not be generated");
+    }
 }
