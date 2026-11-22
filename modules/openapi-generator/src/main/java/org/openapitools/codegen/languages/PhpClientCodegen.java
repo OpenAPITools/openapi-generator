@@ -118,6 +118,17 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
+    public String toGetter(String name) {
+        String getter = super.toGetter(name);
+        // the model template already declares getModelName() (ModelInterface), so a property such as
+        // model_name needs a different getter name to avoid redeclaring the method
+        if ("getModelName".equals(getter)) {
+            return "getModelNameProperty";
+        }
+        return getter;
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 

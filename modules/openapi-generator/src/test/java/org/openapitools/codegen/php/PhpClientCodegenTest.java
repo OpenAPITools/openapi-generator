@@ -209,4 +209,33 @@ public class PhpClientCodegenTest {
         Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
     }
+
+    @Test
+    public void testModelNamePropertyDoesNotRedeclareGetModelName() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        ObjectSchema model = new ObjectSchema();
+        model.addProperties("model_name", new StringSchema());
+        model.addProperties("title", new StringSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("UsedBy", model);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String modelPhp = String.join("\n", Files.readAllLines(files.get("UsedBy.php").toPath()));
+
+        // ModelInterface::getModelName() must not be redeclared by the getter of the model_name property
+        Assert.assertEquals(modelPhp.split("function getModelName\\(", -1).length - 1, 1, modelPhp);
+        Assert.assertTrue(modelPhp.contains("function getModelNameProperty("), modelPhp);
+        Assert.assertTrue(modelPhp.contains("function setModelName("), modelPhp);
+        Assert.assertTrue(modelPhp.contains("function getTitle("), modelPhp);
+    }
 }
