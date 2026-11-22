@@ -433,6 +433,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
         ExtendedCodegenModel ecm = new ExtendedCodegenModel(cm);
+        ecm.isAlias = ecm.isAlias || isInlinedEnum(ModelUtils.getReferencedSchemaChain(openAPI, model));
 
         // Convert all CodegenProperty objects to ExtendedCodegenProperty
         List<CodegenProperty> vars = new ArrayList<>(ecm.vars);
@@ -728,9 +729,12 @@ public class ElixirClientCodegen extends DefaultCodegen {
             return null;
         }
         Schema<?> target = ModelUtils.getReferencedSchemaChain(openAPI, schema);
-        return ModelUtils.isEnumSchema(target) && target.getEnum().stream().allMatch(this::isScalarEnumValue)
-                ? target
-                : null;
+        return isInlinedEnum(target) ? target : null;
+    }
+
+    private boolean isInlinedEnum(Schema<?> schema) {
+        return schema != null && ModelUtils.isEnumSchema(schema)
+                && schema.getEnum().stream().allMatch(this::isScalarEnumValue);
     }
 
     private String enumType(Schema<?> schema) {

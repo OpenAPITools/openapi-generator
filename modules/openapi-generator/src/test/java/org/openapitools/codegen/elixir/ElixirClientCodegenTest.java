@@ -80,6 +80,8 @@ public class ElixirClientCodegenTest {
             new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
 
             Path source = output.toPath().resolve("lib/petstore");
+            Assert.assertFalse(Files.exists(source.resolve("model/enum_class.ex")));
+            Assert.assertFalse(Files.exists(source.resolve("model/outer_enum_integer.ex")));
             String model = Files.readString(source.resolve("model/enum_test.ex"));
             Assert.assertTrue(model.contains("field :named_enum, :string"));
             Assert.assertTrue(model.contains("field :named_enum_array, {:array, :string}"));
