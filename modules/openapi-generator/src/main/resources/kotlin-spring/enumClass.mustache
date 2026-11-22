@@ -4,7 +4,7 @@
  */
 enum class {{classname}}(@get:JsonValue {{#useEnumValueInterface}}override {{/useEnumValueInterface}}val value: {{dataType}}){{#vendorExtensions.x-kotlin-implements}}{{#-first}} : {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-kotlin-implements}} {
 
-{{#allowableValues}}{{#enumVars}}    {{&name}}({{#isString}}{{#lambda.kotlinStringLiteral}}{{{valueRaw}}}{{/lambda.kotlinStringLiteral}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+{{#allowableValues}}{{#enumVars}}    {{&name}}({{#isString}}{{#lambda.kotlinStringLiteral}}{{{valueUnescaped}}}{{/lambda.kotlinStringLiteral}}{{/isString}}{{^isString}}{{{value}}}{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
 {{/enumVars}}{{/allowableValues}}
     companion object {
         @JvmStatic
