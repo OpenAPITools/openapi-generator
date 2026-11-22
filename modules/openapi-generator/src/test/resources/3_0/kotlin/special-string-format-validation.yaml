@@ -1,0 +1,134 @@
+openapi: 3.0.3
+info:
+  title: Special string format validation annotations
+  version: 1.0.0
+paths:
+  /formatted-payload:
+    get:
+      operationId: getFormattedPayload
+      parameters:
+        - in: query
+          name: dateParam
+          schema:
+            type: string
+            format: date
+            minLength: 1
+        - in: query
+          name: dateTimeParam
+          schema:
+            type: string
+            format: date-time
+            pattern: '.+'
+        - in: query
+          name: uuidParam
+          schema:
+            type: string
+            format: uuid
+            pattern: '^[0-9a-fA-F-]{36}$'
+            minLength: 36
+            maxLength: 36
+        - in: query
+          name: plainStringParam
+          schema:
+            type: string
+            pattern: '^[a-z]+$'
+            minLength: 1
+        - in: query
+          name: dateArrayParam
+          schema:
+            type: array
+            minItems: 1
+            maxItems: 3
+            items:
+              type: string
+              format: date
+              minLength: 1
+        - in: query
+          name: plainStringArrayParam
+          schema:
+            type: array
+            items:
+              type: string
+              minLength: 2
+        - in: query
+          name: uuidArrayParam
+          schema:
+            type: array
+            minItems: 1
+            maxItems: 3
+            items:
+              type: string
+              format: uuid
+              pattern: '^[0-9a-fA-F-]{36}$'
+              minLength: 36
+              maxLength: 36
+      responses:
+        '200':
+          description: Formatted payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormattedPayload'
+components:
+  schemas:
+    FormattedPayload:
+      type: object
+      properties:
+        dateMinLength:
+          type: string
+          format: date
+          minLength: 1
+        dateMaxLength:
+          type: string
+          format: date
+          maxLength: 10
+        dateMinMaxLength:
+          type: string
+          format: date
+          minLength: 2
+          maxLength: 12
+        dateTimePattern:
+          type: string
+          format: date-time
+          pattern: '.+'
+        uuidPatternAndLength:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-fA-F-]{36}$'
+          minLength: 36
+          maxLength: 36
+        binaryMinLength:
+          type: string
+          format: binary
+          minLength: 1
+        plainString:
+          type: string
+          pattern: '^[a-z]+$'
+          minLength: 1
+        dateItems:
+          type: array
+          minItems: 1
+          maxItems: 3
+          items:
+            type: string
+            format: date
+            minLength: 1
+        dateTimeItems:
+          type: array
+          items:
+            type: string
+            format: date-time
+            pattern: '.+'
+        uuidItems:
+          type: array
+          items:
+            type: string
+            format: uuid
+            pattern: '^[0-9a-fA-F-]{36}$'
+            minLength: 36
+            maxLength: 36
+        plainStringItems:
+          type: array
+          items:
+            type: string
+            minLength: 2
