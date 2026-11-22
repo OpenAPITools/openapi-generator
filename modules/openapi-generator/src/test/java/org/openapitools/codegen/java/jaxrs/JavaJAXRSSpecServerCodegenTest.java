@@ -945,6 +945,39 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         );
     }
 
+    /**
+     * Quarkus packages applications in the fast-jar layout under target/quarkus-app, so the
+     * Dockerfile must copy from there and .dockerignore must let it into the build context.
+     */
+    @Test
+    public void generateQuarkusContainerAndNativePackaging() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(QUARKUS_LIBRARY)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace('\\', '/'));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path dockerfileJvm = output.toPath().resolve("src/main/docker/Dockerfile.jvm");
+        assertFileContains(dockerfileJvm,
+                "FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.24",
+                "COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/",
+                "COPY --chown=185 target/quarkus-app/*.jar /deployments/",
+                "COPY --chown=185 target/quarkus-app/app/ /deployments/app/",
+                "COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/",
+                "/deployments/quarkus-run.jar");
+        assertFileNotContains(dockerfileJvm, "openjdk8", "target/lib/*");
+        assertFileContains(output.toPath().resolve("src/main/docker/Dockerfile.native"),
+                "FROM registry.access.redhat.com/ubi9/ubi-minimal:9.7");
+        assertFileContains(output.toPath().resolve(".dockerignore"), "!target/quarkus-app/*");
+        Path pom = output.toPath().resolve("pom.xml");
+        assertFileContains(pom, "<quarkus.native.enabled>true</quarkus.native.enabled>");
+        assertFileNotContains(pom, "quarkus.package.type");
+    }
+
     @Test
     public void testHandleRequiredAndReadOnlyPropertiesCorrectly() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
