@@ -955,7 +955,11 @@ public class N8nClientCodegenTest {
      * must fall back to the generic {@code json} field type, not T062's {@code collection}
      * mapping - a {@code collection}'s per-entry sub-field is a single scalar value, so it
      * cannot actually represent a full object. Uses Petstore's own {@code
-     * createUsersWithArrayInput} body (an array of {@code User} objects).
+     * createUsersWithArrayInput} body (an array of {@code User} objects). Also covers T070
+     * (convergence): that same array-shaped {@code json} field's default must be {@code []},
+     * not the object-shaped {@code {}} every other {@code json} fallback correctly uses -
+     * confirmed via Petstore's own {@code category} property (a nested object, not an array)
+     * still correctly defaulting to {@code {}}, so the fix doesn't regress the object case.
      */
     @Test
     public void mapsArrayOfComplexObjectsToJsonNotCollection() throws IOException {
@@ -969,6 +973,11 @@ public class N8nClientCodegenTest {
                     "an array of complex objects must fall back to the generic json field type, not a collection of bare scalar values");
             Assert.assertFalse(fieldBlock.contains("type: 'collection'"),
                     "a collection field's single-scalar-value sub-field cannot represent a full object");
+            Assert.assertTrue(fieldBlock.contains("default: []"),
+                    "an array-shaped json fallback must default to [], not the object-shaped {} - the API expects an array");
+
+            Assert.assertTrue(fieldBlockForOperation(nodeSource, "category", "addPet").contains("default: {}"),
+                    "an object-shaped json fallback (e.g. Pet's nested 'category' object) must still default to {}, not []");
 
             int branchStart = nodeSource.indexOf("operation === 'createUsersWithArrayInput'");
             Assert.assertTrue(branchStart >= 0, "expected an execute() branch for createUsersWithArrayInput");

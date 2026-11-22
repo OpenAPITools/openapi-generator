@@ -435,7 +435,10 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 break;
             default:
                 // json fallback: no spec-level concept of a scalar default to pre-fill here.
-                defaultLiteral = "{}";
+                // An array landing in this bucket (T069 - complex-item arrays) still holds an
+                // array value, not an object, so its default must be [] not {} (T070) - e.g.
+                // Petstore's own createUsersWithArrayInput/User body, an array of User objects.
+                defaultLiteral = Boolean.TRUE.equals(p.isArray) ? "[]" : "{}";
         }
         p.vendorExtensions.put("n8nDefaultLiteral", defaultLiteral);
 

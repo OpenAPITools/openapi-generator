@@ -262,7 +262,7 @@ export class OpenapiPetstoreApi implements INodeType {
 				displayName: "tags",
 				name: 'tags',
 				type: 'json',
-				default: {},
+				default: [],
 				required: false,
 				displayOptions: {
 					show: {
@@ -448,7 +448,7 @@ export class OpenapiPetstoreApi implements INodeType {
 				displayName: "tags",
 				name: 'tags',
 				type: 'json',
-				default: {},
+				default: [],
 				required: false,
 				displayOptions: {
 					show: {
@@ -770,7 +770,7 @@ export class OpenapiPetstoreApi implements INodeType {
 				displayName: "List of user object",
 				name: 'User',
 				type: 'json',
-				default: {},
+				default: [],
 				required: true,
 				displayOptions: {
 					show: {
@@ -783,7 +783,7 @@ export class OpenapiPetstoreApi implements INodeType {
 				displayName: "List of user object",
 				name: 'User',
 				type: 'json',
-				default: {},
+				default: [],
 				required: true,
 				displayOptions: {
 					show: {
