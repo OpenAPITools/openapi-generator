@@ -9,15 +9,21 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @type t :: %__MODULE__{
     :uuid => String.t | nil,
     :dateTime => DateTime.t | nil,
-    :map => %{optional(String.t) => OpenapiPetstore.Model.Animal.t} | nil
+    :map => %{optional(String.t) => OpenapiPetstore.Model.Animal.t} | nil,
+    :map_of_arrays => %{optional(String.t) => [OpenapiPetstore.Model.Animal.t]} | nil,
+    :array_of_maps => [%{optional(String.t) => OpenapiPetstore.Model.Animal.t}] | nil,
+    :free_form_map => %{optional(String.t) => any()} | nil
   }
 
-  @derive {JSON.Encoder, only: [:uuid, :dateTime, :map]}
+  @derive {JSON.Encoder, only: [:uuid, :dateTime, :map, :map_of_arrays, :array_of_maps, :free_form_map]}
   @primary_key false
   embedded_schema do
     field :uuid, :string
     field :dateTime, :utc_datetime
-    field :map, {:map, :any}
+    field :map, {:map, OpenapiPetstore.EmbeddedModelType}, model: OpenapiPetstore.Model.Animal
+    field :map_of_arrays, {:map, {:array, OpenapiPetstore.EmbeddedModelType}}, model: OpenapiPetstore.Model.Animal
+    field :array_of_maps, {:array, {:map, OpenapiPetstore.EmbeddedModelType}}, model: OpenapiPetstore.Model.Animal
+    field :free_form_map, :map
   end
 
   @spec from_params(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
@@ -30,8 +36,7 @@ defmodule OpenapiPetstore.Model.MixedPropertiesAndAdditionalPropertiesClass do
   @spec changeset(t(), map()) :: Ecto.Changeset.t()
   def changeset(%__MODULE__{} = struct, params) do
     struct
-    |> Ecto.Changeset.cast(params, [:uuid, :dateTime, :map])
+    |> Ecto.Changeset.cast(params, [:uuid, :dateTime, :map, :map_of_arrays, :array_of_maps, :free_form_map])
     |> Ecto.Changeset.validate_required([])
-    |> OpenapiPetstore.EctoUtils.cast_nested_map(:map, OpenapiPetstore.Model.Animal)
   end
 end

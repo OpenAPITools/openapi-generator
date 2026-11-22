@@ -1791,6 +1791,21 @@ components:
           type: object
           additionalProperties:
             $ref: "#/components/schemas/Animal"
+        map_of_arrays:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/Animal"
+        array_of_maps:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: "#/components/schemas/Animal"
+        free_form_map:
+          type: object
+          additionalProperties: true
     List:
       type: object
       properties:

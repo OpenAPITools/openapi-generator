@@ -39,9 +39,6 @@ defmodule {{moduleName}}.Model.{{classname}} do
     {{#ectoEnums}}
     |> Ecto.Changeset.validate_inclusion({{#atom}}{{&baseName}}{{/atom}}, [{{#allowableValues}}{{#values}}{{#quoteIfString}}{{.}}{{/quoteIfString}}{{^-last}}, {{/-last}}{{/values}}{{/allowableValues}}])
     {{/ectoEnums}}
-    {{#ectoMaps}}
-    |> {{moduleName}}.EctoUtils.cast_nested_map({{#atom}}{{&baseName}}{{/atom}}, {{&moduleName}}.Model.{{{mapValueType}}})
-    {{/ectoMaps}}
     {{#ectoEmbeds}}
     |> Ecto.Changeset.cast_embed({{#atom}}{{&baseName}}{{/atom}}{{#required}}, required: true{{/required}})
     {{/ectoEmbeds}}
