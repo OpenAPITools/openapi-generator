@@ -174,7 +174,12 @@ export class {{nodeClassName}} implements INodeType {
 					{{/isHeaderParam}}
 					{{#isBodyParam}}
 					{{#isPrimitiveType}}
+					{{#vendorExtensions.n8nIsCollection}}
+					body['{{baseName}}'] = (this.getNodeParameter('{{paramName}}', i) as IDataObject[]).map((entry) => entry.value);
+					{{/vendorExtensions.n8nIsCollection}}
+					{{^vendorExtensions.n8nIsCollection}}
 					body['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
+					{{/vendorExtensions.n8nIsCollection}}
 					{{/isPrimitiveType}}
 					{{^isPrimitiveType}}
 					Object.assign(body, this.getNodeParameter('{{paramName}}', i) as IDataObject);

@@ -247,16 +247,93 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * {@code fromRequestBody}-style builder method, guarantees every parameter that actually
      * reaches the {@code node.mustache} template has an {@code n8nFieldType} set, regardless
      * of which internal path constructed it.
+     * <p>
+     * {@link #flattenBodyProperties} runs first so the field-type pass below also covers the
+     * properties a JSON object body gets flattened into (T068), not just the body as a whole.
      */
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
         for (CodegenOperation op : objs.getOperations().getOperation()) {
+            op.allParams = flattenBodyProperties(op.allParams);
             for (CodegenParameter p : op.allParams) {
                 applyN8nFieldType(p);
             }
         }
         return objs;
+    }
+
+    /**
+     * Flattens a JSON object request body's top-level properties into one {@code Field} per
+     * property, instead of exposing the whole body as a single opaque {@code json} field -
+     * data-model.md's "Operation" entity documents {@code fields} as coming from "parameters +
+     * flattened request body schema," and FR-004 requires translating "each operation's
+     * parameters and request body fields" the same way, but before this the entire body (e.g.
+     * Petstore's {@code addPet}/{@code Pet}) rendered as one field the user had to hand-fill
+     * with a raw JSON blob for the whole object, even though {@code name}/{@code category}/
+     * {@code photoUrls}/{@code tags}/{@code status} are each perfectly representable as their
+     * own field (including, via the ordinary field-type pass above, {@code photoUrls} as a
+     * proper {@code collection} rather than more JSON-in-JSON).
+     * <p>
+     * Only a plain object-schema body is flattened - {@code vars} (the schema's own properties,
+     * already populated by the framework's {@code addVarsRequiredVarsAdditionalProps} during
+     * {@code fromRequestBody}) is used directly rather than re-deriving it, so free-form
+     * objects, maps, arrays, and composed ({@code oneOf}/{@code anyOf}) bodies that don't
+     * populate {@code vars} the same way are left as the existing opaque-body/generic-JSON
+     * fallback, per spec.md Edge Cases #2. Each flattened property keeps its own {@code
+     * required} flag from the schema (more precise than the old single opaque field, which
+     * could only reflect the body's own {@code required} flag) and is assigned directly under
+     * its own body key in {@code execute()} ({@code isPrimitiveType = true}, reusing the
+     * existing per-key-assignment branch - correct regardless of the property's own shape,
+     * since flattening already gives it its own key, unlike the old whole-body case where
+     * {@code Object.assign} existed specifically to avoid double-nesting a nameless body).
+     */
+    private List<CodegenParameter> flattenBodyProperties(List<CodegenParameter> allParams) {
+        List<CodegenParameter> flattened = new ArrayList<>();
+        for (CodegenParameter p : allParams) {
+            if (isFlattenableObjectBody(p)) {
+                for (CodegenProperty prop : p.vars) {
+                    flattened.add(bodyPropertyToParameter(prop));
+                }
+            } else {
+                flattened.add(p);
+            }
+        }
+        return flattened;
+    }
+
+    private static boolean isFlattenableObjectBody(CodegenParameter p) {
+        return Boolean.TRUE.equals(p.isBodyParam)
+                && !Boolean.TRUE.equals(p.isFreeFormObject)
+                && !p.isMap
+                && !p.isArray
+                && p.vars != null && !p.vars.isEmpty();
+    }
+
+    private CodegenParameter bodyPropertyToParameter(CodegenProperty prop) {
+        CodegenParameter param = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+        param.baseName = prop.baseName;
+        param.paramName = toParamName(prop.baseName);
+        param.description = prop.description;
+        param.dataType = prop.dataType;
+        param.baseType = prop.baseType;
+        param.isArray = prop.isArray;
+        param.isMap = prop.isMap;
+        param.isFreeFormObject = prop.isFreeFormObject;
+        // updateCodegenPropertyEnum populates allowableValues.enumVars - without this, a model
+        // property's enum choices (e.g. Pet.status) render as an empty options list, unlike a
+        // query/path parameter's enum, which already goes through this same call internally
+        // (confirmed empirically against the committed Petstore sample; mirrors the identical
+        // pattern DefaultCodegen#fromFormProperty already uses for the same reason).
+        updateCodegenPropertyEnum(prop);
+        param.isEnum = prop.isEnum;
+        param.allowableValues = prop.allowableValues;
+        param.items = prop.items;
+        param.defaultValue = cleanDefaultValue(prop.defaultValue);
+        param.required = prop.required;
+        param.isBodyParam = true;
+        param.isPrimitiveType = true;
+        return param;
     }
 
     /**

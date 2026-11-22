@@ -604,15 +604,77 @@ public class N8nClientCodegenTest {
             generate(target);
             String nodeSource = readNodeSource(target);
 
-            Assert.assertTrue(nodeSource.contains("name: 'status'"), "expected a field for findPetsByStatus's 'status' parameter");
-            int fieldIndex = nodeSource.indexOf("name: 'status'");
-            String fieldBlock = nodeSource.substring(fieldIndex, Math.min(nodeSource.length(), fieldIndex + 400));
+            // Petstore's Pet body (T068) also has its own top-level 'status' property once
+            // flattened, so this can't just grab the first "name: 'status'" in the file - it
+            // must specifically find findPetsByStatus's own 'status' query parameter field.
+            String fieldBlock = fieldBlockForOperation(nodeSource, "status", "findPetsByStatus");
             Assert.assertTrue(fieldBlock.contains("type: 'collection'"),
                     "a plain array-of-strings parameter must map to n8n's 'collection' field type, not the generic JSON fallback reserved for genuinely-unmappable shapes");
             Assert.assertTrue(fieldBlock.contains("multipleValues: true"),
                     "the collection field must allow adding more than one value");
         } finally {
             deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Regression test for T068 (convergence): a JSON object request body must be flattened
+     * into one field per top-level property instead of exposed as a single opaque {@code json}
+     * field - data-model.md's "Operation" entity documents {@code fields} as coming from
+     * "parameters + flattened request body schema," and FR-004 requires translating request
+     * body fields with the same care as parameters. Uses Petstore's own {@code
+     * addPet}/{@code Pet} body (properties: id, category, name, photoUrls, tags, status).
+     */
+    @Test
+    public void flattensJsonObjectRequestBodyIntoIndividualFields() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            generate(target);
+            String nodeSource = readNodeSource(target);
+
+            for (String propertyName : new String[]{"id", "category", "name", "photoUrls", "tags", "status"}) {
+                Assert.assertTrue(fieldBlockForOperation(nodeSource, propertyName, "addPet").length() > 0,
+                        "expected a flattened field for Pet's '" + propertyName + "' property");
+            }
+
+            // photoUrls/tags are arrays - flattening must not regress their collection handling.
+            Assert.assertTrue(fieldBlockForOperation(nodeSource, "photoUrls", "addPet").contains("type: 'collection'"));
+
+            int branchStart = nodeSource.indexOf("operation === 'addPet'");
+            Assert.assertTrue(branchStart >= 0, "expected an execute() branch for addPet");
+            int branchEnd = nodeSource.indexOf("apiRequest.call(", branchStart);
+            String branch = nodeSource.substring(branchStart, branchEnd);
+            Assert.assertFalse(branch.contains("Object.assign(body,"),
+                    "a flattened body must assign each property under its own key, not merge one opaque parameter");
+            Assert.assertTrue(branch.contains("body['name'] = this.getNodeParameter('name', i);"));
+            Assert.assertTrue(branch.contains("body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);"),
+                    "a flattened array property must still extract collection values, not pass the raw parameter through");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Finds the specific field block for {@code paramName} that belongs to {@code operationId}
+     * (i.e. whose {@code displayOptions.show.operation} list contains it), rather than just the
+     * first "name: '<paramName>'" occurrence in the file - needed once more than one operation
+     * can have a field of the same name (e.g. after T068's body-property flattening, Petstore's
+     * Pet body and a query parameter can both have a field literally named 'status').
+     */
+    private static String fieldBlockForOperation(String nodeSource, String paramName, String operationId) {
+        String nameMarker = "name: '" + paramName + "'";
+        String operationMarker = "operation: ['" + operationId + "']";
+        int searchFrom = 0;
+        while (true) {
+            int fieldIndex = nodeSource.indexOf(nameMarker, searchFrom);
+            Assert.assertTrue(fieldIndex >= 0, "expected a field named '" + paramName + "' for operation '" + operationId + "'");
+            int nextFieldIndex = nodeSource.indexOf(nameMarker, fieldIndex + nameMarker.length());
+            int blockEnd = nextFieldIndex < 0 ? nodeSource.length() : nextFieldIndex;
+            String block = nodeSource.substring(fieldIndex, blockEnd);
+            if (block.contains(operationMarker)) {
+                return block;
+            }
+            searchFrom = fieldIndex + nameMarker.length();
         }
     }
 

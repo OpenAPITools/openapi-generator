@@ -196,17 +196,109 @@ export class OpenapiPetstoreApi implements INodeType {
 				default: 'createUser',
 			},
 			{
-				displayName: "Pet object that needs to be added to the store",
-				name: 'Pet',
+				displayName: "id",
+				name: 'id',
+				type: 'number',
+				default: 0,
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['addPet'],
+					},
+				},
+				description: "id",
+			},
+			{
+				displayName: "category",
+				name: 'category',
 				type: 'json',
 				default: {},
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['addPet'],
+					},
+				},
+				description: "category",
+			},
+			{
+				displayName: "name",
+				name: 'name',
+				type: 'string',
+				default: '',
 				required: true,
 				displayOptions: {
 					show: {
 						operation: ['addPet'],
 					},
 				},
-				description: "Pet object that needs to be added to the store",
+				description: "name",
+			},
+			{
+				displayName: "photoUrls",
+				name: 'photoUrls',
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				options: [
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+				default: [],
+				required: true,
+				displayOptions: {
+					show: {
+						operation: ['addPet'],
+					},
+				},
+				description: "photoUrls",
+			},
+			{
+				displayName: "tags",
+				name: 'tags',
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				options: [
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+				default: [],
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['addPet'],
+					},
+				},
+				description: "tags",
+			},
+			{
+				displayName: "pet status in the store",
+				name: 'status',
+				type: 'options',
+				options: [
+					{ name: "AVAILABLE", value: "available" },
+					{ name: "PENDING", value: "pending" },
+					{ name: "SOLD", value: "sold" },
+				],
+				default: "available",
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['addPet'],
+					},
+				},
+				description: "pet status in the store",
 			},
 			{
 				displayName: "Pet id to delete",
@@ -301,17 +393,109 @@ export class OpenapiPetstoreApi implements INodeType {
 				description: "ID of pet to return",
 			},
 			{
-				displayName: "Pet object that needs to be added to the store",
-				name: 'Pet',
+				displayName: "id",
+				name: 'id',
+				type: 'number',
+				default: 0,
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updatePet'],
+					},
+				},
+				description: "id",
+			},
+			{
+				displayName: "category",
+				name: 'category',
 				type: 'json',
 				default: {},
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updatePet'],
+					},
+				},
+				description: "category",
+			},
+			{
+				displayName: "name",
+				name: 'name',
+				type: 'string',
+				default: '',
 				required: true,
 				displayOptions: {
 					show: {
 						operation: ['updatePet'],
 					},
 				},
-				description: "Pet object that needs to be added to the store",
+				description: "name",
+			},
+			{
+				displayName: "photoUrls",
+				name: 'photoUrls',
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				options: [
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+				default: [],
+				required: true,
+				displayOptions: {
+					show: {
+						operation: ['updatePet'],
+					},
+				},
+				description: "photoUrls",
+			},
+			{
+				displayName: "tags",
+				name: 'tags',
+				type: 'collection',
+				typeOptions: {
+					multipleValues: true,
+				},
+				options: [
+					{
+						displayName: 'Value',
+						name: 'value',
+						type: 'string',
+						default: '',
+					},
+				],
+				default: [],
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updatePet'],
+					},
+				},
+				description: "tags",
+			},
+			{
+				displayName: "pet status in the store",
+				name: 'status',
+				type: 'options',
+				options: [
+					{ name: "AVAILABLE", value: "available" },
+					{ name: "PENDING", value: "pending" },
+					{ name: "SOLD", value: "sold" },
+				],
+				default: "available",
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updatePet'],
+					},
+				},
+				description: "pet status in the store",
 			},
 			{
 				displayName: "ID of pet that needs to be updated",
@@ -418,30 +602,191 @@ export class OpenapiPetstoreApi implements INodeType {
 				description: "ID of pet that needs to be fetched",
 			},
 			{
-				displayName: "order placed for purchasing the pet",
-				name: 'Order',
-				type: 'json',
-				default: {},
-				required: true,
+				displayName: "id",
+				name: 'id',
+				type: 'number',
+				default: 0,
+				required: false,
 				displayOptions: {
 					show: {
 						operation: ['placeOrder'],
 					},
 				},
-				description: "order placed for purchasing the pet",
+				description: "id",
 			},
 			{
-				displayName: "Created user object",
-				name: 'User',
-				type: 'json',
-				default: {},
-				required: true,
+				displayName: "petId",
+				name: 'petId',
+				type: 'number',
+				default: 0,
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['placeOrder'],
+					},
+				},
+				description: "petId",
+			},
+			{
+				displayName: "quantity",
+				name: 'quantity',
+				type: 'number',
+				default: 0,
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['placeOrder'],
+					},
+				},
+				description: "quantity",
+			},
+			{
+				displayName: "shipDate",
+				name: 'shipDate',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['placeOrder'],
+					},
+				},
+				description: "shipDate",
+			},
+			{
+				displayName: "Order Status",
+				name: 'status',
+				type: 'options',
+				options: [
+					{ name: "PLACED", value: "placed" },
+					{ name: "APPROVED", value: "approved" },
+					{ name: "DELIVERED", value: "delivered" },
+				],
+				default: "placed",
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['placeOrder'],
+					},
+				},
+				description: "Order Status",
+			},
+			{
+				displayName: "complete",
+				name: 'complete',
+				type: 'boolean',
+				default: false,
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['placeOrder'],
+					},
+				},
+				description: "complete",
+			},
+			{
+				displayName: "id",
+				name: 'id',
+				type: 'number',
+				default: 0,
+				required: false,
 				displayOptions: {
 					show: {
 						operation: ['createUser'],
 					},
 				},
-				description: "Created user object",
+				description: "id",
+			},
+			{
+				displayName: "username",
+				name: 'username',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['createUser'],
+					},
+				},
+				description: "username",
+			},
+			{
+				displayName: "firstName",
+				name: 'firstName',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['createUser'],
+					},
+				},
+				description: "firstName",
+			},
+			{
+				displayName: "lastName",
+				name: 'lastName',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['createUser'],
+					},
+				},
+				description: "lastName",
+			},
+			{
+				displayName: "email",
+				name: 'email',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['createUser'],
+					},
+				},
+				description: "email",
+			},
+			{
+				displayName: "password",
+				name: 'password',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['createUser'],
+					},
+				},
+				description: "password",
+			},
+			{
+				displayName: "phone",
+				name: 'phone',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['createUser'],
+					},
+				},
+				description: "phone",
+			},
+			{
+				displayName: "User Status",
+				name: 'userStatus',
+				type: 'number',
+				default: 0,
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['createUser'],
+					},
+				},
+				description: "User Status",
 			},
 			{
 				displayName: "List of user object",
@@ -557,17 +902,108 @@ export class OpenapiPetstoreApi implements INodeType {
 				description: "name that need to be deleted",
 			},
 			{
-				displayName: "Updated user object",
-				name: 'User',
-				type: 'json',
-				default: {},
-				required: true,
+				displayName: "id",
+				name: 'id',
+				type: 'number',
+				default: 0,
+				required: false,
 				displayOptions: {
 					show: {
 						operation: ['updateUser'],
 					},
 				},
-				description: "Updated user object",
+				description: "id",
+			},
+			{
+				displayName: "username",
+				name: 'username',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateUser'],
+					},
+				},
+				description: "username",
+			},
+			{
+				displayName: "firstName",
+				name: 'firstName',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateUser'],
+					},
+				},
+				description: "firstName",
+			},
+			{
+				displayName: "lastName",
+				name: 'lastName',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateUser'],
+					},
+				},
+				description: "lastName",
+			},
+			{
+				displayName: "email",
+				name: 'email',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateUser'],
+					},
+				},
+				description: "email",
+			},
+			{
+				displayName: "password",
+				name: 'password',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateUser'],
+					},
+				},
+				description: "password",
+			},
+			{
+				displayName: "phone",
+				name: 'phone',
+				type: 'string',
+				default: '',
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateUser'],
+					},
+				},
+				description: "phone",
+			},
+			{
+				displayName: "User Status",
+				name: 'userStatus',
+				type: 'number',
+				default: 0,
+				required: false,
+				displayOptions: {
+					show: {
+						operation: ['updateUser'],
+					},
+				},
+				description: "User Status",
 			},
 		],
 	};
@@ -586,7 +1022,12 @@ export class OpenapiPetstoreApi implements INodeType {
 					const qs: IDataObject = {};
 					const body: IDataObject = {};
 					let path = '/pet';
-					Object.assign(body, this.getNodeParameter('Pet', i) as IDataObject);
+					body['id'] = this.getNodeParameter('id', i);
+					body['category'] = this.getNodeParameter('category', i);
+					body['name'] = this.getNodeParameter('name', i);
+					body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);
+					body['tags'] = (this.getNodeParameter('tags', i) as IDataObject[]).map((entry) => entry.value);
+					body['status'] = this.getNodeParameter('status', i);
 					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'deletePet') {
@@ -622,7 +1063,12 @@ export class OpenapiPetstoreApi implements INodeType {
 					const qs: IDataObject = {};
 					const body: IDataObject = {};
 					let path = '/pet';
-					Object.assign(body, this.getNodeParameter('Pet', i) as IDataObject);
+					body['id'] = this.getNodeParameter('id', i);
+					body['category'] = this.getNodeParameter('category', i);
+					body['name'] = this.getNodeParameter('name', i);
+					body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);
+					body['tags'] = (this.getNodeParameter('tags', i) as IDataObject[]).map((entry) => entry.value);
+					body['status'] = this.getNodeParameter('status', i);
 					responseData = (await apiRequest.call(this, 'PUT', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'updatePetWithForm') {
@@ -665,7 +1111,12 @@ export class OpenapiPetstoreApi implements INodeType {
 					const qs: IDataObject = {};
 					const body: IDataObject = {};
 					let path = '/store/order';
-					Object.assign(body, this.getNodeParameter('Order', i) as IDataObject);
+					body['id'] = this.getNodeParameter('id', i);
+					body['petId'] = this.getNodeParameter('petId', i);
+					body['quantity'] = this.getNodeParameter('quantity', i);
+					body['shipDate'] = this.getNodeParameter('shipDate', i);
+					body['status'] = this.getNodeParameter('status', i);
+					body['complete'] = this.getNodeParameter('complete', i);
 					responseData = (await apiRequest.call(this, 'POST', path, body, qs, '')) as IDataObject;
 				}
 			}
@@ -674,7 +1125,14 @@ export class OpenapiPetstoreApi implements INodeType {
 					const qs: IDataObject = {};
 					const body: IDataObject = {};
 					let path = '/user';
-					Object.assign(body, this.getNodeParameter('User', i) as IDataObject);
+					body['id'] = this.getNodeParameter('id', i);
+					body['username'] = this.getNodeParameter('username', i);
+					body['firstName'] = this.getNodeParameter('firstName', i);
+					body['lastName'] = this.getNodeParameter('lastName', i);
+					body['email'] = this.getNodeParameter('email', i);
+					body['password'] = this.getNodeParameter('password', i);
+					body['phone'] = this.getNodeParameter('phone', i);
+					body['userStatus'] = this.getNodeParameter('userStatus', i);
 					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'createUsersWithArrayInput') {
@@ -724,7 +1182,14 @@ export class OpenapiPetstoreApi implements INodeType {
 					const body: IDataObject = {};
 					let path = '/user/{username}';
 					path = path.replace('{' + 'username' + '}', encodeURIComponent(this.getNodeParameter('username', i) as string));
-					Object.assign(body, this.getNodeParameter('User', i) as IDataObject);
+					body['id'] = this.getNodeParameter('id', i);
+					body['username'] = this.getNodeParameter('username', i);
+					body['firstName'] = this.getNodeParameter('firstName', i);
+					body['lastName'] = this.getNodeParameter('lastName', i);
+					body['email'] = this.getNodeParameter('email', i);
+					body['password'] = this.getNodeParameter('password', i);
+					body['phone'] = this.getNodeParameter('phone', i);
+					body['userStatus'] = this.getNodeParameter('userStatus', i);
 					responseData = (await apiRequest.call(this, 'PUT', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 			}
