@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: Go oneOf validation
+  version: 1.0.0
+servers:
+- url: /
+paths: {}
+components:
+  schemas:
+    File:
+      properties:
+        kind:
+          enum:
+          - file
+          type: string
+        path:
+          nullable: true
+          pattern: ^/.*
+          type: string
+      required:
+      - kind
+      type: object
+    Folder:
+      properties:
+        kind:
+          enum:
+          - folder
+          type: string
+      required:
+      - kind
+      type: object
+    Metadata:
+      oneOf:
+      - $ref: "#/components/schemas/File"
+      - $ref: "#/components/schemas/Folder"
+    DiscriminatedMetadata:
+      discriminator:
+        mapping:
+          file: "#/components/schemas/File"
+          folder: "#/components/schemas/Folder"
+        propertyName: kind
+      oneOf:
+      - $ref: "#/components/schemas/File"
+      - $ref: "#/components/schemas/Folder"
+    Nested:
+      properties:
+        path:
+          nullable: true
+          pattern: ^/.*
+          type: string
+      type: object
+    Holder:
+      properties:
+        child:
+          $ref: "#/components/schemas/Nested"
+      required:
+      - child
+      type: object
+    NestedUnion:
+      oneOf:
+      - $ref: "#/components/schemas/Holder"
+      - $ref: "#/components/schemas/Folder"

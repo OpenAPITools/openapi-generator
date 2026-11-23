@@ -1,0 +1,6 @@
+generatorName: go
+outputDir: samples/openapi3/client/petstore/go/go-oneof-enum-pattern
+inputSpec: modules/openapi-generator/src/test/resources/3_1/go/oneof-enum-pattern.yaml
+templateDir: modules/openapi-generator/src/main/resources/go
+additionalProperties:
+  useOneOfDiscriminatorLookup: true
