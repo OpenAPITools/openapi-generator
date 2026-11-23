@@ -55,10 +55,11 @@ module Qdrant
     def self.cast_time(data)
       return NO_MATCH unless data.is_a?(String)
 
-      # RFC 3339 date-times only: `Time.iso8601` rejects bare numbers, month
+      # ISO 8601 date-times only: `Time.iso8601` rejects bare numbers, month
       # names and date-only strings that lenient `Time.parse` would accept, so
       # the `Time` candidate of an anyOf/oneOf cannot swallow values that
-      # belong to its sibling candidates.
+      # belong to its sibling candidates. A missing offset means local time,
+      # as it did with `Time.parse`.
       Time.iso8601(data)
     rescue ArgumentError, TypeError
       NO_MATCH
@@ -139,7 +140,7 @@ module Qdrant
     def self.coerce_time(data)
       return data unless data.is_a?(String)
 
-      # Same strictness as `cast_time`: anything that is not an RFC 3339
+      # Same strictness as `cast_time`: anything that is not an ISO 8601
       # date-time stays a String instead of silently becoming a `Time`.
       begin
         Time.iso8601(data)

@@ -3,9 +3,10 @@
 require 'spec_helper'
 
 # Hand-written (not generated): a `format: date-time` attribute or anyOf/oneOf
-# candidate must only accept RFC 3339 date-time strings. Lenient `Time.parse`
-# turned "12", "may" and date-only strings into `Time`s, so the `Time` branch
-# swallowed values that belong to its sibling candidates.
+# candidate must only accept ISO 8601 date-time strings (a missing offset means
+# local time). Lenient `Time.parse` turned "12", "may" and date-only strings
+# into `Time`s, so the `Time` branch swallowed values that belong to its
+# sibling candidates.
 RSpec.describe 'Polymorphism Time branch' do
   it 'coerces an RFC 3339 date-time string into a Time' do
     order = Petstore::Models::Order.from_hash('shipDate' => '2026-05-06T10:00:00Z')
@@ -17,6 +18,14 @@ RSpec.describe 'Polymorphism Time branch' do
     order = Petstore::Models::Order.from_hash('shipDate' => '2026-05-06T10:00:00+01:00')
 
     expect(order.ship_date).to eq(Time.new(2026, 5, 6, 10, 0, 0, '+01:00'))
+    # Time#== compares instants only, so the offset has to be checked on its own
+    expect(order.ship_date.utc_offset).to eq(3600)
+  end
+
+  it 'reads a date-time without an offset as local time' do
+    order = Petstore::Models::Order.from_hash('shipDate' => '2026-05-06T10:00:00')
+
+    expect(order.ship_date).to eq(Time.new(2026, 5, 6, 10, 0, 0))
   end
 
   it 'keeps a bare number a String' do
