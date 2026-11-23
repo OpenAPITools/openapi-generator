@@ -26,8 +26,10 @@ export async function apiRequest(
 	this: IExecuteFunctions,
 	method: string,
 	path: string,
-	body: IDataObject = {},
+	body: IDataObject | unknown[] | string | number | boolean = {},
 	qs: IDataObject = {},
+	headers: IDataObject = {},
+	form: IDataObject = {},
 	credentialName?: string,
 ): Promise<unknown> {
 	let baseUrl = 'http://petstore.swagger.io/v2';
@@ -36,6 +38,19 @@ export async function apiRequest(
 		const credentials = await this.getCredentials(credentialName);
 		baseUrl = (credentials.baseUrl as string) || baseUrl;
 	}
+	else {
+		// This operation itself needs no authentication, but the package ships at least one
+		// credential type (see credentials/) - if the user has configured it on this node anyway,
+		// best-effort use its Base URL override instead of always falling back to the spec's
+		// hard-coded default, which has no other way of being overridden for unauthenticated calls.
+		try {
+			const fallbackCredentials = await this.getCredentials('n8nNodesOpenapiPetstoreApiKeyCredentials');
+			baseUrl = (fallbackCredentials.baseUrl as string) || baseUrl;
+		} catch {
+			// no 'n8nNodesOpenapiPetstoreApiKeyCredentials' credential configured on this node; keep the spec's default.
+		}
+	}
+	baseUrl = baseUrl.replace(/\/+$/, '');
 
 	const options: IHttpRequestOptions = {
 		method: method as IHttpRequestOptions['method'],
@@ -45,8 +60,22 @@ export async function apiRequest(
 		json: true,
 	};
 
-	if (Object.keys(body).length === 0) {
+	const isBodyEmpty = typeof body === 'object' && body !== null && Object.keys(body as object).length === 0;
+	if (isBodyEmpty) {
 		delete options.body;
+	}
+
+	const hasForm = Object.keys(form).length > 0;
+	if (hasForm) {
+		options.body = Object.entries(form)
+			.map(([key, value]) => encodeURIComponent(key) + '=' + encodeURIComponent(String(value)))
+			.join('&');
+		options.json = false;
+		headers['Content-Type'] = 'application/x-www-form-urlencoded';
+	}
+
+	if (Object.keys(headers).length > 0) {
+		options.headers = headers;
 	}
 
 	if (credentialName) {

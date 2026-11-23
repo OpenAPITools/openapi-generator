@@ -1,3 +1,7 @@
 README.md
+credentials/N8nNodesOpenapiPetstoreApiKeyCredentials.credentials.ts
+credentials/N8nNodesOpenapiPetstorePetstoreAuthCredentials.credentials.ts
+nodes/N8nNodesOpenapiPetstoreApi/GenericFunctions.ts
+nodes/N8nNodesOpenapiPetstoreApi/N8nNodesOpenapiPetstoreApi.node.ts
 package.json
 tsconfig.json

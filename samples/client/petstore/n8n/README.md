@@ -18,7 +18,7 @@ into `~/.n8n/custom/` and running `npm install && npm run build` there works wel
 ## Credentials
 
 This spec declares more than one security scheme, so this package ships one generated credential
-type per scheme:
+type per supported scheme:
 - **OpenAPI Petstore API - API Key**
 - **OpenAPI Petstore API - OAuth2**
 
@@ -28,10 +28,10 @@ Set the **Base URL** field on whichever credential you use to your API's base UR
 ### Known limitations
 
 - This spec declares more than one security scheme. Each operation automatically authenticates
-  with the credential matching the security scheme it declares for itself in the source spec
-  (see the Resources and Operations list below for which operation uses which); an operation
-  that declares no security requirement at all (and has no spec-wide default to inherit) sends
-  an unauthenticated request, matching what the source spec actually requires.
+  with whichever generated credential matches the security scheme it declares for itself in the
+  source spec (or the spec's global default, when the operation declares none of its own); an
+  operation that declares no security requirement at all (and has no spec-wide default to
+  inherit) sends an unauthenticated request, matching what the source spec actually requires.
 - **OpenAPI Petstore API - OAuth2** declares an OAuth2 scheme this generator does not auto-wire (its flow is not
   `clientCredentials`/`authorizationCode`, or the scheme declares more than one flow at once); the
   generated credential accepts a pre-obtained access token instead. See

@@ -23,7 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response. With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enums are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
-|nodePrefix|Prefix applied to the generated n8n node/credential display names, to avoid collisions when several generated nodes are installed together.| |null|
+|nodePrefix|Prefix applied to the generated n8n node/credential display names, to avoid collisions when several generated nodes are installed together. Defaults to a capitalized form of npmName (itself defaulted from the spec's info.title) when not supplied.| |null|
 |npmName|The name of the generated npm package (defaults to a sanitized form of the spec's info.title).| |null|
 |npmVersion|The version of the generated npm package (defaults to the spec's info.version, or 0.1.0).| |0.1.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
@@ -112,9 +112,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ### Documentation Feature
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
-|Readme|✗|ToolingExtension
-|Model|✓|ToolingExtension
-|Api|✓|ToolingExtension
+|Readme|✓|ToolingExtension
+|Model|✗|ToolingExtension
+|Api|✗|ToolingExtension
 
 ### Global Feature
 | Name | Supported | Defined By |

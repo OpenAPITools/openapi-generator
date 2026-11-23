@@ -5,13 +5,14 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
+import { NodeOperationError } from 'n8n-workflow';
 
 import { apiRequest } from './GenericFunctions';
 
-export class OpenapiPetstoreApi implements INodeType {
+export class N8nNodesOpenapiPetstoreApi implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: "OpenAPI Petstore",
-		name: 'openapiPetstoreApi',
+		name: 'n8nNodesOpenapiPetstoreApi',
 		icon: 'fa:plug',
 		group: ['transform'],
 		version: 1,
@@ -23,11 +24,11 @@ export class OpenapiPetstoreApi implements INodeType {
 		outputs: ['main'],
 		credentials: [
 			{
-				name: 'openapiPetstoreApiKeyCredentials',
+				name: 'n8nNodesOpenapiPetstoreApiKeyCredentials',
 				required: false,
 			},
 			{
-				name: 'openapiPetstorePetstoreAuthCredentials',
+				name: 'n8nNodesOpenapiPetstorePetstoreAuthCredentials',
 				required: false,
 			},
 		],
@@ -972,11 +973,18 @@ export class OpenapiPetstoreApi implements INodeType {
 
 		for (let i = 0; i < items.length; i++) {
 			let responseData: IDataObject = {};
+			let matched = false;
 
 			if (resource === 'Pet') {
 				if (operation === 'addPet') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet';
 					body['id'] = this.getNodeParameter('id', i);
 					body['category'] = this.getNodeParameter('category', i);
@@ -984,40 +992,85 @@ export class OpenapiPetstoreApi implements INodeType {
 					body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);
 					body['tags'] = this.getNodeParameter('tags', i);
 					body['status'] = this.getNodeParameter('status', i);
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'POST', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'deletePet') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/{petId}';
 					path = path.replace('{' + 'petId' + '}', encodeURIComponent(this.getNodeParameter('petId', i) as string));
-					qs['api_key'] = this.getNodeParameter('api_key', i);
-					responseData = (await apiRequest.call(this, 'DELETE', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
+					headers['api_key'] = this.getNodeParameter('api_key', i);
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'DELETE', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'findPetsByStatus') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/findByStatus';
 					qs['status'] = (this.getNodeParameter('status', i) as IDataObject[]).map((entry) => entry.value);
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'findPetsByTags') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/findByTags';
 					qs['tags'] = (this.getNodeParameter('tags', i) as IDataObject[]).map((entry) => entry.value);
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'getPetById') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/{petId}';
 					path = path.replace('{' + 'petId' + '}', encodeURIComponent(this.getNodeParameter('petId', i) as string));
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'updatePet') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet';
 					body['id'] = this.getNodeParameter('id', i);
 					body['category'] = this.getNodeParameter('category', i);
@@ -1025,47 +1078,105 @@ export class OpenapiPetstoreApi implements INodeType {
 					body['photoUrls'] = (this.getNodeParameter('photoUrls', i) as IDataObject[]).map((entry) => entry.value);
 					body['tags'] = this.getNodeParameter('tags', i);
 					body['status'] = this.getNodeParameter('status', i);
-					responseData = (await apiRequest.call(this, 'PUT', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'PUT', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'updatePetWithForm') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/{petId}';
 					path = path.replace('{' + 'petId' + '}', encodeURIComponent(this.getNodeParameter('petId', i) as string));
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
+					formFields['name'] = this.getNodeParameter('name', i);
+					formFields['status'] = this.getNodeParameter('status', i);
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'POST', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 				if (operation === 'uploadFile') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/{petId}/uploadImage';
 					path = path.replace('{' + 'petId' + '}', encodeURIComponent(this.getNodeParameter('petId', i) as string));
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstorePetstoreAuthCredentials')) as IDataObject;
+					formFields['additionalMetadata'] = this.getNodeParameter('additionalMetadata', i);
+					// 'file' is a binary file form field; this generator does not support uploading binary data, so it is omitted from the request.
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'POST', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstorePetstoreAuthCredentials')) as IDataObject;
 				}
 			}
 			if (resource === 'Store') {
 				if (operation === 'deleteOrder') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/store/order/{orderId}';
 					path = path.replace('{' + 'orderId' + '}', encodeURIComponent(this.getNodeParameter('orderId', i) as string));
-					responseData = (await apiRequest.call(this, 'DELETE', path, body, qs, '')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'DELETE', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, '')) as IDataObject;
 				}
 				if (operation === 'getInventory') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/store/inventory';
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'getOrderById') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/store/order/{orderId}';
 					path = path.replace('{' + 'orderId' + '}', encodeURIComponent(this.getNodeParameter('orderId', i) as string));
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, '')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, '')) as IDataObject;
 				}
 				if (operation === 'placeOrder') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/store/order';
 					body['id'] = this.getNodeParameter('id', i);
 					body['petId'] = this.getNodeParameter('petId', i);
@@ -1073,13 +1184,22 @@ export class OpenapiPetstoreApi implements INodeType {
 					body['shipDate'] = this.getNodeParameter('shipDate', i);
 					body['status'] = this.getNodeParameter('status', i);
 					body['complete'] = this.getNodeParameter('complete', i);
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, '')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'POST', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, '')) as IDataObject;
 				}
 			}
 			if (resource === 'User') {
 				if (operation === 'createUser') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user';
 					body['id'] = this.getNodeParameter('id', i);
 					body['username'] = this.getNodeParameter('username', i);
@@ -1089,53 +1209,116 @@ export class OpenapiPetstoreApi implements INodeType {
 					body['password'] = this.getNodeParameter('password', i);
 					body['phone'] = this.getNodeParameter('phone', i);
 					body['userStatus'] = this.getNodeParameter('userStatus', i);
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'POST', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'createUsersWithArrayInput') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user/createWithArray';
-					Object.assign(body, this.getNodeParameter('User', i) as IDataObject);
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					wholeBodyArray = this.getNodeParameter('User', i) as unknown[];
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'POST', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'createUsersWithListInput') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user/createWithList';
-					Object.assign(body, this.getNodeParameter('User', i) as IDataObject);
-					responseData = (await apiRequest.call(this, 'POST', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					wholeBodyArray = this.getNodeParameter('User', i) as unknown[];
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'POST', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'deleteUser') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user/{username}';
 					path = path.replace('{' + 'username' + '}', encodeURIComponent(this.getNodeParameter('username', i) as string));
-					responseData = (await apiRequest.call(this, 'DELETE', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'DELETE', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'getUserByName') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user/{username}';
 					path = path.replace('{' + 'username' + '}', encodeURIComponent(this.getNodeParameter('username', i) as string));
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, '')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, '')) as IDataObject;
 				}
 				if (operation === 'loginUser') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user/login';
 					qs['username'] = this.getNodeParameter('username', i);
 					qs['password'] = this.getNodeParameter('password', i);
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, '')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, '')) as IDataObject;
 				}
 				if (operation === 'logoutUser') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user/logout';
-					responseData = (await apiRequest.call(this, 'GET', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'GET', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
 				if (operation === 'updateUser') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/user/{username}';
 					path = path.replace('{' + 'username' + '}', encodeURIComponent(this.getNodeParameter('username', i) as string));
 					body['id'] = this.getNodeParameter('id', i);
@@ -1146,8 +1329,15 @@ export class OpenapiPetstoreApi implements INodeType {
 					body['password'] = this.getNodeParameter('password', i);
 					body['phone'] = this.getNodeParameter('phone', i);
 					body['userStatus'] = this.getNodeParameter('userStatus', i);
-					responseData = (await apiRequest.call(this, 'PUT', path, body, qs, 'openapiPetstoreApiKeyCredentials')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, 'PUT', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, 'n8nNodesOpenapiPetstoreApiKeyCredentials')) as IDataObject;
 				}
+			}
+
+			if (!matched) {
+				throw new NodeOperationError(this.getNode(), `Unsupported resource/operation combination: resource=${resource}, operation=${operation}`, { itemIndex: i });
 			}
 
 			returnData.push(responseData);
