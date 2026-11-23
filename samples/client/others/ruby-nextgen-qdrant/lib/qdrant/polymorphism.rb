@@ -68,10 +68,13 @@ module Qdrant
     private_class_method :cast_time
 
     def self.cast_date(data)
+      # An already-typed Date is a match as-is, like the Integer and String arms:
+      # to_hash keeps Date objects, so a from_hash round trip hands one back here.
+      return data if data.is_a?(Date)
       return NO_MATCH unless data.is_a?(String) && FULL_DATE.match?(data)
 
       Date.iso8601(data)
-    rescue ArgumentError, TypeError
+    rescue ArgumentError, TypeError, Encoding::CompatibilityError
       NO_MATCH
     end
     private_class_method :cast_date
@@ -161,11 +164,15 @@ module Qdrant
     private_class_method :coerce_time
 
     def self.coerce_date(data)
-      return data unless data.is_a?(String) && FULL_DATE.match?(data)
+      return data unless data.is_a?(String)
 
       begin
+        # Inside the rescue on purpose: a String of an unusable encoding makes
+        # the match itself raise, and that must fall back to the raw value too.
+        return data unless FULL_DATE.match?(data)
+
         Date.iso8601(data)
-      rescue ArgumentError, TypeError
+      rescue ArgumentError, TypeError, Encoding::CompatibilityError
         data
       end
     end
@@ -176,7 +183,8 @@ module Qdrant
     # - a real model class (Serializable/Validations): `from_hash` (recurses)
     # - a nested oneOf/anyOf wrapper module: `build(data)`
     # - an enum module: returns the raw value unchanged
-    # - anything unresolvable: returns the data unchanged
+    # - anything unresolvable, or a payload that raises while it is built (a wrong
+    #   shape, a payload no nested oneOf/anyOf candidate matches): the data unchanged
     def self.coerce_model(type_name, data)
       return data unless type_name.is_a?(String) && Models.const_defined?(type_name, false)
 
@@ -188,7 +196,10 @@ module Qdrant
       else
         data
       end
-    rescue NameError
+    # A nested oneOf/anyOf wrapper raises when no candidate matches (or the payload
+    # is ambiguous); `coerce` never rejects data, so keep the raw value instead.
+    # NameError already covers its subclass NoMethodError.
+    rescue NameError, TypeError, ArgumentError
       data
     end
     private_class_method :coerce_model
