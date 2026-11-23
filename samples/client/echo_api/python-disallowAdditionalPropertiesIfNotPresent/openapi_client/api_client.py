@@ -415,7 +415,7 @@ class ApiClient:
         return self.sanitize_for_serialization(obj_dict)
 
 
-    def deserialize(self, response_text: str, response_type: str, content_type: Optional[str]):
+    def deserialize(self, response_text: str, response_type: Union[str, object], content_type: Optional[str]):
         """Deserializes response into an object.
 
         :param response: RESTResponse object to be deserialized.
