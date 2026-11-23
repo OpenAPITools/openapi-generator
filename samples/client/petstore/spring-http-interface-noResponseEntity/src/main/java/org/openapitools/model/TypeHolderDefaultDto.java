@@ -1,30 +1,26 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.annotation.Generated;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * TypeHolderDefaultDto
  */
 
 @JsonTypeName("TypeHolderDefault")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class TypeHolderDefaultDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -55,7 +51,6 @@ public class TypeHolderDefaultDto {
    * Get stringItem
    * @return stringItem
    */
-  @NotNull
   @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
@@ -75,7 +70,6 @@ public class TypeHolderDefaultDto {
    * Get numberItem
    * @return numberItem
    */
-  @NotNull
   @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -95,7 +89,6 @@ public class TypeHolderDefaultDto {
    * Get integerItem
    * @return integerItem
    */
-  @NotNull
   @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
@@ -115,7 +108,6 @@ public class TypeHolderDefaultDto {
    * Get boolItem
    * @return boolItem
    */
-  @NotNull
   @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
@@ -143,7 +135,6 @@ public class TypeHolderDefaultDto {
    * Get arrayItem
    * @return arrayItem
    */
-  @NotNull
   @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;

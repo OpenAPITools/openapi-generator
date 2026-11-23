@@ -13,12 +13,15 @@ import {{apiPackage}}.{{classname}};
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
+import {{javaxPackage}}.annotation.Generated;
+
+{{>generatedAnnotation}}
 
 public abstract class HttpInterfacesAbstractConfigurator {
 
     private final HttpServiceProxyFactory factory;
 
-    public HttpInterfacesAbstractConfigurator(final HttpServiceProxyFactory factory) {
+    public HttpInterfacesAbstractConfigurator(HttpServiceProxyFactory factory) {
         this.factory = factory;
     }
 

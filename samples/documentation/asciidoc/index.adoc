@@ -61,7 +61,7 @@ Add a new pet to the store
 |Name| Description| Required| Default| Pattern
 
 | Pet
-| Pet object that needs to be added to the store <<Pet>>
+a| Pet object that needs to be added to the store <<Pet>>
 | X
 | 
 | 
@@ -84,7 +84,7 @@ Add a new pet to the store
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -148,7 +148,7 @@ Deletes a pet
 |Name| Description| Required| Default| Pattern
 
 | petId
-| Pet id to delete 
+a| Pet id to delete 
 | X
 | null
 | 
@@ -164,7 +164,7 @@ Deletes a pet
 |Name| Description| Required| Default| Pattern
 
 | api_key
-|  
+a|  
 | -
 | null
 | 
@@ -182,7 +182,7 @@ Deletes a pet
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -245,7 +245,7 @@ Multiple status values can be provided with comma separated strings
 |Name| Description| Required| Default| Pattern
 
 | status
-| Status values that need to be considered for filter <<String>>
+a| Status values that need to be considered for filter <<String>>
 | X
 | null
 | 
@@ -265,7 +265,7 @@ array[<<Pet>>]
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -333,7 +333,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 |Name| Description| Required| Default| Pattern
 
 | tags
-| Tags to filter by <<String>>
+a| Tags to filter by <<String>>
 | X
 | null
 | 
@@ -353,7 +353,7 @@ array[<<Pet>>]
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -417,7 +417,7 @@ Returns a single pet
 |Name| Description| Required| Default| Pattern
 
 | petId
-| ID of pet to return 
+a| ID of pet to return 
 | X
 | null
 | 
@@ -441,7 +441,7 @@ Returns a single pet
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -511,7 +511,7 @@ Update an existing pet
 |Name| Description| Required| Default| Pattern
 
 | Pet
-| Pet object that needs to be added to the store <<Pet>>
+a| Pet object that needs to be added to the store <<Pet>>
 | X
 | 
 | 
@@ -534,7 +534,7 @@ Update an existing pet
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -608,7 +608,7 @@ Updates a pet in the store with form data
 |Name| Description| Required| Default| Pattern
 
 | petId
-| ID of pet that needs to be updated 
+a| ID of pet that needs to be updated 
 | X
 | null
 | 
@@ -623,13 +623,13 @@ Updates a pet in the store with form data
 |Name| Description| Required| Default| Pattern
 
 | name
-| Updated name of the pet <<string>>
+a| Updated name of the pet <<string>>
 | -
 | null
 | 
 
 | status
-| Updated status of the pet <<string>>
+a| Updated status of the pet <<string>>
 | -
 | null
 | 
@@ -648,7 +648,7 @@ Updates a pet in the store with form data
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -707,7 +707,7 @@ uploads an image
 |Name| Description| Required| Default| Pattern
 
 | petId
-| ID of pet to update 
+a| ID of pet to update 
 | X
 | null
 | 
@@ -722,13 +722,13 @@ uploads an image
 |Name| Description| Required| Default| Pattern
 
 | additionalMetadata
-| Additional data to pass to server <<string>>
+a| Additional data to pass to server <<string>>
 | -
 | null
 | 
 
 | file
-| file to upload <<file>>
+a| file to upload <<file>>
 | -
 | null
 | 
@@ -749,7 +749,7 @@ uploads an image
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -812,7 +812,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 |Name| Description| Required| Default| Pattern
 
 | orderId
-| ID of the order that needs to be deleted 
+a| ID of the order that needs to be deleted 
 | X
 | null
 | 
@@ -833,7 +833,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -908,7 +908,7 @@ Returns a map of status codes to quantities
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -967,7 +967,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 |Name| Description| Required| Default| Pattern
 
 | orderId
-| ID of pet that needs to be fetched 
+a| ID of pet that needs to be fetched 
 | X
 | null
 | 
@@ -991,7 +991,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1061,7 +1061,7 @@ Place an order for a pet
 |Name| Description| Required| Default| Pattern
 
 | Order
-| order placed for purchasing the pet <<Order>>
+a| order placed for purchasing the pet <<Order>>
 | X
 | 
 | 
@@ -1084,7 +1084,7 @@ Place an order for a pet
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1153,7 +1153,7 @@ This can only be done by the logged in user.
 |Name| Description| Required| Default| Pattern
 
 | User
-| Created user object <<User>>
+a| Created user object <<User>>
 | X
 | 
 | 
@@ -1173,7 +1173,7 @@ This can only be done by the logged in user.
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1233,7 +1233,7 @@ Creates list of users with given input array
 |Name| Description| Required| Default| Pattern
 
 | User
-| List of user object <<User>>
+a| List of user object <<User>>
 | X
 | 
 | 
@@ -1253,7 +1253,7 @@ Creates list of users with given input array
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1313,7 +1313,7 @@ Creates list of users with given input array
 |Name| Description| Required| Default| Pattern
 
 | User
-| List of user object <<User>>
+a| List of user object <<User>>
 | X
 | 
 | 
@@ -1333,7 +1333,7 @@ Creates list of users with given input array
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1392,7 +1392,7 @@ This can only be done by the logged in user.
 |Name| Description| Required| Default| Pattern
 
 | username
-| The name that needs to be deleted 
+a| The name that needs to be deleted 
 | X
 | null
 | 
@@ -1413,7 +1413,7 @@ This can only be done by the logged in user.
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1477,7 +1477,7 @@ Get user by user name
 |Name| Description| Required| Default| Pattern
 
 | username
-| The name that needs to be fetched. Use user1 for testing. 
+a| The name that needs to be fetched. Use user1 for testing. 
 | X
 | null
 | 
@@ -1501,7 +1501,7 @@ Get user by user name
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1574,13 +1574,13 @@ Logs user into the system
 |Name| Description| Required| Default| Pattern
 
 | username
-| The user name for login 
+a| The user name for login 
 | X
 | null
-| /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/
+| /^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$/
 
 | password
-| The password for login in clear text 
+a| The password for login in clear text 
 | X
 | null
 | 
@@ -1601,7 +1601,7 @@ Logs user into the system
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1673,7 +1673,7 @@ Logs out current logged in user session
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1732,7 +1732,7 @@ This can only be done by the logged in user.
 |Name| Description| Required| Default| Pattern
 
 | username
-| name that need to be deleted 
+a| name that need to be deleted 
 | X
 | null
 | 
@@ -1746,7 +1746,7 @@ This can only be done by the logged in user.
 |Name| Description| Required| Default| Pattern
 
 | User
-| Updated user object <<User>>
+a| Updated user object <<User>>
 | X
 | 
 | 
@@ -1766,7 +1766,7 @@ This can only be done by the logged in user.
 
 ===== Responses
 
-.http response codes
+.HTTP Response Codes
 [cols="2,3,1"]
 |===
 | Code | Message | Datatype
@@ -1814,30 +1814,35 @@ endif::internal-generation[]
 
 Describes the result of uploading an image resource
 
+
 [.fields-ApiResponse]
-[cols="2,1,2,4,1"]
+[cols="2,1,1,2,4,1"]
 |===
-| Field Name| Required| Type| Description| Format
+| Field Name| Required| Nullable | Type| Description | Format
 
 | code
 | 
-| Integer 
 | 
-| int32 
+|   Integer  
+a| 
+| int32    
 
 | type
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | message
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 |===
+
 
 
 [#Category]
@@ -1845,24 +1850,28 @@ Describes the result of uploading an image resource
 
 A category for a pet
 
+
 [.fields-Category]
-[cols="2,1,2,4,1"]
+[cols="2,1,1,2,4,1"]
 |===
-| Field Name| Required| Type| Description| Format
+| Field Name| Required| Nullable | Type| Description | Format
 
 | id
 | 
-| Long 
 | 
-| int64 
+|   Long  
+a| 
+| int64    
 
 | name
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 |===
+
 
 
 [#Order]
@@ -1870,48 +1879,56 @@ A category for a pet
 
 An order for a pets from the pet store
 
+
 [.fields-Order]
-[cols="2,1,2,4,1"]
+[cols="2,1,1,2,4,1"]
 |===
-| Field Name| Required| Type| Description| Format
+| Field Name| Required| Nullable | Type| Description | Format
 
 | id
 | 
-| Long 
 | 
-| int64 
+|   Long  
+a| 
+| int64    
 
 | petId
 | 
-| Long 
 | 
-| int64 
+|   Long  
+a| 
+| int64    
 
 | quantity
 | 
-| Integer 
 | 
-| int32 
+|   Integer  
+a| 
+| int32    
 
 | shipDate
 | 
-| Date 
 | 
-| date-time 
+|   Date  
+a| 
+| date-time    
 
 | status
 | 
-| String 
-| Order Status
-|  _Enum:_ placed, approved, delivered, 
+| 
+|  <<String>>  
+a| Order Status
+|  _Enum:_ placed, approved, delivered,  
 
 | complete
 | 
-| Boolean 
 | 
-|  
+|   Boolean  
+a| 
+|     
 
 |===
+
 
 
 [#Pet]
@@ -1919,48 +1936,56 @@ An order for a pets from the pet store
 
 A pet for sale in the pet store
 
+
 [.fields-Pet]
-[cols="2,1,2,4,1"]
+[cols="2,1,1,2,4,1"]
 |===
-| Field Name| Required| Type| Description| Format
+| Field Name| Required| Nullable | Type| Description | Format
 
 | id
 | 
-| Long 
 | 
-| int64 
+|   Long  
+a| 
+| int64    
 
 | category
 | 
-| Category 
 | 
-|  
+| <<Category>>    
+a| 
+|     
 
 | name
 | X
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | photoUrls
 | X
-| List  of <<string>>
 | 
-|  
+|   List   of <<string>>
+a| 
+|     
 
 | tags
 | 
-| List  of <<Tag>>
 | 
-|  
+|   List   of <<Tag>>
+a| 
+|     
 
 | status
 | 
-| String 
-| pet status in the store
-|  _Enum:_ available, pending, sold, 
+| 
+|  <<String>>  
+a| pet status in the store
+|  _Enum:_ available, pending, sold,  
 
 |===
+
 
 
 [#Tag]
@@ -1968,24 +1993,28 @@ A pet for sale in the pet store
 
 A tag for a pet
 
+
 [.fields-Tag]
-[cols="2,1,2,4,1"]
+[cols="2,1,1,2,4,1"]
 |===
-| Field Name| Required| Type| Description| Format
+| Field Name| Required| Nullable | Type| Description | Format
 
 | id
 | 
-| Long 
 | 
-| int64 
+|   Long  
+a| 
+| int64    
 
 | name
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 |===
+
 
 
 [#User]
@@ -1993,59 +2022,69 @@ A tag for a pet
 
 A User who is purchasing from the pet store
 
+
 [.fields-User]
-[cols="2,1,2,4,1"]
+[cols="2,1,1,2,4,1"]
 |===
-| Field Name| Required| Type| Description| Format
+| Field Name| Required| Nullable | Type| Description | Format
 
 | id
 | 
-| Long 
 | 
-| int64 
+|   Long  
+a| 
+| int64    
 
 | username
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | firstName
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | lastName
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | email
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | password
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | phone
 | 
-| String 
 | 
-|  
+|   String  
+a| 
+|     
 
 | userStatus
 | 
-| Integer 
-| User Status
-| int32 
+| 
+|   Integer  
+a| User Status
+| int32    
 
 |===
+
 
 

@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: Discriminator on a reserved word
+  version: 1.0.0
+paths:
+  /pets:
+    post:
+      operationId: addPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vehicle'
+components:
+  schemas:
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: type
+    Vehicle:
+      oneOf:
+        - $ref: '#/components/schemas/Car'
+        - $ref: '#/components/schemas/Bike'
+      discriminator:
+        propertyName: type
+        mapping:
+          car: '#/components/schemas/Car'
+          bike: '#/components/schemas/Bike'
+    Cat:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+    Dog:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        breed:
+          type: string
+    Car:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        doors:
+          type: integer
+    Bike:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+        gears:
+          type: integer

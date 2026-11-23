@@ -62,6 +62,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import static org.openapitools.codegen.model.EnumVarMap.*;
 import static org.openapitools.codegen.utils.EnumUtils.getEnumValues;
 import static org.openapitools.codegen.utils.EnumUtils.hasEnumValues;
+import static org.openapitools.codegen.utils.ModelUtils.isEnumSchema;
 
 /**
  * C++ HTTP Library Server Code Generator.
@@ -943,6 +944,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             ArrayList<String> sortedModels = new ArrayList<>(modelsUsed);
             Collections.sort(sortedModels);
             objs.put("modelsUsed", new ArrayList<>(sortedModels));
+            objs.put("hasModelsUsed", true);
             objs.put("includeVariantHeader", INCLUDE_VARIANT);
         }
         if (includeOptionalHeader) {
@@ -1037,12 +1039,8 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
 
         Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
 
-        // Compute modelNamespace ONCE and append className
+        // Compute modelNamespace ONCE (defaulted in processOpts) and append className
         String modelNamespaceBase = (String) additionalProperties.get(MODEL_NAMESPACE);
-        if (modelNamespaceBase == null || modelNamespaceBase.isEmpty()) {
-            modelNamespaceBase = MODEL_SUFFIX.toLowerCase(Locale.ROOT);
-            additionalProperties.put(MODEL_NAMESPACE, modelNamespaceBase);
-        }
 
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             ModelsMap modelsMap = entry.getValue();
@@ -1768,7 +1766,7 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
 
         if (ModelUtils.isStringSchema(p) || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             // For enum types, don't return empty string - it will be handled in processModelVariable
-            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            if (isEnumSchema(p)) {
                 return null; // Let processModelVariable handle enum defaults
             }
             return p.getDefault() != null ? "\"" + p.getDefault().toString() + "\"" : "\"\"";
@@ -1781,13 +1779,13 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             // handled in processModelVariable. A synthetic default here is indistinguishable
             // from a real spec-declared default of 0, which would incorrectly suppress
             // std::optional wrapping for optional numeric enums without an explicit default.
-            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            if (isEnumSchema(p)) {
                 return null;
             }
             return p.getDefault() != null ? p.getDefault().toString() : "0";
         }
         if (ModelUtils.isNumberSchema(p)) {
-            if (p.getEnum() != null && !p.getEnum().isEmpty()) {
+            if (isEnumSchema(p)) {
                 return null;
             }
             if (ModelUtils.isFloatSchema(p)) {
@@ -2141,6 +2139,14 @@ public class CppHttplibServerCodegen extends AbstractCppCodegen {
             apiNamespaceValue = toPascalCase(API_SUFFIX);
         }
         additionalProperties.put(API_NAMESPACE, apiNamespaceValue);
+
+        // Set model namespace here rather than in postProcessAllModels, which is
+        // never called for a spec without models; the operations still read it.
+        String modelNamespaceValue = (String) additionalProperties.get(MODEL_NAMESPACE);
+        if (modelNamespaceValue == null || modelNamespaceValue.isEmpty()) {
+            modelNamespaceValue = MODEL_SUFFIX.toLowerCase(Locale.ROOT);
+        }
+        additionalProperties.put(MODEL_NAMESPACE, modelNamespaceValue);
 
         // Handle addApiImplStubs option
         if (additionalProperties.containsKey(ADD_API_IMPL_STUBS)) {

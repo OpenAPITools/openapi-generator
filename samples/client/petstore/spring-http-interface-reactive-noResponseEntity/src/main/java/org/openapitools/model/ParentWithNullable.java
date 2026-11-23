@@ -1,25 +1,21 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * ParentWithNullable
@@ -34,7 +30,7 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullable.class, name = "ChildWithNullable")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class ParentWithNullable {
 
   /**
@@ -84,7 +80,6 @@ public class ParentWithNullable {
    * Get type
    * @return type
    */
-  
   @JsonProperty("type")
   public @Nullable TypeEnum getType() {
     return type;
@@ -104,7 +99,6 @@ public class ParentWithNullable {
    * Get nullableProperty
    * @return nullableProperty
    */
-  
   @JsonProperty("nullableProperty")
   public JsonNullable<String> getNullableProperty() {
     return nullableProperty;

@@ -1,28 +1,24 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.Objects;
 import org.openapitools.model.OuterEnum;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * EnumTest
  */
 
 @JsonTypeName("Enum_Test")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class EnumTest {
 
   /**
@@ -204,7 +200,6 @@ public class EnumTest {
    * Get enumString
    * @return enumString
    */
-  
   @JsonProperty("enum_string")
   public @Nullable EnumStringEnum getEnumString() {
     return enumString;
@@ -224,7 +219,6 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
    */
-  @NotNull
   @JsonProperty("enum_string_required")
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
@@ -244,7 +238,6 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
    */
-  
   @JsonProperty("enum_integer")
   public @Nullable EnumIntegerEnum getEnumInteger() {
     return enumInteger;
@@ -264,7 +257,6 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
    */
-  
   @JsonProperty("enum_number")
   public @Nullable EnumNumberEnum getEnumNumber() {
     return enumNumber;
@@ -284,7 +276,6 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
    */
-  
   @JsonProperty("outerEnum")
   public @Nullable OuterEnum getOuterEnum() {
     return outerEnum;

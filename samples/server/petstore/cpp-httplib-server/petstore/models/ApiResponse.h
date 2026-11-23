@@ -31,9 +31,34 @@ public:
     void setMessage(const std::string& message);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(ApiResponse,
-         code, type, message)
+    friend inline void to_json(nlohmann::json& j, const ApiResponse& o)
+    {
+        j = nlohmann::json::object();
+        j["code"] = o.code;
+        j["type"] = o.type;
+        j["message"] = o.message;
+    }
+
+    friend inline void from_json(const nlohmann::json& j, ApiResponse& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "ApiResponse must be a JSON object", &j);
+        }
+        if (j.contains("code"))
+        {
+            j.at("code").get_to(o.code);
+        }
+        if (j.contains("type"))
+        {
+            j.at("type").get_to(o.type);
+        }
+        if (j.contains("message"))
+        {
+            j.at("message").get_to(o.message);
+        }
+    }
+
 
 private:
     int code;

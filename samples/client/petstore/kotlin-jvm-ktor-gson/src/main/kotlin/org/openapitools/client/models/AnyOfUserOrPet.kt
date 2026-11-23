@@ -31,20 +31,18 @@ import org.openapitools.client.models.User
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
- *
- * @param username 
- * @param name 
- * @param photoUrls 
- * @param id 
- * @param firstName 
- * @param lastName 
- * @param email 
- * @param password 
- * @param phone 
+ * @param username
+ * @param name
+ * @param photoUrls
+ * @param id
+ * @param firstName
+ * @param lastName
+ * @param email
+ * @param password
+ * @param phone
  * @param userStatus User Status
- * @param category 
- * @param tags 
+ * @param category
+ * @param tags
  * @param status pet status in the store
  */
 

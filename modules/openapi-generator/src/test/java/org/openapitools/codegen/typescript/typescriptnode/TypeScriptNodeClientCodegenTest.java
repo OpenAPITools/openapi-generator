@@ -342,6 +342,31 @@ public class TypeScriptNodeClientCodegenTest {
                 "* @deprecated");
     }
 
+    @Test(description = "Issue #3794")
+    public void testSecuritySchemeNamesThatAreNotIdentifiers() throws IOException {
+        File output = Files.createTempDirectory("typescriptnodeclient_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-node")
+                .setInputSpec("src/test/resources/3_0/typescript-node/issue_3794.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        java.nio.file.Path api = Paths.get(output + "/api/defaultApi.ts");
+        TestUtils.assertFileContains(api, "'api-key',");
+        TestUtils.assertFileContains(api, " api_key,");
+        TestUtils.assertFileContains(api, "this.authentications['basic-auth'].username = username;");
+        TestUtils.assertFileContains(api, "this.authentications['bearer.token'].accessToken = accessToken;");
+        TestUtils.assertFileContains(api, "if (this.authentications['api-key'].apiKey) {");
+        TestUtils.assertFileContains(api, "if (this.authentications.api_key.apiKey) {");
+        TestUtils.assertFileNotContains(api, "authentications.api-key");
+        TestUtils.assertFileNotContains(api, "authentications.basic-auth");
+        TestUtils.assertFileNotContains(api, "authentications.bearer.token");
+    }
+
     private OperationsMap createPostProcessOperationsMapWithImportName(String importName) {
         OperationMap operations = new OperationMap();
         operations.setClassname("Pet");

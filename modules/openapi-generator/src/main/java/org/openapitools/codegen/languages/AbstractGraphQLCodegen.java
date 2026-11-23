@@ -253,11 +253,6 @@ public abstract class AbstractGraphQLCodegen extends DefaultCodegen implements C
     }
 
     @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
-    @Override
     public String toApiName(String name) {
         return underscore(super.toApiName(name));
     }

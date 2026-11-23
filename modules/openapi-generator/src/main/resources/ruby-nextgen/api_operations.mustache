@@ -1,4 +1,15 @@
-class {{classname}}
+{{#rbNamespaceOnly}}
+class {{rbNamespaceClassName}}
+  def initialize(connection)
+    @connection = connection
+  end
+{{#rbNamespaceResources}}
+
+  def {{accessor}}
+    @{{accessor}} ||= {{className}}.new(@connection)
+  end
+{{/rbNamespaceResources}}
+end{{/rbNamespaceOnly}}{{^rbNamespaceOnly}}class {{classname}}
   def initialize(connection)
     @connection = connection
   end
@@ -20,7 +31,7 @@ class {{classname}}
       type: {{{vendorExtensions.x-rb-return-type}}},
       auth: [{{#authMethods}}'{{name}}'{{^-last}}, {{/-last}}{{/authMethods}}]{{#hasQueryParams}},{{/hasQueryParams}}{{^hasQueryParams}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#bodyParam}},{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}},{{/hasFormParams}}{{/bodyParam}}{{/hasHeaderParams}}{{/hasQueryParams}}
 {{#hasQueryParams}}
-      query: { {{#queryParams}}'{{baseName}}' => {{paramName}}{{^-last}}, {{/-last}}{{/queryParams}} }{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#bodyParam}},{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}},{{/hasFormParams}}{{/bodyParam}}{{/hasHeaderParams}}
+      query: {{#vendorExtensions.x-rb-has-object-query}}[{{#queryParams}}{{{vendorExtensions.x-rb-query-expr}}}{{^-last}}, {{/-last}}{{/queryParams}}].reduce({}, :merge){{/vendorExtensions.x-rb-has-object-query}}{{^vendorExtensions.x-rb-has-object-query}}{ {{#queryParams}}'{{baseName}}' => {{paramName}}{{^-last}}, {{/-last}}{{/queryParams}} }{{/vendorExtensions.x-rb-has-object-query}}{{#hasHeaderParams}},{{/hasHeaderParams}}{{^hasHeaderParams}}{{#bodyParam}},{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}},{{/hasFormParams}}{{/bodyParam}}{{/hasHeaderParams}}
 {{/hasQueryParams}}
 {{#hasHeaderParams}}
       headers: { {{#headerParams}}'{{baseName}}' => {{paramName}}{{^-last}}, {{/-last}}{{/headerParams}} }{{#bodyParam}},{{/bodyParam}}{{#hasFormParams}},{{/hasFormParams}}
@@ -34,4 +45,12 @@ class {{classname}}
     )
   end
 {{/operation}}
-end
+{{#rbNamespaceHasDirectOperations}}
+{{#rbNamespaceResources}}
+
+  def {{accessor}}
+    @{{accessor}} ||= {{className}}.new(@connection)
+  end
+{{/rbNamespaceResources}}
+{{/rbNamespaceHasDirectOperations}}
+end{{/rbNamespaceOnly}}

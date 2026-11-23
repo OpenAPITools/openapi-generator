@@ -31,8 +31,6 @@ import com.fasterxml.jackson.annotation.JsonValue
 import kotlin.jvm.JvmStatic
 
 /**
- * 
- *
  * Values: success,failure,unclassified,unknown_default_open_api
  */
 

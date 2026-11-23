@@ -37,6 +37,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -107,7 +108,39 @@ public class PythonPydanticV1ClientCodegenTest {
         // added to test fix for issue #6675
         // removed because "/^[\\pattern\\d{3}$/i" is invalid regex because [ is not escaped and there is no closing ]
         // Assert.assertEquals(op.allParams.get(6).pattern, "/^[\\pattern\\d{3}$/i");
+        // alternation_with_forward_slash '/ax$|/bx$'
+        Assert.assertEquals(op.allParams.get(7).pattern, "/\\/ax$|\\/bx$/");
+        Assert.assertEquals(op.allParams.get(7).vendorExtensions.get("x-regex"), "\\/ax$|\\/bx$");
+        Assert.assertEquals(op.allParams.get(7).vendorExtensions.get("x-modifiers"), Collections.emptyList());
+    }
 
+    @Test(description = "test regex patterns starting with forward slash (e.g. URL paths)")
+    public void testRegularExpressionStartingWithSlash() {
+        final PythonPydanticV1ClientCodegen codegen = new PythonPydanticV1ClientCodegen();
+
+        Schema<?> singleSlashSchema = new StringSchema().pattern("/v1");
+        CodegenProperty singleSlash = codegen.fromProperty("single_slash", singleSlashSchema, false);
+        codegen.postProcessModelProperty(null, singleSlash);
+        Assert.assertEquals(singleSlash.pattern, "/\\/v1/");
+        Assert.assertEquals(singleSlash.vendorExtensions.get("x-regex"), "\\/v1");
+        Assert.assertEquals(singleSlash.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> pathSchema = new StringSchema().pattern("/health_question_definition/[0-9]+");
+        CodegenProperty pathProp = codegen.fromProperty("path_pattern", pathSchema, false);
+        codegen.postProcessModelProperty(null, pathProp);
+        Assert.assertEquals(pathProp.pattern, "/\\/health_question_definition\\/[0-9]+/");
+        Assert.assertEquals(pathProp.vendorExtensions.get("x-regex"), "\\/health_question_definition\\/[0-9]+");
+        Assert.assertEquals(pathProp.vendorExtensions.get("x-modifiers"), Collections.emptyList());
+
+        Schema<?> perlModifierSchema = new StringSchema().pattern("/^image_\\d{1,3}$/i");
+        CodegenProperty perlModifierProp = codegen.fromProperty("perl_modifier", perlModifierSchema, false);
+        codegen.postProcessModelProperty(null, perlModifierProp);
+        Assert.assertEquals(perlModifierProp.pattern, "/^image_\\d{1,3}$/i");
+        Assert.assertEquals(perlModifierProp.vendorExtensions.get("x-regex"), "^image_\\d{1,3}$");
+        Assert.assertEquals(perlModifierProp.vendorExtensions.get("x-modifiers"), Collections.singletonList("IGNORECASE"));
+
+        Assert.assertEquals(codegen.patternCorrection("/health_question_definition/[0-9]+"), "/health_question_definition/[0-9]+");
+        Assert.assertEquals(codegen.patternCorrection("/api/v1/"), "/api/v1/");
     }
 
 
@@ -545,5 +578,24 @@ public class PythonPydanticV1ClientCodegenTest {
 
         codegen.parameterNameMapping().put("some-value", "parameter_value");
         Assert.assertEquals(codegen.toParamName("some-value"), "parameter_value");
+    }
+
+    @Test
+    public void testWebhookParameterTyping() throws IOException {
+        final PythonPydanticV1ClientCodegen codegen = new PythonPydanticV1ClientCodegen();
+        final String outputPath = generateFiles(codegen, "src/test/resources/3_1/python/webhooks.yaml");
+        final Path api = Paths.get(outputPath + "openapi_client/api/hooks_api.py");
+
+        assertFileExists(api);
+        assertFileContains(
+                api,
+                "from pydantic import StrictBytes, StrictStr",
+                "from openapi_client.models.header_arg import HeaderArg",
+                "def item_event_post(self, filter : StrictStr, x_json_arg : HeaderArg, **kwargs) -> None:",
+                "def close(self, file : Optional[Union[StrictBytes, StrictStr]] = None, **kwargs) -> None:");
+        TestUtils.assertFileNotContains(
+                api,
+                "filter : ,",
+                "x_json_arg : ,");
     }
 }

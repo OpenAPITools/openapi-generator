@@ -33,9 +33,39 @@ public:
     void setCorrelationId(const std::string& correlationId);
 
 
-    // JSON serialization using NLOHMANN INTRUSIVE macro (must be inside class to access private members)
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(TestAllParameterTypes200Response,
-         message, resourceId, filter, correlationId)
+    friend inline void to_json(nlohmann::json& j, const TestAllParameterTypes200Response& o)
+    {
+        j = nlohmann::json::object();
+        j["message"] = o.message;
+        j["resourceId"] = o.resourceId;
+        j["filter"] = o.filter;
+        j["correlationId"] = o.correlationId;
+    }
+
+    friend inline void from_json(const nlohmann::json& j, TestAllParameterTypes200Response& o)
+    {
+        if (!j.is_object())
+        {
+            throw nlohmann::json::type_error::create(302, "TestAllParameterTypes200Response must be a JSON object", &j);
+        }
+        if (j.contains("message"))
+        {
+            j.at("message").get_to(o.message);
+        }
+        if (j.contains("resourceId"))
+        {
+            j.at("resourceId").get_to(o.resourceId);
+        }
+        if (j.contains("filter"))
+        {
+            j.at("filter").get_to(o.filter);
+        }
+        if (j.contains("correlationId"))
+        {
+            j.at("correlationId").get_to(o.correlationId);
+        }
+    }
+
 
 private:
     std::string message;

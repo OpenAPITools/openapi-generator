@@ -1,29 +1,24 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import jakarta.annotation.Generated;
+import java.net.URI;
 import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.Objects;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * OrderDto
  */
 
 @JsonTypeName("Order")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class OrderDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -91,7 +86,6 @@ public class OrderDto {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -111,7 +105,6 @@ public class OrderDto {
    * Get petId
    * @return petId
    */
-  
   @JsonProperty("petId")
   public @Nullable Long getPetId() {
     return petId;
@@ -131,7 +124,6 @@ public class OrderDto {
    * Get quantity
    * @return quantity
    */
-  
   @JsonProperty("quantity")
   public @Nullable Integer getQuantity() {
     return quantity;
@@ -151,7 +143,6 @@ public class OrderDto {
    * Get shipDate
    * @return shipDate
    */
-  
   @JsonProperty("shipDate")
   public @Nullable OffsetDateTime getShipDate() {
     return shipDate;
@@ -171,7 +162,6 @@ public class OrderDto {
    * Order Status
    * @return status
    */
-  
   @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {
     return status;
@@ -191,7 +181,6 @@ public class OrderDto {
    * Get complete
    * @return complete
    */
-  
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;

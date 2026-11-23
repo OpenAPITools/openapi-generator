@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: issue 25471 - Nested nullable items
+  version: 1.0.0
+
+paths:
+  /board:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Board"
+
+components:
+  schemas:
+    Board:
+      type: object
+      required:
+        - column
+        - grid
+      properties:
+        column:
+          type: array
+          items:
+            $ref: "#/components/schemas/Note"
+        grid:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: "#/components/schemas/Note"
+
+    Note:
+      type: object
+      nullable: true
+      required:
+        - text
+      properties:
+        text:
+          type: string

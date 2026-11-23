@@ -76,6 +76,13 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     }
 
     @Override
+    protected boolean usesPythonicParams() {
+        // Generated blueplanet apps call add_api() without pythonic_params, so
+        // Connexion 1.x passes handler arguments under their original names.
+        return false;
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
         //apiTemplateFiles.clear();
@@ -267,5 +274,11 @@ public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServer
     @Override
     public String generatorLanguageVersion() {
         return "3.5.2+";
+    }
+
+    @Override
+    protected boolean supportsObjectParameterParsing() {
+        // Connexion 1.x (Swagger 2.0) has no object-typed query/header parameters.
+        return false;
     }
 }

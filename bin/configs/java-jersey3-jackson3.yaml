@@ -1,7 +1,7 @@
 generatorName: java
 outputDir: samples/client/petstore/java/jersey3-jackson3
 library: jersey3
-inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-addpet-only.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
   useBeanValidation: true

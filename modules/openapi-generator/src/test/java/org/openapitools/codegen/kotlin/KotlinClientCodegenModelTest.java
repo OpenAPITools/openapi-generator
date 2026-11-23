@@ -293,6 +293,30 @@ public class KotlinClientCodegenModelTest {
         Assert.assertTrue(property.isContainer);
     }
 
+    @Test(description = "Issue #25471: preserve nullability of items in nested arrays")
+    public void nestedNullableArrayItemsPreserveNullability() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .addAdditionalProperty("collectionType", "list")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                .setInputSpec("src/test/resources/bugs/kotlin/issue_25471_nested_nullable.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        new DefaultGenerator()
+                .opts(configurator.toClientOptInput())
+                .generate();
+
+        Path boardModel = modelPath(output, "Board");
+
+        TestUtils.assertFileContains(boardModel,
+            "val column: kotlin.collections.List<Note?>",
+            "val grid: kotlin.collections.List<@Contextual kotlin.collections.List<Note?>>"
+        );
+    }
+
     @Test(description = "convert a model with a map property")
     public void mapPropertyTest() {
         final Schema<?> schema = getMapSchema();
@@ -537,6 +561,38 @@ public class KotlinClientCodegenModelTest {
 
         TestUtils.assertFileNotContains(Paths.get(path + "/src/" + clientLibrary.getSourceRoot() + "/org/openapitools/client/models/ObjectWithComplexAnyOfId.kt"),
                 "val adapterkotlin.String", "val adapterjava.math.BigDecimal");
+    }
+
+    @Test(description = "gson anyOf/oneOf wrappers for [number, string] compile")
+    public void testGsonAnyOfOneOfNumberStringWrappersCompile() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary(ClientLibrary.JVM_RETROFIT2.getLibraryName())
+                .setInputSpec("src/test/resources/3_0/kotlin/issue25452-anyof-oneof-number.yaml")
+                .addAdditionalProperty("omitGradleWrapper", true)
+                .addAdditionalProperty("serializationLibrary", "gson")
+                .addAdditionalProperty("generateOneOfAnyOfWrappers", true)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        Path modelsDir = modelPath(output, "AnyOfValue").getParent();
+        List<String> sources = files.stream()
+                .filter(file -> file.toPath().startsWith(modelsDir) && file.getName().endsWith(".kt"))
+                .map(File::getAbsolutePath)
+                .collect(java.util.stream.Collectors.toList());
+        Assert.assertFalse(sources.isEmpty(), "no model sources generated");
+
+        ClassLoader compiled = KotlinTestUtils.buildModule(sources, getClass().getClassLoader());
+        try {
+            compiled.loadClass("org.openapitools.client.models.AnyOfValue");
+            compiled.loadClass("org.openapitools.client.models.OneOfValue");
+        } catch (ClassNotFoundException e) {
+            Assert.fail("compiled wrapper class not found", e);
+        }
     }
 
     @Test(description = "Issue #20960")
@@ -1283,7 +1339,7 @@ public class KotlinClientCodegenModelTest {
                 () -> generator.opts(configurator.toClientOptInput()).generate());
     }
 
-    @Test(description = "useJackson3 is only wired up for jvm-okhttp4 and jvm-spring-restclient so far")
+    @Test(description = "useJackson3 is only wired up for jvm-okhttp4, jvm-spring-restclient and jvm-spring-webclient so far")
     public void shouldRefuseJackson3WithUnsupportedLibrary() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -1469,6 +1525,100 @@ public class KotlinClientCodegenModelTest {
                 () -> generator.opts(configurator.toClientOptInput()).generate());
     }
 
+    private File generateWebClient(Map<String, Object> properties) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-spring-webclient")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        properties.forEach(configurator::addAdditionalProperty);
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return output;
+    }
+
+    @Test(description = "useSpringBoot4 auto-enables useJackson3 for jvm-spring-webclient")
+    public void shouldAutoEnableJackson3WithSpringBoot4OnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(KotlinClientCodegen.USE_SPRING_BOOT4, true));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder",
+                "jacksonJsonEncoder(JacksonJsonEncoder(", "jacksonJsonDecoder(JacksonJsonDecoder(");
+        TestUtils.assertFileNotContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import tools.jackson");
+        TestUtils.assertFileNotContains(serializerPath, "com.fasterxml.jackson.databind");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "spring_boot_version = \"4.1.0\"",
+                "tools.jackson.module:jackson-module-kotlin", "JavaLanguageVersion.of(17)");
+        TestUtils.assertFileNotContains(buildGradlePath, "com.fasterxml.jackson.module:jackson-module-kotlin");
+    }
+
+    @Test(description = "an explicit useJackson3=false is honored with useSpringBoot4 on jvm-spring-webclient")
+    public void shouldRespectExplicitJackson3FalseWithSpringBoot4OnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(
+                KotlinClientCodegen.USE_SPRING_BOOT4, true,
+                KotlinClientCodegen.USE_JACKSON_3, false));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import com.fasterxml.jackson.databind.ObjectMapper");
+        TestUtils.assertFileNotContains(serializerPath, "tools.jackson");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "com.fasterxml.jackson.module:jackson-module-kotlin",
+                "JavaLanguageVersion.of(17)");
+        TestUtils.assertFileNotContains(buildGradlePath, "tools.jackson.module:jackson-module-kotlin");
+    }
+
+    @Test(description = "regression test: useSpringBoot4=false must not silently enable Jackson 3 on jvm-spring-webclient "
+            + "(the additionalProperties key merely being *present* is not the same as it being true)")
+    public void shouldNotEnableJackson3WhenSpringBoot4ExplicitlyFalseOnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(
+                KotlinClientCodegen.USE_SPRING_BOOT3, true,
+                KotlinClientCodegen.USE_SPRING_BOOT4, false));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder");
+
+        Path serializerPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt");
+        TestUtils.assertFileContains(serializerPath, "import com.fasterxml.jackson.databind.ObjectMapper");
+        TestUtils.assertFileNotContains(serializerPath, "tools.jackson");
+    }
+
+    @Test(description = "useJackson3=true without useSpringBoot4 must be refused on jvm-spring-webclient")
+    public void shouldRefuseJackson3WithoutSpringBoot4OnWebClient() {
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generateWebClient(Map.of(KotlinClientCodegen.USE_JACKSON_3, true)));
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> generateWebClient(Map.of(
+                        KotlinClientCodegen.USE_SPRING_BOOT3, true,
+                        KotlinClientCodegen.USE_JACKSON_3, true)));
+    }
+
+    @Test(description = "jvm-spring-webclient with useSpringBoot3 keeps generating Jackson 2 code")
+    public void shouldKeepJackson2WithSpringBoot3OnWebClient() throws IOException {
+        File output = generateWebClient(Map.of(KotlinClientCodegen.USE_SPRING_BOOT3, true));
+
+        Path apiPath = Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/client/apis/PetApi.kt");
+        TestUtils.assertFileContains(apiPath, "Jackson2JsonDecoder", "Jackson2JsonEncoder");
+        TestUtils.assertFileNotContains(apiPath, "JacksonJsonDecoder", "JacksonJsonEncoder");
+
+        Path buildGradlePath = Paths.get(output.getAbsolutePath() + "/build.gradle");
+        TestUtils.assertFileContains(buildGradlePath, "JavaLanguageVersion.of(17)");
+        TestUtils.assertFileNotContains(buildGradlePath, "tools.jackson");
+    }
+
     private static class ModelNameTest {
         private final String expectedName;
         private final String expectedClassName;
@@ -1581,5 +1731,124 @@ public class KotlinClientCodegenModelTest {
         Assert.assertNotNull(option, CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE + " is not registered");
         Assert.assertEquals(option.getDefault(), "false");
         Assert.assertEquals(option.getEnum().keySet(), Set.of("true", "false"));
+    }
+
+    @Test(description = "Issue #25452: unformatted number in kotlinx_serialization oneOf/anyOf wrappers is encoded and decoded without a BigDecimal serializer")
+    public void oneOfAnyOfKotlinxSerializationUnformattedNumber() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator()
+                .opts(new CodegenConfigurator()
+                        .setGeneratorName(KOTLIN_GENERATOR)
+                        .setLibrary("jvm-retrofit2")
+                        .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                        .addAdditionalProperty(GENERATE_ONEOF_ANYOF_WRAPPERS, true)
+                        .setInputSpec("src/test/resources/3_0/kotlin/issue25452-anyof-oneof-number.yaml")
+                        .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                        .toClientOptInput())
+                .generate();
+
+        for (String model : new String[]{"AnyOfValue", "OneOfValue"}) {
+            // kotlinx.serialization has no serializer for java.math.BigDecimal, so this call cannot compile
+            TestUtils.assertFileNotContains(modelPath(output, model), "java.math.BigDecimal.serializer()");
+            TestUtils.assertFileContains(modelPath(output, model),
+                    "is " + model + ".BigDecimalValue -> jsonEncoder.encodeJsonElement(JsonUnquotedLiteral(value.value.toPlainString()))");
+            // the number is a JsonPrimitive and a plain Json has no BigDecimal serializer, so it is read from the content
+            TestUtils.assertFileNotContains(modelPath(output, model), "decodeFromJsonElement<java.math.BigDecimal>");
+            TestUtils.assertFileContains(modelPath(output, model),
+                    "if (jsonElement is JsonPrimitive && !jsonElement.isString) { try { return " + model
+                            + ".BigDecimalValue(jsonElement.content.toBigDecimal())");
+        }
+    }
+
+    private Path generateKotlinxInlineNumericEnumModels(boolean serializableModel) throws IOException {
+        return generateKotlinxInlineNumericEnumModels(serializableModel, Map.of());
+    }
+
+    private Path generateKotlinxInlineNumericEnumModels(boolean serializableModel, Map<String, String> typeMappings) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setInputSpec("src/test/resources/3_0/kotlin/issue25459-kotlinx-inline-numeric-enum.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "kotlinx_serialization")
+                .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, serializableModel);
+        typeMappings.forEach(configurator::addTypeMapping);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        return Paths.get(output.getAbsolutePath(), "src/main/kotlin/org/openapitools/client/models");
+    }
+
+    @Test
+    public void testKotlinxSerializationInlineNumericEnumUsesValueSerializer() throws IOException {
+        Path models = generateKotlinxInlineNumericEnumModels(false);
+        Path recordingKt = models.resolve("Recording.kt");
+
+        // A plain @Serializable enum is written by serial name, so Plays would be the JSON string "1"
+        // instead of the number 1. The value serializer reads and writes the Int itself.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = PlaysSerializer::class)",
+                "enum class Plays(val value: kotlin.Int)",
+                "internal object PlaysSerializer : KSerializer<Plays>",
+                "decoder.decodeSerializableValue(kotlin.Int.serializer())",
+                "encoder.encodeSerializableValue(kotlin.Int.serializer(), value.value)",
+                "import kotlinx.serialization.KSerializer",
+                "import kotlinx.serialization.builtins.serializer",
+                "import kotlinx.serialization.encoding.Decoder",
+                "import kotlinx.serialization.encoding.Encoder");
+        // String enums stay on their @SerialName values.
+        TestUtils.assertFileNotContains(recordingKt, "ModeSerializer");
+        // Models without enums must not pick up the serializer imports.
+        TestUtils.assertFileNotContains(models.resolve("Label.kt"), "KSerializer");
+    }
+
+    @Test
+    public void testKotlinxSerializationInlineBigDecimalEnumKeepsPlainSerializable() throws IOException {
+        Path recordingKt = generateKotlinxInlineNumericEnumModels(false).resolve("Recording.kt");
+
+        // type: number maps to java.math.BigDecimal, which has no serializer() to build a value serializer from.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable enum class Ratio(val value: java.math.BigDecimal)");
+        TestUtils.assertFileNotContains(recordingKt, "RatioSerializer", "java.math.BigDecimal.serializer()");
+        // type: number with format double maps to kotlin.Double and keeps the value serializer.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = WeightSerializer::class)",
+                "encoder.encodeSerializableValue(kotlin.Double.serializer(), value.value)");
+    }
+
+    @Test
+    public void testKotlinxSerializationInlineNumericEnumUsesValueSerializerForSerializableModel() throws IOException {
+        // serializableModel imports kotlinx's Serializable under the alias KSerializable.
+        Path recordingKt = generateKotlinxInlineNumericEnumModels(true).resolve("Recording.kt");
+
+        TestUtils.assertFileContains(recordingKt,
+                "@KSerializable(with = PlaysSerializer::class)",
+                "internal object PlaysSerializer : KSerializer<Plays>");
+    }
+
+    @Test
+    public void testKotlinxSerializationMappedNumberEnumRoundtripsAsNumber() throws IOException {
+        // Issue #25588: an unformatted type: number enum keeps isNumber even when number is mapped
+        // to kotlin.Double, so it must still get the value serializer and roundtrip as a number.
+        Path recordingKt = generateKotlinxInlineNumericEnumModels(false, Map.of("number", "kotlin.Double"))
+                .resolve("Recording.kt");
+
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = RatioSerializer::class)",
+                "enum class Ratio(val value: kotlin.Double)",
+                "internal object RatioSerializer : KSerializer<Ratio>",
+                "decoder.decodeSerializableValue(kotlin.Double.serializer())",
+                "encoder.encodeSerializableValue(kotlin.Double.serializer(), value.value)");
+        // Integer enums are unchanged.
+        TestUtils.assertFileContains(recordingKt,
+                "@Serializable(with = PlaysSerializer::class)",
+                "enum class Plays(val value: kotlin.Int)");
+        // String enums stay on their @SerialName values.
+        TestUtils.assertFileNotContains(recordingKt, "ModeSerializer");
     }
 }

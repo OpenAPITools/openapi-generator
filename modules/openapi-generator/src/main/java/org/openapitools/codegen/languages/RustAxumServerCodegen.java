@@ -68,6 +68,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     private Boolean basicAuthorization = false;
     private Boolean basicAnalytic = false;
     private Boolean ownedRequest = false;
+    private Boolean boxRecursiveModels = false;
 
     // Types
     private static final String uuidType = "uuid::Uuid";
@@ -251,6 +252,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         optAllowBlockingResponseSerialize.setType("bool");
         optAllowBlockingResponseSerialize.defaultValue(allowBlockingResponseSerialize.toString());
 
+        CliOption optBoxRecursiveModels = new CliOption("boxRecursiveModels",
+                String.join("", "Wrap model fields that lead back to their own model (directly or through other ",
+                        "models) in Box, so recursive models compile. Changes the type of those fields."));
+        optBoxRecursiveModels.setType("bool");
+        optBoxRecursiveModels.defaultValue(boxRecursiveModels.toString());
+
         cliOptions = new ArrayList<>(
                 List.of(
                         new CliOption(CodegenConstants.PACKAGE_NAME,
@@ -260,7 +267,8 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                                 "Rust crate version."),
                         optDisableValidator,
                         optAllowBlockingValidator,
-                        optAllowBlockingResponseSerialize
+                        optAllowBlockingResponseSerialize,
+                        optBoxRecursiveModels
                 )
         );
 
@@ -358,6 +366,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             ownedRequest = convertPropertyToBooleanAndWriteBack("ownedRequest");
         } else {
             additionalProperties.put("ownedRequest", ownedRequest);
+        }
+
+        if (additionalProperties.containsKey("boxRecursiveModels")) {
+            boxRecursiveModels = convertPropertyToBooleanAndWriteBack("boxRecursiveModels");
+        } else {
+            additionalProperties.put("boxRecursiveModels", boxRecursiveModels);
         }
     }
 
@@ -1407,6 +1421,20 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        final CodegenModel model = super.fromModel(name, schema);
+        // Only explicit false closes an object; an omitted keyword must retain its current behavior.
+        final Object additionalProperties = schema.getAdditionalProperties();
+        final boolean denyUnknownFields = Boolean.FALSE.equals(additionalProperties)
+                || (additionalProperties instanceof Schema
+                && Boolean.FALSE.equals(((Schema) additionalProperties).getBooleanSchemaValue()));
+        if (denyUnknownFields) {
+            model.vendorExtensions.put("x-rust-deny-unknown-fields", true);
+        }
+        return model;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap modelsMap) {
         for (ModelMap mo : modelsMap.getModels()) {
             CodegenModel cm = mo.getModel();
@@ -1435,6 +1463,70 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             cm.vendorExtensions.put("x-is-string", stringType.equals(cm.dataType));
         }
         return super.postProcessModelsEnum(modelsMap);
+    }
+
+    @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        objs = super.postProcessAllModels(objs);
+        if (!boxRecursiveModels) {
+            return objs;
+        }
+
+        // Model fields that lead back to their own model (directly or through other models)
+        // would make the struct infinitely sized, so they are boxed.
+        final Map<String, CodegenModel> models = new HashMap<>();
+        for (ModelsMap modelsMap : objs.values()) {
+            for (ModelMap mo : modelsMap.getModels()) {
+                models.put(mo.getModel().classname, mo.getModel());
+            }
+        }
+
+        for (CodegenModel cm : models.values()) {
+            for (CodegenProperty var : cm.vars) {
+                final String target = directModelReference(var);
+                if (target != null && reachesModel(target, cm.classname, models, new HashSet<>())) {
+                    var.vendorExtensions.put("x-is-boxed", true);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    /**
+     * Returns the name of the model a property holds inline (i.e. not inside a container), or null.
+     */
+    private static String directModelReference(CodegenProperty property) {
+        if (property.isContainer || !property.dataType.startsWith("models::")) {
+            return null;
+        }
+        return property.dataType.substring("models::".length());
+    }
+
+    private static boolean reachesModel(String from, String to, Map<String, CodegenModel> models, Set<String> visited) {
+        if (from.equals(to)) {
+            return true;
+        }
+        final CodegenModel cm = models.get(from);
+        if (cm == null || !visited.add(from)) {
+            return false;
+        }
+        // oneOf/anyOf models are enums that hold their variants inline
+        final List<CodegenProperty> fields = new ArrayList<>(cm.vars);
+        final CodegenComposedSchemas cs = cm.getComposedSchemas();
+        if (cs != null && cs.getOneOf() != null) {
+            fields.addAll(cs.getOneOf());
+        }
+        if (cs != null && cs.getAnyOf() != null) {
+            fields.addAll(cs.getAnyOf());
+        }
+        for (CodegenProperty var : fields) {
+            final String target = directModelReference(var);
+            if (target != null && reachesModel(target, to, models, visited)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

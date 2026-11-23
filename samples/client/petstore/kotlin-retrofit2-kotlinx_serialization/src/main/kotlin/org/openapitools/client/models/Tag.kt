@@ -32,8 +32,8 @@ import java.io.Serializable
 /**
  * A tag for a pet
  *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 @KSerializable
 

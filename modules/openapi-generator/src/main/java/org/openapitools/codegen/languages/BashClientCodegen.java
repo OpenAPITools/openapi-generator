@@ -383,11 +383,6 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         return toModelName(name);
     }
 
-    @Override
-    public String toApiDocFilename(String name) {
-        return toApiName(name);
-    }
-
     /**
      * Optional - type declaration. This is a String which is used by the
      * templates to instantiate your types. There is typically special handling

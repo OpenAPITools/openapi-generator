@@ -27,10 +27,8 @@ package org.openapitools.client.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * 
- *
  * @param id Query
- * @param outcomes 
+ * @param outcomes
  */
 
 
@@ -46,8 +44,6 @@ data class ApiQuery (
 ) {
 
     /**
-     * 
-     *
      * Values: SUCCESS,FAILURE,SKIPPED
      */
     enum class Outcomes(val value: kotlin.String) {

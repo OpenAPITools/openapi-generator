@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import static org.openapitools.codegen.utils.ModelUtils.isEnum;
+
 /**
  * Scans one OAS 3.1 schema surface into the validation facts consumed by
  * composition lowering and schema-IR emission.
@@ -72,7 +74,7 @@ final class Oas31SchemaSurfaceAssertionScanner {
                 // x-oas31-empty-enum vendor extension; the marker is treated as
                 // an empty enum here (a real, non-empty enum takes precedence).
                 String pristineEnumJson = Oas31RawSpecRecovery.enumJsonOf(surface);
-                if (surface.getEnum() != null
+                if (isEnum(surface)
                         || Oas31RawSpecRecovery.isEmptyEnumMarked(surface)
                         || pristineEnumJson != null) {
                     supported.add("enum");

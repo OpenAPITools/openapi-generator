@@ -1,0 +1,15 @@
+generatorName: spring
+outputDir: samples/openapi3/server/petstore/spring-boot-4-records
+inputSpec: modules/openapi-generator/src/test/resources/3_0/spring/records-additional-properties.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  groupId: org.openapitools.openapi3
+  documentationProvider: springdoc
+  artifactId: springboot-4-records
+  snapshotVersion: "true"
+  hideGenerationTimestamp: "true"
+  useSpringBoot4: true
+  useJackson3: true
+  openApiNullable: false
+  useRecords: true
+  generateBuilders: true

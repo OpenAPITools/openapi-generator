@@ -1,24 +1,20 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.Objects;
+import org.springframework.lang.Nullable;
 
 /**
  * Capitalization
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class Capitalization {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -48,7 +44,6 @@ public class Capitalization {
    * Get smallCamel
    * @return smallCamel
    */
-  
   @JsonProperty("smallCamel")
   public @Nullable String getSmallCamel() {
     return smallCamel;
@@ -68,7 +63,6 @@ public class Capitalization {
    * Get capitalCamel
    * @return capitalCamel
    */
-  
   @JsonProperty("CapitalCamel")
   public @Nullable String getCapitalCamel() {
     return capitalCamel;
@@ -88,7 +82,6 @@ public class Capitalization {
    * Get smallSnake
    * @return smallSnake
    */
-  
   @JsonProperty("small_Snake")
   public @Nullable String getSmallSnake() {
     return smallSnake;
@@ -108,7 +101,6 @@ public class Capitalization {
    * Get capitalSnake
    * @return capitalSnake
    */
-  
   @JsonProperty("Capital_Snake")
   public @Nullable String getCapitalSnake() {
     return capitalSnake;
@@ -128,7 +120,6 @@ public class Capitalization {
    * Get scAETHFlowPoints
    * @return scAETHFlowPoints
    */
-  
   @JsonProperty("SCA_ETH_Flow_Points")
   public @Nullable String getScAETHFlowPoints() {
     return scAETHFlowPoints;
@@ -148,7 +139,6 @@ public class Capitalization {
    * Name of the pet 
    * @return ATT_NAME
    */
-  
   @JsonProperty("ATT_NAME")
   public @Nullable String getATTNAME() {
     return ATT_NAME;

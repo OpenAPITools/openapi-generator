@@ -1,29 +1,25 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
+import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * ContainerDefaultValue
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class ContainerDefaultValue {
 
   private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
@@ -65,7 +61,6 @@ public class ContainerDefaultValue {
    * Get nullableArray
    * @return nullableArray
    */
-  
   @JsonProperty("nullable_array")
   public JsonNullable<List<String>> getNullableArray() {
     return nullableArray;
@@ -92,7 +87,6 @@ public class ContainerDefaultValue {
    * Get nullableRequiredArray
    * @return nullableRequiredArray
    */
-  /* @Present */
   @JsonProperty("nullable_required_array")
   public JsonNullable<List<String>> getNullableRequiredArray() {
     return nullableRequiredArray;
@@ -120,7 +114,6 @@ public class ContainerDefaultValue {
    * Get requiredArray
    * @return requiredArray
    */
-  @NotNull
   @JsonProperty("required_array")
   public List<String> getRequiredArray() {
     return requiredArray;
@@ -148,7 +141,6 @@ public class ContainerDefaultValue {
    * Get nullableArrayWithDefault
    * @return nullableArrayWithDefault
    */
-  
   @JsonProperty("nullable_array_with_default")
   public JsonNullable<List<String>> getNullableArrayWithDefault() {
     return nullableArrayWithDefault;

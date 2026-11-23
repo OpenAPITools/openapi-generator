@@ -2,18 +2,18 @@
 format: email
 }}{{#isEmail}}
     @get:Email{{/isEmail}}{{!
-pattern set
-}}{{#pattern}}
-    @get:Pattern(regexp="{{{pattern}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}){{/pattern}}{{!
-minLength && maxLength set
-}}{{#minLength}}{{#maxLength}}
-    @get:Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
+pattern set; UUID, URI, date, date-time, file, and byte-array types are not supported by Bean Validation @Pattern
+}}{{#pattern}}{{^isUuid}}{{^isUri}}{{^isDate}}{{^isDateTime}}{{^isFile}}{{^isByteArray}}
+    @get:Pattern(regexp="{{{pattern}}}"{{#vendorExtensions.x-pattern-message}}, message="{{vendorExtensions.x-pattern-message}}"{{/vendorExtensions.x-pattern-message}}){{/isByteArray}}{{/isFile}}{{/isDateTime}}{{/isDate}}{{/isUri}}{{/isUuid}}{{/pattern}}{{!
+String-length constraints are skipped for UUID, URI, date, date-time, file, and byte-array properties
+}}{{#minLength}}{{#maxLength}}{{^isUuid}}{{^isUri}}{{^isDate}}{{^isDateTime}}{{^isFile}}{{^isByteArray}}
+    @get:Size(min={{minLength}},max={{maxLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/isByteArray}}{{/isFile}}{{/isDateTime}}{{/isDate}}{{/isUri}}{{/isUuid}}{{/maxLength}}{{/minLength}}{{!
 minLength set, maxLength not
-}}{{#minLength}}{{^maxLength}}
-    @get:Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
+}}{{#minLength}}{{^maxLength}}{{^isUuid}}{{^isUri}}{{^isDate}}{{^isDateTime}}{{^isFile}}{{^isByteArray}}
+    @get:Size(min={{minLength}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/isByteArray}}{{/isFile}}{{/isDateTime}}{{/isDate}}{{/isUri}}{{/isUuid}}{{/maxLength}}{{/minLength}}{{!
 minLength not set, maxLength set
-}}{{^minLength}}{{#maxLength}}
-    @get:Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/maxLength}}{{/minLength}}{{!
+}}{{^minLength}}{{#maxLength}}{{^isUuid}}{{^isUri}}{{^isDate}}{{^isDateTime}}{{^isFile}}{{^isByteArray}}
+    @get:Size(max={{.}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}){{/isByteArray}}{{/isFile}}{{/isDateTime}}{{/isDate}}{{/isUri}}{{/isUuid}}{{/maxLength}}{{/minLength}}{{!
 @Size: minItems && maxItems set
 }}{{#minItems}}{{#maxItems}}
     @get:Size(min={{minItems}},max={{maxItems}}{{#vendorExtensions.x-size-message}}, message="{{vendorExtensions.x-size-message}}"{{/vendorExtensions.x-size-message}}) {{/maxItems}}{{/minItems}}{{!

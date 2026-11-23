@@ -257,7 +257,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -277,16 +277,6 @@ namespace Org.OpenAPITools.Model
         {
             OnCreated();
         }
-
-        /// <summary>
-        /// The format to use to serialize DateProp
-        /// </summary>
-        public string DatePropFormat { get; private set; } = "yyyy'-'MM'-'dd";
-
-        /// <summary>
-        /// The format to use to serialize DatetimeProp
-        /// </summary>
-        public string DatetimePropFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="NullableClass" />
@@ -441,13 +431,19 @@ namespace Org.OpenAPITools.Model
 
             if (nullableClass.DatePropOption.IsSet)
                 if (nullableClass.DatePropOption.Value != null)
-                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value!.Value.ToString(DatePropFormat));
+                    {
+                            writer.WritePropertyName("date_prop");
+                                JsonSerializer.Serialize(writer, nullableClass.DatePropOption.Value!.Value, jsonSerializerOptions);
+                            }
                 else
                     writer.WriteNull("date_prop");
 
             if (nullableClass.DatetimePropOption.IsSet)
                 if (nullableClass.DatetimePropOption.Value != null)
-                    writer.WriteString("datetime_prop", nullableClass.DatetimePropOption.Value!.Value.ToString(DatetimePropFormat));
+                    {
+                            writer.WritePropertyName("datetime_prop");
+                                JsonSerializer.Serialize(writer, nullableClass.DatetimePropOption.Value!.Value, jsonSerializerOptions);
+                            }
                 else
                     writer.WriteNull("datetime_prop");
 

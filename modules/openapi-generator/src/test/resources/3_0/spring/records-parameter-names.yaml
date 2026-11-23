@@ -1,0 +1,157 @@
+openapi: 3.0.3
+info:
+  title: Record parameter objects and their names
+  version: 1.0.0
+paths:
+  /names:
+    get:
+      operationId: names
+      parameters:
+        - name: q
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/PoNames'
+      responses:
+        '200':
+          description: ok
+  /nested:
+    get:
+      operationId: nested
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/PoOuter'
+      responses:
+        '200':
+          description: ok
+  /dual:
+    post:
+      operationId: dual
+      parameters:
+        - name: q
+          in: query
+          schema:
+            $ref: '#/components/schemas/Dual'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dual'
+      responses:
+        '200':
+          description: ok
+  /converted/{pathModel}:
+    get:
+      operationId: converted
+      parameters:
+        - name: items
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/LItem'
+        - name: header
+          in: header
+          schema:
+            $ref: '#/components/schemas/LHeader'
+        - name: cookie
+          in: cookie
+          schema:
+            $ref: '#/components/schemas/LCookie'
+        - name: pathModel
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/LPath'
+      responses:
+        '200':
+          description: ok
+  /body:
+    post:
+      operationId: body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyOnly'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    PoNames:
+      type: object
+      properties:
+        class:
+          type: string
+        default:
+          type: string
+        my-name:
+          type: string
+        a.b:
+          type: string
+        1st:
+          type: string
+        x[y]:
+          type: string
+        _under:
+          type: string
+        plain:
+          type: string
+        userId:
+          type: string
+    PoOuter:
+      type: object
+      properties:
+        plain:
+          type: string
+        inner:
+          $ref: '#/components/schemas/PoInner'
+    PoInner:
+      type: object
+      properties:
+        sort-order:
+          type: string
+        limit:
+          type: integer
+          default: 10
+    Dual:
+      type: object
+      properties:
+        sort-order:
+          type: string
+    LItem:
+      type: object
+      properties:
+        item-name:
+          type: string
+    LHeader:
+      type: object
+      properties:
+        header-name:
+          type: string
+    LCookie:
+      type: object
+      properties:
+        cookie-name:
+          type: string
+    LPath:
+      type: object
+      properties:
+        path-name:
+          type: string
+    BodyOnly:
+      type: object
+      properties:
+        body-name:
+          type: string
+        sub:
+          $ref: '#/components/schemas/BodySub'
+    BodySub:
+      type: object
+      properties:
+        sub-name:
+          type: string

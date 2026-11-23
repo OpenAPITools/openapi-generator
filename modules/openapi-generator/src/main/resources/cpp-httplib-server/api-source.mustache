@@ -3,7 +3,8 @@
 // System headers
 #include <algorithm>
 #include <cctype>
-#include <locale>{{#operations}}{{#operation}}{{#vendorExtensions}}{{#hasAnyRequestSchema}}{{#hasArrayParams}}{{#-first}}
+#include <locale>
+#include <nlohmann/json.hpp>{{#operations}}{{#operation}}{{#vendorExtensions}}{{#hasAnyRequestSchema}}{{#hasArrayParams}}{{#-first}}
 #include <sstream>{{/-first}}{{/hasArrayParams}}{{/hasAnyRequestSchema}}{{/vendorExtensions}}{{/operation}}{{/operations}}
 
 // Project headers
@@ -16,8 +17,10 @@ constexpr int {{constName}} = {{statusCode}};
 
 namespace {{apiNamespace}} {
 
+{{#hasModelsUsed}}
 using namespace {{modelNamespace}};
 
+{{/hasModelsUsed}}
 {{#operations}}
 {{#operation}}
 {{#vendorExtensions}}

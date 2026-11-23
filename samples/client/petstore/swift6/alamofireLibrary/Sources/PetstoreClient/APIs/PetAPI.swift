@@ -428,7 +428,7 @@ open class PetAPI {
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
             "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
-            "file": file?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "file": file,
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
@@ -488,7 +488,7 @@ open class PetAPI {
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableFormParams: [String: (any Sendable)?] = [
             "additionalMetadata": additionalMetadata?.asParameter(codableHelper: apiConfiguration.codableHelper),
-            "requiredFile": requiredFile.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "requiredFile": requiredFile,
         ]
 
         let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)

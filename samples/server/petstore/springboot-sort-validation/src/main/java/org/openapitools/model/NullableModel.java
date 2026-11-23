@@ -1,29 +1,26 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import java.util.Arrays;
-import org.openapitools.jackson.nullable.JsonNullable;
-import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.io.Serializable;
-import java.time.OffsetDateTime;
+import jakarta.annotation.Generated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-
-
+import java.io.Serializable;
+import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.*;
-import jakarta.annotation.Generated;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
+import java.util.Objects;
+import org.openapitools.jackson.nullable.JsonNullable;
+import org.springframework.lang.Nullable;
 
 /**
  * NullableModel
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class NullableModel implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -80,7 +77,7 @@ public class NullableModel implements Serializable {
    * Get requiredNullable
    * @return requiredNullable
    */
-  /* @Present */ 
+  
   @JsonProperty("requiredNullable")
   public JsonNullable<String> getRequiredNullable() {
     return requiredNullable;

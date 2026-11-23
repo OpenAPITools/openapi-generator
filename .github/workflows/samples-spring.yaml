@@ -5,6 +5,7 @@ on:
     paths:
       # clients
       - 'samples/client/petstore/spring*/**'
+      - 'samples/openapi3/client/petstore/spring*/**'
       # servers
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'
@@ -12,6 +13,7 @@ on:
     paths:
       # clients
       - 'samples/client/petstore/spring*/**'
+      - 'samples/openapi3/client/petstore/spring*/**'
       # servers
       - 'samples/server/petstore/spring*/**'
       - 'samples/openapi3/server/petstore/spring*/**'

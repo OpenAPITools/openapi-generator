@@ -1,6 +1,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import jakarta.validation.Valid
 
 interface UserApiService {
 
@@ -22,7 +23,7 @@ interface UserApiService {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    fun createUsersWithArrayInput(user: kotlin.collections.List<User>): Unit
+    fun createUsersWithArrayInput(user: kotlin.collections.List<@Valid User>): Unit
 
     /**
      * POST /user/createWithList : Creates list of users with given input array
@@ -32,7 +33,7 @@ interface UserApiService {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    fun createUsersWithListInput(user: kotlin.collections.List<User>): Unit
+    fun createUsersWithListInput(user: kotlin.collections.List<@Valid User>): Unit
 
     /**
      * DELETE /user/{username} : Delete user

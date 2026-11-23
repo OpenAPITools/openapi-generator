@@ -1,35 +1,31 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.openapitools.model.CategoryDto;
 import org.openapitools.model.TagDto;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * PetDto
  */
 
 @JsonTypeName("Pet")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class PetDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -103,7 +99,6 @@ public class PetDto {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -123,7 +118,6 @@ public class PetDto {
    * Get category
    * @return category
    */
-  
   @JsonProperty("category")
   public @Nullable CategoryDto getCategory() {
     return category;
@@ -143,7 +137,6 @@ public class PetDto {
    * Get name
    * @return name
    */
-  @NotNull
   @JsonProperty("name")
   public String getName() {
     return name;
@@ -171,7 +164,6 @@ public class PetDto {
    * Get photoUrls
    * @return photoUrls
    */
-  @NotNull
   @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
@@ -200,7 +192,6 @@ public class PetDto {
    * Get tags
    * @return tags
    */
-  
   @JsonProperty("tags")
   public List<TagDto> getTags() {
     return tags;
@@ -221,7 +212,6 @@ public class PetDto {
    * @return status
    * @deprecated
    */
-  
   @Deprecated
   @JsonProperty("status")
   public @Nullable StatusEnum getStatus() {

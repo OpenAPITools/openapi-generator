@@ -191,7 +191,7 @@ public class RequiredAndNullable  {
   }
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(@Nullable Object o) {
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   }
 
@@ -221,7 +221,7 @@ public class RequiredAndNullable  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(Object o) {
+  private static String toIndentedString(@Nullable Object o) {
     return o == null ? "null" : o.toString().replace("\n", "\n    ");
   }
 }

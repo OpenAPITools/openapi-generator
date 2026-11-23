@@ -1,31 +1,27 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
+import jakarta.annotation.Generated;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.lang.Nullable;
-import java.util.NoSuchElementException;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * AdditionalPropertiesClass
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class AdditionalPropertiesClass {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -77,7 +73,6 @@ public class AdditionalPropertiesClass {
    * Get mapString
    * @return mapString
    */
-  
   @JsonProperty("map_string")
   public Map<String, String> getMapString() {
     return mapString;
@@ -105,7 +100,6 @@ public class AdditionalPropertiesClass {
    * Get mapNumber
    * @return mapNumber
    */
-  
   @JsonProperty("map_number")
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
@@ -133,7 +127,6 @@ public class AdditionalPropertiesClass {
    * Get mapInteger
    * @return mapInteger
    */
-  
   @JsonProperty("map_integer")
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
@@ -161,7 +154,6 @@ public class AdditionalPropertiesClass {
    * Get mapBoolean
    * @return mapBoolean
    */
-  
   @JsonProperty("map_boolean")
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
@@ -189,7 +181,6 @@ public class AdditionalPropertiesClass {
    * Get mapArrayInteger
    * @return mapArrayInteger
    */
-  
   @JsonProperty("map_array_integer")
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
@@ -217,7 +208,6 @@ public class AdditionalPropertiesClass {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
    */
-  
   @JsonProperty("map_array_anytype")
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
@@ -245,7 +235,6 @@ public class AdditionalPropertiesClass {
    * Get mapMapString
    * @return mapMapString
    */
-  
   @JsonProperty("map_map_string")
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
@@ -273,7 +262,6 @@ public class AdditionalPropertiesClass {
    * Get mapMapAnytype
    * @return mapMapAnytype
    */
-  
   @JsonProperty("map_map_anytype")
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
@@ -293,7 +281,6 @@ public class AdditionalPropertiesClass {
    * Get anytype1
    * @return anytype1
    */
-  
   @JsonProperty("anytype_1")
   public @Nullable Object getAnytype1() {
     return anytype1;
@@ -313,7 +300,6 @@ public class AdditionalPropertiesClass {
    * Get anytype2
    * @return anytype2
    */
-  
   @JsonProperty("anytype_2")
   public JsonNullable<Object> getAnytype2() {
     return anytype2;
@@ -332,7 +318,6 @@ public class AdditionalPropertiesClass {
    * Get anytype3
    * @return anytype3
    */
-  
   @JsonProperty("anytype_3")
   public @Nullable Object getAnytype3() {
     return anytype3;

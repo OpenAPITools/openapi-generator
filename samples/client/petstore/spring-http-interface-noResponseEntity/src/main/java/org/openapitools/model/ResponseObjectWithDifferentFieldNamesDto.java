@@ -1,26 +1,22 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.Objects;
+import org.springframework.lang.Nullable;
 
 /**
  * ResponseObjectWithDifferentFieldNamesDto
  */
 
 @JsonTypeName("ResponseObjectWithDifferentFieldNames")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class ResponseObjectWithDifferentFieldNamesDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -44,7 +40,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get normalPropertyName
    * @return normalPropertyName
    */
-  
   @JsonProperty("normalPropertyName")
   public @Nullable String getNormalPropertyName() {
     return normalPropertyName;
@@ -64,7 +59,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get UPPER_CASE_PROPERTY_SNAKE
    * @return UPPER_CASE_PROPERTY_SNAKE
    */
-  
   @JsonProperty("UPPER_CASE_PROPERTY_SNAKE")
   public @Nullable String getUPPERCASEPROPERTYSNAKE() {
     return UPPER_CASE_PROPERTY_SNAKE;
@@ -84,7 +78,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get lowerCasePropertyDashes
    * @return lowerCasePropertyDashes
    */
-  
   @JsonProperty("lower-case-property-dashes")
   public @Nullable String getLowerCasePropertyDashes() {
     return lowerCasePropertyDashes;
@@ -104,7 +97,6 @@ public class ResponseObjectWithDifferentFieldNamesDto {
    * Get propertyNameWithSpaces
    * @return propertyNameWithSpaces
    */
-  
   @JsonProperty("property name with spaces")
   public @Nullable String getPropertyNameWithSpaces() {
     return propertyNameWithSpaces;

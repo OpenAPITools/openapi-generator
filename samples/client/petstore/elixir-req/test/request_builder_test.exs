@@ -6,6 +6,21 @@ defmodule RequestBuilderTest do
   alias OpenapiPetstore.Model.Category
   import OpenapiPetstore.RequestBuilder
 
+  test "percent-encodes path parameter values as a single segment" do
+    assert encode_path_param("a/b?c#d% e") == "a%2Fb%3Fc%23d%25%20e"
+    assert encode_path_param("%2F") == "%252F"
+    assert encode_path_param("café") == "caf%C3%A9"
+    assert encode_path_param("AZaz09-._~") == "AZaz09-._~"
+    assert encode_path_param(42) == "42"
+  end
+
+  test "encodes dot segments and preserves dots in other values" do
+    assert encode_path_param(".") == "%2E"
+    assert encode_path_param("..") == "%2E%2E"
+    assert encode_path_param("...") == "..."
+    assert encode_path_param("file.txt") == "file.txt"
+  end
+
   defmodule BinaryBodyAdapter do
     def run(request) do
       send(Process.get(:request_builder_test_pid), {:request_body, request.body})

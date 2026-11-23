@@ -1,30 +1,26 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.annotation.Generated;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
-import jakarta.annotation.Generated;
 
 /**
  * XmlItemDto
  */
 
 @JsonTypeName("XmlItem")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class XmlItemDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -123,7 +119,6 @@ public class XmlItemDto {
    * Get attributeString
    * @return attributeString
    */
-  
   @JsonProperty("attribute_string")
   public @Nullable String getAttributeString() {
     return attributeString;
@@ -143,7 +138,6 @@ public class XmlItemDto {
    * Get attributeNumber
    * @return attributeNumber
    */
-  
   @JsonProperty("attribute_number")
   public @Nullable BigDecimal getAttributeNumber() {
     return attributeNumber;
@@ -163,7 +157,6 @@ public class XmlItemDto {
    * Get attributeInteger
    * @return attributeInteger
    */
-  
   @JsonProperty("attribute_integer")
   public @Nullable Integer getAttributeInteger() {
     return attributeInteger;
@@ -183,7 +176,6 @@ public class XmlItemDto {
    * Get attributeBoolean
    * @return attributeBoolean
    */
-  
   @JsonProperty("attribute_boolean")
   public @Nullable Boolean getAttributeBoolean() {
     return attributeBoolean;
@@ -211,7 +203,6 @@ public class XmlItemDto {
    * Get wrappedArray
    * @return wrappedArray
    */
-  
   @JsonProperty("wrapped_array")
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -231,7 +222,6 @@ public class XmlItemDto {
    * Get nameString
    * @return nameString
    */
-  
   @JsonProperty("name_string")
   public @Nullable String getNameString() {
     return nameString;
@@ -251,7 +241,6 @@ public class XmlItemDto {
    * Get nameNumber
    * @return nameNumber
    */
-  
   @JsonProperty("name_number")
   public @Nullable BigDecimal getNameNumber() {
     return nameNumber;
@@ -271,7 +260,6 @@ public class XmlItemDto {
    * Get nameInteger
    * @return nameInteger
    */
-  
   @JsonProperty("name_integer")
   public @Nullable Integer getNameInteger() {
     return nameInteger;
@@ -291,7 +279,6 @@ public class XmlItemDto {
    * Get nameBoolean
    * @return nameBoolean
    */
-  
   @JsonProperty("name_boolean")
   public @Nullable Boolean getNameBoolean() {
     return nameBoolean;
@@ -319,7 +306,6 @@ public class XmlItemDto {
    * Get nameArray
    * @return nameArray
    */
-  
   @JsonProperty("name_array")
   public List<Integer> getNameArray() {
     return nameArray;
@@ -347,7 +333,6 @@ public class XmlItemDto {
    * Get nameWrappedArray
    * @return nameWrappedArray
    */
-  
   @JsonProperty("name_wrapped_array")
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -367,7 +352,6 @@ public class XmlItemDto {
    * Get prefixString
    * @return prefixString
    */
-  
   @JsonProperty("prefix_string")
   public @Nullable String getPrefixString() {
     return prefixString;
@@ -387,7 +371,6 @@ public class XmlItemDto {
    * Get prefixNumber
    * @return prefixNumber
    */
-  
   @JsonProperty("prefix_number")
   public @Nullable BigDecimal getPrefixNumber() {
     return prefixNumber;
@@ -407,7 +390,6 @@ public class XmlItemDto {
    * Get prefixInteger
    * @return prefixInteger
    */
-  
   @JsonProperty("prefix_integer")
   public @Nullable Integer getPrefixInteger() {
     return prefixInteger;
@@ -427,7 +409,6 @@ public class XmlItemDto {
    * Get prefixBoolean
    * @return prefixBoolean
    */
-  
   @JsonProperty("prefix_boolean")
   public @Nullable Boolean getPrefixBoolean() {
     return prefixBoolean;
@@ -455,7 +436,6 @@ public class XmlItemDto {
    * Get prefixArray
    * @return prefixArray
    */
-  
   @JsonProperty("prefix_array")
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -483,7 +463,6 @@ public class XmlItemDto {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
    */
-  
   @JsonProperty("prefix_wrapped_array")
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -503,7 +482,6 @@ public class XmlItemDto {
    * Get namespaceString
    * @return namespaceString
    */
-  
   @JsonProperty("namespace_string")
   public @Nullable String getNamespaceString() {
     return namespaceString;
@@ -523,7 +501,6 @@ public class XmlItemDto {
    * Get namespaceNumber
    * @return namespaceNumber
    */
-  
   @JsonProperty("namespace_number")
   public @Nullable BigDecimal getNamespaceNumber() {
     return namespaceNumber;
@@ -543,7 +520,6 @@ public class XmlItemDto {
    * Get namespaceInteger
    * @return namespaceInteger
    */
-  
   @JsonProperty("namespace_integer")
   public @Nullable Integer getNamespaceInteger() {
     return namespaceInteger;
@@ -563,7 +539,6 @@ public class XmlItemDto {
    * Get namespaceBoolean
    * @return namespaceBoolean
    */
-  
   @JsonProperty("namespace_boolean")
   public @Nullable Boolean getNamespaceBoolean() {
     return namespaceBoolean;
@@ -591,7 +566,6 @@ public class XmlItemDto {
    * Get namespaceArray
    * @return namespaceArray
    */
-  
   @JsonProperty("namespace_array")
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -619,7 +593,6 @@ public class XmlItemDto {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
    */
-  
   @JsonProperty("namespace_wrapped_array")
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -639,7 +612,6 @@ public class XmlItemDto {
    * Get prefixNsString
    * @return prefixNsString
    */
-  
   @JsonProperty("prefix_ns_string")
   public @Nullable String getPrefixNsString() {
     return prefixNsString;
@@ -659,7 +631,6 @@ public class XmlItemDto {
    * Get prefixNsNumber
    * @return prefixNsNumber
    */
-  
   @JsonProperty("prefix_ns_number")
   public @Nullable BigDecimal getPrefixNsNumber() {
     return prefixNsNumber;
@@ -679,7 +650,6 @@ public class XmlItemDto {
    * Get prefixNsInteger
    * @return prefixNsInteger
    */
-  
   @JsonProperty("prefix_ns_integer")
   public @Nullable Integer getPrefixNsInteger() {
     return prefixNsInteger;
@@ -699,7 +669,6 @@ public class XmlItemDto {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
    */
-  
   @JsonProperty("prefix_ns_boolean")
   public @Nullable Boolean getPrefixNsBoolean() {
     return prefixNsBoolean;
@@ -727,7 +696,6 @@ public class XmlItemDto {
    * Get prefixNsArray
    * @return prefixNsArray
    */
-  
   @JsonProperty("prefix_ns_array")
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -755,7 +723,6 @@ public class XmlItemDto {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
    */
-  
   @JsonProperty("prefix_ns_wrapped_array")
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;

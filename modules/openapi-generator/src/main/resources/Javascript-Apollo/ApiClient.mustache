@@ -147,7 +147,7 @@ export default class ApiClient extends RESTDataSource {
             switch (auth.type) {
                 case 'basic':
                     if (auth.username || auth.password) {
-                        fetchOptions.headers['Authorization'] = 'Basic ' + base64.encode(auth.username + ":" + auth.password);
+                        fetchOptions.headers['Authorization'] = 'Basic ' + base64.encode((auth.username || "") + ":" + (auth.password || ""));
                     }
 
                     break;

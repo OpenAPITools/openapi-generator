@@ -29,8 +29,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * A category for a pet
  *
- * @param id 
- * @param name 
+ * @param id
+ * @param name
  */
 
 

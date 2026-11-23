@@ -179,7 +179,7 @@ export class {{classname}} {
 {{#isBasicBasic}}
         // http basic authentication required
         if (this.configuration.username || this.configuration.password) {
-            headerParams['Authorization'] = 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password);
+            headerParams['Authorization'] = 'Basic ' + btoa((this.configuration.username || '') + ':' + (this.configuration.password || ''));
         }
 
 {{/isBasicBasic}}

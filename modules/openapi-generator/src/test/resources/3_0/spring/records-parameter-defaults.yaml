@@ -1,0 +1,92 @@
+openapi: 3.0.3
+info:
+  title: Record parameter objects with a model component that has a default
+  version: 1.0.0
+paths:
+  /filled:
+    get:
+      operationId: filled
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/Holder'}}
+      responses:
+        '200': {description: ok}
+  /empty:
+    get:
+      operationId: empty
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/EmptyHolder'}}
+      responses:
+        '200': {description: ok}
+  /plain:
+    get:
+      operationId: plain
+      parameters:
+        - {name: q, in: query, schema: {$ref: '#/components/schemas/PlainHolder'}}
+      responses:
+        '200': {description: ok}
+  /body:
+    post:
+      operationId: body
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BodyHolder'
+      responses:
+        '200': {description: ok}
+components:
+  schemas:
+    Top:
+      type: object
+      properties:
+        k:
+          type: string
+        z:
+          type: string
+    EmptyTop:
+      type: object
+      properties:
+        k:
+          type: string
+        z:
+          type: string
+    BodyTop:
+      type: object
+      properties:
+        k:
+          type: string
+        z:
+          type: string
+    Plain:
+      type: object
+      properties:
+        k:
+          type: string
+    Holder:
+      type: object
+      properties:
+        top:
+          allOf:
+            - $ref: '#/components/schemas/Top'
+          default:
+            k: d
+    EmptyHolder:
+      type: object
+      properties:
+        top:
+          allOf:
+            - $ref: '#/components/schemas/EmptyTop'
+          default: {}
+    BodyHolder:
+      type: object
+      properties:
+        top:
+          allOf:
+            - $ref: '#/components/schemas/BodyTop'
+          default:
+            k: d
+    PlainHolder:
+      type: object
+      properties:
+        plain:
+          $ref: '#/components/schemas/Plain'

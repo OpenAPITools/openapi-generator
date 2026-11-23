@@ -19,6 +19,7 @@ package org.openapitools.codegen.go;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.GoClientCodegen;
@@ -113,12 +114,14 @@ public class GoClientCodegenTest {
         Assert.assertEquals(codegen.toModelFilename("AnimalTest"), "model_animal_test_");
         Assert.assertEquals(codegen.toModelFilename("AnimalFarm"), "model_animal_farm");
         Assert.assertEquals(codegen.toModelFilename("AnimalFarmTest"), "model_animal_farm_test_");
+        Assert.assertEquals(codegen.toModelFilename("MobileIos"), "model_mobile_ios_");
 
         // API names are generated from tag names
         Assert.assertEquals(codegen.toApiFilename("Animal"), "api_animal");
         Assert.assertEquals(codegen.toApiFilename("Animal Test"), "api_animal_test_");
         Assert.assertEquals(codegen.toApiFilename("Animal Farm"), "api_animal_farm");
         Assert.assertEquals(codegen.toApiFilename("Animal Farm Test"), "api_animal_farm_test_");
+        Assert.assertEquals(codegen.toApiFilename("Mobile Ios"), "api_mobile_ios_");
     }
 
     @Test
@@ -204,6 +207,65 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testOneOfEnumAndNullablePattern() throws IOException, InterruptedException {
+        File output = Files.createTempDirectory("go-oneof-enum-pattern").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("go")
+                    .setInputSpec("src/test/resources/3_1/go/oneof-enum-pattern.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_metadata.go"),
+                    "valueValidator.Validate", "nullableRegexp");
+            TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nested_union.go"),
+                    "valueValidator.Validate", "nullableRegexp");
+            try {
+                if (new ProcessBuilder("go", "version").start().waitFor() != 0) {
+                    return;
+                }
+            } catch (IOException ignored) {
+                return;
+            }
+            Files.copy(Paths.get("src/test/resources/3_1/go/oneof-enum-pattern_test.go"),
+                    Paths.get(output.getAbsolutePath(), "oneof-enum-pattern_test.go"));
+            Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestOneOf(EnumAndNullablePattern|NestedNullablePattern)$", ".")
+                    .directory(output).redirectErrorStream(true).start();
+            String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertEquals(goTest.waitFor(), 0, goOutput);
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test
+    public void testDiscriminatorNullablePattern() throws IOException, InterruptedException {
+        File output = Files.createTempDirectory("go-discriminator-pattern").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("go")
+                    .setInputSpec("src/test/resources/3_1/go/oneof-enum-pattern.yaml")
+                    .setOutputDir(output.getAbsolutePath())
+                    .addAdditionalProperty("useOneOfDiscriminatorLookup", true);
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+            try {
+                if (new ProcessBuilder("go", "version").start().waitFor() != 0) {
+                    return;
+                }
+            } catch (IOException ignored) {
+                return;
+            }
+            Files.copy(Paths.get("src/test/resources/3_1/go/oneof-discriminator-pattern_test.go"),
+                    Paths.get(output.getAbsolutePath(), "oneof-discriminator-pattern_test.go"));
+            Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestDiscriminatorNullablePattern$", ".")
+                    .directory(output).redirectErrorStream(true).start();
+            String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+            Assert.assertEquals(goTest.waitFor(), 0, goOutput);
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test
     public void testStringNotEnumValidation() throws IOException, InterruptedException {
         File output = Files.createTempDirectory("go-not-enum").toFile();
         output.deleteOnExit();
@@ -215,6 +277,10 @@ public class GoClientCodegenTest {
 
         new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
 
+        TestUtils.assertFileNotContains(Paths.get(output.getAbsolutePath(), "model_enum_null_union.go"),
+                "nullableRegexp", "valueValidator", "\"regexp\"");
+        TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_enum_null_union.go"),
+                "validator.Validate");
         TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_known.go"),
                 "if value != \"known\"",
                 "Kind json.RawMessage `json:\"kind\"`",
@@ -624,6 +690,28 @@ public class GoClientCodegenTest {
     }
 
     @Test
+    public void testGoModContainsTestifyWithoutOAuth2() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        // echo_api.yaml has no OAuth2 security scheme, so the generated go.mod
+        // used to miss the testify dependency required by the generated tests
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/echo_api.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
+                "github.com/stretchr/testify v1.10.0");
+        TestUtils.assertFileContains(Paths.get(output + "/go.sum"),
+                "github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=");
+    }
+
+    @Test
     public void testAdditionalPropertiesWithoutGoMod() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
@@ -710,6 +798,30 @@ public class GoClientCodegenTest {
         TestUtils.assertFileContains(docPath, "stringWithBackslash := \"C:\\\\path\\\\to\\\\file\"");
         // Verify that quotes are properly escaped in email parameter examples
         TestUtils.assertFileContains(docPath, "emailWithQuotes := \"test\\\"user@example.com\"");
+    }
+
+    @Test(description = "control characters and byte order marks in a pattern are written as escapes, because Go source can't hold them (#25263)")
+    public void testControlCharactersInPatternAreEscaped() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go")
+                .setInputSpec("src/test/resources/3_0/go/pattern-with-control-characters.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path model = Paths.get(output + "/model_test_model.go");
+        TestUtils.assertFileContains(model,
+                "validate:\"regexp=^[^\\\\x00-\\\\x1f\\\\x7f-\\\\x9f]+$\"",
+                "validate:\"regexp=^[^\\\\x{feff}]*$\"");
+        String content = Files.readString(model);
+        Assert.assertFalse(content.codePoints().anyMatch(c -> Character.isISOControl(c) && c != '\n' && c != '\t'),
+                "the generated model must not contain control characters other than newlines and tabs");
+        Assert.assertFalse(content.contains("\uFEFF"), "the generated model must not contain a byte order mark");
     }
 
     @Test(description = "generateUnmarshalJSON=false must also suppress the oneOf UnmarshalJSON so the generated code does not reference the validator import that is no longer added (#24053)")

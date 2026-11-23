@@ -1,0 +1,74 @@
+openapi: 3.0.3
+info:
+  title: Nested resources
+  version: 1.0.0
+paths:
+  /stables:
+    get:
+      operationId: listStables
+      responses:
+        '200':
+          description: OK
+  /stables/{stable}:
+    get:
+      operationId: getStable
+      parameters:
+        - name: stable
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /stables/{stable}/ponies/{pony}:
+    get:
+      operationId: getPony
+      parameters:
+        - name: stable
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pony
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /only/{only}/children/{child}:
+    get:
+      operationId: getChild
+      parameters:
+        - name: only
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: child
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /only/{only}/siblings/{sibling}:
+    get:
+      operationId: getSibling
+      parameters:
+        - name: only
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sibling
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK

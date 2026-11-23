@@ -1,26 +1,22 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.constraints.NotNull;
-
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.Objects;
+import org.springframework.lang.Nullable;
 
 /**
  * UserDto
  */
 
 @JsonTypeName("User")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.27.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class UserDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -56,7 +52,6 @@ public class UserDto {
    * Get id
    * @return id
    */
-  
   @JsonProperty("id")
   public @Nullable Long getId() {
     return id;
@@ -76,7 +71,6 @@ public class UserDto {
    * Get username
    * @return username
    */
-  
   @JsonProperty("username")
   public @Nullable String getUsername() {
     return username;
@@ -96,7 +90,6 @@ public class UserDto {
    * Get firstName
    * @return firstName
    */
-  
   @JsonProperty("firstName")
   public @Nullable String getFirstName() {
     return firstName;
@@ -116,7 +109,6 @@ public class UserDto {
    * Get lastName
    * @return lastName
    */
-  
   @JsonProperty("lastName")
   public @Nullable String getLastName() {
     return lastName;
@@ -136,7 +128,6 @@ public class UserDto {
    * Get email
    * @return email
    */
-  
   @JsonProperty("email")
   public @Nullable String getEmail() {
     return email;
@@ -156,7 +147,6 @@ public class UserDto {
    * Get password
    * @return password
    */
-  
   @JsonProperty("password")
   public @Nullable String getPassword() {
     return password;
@@ -176,7 +166,6 @@ public class UserDto {
    * Get phone
    * @return phone
    */
-  
   @JsonProperty("phone")
   public @Nullable String getPhone() {
     return phone;
@@ -196,7 +185,6 @@ public class UserDto {
    * User Status
    * @return userStatus
    */
-  
   @JsonProperty("userStatus")
   public @Nullable Integer getUserStatus() {
     return userStatus;
