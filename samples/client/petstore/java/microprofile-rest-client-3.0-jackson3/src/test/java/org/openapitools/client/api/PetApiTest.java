@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -13,10 +13,7 @@
 
 package org.openapitools.client.api;
 
-import java.io.File;
-import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
@@ -59,158 +56,7 @@ public class PetApiTest {
     public void addPetTest() {
         // TODO: test validations
         Pet pet = null;
-        //api.addPet(pet);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * Deletes a pet
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void deletePetTest() {
-        // TODO: test validations
-        Long petId = null;
-        String apiKey = null;
-        //api.deletePet(petId, apiKey);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * Finds Pets by status
-     *
-     * Multiple status values can be provided with comma separated strings
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void findPetsByStatusTest() {
-        // TODO: test validations
-        List<String> status = null;
-        //List<Pet> response = api.findPetsByStatus(status);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * Finds Pets by tags
-     *
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void findPetsByTagsTest() {
-        // TODO: test validations
-        Set<String> tags = null;
-        //Set<Pet> response = api.findPetsByTags(tags);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * Find pet by ID
-     *
-     * Returns a single pet
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void getPetByIdTest() {
-        // TODO: test validations
-        Long petId = null;
-        //Pet response = api.getPetById(petId);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * Update an existing pet
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void updatePetTest() {
-        // TODO: test validations
-        Pet pet = null;
-        //api.updatePet(pet);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * Updates a pet in the store with form data
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void updatePetWithFormTest() {
-        // TODO: test validations
-        Long petId = null;
-        String name = null;
-        String status = null;
-        //api.updatePetWithForm(petId, name, status);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * uploads an image
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void uploadFileTest() {
-        // TODO: test validations
-        Long petId = null;
-        String additionalMetadata = null;
-        File _file = null;
-        //ModelApiResponse response = api.uploadFile(petId, additionalMetadata, _file);
-        //Assertions.assertNotNull(response);
-
-
-    }
-    
-    /**
-     * uploads an image (required)
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void uploadFileWithRequiredFileTest() {
-        // TODO: test validations
-        Long petId = null;
-        File requiredFile = null;
-        String additionalMetadata = null;
-        //ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+        //Pet response = api.addPet(pet);
         //Assertions.assertNotNull(response);
 
 

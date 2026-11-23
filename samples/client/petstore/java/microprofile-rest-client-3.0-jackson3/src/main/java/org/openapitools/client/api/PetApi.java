@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -12,10 +12,7 @@
 
 package org.openapitools.client.api;
 
-import java.io.File;
-import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -35,13 +32,13 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 /**
  * OpenAPI Petstore
  *
- * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * <p>This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  */
 
 @RegisterRestClient(configKey="petstore")
 @RegisterProvider(ApiExceptionMapper.class)
-@Path("")
+@Path("/pet")
 public interface PetApi  {
 
     /**
@@ -51,98 +48,8 @@ public interface PetApi  {
      *
      */
     @POST
-    @Path("/pet")
+    
     @Consumes({ "application/json", "application/xml" })
-    void addPet(Pet pet) throws ApiException, ProcessingException;
-
-    /**
-     * Deletes a pet
-     *
-     * 
-     *
-     */
-    @DELETE
-    @Path("/pet/{petId}")
-    void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey) throws ApiException, ProcessingException;
-
-    /**
-     * Finds Pets by status
-     *
-     * Multiple status values can be provided with comma separated strings
-     *
-     */
-    @GET
-    @Path("/pet/findByStatus")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByStatus(@QueryParam("status") List<String> status) throws ApiException, ProcessingException;
-
-    /**
-     * Finds Pets by tags
-     *
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     *
-     * @deprecated
-     */
-    @Deprecated
-    @GET
-    @Path("/pet/findByTags")
-    @Produces({ "application/xml", "application/json" })
-    Set<Pet> findPetsByTags(@QueryParam("tags") Set<String> tags) throws ApiException, ProcessingException;
-
-    /**
-     * Find pet by ID
-     *
-     * Returns a single pet
-     *
-     */
-    @GET
-    @Path("/pet/{petId}")
-    @Produces({ "application/xml", "application/json" })
-    Pet getPetById(@PathParam("petId") Long petId) throws ApiException, ProcessingException;
-
-    /**
-     * Update an existing pet
-     *
-     * 
-     *
-     */
-    @PUT
-    @Path("/pet")
-    @Consumes({ "application/json", "application/xml" })
-    void updatePet(Pet pet) throws ApiException, ProcessingException;
-
-    /**
-     * Updates a pet in the store with form data
-     *
-     * 
-     *
-     */
-    @POST
-    @Path("/pet/{petId}")
-    @Consumes({ "application/x-www-form-urlencoded" })
-    void updatePetWithForm(@PathParam("petId") Long petId, @FormParam("name")  String name, @FormParam("status")  String status) throws ApiException, ProcessingException;
-
-    /**
-     * uploads an image
-     *
-     * 
-     *
-     */
-    @POST
-    @Path("/pet/{petId}/uploadImage")
-    @Consumes({ "multipart/form-data" })
-    @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@PathParam("petId") Long petId, @FormParam("additionalMetadata")  String additionalMetadata,  @FormParam("file") File _fileDetail) throws ApiException, ProcessingException;
-
-    /**
-     * uploads an image (required)
-     *
-     * 
-     *
-     */
-    @POST
-    @Path("/fake/{petId}/uploadImageWithRequiredFile")
-    @Consumes({ "multipart/form-data" })
-    @Produces({ "application/json" })
-    ModelApiResponse uploadFileWithRequiredFile(@PathParam("petId") Long petId,  @FormParam("requiredFile") File requiredFileDetail, @FormParam("additionalMetadata")  String additionalMetadata) throws ApiException, ProcessingException;
+    Pet addPet(Pet pet) throws ApiException, ProcessingException;
 }
