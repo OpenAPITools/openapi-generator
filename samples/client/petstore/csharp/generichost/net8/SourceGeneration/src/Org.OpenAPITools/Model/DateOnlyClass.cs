@@ -180,9 +180,9 @@ namespace Org.OpenAPITools.Model
 
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
                 {
-                            writer.WritePropertyName("dateOnlyProperty");
-                                JsonSerializer.Serialize(writer, dateOnlyClass.DateOnlyPropertyOption.Value!.Value, jsonSerializerOptions);
-                            }
+                    writer.WritePropertyName("dateOnlyProperty");
+                    JsonSerializer.Serialize(writer, dateOnlyClass.DateOnlyPropertyOption.Value!.Value, jsonSerializerOptions);
+                }
         }
     }
 }

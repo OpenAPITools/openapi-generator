@@ -2229,18 +2229,18 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property RequiredClass.NotrequiredNotnullableUuid to non-nullable JSON property 'notrequired_notnullable_uuid'.");
 
             {
-                        writer.WritePropertyName("required_not_nullable_date_prop");
-                            JsonSerializer.Serialize(writer, requiredClass.RequiredNotNullableDateProp, jsonSerializerOptions);
-                        }
+                writer.WritePropertyName("required_not_nullable_date_prop");
+                JsonSerializer.Serialize(writer, requiredClass.RequiredNotNullableDateProp, jsonSerializerOptions);
+            }
 
             writer.WritePropertyName("required_notnullable_array_of_string");
             JsonSerializer.Serialize(writer, requiredClass.RequiredNotnullableArrayOfString, jsonSerializerOptions);
             writer.WriteBoolean("required_notnullable_boolean_prop", requiredClass.RequiredNotnullableBooleanProp);
 
             {
-                        writer.WritePropertyName("required_notnullable_datetime_prop");
-                            JsonSerializer.Serialize(writer, requiredClass.RequiredNotnullableDatetimeProp, jsonSerializerOptions);
-                        }
+                writer.WritePropertyName("required_notnullable_datetime_prop");
+                JsonSerializer.Serialize(writer, requiredClass.RequiredNotnullableDatetimeProp, jsonSerializerOptions);
+            }
 
             writer.WriteNumber("required_notnullable_enum_integer", RequiredClass.RequiredNotnullableEnumIntegerEnumToJsonValue(requiredClass.RequiredNotnullableEnumInteger));
 
@@ -2259,19 +2259,19 @@ namespace Org.OpenAPITools.Model
 
             if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet)
                 {
-                            writer.WritePropertyName("not_required_notnullable_date_prop");
-                                JsonSerializer.Serialize(writer, requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                    writer.WritePropertyName("not_required_notnullable_date_prop");
+                    JsonSerializer.Serialize(writer, requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value, jsonSerializerOptions);
+                }
 
             if (requiredClass.NotRequiredNotnullableintegerPropOption.IsSet)
                 writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerPropOption.Value!.Value);
 
             if (requiredClass.NotRequiredNullableDatePropOption.IsSet)
                 if (requiredClass.NotRequiredNullableDatePropOption.Value != null)
-                    {
-                            writer.WritePropertyName("not_required_nullable_date_prop");
-                                JsonSerializer.Serialize(writer, requiredClass.NotRequiredNullableDatePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                {
+                    writer.WritePropertyName("not_required_nullable_date_prop");
+                    JsonSerializer.Serialize(writer, requiredClass.NotRequiredNullableDatePropOption.Value!.Value, jsonSerializerOptions);
+                }
                 else
                     writer.WriteNull("not_required_nullable_date_prop");
 
@@ -2291,9 +2291,9 @@ namespace Org.OpenAPITools.Model
 
             if (requiredClass.NotrequiredNotnullableDatetimePropOption.IsSet)
                 {
-                            writer.WritePropertyName("notrequired_notnullable_datetime_prop");
-                                JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                    writer.WritePropertyName("notrequired_notnullable_datetime_prop");
+                    JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value, jsonSerializerOptions);
+                }
 
             if (requiredClass.NotrequiredNotnullableEnumIntegerOption.IsSet)
                 writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value!.Value));
@@ -2333,10 +2333,10 @@ namespace Org.OpenAPITools.Model
 
             if (requiredClass.NotrequiredNullableDatetimePropOption.IsSet)
                 if (requiredClass.NotrequiredNullableDatetimePropOption.Value != null)
-                    {
-                            writer.WritePropertyName("notrequired_nullable_datetime_prop");
-                                JsonSerializer.Serialize(writer, requiredClass.NotrequiredNullableDatetimePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                {
+                    writer.WritePropertyName("notrequired_nullable_datetime_prop");
+                    JsonSerializer.Serialize(writer, requiredClass.NotrequiredNullableDatetimePropOption.Value!.Value, jsonSerializerOptions);
+                }
                 else
                     writer.WriteNull("notrequired_nullable_datetime_prop");
 
@@ -2396,18 +2396,18 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("required_nullable_boolean_prop");
 
             if (requiredClass.RequiredNullableDateProp != null)
-                {
-                        writer.WritePropertyName("required_nullable_date_prop");
-                            JsonSerializer.Serialize(writer, requiredClass.RequiredNullableDateProp.Value, jsonSerializerOptions);
-                        }
+            {
+                writer.WritePropertyName("required_nullable_date_prop");
+                JsonSerializer.Serialize(writer, requiredClass.RequiredNullableDateProp.Value, jsonSerializerOptions);
+            }
             else
                 writer.WriteNull("required_nullable_date_prop");
 
             if (requiredClass.RequiredNullableDatetimeProp != null)
-                {
-                        writer.WritePropertyName("required_nullable_datetime_prop");
-                            JsonSerializer.Serialize(writer, requiredClass.RequiredNullableDatetimeProp.Value, jsonSerializerOptions);
-                        }
+            {
+                writer.WritePropertyName("required_nullable_datetime_prop");
+                JsonSerializer.Serialize(writer, requiredClass.RequiredNullableDatetimeProp.Value, jsonSerializerOptions);
+            }
             else
                 writer.WriteNull("required_nullable_datetime_prop");
 

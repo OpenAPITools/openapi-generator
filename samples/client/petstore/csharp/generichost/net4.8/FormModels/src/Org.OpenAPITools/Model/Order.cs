@@ -320,9 +320,9 @@ namespace Org.OpenAPITools.Model
 
             if (order.ShipDateOption.IsSet)
                 {
-                            writer.WritePropertyName("shipDate");
-                                JsonSerializer.Serialize(writer, order.ShipDateOption.Value.Value, jsonSerializerOptions);
-                            }
+                    writer.WritePropertyName("shipDate");
+                    JsonSerializer.Serialize(writer, order.ShipDateOption.Value.Value, jsonSerializerOptions);
+                }
 
             if (order.StatusOption.IsSet)
             {

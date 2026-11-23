@@ -256,9 +256,9 @@ namespace Org.OpenAPITools.Model
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
                 {
-                            writer.WritePropertyName("dateTime");
-                                JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value, jsonSerializerOptions);
-                            }
+                    writer.WritePropertyName("dateTime");
+                    JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value, jsonSerializerOptions);
+                }
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
             {

@@ -1005,9 +1005,9 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);
             {
-                        writer.WritePropertyName("date");
-                            JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
-                        }
+                writer.WritePropertyName("date");
+                JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
+            }
 
             writer.WriteNumber("number", formatTest.Number);
 
@@ -1022,9 +1022,9 @@ namespace Org.OpenAPITools.Model
             }
             if (formatTest.DateTimeOption.IsSet)
                 {
-                            writer.WritePropertyName("dateTime");
-                                JsonSerializer.Serialize(writer, formatTest.DateTimeOption.Value!.Value, jsonSerializerOptions);
-                            }
+                    writer.WritePropertyName("dateTime");
+                    JsonSerializer.Serialize(writer, formatTest.DateTimeOption.Value!.Value, jsonSerializerOptions);
+                }
 
             if (formatTest.DecimalOption.IsSet)
             {

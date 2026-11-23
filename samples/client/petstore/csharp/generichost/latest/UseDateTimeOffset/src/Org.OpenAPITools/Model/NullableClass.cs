@@ -431,19 +431,19 @@ namespace Org.OpenAPITools.Model
 
             if (nullableClass.DatePropOption.IsSet)
                 if (nullableClass.DatePropOption.Value != null)
-                    {
-                            writer.WritePropertyName("date_prop");
-                                JsonSerializer.Serialize(writer, nullableClass.DatePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                {
+                    writer.WritePropertyName("date_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.DatePropOption.Value!.Value, jsonSerializerOptions);
+                }
                 else
                     writer.WriteNull("date_prop");
 
             if (nullableClass.DatetimePropOption.IsSet)
                 if (nullableClass.DatetimePropOption.Value != null)
-                    {
-                            writer.WritePropertyName("datetime_prop");
-                                JsonSerializer.Serialize(writer, nullableClass.DatetimePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                {
+                    writer.WritePropertyName("datetime_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.DatetimePropOption.Value!.Value, jsonSerializerOptions);
+                }
                 else
                     writer.WriteNull("datetime_prop");
 
