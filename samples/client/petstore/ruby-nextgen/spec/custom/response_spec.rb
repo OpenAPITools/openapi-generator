@@ -18,7 +18,30 @@ RSpec.describe Petstore::Response do
   it 'delegates to_hash when data supports it' do
     response = described_class.new(data: { a: 1 }, status: 200, headers: {})
     expect(response.respond_to?(:to_hash)).to be(true)
+    expect(response.respond_to?(:to_hash, true)).to be(true)
     expect(response.to_hash).to eq(a: 1)
+  end
+
+  it 'does not advertise to_hash when it is not public on data' do
+    guarded = Class.new do
+      def to_hash
+        { a: 1 }
+      end
+      protected :to_hash
+    end
+    hidden = Class.new do
+      def to_hash
+        { a: 1 }
+      end
+      private :to_hash
+    end
+
+    [guarded.new, hidden.new].each do |data|
+      response = described_class.new(data: data, status: 200, headers: {})
+      expect(response.respond_to?(:to_hash)).to be(false)
+      expect(response.respond_to?(:to_hash, true)).to be(false)
+      expect { response.to_hash }.to raise_error(NoMethodError)
+    end
   end
 
   it 'keeps to_h working regardless of the data type' do

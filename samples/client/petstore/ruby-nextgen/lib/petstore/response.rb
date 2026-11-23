@@ -26,7 +26,7 @@ module Petstore
     end
 
     def respond_to_missing?(name, include_private = false)
-      (name == :to_hash && data.respond_to?(:to_hash, include_private)) || super
+      (name == :to_hash && data.respond_to?(:to_hash)) || super
     end
 
     def deconstruct_keys(_keys)
