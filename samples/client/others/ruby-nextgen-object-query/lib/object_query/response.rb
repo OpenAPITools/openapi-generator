@@ -14,10 +14,19 @@ module ObjectQuery
       @headers = headers
     end
 
-    def_delegators :data, :[], :each, :map, :to_a, :to_hash, :dig
+    def_delegators :data, :[], :each, :map, :to_a, :dig
 
     def to_h
       data.respond_to?(:to_hash) ? data.to_hash : data
+    end
+
+    def method_missing(name, *args, &block)
+      return data.to_hash(*args, &block) if name == :to_hash && data.respond_to?(:to_hash)
+      super
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      (name == :to_hash && data.respond_to?(:to_hash)) || super
     end
 
     def deconstruct_keys(_keys)
