@@ -614,12 +614,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // phone_number => PhoneNumber
         String camelizedName = camelize(name);
 
-        // camelize drops a leading underscore (the inline-model resolver guards
-        // digit-leading names as "_3d_position" -> "3dPosition"), which can leave
-        // a name starting with a digit — not a valid PHP class name. Re-guard
-        // after camelization (e.g. Model3dPositionPosition).
+        // camelize drops every underscore, including the one the inline-model
+        // resolver puts in front of a digit-leading name ("_3d_position" ->
+        // "3dPosition"), which is not a valid PHP class name. Restore that guard
+        // rather than adding a "Model" prefix: toGenericName already maps
+        // "3d_position" to Model3dPosition, so a prefix would give two schemas
+        // the same class name.
         if (camelizedName.matches("^\\d.*")) {
-            camelizedName = "Model" + camelizedName;
+            camelizedName = "_" + camelizedName;
         }
 
         schemaKeyToModelNameCache.put(origName, camelizedName);

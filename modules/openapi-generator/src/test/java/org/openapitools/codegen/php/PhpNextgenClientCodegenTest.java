@@ -826,7 +826,7 @@ public class PhpNextgenClientCodegenTest {
         // The inline-model resolver guards digit-leading names with a leading
         // underscore ("3d-position" + "_position" -> "_3d_position_position"),
         // but camelize strips that underscore, re-exposing the digit.
-        Assert.assertEquals(codegen.toModelName("_3d_position_position"), "Model3dPositionPosition");
+        Assert.assertEquals(codegen.toModelName("_3d_position_position"), "_3dPositionPosition");
         Assert.assertEquals(codegen.toModelName("3d-position"), "Model3dPosition");
     }
 
@@ -846,10 +846,50 @@ public class PhpNextgenClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(input).generate();
 
-        java.nio.file.Path inlineModel = output.toPath().resolve("src/Model/Model3dPositionPosition.php");
+        java.nio.file.Path modelDir = output.toPath().resolve("src/Model");
+        java.nio.file.Path inlineModel = modelDir.resolve("_3dPositionPosition.php");
         TestUtils.assertFileExists(inlineModel);
-        TestUtils.assertFileContains(inlineModel, "class Model3dPositionPosition");
-        Assert.assertFalse(Files.exists(output.toPath().resolve("src/Model/3dPositionPosition.php")),
+        TestUtils.assertFileContains(inlineModel, "class _3dPositionPosition ");
+        // the type reference in the parent model resolves to the same class
+        TestUtils.assertFileContains(modelDir.resolve("Model3dPosition.php"),
+                "public function getPosition(): ?\\OpenAPI\\Client\\Model\\_3dPositionPosition");
+        Assert.assertFalse(Files.exists(modelDir.resolve("3dPositionPosition.php")),
                 "Digit-leading class file must not be generated");
+    }
+
+    @Test(description = "PR #25788: the re-guard must not take the class name of another schema")
+    public void testUnderscoreGuardedNameStaysDistinctFromModelPrefixedName() {
+        codegen.processOpts();
+
+        // toGenericName prefixes "3d_position" with "model_" -> Model3dPosition
+        Assert.assertEquals(codegen.toModelName("3d_position"), "Model3dPosition");
+        // "_3d_position" is only digit-leading once camelize drops the underscore.
+        // Re-guarding it with "Model" would give both schemas the same class.
+        Assert.assertEquals(codegen.toModelName("_3d_position"), "_3dPosition");
+    }
+
+    @Test(description = "PR #25788: schemas \"3d_position\" and \"_3d_position\" must get two distinct models")
+    public void testDigitLeadingModelsWithAndWithoutUnderscoreDoNotCollapse() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/php-nextgen/digit-leading-model-collision.yaml", null, new ParseOptions())
+                .getOpenAPI();
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        java.nio.file.Path modelDir = output.toPath().resolve("src/Model");
+        TestUtils.assertFileContains(modelDir.resolve("Model3dPosition.php"), "class Model3dPosition ");
+        TestUtils.assertFileContains(modelDir.resolve("_3dPosition.php"), "class _3dPosition ");
+        TestUtils.assertFileContains(modelDir.resolve("Holder.php"),
+                "public function getX(): ?\\OpenAPI\\Client\\Model\\Model3dPosition");
+        TestUtils.assertFileContains(modelDir.resolve("Holder.php"),
+                "public function getY(): ?\\OpenAPI\\Client\\Model\\_3dPosition");
     }
 }

@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: digitLeadingModelCollision
+  description: Two schemas whose names only differ by the underscore the inline-model resolver adds to digit-leading names
+  version: 1.0.0
+paths:
+  /:
+    get:
+      operationId: first
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/holder'
+components:
+  schemas:
+    3d_position:
+      type: object
+      properties:
+        a:
+          type: integer
+    _3d_position:
+      type: object
+      properties:
+        b:
+          type: integer
+    holder:
+      type: object
+      properties:
+        x:
+          $ref: '#/components/schemas/3d_position'
+        y:
+          $ref: '#/components/schemas/_3d_position'
