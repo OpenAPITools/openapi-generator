@@ -1620,7 +1620,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     private String getItemsStringBeanValidation(Schema<?> items) {
-        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items)
+                || ModelUtils.isDateSchema(items)
+                || ModelUtils.isDateTimeSchema(items)) {
             return "";
         }
         List<String> annotations = new ArrayList<>();
