@@ -54,6 +54,9 @@ RSpec.describe Petstore::Response do
     response = described_class.new(data: [1, 2], status: 200, headers: {})
     expect(response.map { |v| v * 2 }).to eq([2, 4])
     expect(response[0]).to eq(1)
-    expect(response.dig(1)).to eq(2)
+    expect(response[1]).to eq(2)
+
+    nested = described_class.new(data: [[1], [2, 3]], status: 200, headers: {})
+    expect(nested.dig(1, 0)).to eq(2)
   end
 end

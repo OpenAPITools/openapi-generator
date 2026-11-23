@@ -20,8 +20,9 @@ module Qdrant
       data.respond_to?(:to_hash) ? data.to_hash : data
     end
 
-    def method_missing(name, *args, &block)
-      return data.to_hash(*args, &block) if name == :to_hash && data.respond_to?(:to_hash)
+    def method_missing(name, ...)
+      return data.to_hash(...) if name == :to_hash && data.respond_to?(:to_hash)
+
       super
     end
 
