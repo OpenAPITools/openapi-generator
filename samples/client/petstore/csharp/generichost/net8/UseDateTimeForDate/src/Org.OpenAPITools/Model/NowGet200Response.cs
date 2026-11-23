@@ -196,16 +196,16 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property NowGet200Response.Today to non-nullable JSON property 'today'.");
 
             if (nowGet200Response.NowOption.IsSet)
-                {
-                    writer.WritePropertyName("now");
-                    JsonSerializer.Serialize(writer, nowGet200Response.NowOption.Value!.Value, jsonSerializerOptions);
-                }
+            {
+                writer.WritePropertyName("now");
+                JsonSerializer.Serialize(writer, nowGet200Response.NowOption.Value!.Value, jsonSerializerOptions);
+            }
 
             if (nowGet200Response.TodayOption.IsSet)
-                {
-                    writer.WritePropertyName("today");
-                    JsonSerializer.Serialize(writer, nowGet200Response.TodayOption.Value!.Value, jsonSerializerOptions);
-                }
+            {
+                writer.WritePropertyName("today");
+                JsonSerializer.Serialize(writer, nowGet200Response.TodayOption.Value!.Value, jsonSerializerOptions);
+            }
         }
     }
 }

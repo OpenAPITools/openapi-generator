@@ -1,0 +1,22 @@
+{{! A date serialization block starts at the guard's indentation. Single statements are indented one level further. }}
+{{#isDate}}
+{{^vendorExtensions.x-csharp-date-format}}
+{{#lambda.paste}}{{/lambda.paste}}
+{{/vendorExtensions.x-csharp-date-format}}
+{{#vendorExtensions.x-csharp-date-format}}
+    {{#lambda.paste}}{{/lambda.paste}}
+{{/vendorExtensions.x-csharp-date-format}}
+{{/isDate}}
+{{^isDate}}
+{{#isDateTime}}
+{{^vendorExtensions.x-csharp-datetime-format}}
+{{#lambda.paste}}{{/lambda.paste}}
+{{/vendorExtensions.x-csharp-datetime-format}}
+{{#vendorExtensions.x-csharp-datetime-format}}
+    {{#lambda.paste}}{{/lambda.paste}}
+{{/vendorExtensions.x-csharp-datetime-format}}
+{{/isDateTime}}
+{{^isDateTime}}
+    {{#lambda.paste}}{{/lambda.paste}}
+{{/isDateTime}}
+{{/isDate}}

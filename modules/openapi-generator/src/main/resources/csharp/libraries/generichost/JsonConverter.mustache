@@ -573,34 +573,36 @@
             {{/isNumeric}}
             {{/isEnum}}
             {{#isDate}}
-            {{#vendorExtensions.x-csharp-date-format}}
             {{#lambda.copyText}}
+            {{#vendorExtensions.x-csharp-date-format}}
             writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
-            {{/lambda.copyText}}
-            {{#lambda.indent3}}
-            {{>WriteProperty}}{{! prevent indent}}
-            {{/lambda.indent3}}
             {{/vendorExtensions.x-csharp-date-format}}
             {{^vendorExtensions.x-csharp-date-format}}
-            {{#lambda.indent3}}
-            {{>WriteDateProperty}}{{! prevent indent}}
-            {{/lambda.indent3}}
+{
+    writer.WritePropertyName("{{baseName}}");
+    JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}, jsonSerializerOptions);
+}
             {{/vendorExtensions.x-csharp-date-format}}
-            {{/isDate}}
-            {{#isDateTime}}
-            {{#vendorExtensions.x-csharp-datetime-format}}
-            {{#lambda.copyText}}
-            writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
             {{/lambda.copyText}}
             {{#lambda.indent3}}
             {{>WriteProperty}}{{! prevent indent}}
             {{/lambda.indent3}}
+            {{/isDate}}
+            {{#isDateTime}}
+            {{#lambda.copyText}}
+            {{#vendorExtensions.x-csharp-datetime-format}}
+            writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}.ToString({{name}}Format, global::System.Globalization.CultureInfo.InvariantCulture));
             {{/vendorExtensions.x-csharp-datetime-format}}
             {{^vendorExtensions.x-csharp-datetime-format}}
-            {{#lambda.indent3}}
-            {{>WriteDateProperty}}{{! prevent indent}}
-            {{/lambda.indent3}}
+{
+    writer.WritePropertyName("{{baseName}}");
+    JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}, jsonSerializerOptions);
+}
             {{/vendorExtensions.x-csharp-datetime-format}}
+            {{/lambda.copyText}}
+            {{#lambda.indent3}}
+            {{>WriteProperty}}{{! prevent indent}}
+            {{/lambda.indent3}}
             {{/isDateTime}}
             {{#isEnum}}
             {{#isNumeric}}

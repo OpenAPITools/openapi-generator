@@ -255,10 +255,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern to non-nullable JSON property 'uuid_with_pattern'.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                {
-                    writer.WritePropertyName("dateTime");
-                    JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value, jsonSerializerOptions);
-                }
+            {
+                writer.WritePropertyName("dateTime");
+                JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value, jsonSerializerOptions);
+            }
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
             {

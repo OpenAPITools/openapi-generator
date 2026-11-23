@@ -2258,10 +2258,10 @@ namespace Org.OpenAPITools.Model
             writer.WriteNumber("required_notnullableinteger_prop", requiredClass.RequiredNotnullableintegerProp);
 
             if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet)
-                {
-                    writer.WritePropertyName("not_required_notnullable_date_prop");
-                    JsonSerializer.Serialize(writer, requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value, jsonSerializerOptions);
-                }
+            {
+                writer.WritePropertyName("not_required_notnullable_date_prop");
+                JsonSerializer.Serialize(writer, requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value, jsonSerializerOptions);
+            }
 
             if (requiredClass.NotRequiredNotnullableintegerPropOption.IsSet)
                 writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerPropOption.Value!.Value);
@@ -2290,10 +2290,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteBoolean("notrequired_notnullable_boolean_prop", requiredClass.NotrequiredNotnullableBooleanPropOption.Value!.Value);
 
             if (requiredClass.NotrequiredNotnullableDatetimePropOption.IsSet)
-                {
-                    writer.WritePropertyName("notrequired_notnullable_datetime_prop");
-                    JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value, jsonSerializerOptions);
-                }
+            {
+                writer.WritePropertyName("notrequired_notnullable_datetime_prop");
+                JsonSerializer.Serialize(writer, requiredClass.NotrequiredNotnullableDatetimePropOption.Value!.Value, jsonSerializerOptions);
+            }
 
             if (requiredClass.NotrequiredNotnullableEnumIntegerOption.IsSet)
                 writer.WriteNumber("notrequired_notnullable_enum_integer", RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOption.Value!.Value));
