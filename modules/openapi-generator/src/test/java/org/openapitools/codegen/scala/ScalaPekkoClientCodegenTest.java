@@ -39,9 +39,13 @@ public class ScalaPekkoClientCodegenTest {
                 "val North = Value(\"north\")",
                 "object ByName extends Enumeration {",
                 "object MapOfEnum extends Enumeration {");
-        TestUtils.assertFileNotContains(holder, "Seq[Colors].Value", "object Seq[Colors]", "HolderEnums.Map[", "Inner");
+        TestUtils.assertFileNotContains(holder, "Seq[Colors].Value", "object Seq[Colors]", "HolderEnums.Map[", "HolderEnums.Inner");
 
         Path serializers = output.toPath().resolve("src/main/scala/org/openapitools/client/api/EnumsSerializers.scala");
-        TestUtils.assertFileContains(serializers, "new EnumNameSerializer(HolderEnums.Colors)");
+        TestUtils.assertFileContains(serializers,
+                "new EnumNameSerializer(HolderEnums.Colors)",
+                "new EnumNameSerializer(HolderEnums.Grid)",
+                "new EnumNameSerializer(HolderEnums.ByName)",
+                "new EnumNameSerializer(HolderEnums.MapOfEnum)");
     }
 }
