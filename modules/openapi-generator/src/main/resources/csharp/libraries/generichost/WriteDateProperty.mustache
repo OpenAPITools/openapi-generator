@@ -1,0 +1,14 @@
+{{^required}}
+if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet)
+{{/required}}
+{{#isNullable}}
+{{^required}}    {{/required}}if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null)
+{{/isNullable}}
+{{^required}}    {{/required}}{
+{{^required}}    {{/required}}    writer.WritePropertyName("{{baseName}}");
+{{^required}}    {{/required}}    JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{#vendorExtensions.x-is-value-type}}{{nrt!}}.Value{{/vendorExtensions.x-is-value-type}}{{/required}}{{#required}}{{#isNullable}}.Value{{/isNullable}}{{/required}}, jsonSerializerOptions);
+{{^required}}    {{/required}}}
+{{#isNullable}}
+{{^required}}    {{/required}}else
+{{^required}}    {{/required}}    writer.WriteNull("{{baseName}}");
+{{/isNullable}}
