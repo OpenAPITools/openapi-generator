@@ -32,7 +32,7 @@ public class TypeScriptFetchClientOptionsProvider implements TypeScriptSharedCli
     public static final String STRING_ENUMS = "false";
     public static final String FILE_NAMING_VALUE = PASCAL_CASE;
     public static final String DATE_LIBRARY_VALUE = TypeScriptFetchClientCodegen.DATE_LIBRARY_STRING;
-    public static final String DATE_ANCHOR_VALUE = TypeScriptFetchClientCodegen.DATE_ANCHOR_UTC;
+    public static final String DATE_ANCHOR_VALUE = TypeScriptFetchClientCodegen.DATE_ANCHOR_LOCAL;
 
 
     @Override
