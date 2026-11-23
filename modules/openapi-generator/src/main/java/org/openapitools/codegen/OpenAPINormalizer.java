@@ -1033,6 +1033,14 @@ public class OpenAPINormalizer {
                     schema.setType(String.valueOf(schema.getTypes().iterator().next()));
                 }
             }
+            if (getRule(NORMALIZE_31SPEC) && schema.getTypes() != null && schema.getTypes().size() > 1) {
+                // OAS 3.1: an explicit type union (e.g. `type: [object, array]`) is rewritten to anyOf
+                // (in place) before the properties are processed, so that `properties`/`required`
+                // travel with the object branch instead of hiding the other types behind an
+                // object-only model. Unlike the implied-object case above, the schema is explicitly
+                // typed, so processNormalize31Spec cannot replace it with an empty schema here.
+                processNormalize31Spec(schema, visitedSchemas);
+            }
             normalizeProperties(schema, visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             Schema result = normalizeMapSchema(schema);
@@ -2331,6 +2339,7 @@ public class OpenAPINormalizer {
             // convert to anyOf and keep all other attributes (e.g. nullable, description)
             // the same. No need to handle null as it should have been removed at this point.
             boolean allTypesConverted = true;
+            boolean containerTypeConverted = false;
             for (Object type : schema.getTypes()) {
                 switch (String.valueOf(type)) {
                     case "string":
@@ -2348,11 +2357,13 @@ public class OpenAPINormalizer {
                     case "array":
                         schema.addAnyOfItem(build31ArraySchema(schema, visitedSchemas));
                         schema.setItems(null);
+                        containerTypeConverted = true;
                         break;
                     case "object":
                         schema.addAnyOfItem(build31ObjectSchema(schema, visitedSchemas));
                         schema.setProperties(null);
                         schema.setAdditionalProperties(null);
+                        containerTypeConverted = true;
                         break;
                     default:
                         allTypesConverted = false;
@@ -2360,7 +2371,11 @@ public class OpenAPINormalizer {
                         LOGGER.error("Please report the issue via https://github.com/OpenAPITools/openapi-generator/issues/new/.");
                 }
             }
-            if (allTypesConverted) {
+            if (allTypesConverted && containerTypeConverted) {
+                // `items`/`properties`/… now live in the anyOf branches, so the type list no longer
+                // describes this schema: drop it, otherwise generators resolving the first type
+                // (e.g. Java) turn the union back into an array-only or object-only model.
+                // A union of primitive types is not rewritten, so it keeps its type list next to the anyOf.
                 schema.setTypes(null);
             }
         }
@@ -2417,8 +2432,8 @@ public class OpenAPINormalizer {
 
     /**
      * Builds an OAS 3.0 style object schema out of an OAS 3.1 schema which defines
-     * the object type (as part of its type array), moving `properties` and
-     * `additionalProperties` into the resulting schema.
+     * the object type (as part of its type array), moving `properties`, `required`
+     * and `additionalProperties` into the resulting schema.
      *
      * @param schema          Schema to convert
      * @param visitedSchemas  Set of visited schemas
@@ -2445,10 +2460,10 @@ public class OpenAPINormalizer {
         os.setReadOnly(schema.getReadOnly());
         os.setWriteOnly(schema.getWriteOnly());
         if (schema.getProperties() != null) {
-            Map<String, Schema> properties = schema.getProperties();
-            for (Map.Entry<String, Schema> entry : properties.entrySet()) {
-                os.addProperties(entry.getKey(), normalizeSchema(entry.getValue(), visitedSchemas));
-            }
+            // hand the properties over to the object branch and normalize them there, exactly
+            // as they would have been normalized on the schema itself
+            os.setProperties(schema.getProperties());
+            normalizeProperties(os, visitedSchemas);
         }
         if (schema.getAdditionalProperties() != null) {
             if (schema.getAdditionalProperties() instanceof Schema) {

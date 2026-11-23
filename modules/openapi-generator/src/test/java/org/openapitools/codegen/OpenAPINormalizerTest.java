@@ -789,6 +789,39 @@ public class OpenAPINormalizerTest {
         assertEquals(objOrArrayArray.getDescription(), "Related case from the issue.");
         assertEquals(objOrArrayArray.getItems().getType(), "string");
 
+        // a union that also declares properties is normalized the same way regardless of the
+        // order of its types: properties and required travel with the object branch
+        for (String unionWithProps : Arrays.asList("objOrArrayWithProps", "arrOrObjWithProps")) {
+            Schema union = companyProperties.get(unionWithProps);
+            assertNull(union.getTypes());
+            assertNull(union.getProperties());
+            assertNull(union.getItems());
+            assertEquals(union.getAnyOf().size(), 2);
+            ObjectSchema unionObject = null;
+            ArraySchema unionArray = null;
+            for (Object subSchema : union.getAnyOf()) {
+                if (subSchema instanceof ObjectSchema) {
+                    unionObject = (ObjectSchema) subSchema;
+                } else if (subSchema instanceof ArraySchema) {
+                    unionArray = (ArraySchema) subSchema;
+                }
+            }
+            assertNotNull(unionObject);
+            assertNotNull(unionArray);
+            assertEquals(unionArray.getItems().getType(), "string");
+            assertEquals(unionObject.getRequired(), Collections.singletonList("code"));
+            assertEquals(unionObject.getProperties().keySet(), Collections.singleton("code"));
+            assertEquals(((Schema) unionObject.getProperties().get("code")).getType(), "string");
+        }
+
+        // a union of primitive types is not rewritten, so the type list is kept next to the anyOf
+        Schema intOrString = companyProperties.get("intOrString");
+        assertEquals(intOrString.getTypes(), new HashSet<>(Arrays.asList("integer", "string")));
+        assertEquals(intOrString.getAnyOf().size(), 2);
+        for (Object subSchema : intOrString.getAnyOf()) {
+            assertTrue(subSchema instanceof IntegerSchema || subSchema instanceof StringSchema);
+        }
+
         Schema nullableArrOrStr = companyProperties.get("nullableArrOrStr");
         assertTrue(nullableArrOrStr.getNullable());
         assertNull(nullableArrOrStr.getTypes());

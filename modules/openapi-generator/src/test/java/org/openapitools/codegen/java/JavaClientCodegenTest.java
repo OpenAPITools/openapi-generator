@@ -1263,6 +1263,28 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testMultiTypeUnionWithPropertiesKeepsAllAlternatives_issue25756() throws IOException {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_1/issue_25756.yaml", JavaClientCodegen.NATIVE);
+
+        // the order of the types in the union must not matter: both properties are generated
+        // as an anyOf wrapper (list | object) instead of an object-only model
+        for (final String model : Arrays.asList("CompanyObjOrArrayWithProps", "CompanyArrOrObjWithProps")) {
+            final String wrapper = Files.readString(files.get(model + ".java").toPath());
+            assertThat(wrapper)
+                    .contains("public class " + model + " extends AbstractOpenApiSchema")
+                    .contains("schemas.put(\"List<String>\", List.class);")
+                    .contains("schemas.put(\"" + model + "AnyOf\", " + model + "AnyOf.class);");
+
+            // properties and required declared next to the union belong to the object branch
+            final String objectBranch = Files.readString(files.get(model + "AnyOf.java").toPath());
+            assertThat(objectBranch)
+                    .contains("private String code;")
+                    .contains("code(@javax.annotation.Nonnull String code)");
+        }
+    }
+
+    @Test
     public void testMultiPartSpecifiesFileName_Issue17367() throws IOException {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()

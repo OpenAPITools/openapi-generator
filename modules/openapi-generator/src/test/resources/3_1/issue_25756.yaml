@@ -40,6 +40,35 @@ components:
             - array
           items:
             type: string
+        objOrArrayWithProps:
+          description: Object-first union that also declares properties.
+          type:
+            - object
+            - array
+          items:
+            type: string
+          properties:
+            code:
+              type: string
+          required:
+            - code
+        arrOrObjWithProps:
+          description: Array-first variant of the union that also declares properties.
+          type:
+            - array
+            - object
+          items:
+            type: string
+          properties:
+            code:
+              type: string
+          required:
+            - code
+        intOrString:
+          description: Primitive-only union.
+          type:
+            - integer
+            - string
         nullableArrOrStr:
           description: Nullable variant of the array-or-string case.
           type:
