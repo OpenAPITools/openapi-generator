@@ -1216,17 +1216,17 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
 
         JavaFileAssert.assertThat(files.get("UserApi.java"))
-                .fileContains("@Size /* always valid - forces Spring to validate items in container */ @RequestBody List<@Valid User> user");
+                .fileContains("@Size /* always valid - turns on Spring's method validation for this parameter */ @RequestBody List<@Valid User> user");
 
         JavaFileAssert.assertThat(files.get("FakeApi.java"))
-                .fileContains("@Size /* always valid - forces Spring to validate items in container */ @RequestBody Map<String, String> requestBody");
+                .fileContains("@Size /* always valid - turns on Spring's method validation for this parameter */ @RequestBody Map<String, String> requestBody");
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .fileContains("@Valid @RequestBody Pet pet");
     }
 
     @Test
-    public void containerBodyPlaceholderConstraintsForSpringBuiltInValidation_issue25741() throws IOException {
+    public void containerBodyPlaceholderConstraintsForSpringBuiltInValidation_issue25734() throws IOException {
         // Spring's built-in method validation is turned on by a real constraint annotation on the
         // parameter (inherited from the generated interface), not by type-argument @Valid, which is
         // only read from the concrete controller method. An always-valid @Size (or @NotNull for
@@ -1240,11 +1240,11 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/spring/body-param-validation.yaml");
 
         JavaFileAssert.assertThat(files.get("BodiesApi.java"))
-                .fileContains("@Size /* always valid - forces Spring to validate items in container */ @RequestBody List<@Valid Item> item")
-                .fileContains("@Size /* always valid - forces Spring to validate items in container */ @RequestBody(required = false) @Nullable List<@Valid Item> item")
+                .fileContains("@Size /* always valid - turns on Spring's method validation for this parameter */ @RequestBody List<@Valid Item> item")
+                .fileContains("@Size /* always valid - turns on Spring's method validation for this parameter */ @RequestBody(required = false) @Nullable List<@Valid Item> item")
                 // @Valid would not turn validation on for a Set body (checkArguments only accepts List/array/Map)
-                .fileContains("@Size /* always valid - forces Spring to validate items in container */ @RequestBody Set<@Valid Item> item")
-                .fileContains("@Size /* always valid - forces Spring to validate items in container */ @RequestBody Map<String, @Valid Item> requestBody")
+                .fileContains("@Size /* always valid - turns on Spring's method validation for this parameter */ @RequestBody Set<@Valid Item> item")
+                .fileContains("@Size /* always valid - turns on Spring's method validation for this parameter */ @RequestBody Map<String, @Valid Item> requestBody")
                 // bodies with minItems/maxItems already carry an enforcing @Size - no placeholder next to it
                 .fileContains("@Size(min = 1, max = 2) @RequestBody List<@Valid Item> item")
                 .fileDoesNotContain("@Valid @RequestBody");
@@ -1259,8 +1259,8 @@ public class SpringCodegenTest {
                 "src/test/resources/3_0/spring/body-param-validation.yaml");
 
         JavaFileAssert.assertThat(optionalFiles.get("BodiesApi.java"))
-                .fileContains("@NotNull /* always valid (Optional is never null) - forces Spring to validate items in container */ @RequestBody(required = false) Optional<List<@Valid Item>> item")
-                .fileContains("@Size /* always valid - forces Spring to validate items in container */ @RequestBody List<@Valid Item> item")
+                .fileContains("@NotNull /* always valid (Optional is never null) - turns on Spring's method validation for this parameter */ @RequestBody(required = false) Optional<List<@Valid Item>> item")
+                .fileContains("@Size /* always valid - turns on Spring's method validation for this parameter */ @RequestBody List<@Valid Item> item")
                 .fileDoesNotContain("@Valid @RequestBody");
 
         // classic bean validation (no useSpringBuiltInValidation) keeps the #24176 behavior:
