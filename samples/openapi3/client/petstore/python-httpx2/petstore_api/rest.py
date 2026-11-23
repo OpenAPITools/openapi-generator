@@ -74,6 +74,8 @@ class RESTClientObject:
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
 
+        self.retries = configuration.retries
+
         self.pool_manager: Optional[httpx2.AsyncClient] = None
 
     async def close(self):
@@ -191,6 +193,22 @@ class RESTClientObject:
             proxy = httpx2.Proxy(
                 url=self.proxy,
                 headers=self.proxy_headers
+            )
+
+        if self.retries:
+            # httpx only retries connection failures (ConnectError, ConnectTimeout),
+            # i.e. requests that were never sent, so this is safe for every method.
+            # A custom transport disables proxies from environment variables, and a
+            # client-level proxy would bypass it: the proxy goes to the transport.
+            transport = httpx2.AsyncHTTPTransport(
+                verify=self.ssl_context,
+                limits=limits,
+                proxy=proxy,
+                retries=self.retries,
+            )
+            return httpx2.AsyncClient(
+                transport=transport,
+                trust_env=True
             )
 
         return httpx2.AsyncClient(

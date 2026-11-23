@@ -213,7 +213,9 @@ class Configuration:
 {{/useIndependentImplicitClients}}
 {{/asyncio}}
 {{#httpxLibrary}}
-    :param retries: int - Retry configuration.
+    :param retries: int - Number of retries on connection failures
+      (ConnectError, ConnectTimeout). When set, proxies from environment
+      variables are ignored; use the proxy parameter instead.
 {{/httpxLibrary}}
 {{^async}}
     :param retries: int | urllib3.util.retry.Retry - Retry configuration.

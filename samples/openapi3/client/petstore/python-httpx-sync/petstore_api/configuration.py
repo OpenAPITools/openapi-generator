@@ -167,7 +167,9 @@ class Configuration:
       when calling API from https server.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
-    :param retries: int - Retry configuration.
+    :param retries: int - Number of retries on connection failures
+      (ConnectError, ConnectTimeout). When set, proxies from environment
+      variables are ignored; use the proxy parameter instead.
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.
