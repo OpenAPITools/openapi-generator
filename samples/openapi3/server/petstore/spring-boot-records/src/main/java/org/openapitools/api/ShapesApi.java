@@ -63,7 +63,7 @@ public interface ShapesApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Shape> addShape(
+    default @Valid ResponseEntity<Shape> addShape(
         @Parameter(name = "Shape", description = "", required = true) @Valid @RequestBody Shape shape
     ) {
         getRequest().ifPresent(request -> {

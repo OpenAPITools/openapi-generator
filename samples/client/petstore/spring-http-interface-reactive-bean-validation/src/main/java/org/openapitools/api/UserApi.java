@@ -120,7 +120,7 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         accept = { "application/json", "application/xml" }
     )
-    Mono<ResponseEntity<User>> getUserByName(
+    @Valid Mono<ResponseEntity<User>> getUserByName(
          @PathVariable("username") String username
     );
 
@@ -140,7 +140,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         accept = { "application/json", "application/xml" }
     )
-    Mono<ResponseEntity<String>> loginUser(
+    @Valid Mono<ResponseEntity<String>> loginUser(
         @NotNull  @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull  @Valid @RequestParam(value = "password", required = true) String password
     );

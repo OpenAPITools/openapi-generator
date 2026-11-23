@@ -128,6 +128,41 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void containerItemHelpersUseConfiguredInstantiationTypes() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_25642.yaml", SPRING_BOOT,
+                new HashMap<>(), configurator -> configurator
+                        .addInstantiationType("map", "LinkedHashMap")
+                        .addInstantiationType("array", "LinkedList")
+                        .addInstantiationType("set", "TreeSet"));
+
+        JavaFileAssert.assertThat(files.get("Basket.java"))
+                .hasImports("java.util.LinkedHashMap", "java.util.LinkedList", "java.util.TreeSet")
+                .assertMethod("putEntriesItem", "String", "String")
+                .bodyContainsLines("this.entries = new LinkedHashMap<>();")
+                .toFileAssert()
+                .assertMethod("addTagsItem", "String")
+                .bodyContainsLines("this.tags = new LinkedList<>();")
+                .toFileAssert()
+                .assertMethod("addLabelsItem", "String")
+                .bodyContainsLines("this.labels = new TreeSet<>();");
+    }
+
+    @Test
+    public void containerItemHelpersDefaultToArrayListLinkedHashSetAndHashMap() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_25642.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(files.get("Basket.java"))
+                .assertMethod("putEntriesItem", "String", "String")
+                .bodyContainsLines("this.entries = new HashMap<>();")
+                .toFileAssert()
+                .assertMethod("addTagsItem", "String")
+                .bodyContainsLines("this.tags = new ArrayList<>();")
+                .toFileAssert()
+                .assertMethod("addLabelsItem", "String")
+                .bodyContainsLines("this.labels = new LinkedHashSet<>();");
+    }
+
+    @Test
     public void doAnnotateDatesOnModelParameters() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -2835,15 +2870,15 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
+                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithArrayOfString").hasReturnType("ResponseEntity<List<String>>")
                 .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<TestResponse>>")
+                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<@Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithSetOfStrings").hasReturnType("ResponseEntity<Set<String>>")
                 .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
+                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, @Valid TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
@@ -3506,6 +3541,90 @@ public class SpringCodegenTest {
                 .assertParameter("body")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "2"));
+    }
+
+    @DataProvider
+    public Object[][] collectionResponseValidationOptions() {
+        return new Object[][] {
+                {true, false, true, false}, {false, false, true, false},
+                {true, false, false, false}, {false, false, false, false},
+                {true, true, true, false}, {false, true, true, false},
+                {true, true, false, false}, {false, true, false, false},
+                {true, false, true, true}, {false, false, true, true},
+                {true, false, false, true}, {false, false, false, true},
+                {true, true, true, true}, {false, true, true, true},
+                {true, true, false, true}, {false, true, false, true}
+        };
+    }
+
+    @Test(dataProvider = "collectionResponseValidationOptions")
+    public void validatesNonVoidReturnsAndObjectCollectionElements(boolean validation, boolean reactive,
+                                                                  boolean responseEntity, boolean mappedModel) throws IOException {
+        OpenAPI openAPI = new OpenAPIParser().readLocation(
+                "src/test/resources/3_0/spring/collection-response-validation.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(Files.createTempDirectory("collection-response-validation").toString());
+        codegen.additionalProperties().put(USE_TAGS, true);
+        codegen.additionalProperties().put(INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(USE_BEANVALIDATION, validation);
+        codegen.additionalProperties().put(REACTIVE, reactive);
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, responseEntity);
+        if (mappedModel) {
+            codegen.schemaMapping().put("Pet", "com.example.ExternalPet");
+        }
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGenerateMetadata(false);
+        Map<String, File> files = generator.opts(new ClientOptInput().openAPI(openAPI).config(codegen))
+                .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
+        String api = Files.readString(files.get("CollectionApi.java").toPath());
+        String model = mappedModel ? "com.example.ExternalPet" : "Pet";
+        String element = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String list = reactive ? "Flux<" + model + ">" : "List<" + element + ">";
+        String set = reactive ? "Flux<" + model + ">" : "Set<" + element + ">";
+        String map = "Map<String, " + element + ">";
+        String strings = "List<String>";
+        String integers = reactive ? "Flux<Integer>" : "List<Integer>";
+        String stringMap = "Map<String, String>";
+        String pet = model;
+        String name = "String";
+        String noContent = responseEntity ? "ResponseEntity<Void>" : (reactive ? "Void" : "void");
+        if (responseEntity) {
+            list = "ResponseEntity<" + list + ">";
+            set = "ResponseEntity<" + set + ">";
+            map = "ResponseEntity<" + map + ">";
+            strings = "ResponseEntity<" + strings + ">";
+            integers = "ResponseEntity<" + integers + ">";
+            stringMap = "ResponseEntity<" + stringMap + ">";
+            pet = "ResponseEntity<" + pet + ">";
+            name = "ResponseEntity<" + name + ">";
+        }
+        if (reactive) {
+            if (responseEntity) {
+                list = "Mono<" + list + ">";
+                set = "Mono<" + set + ">";
+                integers = "Mono<" + integers + ">";
+            }
+            map = "Mono<" + map + ">";
+            strings = "Mono<" + strings + ">";
+            stringMap = "Mono<" + stringMap + ">";
+            pet = "Mono<" + pet + ">";
+            name = "Mono<" + name + ">";
+            noContent = "Mono<" + noContent + ">";
+        }
+        String annotation = validation ? "@Valid " : "";
+        assertThat(api).contains(annotation + list + " getPets(", annotation + set + " getUniquePets(",
+                annotation + map + " getPetsByName(", annotation + strings + " getNames(",
+                annotation + pet + " getPet(", annotation + integers + " getNumbers(",
+                annotation + stringMap + " getNamesById(", annotation + name + " getName(",
+                "default " + noContent + " getNothing(")
+                .doesNotContain("ResponseEntity<@Valid", "Mono<@Valid", "List<@Valid String", "Flux<@Valid",
+                        "Flux<com.example.@Valid",
+                        "ResponseEntity<com.example.@Valid", "Mono<com.example.@Valid",
+                        "@Valid " + noContent + " getNothing(");
+        if (!validation) {
+            assertThat(api).doesNotContain("@Valid");
+        }
     }
 
     @Test
@@ -7049,7 +7168,7 @@ public class SpringCodegenTest {
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("getPetById").hasReturnType("Pet")
                 .toFileAssert()
-                .assertMethod("findPetsByStatus").hasReturnType("List<Pet>");
+                .assertMethod("findPetsByStatus").hasReturnType("List<@Valid Pet>");
     }
 
     @Test
@@ -8012,6 +8131,7 @@ public class SpringCodegenTest {
     @Test(dataProvider = "jspecifyLibraries")
     public void testJspecify(String library, int springBootVersion) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        boolean useJakarta = springBootVersion >2;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
                 Map.of(USE_JSPECIFY, true,
                         CONTAINER_DEFAULT_TO_NULL, true,
@@ -8021,7 +8141,8 @@ public class SpringCodegenTest {
                         GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
                         INTERFACE_ONLY, false,
                         GENERATE_BUILDERS, true,
-                        springVersionProperty, springBootVersion > 2
+                        springVersionProperty, springBootVersion > 2,
+                        USE_JAKARTA_EE, useJakarta
                 ),
                 codegenConfigurator ->
                         codegenConfigurator
@@ -8077,6 +8198,9 @@ public class SpringCodegenTest {
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)"
                 )
+                .fileDoesNotContain(
+                        ".validation.valueextraction.Unwrapping",
+                        "Present")
                 .assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
         if (!library.equals(SPRING_HTTP_INTERFACE)) {
             // SPRING_HTTP_INTERFACE does not support @Schema generation (yet)
@@ -8103,16 +8227,20 @@ public class SpringCodegenTest {
     @Test(dataProvider = "jspecifyLibraries")
     public void testJspecify_openapiNullable(String library, int springBootVersion) throws IOException {
         String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        boolean useJakarta = springBootVersion >2;
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify.yaml", library,
-                Map.of(USE_JSPECIFY, true,
-                        CONTAINER_DEFAULT_TO_NULL, true,
-                        USE_BEANVALIDATION, true,
-                        GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true,
-                        GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true,
-                        CodegenConstants.OPENAPI_NULLABLE, true,
-                        INTERFACE_ONLY, false,
-                        GENERATE_BUILDERS, true,
-                        springVersionProperty, springBootVersion > 2
+                Map.ofEntries(
+                        Map.entry(USE_JSPECIFY, true),
+                        Map.entry(CONTAINER_DEFAULT_TO_NULL, true),
+                        Map.entry(USE_BEANVALIDATION, true),
+                        Map.entry(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, true),
+                        Map.entry(GENERATE_CONSTRUCTOR_WITH_REQUIRED_ARGS, true),
+                        Map.entry(CodegenConstants.OPENAPI_NULLABLE, true),
+                        Map.entry(INTERFACE_ONLY, false),
+                        Map.entry(GENERATE_BUILDERS, true),
+                        Map.entry(springVersionProperty, springBootVersion > 2),
+                        Map.entry(USE_JAKARTA_EE, useJakarta),
+                        Map.entry(OPENAPI_NULLABLE_USE_PRESENT, true)
                 ),
                 codegenConfigurator ->
                         codegenConfigurator
@@ -8165,8 +8293,19 @@ public class SpringCodegenTest {
                         "void setStr(JsonNullable<String> str)",
                         "RequiredAndNullable str(@Nullable String str)",
                         "RequiredAndNullable.Builder str(@Nullable String str)",
-                        " /* @Present */"
+                        "@Present(payload = Unwrapping.Skip.class)"
                 ).assertMethod("getStr").assertMethodAnnotations().doesNotContainWithName("NotNull");
+        if (useJakarta) {
+            JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                    .fileContains(
+                            "import jakarta.validation.valueextraction.Unwrapping;",
+                            "import org.openapitools.jackson.nullable.jakarta.Present;");
+        } else {
+            JavaFileAssert.assertThat(files.get("RequiredAndNullable.java"))
+                    .fileContains(
+                            "import javax.validation.valueextraction.Unwrapping;",
+                            "import org.openapitools.jackson.nullable.javax.Present;");
+        }
         JavaFileAssert.assertThat(files.get("api/package-info.java"))
                 .fileContains("@org.jspecify.annotations.NullMarked");
         JavaFileAssert.assertThat(files.get("model/package-info.java"))
@@ -8721,6 +8860,69 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void generateSortValidationEmitsItemCountBounds() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        String content = Files.readString(files.get("PetApi.java").toPath());
+        String petSortValues = "{\"id,asc\", \"id,desc\", \"createdAt,asc\", \"createdAt,desc\"}";
+        String inlineValues = "{\"id,asc\", \"id,desc\", \"name,asc\", \"name,desc\"}";
+
+        // scalar enum sort → at most one sort order
+        assertThat(sortMethodSignature(content, "findPetsWithSortEnum"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", maxItems = 1)");
+        // scalar $ref enum sort → at most one sort order
+        assertThat(sortMethodSignature(content, "findPetsWithRefSort"))
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", maxItems = 1)");
+        // array sort with minItems/maxItems → both emitted
+        assertThat(sortMethodSignature(content, "findPetsWithArraySortBounds"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 1, maxItems = 2)");
+        // array sort without bounds → no bound attributes
+        assertThat(sortMethodSignature(content, "findPetsWithArraySortEnum"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ")");
+        // sort schema $ref-ing an array component with bounds
+        assertThat(sortMethodSignature(content, "findPetsWithRefSortBounds"))
+                .contains("@ValidSort(allowedValues = " + petSortValues + ", minItems = 1, maxItems = 3)");
+        // array sort with only minItems → no maxItems attribute
+        assertThat(sortMethodSignature(content, "findPetsWithMinSortBounds"))
+                .contains("@ValidSort(allowedValues = " + inlineValues + ", minItems = 2)");
+    }
+
+    @Test
+    public void generateSortValidationValidatorChecksItemCount() throws IOException {
+        Map<String, Object> props = new HashMap<>();
+        props.put(INTERFACE_ONLY, "true");
+        props.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        props.put(SpringCodegen.USE_TAGS, "true");
+        props.put(SpringCodegen.USE_SPRING_BOOT3, "true");
+        props.put(SpringCodegen.GENERATE_SORT_VALIDATION, "true");
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/petstore-sort-validation.yaml", SPRING_BOOT, props);
+
+        JavaFileAssert.assertThat(files.get("ValidSort.java"))
+                .fileContains("int minItems() default 0;")
+                .fileContains("int maxItems() default Integer.MAX_VALUE;")
+                .fileContains("count >= minItems && count <= maxItems")
+                .fileContains("pageable == null || pageable.getSort().isUnsorted()")
+                .fileContains("? \"at least \" + minItems", ": minItems == 0 ? \"at most \" + maxItems")
+                .fileContains("+ \" [\" + escapeMessageTemplate(property) + \"]\"");
+    }
+
+    private static String sortMethodSignature(String content, String methodName) {
+        int start = content.indexOf(" " + methodName + "(");
+        assertThat(start).as(methodName + " should exist").isGreaterThanOrEqualTo(0);
+        return content.substring(start, Math.min(content.length(), start + 800));
+    }
+
+    @Test
     public void generateSortValidationWorksForArraySortRefEnum() throws IOException {
         Map<String, Object> props = new HashMap<>();
         props.put(INTERFACE_ONLY, "true");
@@ -9097,7 +9299,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPets")
-                .hasReturnType("ResponseEntity<List<Pet>>");
+                .hasReturnType("ResponseEntity<List<@Valid Pet>>");
     }
 
     /** Common properties shared by all substituteGenericPagedModel tests. */

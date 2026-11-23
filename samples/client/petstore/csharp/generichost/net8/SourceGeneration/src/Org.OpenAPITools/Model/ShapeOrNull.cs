@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -218,6 +217,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (shapeOrNull.Triangle != null)
+            {
+                JsonSerializer.Serialize(writer, shapeOrNull.Triangle, jsonSerializerOptions);
+                return;
+            }
+
+            if (shapeOrNull.Quadrilateral != null)
+            {
+                JsonSerializer.Serialize(writer, shapeOrNull.Quadrilateral, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (shapeOrNull.Triangle != null)
@@ -247,11 +258,4 @@ namespace Org.OpenAPITools.Model
 
         }
     }
-
-    /// <summary>
-    /// The ShapeOrNullSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(ShapeOrNull))]
-    public partial class ShapeOrNullSerializationContext : JsonSerializerContext { }
 }

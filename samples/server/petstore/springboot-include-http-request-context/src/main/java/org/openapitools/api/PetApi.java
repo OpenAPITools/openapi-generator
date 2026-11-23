@@ -149,7 +149,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<List<PetDto>> findPetsByStatus(
+    default @Valid ResponseEntity<List<@Valid PetDto>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
@@ -205,7 +205,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<Set<PetDto>> findPetsByTags(
+    default @Valid ResponseEntity<Set<@Valid PetDto>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) Set<String> tags,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
@@ -260,7 +260,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<PetDto> getPetById(
+    default @Valid ResponseEntity<PetDto> getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(hidden = true) final HttpServletRequest servletRequest
     ) {
@@ -391,7 +391,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default ResponseEntity<ApiResponseDto> uploadFile(
+    default @Valid ResponseEntity<ApiResponseDto> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file,

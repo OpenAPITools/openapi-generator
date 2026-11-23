@@ -184,7 +184,7 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<User> getUserByName(
+    default @Valid ResponseEntity<User> getUserByName(
         @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     ) {
         getRequest().ifPresent(request -> {
@@ -232,7 +232,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<String> loginUser(
+    default @Valid ResponseEntity<String> loginUser(
         @NotNull @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) String password
     ) {

@@ -80,7 +80,7 @@ public interface DogsApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Dog> createDog(
+    default @Valid ResponseEntity<Dog> createDog(
         @Parameter(name = "Dog", description = "") @Valid @RequestBody(required = false) @Nullable Dog dog
     ) {
         return getDelegate().createDog(dog);

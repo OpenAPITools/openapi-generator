@@ -35,7 +35,7 @@ public interface PetApiDelegate {
      *         or Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    default Pet addPet(Pet pet) {
+    default @Valid Pet addPet(Pet pet) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -78,7 +78,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default List<Pet> findPetsByStatus(List<String> status) {
+    default @Valid List<@Valid Pet> findPetsByStatus(List<String> status) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -108,7 +108,7 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default List<Pet> findPetsByTags(List<String> tags) {
+    default @Valid List<@Valid Pet> findPetsByTags(List<String> tags) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -137,7 +137,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    default Pet getPetById(Long petId) {
+    default @Valid Pet getPetById(Long petId) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -169,7 +169,7 @@ public interface PetApiDelegate {
      * @see <a href="http://petstore.swagger.io/v2/doc/updatePet">Update an existing pet Documentation</a>
      * @see PetApi#updatePet
      */
-    default Pet updatePet(Pet pet) {
+    default @Valid Pet updatePet(Pet pet) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
@@ -215,7 +215,7 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    default ModelApiResponse uploadFile(Long petId,
+    default @Valid ModelApiResponse uploadFile(Long petId,
         String additionalMetadata,
         MultipartFile file) {
         getRequest().ifPresent(request -> {

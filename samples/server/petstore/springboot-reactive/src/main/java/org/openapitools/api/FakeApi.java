@@ -109,7 +109,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(
+    default @Valid Mono<ResponseEntity<Boolean>> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) Mono<Boolean> body,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
@@ -141,7 +141,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(
+    default @Valid Mono<ResponseEntity<OuterComposite>> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) Mono<OuterComposite> outerComposite,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
@@ -173,7 +173,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(
+    default @Valid Mono<ResponseEntity<BigDecimal>> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) Mono<BigDecimal> body,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
@@ -205,7 +205,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<String>> fakeOuterStringSerialize(
+    default @Valid Mono<ResponseEntity<String>> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) Mono<String> body,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
@@ -234,7 +234,7 @@ public interface FakeApi {
         value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         produces = { "application/json" }
     )
-    default Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(
+    default @Valid Mono<ResponseEntity<ResponseObjectWithDifferentFieldNames>> responseObjectDifferentNames(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
@@ -325,7 +325,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Client>> testClientModel(
+    default @Valid Mono<ResponseEntity<Client>> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Mono<Client> client,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
@@ -627,7 +627,7 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         produces = { "application/json" }
     )
-    default Mono<ResponseEntity<Integer>> testWithResultExample(
+    default @Valid Mono<ResponseEntity<Integer>> testWithResultExample(
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {
         return getDelegate().testWithResultExample(exchange);
@@ -664,7 +664,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
+    default @Valid Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) Part requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false) String additionalMetadata,

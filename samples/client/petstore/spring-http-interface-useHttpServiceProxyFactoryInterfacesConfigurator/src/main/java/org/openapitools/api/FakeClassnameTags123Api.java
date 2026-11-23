@@ -38,7 +38,7 @@ public interface FakeClassnameTags123Api {
         accept = { "application/json" },
         contentType = "application/json"
     )
-    ResponseEntity<Client> testClassname(
+    @Valid ResponseEntity<Client> testClassname(
          @Valid @RequestBody Client client
     );
 

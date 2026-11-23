@@ -5,10 +5,12 @@ on:
     paths:
       - 'samples/client/petstore/ruby-nextgen/**'
       - 'samples/client/others/ruby-nextgen-qdrant/**'
+      - 'samples/client/others/ruby-nextgen-object-query/**'
   pull_request:
     paths:
       - 'samples/client/petstore/ruby-nextgen/**'
       - 'samples/client/others/ruby-nextgen-qdrant/**'
+      - 'samples/client/others/ruby-nextgen-object-query/**'
 
 jobs:
   build:
@@ -19,6 +21,7 @@ jobs:
       matrix:
         sample:
           - samples/client/petstore/ruby-nextgen
+          - samples/client/others/ruby-nextgen-object-query
         ruby-version:
           - '3.0'
           - '3.3'

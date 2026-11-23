@@ -83,6 +83,7 @@ jobs:
           - samples/server/petstore/kotlin-spring-oneof-jackson-default-impl
           - samples/server/petstore/kotlin-springboot-sort-validation
           - samples/server/petstore/kotlin-springboot-paged-model
+          - samples/server/petstore/kotlin-springboot-collection-item-annotations
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:

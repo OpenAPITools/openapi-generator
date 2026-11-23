@@ -33,7 +33,7 @@ public interface FakeClassnameTestApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
-    default ResponseEntity<Client> testClassname(Client client) {
+    default @Valid ResponseEntity<Client> testClassname(Client client) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {

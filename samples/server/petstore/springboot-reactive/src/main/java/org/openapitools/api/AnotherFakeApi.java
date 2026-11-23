@@ -67,7 +67,7 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default Mono<ResponseEntity<Client>> call123testSpecialTags(
+    default @Valid Mono<ResponseEntity<Client>> call123testSpecialTags(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Mono<Client> client,
         @Parameter(hidden = true) final ServerWebExchange exchange
     ) {

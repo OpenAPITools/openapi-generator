@@ -186,7 +186,7 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<User> getUserByName(
+    @Valid ResponseEntity<User> getUserByName(
         @Parameter(name = "username", description = "The name that needs to be fetched. Use user1 for testing.", required = true, in = ParameterIn.PATH) @PathVariable("username") String username
     );
 
@@ -219,7 +219,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<String> loginUser(
+    @Valid ResponseEntity<String> loginUser(
         @NotNull @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(name = "username", description = "The user name for login", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull @Parameter(name = "password", deprecated = true, description = "The password for login in clear text", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "password", required = true) @Deprecated String password
     );

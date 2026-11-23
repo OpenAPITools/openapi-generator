@@ -90,7 +90,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    ResponseEntity<Map<String, Integer>> getInventory(
+    @Valid ResponseEntity<Map<String, Integer>> getInventory(
         
     ) throws Exception;
 
@@ -124,7 +124,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    ResponseEntity<Order> getOrderById(
+    @Valid ResponseEntity<Order> getOrderById(
         @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
     ) throws Exception;
 
@@ -157,7 +157,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    ResponseEntity<Order> placeOrder(
+    @Valid ResponseEntity<Order> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     ) throws Exception;
 

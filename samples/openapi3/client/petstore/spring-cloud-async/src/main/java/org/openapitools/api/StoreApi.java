@@ -91,7 +91,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory(
+    @Valid CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory(
         
     );
 
@@ -125,7 +125,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    CompletableFuture<ResponseEntity<Order>> getOrderById(
+    @Valid CompletableFuture<ResponseEntity<Order>> getOrderById(
         @Min(value = 1L) @Max(value = 5L) @Parameter(name = "orderId", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("orderId") Long orderId
     );
 
@@ -158,7 +158,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    CompletableFuture<ResponseEntity<Order>> placeOrder(
+    @Valid CompletableFuture<ResponseEntity<Order>> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Order order
     );
 

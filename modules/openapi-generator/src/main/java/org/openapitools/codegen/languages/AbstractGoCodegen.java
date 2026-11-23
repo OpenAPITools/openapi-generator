@@ -810,7 +810,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
 
                 if (cp.pattern != null) {
-                    String regexp = String.format(Locale.getDefault(), "regexp=%s", cp.pattern);
+                    String regexp = String.format(Locale.getDefault(), "%s=%s",
+                            cp.isNullable && cp.isString ? "nullableRegexp" : "regexp", cp.pattern);
 
                     // Replace backtick by \\x60, if found
                     if (regexp.contains("`")) {

@@ -16,7 +16,7 @@
 {{/isArray}}
 {{#returnSimpleType}}
             if (this.isJsonMime(responseContentType)) {
-                return new runtime.JSONApiResponse<{{returnType}}>(response) as any;
+                return new runtime.JSONApiResponse<{{{returnType}}}>(response) as any;
             } else {
                 return new runtime.TextApiResponse(response) as any;
             }

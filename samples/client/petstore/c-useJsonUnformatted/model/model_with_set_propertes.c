@@ -165,6 +165,10 @@ model_with_set_propertes_t *model_with_set_propertes_parseFromJSON(cJSON *model_
         string_set ? string_setList : NULL
         );
 
+    if (!model_with_set_propertes_local_var) {
+        goto end;
+    }
+
     return model_with_set_propertes_local_var;
 end:
     if (tag_setList) {

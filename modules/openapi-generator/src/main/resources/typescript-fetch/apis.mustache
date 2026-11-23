@@ -258,7 +258,10 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#headerIsJsonMimeType}}
         {{#jsonHeaderUsesModelSerializer}}
         if (requestParameters['{{paramName}}'] !== undefined) {
-            headerParameters['{{baseName}}'] = JSON.stringify({{dataType}}ToJSON(requestParameters['{{paramName}}']));
+            const jsonHeaderValue = runtime.jsonStringifyForHeader({{dataType}}ToJSON(requestParameters['{{paramName}}']));
+            if (jsonHeaderValue !== undefined) {
+                headerParameters['{{baseName}}'] = jsonHeaderValue;
+            }
         }
 
         {{/jsonHeaderUsesModelSerializer}}
@@ -474,7 +477,7 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/isArray}}
         {{#returnSimpleType}}
         if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<{{returnType}}>(response);
+            return new runtime.JSONApiResponse<{{{returnType}}}>(response);
         } else {
             return new runtime.TextApiResponse(response) as any;
         }

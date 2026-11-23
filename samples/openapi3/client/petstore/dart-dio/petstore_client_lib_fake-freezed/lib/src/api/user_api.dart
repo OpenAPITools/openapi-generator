@@ -250,7 +250,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(username.toString()),);
     final _options = Options(
       method: r'DELETE',
       headers: <String, dynamic>{
@@ -297,7 +297,7 @@ class UserApi {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(username.toString()),);
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{
@@ -496,7 +496,7 @@ _responseData = rawData == null ? null : deserialize<String, String>(rawData, 'S
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', username.toString());
+    final _path = r'/user/{username}'.replaceAll('{' r'username' '}', Uri.encodeComponent(username.toString()),);
     final _options = Options(
       method: r'PUT',
       headers: <String, dynamic>{

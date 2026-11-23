@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -242,6 +241,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mammal.Pig != null)
+            {
+                JsonSerializer.Serialize(writer, mammal.Pig, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (mammal.Whale != null)
@@ -277,11 +282,4 @@ namespace Org.OpenAPITools.Model
 
         }
     }
-
-    /// <summary>
-    /// The MammalSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(Mammal))]
-    public partial class MammalSerializationContext : JsonSerializerContext { }
 }

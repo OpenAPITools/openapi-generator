@@ -233,6 +233,12 @@ namespace Org.OpenAPITools.Model
         /// <param name="jsonSerializerOptions"></param>
         public override void Write(Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mammal.Pig != null)
+            {
+                JsonSerializer.Serialize(writer, mammal.Pig, jsonSerializerOptions);
+                return;
+            }
+
             writer.WriteStartObject();
 
             if (mammal.Whale != null)

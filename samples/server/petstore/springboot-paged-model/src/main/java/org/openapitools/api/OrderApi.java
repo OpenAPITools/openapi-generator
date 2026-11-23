@@ -38,7 +38,7 @@ public interface OrderApi {
         value = OrderApi.PATH_LIST_ORDERS,
         produces = { "application/json" }
     )
-    ResponseEntity<PagedModel<Order>> listOrders(
+    @Valid ResponseEntity<PagedModel<Order>> listOrders(
          @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
          @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size
     );

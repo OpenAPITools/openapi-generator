@@ -64,7 +64,7 @@ public interface FakeApiDelegate {
      * @return Output boolean (status code 200)
      * @see FakeApi#fakeOuterBooleanSerialize
      */
-    default Mono<Boolean> fakeOuterBooleanSerialize(Mono<Boolean> body) {
+    default @Valid Mono<Boolean> fakeOuterBooleanSerialize(Mono<Boolean> body) {
         Mono<Void> result = Mono.empty();
 
 
@@ -80,7 +80,7 @@ public interface FakeApiDelegate {
      * @return Output composite (status code 200)
      * @see FakeApi#fakeOuterCompositeSerialize
      */
-    default Mono<OuterComposite> fakeOuterCompositeSerialize(Mono<OuterComposite> outerComposite) {
+    default @Valid Mono<OuterComposite> fakeOuterCompositeSerialize(Mono<OuterComposite> outerComposite) {
         Mono<Void> result = Mono.empty();
 
 
@@ -96,7 +96,7 @@ public interface FakeApiDelegate {
      * @return Output number (status code 200)
      * @see FakeApi#fakeOuterNumberSerialize
      */
-    default Mono<BigDecimal> fakeOuterNumberSerialize(Mono<BigDecimal> body) {
+    default @Valid Mono<BigDecimal> fakeOuterNumberSerialize(Mono<BigDecimal> body) {
         Mono<Void> result = Mono.empty();
 
 
@@ -112,7 +112,7 @@ public interface FakeApiDelegate {
      * @return Output string (status code 200)
      * @see FakeApi#fakeOuterStringSerialize
      */
-    default Mono<String> fakeOuterStringSerialize(Mono<String> body) {
+    default @Valid Mono<String> fakeOuterStringSerialize(Mono<String> body) {
         Mono<Void> result = Mono.empty();
 
 
@@ -127,7 +127,7 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#responseObjectDifferentNames
      */
-    default Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(Long petId) {
+    default @Valid Mono<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(Long petId) {
         Mono<Void> result = Mono.empty();
 
 
@@ -176,7 +176,7 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#testClientModel
      */
-    default Mono<Client> testClientModel(Mono<Client> client) {
+    default @Valid Mono<Client> testClientModel(Mono<Client> client) {
         Mono<Void> result = Mono.empty();
 
 
@@ -363,7 +363,7 @@ public interface FakeApiDelegate {
      * @return Success (status code 200)
      * @see FakeApi#testWithResultExample
      */
-    default Mono<Integer> testWithResultExample() {
+    default @Valid Mono<Integer> testWithResultExample() {
         Mono<Void> result = Mono.empty();
 
 
@@ -381,7 +381,7 @@ public interface FakeApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeApi#uploadFileWithRequiredFile
      */
-    default Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
+    default @Valid Mono<ModelApiResponse> uploadFileWithRequiredFile(Long petId,
         Part requiredFile,
         String additionalMetadata) {
         Mono<Void> result = Mono.empty();

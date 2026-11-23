@@ -75,7 +75,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default Flux<Pet> findPetsByStatus(List<String> status) {
+    default @Valid Flux<Pet> findPetsByStatus(List<String> status) {
         Mono<Void> result = Mono.empty();
 
 
@@ -94,7 +94,7 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default Flux<Pet> findPetsByTags(Set<String> tags) {
+    default @Valid Flux<Pet> findPetsByTags(Set<String> tags) {
         Mono<Void> result = Mono.empty();
 
 
@@ -112,7 +112,7 @@ public interface PetApiDelegate {
      *         or Pet not found (status code 404)
      * @see PetApi#getPetById
      */
-    default Mono<Pet> getPetById(Long petId) {
+    default @Valid Mono<Pet> getPetById(Long petId) {
         Mono<Void> result = Mono.empty();
 
 
@@ -169,7 +169,7 @@ public interface PetApiDelegate {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    default Mono<ModelApiResponse> uploadFile(Long petId,
+    default @Valid Mono<ModelApiResponse> uploadFile(Long petId,
         String additionalMetadata,
         Part file) {
         Mono<Void> result = Mono.empty();

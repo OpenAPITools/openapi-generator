@@ -70,7 +70,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize(
+    @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(
          @Valid @RequestBody(required = false) @Nullable Boolean body
     );
 
@@ -89,7 +89,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<OuterCompositeDto> fakeOuterCompositeSerialize(
+    @Valid ResponseEntity<OuterCompositeDto> fakeOuterCompositeSerialize(
          @Valid @RequestBody(required = false) @Nullable OuterCompositeDto outerCompositeDto
     );
 
@@ -108,7 +108,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
+    @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
          @Valid @RequestBody(required = false) @Nullable BigDecimal body
     );
 
@@ -127,7 +127,7 @@ public interface FakeApi {
         accept = { "*/*" },
         contentType = "application/json"
     )
-    ResponseEntity<String> fakeOuterStringSerialize(
+    @Valid ResponseEntity<String> fakeOuterStringSerialize(
          @Valid @RequestBody(required = false) @Nullable String body
     );
 
@@ -144,7 +144,7 @@ public interface FakeApi {
         value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         accept = { "application/json" }
     )
-    ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
+    @Valid ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
          @PathVariable("petId") Long petId
     );
 
@@ -202,7 +202,7 @@ public interface FakeApi {
         accept = { "application/json" },
         contentType = "application/json"
     )
-    ResponseEntity<ClientDto> testClientModel(
+    @Valid ResponseEntity<ClientDto> testClientModel(
          @Valid @RequestBody ClientDto clientDto
     );
 
@@ -410,7 +410,7 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         accept = { "application/json" }
     )
-    ResponseEntity<Integer> testWithResultExample(
+    @Valid ResponseEntity<Integer> testWithResultExample(
         
     );
 
@@ -431,7 +431,7 @@ public interface FakeApi {
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
-    ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
+    @Valid ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(
          @PathVariable("petId") Long petId,
          @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata

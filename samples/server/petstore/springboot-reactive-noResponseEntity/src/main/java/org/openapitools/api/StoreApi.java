@@ -100,7 +100,7 @@ public interface StoreApi {
         produces = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Map<String, Integer>> getInventory(
+    default @Valid Mono<Map<String, Integer>> getInventory(
         
     ) {
         return getDelegate().getInventory();
@@ -137,7 +137,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Order> getOrderById(
+    default @Valid Mono<Order> getOrderById(
         @Min(value = 1L) @Max(value = 5L) @Parameter(name = "order_id", description = "ID of pet that needs to be fetched", required = true, in = ParameterIn.PATH) @PathVariable("order_id") Long orderId
     ) {
         return getDelegate().getOrderById(orderId);
@@ -173,7 +173,7 @@ public interface StoreApi {
         consumes = { "application/json" }
     )
     @ResponseStatus(HttpStatus.OK)
-    default Mono<Order> placeOrder(
+    default @Valid Mono<Order> placeOrder(
         @Parameter(name = "Order", description = "order placed for purchasing the pet", required = true) @Valid @RequestBody Mono<Order> order
     ) {
         return getDelegate().placeOrder(order);

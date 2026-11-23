@@ -1,1 +1,1 @@
-{{#required}}{{^isReadOnly}}{{#isNullable}}{{#openApiNullable}}/* @Present */ {{/openApiNullable}}{{/isNullable}}{{^isNullable}}@NotNull {{/isNullable}}{{/isReadOnly}}{{/required}}
+{{#required}}{{^isReadOnly}}{{#isNullable}}{{#openApiNullableUsePresent}}{{#useBeanValidation}}@Present(payload = Unwrapping.Skip.class){{/useBeanValidation}}{{/openApiNullableUsePresent}}{{/isNullable}}{{^isNullable}}@NotNull {{/isNullable}}{{/isReadOnly}}{{/required}}

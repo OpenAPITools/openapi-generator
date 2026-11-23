@@ -37,7 +37,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS,
         produces = { "application/json" }
     )
-    ResponseEntity<List<Pet>> findPets(
+    @Valid ResponseEntity<List<@Valid Pet>> findPets(
         
     );
 
@@ -53,7 +53,7 @@ public interface PetApi {
         value = PetApi.PATH_LIST_PETS_PAGED,
         produces = { "application/json" }
     )
-    ResponseEntity<PagedModel<Pet>> listPetsPaged(
+    @Valid ResponseEntity<PagedModel<Pet>> listPetsPaged(
         
     );
 
@@ -70,7 +70,7 @@ public interface PetApi {
         value = PetApi.PATH_SEARCH_PETS,
         produces = { "application/json" }
     )
-    ResponseEntity<SearchResult> searchPets(
+    @Valid ResponseEntity<SearchResult> searchPets(
          @Valid @RequestParam(value = "q", required = false) @Nullable String q
     );
 

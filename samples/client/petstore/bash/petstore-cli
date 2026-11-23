@@ -1685,7 +1685,9 @@ call_call123TestSpecialTags() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -1765,7 +1767,9 @@ call_createXmlItem() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -1834,7 +1838,9 @@ call_fakeOuterBooleanSerialize() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -1903,7 +1909,9 @@ call_fakeOuterCompositeSerialize() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -1972,7 +1980,9 @@ call_fakeOuterNumberSerialize() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2041,7 +2051,9 @@ call_fakeOuterStringSerialize() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2119,7 +2131,9 @@ call_testBodyWithFileSchema() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2197,7 +2211,9 @@ call_testBodyWithQueryParams() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2275,7 +2291,9 @@ call_testClientModel() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2463,7 +2481,9 @@ call_testInlineAdditionalProperties() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2614,7 +2634,9 @@ call_testClassname() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2690,7 +2712,9 @@ call_addPet() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -2910,7 +2934,9 @@ call_updatePet() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -3198,7 +3224,9 @@ call_placeOrder() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -3267,7 +3295,9 @@ call_createUser() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -3336,7 +3366,9 @@ call_createUsersWithArrayInput() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -3405,7 +3437,9 @@ call_createUsersWithListInput() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #
@@ -3618,7 +3652,9 @@ call_updateUser() {
         else
             eval "cat ${body_content_temp_file} | curl ${basic_auth_option} ${curl_arguments} ${headers_curl} -X ${method} \"${host}${path}\" -d @-"
         fi
+        local curl_exit_code=$?
         rm "${body_content_temp_file}"
+        return "$curl_exit_code"
     #
     # If not, try to build the content body from arguments KEY==VALUE and KEY:=VALUE
     #

@@ -35,7 +35,7 @@ public interface AnotherFakeApiDelegate {
      * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
-    default Mono<Client> call123testSpecialTags(Mono<Client> client) {
+    default @Valid Mono<Client> call123testSpecialTags(Mono<Client> client) {
         Mono<Void> result = Mono.empty();
 
 

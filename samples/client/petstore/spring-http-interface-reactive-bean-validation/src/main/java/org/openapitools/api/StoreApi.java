@@ -60,7 +60,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         accept = { "application/json" }
     )
-    Mono<ResponseEntity<Map<String, Integer>>> getInventory(
+    @Valid Mono<ResponseEntity<Map<String, Integer>>> getInventory(
         
     );
 
@@ -80,7 +80,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         accept = { "application/json", "application/xml" }
     )
-    Mono<ResponseEntity<Order>> getOrderById(
+    @Valid Mono<ResponseEntity<Order>> getOrderById(
         @Min(value = 1L) @Max(value = 5L)  @PathVariable("order_id") Long orderId
     );
 
@@ -100,7 +100,7 @@ public interface StoreApi {
         accept = { "application/json", "application/xml" },
         contentType = "application/json"
     )
-    Mono<ResponseEntity<Order>> placeOrder(
+    @Valid Mono<ResponseEntity<Order>> placeOrder(
          @Valid @RequestBody Mono<Order> order
     );
 

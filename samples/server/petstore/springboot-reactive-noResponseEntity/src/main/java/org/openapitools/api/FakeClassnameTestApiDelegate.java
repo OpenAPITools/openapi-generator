@@ -35,7 +35,7 @@ public interface FakeClassnameTestApiDelegate {
      * @return successful operation (status code 200)
      * @see FakeClassnameTestApi#testClassname
      */
-    default Mono<Client> testClassname(Mono<Client> client) {
+    default @Valid Mono<Client> testClassname(Mono<Client> client) {
         Mono<Void> result = Mono.empty();
 
 

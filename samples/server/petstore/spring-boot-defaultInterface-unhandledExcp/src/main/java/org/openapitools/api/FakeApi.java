@@ -99,7 +99,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Boolean> fakeOuterBooleanSerialize(
+    @Valid ResponseEntity<Boolean> fakeOuterBooleanSerialize(
         @Parameter(name = "body", description = "Input boolean as post body") @Valid @RequestBody(required = false) @Nullable Boolean body
     ) throws Exception;
 
@@ -128,7 +128,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
+    @Valid ResponseEntity<OuterComposite> fakeOuterCompositeSerialize(
         @Parameter(name = "OuterComposite", description = "Input composite as post body") @Valid @RequestBody(required = false) @Nullable OuterComposite outerComposite
     ) throws Exception;
 
@@ -157,7 +157,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
+    @Valid ResponseEntity<BigDecimal> fakeOuterNumberSerialize(
         @Parameter(name = "body", description = "Input number as post body") @Valid @RequestBody(required = false) @Nullable BigDecimal body
     ) throws Exception;
 
@@ -186,7 +186,7 @@ public interface FakeApi {
         produces = { "*/*" },
         consumes = { "application/json" }
     )
-    ResponseEntity<String> fakeOuterStringSerialize(
+    @Valid ResponseEntity<String> fakeOuterStringSerialize(
         @Parameter(name = "body", description = "Input string as post body") @Valid @RequestBody(required = false) @Nullable String body
     ) throws Exception;
 
@@ -212,7 +212,7 @@ public interface FakeApi {
         value = FakeApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         produces = { "application/json" }
     )
-    ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
+    @Valid ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     ) throws Exception;
 
@@ -294,7 +294,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    ResponseEntity<Client> testClientModel(
+    @Valid ResponseEntity<Client> testClientModel(
         @Parameter(name = "Client", description = "client model", required = true) @Valid @RequestBody Client client
     ) throws Exception;
 
@@ -572,7 +572,7 @@ public interface FakeApi {
         value = FakeApi.PATH_TEST_WITH_RESULT_EXAMPLE,
         produces = { "application/json" }
     )
-    ResponseEntity<Integer> testWithResultExample(
+    @Valid ResponseEntity<Integer> testWithResultExample(
         
     ) throws Exception;
 
@@ -607,7 +607,7 @@ public interface FakeApi {
         produces = { "application/json" },
         consumes = { "multipart/form-data" }
     )
-    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
+    @Valid ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata

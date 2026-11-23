@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: instantiationTypes in container helpers
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Basket:
+      type: object
+      properties:
+        entries:
+          type: object
+          additionalProperties:
+            type: string
+        tags:
+          type: array
+          items:
+            type: string
+        labels:
+          type: array
+          uniqueItems: true
+          items:
+            type: string

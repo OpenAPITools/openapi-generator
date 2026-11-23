@@ -17,6 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -26,12 +27,14 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -52,8 +55,22 @@ import java.util.*;
 import static org.openapitools.codegen.CodegenConstants.X_MODIFIERS;
 import static org.openapitools.codegen.CodegenConstants.X_REGEX;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
+    protected static final Set<String> PYTHON_BUILTINS = Set.of(
+            "abs", "aiter", "all", "anext", "any", "ascii", "bin", "bool",
+            "breakpoint", "bytearray", "bytes", "callable", "chr", "classmethod",
+            "compile", "complex", "copyright", "credits", "delattr", "dict",
+            "dir", "divmod", "enumerate", "eval", "exec", "exit", "filter",
+            "float", "format", "frozenset", "getattr", "globals", "hasattr",
+            "hash", "help", "hex", "id", "input", "int", "isinstance",
+            "issubclass", "iter", "len", "license", "list", "locals", "map",
+            "max", "memoryview", "min", "next", "object", "oct", "open", "ord",
+            "pow", "print", "property", "quit", "range", "repr", "reversed",
+            "round", "set", "setattr", "slice", "sorted", "staticmethod", "str",
+            "sum", "super", "tuple", "type", "vars", "zip");
+
     private static class PythonBooleanSerializer extends JsonSerializer<Boolean> {
         @Override
         public void serialize(Boolean value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
@@ -72,12 +89,17 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     public static final String USE_PYTHON_SRC_ROOT_IN_IMPORTS = "usePythonSrcRootInImports";
     public static final String MOVE_TESTS_UNDER_PYTHON_SRC_ROOT = "testsUsePythonSrcRoot";
     static final String MEDIA_TYPE = "mediaType";
+    // names escaped for a single-quoted Python literal; emitting them via {{baseName}}/{{name}}
+    // would HTML-escape them (e.g. "a&b" -> "a&amp;b")
+    static final String X_QUOTED_BASE_NAME = "x-python-connexion-quoted-base-name";
+    static final String X_QUOTED_KEY_PARAM_NAME = "x-python-connexion-quoted-key-param-name";
     // Effective style/explode of an object-typed (model) query or header parameter.
     static final String X_OBJECT_STYLE = "x-python-connexion-object-style";
     static final String X_OBJECT_EXPLODE = "x-python-connexion-object-explode";
     // Map<String, String> of wire values, used only by prepareObjectParameterExample (never by templates).
     static final String X_OBJECT_EXAMPLE = "x-python-connexion-object-example";
-    // baseName escaped for a single-quoted Python literal.
+    // CodegenParameter.baseName escaped for a single-quoted Python literal; same name and
+    // meaning as the vendor extension used by the object-params work on controllers
     static final String X_QUOTED_NAME = "x-python-connexion-quoted-name";
     static final String X_TEST_UNSERIALIZABLE = "x-python-connexion-test-unserializable";
     static final String HAS_OBJECT_PARAMS = "connexionObjectParams";
@@ -346,6 +368,47 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
     /**
+     * Whether the generated application registers the API with Connexion's
+     * {@code pythonic_params} option. When enabled, Connexion passes handler
+     * arguments in snake_case with a trailing underscore on names that shadow
+     * a Python builtin or keyword, so parameter names are derived accordingly.
+     * Generators that register the API without {@code pythonic_params}
+     * (python-blueplanet, which targets Connexion 1.x) keep the parent's
+     * parameter naming.
+     *
+     * @return true when Connexion applies pythonic_params to handler arguments
+     */
+    protected boolean usesPythonicParams() {
+        return true;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        if (!usesPythonicParams()) {
+            return super.toParamName(name);
+        }
+
+        name = sanitizeName(name);
+        name = name.replace("$", "");
+        if (name.matches("^[A-Z_]*$")) {
+            name = name.toLowerCase(Locale.ROOT);
+        }
+        name = underscore(name);
+
+        if (name.matches("^\\d.*")) {
+            name = escapeReservedWord(name);
+        } else if (PYTHON_BUILTINS.contains(name) || PYTHON_KEYWORDS.contains(name)) {
+            name = name + "_";
+        }
+
+        return name;
+    }
+
+    /**
      * Location to write api files.  You can use the apiPackage() as defined when the class is
      * instantiated
      */
@@ -375,6 +438,40 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
+        // appName carries the HTML-escaped title for markup/docs. For Python source
+        // the title must be emitted as a proper Python string literal instead, in
+        // both single- and double-quoted forms to match each template site.
+        String title = openAPI.getInfo() != null ? openAPI.getInfo().getTitle() : null;
+        additionalProperties.put("appNameSingleQuotedLiteral",
+                title != null ? PythonStringUtils.toPythonSingleQuotedStringLiteral(title) : "''");
+        additionalProperties.put("appNameDoubleQuotedLiteral",
+                title != null ? toPythonStringLiteral(title) : "\"\"");
+
+        // Same treatment for info.description and contact.email: appDescription/
+        // infoEmail are HTML-escaped for markup contexts, so provide forms that are
+        // safe to embed in Python source. The long_description site keeps its
+        // """...""" shape (newlines preserved); the default text mirrors the one
+        // DefaultGenerator.configureOpenAPIInfo() assigns to unescapedAppDescription.
+        String description = openAPI.getInfo() != null ? openAPI.getInfo().getDescription() : null;
+        additionalProperties.put("appDescriptionTripleQuotedContent",
+                PythonStringUtils.toPythonTripleQuotedStringContent(StringUtils.isEmpty(description)
+                        ? "No description provided (generated by Openapi Generator https://github.com/openapitools/openapi-generator)"
+                        : description));
+        String infoEmail = openAPI.getInfo() != null && openAPI.getInfo().getContact() != null
+                ? openAPI.getInfo().getContact().getEmail() : null;
+        if (infoEmail == null) {
+            // DefaultGenerator only populates infoEmail from the spec's contact
+            // email, so when the spec has none a caller-provided infoEmail is
+            // still in additionalProperties and is the value the literal must
+            // carry rather than collapsing to an empty string
+            Object providedInfoEmail = additionalProperties.get("infoEmail");
+            if (providedInfoEmail != null) {
+                infoEmail = providedInfoEmail.toString();
+            }
+        }
+        additionalProperties.put("infoEmailDoubleQuotedLiteral",
+                infoEmail != null ? toPythonStringLiteral(infoEmail) : "\"\"");
+
         // need vendor extensions for x-openapi-router-controller
         Map<String, PathItem> paths = openAPI.getPaths();
         if (paths != null) {
@@ -525,6 +622,12 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         for (CodegenSecurity codegenSecurity : codegenSecurities) {
             codegenSecurity.vendorExtensions.put("x-python-connexion-security-function-suffix",
                     securityFunctionNameSuffix(codegenSecurity.name));
+            if (codegenSecurity.keyParamName != null) {
+                // an apiKey-in-header's keyParamName goes into a single-quoted Python literal
+                // in generated tests (it is the header name, not the security scheme name)
+                codegenSecurity.vendorExtensions.put(X_QUOTED_KEY_PARAM_NAME,
+                        escapeForPythonSingleQuotedLiteral(codegenSecurity.keyParamName));
+            }
         }
         return codegenSecurities;
     }
@@ -665,6 +768,22 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             }
         }
 
+        // $ref'd parameters live under components; when the spec was parsed
+        // without resolving references, the $ref stub in the operation carries
+        // no extension and is skipped above, so revert components directly.
+        Components openAPIComponents = openAPI.getComponents();
+        if (openAPIComponents != null && openAPIComponents.getParameters() != null) {
+            for (Parameter parameter : openAPIComponents.getParameters().values()) {
+                Map<String, Object> parameterExtensions = parameter.getExtensions();
+                if (parameterExtensions != null) {
+                    String swaggerParameterName = (String) parameterExtensions.remove("x-python-connexion-openapi-name");
+                    if (swaggerParameterName != null && !swaggerParameterName.equals(parameter.getName())) {
+                        parameter.setName(swaggerParameterName);
+                    }
+                }
+            }
+        }
+
         generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
@@ -705,7 +824,54 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (anyPropertyMatches(property, p -> p.isUuid)) {
             addImport(model, "from uuid import UUID");
         }
+        // baseName goes into a single-quoted Python literal in attribute_map
+        property.vendorExtensions.put(X_QUOTED_BASE_NAME, escapeForPythonSingleQuotedLiteral(property.baseName));
         postProcessPattern(property.pattern, property.vendorExtensions);
+    }
+
+    /**
+     * Escape a name for embedding inside a single-quoted Python string literal (the
+     * surrounding quotes are supplied by the templates). Unlike
+     * {@link DefaultCodegen#escapeTextInSingleQuotes}, which folds tab/newline/CR into
+     * spaces and rewrites "'''" via {@link AbstractPythonCodegen#escapeUnsafeCharacters},
+     * this conversion is lossless: the literal always evaluates back to the original name.
+     */
+    public static String escapeForPythonSingleQuotedLiteral(String input) {
+        if (input == null) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder(input.length());
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            switch (c) {
+                case '\\':
+                    sb.append("\\\\");
+                    break;
+                case '\'':
+                    sb.append("\\'");
+                    break;
+                case '\n':
+                    sb.append("\\n");
+                    break;
+                case '\r':
+                    sb.append("\\r");
+                    break;
+                case '\t':
+                    sb.append("\\t");
+                    break;
+                default:
+                    if (c < 0x20 || (c >= 0x7f && c <= 0x9f)) {
+                        sb.append("\\x");
+                        if (c < 0x10) {
+                            sb.append('0');
+                        }
+                        sb.append(Integer.toHexString(c));
+                    } else {
+                        sb.append(c);
+                    }
+            }
+        }
+        return sb.toString();
     }
 
     @Override
@@ -831,6 +997,21 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         // This hook is the one place that sees both the CodegenParameter and the raw Parameter. The raw one
         // is needed because DefaultCodegen leaves CodegenParameter.style null when the spec omits it and sets
         // isExplode=false even for style=form, whose OpenAPI default is explode=true.
+
+        // Parameters declared with `content` (instead of `schema`) keep their example in the
+        // media type, which the generic example lookup never inspects. The generated test
+        // would send `None` for them and the controller's `json.loads` call would fail, so
+        // a JSON literal is computed here for the test templates to use instead.
+        if (isJsonContentParam(codegenParameter) && parameter != null
+                && parameter.getContent() != null && !parameter.getContent().isEmpty()) {
+            MediaType mediaType = parameter.getContent().values().iterator().next();
+            String jsonExample = toJsonString(jsonContentExample(mediaType));
+            if (jsonExample != null) {
+                codegenParameter.vendorExtensions.put("x-python-connexion-test-header-value",
+                        PythonStringUtils.toPythonSingleQuotedStringLiteral(jsonExample));
+            }
+        }
+
         if (!supportsObjectParameterParsing() || !codegenParameter.isModel
                 || !(codegenParameter.isQueryParam || codegenParameter.isHeaderParam)
                 // serialized via "content" (e.g. JSON), handled by the JSON header path instead
@@ -918,11 +1099,20 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         if (openapiName instanceof String) {
             parameter.baseName = (String) openapiName;
         }
+        if (parameter.baseName != null) {
+            // baseName (the original wire name) goes into single-quoted Python literals in
+            // generated tests (query keys, blueplanet header names). Same extension name and
+            // meaning as in the object-params work that consumes it for controller lines.
+            parameter.vendorExtensions.put(X_QUOTED_NAME, escapeForPythonSingleQuotedLiteral(parameter.baseName));
+        }
         if (parameter.isHeaderParam || parameter.isCookieParam) {
-            boolean isJsonContent = parameter.headerIsJsonMimeType
-                    || isJsonMimeType(parameter.contentType)
-                    || isJsonVendorMimeType(parameter.contentType);
-            if (isJsonContent) {
+            // Header and cookie parameters are not passed to the handler by
+            // Connexion; the handler body reads them from the request into a
+            // local variable. Use the parent naming here so a header named
+            // e.g. 'json' becomes '_json' and cannot shadow names used by the
+            // templates (json.loads for JSON content headers).
+            parameter.paramName = super.toParamName(parameter.baseName);
+            if (isJsonContentParam(parameter)) {
                 parameter.vendorExtensions.put("x-python-connexion-json-content", Boolean.TRUE);
             } else if (parameter.isArray) {
                 if (parameter.items == null || !parameter.items.isModel) {
@@ -944,6 +1134,80 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             } else if (parameter.isBoolean) {
                 parameter.vendorExtensions.put("x-python-connexion-cast-bool", Boolean.TRUE);
             }
+        }
+    }
+
+    private static boolean isJsonContentParam(CodegenParameter parameter) {
+        return (parameter.isHeaderParam || parameter.isCookieParam)
+                && (parameter.headerIsJsonMimeType
+                        || isJsonMimeType(parameter.contentType)
+                        || isJsonVendorMimeType(parameter.contentType));
+    }
+
+    /**
+     * Example value of a JSON content media type: the media type `example`, the first
+     * `examples` entry (`$ref` resolved), the media type schema `example` (`$ref`
+     * resolved), or a minimal JSON value derived from the schema type.
+     */
+    private Object jsonContentExample(MediaType mediaType) {
+        if (mediaType == null) {
+            return Collections.emptyMap();
+        }
+        if (mediaType.getExample() != null) {
+            return mediaType.getExample();
+        }
+        if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty()) {
+            Example example = mediaType.getExamples().values().iterator().next();
+            if (example.get$ref() != null && openAPI != null && openAPI.getComponents() != null
+                    && openAPI.getComponents().getExamples() != null) {
+                Example referenced = openAPI.getComponents().getExamples()
+                        .get(ModelUtils.getSimpleRef(example.get$ref()));
+                if (referenced != null && referenced.getValue() != null) {
+                    return referenced.getValue();
+                }
+            } else if (example.getValue() != null) {
+                return example.getValue();
+            }
+        }
+        Schema schema = mediaType.getSchema();
+        if (openAPI != null) {
+            schema = ModelUtils.getReferencedSchema(openAPI, schema);
+        }
+        if (schema != null && schema.getExample() != null) {
+            return schema.getExample();
+        }
+        return minimalJsonExample(schema);
+    }
+
+    private Object minimalJsonExample(Schema schema) {
+        if (schema != null) {
+            if (ModelUtils.isArraySchema(schema)) {
+                return Collections.emptyList();
+            }
+            if (ModelUtils.isBooleanSchema(schema)) {
+                return Boolean.FALSE;
+            }
+            if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isNumberSchema(schema)) {
+                return 0;
+            }
+            if (ModelUtils.isStringSchema(schema)) {
+                return "";
+            }
+        }
+        return Collections.emptyMap();
+    }
+
+    private String toJsonString(Object example) {
+        if (example == null) {
+            return null;
+        }
+        try {
+            // MAPPER renders booleans as Python's True/False, so the plain swagger-core
+            // mapper is used here to keep valid JSON for json.loads on the other end.
+            return Json.mapper().writeValueAsString(example);
+        } catch (JsonProcessingException e) {
+            LOGGER.warn("Failed to serialize example of JSON content parameter to JSON", e);
+            return null;
         }
     }
 
@@ -1010,7 +1274,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             for (List<CodegenParameter> params : Arrays.asList(operation.allParams, operation.headerParams,
                     operation.cookieParams)) {
                 for (CodegenParameter param : params) {
-                    param.vendorExtensions.put(X_QUOTED_NAME, escapeTextInSingleQuotes(param.baseName));
+                    param.vendorExtensions.put(X_QUOTED_NAME, escapeForPythonSingleQuotedLiteral(param.baseName));
                 }
             }
             // allParams, queryParams and headerParams hold separate copies of each parameter.
@@ -1090,7 +1354,15 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 }
             }
             for (CodegenParameter param : operation.allParams) {
-                if ((param.isFreeFormObject || param.isAnyType) && "object".equals(param.dataType)) {
+                // "object" is the type name produced for inline `type: object`
+                // schemas (isModel can still be true when they declare properties),
+                // free-form objects and anyType; none of them get a generated model
+                // class to call `.from_dict()` on. Header and cookie parameters
+                // already carry the json.loads result, so they are converted only
+                // when their type is an actual generated model class.
+                if (((param.isFreeFormObject || param.isAnyType) && "object".equals(param.dataType))
+                        || ((param.isHeaderParam || param.isCookieParam)
+                                && !(param.isModel && !"object".equals(param.dataType)))) {
                     param.vendorExtensions.put("x-python-connexion-skip-from-dict", Boolean.TRUE);
                 }
             }
@@ -1122,7 +1394,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                 Map<String, String> entry = new HashMap<>();
                 Object openapiName = param.vendorExtensions.get("x-python-connexion-openapi-name");
                 String wireName = openapiName != null ? openapiName.toString() : param.baseName;
-                entry.put("name", escapeTextInSingleQuotes(wireName));
+                entry.put("name", escapeForPythonSingleQuotedLiteral(wireName));
                 entry.put("example", param.example);
                 testQueryString.add(entry);
             }
@@ -1134,7 +1406,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                     }
                     if (Boolean.TRUE.equals(auth.isKeyInQuery)) {
                         Map<String, String> entry = new HashMap<>();
-                        entry.put("name", escapeTextInSingleQuotes(auth.keyParamName));
+                        entry.put("name", escapeForPythonSingleQuotedLiteral(auth.keyParamName));
                         entry.put("example", "'special-key'");
                         testQueryString.add(entry);
                     }

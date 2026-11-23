@@ -137,6 +137,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
     public static final String USE_SPRING_SECURITY_PRE_AUTHORIZE = "useSpringSecurityPreAuthorize";
     public static final String SPRING_SECURITY_AUTHORITY_PREFIX = "springSecurityAuthorityPrefix";
+    public static final String OPENAPI_NULLABLE_USE_PRESENT = "openApiNullableUsePresent";
 
     @Getter
     public enum RequestMappingMode {
@@ -214,6 +215,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter boolean useHttpServiceProxyFactoryInterfacesConfigurator = false;
     @Getter protected String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
+    @Getter private boolean openApiNullableUsePresent;
     /**
      * Configures automatic Spring Pageable detection using a canonical mode or legacy boolean alias.
      *
@@ -452,7 +454,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(GENERATE_SORT_VALIDATION,
                 "Generate a @ValidSort annotation and SortValidator class, and apply @ValidSort to "
                 + "the injected Pageable parameter of operations whose 'sort' parameter has enum values. "
-                + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec. "
+                + "The annotation validates that sort values in the Pageable object match the allowed enum values from the spec."
+                + " The number of sort orders is bounded too: a scalar 'sort' allows at most one (maxItems = 1), an array 'sort' uses the minItems/maxItems its schema defines (none defined = unbounded). An unsorted Pageable is always accepted. "
                 + "Requires useBeanValidation=true and library is spring-boot or spring-cloud.",
                 generateSortValidation));
         cliOptions.add(CliOption.newBoolean(GENERATE_PAGEABLE_CONSTRAINT_VALIDATION,
@@ -470,6 +473,9 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ENUM_VALUE_INTERFACE,
                 CodegenConstants.USE_ENUM_VALUE_INTERFACE_DESC,
                 useEnumValueInterface));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE_USE_PRESENT,
+                "Use `@Present` annotation to mark nullable and required properties. See (https://github.com/OpenAPITools/jackson-databind-nullable#requiring-a-property-to-be-present) for more details. Requires openApiNullable=true and useBeanValidation=true.",
+                openApiNullableUsePresent));
 
     }
 
@@ -729,6 +735,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(SUBSTITUTE_GENERIC_PAGED_MODEL, this::setSubstituteGenericPagedModel);
         convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ENUM_VALUE_INTERFACE, this::setUseEnumValueInterface);
+        convertPropertyToBooleanAndWriteBackTransformedValue(OPENAPI_NULLABLE_USE_PRESENT, this::initOpenApiNullableUsePresent);
 
         // Validate an explicitly supplied value for every library so typos are not silently ignored;
         // the resolved mode is only used (and written back) when Pageable is supported.
@@ -934,6 +941,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
+
+        additionalProperties.put("lambdaBeanValidationType", (Mustache.Lambda) (fragment, writer) -> {
+            String type = fragment.execute();
+            int genericStart = type.indexOf('<');
+            int qualifierEnd = (genericStart < 0 ? type : type.substring(0, genericStart)).lastIndexOf('.');
+            // Type-use annotations belong after the package qualifier, before the simple type name.
+            writer.write(type.substring(0, qualifierEnd + 1) + "@Valid " + type.substring(qualifierEnd + 1));
+        });
 
         // apiController: hide implementation behind undocumented flag to temporarily preserve code
         additionalProperties.put("_api_controller_impl_", false);
@@ -2418,6 +2433,17 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Override
     public void setUseSwaggerUI(boolean useSwaggerUI) {
         this.useSwaggerUI = useSwaggerUI;
+    }
+
+    /**
+     * set openApiNullableUsePresent to true if openApiNullable is true and useBeanValidation is true.
+     *
+     * @param openApiNullableUsePresent the value to set.
+     * @return the actual value of openApiNullableUsePresent
+     */
+    protected boolean initOpenApiNullableUsePresent(boolean openApiNullableUsePresent) {
+        this.openApiNullableUsePresent = openApiNullableUsePresent && useBeanValidation && openApiNullable;
+        return this.openApiNullableUsePresent;
     }
 
     @Override
