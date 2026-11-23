@@ -45,11 +45,45 @@ public class RubyNextgenClientCodegenTest {
 
         TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/things.rb"),
-                "query: [(filter || {}).compact.transform_keys(&:to_s), (default_filter ||"
-                    + " {}).compact.transform_keys(&:to_s), { 'flatFilter' => flat_filter"
-                    + " }.compact, { 'deepFilter' => deep_filter }.compact, { 'limit' => limit"
-                    + " }.compact, { 'tags' => tags }.compact, { 'contentFilter' => content_filter"
-                    + " }.compact].reduce({}, :merge)");
+                "query: [Petstore::QueryParams.explode('filter', filter),"
+                    + " Petstore::QueryParams.explode('defaultFilter', default_filter),"
+                    + " Petstore::QueryParams.join('flatFilter', flat_filter),"
+                    + " Petstore::QueryParams.deep_object('deepFilter', deep_filter),"
+                    + " { 'limit' => limit }.compact, { 'tags' => tags }.compact,"
+                    + " { 'contentFilter' => content_filter }.compact].reduce({}, :merge)");
+        // Models are serialized like maps: by their properties, never as one opaque value.
+        // A referenced schema that is not an object (anyOf of scalars, enum, allOf wrapper
+        // around one of those) stays a plain value, and a quote in a name is escaped.
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/widgets.rb"),
+                "query: [Petstore::QueryParams.explode('color', color),"
+                    + " Petstore::QueryParams.join('flatColor', flat_color),"
+                    + " Petstore::QueryParams.explode('shape', shape),"
+                    + " Petstore::QueryParams.join('flatShape', flat_shape),"
+                    + " Petstore::QueryParams.deep_object('deepColor', deep_color),"
+                    + " { 'consistency' => consistency }.compact, { 'level' => level }.compact,"
+                    + " Petstore::QueryParams.explode('defaultColor', default_color),"
+                    + " { 'wrappedConsistency' => wrapped_consistency }.compact,"
+                    + " { 'it\\'s' => its }.compact].reduce({}, :merge)");
+        TestUtils.assertFileExists(target.resolve("lib/petstore/query_params.rb"));
+    }
+
+    @Test
+    public void testQueryWithoutObjectParametersStaysAPlainHash() throws Exception {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        ClientOptInput input =
+                new CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new DefaultGenerator(false).opts(input).generate();
+
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/pet.rb"), "query: { 'status' => status }");
     }
 
     @Test

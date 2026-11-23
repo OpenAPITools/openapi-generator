@@ -72,6 +72,30 @@ rescue Qdrant::ApiError => e
 end
 ```
 
+## Object query parameters
+
+A query parameter whose schema is an object -- a map, or a model with properties --
+takes a `Hash`, a generated model, or any object that responds to `to_hash`, and is
+serialized according to its `style` and `explode`:
+
+| `style` / `explode` | Query string |
+| --- | --- |
+| `form`, `explode: true` (the default) | `?tld=com&size=big` |
+| `form`, `explode: false` | `?filter=tld,com,size,big` |
+| `deepObject` | `?filter[tld]=com&filter[size]=big` |
+
+The query strings above are shown decoded: on the wire, the commas are sent as `%2C`
+and the brackets as `%5B` and `%5D`.
+
+`nil` properties are omitted, at any depth. A value that does not convert to a `Hash` raises
+`ArgumentError`, and so does a nested object or array with `explode: false`. A
+parameter declared with `oneOf` or `anyOf` is sent as given.
+
+An exploded object shares its names with the operation's other query parameters, since
+its properties are sent without the parameter name. When two of them carry the same
+name, the one declared last in the OpenAPI document wins, and an API key sent in the
+query overrides both.
+
 ## Custom middleware / request signing
 
 Static credentials (`apiKey`, `bearer`, `basic`) are handled from the OpenAPI spec.

@@ -61,3 +61,96 @@ paths:
       responses:
         '200':
           description: OK
+  /widgets:
+    get:
+      operationId: listWidgets
+      parameters:
+        - name: color
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: flatColor
+          in: query
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: shape
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Shape'
+        - name: flatShape
+          in: query
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Shape'
+        - name: deepColor
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: consistency
+          in: query
+          schema:
+            $ref: '#/components/schemas/Consistency'
+        - name: level
+          in: query
+          schema:
+            $ref: '#/components/schemas/Level'
+        - name: defaultColor
+          in: query
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: wrappedConsistency
+          in: query
+          schema:
+            $ref: '#/components/schemas/WrappedConsistency'
+        - name: it's
+          in: query
+          schema:
+            type: string
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: query
+      name: api_key
+  schemas:
+    Color:
+      type: object
+      properties:
+        red:
+          type: integer
+        lineWidth:
+          type: integer
+    Shape:
+      type: object
+      properties:
+        kind:
+          type: string
+      additionalProperties:
+        type: string
+    Consistency:
+      anyOf:
+        - type: integer
+        - $ref: '#/components/schemas/Level'
+    Level:
+      type: string
+      enum:
+        - majority
+        - all
+    WrappedConsistency:
+      nullable: true
+      allOf:
+        - $ref: '#/components/schemas/Consistency'

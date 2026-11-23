@@ -35,6 +35,7 @@ import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.json.JsonDecoder
@@ -42,6 +43,7 @@ import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 
@@ -66,6 +68,7 @@ internal sealed interface AnyOfUserOrPetOrArrayString {
 internal object AnyOfUserOrPetOrArrayStringSerializer : KSerializer<AnyOfUserOrPetOrArrayString> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("AnyOfUserOrPetOrArrayString")
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: AnyOfUserOrPetOrArrayString) {
         val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("AnyOfUserOrPetOrArrayString can only be serialized with Json")
 

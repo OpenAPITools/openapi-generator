@@ -355,6 +355,7 @@ lib/qdrant/models/with_payload_interface.rb
 lib/qdrant/models/with_vector.rb
 lib/qdrant/models/write_ordering.rb
 lib/qdrant/polymorphism.rb
+lib/qdrant/query_params.rb
 lib/qdrant/response.rb
 lib/qdrant/serializable.rb
 lib/qdrant/validations.rb
