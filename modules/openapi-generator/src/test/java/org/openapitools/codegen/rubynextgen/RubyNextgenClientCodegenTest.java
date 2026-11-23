@@ -610,7 +610,8 @@ public class RubyNextgenClientCodegenTest {
                 "def_delegators :data, :[], :each, :map, :to_a, :to_hash, :dig");
         org.openapitools.codegen.TestUtils.assertFileContains(response,
                 "def respond_to_missing?(name, include_private = false)",
+                "def method_missing(name, ...)",
                 "(name == :to_hash && data.respond_to?(:to_hash)) || super",
-                "return data.to_hash(*args, &block) if name == :to_hash && data.respond_to?(:to_hash)");
+                "return data.to_hash(...) if name == :to_hash && data.respond_to?(:to_hash)");
     }
 }
