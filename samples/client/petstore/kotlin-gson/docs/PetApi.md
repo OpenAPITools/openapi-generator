@@ -66,7 +66,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a id="deletePet"></a>
 # **deletePet**
@@ -175,7 +175,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a id="findPetsByTags"></a>
 # **findPetsByTags**
@@ -229,7 +229,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a id="getPetById"></a>
 # **getPetById**
@@ -278,7 +278,7 @@ Configure api_key:
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a id="updatePet"></a>
 # **updatePet**
@@ -332,7 +332,7 @@ apiInstance.accessTokenProvider = { "" }
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/xml, application/json
+ - **Accept**: application/json
 
 <a id="updatePetWithForm"></a>
 # **updatePetWithForm**

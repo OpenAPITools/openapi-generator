@@ -31,10 +31,152 @@ paths:
               schema:
                 type: string
                 format: binary
+  /download-octet-stream:
+    get:
+      operationId: downloadOctetStream
+      responses:
+        "200":
+          description: raw bytes
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /export-report:
+    get:
+      operationId: exportReport
+      responses:
+        "200":
+          description: archive whose content is not modelled
+          content:
+            application/gzip: {}
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pet:
+    get:
+      operationId: getPet
+      responses:
+        "200":
+          description: pet, XML listed first on purpose
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Pet"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /pet-or-photo:
+    get:
+      operationId: getPetOrPhoto
+      responses:
+        "200":
+          description: pet
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Pet"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        "201":
+          description: photo instead
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+  /pet-xml-only:
+    get:
+      operationId: getPetXmlOnly
+      responses:
+        "200":
+          description: pet
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Pet"
+  /pet-or-photo-file-first:
+    get:
+      operationId: getPhotoOrPet
+      responses:
+        "200":
+          description: photo
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "201":
+          description: pet instead
+          content:
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Pet"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+  /pet-name:
+    get:
+      operationId: getPetName
+      responses:
+        "200":
+          description: name
+          content:
+            text/plain:
+              schema:
+                type: string
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /poll-token:
+    get:
+      operationId: pollToken
+      responses:
+        "200":
+          description: token
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Error:
       type: object
       properties:
         message:
+          type: string
+    Pet:
+      type: object
+      properties:
+        name:
+          type: string
+    Token:
+      type: object
+      properties:
+        value:
           type: string
