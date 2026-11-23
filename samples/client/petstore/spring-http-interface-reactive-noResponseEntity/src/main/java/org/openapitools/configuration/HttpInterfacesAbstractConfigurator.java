@@ -23,7 +23,7 @@ public abstract class HttpInterfacesAbstractConfigurator {
 
     private final WebClient client;
 
-    public HttpInterfacesAbstractConfigurator(final WebClient client) {
+    public HttpInterfacesAbstractConfigurator(WebClient client) {
         this.client = client;
     }
 
