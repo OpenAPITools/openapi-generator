@@ -223,11 +223,16 @@ public class PhpClientCodegenTest {
 
         // a nullable reference (oneOf/anyOf with the OAS 3.1 'null' type) used as a map
         // value or array item keeps the fully qualified name (the composed alias model
-        // name), unlike a bare model name without separators
+        // name), unlike a bare model name without separators. The array items reference
+        // another model than the map values: the inline schema resolver reuses an
+        // existing schema for structurally equal inline schemas, so the array items would
+        // otherwise resolve to the map value alias instead of their own array item alias.
         Assert.assertEquals(vars.get("one_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\ThingOneOfMapValue>");
-        Assert.assertEquals(vars.get("one_of_list").dataType, "\\OpenAPI\\Client\\Model\\ThingOneOfMapValue[]");
+        Assert.assertEquals(vars.get("one_of_list").dataType, "\\OpenAPI\\Client\\Model\\ThingOneOfListInner[]");
         Assert.assertEquals(vars.get("any_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\ThingAnyOfMapValue>");
-        Assert.assertEquals(vars.get("any_of_list").dataType, "\\OpenAPI\\Client\\Model\\ThingAnyOfMapValue[]");
+        Assert.assertEquals(vars.get("any_of_list").dataType, "\\OpenAPI\\Client\\Model\\ThingAnyOfListInner[]");
+        Assert.assertEquals(vars.get("all_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
+        Assert.assertEquals(vars.get("all_of_list").dataType, "\\OpenAPI\\Client\\Model\\Other[]");
 
         // the same reference without nullability is unchanged
         Assert.assertEquals(vars.get("plain_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
@@ -249,7 +254,7 @@ public class PhpClientCodegenTest {
         // map value or array item keeps the fully qualified name, unlike a bare model
         // name without separators
         Assert.assertEquals(vars.get("all_of_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
-        Assert.assertEquals(vars.get("all_of_list").dataType, "\\OpenAPI\\Client\\Model\\Inner[]");
+        Assert.assertEquals(vars.get("all_of_list").dataType, "\\OpenAPI\\Client\\Model\\Other[]");
 
         // the same reference without nullability is unchanged
         Assert.assertEquals(vars.get("plain_map").dataType, "array<string,\\OpenAPI\\Client\\Model\\Inner>");
@@ -283,9 +288,9 @@ public class PhpClientCodegenTest {
 
         // oneOf/anyOf with the OAS 3.1 null type, in a map value and in an array item
         Assert.assertListContains(modelContent, a -> a.equals("'one_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
-        Assert.assertListContains(modelContent, a -> a.equals("'one_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'one_of_list' => '\\OpenAPI\\Client\\Model\\Other[]',"), "");
         Assert.assertListContains(modelContent, a -> a.equals("'any_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
-        Assert.assertListContains(modelContent, a -> a.equals("'any_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'any_of_list' => '\\OpenAPI\\Client\\Model\\Other[]',"), "");
 
         // controls
         Assert.assertListContains(modelContent, a -> a.equals("'plain_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
@@ -320,7 +325,7 @@ public class PhpClientCodegenTest {
         // OAS 3.0 spelling: allOf-wrapped $ref with nullable: true, in a map value and
         // in an array item
         Assert.assertListContains(modelContent, a -> a.equals("'all_of_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");
-        Assert.assertListContains(modelContent, a -> a.equals("'all_of_list' => '\\OpenAPI\\Client\\Model\\Inner[]',"), "");
+        Assert.assertListContains(modelContent, a -> a.equals("'all_of_list' => '\\OpenAPI\\Client\\Model\\Other[]',"), "");
 
         // controls
         Assert.assertListContains(modelContent, a -> a.equals("'plain_map' => 'array<string,\\OpenAPI\\Client\\Model\\Inner>',"), "");

@@ -19,6 +19,11 @@ components:
       properties:
         name:
           type: string
+    Other:
+      type: object
+      properties:
+        id:
+          type: integer
     Thing:
       type: object
       properties:
@@ -33,7 +38,9 @@ components:
           type: array
           items:
             oneOf:
-              - $ref: '#/components/schemas/Inner'
+              # a different model than the map value, so the inline schema gets its own
+              # array item alias instead of being merged into the map value schema
+              - $ref: '#/components/schemas/Other'
               - type: "null"
         # OAS 3.1: anyOf with the null type, as a map value and as an array item
         any_of_map:
@@ -46,7 +53,7 @@ components:
           type: array
           items:
             anyOf:
-              - $ref: '#/components/schemas/Inner'
+              - $ref: '#/components/schemas/Other'
               - type: "null"
         # OAS 3.0 spelling of a nullable reference (allOf-wrapped $ref with nullable: true),
         # as a map value and as an array item
@@ -60,7 +67,7 @@ components:
           type: array
           items:
             allOf:
-              - $ref: '#/components/schemas/Inner'
+              - $ref: '#/components/schemas/Other'
             nullable: true
         # controls: the same reference without nullability
         plain_map:
