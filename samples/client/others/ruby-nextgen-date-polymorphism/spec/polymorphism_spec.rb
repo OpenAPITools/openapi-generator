@@ -79,4 +79,71 @@ RSpec.describe DatePolymorphism::Polymorphism do
         .to raise_error(ArgumentError, /ambiguous oneOf .* 2 candidates matched/)
     end
   end
+
+  describe 'already-typed Date values' do
+    # The Integer, Float, String and Boolean arms accept values that are already
+    # typed, and to_hash keeps Date objects: the Date arm must accept them too,
+    # or a to_hash -> from_hash round trip of a union-typed property fails.
+    it 'casts a Date instance as itself' do
+      expect(described_class.cast('Date', Date.new(2026, 1, 2))).to eq(Date.new(2026, 1, 2))
+    end
+
+    it 'builds an anyOf with a Date arm from a Date instance' do
+      expect(DatePolymorphism::Models::DateOrCode.build(Date.new(2026, 1, 2))).to eq(Date.new(2026, 1, 2))
+    end
+
+    it 'builds a oneOf with a Date arm from a Date instance' do
+      expect(DatePolymorphism::Models::DateOrTime.build(Date.new(2026, 1, 2))).to eq(Date.new(2026, 1, 2))
+    end
+
+    it 'keeps a Date through a to_hash -> from_hash round trip of a union-typed property' do
+      pet = DatePolymorphism::Models::Pet.from_hash('marked_on' => '2026-01-02')
+      expect(DatePolymorphism::Models::Pet.from_hash(pet.to_hash).marked_on).to eq(Date.new(2026, 1, 2))
+    end
+  end
+
+  describe 'strings the full-date guard cannot inspect' do
+    # A String of an unusable encoding makes the guard itself raise. coerce must
+    # then fall back to the raw value, as it does for an unparseable one.
+    # The unary plus copies the frozen string literal before force_encoding mutates it.
+    def invalid_utf8
+      (+"\xff").force_encoding(Encoding::UTF_8)
+    end
+
+    it 'leaves an invalidly encoded String untouched in from_hash' do
+      pet = DatePolymorphism::Models::Pet.from_hash('birthday' => invalid_utf8)
+      expect(pet.birthday).to eq(invalid_utf8)
+    end
+
+    it 'leaves a full-date-shaped String carrying invalid bytes untouched' do
+      value = (+"2026-01-02\xfe").force_encoding(Encoding::UTF_8)
+      pet = DatePolymorphism::Models::Pet.from_hash('birthday' => value)
+      expect(pet.birthday).to eq(value)
+    end
+
+    it 'leaves a String in an incompatible encoding untouched' do
+      value = '2026-01-02'.encode(Encoding::UTF_16LE)
+      pet = DatePolymorphism::Models::Pet.from_hash('birthday' => value)
+      expect(pet.birthday).to eq(value)
+    end
+
+    it 'does not match them in cast' do
+      expect(described_class.cast('Date', invalid_utf8)).to be_nil
+      expect(described_class.cast('Date', '2026-01-02'.encode(Encoding::UTF_16LE))).to be_nil
+    end
+  end
+
+  describe 'a payload no union candidate matches' do
+    # `coerce` never rejects data: an unmatched anyOf/oneOf payload falls back to
+    # the raw value, as a wrong-shaped model payload already does.
+    it 'returns the raw payload from coerce instead of raising' do
+      expect(described_class.coerce('DateOrTime', 'not a date')).to eq('not a date')
+      expect(described_class.coerce('DateOrCode', 12)).to eq(12)
+    end
+
+    it 'keeps the raw value of an unmatched union-typed property in from_hash' do
+      pet = DatePolymorphism::Models::Pet.from_hash('marked_on' => 12)
+      expect(pet.marked_on).to eq(12)
+    end
+  end
 end

@@ -22,6 +22,11 @@ module DatePolymorphism
         required: false,
         pattern: /^[a-z]+$/
 
+      attribute :marked_on,
+        type: 'DateOrCode',
+        json_key: 'marked_on',
+        required: false
+
       def initialize(**attrs)
         attrs.each do |k, v|
           raise ArgumentError, "unknown attribute: #{k}" unless respond_to?("#{k}=")

@@ -36,6 +36,10 @@ components:
         code:
           type: string
           pattern: '^[a-z]+$'
+        marked_on:
+          # a model property typed as an anyOf with a Date arm
+          allOf:
+            - $ref: '#/components/schemas/DateOrCode'
     DateOrCode:
       anyOf:
         - type: string

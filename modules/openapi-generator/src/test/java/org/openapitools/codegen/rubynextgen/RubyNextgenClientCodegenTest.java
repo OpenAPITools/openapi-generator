@@ -615,13 +615,38 @@ public class RubyNextgenClientCodegenTest {
                 "Date.iso8601(data)");
         org.openapitools.codegen.TestUtils.assertFileNotContains(polymorphism, "Date.parse(data)");
 
+        // An already-typed Date is a match as-is (to_hash keeps Date objects, so a
+        // from_hash round trip hands one back to cast), and the full-date guard cannot
+        // raise past the runtime: a String of an unusable encoding makes the match
+        // itself fail and falls back like any other value the branch does not take.
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                polymorphism,
+                "return data if data.is_a?(Date) return NO_MATCH unless data.is_a?(String)",
+                "rescue ArgumentError, TypeError, Encoding::CompatibilityError NO_MATCH",
+                "return data unless data.is_a?(String) begin",
+                "return data unless FULL_DATE.match?(data) Date.iso8601(data) rescue ArgumentError,"
+                    + " TypeError, Encoding::CompatibilityError data end");
+        org.openapitools.codegen.TestUtils.assertFileNotContains(
+                polymorphism, "return data unless data.is_a?(String) && FULL_DATE.match?(data)");
+
+        // coerce never rejects data: a payload no nested anyOf/oneOf candidate matches
+        // falls back to the raw value instead of raising out of from_hash.
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                polymorphism,
+                "elsif const.respond_to?(:build) const.build(data) else data end",
+                "rescue NameError, TypeError, ArgumentError data end private_class_method :coerce_model");
+        org.openapitools.codegen.TestUtils.assertFileNotContains(polymorphism, "rescue NameError data end");
+
         // The probe unions from the review stay wired: anyOf(Date | String) and
-        // oneOf(Date | Time).
+        // oneOf(Date | Time), and Pet carries a property typed as the anyOf.
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/date_polymorphism/models/date_or_code.rb"),
                 "'Date',", "'String',");
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/date_polymorphism/models/date_or_time.rb"),
                 "'Date',", "'Time',");
+        org.openapitools.codegen.TestUtils.assertFileContains(
+                target.resolve("lib/date_polymorphism/models/pet.rb"),
+                "attribute :marked_on, type: 'DateOrCode', json_key: 'marked_on'");
     }
 }
