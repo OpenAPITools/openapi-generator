@@ -7438,7 +7438,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * reads propertyKey from additionalProperties, converts it to a boolean and
+     * reads propertyKey from additionalProperties, converts it to a boolean,
+     * calls the booleanSetter with the value and
      * writes it back to additionalProperties to be usable as a boolean in
      * mustache files.
      *
@@ -7452,6 +7453,27 @@ public class DefaultCodegen implements CodegenConfig {
             writePropertyBack(propertyKey, result);
             booleanSetter.accept(result);
             return result;
+        }
+        return false;
+    }
+
+    /**
+     * reads propertyKey from additionalProperties, converts it to a boolean,
+     * call the initializerFunction and
+     * writes back the result of it to additionalProperties to be usable as a boolean in
+     * mustache files.
+     * To be used when the initializerFunction modifies the value of the property and we want to write back the modified value to additionalProperties.
+     *
+     * @param propertyKey   property key
+     * @param initializerFunction the setter function that also returns the actual value after calling the setter.
+     * @return result of call to initializerFunction.apply() or false if it does not exist
+     */
+    public boolean convertPropertyToBooleanAndWriteBackTransformedValue(String propertyKey, Function<Boolean, Boolean> initializerFunction) {
+        if (additionalProperties.containsKey(propertyKey)) {
+            boolean result = convertPropertyToBoolean(propertyKey);
+            Boolean actualValue = initializerFunction.apply(result);
+            writePropertyBack(propertyKey, actualValue);
+            return Boolean.TRUE.equals(actualValue);
         }
         return false;
     }
@@ -7657,6 +7679,8 @@ public class DefaultCodegen implements CodegenConfig {
                 continue;
             } else {
                 mediaType.put("mediaType", escapeQuotationMark(key));
+                // unescaped value, for templates that escape for their own context
+                mediaType.put("rawMediaType", key);
                 if (isJsonMimeType(key)) {
                     mediaType.put("isJson", "true");
                 } else if (isXmlMimeType(key)) {
@@ -7732,6 +7756,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", encodedKey);
+                // unescaped value, for templates that escape for their own context
+                mediaType.put("rawMediaType", key);
                 if (isJsonMimeType(encodedKey)) {
                     mediaType.put("isJson", "true");
                 } else if (isXmlMimeType(encodedKey)) {

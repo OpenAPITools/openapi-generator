@@ -394,6 +394,11 @@
   infoLink: "https://www.moonvision.io/"
   pinned: false
 -
+  caption: "MyNET30"
+  image: "img/companies/mynet30.png"
+  infoLink: "https://mynet30.com/"
+  pinned: false
+-
   caption: Myworkout
   image: "img/companies/myworkout.png"
   infoLink: "https://myworkout.com/"

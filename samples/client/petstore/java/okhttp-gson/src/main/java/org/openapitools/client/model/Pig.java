@@ -255,6 +255,33 @@ public class Pig extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        if (jsonElement.isJsonObject()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement discriminatorElement = jsonObject.get("className");
+            if (discriminatorElement != null && discriminatorElement.isJsonPrimitive()) {
+                String discriminatorValue = discriminatorElement.getAsString();
+                if ("BasquePig".equals(discriminatorValue)) {
+                    try {
+                        BasquePig.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'BasquePig'", e);
+                    }
+                }
+                if ("DanishPig".equals(discriminatorValue)) {
+                    try {
+                        DanishPig.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'DanishPig'", e);
+                    }
+                }
+            }
+        }
         // validate the json string with BasquePig
         try {
             BasquePig.validateJsonElement(jsonElement);

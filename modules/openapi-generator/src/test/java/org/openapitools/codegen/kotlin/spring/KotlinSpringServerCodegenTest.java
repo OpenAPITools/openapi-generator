@@ -13,6 +13,7 @@ import org.assertj.core.api.Assertions;
 import org.jetbrains.annotations.NotNull;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
@@ -1436,7 +1437,8 @@ public class KotlinSpringServerCodegenTest {
                 "    @HttpExchange(\n"
                         + "        // \"/store/inventory\"\n"
                         + "        url = PATH_GET_INVENTORY,\n"
-                        + "        method = \"GET\"\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/json\"]\n"
                         + "    )\n"
                         + "    fun getInventory(\n"
                         + "    ): Mono<ResponseEntity<Map<String, kotlin.Int>>>",
@@ -1451,7 +1453,9 @@ public class KotlinSpringServerCodegenTest {
                 "    @HttpExchange(\n"
                         + "        // \"/store/order\"\n"
                         + "        url = PATH_PLACE_ORDER,\n"
-                        + "        method = \"POST\"\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json\",\n"
+                        + "        accept = [\"application/xml\", \"application/json\"]\n"
                         + "    )\n"
                         + "    fun placeOrder(\n"
                         + "        @Parameter(description = \"order placed for purchasing the pet\", required = true) @Valid @RequestBody order: Order\n"
@@ -1509,7 +1513,8 @@ public class KotlinSpringServerCodegenTest {
                         + "    @HttpExchange(\n"
                         + "        // \"/store/inventory\"\n"
                         + "        url = PATH_GET_INVENTORY,\n"
-                        + "        method = \"GET\"\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/json\"]\n"
                         + "    )\n"
                         + "    fun getInventory("
         );
@@ -4555,6 +4560,165 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(apiPath, "Mono<ResponseEntity<List<kotlin.String>>>", "Mono<ResponseEntity<Set<kotlin.String>>>");
         assertFileNotContains(apiPath, "Flux<kotlin.String>", "import reactor.core.publisher.Flux",
                 "kotlin.collections.Set<", "Mono<ResponseEntity<set<");
+    }
+
+    @Test(description = "declarative http interface: x-content-type and x-accepts override the consumes/produces defaults")
+    public void declarativeHttpInterfaceUsesContentTypeExtensions() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
+
+        assertFileContains(apiPath,
+                "        url = PATH_WITH_EXTENSIONS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/xml\",\n"
+                        + "        accept = [\"text/plain\", \"application/xml\"]\n"
+                        + "    )",
+                "        url = PATH_ACCEPTS_STRING,\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/xml\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "declarative http interface: contentType defaults to the first consumes and accept to all produces")
+    public void declarativeHttpInterfaceDerivesContentTypeFromConsumesAndProduces() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
+
+        assertFileContains(apiPath,
+                "        url = PATH_SINGLE_TYPES,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json\",\n"
+                        + "        accept = [\"application/json\"]\n"
+                        + "    )",
+                "        url = PATH_MULTI_CONSUMES,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/xml\"\n"
+                        + "    )",
+                "        url = PATH_MULTI_PRODUCES,\n"
+                        + "        method = \"GET\",\n"
+                        + "        accept = [\"application/json\", \"application/xml\"]\n"
+                        + "    )",
+                "        url = PATH_NO_TYPES,\n        method = \"GET\"\n    )");
+    }
+
+    @Test(description = "spring-boot: x-accepts and x-content-type override produces and consumes")
+    public void springBootUsesContentTypeExtensions() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml");
+        Path controllerPath = files.get("CtApiController.kt").toPath();
+
+        assertFileContains(controllerPath,
+                "value = [PATH_WITH_EXTENSIONS],\n"
+                        + "        produces = [\"text/plain\", \"application/xml\"],\n"
+                        + "        consumes = [\"application/xml\"]\n"
+                        + "    )",
+                "value = [PATH_ACCEPTS_STRING],\n"
+                        + "        produces = [\"application/xml\"]\n"
+                        + "    )",
+                "value = [PATH_QUOTED_EXTENSIONS],\n"
+                        + "        produces = [\"text/plain; profile=\\\"\\$a\\\\b\\\"\"],\n"
+                        + "        consumes = [\"text/plain; charset=\\\"utf-8\\\"\"]\n"
+                        + "    )",
+                "value = [PATH_MULTI_CONSUMES],\n"
+                        + "        consumes = [\"application/xml\", \"application/json\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "declarative http interface: wildcard consumes and invalid x-content-type / x-accepts fall back to concrete media types")
+    public void declarativeHttpInterfaceSkipsWildcardAndInvalidContentTypes() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
+
+        assertFileContains(apiPath,
+                "        url = PATH_WILDCARD_CONSUMES,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"image/png\"\n"
+                        + "    )",
+                "        url = PATH_INVALID_EXTENSIONS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json\",\n"
+                        + "        accept = [\"application/json\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "operations split by content type use the variant media type instead of the inherited x-content-type")
+    public void splitOperationsByContentTypeOverridesInheritedContentTypeExtension() throws IOException {
+        try {
+            GlobalSettings.setProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true");
+            Map<String, File> declarative = generateFromContract(
+                    "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                    new HashMap<>(),
+                    new HashMap<>(),
+                    configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+            assertFileContains(declarative.get("CtApi.kt").toPath(),
+                    "        url = PATH_SPLIT_WITH_JSON,\n"
+                            + "        method = \"POST\",\n"
+                            + "        contentType = \"application/json\"\n"
+                            + "    )",
+                    "        url = PATH_SPLIT_WITH_XML,\n"
+                            + "        method = \"POST\",\n"
+                            + "        contentType = \"application/xml\"\n"
+                            + "    )");
+
+            // the generator resets the global settings when it finishes
+            GlobalSettings.setProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE, "true");
+            Map<String, File> springBoot = generateFromContract(
+                    "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml");
+            assertFileContains(springBoot.get("CtApiController.kt").toPath(),
+                    "value = [PATH_SPLIT_WITH_JSON],\n        consumes = [\"application/json\"]\n    )",
+                    "value = [PATH_SPLIT_WITH_XML],\n        consumes = [\"application/xml\"]\n    )");
+        } finally {
+            GlobalSettings.clearProperty(CodegenConstants.SPLIT_OPERATIONS_BY_CONTENT_TYPE);
+        }
+    }
+
+    @Test(description = "declarative http interface: media types with quoted parameters are kept and escaped as Kotlin strings")
+    public void declarativeHttpInterfaceEscapesQuotedMediaTypes() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                new HashMap<>(),
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path apiPath = files.get("CtApi.kt").toPath();
+
+        assertFileContains(apiPath,
+                "        url = PATH_QUOTED_PARAMS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"application/json; profile=\\\"a,b\\\"\",\n"
+                        + "        accept = [\"application/json; profile=\\\"x\\$y\\\"\"]\n"
+                        + "    )",
+                "        url = PATH_QUOTED_EXTENSIONS,\n"
+                        + "        method = \"POST\",\n"
+                        + "        contentType = \"text/plain; charset=\\\"utf-8\\\"\",\n"
+                        + "        accept = [\"text/plain; profile=\\\"\\$a\\\\b\\\"\"]\n"
+                        + "    )");
+    }
+
+    @Test(description = "spring-boot: produces/consumes and example media types with quoted parameters are kept and escaped")
+    public void springBootEscapesQuotedMediaTypes() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/declarative-http-interface-content-type.yaml",
+                Map.of("delegatePattern", true));
+
+        assertFileContains(files.get("CtApi.kt").toPath(),
+                "value = [PATH_QUOTED_PARAMS],\n"
+                        + "        produces = [\"application/json; profile=\\\"x\\$y\\\"\"],\n"
+                        + "        consumes = [\"application/json; profile=\\\"a,b\\\"\"]");
+        assertFileContains(files.get("CtApiDelegate.kt").toPath(),
+                "MediaType.valueOf(\"application/json; profile=\\\"x\\$y\\\"\")",
+                "ApiUtil.setExampleResponse(request, \"application/json; profile=\\\"x\\$y\\\"\", ");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
@@ -8030,6 +8194,154 @@ public class KotlinSpringServerCodegenTest {
         // The KDoc must carry those back-ticks as written rather than as HTML entities.
         assertFileNotContains(itemFile.toPath(), "&#x60;");
         assertFileContains(itemFile.toPath(), "@param `2ndField` ");
+    }
+
+    @Test(description = "URI properties and parameters do not get unsupported Bean Validation annotations")
+    public void uriPropertiesAndParametersDoNotGetPatternOrSizeConstraints() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/uri-validation-pattern.yaml",
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true))
+        );
+
+        File modelFile = files.get("UriPayload.kt");
+        assertThat(modelFile).isNotNull();
+        String model = Files.readString(modelFile.toPath());
+
+        assertThat(model).contains("uri: java.net.URI?");
+        assertThat(getKotlinPropertyAnnotations(model, "uri"))
+                .doesNotContain("@get:Pattern(regexp=\"^https?://\")")
+                .doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "uriMaxLength")).doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "uriMinMaxLength")).doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "plainString"))
+                .contains("@get:Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@get:Size(min=1)");
+        assertThat(getKotlinPropertyAnnotations(model, "plainStringMaxLength")).contains("@get:Size(max=10)");
+        assertThat(getKotlinPropertyAnnotations(model, "plainStringMinMaxLength"))
+                .contains("@get:Size(min=2,max=12)");
+
+        File apiFile = files.get("UriPayloadApiController.kt");
+        assertThat(apiFile).isNotNull();
+        String api = Files.readString(apiFile.toPath());
+        assertThat(api).contains("uriParam: java.net.URI?");
+        assertThat(getKotlinParameterAnnotations(api, "uriParam"))
+                .doesNotContain("@Pattern(regexp=\"^https?://\")")
+                .doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "uriParamMaxLength")).doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "uriParamMinMaxLength")).doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))
+                .contains("@Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@Size(min=1)");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParamMaxLength")).contains("@Size(max=10)");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParamMinMaxLength"))
+                .contains("@Size(min=2,max=12)");
+    }
+
+    @Test(description = "Special string formats do not get unsupported Bean Validation annotations")
+    public void specialStringFormatsDoNotGetUnsupportedPatternOrSizeConstraints() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/special-string-format-validation.yaml",
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true))
+        );
+
+        File modelFile = files.get("FormattedPayload.kt");
+        assertThat(modelFile).isNotNull();
+        String model = Files.readString(modelFile.toPath());
+
+        assertThat(model).contains("dateMinLength: java.time.LocalDate?");
+        assertThat(getKotlinPropertyAnnotations(model, "dateMinLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "dateMaxLength")).doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "dateMinMaxLength")).doesNotContain("@get:Size");
+        assertThat(model).contains("dateTimePattern: java.time.OffsetDateTime?");
+        assertThat(getKotlinPropertyAnnotations(model, "dateTimePattern"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(model).contains("uuidPatternAndLength: java.util.UUID?");
+        assertThat(getKotlinPropertyAnnotations(model, "uuidPatternAndLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(model).contains("bytePatternAndLength: kotlin.ByteArray?");
+        assertThat(getKotlinPropertyAnnotations(model, "bytePatternAndLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(model).contains("binaryMinLength: org.springframework.core.io.Resource?");
+        assertThat(getKotlinPropertyAnnotations(model, "binaryMinLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "plainString"))
+                .contains("@get:Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@get:Size(min=1)");
+
+        assertThat(model).contains("val dateItems: kotlin.collections.List<java.time.LocalDate>?");
+        assertThat(getKotlinPropertyAnnotations(model, "dateItems"))
+                .contains("@get:Size(min=1,max=3)")
+                .doesNotContain("@get:Pattern");
+        assertThat(model).contains("val dateTimeItems: kotlin.collections.List<java.time.OffsetDateTime>?");
+        assertThat(model).contains("val uuidItems: kotlin.collections.List<java.util.UUID>?");
+        assertThat(model).contains("val plainStringItems: kotlin.collections.List<@Size(min=2) kotlin.String>?");
+
+        File apiFile = files.get("FormattedPayloadApiController.kt");
+        assertThat(apiFile).isNotNull();
+        String api = Files.readString(apiFile.toPath());
+
+        assertThat(api).contains("dateParam: java.time.LocalDate?");
+        assertThat(getKotlinParameterAnnotations(api, "dateParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(api).contains("dateTimeParam: java.time.OffsetDateTime?");
+        assertThat(getKotlinParameterAnnotations(api, "dateTimeParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(api).contains("uuidParam: java.util.UUID?");
+        assertThat(getKotlinParameterAnnotations(api, "uuidParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(api).contains("byteParam: kotlin.ByteArray?");
+        assertThat(getKotlinParameterAnnotations(api, "byteParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))
+                .contains("@Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@Size(min=1)");
+        assertThat(api).contains("dateArrayParam: kotlin.collections.List<java.time.LocalDate>?");
+        assertThat(getKotlinParameterAnnotations(api, "dateArrayParam"))
+                .contains("@Size(min=1,max=3)");
+        assertThat(api).contains("plainStringArrayParam: kotlin.collections.List<@Size(min=2) kotlin.String>?");
+        assertThat(api).contains("uuidArrayParam: kotlin.collections.List<java.util.UUID>?");
+        assertThat(getKotlinParameterAnnotations(api, "uuidArrayParam"))
+                .contains("@Size(min=1,max=3)");
+    }
+
+    private String getKotlinPropertyAnnotations(String model, String propertyName) {
+        String declaration = "val " + propertyName + ":";
+        int declarationIndex = model.indexOf(declaration);
+        assertThat(declarationIndex).as("property declaration for %s", propertyName).isGreaterThanOrEqualTo(0);
+
+        int previousPropertyIndex = model.lastIndexOf("val ", declarationIndex - 1);
+        int annotationsStart;
+        if (previousPropertyIndex >= 0) {
+            annotationsStart = model.indexOf('\n', previousPropertyIndex) + 1;
+        } else {
+            int classDeclarationIndex = model.lastIndexOf("data class ", declarationIndex);
+            annotationsStart = model.indexOf('\n', classDeclarationIndex) + 1;
+        }
+        return model.substring(annotationsStart, declarationIndex);
+    }
+
+    private String getKotlinParameterAnnotations(String api, String parameterName) {
+        String declaration = parameterName + ":";
+        int declarationIndex = api.indexOf(declaration);
+        assertThat(declarationIndex).as("parameter declaration for %s", parameterName).isGreaterThanOrEqualTo(0);
+
+        int lineStart = api.lastIndexOf('\n', declarationIndex) + 1;
+        int previousLineStart = api.lastIndexOf('\n', lineStart - 2) + 1;
+        String previousLine = api.substring(previousLineStart, lineStart).trim();
+        if (previousLine.startsWith("@") && !previousLine.contains("@Parameter")) {
+            lineStart = previousLineStart;
+        }
+        return api.substring(lineStart, declarationIndex);
     }
 
 
