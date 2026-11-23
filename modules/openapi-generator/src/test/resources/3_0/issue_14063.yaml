@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info:
+  title: Nullable component schemas as array items and map values
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Book:
+      type: object
+      nullable: true
+      properties:
+        title:
+          type: string
+    Plain:
+      type: object
+      properties:
+        title:
+          type: string
+    Shelf:
+      type: object
+      properties:
+        book:
+          $ref: '#/components/schemas/Book'
+        books:
+          type: array
+          items:
+            $ref: '#/components/schemas/Book'
+        booksById:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Book'
+        plains:
+          type: array
+          items:
+            $ref: '#/components/schemas/Plain'
+        plainsById:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Plain'

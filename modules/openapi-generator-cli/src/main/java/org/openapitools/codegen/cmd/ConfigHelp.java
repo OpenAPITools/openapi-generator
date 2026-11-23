@@ -294,7 +294,10 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         config.languageSpecificPrimitives()
                 .stream()
                 .sorted(String::compareTo)
-                .forEach(s -> sb.append("<li>").append(escapeHtml4(s)).append("</li>").append(newline));
+                // MDX treats braces as JavaScript expressions, even inside HTML list items.
+                .forEach(s -> sb.append("<li>")
+                        .append(escapeHtml4(s).replace("{", "&#123;").replace("}", "&#125;"))
+                        .append("</li>").append(newline));
         sb.append("</ul>").append(newline);
     }
 

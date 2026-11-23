@@ -1,25 +1,22 @@
 package org.openapitools.model;
 
-import java.net.URI;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import javax.annotation.Generated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-
-
-import java.util.*;
-import javax.annotation.Generated;
 
 /**
  * A pet for sale in the pet store

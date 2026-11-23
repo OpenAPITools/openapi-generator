@@ -97,3 +97,93 @@ components:
           type: string
         color:
           type: string
+    # each variant pins the tag with an enum, inline or $ref: serialized once, deserialized with the tag kept
+    Pet:
+      oneOf:
+        - $ref: '#/components/schemas/Cat'
+        - $ref: '#/components/schemas/Dog'
+      discriminator:
+        propertyName: petType
+        mapping:
+          cat: '#/components/schemas/Cat'
+          dog: '#/components/schemas/Dog'
+    Cat:
+      type: object
+      required:
+        - petType
+        - name
+      properties:
+        petType:
+          type: string
+          enum: [cat]
+        name:
+          type: string
+    Dog:
+      type: object
+      required:
+        - petType
+        - breed
+      properties:
+        petType:
+          type: string
+          enum: [dog]
+        breed:
+          type: string
+    ShapeKind:
+      type: string
+      enum: [circle, square]
+    Shape:
+      oneOf:
+        - $ref: '#/components/schemas/Circle'
+        - $ref: '#/components/schemas/Square'
+      discriminator:
+        propertyName: kind
+        mapping:
+          circle: '#/components/schemas/Circle'
+          square: '#/components/schemas/Square'
+    Circle:
+      type: object
+      required:
+        - kind
+        - radius
+      properties:
+        kind:
+          $ref: '#/components/schemas/ShapeKind'
+        radius:
+          type: number
+    Square:
+      type: object
+      required:
+        - kind
+        - side
+      properties:
+        kind:
+          $ref: '#/components/schemas/ShapeKind'
+        side:
+          type: number
+    # the tag is an optional inline enum: the union writes it when the variant leaves it unset
+    Note:
+      oneOf:
+        - $ref: '#/components/schemas/TextNote'
+        - $ref: '#/components/schemas/LinkNote'
+      discriminator:
+        propertyName: kind
+        mapping:
+          text: '#/components/schemas/TextNote'
+          link: '#/components/schemas/LinkNote'
+    TextNote:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum: [text]
+        body:
+          type: string
+    LinkNote:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum: [link]
+        href:
+          type: string

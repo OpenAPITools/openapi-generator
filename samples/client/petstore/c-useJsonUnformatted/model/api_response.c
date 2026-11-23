@@ -135,6 +135,10 @@ api_response_t *api_response_parseFromJSON(cJSON *api_responseJSON){
         message && !cJSON_IsNull(message) ? strdup(message->valuestring) : NULL
         );
 
+    if (!api_response_local_var) {
+        goto end;
+    }
+
     return api_response_local_var;
 end:
     return NULL;

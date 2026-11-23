@@ -38,6 +38,10 @@ import java.util.stream.Collectors;
  *
  * <p>Both formats may be mixed freely. For example {@code {"id", "name,desc"}} allows {@code id}
  * in any direction but restricts {@code name} to descending only.
+ *
+ * <p>The number of sort orders can additionally be bounded with {@link #minItems()} and
+ * {@link #maxItems()}. An unsorted {@link Pageable} (no sort given) is always accepted, even when
+ * {@code minItems > 0}; the bounds only apply once at least one sort order is present.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -48,6 +52,12 @@ public @interface ValidSort {
     /** The allowed sort strings (e.g. {@code {"id,asc", "id,desc"}}). */
     String[] allowedValues();
 
+    /** The minimum number of sort orders (default: unbounded). Not enforced for an unsorted {@link Pageable}. */
+    int minItems() default 0;
+
+    /** The maximum number of sort orders (default: unbounded). */
+    int maxItems() default Integer.MAX_VALUE;
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
@@ -57,6 +67,8 @@ public @interface ValidSort {
     class SortValidator implements ConstraintValidator<ValidSort, Pageable> {
 
         private Set<String> allowedValues;
+        private int minItems;
+        private int maxItems;
 
         @Override
         public void initialize(ValidSort constraintAnnotation) {
@@ -65,6 +77,8 @@ public @interface ValidSort {
                             .replaceAll("(?i),ASC$", ",asc")
                             .replaceAll("(?i),DESC$", ",desc"))
                     .collect(Collectors.toSet());
+            minItems = constraintAnnotation.minItems();
+            maxItems = constraintAnnotation.maxItems();
         }
 
         @Override
@@ -72,6 +86,12 @@ public @interface ValidSort {
             if (pageable == null || pageable.getSort().isUnsorted()) {
                 return true;
             }
+
+            int count = 0;
+            for (Object ignored : pageable.getSort()) {
+                count++;
+            }
+            boolean countValid = count >= minItems && count <= maxItems;
 
             Map<Integer, String> invalid = new TreeMap<>();
             int[] index = {0};
@@ -84,19 +104,35 @@ public @interface ValidSort {
                 index[0]++;
             });
 
-            if (!invalid.isEmpty()) {
+            if (!countValid || !invalid.isEmpty()) {
                 context.disableDefaultConstraintViolation();
-                invalid.forEach((i, property) ->
-                        context.buildConstraintViolationWithTemplate(
-                                        context.getDefaultConstraintMessageTemplate() + " [" + property + "]")
-                                .addPropertyNode("sort")
-                                .addPropertyNode("property")
-                                .inIterable()
-                                .atIndex(i)
-                                .addConstraintViolation());
             }
+            if (!countValid) {
+                String range = maxItems == Integer.MAX_VALUE ? "at least " + minItems
+                        : minItems == 0 ? "at most " + maxItems
+                        : minItems + ".." + maxItems;
+                context.buildConstraintViolationWithTemplate(
+                                context.getDefaultConstraintMessageTemplate()
+                                        + " [expected " + range + " sort order(s), got " + count + "]")
+                        .addPropertyNode("sort")
+                        .addConstraintViolation();
+            }
+            invalid.forEach((i, property) ->
+                    context.buildConstraintViolationWithTemplate(
+                                    context.getDefaultConstraintMessageTemplate()
+                                            + " [" + escapeMessageTemplate(property) + "]")
+                            .addPropertyNode("sort")
+                            .addPropertyNode("property")
+                            .inIterable()
+                            .atIndex(i)
+                            .addConstraintViolation());
 
-            return invalid.isEmpty();
+            return countValid && invalid.isEmpty();
+        }
+
+        /** Escapes user input so the message interpolator treats it as literal text. */
+        private static String escapeMessageTemplate(String value) {
+            return value.replaceAll("[\\\\{}$]", "\\\\$0");
         }
     }
 }

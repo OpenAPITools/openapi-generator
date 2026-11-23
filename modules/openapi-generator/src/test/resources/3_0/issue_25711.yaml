@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: Numbered inline models
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Overlap:
+      oneOf:
+        - type: object
+          properties:
+            a:
+              type: string
+        - type: object
+          properties:
+            b:
+              type: integer

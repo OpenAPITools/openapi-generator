@@ -686,8 +686,132 @@ paths:
         '400':
           description: Bad request
 
+  /pet/findWithArraySortBounds:
+    get:
+      tags:
+        - pet
+      summary: Find pets with array sort param limited to 1..2 sort orders
+      operationId: findPetsWithArraySortBounds
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            minItems: 1
+            maxItems: 2
+            items:
+              type: string
+              enum:
+                - "id,asc"
+                - "id,desc"
+                - "name,asc"
+                - "name,desc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+  /pet/findWithRefSortBounds:
+    get:
+      tags:
+        - pet
+      summary: Find pets with sort param $ref-ing an array schema that carries minItems/maxItems
+      operationId: findPetsWithRefSortBounds
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/PetSortList'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
+  /pet/findWithMinSortBounds:
+    get:
+      tags:
+        - pet
+      summary: Find pets with array sort param requiring at least 2 sort orders (no maximum)
+      operationId: findPetsWithMinSortBounds
+      x-spring-paginated: true
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          schema:
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          style: form
+          explode: true
+          schema:
+            type: array
+            minItems: 2
+            items:
+              type: string
+              enum:
+                - "id,asc"
+                - "id,desc"
+                - "name,asc"
+                - "name,desc"
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+
 components:
   schemas:
+    PetSortList:
+      type: array
+      minItems: 1
+      maxItems: 3
+      items:
+        $ref: '#/components/schemas/PetSort'
     NullableModel:
       type: object
       required:

@@ -471,6 +471,47 @@ public class DartDioClientCodegenTest {
         TestUtils.assertFileNotContains(output.toPath().resolve("lib/src/model/pet.dart"), "Optional<");
     }
 
+    /**
+     * Path parameters must be URI-encoded as path components: the query_param helpers pass
+     * strings through unchanged, so a value containing '/' or spaces would otherwise break
+     * the request path. Every path substitution must therefore go through
+     * Uri.encodeComponent.
+     */
+    @Test
+    public void testPathParamsAreUriEncoded() throws IOException {
+        for (Object[] libraryOption : serializationLibraries()) {
+            String serializationLibrary = (String) libraryOption[0];
+            File output = Files.createTempDirectory("test").toFile();
+            output.deleteOnExit();
+
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("dart-dio")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                    .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, serializationLibrary);
+
+            ClientOptInput opts = configurator.toClientOptInput();
+            Generator generator = new DefaultGenerator().opts(opts);
+            List<File> files = generator.generate();
+            files.forEach(File::deleteOnExit);
+
+            // check every generated api class, not just one
+            Path apiDir = output.toPath().resolve("lib/src/api");
+            try (var apiFiles = Files.list(apiDir)) {
+                for (Path apiFile : apiFiles.filter(p -> p.getFileName().toString().endsWith("_api.dart"))
+                        .collect(java.util.stream.Collectors.toList())) {
+                    String content = Files.readString(apiFile, StandardCharsets.UTF_8);
+                    int substitutions = content.split("\\.replaceAll\\(", -1).length - 1;
+                    Assert.assertTrue(substitutions > 0,
+                            "expected path substitutions in " + apiFile + ": " + content);
+                    int encodings = content.split("Uri\\.encodeComponent\\(", -1).length - 1;
+                    Assert.assertEquals(encodings, substitutions,
+                            "every path substitution in " + apiFile + " must be URI-encoded: " + content);
+                }
+            }
+        }
+    }
+
     private Path generateFormParamsClient(String serializationLibrary) throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();

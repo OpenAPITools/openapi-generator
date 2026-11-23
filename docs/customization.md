@@ -506,6 +506,25 @@ paths:
                 format: binary
 ```
 
+## Inject Model Vendor Extensions
+
+One can add vendor extensions to models, or to their properties, without changing the spec using the `injectModelVendorExtensions` option. Templates can then use them like vendor extensions written in the spec. A class-level extension takes the form `ModelName.x-extension-name=value`, and a property-level extension takes the form `ModelName.propertyBaseName.x-extension-name=value`, where `propertyBaseName` is the property's name in the spec.
+
+For example, with the `java` generator, whose templates support `x-class-extra-annotation` and `x-field-extra-annotation`, in CLI
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java/ --inject-model-vendor-extensions Pet.x-class-extra-annotation=@Deprecated --inject-model-vendor-extensions Pet.name.x-field-extra-annotation=@Deprecated
+```
+or in the Maven plugin
+```xml
+<configuration>
+    <injectModelVendorExtensions>
+        <injectModelVendorExtension>Pet.x-class-extra-annotation=@Deprecated</injectModelVendorExtension>
+        <injectModelVendorExtension>Pet.name.x-field-extra-annotation=@Deprecated</injectModelVendorExtension>
+    </injectModelVendorExtensions>
+</configuration>
+```
+adds `@Deprecated` to the generated `Pet` class and to its `name` field. Injected extensions are applied after the spec has been processed, so they add to, or replace, extensions of the same name in the spec. Only the first `=` separates the name from the value, and a comma separates entries unless it is inside double quotes.
+
 ## Inline Schema Naming
 
 Inline schemas are created as separate schemas automatically and the auto-generated schema name may not look good to everyone. One can customize the name using the `title` field or the `inlineSchemaNameMapping` option. For example, run the following,
@@ -522,6 +541,10 @@ For example, to name the inline schema `meta_200_response` as `MetaObject`, use 
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i  modules/openapi-generator/src/test/resources/3_0/inline_model_resolver.yaml -o /tmp/java3/ --skip-validate-spec --inline-schema-name-mappings meta_200_response=MetaObject,arbitraryObjectRequestBodyProperty_request=ArbitraryRequest
 ```
+
+Note that inline schema names used with `--inline-schema-name-mappings` are internal identifiers and may differ from generated class/type names. Generators often apply language-specific naming conventions (for example, Java may render `meta_200_response` as `Meta200Response`).
+
+So for Java, to rename `Meta200Response.java`, use `--inline-schema-name-mappings meta_200_response=MetaObject` (not `--inline-schema-name-mappings Meta200Response=MetaObject`).
 
 Another useful option is `inlineSchemaOptions`, which allows you to customize how inline schemas are handled or named
 ```

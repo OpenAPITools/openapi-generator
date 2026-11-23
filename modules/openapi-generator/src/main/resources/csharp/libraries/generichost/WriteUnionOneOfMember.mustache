@@ -1,0 +1,6 @@
+            if ({{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}} != null)
+            {
+                JsonSerializer.Serialize(writer, {{#lambda.camelcase_sanitize_param}}{{model.classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}, jsonSerializerOptions);
+                return;
+            }
+

@@ -47,7 +47,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [PATH_CREATE_USERS_WITH_ARRAY_INPUT]
     )
     fun createUsersWithArrayInput(
-        @Valid @RequestBody body: kotlin.collections.List<User>
+        @Valid @RequestBody body: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(body), HttpStatus.valueOf(200))
     }
@@ -59,7 +59,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         value = [PATH_CREATE_USERS_WITH_LIST_INPUT]
     )
     fun createUsersWithListInput(
-        @Valid @RequestBody body: kotlin.collections.List<User>
+        @Valid @RequestBody body: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(body), HttpStatus.valueOf(200))
     }

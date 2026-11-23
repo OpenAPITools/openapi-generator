@@ -9,6 +9,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Web;
 
 namespace Org.OpenAPITools.Client
 {
@@ -36,18 +37,21 @@ namespace Org.OpenAPITools.Client
 
             public void AddQueryParameters(Multimap<string, string> parameters)
             {
+                // Build the pairs directly: HttpUtility.ParseQueryString is case-insensitive and would merge keys such as "tag" and "Tag".
+                var queryPairs = new List<string>();
                 foreach (var parameter in parameters)
                 {
                     foreach (var value in parameter.Value)
                     {
-                        _query = _query + parameter.Key + "=" + Uri.EscapeDataString(value) + "&";
+                        queryPairs.Add(HttpUtility.UrlEncode(parameter.Key) + "=" + HttpUtility.UrlEncode(value));
                     }
                 }
+                _query = string.Join("&", queryPairs).Replace("+", "%20").Replace("%24", "$");
             }
 
             public string GetFullUri()
             {
-                return _baseUrl + _path + _query.Substring(0, _query.Length - 1);
+                return new UriBuilder(_baseUrl + _path) { Query = _query }.Uri.AbsoluteUri;
             }
     }
 }

@@ -69,6 +69,12 @@
                         <plugin>spring</plugin>
                     </compilerPlugins>
                     <jvmTarget>11</jvmTarget>
+{{#useBeanValidation}}
+                    <args>
+                        <!-- emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime -->
+                        <arg>-Xemit-jvm-type-annotations</arg>
+                    </args>
+{{/useBeanValidation}}
                 </configuration>
                 <executions>
                     <execution>
@@ -204,7 +210,7 @@
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.8</version>
+            <version>0.2.13</version>
         </dependency>
         {{/openApiNullable}}
         <dependency>

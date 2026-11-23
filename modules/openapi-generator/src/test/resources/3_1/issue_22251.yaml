@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  title: Generic mapped response types
+  version: 1.0.0
+paths:
+  /metadata:
+    get:
+      responses:
+        "200":
+          description: free-form object, mapped to Record<string,unknown>
+          content:
+            application/json:
+              schema:
+                type: object
+  /users/summary:
+    get:
+      responses:
+        "200":
+          description: model mapped to Pick<User, "email">
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSummary'
+  /users/summaries:
+    get:
+      responses:
+        "200":
+          description: array of a model mapped to Pick<User, "email">
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserSummary'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+    UserSummary:
+      type: object
+      properties:
+        email:
+          type: string

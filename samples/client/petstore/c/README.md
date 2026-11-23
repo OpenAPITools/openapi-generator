@@ -104,6 +104,7 @@ Category | Method | HTTP request | Description
  - [api_response_t](docs/api_response.md)
  - [bit_t](docs/bit.md)
  - [category_t](docs/category.md)
+ - [flags_t](docs/flags.md)
  - [model_with_set_propertes_t](docs/model_with_set_propertes.md)
  - [order_t](docs/order.md)
  - [pet_t](docs/pet.md)

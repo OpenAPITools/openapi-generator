@@ -1,0 +1,15 @@
+README.md
+docs/Category.md
+docs/Pet.md
+docs/PetApi.md
+docs/Tag.md
+pom.xml
+src/main/java/org/openapitools/client/RFC3339DateFormat.java
+src/main/java/org/openapitools/client/RFC3339InstantDeserializer.java
+src/main/java/org/openapitools/client/RFC3339JavaTimeModule.java
+src/main/java/org/openapitools/client/api/ApiException.java
+src/main/java/org/openapitools/client/api/ApiExceptionMapper.java
+src/main/java/org/openapitools/client/api/PetApi.java
+src/main/java/org/openapitools/client/model/Category.java
+src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/Tag.java
