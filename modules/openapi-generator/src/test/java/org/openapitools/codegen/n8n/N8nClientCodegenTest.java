@@ -507,6 +507,79 @@ public class N8nClientCodegenTest {
     }
 
     /**
+     * Regression test: two distinct security scheme names that only differ in case/separator
+     * convention (e.g. {@code api_key} and {@code apiKey}) both PascalCase to the same
+     * {@code ApiKey}, so the generated credential className - and therefore the credential's
+     * filename, per n8n's filename-matching loader convention - used to collide, silently
+     * overwriting the first scheme's credential file with the second's. They must instead be
+     * disambiguated into two distinct credential files/classNames, mirroring how
+     * {@link #disambiguatesCollidingSanitizedTagNames} already disambiguates colliding Resource
+     * tags.
+     */
+    @Test
+    public void disambiguatesCollidingCredentialClassNames() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "colliding-credential-names.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: colliding credential names test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "security:\n"
+                    + "  - api_key: []\n"
+                    + "  - apiKey: []\n"
+                    + "paths:\n"
+                    + "  /widgets:\n"
+                    + "    get:\n"
+                    + "      operationId: getWidgets\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n"
+                    + "components:\n"
+                    + "  securitySchemes:\n"
+                    + "    api_key:\n"
+                    + "      type: apiKey\n"
+                    + "      name: X-Api-Key-1\n"
+                    + "      in: header\n"
+                    + "    apiKey:\n"
+                    + "      type: apiKey\n"
+                    + "      name: X-Api-Key-2\n"
+                    + "      in: header\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+
+            // Matches by ".credentials.ts" (not "Credentials.credentials.ts"): a disambiguated
+            // className has its suffix inserted *before* "Credentials", e.g.
+            // "...ApiKeyCredentials_abe13de5.credentials.ts", which wouldn't end with the
+            // literal "Credentials.credentials.ts" string any more.
+            List<Path> credentialFiles = find(outputDir, ".credentials.ts").stream()
+                    .filter(p -> p.getFileName().toString().contains("ApiKey"))
+                    .collect(Collectors.toList());
+            Assert.assertEquals(credentialFiles.size(), 2,
+                    "expected two distinct, disambiguated credential files for the colliding scheme names");
+
+            long disambiguatedCount = credentialFiles.stream()
+                    .filter(p -> p.getFileName().toString().matches(".*ApiKeyCredentials_[0-9a-f]+\\.credentials\\.ts"))
+                    .count();
+            Assert.assertEquals(disambiguatedCount, 1,
+                    "exactly one of the two colliding credentials must carry the disambiguating suffix");
+
+            for (Path credentialFile : credentialFiles) {
+                String source = Files.readString(credentialFile);
+                String expectedClass = expectedClassNameOf(credentialFile, ".credentials.ts");
+                Assert.assertTrue(source.contains("export class " + expectedClass + " "),
+                        "the exported class in " + credentialFile.getFileName()
+                                + " must be named exactly '" + expectedClass + "' to match the filename");
+            }
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
      * Regression test for T048 (convergence): until now, the only proof that generated output
      * actually compiles was a human running `tsc --noEmit` by hand in an ephemeral sandbox
      * during this feature's development - there was no automated, repeatable check anywhere in
@@ -526,7 +599,7 @@ public class N8nClientCodegenTest {
         try {
             generate(target);
 
-            int installExit = runProcess(target, "npm", "install", "--no-audit", "--no-fund", "n8n-workflow@latest", "typescript@latest");
+            int installExit = runProcess(target, "npm", "install", "--no-audit", "--no-fund", "n8n-workflow@2.48.4", "typescript@7.0.2");
             if (installExit != 0) {
                 throw new SkipException("could not install n8n-workflow/typescript (no network access?); skipping the generated-TypeScript compile check");
             }
@@ -550,13 +623,45 @@ public class N8nClientCodegenTest {
         }
     }
 
+    private static final int PROCESS_TIMEOUT_SECONDS = 120;
+
+    /**
+     * Drains the child's (merged stdout+stderr) stream on a separate thread while waiting with a
+     * bounded timeout, instead of {@code InputStream.readAllBytes()} then a no-arg
+     * {@code waitFor()}: that previous sequence could block indefinitely - with no way to tell a
+     * genuinely hung process (e.g. a stalled network call inside `npm install`) apart from one
+     * still legitimately running - since {@code readAllBytes()} itself only returns once the
+     * child closes its output, before {@code waitFor()} is ever reached. On timeout, the process
+     * is force-killed so it doesn't leak past this method returning.
+     */
     private static int runProcess(Path cwd, String... command) throws IOException, InterruptedException {
         Process process = new ProcessBuilder(command)
                 .directory(cwd.toFile())
                 .redirectErrorStream(true)
                 .start();
-        String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-        int exitCode = process.waitFor();
+
+        StringBuilder output = new StringBuilder();
+        Thread outputReader = new Thread(() -> {
+            try (java.io.InputStream in = process.getInputStream()) {
+                output.append(new String(in.readAllBytes(), StandardCharsets.UTF_8));
+            } catch (IOException ignored) {
+                // Expected when destroyForcibly() below closes the stream mid-read.
+            }
+        });
+        outputReader.setDaemon(true);
+        outputReader.start();
+
+        boolean finished = process.waitFor(PROCESS_TIMEOUT_SECONDS, java.util.concurrent.TimeUnit.SECONDS);
+        if (!finished) {
+            process.destroyForcibly();
+            outputReader.join(java.util.concurrent.TimeUnit.SECONDS.toMillis(5));
+            System.out.println("Command `" + String.join(" ", command) + "` did not finish within "
+                    + PROCESS_TIMEOUT_SECONDS + "s and was killed:\n" + output);
+            return -1;
+        }
+
+        outputReader.join(java.util.concurrent.TimeUnit.SECONDS.toMillis(5));
+        int exitCode = process.exitValue();
         if (exitCode != 0) {
             System.out.println("Command `" + String.join(" ", command) + "` exited " + exitCode + ":\n" + output);
         }
@@ -1034,8 +1139,62 @@ public class N8nClientCodegenTest {
             Assert.assertTrue(branchStart >= 0, "expected an execute() branch for createUsersWithArrayInput");
             int branchEnd = nodeSource.indexOf("apiRequest.call(", branchStart);
             String branch = nodeSource.substring(branchStart, branchEnd);
-            Assert.assertTrue(branch.contains("Object.assign(body,"),
-                    "the whole array-of-objects body must still be merged as one parameter, unaffected by T068's per-property flattening (which only applies to plain object bodies)");
+            Assert.assertTrue(branch.contains("wholeBodyArray = this.getNodeParameter('User', i) as unknown[];"),
+                    "the whole array-of-objects body must be sent as a real JSON array, not merged as object keys via Object.assign (which would corrupt it into {0: ..., 1: ...})");
+            Assert.assertFalse(branch.contains("Object.assign(body,"),
+                    "an array-shaped whole request body must not go through the object-merge path");
+        } finally {
+            deleteRecursively(target);
+        }
+    }
+
+    /**
+     * Regression test: a genuine whole-scalar request body (a {@code requestBody} schema that
+     * is itself a plain primitive, not an object with properties to flatten - see
+     * {@code isFlattenableObjectBody}) must be sent as the raw scalar value, not wrapped in an
+     * object keyed by its {@code baseName}. Before this fix, {@code body['{{baseName}}'] = ...}
+     * was used unconditionally for every primitive body parameter, which is correct for a
+     * flattened object *property* (it needs its own key in the body object) but wrong for a
+     * true whole-scalar body (the API expects the bare scalar itself, not {@code {"body": ...}}
+     * or similar). Petstore has no such operation, so this uses a synthetic spec.
+     */
+    @Test
+    public void sendsWholeScalarRequestBodyDirectlyNotWrappedInObject() throws IOException {
+        Path target = Files.createTempDirectory("n8n-client-codegen-test");
+        try {
+            Path spec = writeTempSpec(target, "scalar-body.yaml", ""
+                    + "openapi: 3.0.1\n"
+                    + "info:\n"
+                    + "  title: scalar body test\n"
+                    + "  version: '1.0'\n"
+                    + "servers:\n"
+                    + "  - url: 'http://localhost:8000/'\n"
+                    + "paths:\n"
+                    + "  /echo:\n"
+                    + "    post:\n"
+                    + "      operationId: echoScalar\n"
+                    + "      requestBody:\n"
+                    + "        content:\n"
+                    + "          text/plain:\n"
+                    + "            schema:\n"
+                    + "              type: string\n"
+                    + "      responses:\n"
+                    + "        '200':\n"
+                    + "          description: OK\n");
+
+            Path outputDir = target.resolve("out");
+            generate(outputDir, spec.toAbsolutePath().toString());
+            String nodeSource = readNodeSource(outputDir);
+
+            int branchStart = nodeSource.indexOf("operation === 'echoScalar'");
+            Assert.assertTrue(branchStart >= 0, "expected an execute() branch for echoScalar");
+            int branchEnd = nodeSource.indexOf("apiRequest.call(", branchStart);
+            String branch = nodeSource.substring(branchStart, branchEnd);
+
+            Assert.assertTrue(branch.contains("wholeBodyScalar = this.getNodeParameter("),
+                    "a whole-scalar request body must be captured as the raw value to send as-is");
+            Assert.assertFalse(branch.matches("(?s).*body\\['[a-zA-Z]+'\\] = this\\.getNodeParameter.*"),
+                    "a whole-scalar request body must not be wrapped in an object under a baseName key");
         } finally {
             deleteRecursively(target);
         }

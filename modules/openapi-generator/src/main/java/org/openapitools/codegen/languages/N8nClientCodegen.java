@@ -24,21 +24,26 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.CommonTemplateContentLocator;
+import org.openapitools.codegen.templating.GeneratorTemplateContentLocator;
+import org.openapitools.codegen.templating.TemplateManagerOptions;
+import org.openapitools.codegen.api.TemplatePathLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.escape;
 
@@ -64,10 +69,23 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private final Logger LOGGER = LoggerFactory.getLogger(N8nClientCodegen.class);
 
+    private static final String N8N_NODES_PREFIX = "n8n-nodes-";
+
     /** Tracks which raw OpenAPI tag first claimed each sanitized Resource name, so a second,
      * different raw tag that happens to sanitize to the same value can be disambiguated
      * instead of silently merging into the first tag's Resource. See {@link #sanitizeTag}. */
     private final Map<String, String> sanitizedTagOwners = new HashMap<>();
+
+    /** Resolves node.mustache/genericFunctions.mustache/credentials.mustache content, honoring
+     * a user-supplied {@code -t}/{@code --template-dir} override the same way the framework's
+     * own SupportingFile pipeline does - see {@link #processOpts()}. */
+    private TemplateManager templateManager;
+
+    /** Relative (forward-slash) paths of files written by {@link #writeGeneratedFile} during the
+     * current {@code generate()} run, so {@link #postProcess()} can fold them into the
+     * {@code .openapi-generator/FILES} manifest the framework already wrote for the files it
+     * knows about (package.json/README.md/tsconfig.json) - see that method's own Javadoc. */
+    private final List<String> dynamicallyGeneratedFiles = new ArrayList<>();
 
     @Override
     public CodegenType getTag() {
@@ -90,6 +108,15 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
+
+        // This generator emits a README.md supporting file but, unlike the base DefaultCodegen
+        // default, no per-model/per-API doc files (no modelDocTemplateFiles/apiDocTemplateFiles
+        // are registered) - corrects the auto-generated docs/generators/n8n.md "Documentation
+        // Feature" table, which otherwise inherits DefaultCodegen's generic default (Api+Model
+        // supported, Readme not) regardless of what this generator actually produces.
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .excludeDocumentationFeatures(DocumentationFeature.Api, DocumentationFeature.Model));
 
         outputFolder = "generated-code" + File.separator + "n8n";
         embeddedTemplateDir = templateDir = "n8n";
@@ -119,7 +146,7 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         cliOptions.add(new CliOption(NPM_NAME, "The name of the generated npm package (defaults to a sanitized form of the spec's info.title)."));
         cliOptions.add(new CliOption(NPM_VERSION, "The version of the generated npm package (defaults to the spec's info.version, or 0.1.0).").defaultValue("0.1.0"));
-        cliOptions.add(new CliOption(NODE_PREFIX, "Prefix applied to the generated n8n node/credential display names, to avoid collisions when several generated nodes are installed together."));
+        cliOptions.add(new CliOption(NODE_PREFIX, "Prefix applied to the generated n8n node/credential display names, to avoid collisions when several generated nodes are installed together. Defaults to a capitalized form of npmName (itself defaulted from the spec's info.title) when not supplied."));
 
         languageSpecificPrimitives = new HashSet<>(
                 Arrays.asList("number", "integer", "string", "boolean", "array", "file", "object")
@@ -151,6 +178,29 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("file", "file");
         typeMapping.put("UUID", "string");
         typeMapping.put("URI", "string");
+    }
+
+    /**
+     * Builds {@link #templateManager} once {@code templateDir()}/{@code embeddedTemplateDir()}
+     * are finalized, so {@link #writeGeneratedFile}'s dynamically-rendered templates
+     * (node/genericFunctions/credentials.mustache - see the constructor's comment on why they
+     * aren't fixed-destination SupportingFiles) resolve through the same {@code -t}/
+     * {@code --template-dir} override mechanism as every other SupportingFile, instead of only
+     * ever reading the bundled classpath copy. Mirrors {@code DartDioClientCodegen}'s identical
+     * pattern for the same reason.
+     */
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(isEnableMinimalUpdate(), isSkipOverwrite());
+        TemplatePathLocator commonTemplateLocator = new CommonTemplateContentLocator();
+        TemplatePathLocator generatorTemplateLocator = new GeneratorTemplateContentLocator(this);
+        templateManager = new TemplateManager(
+                templateManagerOptions,
+                getTemplatingEngine(),
+                new TemplatePathLocator[]{generatorTemplateLocator, commonTemplateLocator}
+        );
     }
 
     @Override
@@ -357,6 +407,13 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         param.required = prop.required;
         param.isBodyParam = true;
         param.isPrimitiveType = true;
+        // Distinguishes "this primitive param is one of several properties a JSON object body
+        // was flattened into" (assign under its own baseName key - correct) from "this primitive
+        // param IS the entire scalar request body" (a true whole-body CodegenParameter built
+        // directly by the framework, never through this method - assigning it under a baseName
+        // key would wrap a bare scalar body in an object, corrupting the payload). node.mustache
+        // branches on this to know which shape to emit.
+        param.vendorExtensions.put("n8nIsFlattenedBodyProperty", true);
         return param;
     }
 
@@ -543,6 +600,10 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         objs = super.postProcessSupportingFileData(objs);
 
+        // One CodegenConfig instance is used for exactly one generate() run, but clear
+        // defensively anyway - see this list's own Javadoc and postProcess() below.
+        dynamicallyGeneratedFiles.clear();
+
         Object nodePrefixValue = objs.get(NODE_PREFIX);
         String nodePrefix = nodePrefixValue != null ? nodePrefixValue.toString() : "Generated";
         String nodeClassName = nodePrefix + "Api";
@@ -576,7 +637,8 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 flowsByScheme.computeIfAbsent(scheme.name, key -> new ArrayList<>()).add(scheme);
             }
 
-            String credentialsTemplate = readClasspathResource("n8n/credentials.mustache");
+            String credentialsTemplate = templateManager.getFullTemplateContents("credentials.mustache");
+            Map<String, String> usedClassNames = new HashMap<>();
 
             for (Map.Entry<String, List<CodegenSecurity>> schemeFlows : flowsByScheme.entrySet()) {
                 List<CodegenSecurity> flows = schemeFlows.getValue();
@@ -588,6 +650,16 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // scheme name from a different generated package installed alongside it.
                 String pascal = toPascalCase(scheme.name);
                 String className = nodePrefix + pascal + "Credentials";
+                // toPascalCase only splits on separator characters, so two differently-styled
+                // scheme names (e.g. "api_key" and "apiKey") can resolve to the identical
+                // className - disambiguate the same way sanitizeTag disambiguates colliding
+                // Resource tags, so the second scheme's credential doesn't silently overwrite
+                // the first's file.
+                String existingOwnerScheme = usedClassNames.putIfAbsent(className, scheme.name);
+                if (existingOwnerScheme != null && !existingOwnerScheme.equals(scheme.name)) {
+                    className = className + "_" + Integer.toHexString(scheme.name.hashCode());
+                    usedClassNames.put(className, scheme.name);
+                }
                 String credentialName = lowerFirst(className);
                 String displayName = objs.get("apiTitle") + " API - " + schemeKindLabel(scheme);
 
@@ -616,6 +688,7 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
                 data.put("oauth2Scopes", joinScopeNames(scheme.scopes));
                 data.put("isKeyInHeader", scheme.isKeyInHeader);
                 data.put("isKeyInQuery", scheme.isKeyInQuery);
+                data.put("isKeyInCookie", scheme.isKeyInCookie);
                 data.put("keyParamName", scheme.keyParamName);
 
                 String rendered = compiler.compile(credentialsTemplate).execute(data);
@@ -668,8 +741,8 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         // bundle (apiInfo, n8nCredentialRefs, nodeClassName/nodeTypeName, every operation's
         // n8nOperationCredentialName) - see the constructor's comment on why these can't be
         // fixed-destination SupportingFiles.
-        String nodeRendered = compiler.compile(readClasspathResource("n8n/node.mustache")).execute(objs);
-        String genericFunctionsRendered = compiler.compile(readClasspathResource("n8n/genericFunctions.mustache")).execute(objs);
+        String nodeRendered = compiler.compile(templateManager.getFullTemplateContents("node.mustache")).execute(objs);
+        String genericFunctionsRendered = compiler.compile(templateManager.getFullTemplateContents("genericFunctions.mustache")).execute(objs);
         writeGeneratedFile("nodes" + File.separator + nodeClassName + File.separator + nodeClassName + ".node.ts", nodeRendered);
         writeGeneratedFile("nodes" + File.separator + nodeClassName + File.separator + "GenericFunctions.ts", genericFunctionsRendered);
 
@@ -856,17 +929,6 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
         return sb.toString();
     }
 
-    private String readClasspathResource(String path) {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(path)) {
-            if (in == null) {
-                throw new IllegalStateException("Could not find classpath resource: " + path);
-            }
-            return new String(in.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new UncheckedIOException("Failed to read classpath resource: " + path, e);
-        }
-    }
-
     /**
      * For credential files specifically: n8n's {@code CustomDirectoryLoader}/{@code
      * DirectoryLoader.loadClass} derives the expected exported class name directly from the
@@ -887,19 +949,91 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
      * without this check, these files were written to disk for real despite dry-run, and
      * didn't even appear in the dry-run report).
      *
+     * Also honors {@code --global-property supportingFiles=...} (matched against the file's own
+     * basename, the same granularity a user would use to select e.g. {@code package.json}) and
+     * {@code --skip-overwrite}/{@link #shouldOverwrite}, the same two SupportingFile-pipeline
+     * behaviors every other generated file already gets "for free" from the framework - this
+     * method has to replicate them explicitly since it bypasses that pipeline. A file this
+     * method decides belongs in the output (i.e. not filtered out by {@code supportingFiles=})
+     * is tracked in {@link #dynamicallyGeneratedFiles} regardless of skip-overwrite/dry-run,
+     * mirroring how the framework's own {@code TemplateManager}/{@code processTemplateToFile}
+     * still add a skip-overwrite'd file to its FILES-tracking list (it exists on disk either
+     * way) - see {@link #postProcess()}.
+     *
      * @param relativePath path under the output folder, e.g. {@code "credentials/X.credentials.ts"}
      *                      or {@code "nodes/Y/Y.node.ts"}
      */
     private void writeGeneratedFile(String relativePath, String content) {
+        String fileName = Paths.get(relativePath).getFileName().toString();
+        if (!shouldGenerateDynamicFile(fileName)) {
+            return;
+        }
+        dynamicallyGeneratedFiles.add(relativePath.replace(File.separatorChar, '/'));
+
         if (Boolean.parseBoolean(GlobalSettings.getProperty("dryRun"))) {
             return;
         }
+        Path file = Paths.get(outputFolder(), relativePath);
+        if (!shouldOverwrite(file.toString())) {
+            return;
+        }
         try {
-            Path file = Paths.get(outputFolder(), relativePath);
             Files.createDirectories(file.getParent());
             Files.write(file, content.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to write generated file: " + relativePath, e);
+        }
+    }
+
+    /** Mirrors {@code DefaultGenerator}'s own {@code supportingFilesToGenerate} selection
+     * (comma-separated {@code CodegenConstants.SUPPORTING_FILES} property): when the user
+     * restricted generation to specific supporting files, a dynamically-written file not named
+     * in that set is skipped, same as a regular SupportingFile would be. */
+    private static boolean shouldGenerateDynamicFile(String fileName) {
+        String propertyRaw = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
+        if (propertyRaw == null || propertyRaw.isEmpty()) {
+            return true;
+        }
+        Set<String> requested = Arrays.stream(propertyRaw.split(",")).map(String::trim).collect(Collectors.toSet());
+        return requested.contains(fileName);
+    }
+
+    /**
+     * Folds {@link #dynamicallyGeneratedFiles} into the {@code .openapi-generator/FILES}
+     * manifest {@code DefaultGenerator} already wrote for the files it knows about
+     * (package.json/README.md/tsconfig.json) - that manifest is what Maven/Gradle-plugin
+     * incremental builds use to clean up stale output between runs (e.g. a credential file for
+     * a security scheme the spec no longer declares), so omitting the dynamically-written
+     * node/GenericFunctions/credentials files from it left them permanently untracked. Runs
+     * after the manifest is written but before {@code GlobalSettings.reset()} - see
+     * {@code DefaultGenerator.generate()}'s call order: {@code generateFilesMetadata(files)},
+     * then {@code config.postProcess()}, then the reset.
+     */
+    @Override
+    public void postProcess() {
+        super.postProcess();
+
+        if (Boolean.parseBoolean(GlobalSettings.getProperty("dryRun")) || dynamicallyGeneratedFiles.isEmpty()) {
+            return;
+        }
+
+        Path filesManifest = Paths.get(outputFolder(), ".openapi-generator", getFilesMetadataFilename());
+        if (!Files.exists(filesManifest)) {
+            // generateMetadata/generateSupportingFiles disabled, or dry-run (defensive - already
+            // returned above) - nothing to fold into.
+            return;
+        }
+        try {
+            List<String> existing = Files.readAllLines(filesManifest, StandardCharsets.UTF_8);
+            Set<String> all = new TreeSet<>(existing);
+            all.addAll(dynamicallyGeneratedFiles);
+            StringBuilder sb = new StringBuilder();
+            for (String path : all) {
+                sb.append(path).append(System.lineSeparator());
+            }
+            Files.write(filesManifest, sb.toString().getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            LOGGER.warn("Failed to update {} with dynamically generated n8n files.", filesManifest, e);
         }
     }
 
@@ -927,7 +1061,7 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         if (!additionalProperties.containsKey(NPM_NAME)) {
             String title = (info != null && info.getTitle() != null) ? info.getTitle() : "n8n-api-client";
-            additionalProperties.put(NPM_NAME, sanitizeNpmName(title));
+            additionalProperties.put(NPM_NAME, ensureN8nNodesPrefix(sanitizeNpmName(title)));
         }
 
         if (!additionalProperties.containsKey(NPM_VERSION)) {
@@ -949,6 +1083,15 @@ public class N8nClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static String sanitizeNpmName(String title) {
         String sanitized = title.trim().toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9-]+", "-").replaceAll("^-+|-+$", "");
         return sanitized.isEmpty() ? "n8n-api-client" : sanitized;
+    }
+
+    /** n8n's community-node registry/installer requires a package name to start with
+     * {@code n8n-nodes-} (not optional - a package without this prefix is never recognized as
+     * an installable community node), so the auto-derived default npmName must carry it. An
+     * explicit user-supplied {@code npmName} (handled by the caller before this is ever
+     * reached) is left exactly as given, trusting the user already knows the convention. */
+    private static String ensureN8nNodesPrefix(String npmName) {
+        return npmName.startsWith(N8N_NODES_PREFIX) ? npmName : N8N_NODES_PREFIX + npmName;
     }
 
     private static String capitalize(String value) {
