@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: modelWithANumber
+  description: Example of a model generated with a number as first character
+  version: 1.0.0
+paths:
+  /:
+    get:
+      operationId: first
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/3d-position'
+          description: This route breaks
+components:
+  schemas:
+    3d-position:
+      type: object
+      properties:
+        position:
+          type: object
+          properties:
+            x:
+              type: integer
+            y:
+              type: integer
+            z:
+              type: integer

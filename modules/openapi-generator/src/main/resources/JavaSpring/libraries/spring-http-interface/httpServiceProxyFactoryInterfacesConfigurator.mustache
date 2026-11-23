@@ -21,7 +21,7 @@ public abstract class HttpInterfacesAbstractConfigurator {
 
     private final HttpServiceProxyFactory factory;
 
-    public HttpInterfacesAbstractConfigurator(final HttpServiceProxyFactory factory) {
+    public HttpInterfacesAbstractConfigurator(HttpServiceProxyFactory factory) {
         this.factory = factory;
     }
 

@@ -10,7 +10,7 @@ Generator version: 7.28.0-SNAPSHOT
 
 =end
 
-require 'cgi'
+require 'cgi/escape'
 
 module Petstore
   class DefaultApi
