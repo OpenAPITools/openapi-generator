@@ -25,12 +25,21 @@ public class ScalaPekkoClientCodegenTest {
         Path holder = output.toPath().resolve("src/main/scala/org/openapitools/client/model/Holder.scala");
         TestUtils.assertFileContains(holder,
                 "colors: Option[Seq[HolderEnums.Colors]] = None,",
-                "status: Option[HolderEnums.Status] = None",
+                "status: Option[HolderEnums.Status] = None,",
                 "type Colors = Colors.Value",
                 "object Colors extends Enumeration {",
                 "val Red = Value(\"red\")",
                 "val Green = Value(\"green\")");
-        TestUtils.assertFileNotContains(holder, "Seq[Colors].Value", "object Seq[Colors]");
+        // nested containers keep their full type, only the innermost type is the enum
+        TestUtils.assertFileContains(holder,
+                "grid: Option[Seq[Seq[HolderEnums.Grid]]] = None,",
+                "byName: Option[Seq[Map[String, HolderEnums.ByName]]] = None,",
+                "mapOfEnum: Option[Map[String, HolderEnums.MapOfEnum]] = None",
+                "object Grid extends Enumeration {",
+                "val North = Value(\"north\")",
+                "object ByName extends Enumeration {",
+                "object MapOfEnum extends Enumeration {");
+        TestUtils.assertFileNotContains(holder, "Seq[Colors].Value", "object Seq[Colors]", "HolderEnums.Map[", "Inner");
 
         Path serializers = output.toPath().resolve("src/main/scala/org/openapitools/client/api/EnumsSerializers.scala");
         TestUtils.assertFileContains(serializers, "new EnumNameSerializer(HolderEnums.Colors)");

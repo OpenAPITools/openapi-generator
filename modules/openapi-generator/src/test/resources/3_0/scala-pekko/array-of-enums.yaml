@@ -14,3 +14,16 @@ components:
         status:
           type: string
           enum: [active, inactive]
+        grid:
+          type: array
+          items:
+            type: array
+            items: { type: string, enum: [north, south] }
+        byName:
+          type: array
+          items:
+            type: object
+            additionalProperties: { type: string, enum: [x, y] }
+        mapOfEnum:
+          type: object
+          additionalProperties: { type: string, enum: [p, q] }

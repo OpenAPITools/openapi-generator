@@ -272,28 +272,62 @@ public class ScalaPekkoClientCodegen extends AbstractScalaCodegen implements Cod
         return formatIdentifier(property.baseName, true);
     }
 
+    private static final String X_ENUM_CONTAINER_PREFIX = "x-enum-container-prefix";
+    private static final String X_ENUM_CONTAINER_SUFFIX = "x-enum-container-suffix";
+
     /**
      * For an array of enums, the enum is generated for the inner type only, so datatypeWithEnum must be the name of
      * that enum (e.g. "Colors") instead of the container type ("Seq[Colors]"), which is not a valid Scala identifier.
-     * The model template wraps it in the container again. Same as {@link ScalaSttpClientCodegen}.
      *
      * @param property Codegen property
      */
     @Override
     protected void updateDataTypeWithEnumForArray(CodegenProperty property) {
+        updateDataTypeWithEnumForContainer(property, "Seq[", "]");
+    }
+
+    /**
+     * Same as {@link #updateDataTypeWithEnumForArray(CodegenProperty)} for a map of enums.
+     *
+     * @param property Codegen property
+     */
+    @Override
+    protected void updateDataTypeWithEnumForMap(CodegenProperty property) {
+        updateDataTypeWithEnumForContainer(property, "Map[String, ", "]");
+    }
+
+    /**
+     * Sets datatypeWithEnum to the name of the inner enum and stores the surrounding container type, which may be
+     * nested (e.g. "Seq[Seq[" + "]]" or "Seq[Map[String, " + "]]"), in vendor extensions. The model template renders
+     * the field type as prefix + {classname}Enums.{datatypeWithEnum} + suffix.
+     */
+    private void updateDataTypeWithEnumForContainer(CodegenProperty property, String defaultPrefix, String defaultSuffix) {
         CodegenProperty baseItem = property.items;
         while (baseItem != null && (Boolean.TRUE.equals(baseItem.isMap)
                 || Boolean.TRUE.equals(baseItem.isArray))) {
             baseItem = baseItem.items;
         }
-        if (baseItem != null) {
-            // only the inner type is an enum
-            property.datatypeWithEnum = toEnumName(baseItem);
-            property.enumName = toEnumName(property);
-            property._enum = baseItem._enum;
-
-            updateCodegenPropertyEnum(property);
+        if (baseItem == null) {
+            return;
         }
+
+        // the inner type is the last type argument of the container type, e.g. "Seq[Map[String, String]]"
+        String prefix = defaultPrefix;
+        String suffix = defaultSuffix;
+        int index = property.dataType == null || baseItem.dataType == null ? -1 : property.dataType.lastIndexOf(baseItem.dataType);
+        if (index >= 0) {
+            prefix = property.dataType.substring(0, index);
+            suffix = property.dataType.substring(index + baseItem.dataType.length());
+        }
+        property.vendorExtensions.put(X_ENUM_CONTAINER_PREFIX, prefix);
+        property.vendorExtensions.put(X_ENUM_CONTAINER_SUFFIX, suffix);
+
+        // only the inner type is an enum, named after the property (as for a non-container enum)
+        property.datatypeWithEnum = toEnumName(property);
+        property.enumName = toEnumName(property);
+        property._enum = baseItem._enum;
+
+        updateCodegenPropertyEnum(property);
     }
 
     @Override
