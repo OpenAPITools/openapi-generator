@@ -5,6 +5,7 @@ import type {
 	INodeType,
 	INodeTypeDescription,
 } from 'n8n-workflow';
+import { NodeOperationError } from 'n8n-workflow';
 
 import { apiRequest } from './GenericFunctions';
 
@@ -142,6 +143,7 @@ export class {{nodeClassName}} implements INodeType {
 
 		for (let i = 0; i < items.length; i++) {
 			let responseData: IDataObject = {};
+			let matched = false;
 
 			{{#apiInfo}}
 			{{#apis}}
@@ -149,8 +151,14 @@ export class {{nodeClassName}} implements INodeType {
 				{{#operations}}
 				{{#operation}}
 				if (operation === '{{operationId}}') {
+					matched = true;
 					const qs: IDataObject = {};
+					const headers: IDataObject = {};
+					const cookieParts: string[] = [];
+					const formFields: IDataObject = {};
 					const body: IDataObject = {};
+					let wholeBodyArray: unknown[] | undefined;
+					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '{{{path}}}';
 					{{#allParams}}
 					{{#isPathParam}}
@@ -166,33 +174,61 @@ export class {{nodeClassName}} implements INodeType {
 					{{/isQueryParam}}
 					{{#isHeaderParam}}
 					{{#vendorExtensions.n8nIsCollection}}
-					qs['{{baseName}}'] = (this.getNodeParameter('{{paramName}}', i) as IDataObject[]).map((entry) => entry.value);
+					headers['{{baseName}}'] = (this.getNodeParameter('{{paramName}}', i) as IDataObject[]).map((entry) => entry.value);
 					{{/vendorExtensions.n8nIsCollection}}
 					{{^vendorExtensions.n8nIsCollection}}
-					qs['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
+					headers['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
 					{{/vendorExtensions.n8nIsCollection}}
 					{{/isHeaderParam}}
+					{{#isCookieParam}}
+					cookieParts.push('{{baseName}}=' + encodeURIComponent(this.getNodeParameter('{{paramName}}', i) as string));
+					{{/isCookieParam}}
+					{{#isFormParam}}
+					{{#isFile}}
+					// '{{baseName}}' is a binary file form field; this generator does not support uploading binary data, so it is omitted from the request.
+					{{/isFile}}
+					{{^isFile}}
+					formFields['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
+					{{/isFile}}
+					{{/isFormParam}}
 					{{#isBodyParam}}
 					{{#isPrimitiveType}}
+					{{#vendorExtensions.n8nIsFlattenedBodyProperty}}
 					{{#vendorExtensions.n8nIsCollection}}
 					body['{{baseName}}'] = (this.getNodeParameter('{{paramName}}', i) as IDataObject[]).map((entry) => entry.value);
 					{{/vendorExtensions.n8nIsCollection}}
 					{{^vendorExtensions.n8nIsCollection}}
 					body['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
 					{{/vendorExtensions.n8nIsCollection}}
+					{{/vendorExtensions.n8nIsFlattenedBodyProperty}}
+					{{^vendorExtensions.n8nIsFlattenedBodyProperty}}
+					wholeBodyScalar = this.getNodeParameter('{{paramName}}', i) as string | number | boolean;
+					{{/vendorExtensions.n8nIsFlattenedBodyProperty}}
 					{{/isPrimitiveType}}
 					{{^isPrimitiveType}}
+					{{#isArray}}
+					wholeBodyArray = this.getNodeParameter('{{paramName}}', i) as unknown[];
+					{{/isArray}}
+					{{^isArray}}
 					Object.assign(body, this.getNodeParameter('{{paramName}}', i) as IDataObject);
+					{{/isArray}}
 					{{/isPrimitiveType}}
 					{{/isBodyParam}}
 					{{/allParams}}
-					responseData = (await apiRequest.call(this, '{{httpMethod}}', path, body, qs, '{{vendorExtensions.n8nOperationCredentialName}}')) as IDataObject;
+					if (cookieParts.length > 0) {
+						headers['Cookie'] = cookieParts.join('; ');
+					}
+					responseData = (await apiRequest.call(this, '{{httpMethod}}', path, wholeBodyArray ?? wholeBodyScalar ?? body, qs, headers, formFields, '{{vendorExtensions.n8nOperationCredentialName}}')) as IDataObject;
 				}
 				{{/operation}}
 				{{/operations}}
 			}
 			{{/apis}}
 			{{/apiInfo}}
+
+			if (!matched) {
+				throw new NodeOperationError(this.getNode(), `Unsupported resource/operation combination: resource=${resource}, operation=${operation}`, { itemIndex: i });
+			}
 
 			returnData.push(responseData);
 		}
