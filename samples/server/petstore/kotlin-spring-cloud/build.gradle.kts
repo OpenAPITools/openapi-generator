@@ -29,7 +29,7 @@ kotlin {
 }
 
 plugins {
-    val kotlinVersion = providers.gradleProperty("kotlinVersion").get()
+    val kotlinVersion = "1.9.25"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
@@ -55,7 +55,7 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
