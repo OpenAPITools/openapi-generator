@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -92,6 +93,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         Collections.sort(sortedLanguageSpecificPrimitives);
         String primitives = "'" + StringUtils.join(sortedLanguageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
+
+        // values written into a single-quoted PHP string may come from the spec as written
+        // (e.g. openApiType), so escape the only two characters that are special there
+        additionalProperties.put("lambdaEscapePhpSingleQuotedString", (Mustache.Lambda) (fragment, writer) -> writer
+                .write(fragment.execute().replace("\\", "\\\\").replace("'", "\\'")));
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
