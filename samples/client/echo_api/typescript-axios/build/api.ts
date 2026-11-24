@@ -1747,8 +1747,12 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                for (const [key, value] of Object.entries(queryObject)) {
-                    localVarQueryParameter[key] = value;
+                if (typeof queryObject === 'object' && queryObject !== null) {
+                    for (const [key, value] of Object.entries(queryObject)) {
+                        localVarQueryParameter[key] = value;
+                    }
+                } else {
+                    localVarQueryParameter['query_object'] = queryObject;
                 }
             }
 
@@ -1784,8 +1788,12 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                for (const [key, value] of Object.entries(queryObject)) {
-                    localVarQueryParameter[key] = value;
+                if (typeof queryObject === 'object' && queryObject !== null) {
+                    for (const [key, value] of Object.entries(queryObject)) {
+                        localVarQueryParameter[key] = value;
+                    }
+                } else {
+                    localVarQueryParameter['query_object'] = queryObject;
                 }
             }
 
@@ -1891,8 +1899,12 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                for (const [key, value] of Object.entries(queryObject)) {
-                    localVarQueryParameter[key] = value;
+                if (typeof queryObject === 'object' && queryObject !== null) {
+                    for (const [key, value] of Object.entries(queryObject)) {
+                        localVarQueryParameter[key] = value;
+                    }
+                } else {
+                    localVarQueryParameter['query_object'] = queryObject;
                 }
             }
 
@@ -1928,8 +1940,12 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                for (const [key, value] of Object.entries(queryObject)) {
-                    localVarQueryParameter[key] = value;
+                if (typeof queryObject === 'object' && queryObject !== null) {
+                    for (const [key, value] of Object.entries(queryObject)) {
+                        localVarQueryParameter[key] = value;
+                    }
+                } else {
+                    localVarQueryParameter['query_object'] = queryObject;
                 }
             }
 
@@ -1965,8 +1981,12 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                for (const [key, value] of Object.entries(queryObject)) {
-                    localVarQueryParameter[key] = value;
+                if (typeof queryObject === 'object' && queryObject !== null) {
+                    for (const [key, value] of Object.entries(queryObject)) {
+                        localVarQueryParameter[key] = value;
+                    }
+                } else {
+                    localVarQueryParameter['query_object'] = queryObject;
                 }
             }
 
