@@ -66,7 +66,7 @@ begin
   client.<resource>.<action>
 rescue Petstore::ApiError => e
   e.status   # => HTTP status code (nil for a transport error)
-  e.body     # => the response body (decoded when it is JSON)
+  e.body     # => the response body (decoded when the Content-Type is JSON)
   e.headers  # => the response headers
 end
 ```
