@@ -327,7 +327,7 @@ import java.io.IOException
                     {{^isArray}}
                     {{#isNumber}}
                         require(jsonElement.getAsJsonPrimitive().isNumber()) {
-                            "Expected json element to be of type Number in the JSON string but got `${jsonElement}`", 
+                            "Expected json element to be of type Number in the JSON string but got `${jsonElement}`" 
                         }
                         actualAdapter = adapter{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}
                         ret.actualInstance = actualAdapter.fromJsonTree(jsonElement)
