@@ -266,7 +266,9 @@ impl ::std::str::FromStr for AdditionalPropertiesReferencedAnyOfObject {
     type Err = &'static str;
 
     fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        std::result::Result::Err("Parsing additionalProperties for AdditionalPropertiesReferencedAnyOfObject is not supported")
+        std::result::Result::Err(
+            "Parsing additionalProperties for AdditionalPropertiesReferencedAnyOfObject is not supported",
+        )
     }
 }
 
@@ -410,7 +412,7 @@ impl std::str::FromStr for AdditionalPropertiesWithNullable {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AdditionalPropertiesWithNullable".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -694,10 +696,10 @@ impl AnotherXmlObject {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for AnotherXmlObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .inner_string
-            .as_ref()
-            .map(|inner_string| ["inner_string".to_string(), inner_string.to_string()].join(","))];
+        let params: Vec<Option<String>> =
+            vec![self.inner_string.as_ref().map(|inner_string| {
+                ["inner_string".to_string(), inner_string.to_string()].join(",")
+            })];
 
         write!(
             f,
@@ -733,21 +735,18 @@ impl std::str::FromStr for AnotherXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnotherXmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "inner_string" => intermediate_rep.inner_string.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "inner_string" => intermediate_rep.inner_string.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnotherXmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -984,7 +983,7 @@ impl std::str::FromStr for AnyOfProperty {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing AnyOfProperty".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1004,7 +1003,7 @@ impl std::str::FromStr for AnyOfProperty {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing AnyOfProperty".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1138,17 +1137,14 @@ impl std::str::FromStr for DuplicateXmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing DuplicateXmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "inner_string" => intermediate_rep.inner_string.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "inner_string" => intermediate_rep.inner_string.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "inner_array" => intermediate_rep.inner_array.push(
                         <models::XmlArray as std::str::FromStr>::from_str(val)
@@ -1157,7 +1153,7 @@ impl std::str::FromStr for DuplicateXmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing DuplicateXmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1440,7 +1436,7 @@ impl std::str::FromStr for FormTestRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing FormTestRequest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1451,16 +1447,13 @@ impl std::str::FromStr for FormTestRequest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in FormTestRequest"
                                 .to_string(),
-                        )
+                        );
                     }
-                    #[allow(clippy::redundant_clone)]
-                    "enum_field" => intermediate_rep.enum_field.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "enum_field" => intermediate_rep.enum_field.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing FormTestRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1577,10 +1570,11 @@ impl MultigetGet201Response {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for MultigetGet201Response {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .foo
-            .as_ref()
-            .map(|foo| ["foo".to_string(), foo.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.foo
+                .as_ref()
+                .map(|foo| ["foo".to_string(), foo.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -1616,21 +1610,18 @@ impl std::str::FromStr for MultigetGet201Response {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultigetGet201Response".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "foo" => intermediate_rep.foo.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "foo" => intermediate_rep.foo.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing MultigetGet201Response".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2143,7 +2134,7 @@ impl std::str::FromStr for NullableTest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing NullableTest".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2170,30 +2161,30 @@ impl std::str::FromStr for NullableTest {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "min_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     "min_max_item_test" => {
                         return std::result::Result::Err(
                             "Parsing a container in this style is not supported in NullableTest"
                                 .to_string(),
-                        )
+                        );
                     }
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing NullableTest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2343,7 +2334,7 @@ impl std::str::FromStr for ObjectHeader {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectHeader".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2361,7 +2352,7 @@ impl std::str::FromStr for ObjectHeader {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectHeader".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2494,7 +2485,7 @@ impl std::str::FromStr for ObjectParam {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectParam".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -2512,7 +2503,7 @@ impl std::str::FromStr for ObjectParam {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing ObjectParam".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -2661,20 +2652,20 @@ impl std::str::FromStr for ObjectUntypedProps {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectUntypedProps".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "required_untyped" => intermediate_rep.required_untyped.push(<crate::types::Object as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                        #[allow(clippy::redundant_clone)]
+                       "required_untyped" => intermediate_rep.required_untyped.push(<crate::types::Object as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "required_untyped_nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
-                    #[allow(clippy::redundant_clone)]
-                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(<crate::types::Object as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    #[allow(clippy::redundant_clone)]
-                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(<crate::types::Object as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                        #[allow(clippy::redundant_clone)]
+                       "not_required_untyped" => intermediate_rep.not_required_untyped.push(<crate::types::Object as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                        #[allow(clippy::redundant_clone)]
+                       "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(<crate::types::Object as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
@@ -2811,7 +2802,7 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing ObjectWithArrayOfObjects".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -3474,17 +3465,14 @@ impl std::str::FromStr for XmlObject {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing XmlObject".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "innerString" => intermediate_rep.inner_string.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "innerString" => intermediate_rep.inner_string.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "other_inner_rename" => intermediate_rep.other_inner_rename.push(
                         <i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
@@ -3492,7 +3480,7 @@ impl std::str::FromStr for XmlObject {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing XmlObject".to_string(),
-                        )
+                        );
                     }
                 }
             }

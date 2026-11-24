@@ -207,137 +207,39 @@ public class FeatureSet {
     }
 
     public List<FeatureSetFlattened> flatten() {
-        // TODO: Look at making this method function more generically.
         List<FeatureSetFlattened> states = new ArrayList<>();
-        EnumSet.allOf(ClientModificationFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = ClientModificationFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.clientModificationFeatures.contains(feat);
-
-            try {
-                for (Annotation an : ClientModificationFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-            states.add(state);
-        });
-        EnumSet.allOf(DataTypeFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = DataTypeFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.dataTypeFeatures.contains(feat);
-
-            try {
-                for (Annotation an : DataTypeFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            states.add(state);
-        });
-        EnumSet.allOf(DocumentationFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = DocumentationFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.documentationFeatures.contains(feat);
-
-            try {
-                for (Annotation an : DocumentationFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            states.add(state);
-        });
-        EnumSet.allOf(SchemaSupportFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = SchemaSupportFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.schemaSupportFeatures.contains(feat);
-
-            try {
-                for (Annotation an : SchemaSupportFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            states.add(state);
-        });
-        EnumSet.allOf(GlobalFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = GlobalFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.globalFeatures.contains(feat);
-
-            try {
-                for (Annotation an : GlobalFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            states.add(state);
-        });
-        EnumSet.allOf(ParameterFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = ParameterFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.parameterFeatures.contains(feat);
-
-            try {
-                for (Annotation an : ParameterFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            states.add(state);
-        });
-        EnumSet.allOf(SecurityFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = SecurityFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.securityFeatures.contains(feat);
-
-            try {
-                for (Annotation an : SecurityFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            states.add(state);
-        });
-        EnumSet.allOf(WireFormatFeature.class).forEach(feat -> {
-            FeatureSetFlattened state = new FeatureSetFlattened();
-            state.featureCategory = WireFormatFeature.class.getSimpleName();
-            state.featureName = feat.name();
-            state.isSupported = this.wireFormatFeatures.contains(feat);
-
-            try {
-                for (Annotation an : WireFormatFeature.class.getField(feat.name()).getAnnotations()) {
-                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
-
-            states.add(state);
-        });
-
+        addFlattened(states, ClientModificationFeature.class, clientModificationFeatures);
+        addFlattened(states, DataTypeFeature.class, dataTypeFeatures);
+        addFlattened(states, DocumentationFeature.class, documentationFeatures);
+        addFlattened(states, SchemaSupportFeature.class, schemaSupportFeatures);
+        addFlattened(states, GlobalFeature.class, globalFeatures);
+        addFlattened(states, ParameterFeature.class, parameterFeatures);
+        addFlattened(states, SecurityFeature.class, securityFeatures);
+        addFlattened(states, WireFormatFeature.class, wireFormatFeatures);
         return states;
+    }
+
+    /**
+     * Appends the flattened state of every {@code featureClass} constant, in declaration order.
+     */
+    private static <E extends Enum<E>> void addFlattened(
+            List<FeatureSetFlattened> states, Class<E> featureClass, EnumSet<E> supported) {
+        for (E feat : EnumSet.allOf(featureClass)) {
+            FeatureSetFlattened state = new FeatureSetFlattened();
+            state.featureCategory = featureClass.getSimpleName();
+            state.featureName = feat.name();
+            state.isSupported = supported.contains(feat);
+
+            try {
+                for (Annotation an : featureClass.getField(feat.name()).getAnnotations()) {
+                    state.source.add(AnnotationType.fromAnnotation(an.annotationType()));
+                }
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+
+            states.add(state);
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayInputStream;
@@ -521,6 +522,12 @@ public class JSONTest {
             assertEquals(inst2.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
             assertEquals(json.getGson().toJson(o2), "{\"type\":\"plains\",\"className\":\"zebra\"}");
             assertEquals(o2.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\"}");
+
+            // Verify validateJsonElement uses the discriminator to validate only against the matching branch,
+            // even when other branches also match due to disallowAdditionalPropertiesIfNotPresent=false.
+            // In this petstore spec, Whale only requires className, so a Zebra payload also structurally matches Whale.
+            assertDoesNotThrow(() -> Mammal.validateJsonElement(JsonParser.parseString(str)));
+            assertDoesNotThrow(() -> Mammal.validateJsonElement(JsonParser.parseString(str2)));
         }
         {
             // incorrect payload results in exception
@@ -530,6 +537,7 @@ public class JSONTest {
             });
             //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}`.]. JSON: {\"cultivar\":\"golden delicious\",\"mealy\":false,\"garbage_prop\":\"abc\"}", exception.getMessage());
             assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for Mammal"));
+            assertThrows(IOException.class, () -> Mammal.validateJsonElement(JsonParser.parseString(str)));
         }
         {
             // Try to deserialize empty object. This should fail 'oneOf' because none will match
@@ -540,6 +548,18 @@ public class JSONTest {
             });
             //assertEquals("java.io.IOException: Failed deserialization for Mammal: 0 classes match result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for Pig failed with `The JSON string is invalid for Pig with oneOf schemas: BasquePig, DanishPig. 0 class(es) match the result, expected 1. Detailed failure message for oneOf schemas: [Deserialization for BasquePig failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for DanishPig failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}`., Deserialization for Whale failed with `The required field `className` is not found in the JSON string: {}`., Deserialization for Zebra failed with `The required field `className` is not found in the JSON string: {}`.]. JSON: {}", exception.getMessage());
             assertTrue(exception.getMessage().contains("java.io.IOException: Failed deserialization for Mammal"));
+            assertThrows(IOException.class, () -> Mammal.validateJsonElement(JsonParser.parseString(str)));
+        }
+        {
+            // Malformed payloads (non-object or non-primitive discriminator) should throw IOException instead of unchecked Gson exceptions
+            assertThrows(IOException.class, () -> Mammal.validateJsonElement(JsonParser.parseString("\"not-an-object\"")));
+            assertThrows(IOException.class, () -> Mammal.validateJsonElement(JsonParser.parseString("[\"not\", \"an\", \"object\"]")));
+            assertThrows(IOException.class, () -> Mammal.validateJsonElement(JsonParser.parseString("{ \"className\": { \"nested\": \"val\" } }")));
+            assertThrows(IOException.class, () -> Mammal.validateJsonElement(JsonParser.parseString("{ \"className\": [1, 2] }")));
+
+            // Invalid child fields in a discriminated model should throw IOException (not IllegalArgumentException)
+            assertThrows(IOException.class, () -> Triangle.validateJsonElement(JsonParser.parseString("{ \"triangleType\": \"EquilateralTriangle\" }")));
+            assertThrows(IOException.class, () -> Shape.validateJsonElement(JsonParser.parseString("{ \"shapeType\": \"Triangle\" }")));
         }
     }
 

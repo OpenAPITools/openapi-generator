@@ -246,6 +246,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("configuration.mustache", gemFolder, "configuration.rb"));
         supportingFiles.add(new SupportingFile("response.mustache", gemFolder, "response.rb"));
         supportingFiles.add(new SupportingFile("api_error.mustache", gemFolder, "api_error.rb"));
+        supportingFiles.add(new SupportingFile("query_params.mustache", gemFolder, "query_params.rb"));
         supportingFiles.add(new SupportingFile("serializable.mustache", gemFolder, "serializable.rb"));
         supportingFiles.add(new SupportingFile("validations.mustache", gemFolder, "validations.rb"));
         supportingFiles.add(new SupportingFile("polymorphism.mustache", gemFolder, "polymorphism.rb"));
@@ -857,6 +858,7 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
                 }
             }
         }
+        Set<String> objectModelNames = objectModelNames(allModels);
         for (CodegenOperation co : operationList) {
             String rt;
             if (co.returnBaseType == null) {
@@ -899,7 +901,89 @@ public class RubyNextgenClientCodegen extends AbstractRubyCodegen {
             // guard block followed by a single blank line (and omit both when there are none).
             boolean hasRequired = co.allParams.stream().anyMatch(p -> p.required);
             co.vendorExtensions.put("x-rb-has-required-params", hasRequired);
+            // An object query parameter contributes zero, one or several query entries depending
+            // on its style/explode, so it cannot be a fixed `'name' => value` pair. As soon as
+            // an operation has one, api_operations.mustache merges one Hash per parameter
+            // (x-rb-query-expr); otherwise it keeps the plain Hash literal.
+            boolean hasObjectQuery = false;
+            for (CodegenParameter p : co.queryParams) {
+                String objectExpression = objectQueryExpression(p, objectModelNames);
+                hasObjectQuery |= objectExpression != null;
+                p.vendorExtensions.put(
+                        "x-rb-query-expr",
+                        objectExpression != null
+                                ? objectExpression
+                                : "{ " + rubyString(p.baseName) + " => " + p.paramName + " }.compact");
+            }
+            co.vendorExtensions.put("x-rb-has-object-query", hasObjectQuery);
         }
         return objs;
+    }
+
+    /**
+     * Single-quoted Ruby literal for a string coming from the document.
+     *
+     * @param value the raw string
+     * @return the literal, quotes included
+     */
+    private static String rubyString(String value) {
+        return "'" + value.replace("\\", "\\\\").replace("'", "\\'") + "'";
+    }
+
+    /**
+     * Class names of the models generated as objects with properties. Enums and oneOf/anyOf
+     * wrappers are models too, but their values can be scalars (an anyOf of an integer and an
+     * enum, say), so they must not be serialized as objects. Neither must an allOf wrapper
+     * that brings no property of its own, since it may wrap one of those.
+     *
+     * @param allModels every model of the document
+     * @return the class names of the object models
+     */
+    private static Set<String> objectModelNames(List<ModelMap> allModels) {
+        Set<String> names = new HashSet<>();
+        for (ModelMap mo : allModels) {
+            CodegenModel cm = mo.getModel();
+            boolean hasProperties =
+                    !cm.allVars.isEmpty()
+                            || cm.isAdditionalPropertiesTrue
+                            || cm.getAdditionalProperties() != null;
+            boolean isBareAllOfWrapper = !cm.allOf.isEmpty() && !hasProperties;
+            if (!cm.isEnum && cm.oneOf.isEmpty() && cm.anyOf.isEmpty() && !isBareAllOfWrapper) {
+                names.add(cm.classname);
+            }
+        }
+        return names;
+    }
+
+    /**
+     * Ruby expression serializing an object query parameter (a map or a model) according to its
+     * style and explode, through the generated {@code QueryParams} module.
+     *
+     * @param p a query parameter
+     * @param objectModelNames class names of the models generated as objects
+     * @return the expression, or null when the parameter is not an object, is sent as JSON
+     *     content, or uses a style that defines no object serialization
+     */
+    private String objectQueryExpression(CodegenParameter p, Set<String> objectModelNames) {
+        boolean isObject = p.isMap || (p.isModel && objectModelNames.contains(p.dataType));
+        if (!isObject || p.queryIsJsonMimeType) {
+            return null;
+        }
+        String serializer;
+        if (p.isDeepObject) {
+            serializer = "deep_object";
+        } else if (p.isFormStyle) {
+            serializer = p.isExplode ? "explode" : "join";
+        } else {
+            return null;
+        }
+        return moduleName
+                + "::QueryParams."
+                + serializer
+                + "("
+                + rubyString(p.baseName)
+                + ", "
+                + p.paramName
+                + ")";
     }
 }

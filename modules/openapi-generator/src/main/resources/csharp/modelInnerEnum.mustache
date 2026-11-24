@@ -46,7 +46,13 @@
 
             {{/enumVars}}
             {{/allowableValues}}
+            {{#enumUnknownDefaultCase}}
+            // Unknown values map to the unknown default member
+            return {{#allowableValues}}{{#enumVars}}{{#-last}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}}{{/-last}}{{/enumVars}}{{/allowableValues}};
+            {{/enumUnknownDefaultCase}}
+            {{^enumUnknownDefaultCase}}
             throw new NotImplementedException($"Could not convert value to type {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}: '{value}'");
+            {{/enumUnknownDefaultCase}}
         }
 
         /// <summary>
@@ -63,7 +69,13 @@
 
             {{/enumVars}}
             {{/allowableValues}}
+            {{#enumUnknownDefaultCase}}
+            // Unknown values map to the unknown default member
+            return {{#allowableValues}}{{#enumVars}}{{#-last}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.{{name}}{{/-last}}{{/enumVars}}{{/allowableValues}};
+            {{/enumUnknownDefaultCase}}
+            {{^enumUnknownDefaultCase}}
             return null;
+            {{/enumUnknownDefaultCase}}
         }
 
         /// <summary>
