@@ -167,11 +167,11 @@ dependencies {
     {{^moshiCodeGen}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     api "com.squareup.moshi:moshi-kotlin:1.15.2"
-    api "com.squareup.moshi:moshi-adapters:1.15.2"
+    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
     {{/moshiCodeGen}}
     {{#moshiCodeGen}}
     api "com.squareup.moshi:moshi:1.15.2"
-    api "com.squareup.moshi:moshi-adapters:1.15.2"
+    implementation "com.squareup.moshi:moshi-adapters:1.15.2"
     ksp "com.squareup.moshi:moshi-kotlin-codegen:1.15.2"
     {{/moshiCodeGen}}
     {{/moshi}}
@@ -181,10 +181,12 @@ dependencies {
     {{#jackson}}
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     {{#useJackson3}}
-    api "tools.jackson.module:jackson-module-kotlin:$jackson3_version"
+    api "tools.jackson.core:jackson-databind:$jackson3_version"
+    implementation "tools.jackson.module:jackson-module-kotlin:$jackson3_version"
     {{/useJackson3}}
     {{^useJackson3}}
-    api "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
+    api "com.fasterxml.jackson.core:jackson-databind:2.22.1"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.22.1"
     {{/useJackson3}}
     {{/jackson}}
