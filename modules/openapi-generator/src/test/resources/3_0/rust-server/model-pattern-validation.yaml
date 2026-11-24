@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: Model with a pattern validation
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: getItem
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        code:
+          type: string
+          pattern: '^[a-z]+$'

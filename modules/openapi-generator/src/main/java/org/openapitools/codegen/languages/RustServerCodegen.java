@@ -1301,6 +1301,11 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 additionalProperties.put("apiUsesByteArray", true);
             }
 
+            // models.mustache emits lazy_static and regex based statics for these patterns
+            if (prop.hasValidation && prop.pattern != null && !prop.isByteArray) {
+                additionalProperties.put("modelsUsePatternValidation", true);
+            }
+
             String xmlName = modelXmlNames.get(prop.dataType);
             if (xmlName != null) {
                 prop.vendorExtensions.put("x-item-xml-name", xmlName);

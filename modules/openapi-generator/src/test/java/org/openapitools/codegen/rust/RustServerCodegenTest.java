@@ -320,4 +320,37 @@ public class RustServerCodegenTest {
         // Clean up
         target.toFile().deleteOnExit();
     }
+
+    @Test
+    public void testClientFeatureHasRegexDependenciesOnlyForPatternValidation() throws IOException {
+        // models with a pattern use lazy_static and regex in models.rs, so the client feature needs them
+        String withPattern = generateCargoClientFeature("src/test/resources/3_0/rust-server/model-pattern-validation.yaml");
+        Assert.assertTrue(withPattern.contains("\"lazy_static\""), withPattern);
+        Assert.assertTrue(withPattern.contains("\"regex\""), withPattern);
+
+        // without any pattern the client feature stays free of them
+        String withoutPattern = generateCargoClientFeature("src/test/resources/3_0/rust-server/integer-params.yaml");
+        Assert.assertFalse(withoutPattern.contains("lazy_static"), withoutPattern);
+        Assert.assertFalse(withoutPattern.contains("regex"), withoutPattern);
+    }
+
+    private String generateCargoClientFeature(String inputSpec) throws IOException {
+        Path target = Files.createTempDirectory("test");
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("rust-server")
+                .setInputSpec(inputSpec)
+                .setSkipOverwrite(false)
+                .setOutputDir(target.toAbsolutePath().toString().replace("\\", "/"));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path cargo = Path.of(target.toString(), "/Cargo.toml");
+        TestUtils.assertFileExists(cargo);
+        String content = Files.readString(cargo);
+        int start = content.indexOf("\nclient = [");
+        int end = content.indexOf("]", start);
+        Assert.assertTrue(start >= 0 && end > start, content);
+        target.toFile().deleteOnExit();
+        return content.substring(start, end);
+    }
 }
