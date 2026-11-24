@@ -30,6 +30,22 @@ import org.testng.annotations.Test;
 @Test(groups = {TYPESCRIPT})
 public class SharedTypeScriptTest {
 
+    @Test(description = "Issue #25711")
+    public void nestjsServerImportsNumberedInlineModelByItsGeneratedFilename() throws IOException {
+        Path output = TestUtils.newTempFolder();
+        CodegenConfigurator config = new CodegenConfigurator()
+                .setGeneratorName("typescript-nestjs-server")
+                .setInputSpec("src/test/resources/3_0/issue_25711.yaml")
+                .setOutputDir(output.toString())
+                .addAdditionalProperty("fileNaming", "kebab-case");
+        getGenerator(config).generate();
+
+        Path models = output.resolve("models");
+        Assert.assertTrue(Files.isRegularFile(models.resolve("overlap-one-of-1.ts")));
+        TestUtils.assertFileContains(models.resolve("overlap.ts"),
+                "import { OverlapOneOf1 } from './overlap-one-of-1';");
+    }
+
     @Test(enabled = false)
     public void typesInImportsAreSplitTest() throws IOException {
         Path output = Files.createTempDirectory("test");
@@ -203,6 +219,52 @@ public class SharedTypeScriptTest {
 
         TestUtils.assertFileContains(axiosApiFile.toPath(), "AxiosPromise<Pick<User, \"email\">>");
         TestUtils.assertFileNotContains(axiosApiFile.toPath(), "AxiosPromise<UserSummary>");
+    }
+
+    @Test(description = "Issue #22251")
+    public void givenTypeMappingToGenericUtilityTypeThenResponseIsNotDeserializedAsModel() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        Generator generator = new DefaultGenerator();
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/3_1/issue_22251.yaml")
+                .setGeneratorName("typescript-fetch")
+                .addTypeMapping("object", "Record<string,unknown>")
+                .addTypeMapping("UserSummary", "Pick<User, \"email\">")
+                .setOutputDir(output.getAbsolutePath());
+        generator.opts(configurator.toClientOptInput())
+                .generate();
+
+        Path apiFile = new File(output, "/apis/DefaultApi.ts").toPath();
+
+        TestUtils.assertFileContains(apiFile, "return new runtime.JSONApiResponse<Record<string,unknown>>(response);");
+        TestUtils.assertFileContains(apiFile, "return new runtime.JSONApiResponse<Pick<User, \"email\">>(response);");
+        TestUtils.assertFileContains(apiFile, "Promise<Array<Pick<User, \"email\">>>");
+        TestUtils.assertFileNotContains(apiFile, "FromJSON");
+        TestUtils.assertFileNotContains(apiFile, "&lt;");
+    }
+
+    @Test(description = "Issue #14063")
+    public void nullableComponentSchemaUsedAsArrayItemOrMapValueStaysNullable() throws Exception {
+        Map<String, String> modelFiles = Map.of(
+                "typescript-angular", "model/shelf.ts",
+                "typescript-fetch", "models/Shelf.ts",
+                "typescript", "models/Shelf.ts");
+        for (Map.Entry<String, String> entry : modelFiles.entrySet()) {
+            File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+            output.deleteOnExit();
+
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setInputSpec("src/test/resources/3_0/issue_14063.yaml")
+                    .setGeneratorName(entry.getKey())
+                    .setOutputDir(output.getAbsolutePath());
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path model = new File(output, entry.getValue()).toPath();
+            TestUtils.assertFileContains(model,
+                    "Array<Book | null>", "{ [key: string]: Book | null; }", "Array<Plain>", "{ [key: string]: Plain; }");
+        }
     }
 
     @Test(description = "Issue #20877, #22747 - Maps/arrays of inner enums should use correct enum name")

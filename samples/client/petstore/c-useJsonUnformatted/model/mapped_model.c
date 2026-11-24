@@ -106,6 +106,10 @@ MappedModel_t *MappedModel_parseFromJSON(cJSON *MappedModelJSON){
         uuid_property && !cJSON_IsNull(uuid_property) ? strdup(uuid_property->valuestring) : NULL
         );
 
+    if (!MappedModel_local_var) {
+        goto end;
+    }
+
     return MappedModel_local_var;
 end:
     return NULL;

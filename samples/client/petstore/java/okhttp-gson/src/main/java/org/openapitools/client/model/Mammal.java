@@ -297,6 +297,43 @@ public class Mammal extends AbstractOpenApiSchema {
         // validate oneOf schemas one by one
         int validCount = 0;
         ArrayList<String> errorMessages = new ArrayList<>();
+        if (jsonElement.isJsonObject()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            JsonElement discriminatorElement = jsonObject.get("className");
+            if (discriminatorElement != null && discriminatorElement.isJsonPrimitive()) {
+                String discriminatorValue = discriminatorElement.getAsString();
+                if ("Pig".equals(discriminatorValue)) {
+                    try {
+                        Pig.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Pig'", e);
+                    }
+                }
+                if ("whale".equals(discriminatorValue)) {
+                    try {
+                        Whale.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Whale'", e);
+                    }
+                }
+                if ("zebra".equals(discriminatorValue)) {
+                    try {
+                        Zebra.validateJsonElement(jsonElement);
+                        return;
+                    } catch (IOException e) {
+                        throw e;
+                    } catch (Exception e) {
+                        throw new IOException("Failed to validate against the discriminated schema 'Zebra'", e);
+                    }
+                }
+            }
+        }
         // validate the json string with Whale
         try {
             Whale.validateJsonElement(jsonElement);

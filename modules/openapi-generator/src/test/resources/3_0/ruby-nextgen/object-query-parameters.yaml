@@ -1,0 +1,156 @@
+openapi: 3.0.3
+info:
+  title: Object query parameters
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      operationId: listThings
+      parameters:
+        - name: filter
+          in: query
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: defaultFilter
+          in: query
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: flatFilter
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: deepFilter
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+        - name: tags
+          in: query
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: contentFilter
+          in: query
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /widgets:
+    get:
+      operationId: listWidgets
+      parameters:
+        - name: color
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: flatColor
+          in: query
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: shape
+          in: query
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Shape'
+        - name: flatShape
+          in: query
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Shape'
+        - name: deepColor
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: consistency
+          in: query
+          schema:
+            $ref: '#/components/schemas/Consistency'
+        - name: level
+          in: query
+          schema:
+            $ref: '#/components/schemas/Level'
+        - name: defaultColor
+          in: query
+          schema:
+            $ref: '#/components/schemas/Color'
+        - name: wrappedConsistency
+          in: query
+          schema:
+            $ref: '#/components/schemas/WrappedConsistency'
+        - name: it's
+          in: query
+          schema:
+            type: string
+      security:
+        - api_key: []
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: query
+      name: api_key
+  schemas:
+    Color:
+      type: object
+      properties:
+        red:
+          type: integer
+        lineWidth:
+          type: integer
+    Shape:
+      type: object
+      properties:
+        kind:
+          type: string
+      additionalProperties:
+        type: string
+    Consistency:
+      anyOf:
+        - type: integer
+        - $ref: '#/components/schemas/Level'
+    Level:
+      type: string
+      enum:
+        - majority
+        - all
+    WrappedConsistency:
+      nullable: true
+      allOf:
+        - $ref: '#/components/schemas/Consistency'

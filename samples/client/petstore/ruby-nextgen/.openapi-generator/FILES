@@ -24,6 +24,7 @@ lib/petstore/models/pet.rb
 lib/petstore/models/tag.rb
 lib/petstore/models/user.rb
 lib/petstore/polymorphism.rb
+lib/petstore/query_params.rb
 lib/petstore/response.rb
 lib/petstore/serializable.rb
 lib/petstore/validations.rb

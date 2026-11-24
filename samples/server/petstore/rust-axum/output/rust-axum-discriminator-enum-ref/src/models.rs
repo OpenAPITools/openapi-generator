@@ -162,7 +162,7 @@ impl std::str::FromStr for Apple {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Apple".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -174,14 +174,11 @@ impl std::str::FromStr for Apple {
                         <models::FruitType as std::str::FromStr>::from_str(val)
                             .map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "cultivar" => intermediate_rep.cultivar.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "cultivar" => intermediate_rep.cultivar.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Apple".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -326,7 +323,7 @@ impl std::str::FromStr for Banana {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Banana".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -345,7 +342,7 @@ impl std::str::FromStr for Banana {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Banana".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -491,7 +488,7 @@ impl std::str::FromStr for Cat {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Cat".to_string())
+                    return std::result::Result::Err("Missing value while parsing Cat".to_string());
                 }
             };
 
@@ -503,14 +500,11 @@ impl std::str::FromStr for Cat {
                         <models::PetKind as std::str::FromStr>::from_str(val)
                             .map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "meow" => intermediate_rep.meow.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "meow" => intermediate_rep.meow.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Cat".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -628,7 +622,7 @@ impl std::str::FromStr for Circle {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Circle".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -643,7 +637,7 @@ impl std::str::FromStr for Circle {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Circle".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -788,7 +782,7 @@ impl std::str::FromStr for Dog {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Dog".to_string())
+                    return std::result::Result::Err("Missing value while parsing Dog".to_string());
                 }
             };
 
@@ -800,14 +794,11 @@ impl std::str::FromStr for Dog {
                         <models::PetKind as std::str::FromStr>::from_str(val)
                             .map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "bark" => intermediate_rep.bark.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "bark" => intermediate_rep.bark.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Dog".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1044,7 +1035,7 @@ impl std::str::FromStr for Hamster {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Hamster".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1059,7 +1050,7 @@ impl std::str::FromStr for Hamster {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Hamster".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1181,7 +1172,7 @@ impl std::str::FromStr for Mouse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Mouse".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1196,7 +1187,7 @@ impl std::str::FromStr for Mouse {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Mouse".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1328,29 +1319,20 @@ impl std::str::FromStr for Person {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Person".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r_type.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "objectType" => intermediate_rep.object_type.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "type" => intermediate_rep.r_type.push(val.to_string()),
+                    "name" => intermediate_rep.name.push(val.to_string()),
+                    "objectType" => intermediate_rep.object_type.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Person".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1792,7 +1774,7 @@ impl std::str::FromStr for Square {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Square".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -1807,7 +1789,7 @@ impl std::str::FromStr for Square {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Square".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -1959,29 +1941,23 @@ impl std::str::FromStr for Vehicle {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Vehicle".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r_type.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "type" => intermediate_rep.r_type.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "speed" => intermediate_rep.speed.push(
                         <f64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "objectType" => intermediate_rep.object_type.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "objectType" => intermediate_rep.object_type.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Vehicle".to_string(),
-                        )
+                        );
                     }
                 }
             }
