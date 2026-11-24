@@ -40,7 +40,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-extra["kotlin.version"] = providers.gradleProperty("kotlinVersion").get()
+extra["kotlin.version"] = "1.9.25
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
