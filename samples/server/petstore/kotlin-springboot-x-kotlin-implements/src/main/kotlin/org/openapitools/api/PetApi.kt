@@ -5,10 +5,12 @@
 */
 package org.openapitools.api
 
+import org.openapitools.model.Color
 import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
+import org.openapitools.model.GetPetColorResponse
 import org.openapitools.model.GetPetByIdResponse
 import org.openapitools.model.UploadFileResponse
 import io.swagger.annotations.Api
@@ -154,6 +156,27 @@ interface PetApi {
         @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
     ): ResponseEntity<GetPetByIdResponse>
+
+
+    @ApiOperation(
+        value = "Returns the color of a pet",
+        nickname = "getPetColor",
+        notes = "",
+        response = Color::class
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Color::class), ApiResponse(code = 404, message = "Pet not found")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/{petId}/color"
+        value = [PATH_GET_PET_COLOR],
+        produces = ["application/json"]
+    )
+    fun getPetColor(
+        @ApiParam(value = "ID of pet", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
+    ): ResponseEntity<GetPetColorResponse>
 
 
     @ApiOperation(
@@ -446,6 +469,7 @@ interface PetApi {
         const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"
         const val PATH_FIND_PETS_BY_TAGS: String = "/pet/findByTags"
         const val PATH_GET_PET_BY_ID: String = "/pet/{petId}"
+        const val PATH_GET_PET_COLOR: String = "/pet/{petId}/color"
         const val PATH_LIST_ALL_PETS_PAGINATED: String = "/pet/paginated/all"
         const val PATH_LIST_PETS_BY_ID_PAGINATED: String = "/pet/paginated/pathOnly"
         const val PATH_LIST_PETS_BY_OWNER_PAGINATED: String = "/pet/paginated/{ownerId}"

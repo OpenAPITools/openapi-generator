@@ -6,6 +6,11 @@ package org.openapitools.model
 sealed interface GetUserByNameResponse
 
 /**
+ * Sealed interface for all possible responses from getPetColor
+ */
+sealed interface GetPetColorResponse
+
+/**
  * Sealed interface for all possible responses from getPetById
  */
 sealed interface GetPetByIdResponse
