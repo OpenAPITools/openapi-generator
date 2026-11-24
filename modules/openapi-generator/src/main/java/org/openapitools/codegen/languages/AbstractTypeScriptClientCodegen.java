@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.openapitools.codegen.CliOption;
@@ -73,8 +74,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -249,6 +252,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     private static final String X_DISCRIMINATOR_TYPE = "x-discriminator-value";
     private static final String UNDEFINED_VALUE = "undefined";
+    private static final Pattern LITERAL_TYPE_PATTERN = Pattern.compile("['\"]|^-?\\d");
     public static final String NPM_NAME = "npmName";
     public static final String NPM_VERSION = "npmVersion";
     public static final String SNAPSHOT = "snapshot";
@@ -678,19 +682,31 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return toModelName(name);
     }
 
+    /**
+     * Whether an array item or map value can be null. A {@code $ref} item has no nullability of its own,
+     * it comes from the referenced schema, as it does for a property.
+     */
+    protected boolean isNullableItem(Schema<?> item) {
+        if (Boolean.TRUE.equals(item.getNullable())) {
+            return true;
+        }
+        return item.get$ref() != null && openAPI != null
+                && ModelUtils.isNullable(ModelUtils.getReferencedSchema(openAPI, item));
+    }
+
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = ModelUtils.getSchemaItems(p);
             String postfix = "";
-            if (Boolean.TRUE.equals(items.getNullable())) {
+            if (isNullableItem(items)) {
                 postfix = " | null";
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(unaliasSchema(items)) + postfix + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String nullSafeSuffix = getNullSafeAdditionalProps() ? " | undefined" : "";
-            if (Boolean.TRUE.equals(inner.getNullable())) {
+            if (isNullableItem(inner)) {
                 nullSafeSuffix += " | null";
             }
             return "{ [key: string]: " + getTypeDeclaration(unaliasSchema(inner)) + nullSafeSuffix + "; }";
@@ -940,7 +956,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if ("number".equals(datatype) || "boolean".equals(datatype)) {
             return value;
         } else {
-            return "'" + escapeText(value) + "'";
+            return "'" + escapeTextForStringLiteral(value) + "'";
         }
     }
 
@@ -982,8 +998,12 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             varName = varName.replaceAll("\\+", "_plus_");
             varName = varName.replaceAll("_+", "_");
         }
-        varName = sanitizeName(varName);
-        varName = varName.replaceFirst("^_", "");
+        String sanitizedName = sanitizeName(varName);
+        if (sanitizedName.replace("_", "").isEmpty()) {
+            // nothing is left of non-latin values like "Москва", keep their letters as TypeScript allows them
+            sanitizedName = sanitizeName(varName, "(?U)\\W");
+        }
+        varName = sanitizedName.replaceFirst("^_", "");
         varName = varName.replaceFirst("_$", "");
 
         varName = getNameUsingEnumPropertyNaming(varName);
@@ -1241,6 +1261,35 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return input.replace("*/", "*_/").replace("/*", "/_*");
     }
 
+    /**
+     * Escapes text so it can safely be embedded in a quoted string literal, without the
+     * comment-delimiter rewriting done by {@link #escapeText(String)} and
+     * {@link #escapeUnsafeCharacters(String)}.
+     * <p>
+     * Backslashes, quotes and control characters are still escaped, but comment delimiters
+     * ({@code /*} and {@code *&#47;}) are left untouched: unlike documentation text, enum values
+     * are only ever rendered inside string literals, never inside comments, so rewriting the
+     * delimiters corrupts legitimate values (e.g. the wildcard {@code foo/*} was generated as
+     * {@code foo/_*}), see https://github.com/OpenAPITools/openapi-generator/issues/24572.
+     *
+     * @param input the string to escape
+     * @return the escaped string, safe for a string literal and unchanged with respect to comment delimiters
+     */
+    protected String escapeTextForStringLiteral(String input) {
+        if (input == null) {
+            return input;
+        }
+
+        // same escaping as escapeText(), minus the comment-delimiter rewriting
+        return StringEscapeUtils.unescapeJava(
+                        StringEscapeUtils.escapeJava(input)
+                                .replace("\\/", "/"))
+                .replaceAll("[\\t\\n\\r]", " ")
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\'", "\\\'");
+    }
+
     @Override
     public void postProcessFile(File file, String fileType) {
         super.postProcessFile(file, fileType);
@@ -1303,7 +1352,30 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     protected boolean needToImport(String type) {
+        if (type != null && isLiteralUnion(type)) {
+            return false;
+        }
         return super.needToImport(typeWithoutGeneric(type));
+    }
+
+    // 'a' | 'b' or 1 | 2 from an inlined enum: its members are values, never model names
+    private boolean isLiteralUnion(String type) {
+        return Arrays.stream(splitComposedType(type))
+                .filter(StringUtils::isNotEmpty)
+                .allMatch(member -> LITERAL_TYPE_PATTERN.matcher(member).find());
+    }
+
+    @Override
+    protected void handleMethodResponse(Operation operation,
+                                        Map<String, Schema> schemas,
+                                        CodegenOperation op,
+                                        ApiResponse methodResponse,
+                                        Map<String, String> schemaMappings) {
+        super.handleMethodResponse(operation, schemas, op, methodResponse, schemaMappings);
+        // a mapped generic such as Record<string, unknown> is a TypeScript type, not a model with FromJSON
+        if (op.returnBaseType != null && languageSpecificPrimitives.contains(typeWithoutGeneric(op.returnBaseType))) {
+            op.returnTypeIsPrimitive = true;
+        }
     }
 
     private String typeWithoutGeneric(String type) {

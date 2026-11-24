@@ -389,7 +389,7 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
                 if (isLanguageGenericType(operation.returnType)) {
                     // Extract generic type and add to imports if it's not a primitive
                     String genericType = extractGenericType(operation.returnType);
-                    if (needToImport(genericType) && genericType != null && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
+                    if (genericType != null && needToImport(genericType) && !isLanguagePrimitive(genericType) && !isRecordType(genericType)) {
                         allImports.add(genericType);
                     }
                 } else if (needToImport(operation.returnType)) {
@@ -423,6 +423,9 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         if (isLanguageGenericType(genericType)) {
             return extractGenericType(type);
         }
+        if (genericType.endsWith(" | null")) {
+            genericType = genericType.substring(0, genericType.length() - " | null".length());
+        }
         if (genericType.contains("|")) {
             return null;
         }
@@ -432,12 +435,13 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         Map<String, ModelsMap> result = super.postProcessAllModels(objs);
+        Map<String, CodegenModel> modelsByName = getAllModels(result);
         for (ModelsMap entry : result.values()) {
             for (ModelMap mo : entry.getModels()) {
                 CodegenModel cm = mo.getModel();
                 // Add additional filename information for imports
                 Set<String> parsedImports = parseImports(cm);
-                mo.put("tsImports", toTsImports(cm, parsedImports));
+                mo.put("tsImports", toTsImports(cm, parsedImports, modelsByName));
             }
         }
         return result;
@@ -465,14 +469,18 @@ public class TypeScriptNestjsServerCodegen extends AbstractTypeScriptClientCodeg
         return newImports;
     }
 
-    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
+    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports,
+                                                 Map<String, CodegenModel> modelsByName) {
         List<Map<String, String>> tsImports = new ArrayList<>();
         for (String im : imports) {
             if (!im.equals(cm.classname)) {
                 HashMap<String, String> tsImport = new HashMap<>();
                 // TVG: This is used as class name in the import statements of the model file
                 tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
+                CodegenModel importedModel = modelsByName.get(im);
+                tsImport.put("filename", importedModel != null
+                        ? importedModel.classFilename
+                        : toModelFilename(removeModelPrefixSuffix(im)));
                 tsImports.add(tsImport);
             }
         }

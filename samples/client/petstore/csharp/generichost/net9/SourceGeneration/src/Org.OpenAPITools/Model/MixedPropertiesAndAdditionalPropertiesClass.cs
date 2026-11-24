@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -264,10 +263,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property MixedPropertiesAndAdditionalPropertiesClass.UuidWithPattern to non-nullable JSON property 'uuid_with_pattern'.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                {
-                            writer.WritePropertyName("dateTime");
-                                JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value, jsonSerializerOptions);
-                            }
+            {
+                writer.WritePropertyName("dateTime");
+                JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value, jsonSerializerOptions);
+            }
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
             {
@@ -281,11 +280,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value);
         }
     }
-
-    /// <summary>
-    /// The MixedPropertiesAndAdditionalPropertiesClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(MixedPropertiesAndAdditionalPropertiesClass))]
-    public partial class MixedPropertiesAndAdditionalPropertiesClassSerializationContext : JsonSerializerContext { }
 }

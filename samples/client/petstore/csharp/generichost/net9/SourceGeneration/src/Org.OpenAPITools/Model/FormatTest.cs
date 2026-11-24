@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -1014,9 +1013,9 @@ namespace Org.OpenAPITools.Model
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.Byte, jsonSerializerOptions);
             {
-                        writer.WritePropertyName("date");
-                            JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
-                        }
+                writer.WritePropertyName("date");
+                JsonSerializer.Serialize(writer, formatTest.Date, jsonSerializerOptions);
+            }
 
             writer.WriteNumber("number", formatTest.Number);
 
@@ -1030,10 +1029,10 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             }
             if (formatTest.DateTimeOption.IsSet)
-                {
-                            writer.WritePropertyName("dateTime");
-                                JsonSerializer.Serialize(writer, formatTest.DateTimeOption.Value!.Value, jsonSerializerOptions);
-                            }
+            {
+                writer.WritePropertyName("dateTime");
+                JsonSerializer.Serialize(writer, formatTest.DateTimeOption.Value!.Value, jsonSerializerOptions);
+            }
 
             if (formatTest.DecimalOption.IsSet)
             {
@@ -1101,11 +1100,4 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("uuid", formatTest.UuidOption.Value!.Value);
         }
     }
-
-    /// <summary>
-    /// The FormatTestSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(FormatTest))]
-    public partial class FormatTestSerializationContext : JsonSerializerContext { }
 }

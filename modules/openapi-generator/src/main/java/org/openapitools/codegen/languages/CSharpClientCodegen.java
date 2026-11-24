@@ -59,8 +59,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // Defines the sdk option for targeted frameworks, which differs from targetFramework and targetFrameworkNuget
     protected static final String MCS_NET_VERSION_KEY = "x-mcs-sdk";
+    protected static final String X_IS_UNION = "x-is-union";
     protected static final String SUPPORTS_UWP = "supportsUWP";
     protected static final String SUPPORTS_RETRY = "supportsRetry";
+    private static final String X_JSON_SERIALIZABLE_TYPES = "x-json-serializable-types";
 
     protected static final String NET_STANDARD = "netStandard";
 
@@ -365,7 +367,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 this.equatable);
 
         addSwitch("useSourceGeneration",
-                "Use source generation where available (only `generichost` library supports this option).",
+                "Use a shared source-generated JSON serialization context (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
 
         addSwitch(CodegenConstants.USE_VIRTUAL_FOR_HOOKS,
@@ -454,7 +456,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if (parentModel != null) {
                 final CodegenModel parentCodegenModel = getCodegenModel(codegenModel.parent, parentModel);
                 if (codegenModel.hasEnums) {
-                    codegenModel = this.reconcileInlineEnums(codegenModel, parentCodegenModel);
+                    codegenModel = reconcileInlineEnums(codegenModel, parentCodegenModel);
                 }
 
                 Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
@@ -1168,6 +1170,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiResponse`1.mustache", clientPackageDir, "ApiResponse`1.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HostConfiguration.mustache", clientPackageDir, "HostConfiguration.cs"));
+        if (useSourceGeneration) {
+            supportingFiles.add(new SupportingFile("SourceGenerationContext.mustache", clientPackageDir, "OpenApiSerializationContext.cs"));
+        }
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
         supportingFiles.add(new SupportingFile("DateTimeFormatHelper.mustache", clientPackageDir, "DateTimeFormatHelper.cs"));
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
@@ -1429,48 +1434,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return name;
     }
 
-    private CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
-        // This generator uses inline classes to define enums, which breaks when
-        // dealing with models that have subTypes. To clean this up, we will analyze
-        // the parent and child models, look for enums that match, and remove
-        // them from the child models and leave them in the parent.
-        // Because the child models extend the parents, the enums will be available via the parent.
-
-        // Only bother with reconciliation if the parent model has enums.
-        if (parentCodegenModel.hasEnums) {
-
-            // Get the properties for the parent and child models
-            final List<CodegenProperty> parentModelCodegenProperties = parentCodegenModel.vars;
-            List<CodegenProperty> codegenProperties = codegenModel.vars;
-
-            // Iterate over all of the parent model properties
-            boolean removedChildEnum = false;
-            for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-                // Look for enums
-                if (parentModelCodegenProperty.isEnum) {
-                    // Now that we have found an enum in the parent class,
-                    // and search the child class for the same enum.
-                    Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-                    while (iterator.hasNext()) {
-                        CodegenProperty codegenProperty = iterator.next();
-                        if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
-                            // We found an enum in the child class that is
-                            // a duplicate of the one in the parent, so remove it.
-                            iterator.remove();
-                            removedChildEnum = true;
-                        }
-                    }
-                }
-            }
-
-            if (removedChildEnum) {
-                codegenModel.vars = codegenProperties;
-            }
-        }
-
-        return codegenModel;
-    }
-
     private void syncBooleanProperty(final Map<String, Object> additionalProperties, final String key, final Consumer<Boolean> setter, final Boolean defaultValue) {
         if (additionalProperties.containsKey(key)) {
             setter.accept(convertPropertyToBooleanAndWriteBack(key));
@@ -1721,6 +1684,132 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
+        Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+
+        List<CodegenModel> codegenModels = processed.values().stream()
+                .flatMap(modelsMap -> modelsMap.getModels().stream())
+                .map(ModelMap::getModel)
+                .collect(Collectors.toList());
+
+        Set<String> unionClassnames = codegenModels.stream()
+                .filter(this::isUnion)
+                .map(cm -> cm.classname)
+                .collect(Collectors.toSet());
+
+        // a union member that is itself a union is written and read by its own converter, which may produce any JSON value
+        for (CodegenModel cm : codegenModels) {
+            if (!isUnion(cm)) {
+                continue;
+            }
+            List<CodegenProperty> members = new ArrayList<>();
+            Optional.ofNullable(cm.getComposedSchemas().getOneOf()).ifPresent(members::addAll);
+            Optional.ofNullable(cm.getComposedSchemas().getAnyOf()).ifPresent(members::addAll);
+            for (CodegenProperty member : members) {
+                if (member.complexType != null && unionClassnames.contains(member.complexType)) {
+                    member.vendorExtensions.put(X_IS_UNION, true);
+                }
+            }
+        }
+
+        if (!GENERICHOST.equals(getLibrary()) || !useSourceGeneration) {
+            return processed;
+        }
+
+        List<CodegenModel> models = processed.values().stream()
+                .flatMap(modelsMap -> modelsMap.getModels().stream())
+                .map(ModelMap::getModel)
+                .sorted(Comparator.comparing(model -> model.classname))
+                .collect(Collectors.toList());
+        Set<String> typeInfoPropertyNames = models.stream()
+                .map(model -> model.classname.replace("@", ""))
+                .collect(Collectors.toCollection(HashSet::new));
+        Set<String> serializableTypeNames = new HashSet<>();
+
+        for (CodegenModel model : models) {
+            List<Map<String, String>> serializableTypes = new ArrayList<>();
+
+            for (CodegenProperty property : model.vars) {
+                if (property.isEnum && !property.isContainer && property.complexType == null) {
+                    addSerializableEnumTypes(model, property, property, serializableTypes,
+                            serializableTypeNames, typeInfoPropertyNames);
+                }
+                if (property.items != null && property.items.isEnum
+                        && !property.items.isContainer && property.items.complexType == null) {
+                    addSerializableEnumTypes(model, property, property.items, serializableTypes,
+                            serializableTypeNames, typeInfoPropertyNames);
+                }
+            }
+
+            model.vendorExtensions.put(X_JSON_SERIALIZABLE_TYPES, serializableTypes);
+        }
+
+        return processed;
+    }
+
+    private void addSerializableEnumTypes(CodegenModel model,
+                                          CodegenProperty declaringProperty,
+                                          CodegenProperty enumProperty,
+                                          List<Map<String, String>> serializableTypes,
+                                          Set<String> serializableTypeNames,
+                                          Set<String> typeInfoPropertyNames) {
+        if (isEmpty(enumProperty.datatypeWithEnum)) {
+            return;
+        }
+
+        String enumName = model.classname.replace("@", "") + enumProperty.datatypeWithEnum.replace("@", "");
+        String enumType = "global::" + packageName + "." + modelPackage() + "."
+                + model.classname + "." + enumProperty.datatypeWithEnum;
+        addSerializableType(enumType, enumName, serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+
+        String nullableEnumType = "global::System.Nullable<" + enumType + ">";
+        addSerializableType(nullableEnumType, "Nullable" + enumName,
+                serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+
+        if (!declaringProperty.required) {
+            String optionalEnumType = "global::" + packageName + "." + clientPackage
+                    + ".Option<" + nullableEnumType + ">";
+            addSerializableType(optionalEnumType, "OptionNullable" + enumName,
+                    serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+        }
+
+        if (declaringProperty.isContainer) {
+            String containerName = model.classname.replace("@", "")
+                    + declaringProperty.name.replace("@", "") + "Collection";
+            addSerializableType(declaringProperty.datatypeWithEnum, containerName,
+                    serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+
+            if (!declaringProperty.required) {
+                String optionalContainerType = "global::" + packageName + "." + clientPackage
+                        + ".Option<" + declaringProperty.datatypeWithEnum + ">";
+                addSerializableType(optionalContainerType, "Option" + containerName,
+                        serializableTypes, serializableTypeNames, typeInfoPropertyNames);
+            }
+        }
+    }
+
+    private void addSerializableType(String dataType,
+                                     String basePropertyName,
+                                     List<Map<String, String>> serializableTypes,
+                                     Set<String> serializableTypeNames,
+                                     Set<String> typeInfoPropertyNames) {
+        if (!serializableTypeNames.add(dataType)) {
+            return;
+        }
+
+        String propertyName = basePropertyName;
+        int suffix = 2;
+        while (!typeInfoPropertyNames.add(propertyName)) {
+            propertyName = basePropertyName + suffix++;
+        }
+
+        Map<String, String> serializableType = new LinkedHashMap<>();
+        serializableType.put("dataType", dataType);
+        serializableType.put("typeInfoPropertyName", propertyName);
+        serializableTypes.add(serializableType);
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
 
@@ -1761,6 +1850,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
 
         return objs;
+    }
+
+    private boolean isUnion(CodegenModel cm) {
+        return cm.getComposedSchemas() != null
+                && ((cm.getComposedSchemas().getOneOf() != null && !cm.getComposedSchemas().getOneOf().isEmpty())
+                || (cm.getComposedSchemas().getAnyOf() != null && !cm.getComposedSchemas().getAnyOf().isEmpty()));
     }
 
 

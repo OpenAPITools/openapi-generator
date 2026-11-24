@@ -440,6 +440,13 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> operationIdNameMappings;
 
     /**
+     * Vendor extensions to inject into models (ModelName.x-extension-name=value)
+     * or their properties (ModelName.propertyBaseName.x-extension-name=value)
+     */
+    @Parameter(name = "injectModelVendorExtensions", property = "openapi.generator.maven.plugin.injectModelVendorExtensions")
+    private List<String> injectModelVendorExtensions;
+
+    /**
      * A set of rules for OpenAPI normalizer
      */
     @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
@@ -1019,6 +1026,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Operation ID Name Mappings
             if (operationIdNameMappings != null && (configOptions == null || !configOptions.containsKey("operation-id-name-mappings"))) {
                 applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
+            }
+
+            // Apply injected model vendor extensions
+            if (injectModelVendorExtensions != null) {
+                applyInjectModelVendorExtensionsKvpList(injectModelVendorExtensions, configurator);
             }
 
             // Apply OpenAPI normalizer rules

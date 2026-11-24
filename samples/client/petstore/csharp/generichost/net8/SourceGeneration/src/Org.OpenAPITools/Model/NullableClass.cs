@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -433,19 +432,19 @@ namespace Org.OpenAPITools.Model
 
             if (nullableClass.DatePropOption.IsSet)
                 if (nullableClass.DatePropOption.Value != null)
-                    {
-                            writer.WritePropertyName("date_prop");
-                                JsonSerializer.Serialize(writer, nullableClass.DatePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                {
+                    writer.WritePropertyName("date_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.DatePropOption.Value!.Value, jsonSerializerOptions);
+                }
                 else
                     writer.WriteNull("date_prop");
 
             if (nullableClass.DatetimePropOption.IsSet)
                 if (nullableClass.DatetimePropOption.Value != null)
-                    {
-                            writer.WritePropertyName("datetime_prop");
-                                JsonSerializer.Serialize(writer, nullableClass.DatetimePropOption.Value!.Value, jsonSerializerOptions);
-                            }
+                {
+                    writer.WritePropertyName("datetime_prop");
+                    JsonSerializer.Serialize(writer, nullableClass.DatetimePropOption.Value!.Value, jsonSerializerOptions);
+                }
                 else
                     writer.WriteNull("datetime_prop");
 
@@ -489,11 +488,4 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("string_prop");
         }
     }
-
-    /// <summary>
-    /// The NullableClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(NullableClass))]
-    public partial class NullableClassSerializationContext : JsonSerializerContext { }
 }

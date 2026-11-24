@@ -1,9 +1,41 @@
-{{#useSourceGeneration}}
+{{>partial_header}}
+{{#nrt}}
+#nullable enable
 
+{{/nrt}}
+using System.Text.Json.Serialization;
+using System.Collections.Generic;
+{{#models}}
+{{#-first}}
+using {{packageName}}.{{modelPackage}};
+{{/-first}}
+{{/models}}
+
+{{#models}}
+{{#-first}}
+namespace {{packageName}}.{{clientPackage}}
+{
     /// <summary>
-    /// The {{classname}}SerializationContext
+    /// The JSON serialization context for the generated OpenAPI models.
     /// </summary>
     [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof({{classname}}))]
-    {{>visibility}} partial class {{classname}}SerializationContext : JsonSerializerContext { }
-{{/useSourceGeneration}}
+{{/-first}}
+{{/models}}
+{{#models}}
+{{#model}}
+{{#vendorExtensions.x-json-serializable-types}}
+    [JsonSerializable(typeof({{{dataType}}}), TypeInfoPropertyName = "{{typeInfoPropertyName}}")]
+{{/vendorExtensions.x-json-serializable-types}}
+{{/model}}
+{{/models}}
+{{#models}}
+{{#model}}
+    [JsonSerializable(typeof(global::{{packageName}}.{{modelPackage}}.{{classname}}))]
+{{/model}}
+{{/models}}
+{{#models}}
+{{#-last}}
+    {{>visibility}} partial class OpenApiSerializationContext : JsonSerializerContext { }
+}
+{{/-last}}
+{{/models}}

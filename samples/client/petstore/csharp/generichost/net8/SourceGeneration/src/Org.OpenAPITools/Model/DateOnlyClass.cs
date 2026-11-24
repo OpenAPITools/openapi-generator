@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -180,17 +179,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property DateOnlyClass.DateOnlyProperty to non-nullable JSON property 'dateOnlyProperty'.");
 
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
-                {
-                            writer.WritePropertyName("dateOnlyProperty");
-                                JsonSerializer.Serialize(writer, dateOnlyClass.DateOnlyPropertyOption.Value!.Value, jsonSerializerOptions);
-                            }
+            {
+                writer.WritePropertyName("dateOnlyProperty");
+                JsonSerializer.Serialize(writer, dateOnlyClass.DateOnlyPropertyOption.Value!.Value, jsonSerializerOptions);
+            }
         }
     }
-
-    /// <summary>
-    /// The DateOnlyClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(DateOnlyClass))]
-    public partial class DateOnlyClassSerializationContext : JsonSerializerContext { }
 }

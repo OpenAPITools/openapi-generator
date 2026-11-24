@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using System.Text.Json.Serialization.Metadata;
 using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
@@ -180,11 +179,4 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("uuid");
         }
     }
-
-    /// <summary>
-    /// The NullableGuidClassSerializationContext
-    /// </summary>
-    [JsonSourceGenerationOptions(WriteIndented = true, GenerationMode = JsonSourceGenerationMode.Metadata | JsonSourceGenerationMode.Serialization)]
-    [JsonSerializable(typeof(NullableGuidClass))]
-    public partial class NullableGuidClassSerializationContext : JsonSerializerContext { }
 }

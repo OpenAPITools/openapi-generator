@@ -3055,7 +3055,7 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Schema> allProperties = new LinkedHashMap<>();
         List<String> allRequired = new ArrayList<>();
 
-        // if schema has properties outside of allOf/oneOf/anyOf also add them to m
+        // if schema has properties outside allOf/oneOf/anyOf, also add them to m
         if (ModelUtils.hasProperties(composed)) {
             if (ModelUtils.hasOneOf(composed)) {
                 LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
@@ -3247,20 +3247,14 @@ public class DefaultCodegen implements CodegenConfig {
      * that schema for items like enum include all possible values.
      */
     private void mergeProperties(Map<String, Schema> existingProperties, Map<String, Schema> newProperties) {
-        // https://github.com/OpenAPITools/openapi-generator/issues/12545
-        if (null != existingProperties && null != newProperties) {
+        if (existingProperties != null && newProperties != null) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
             newProperties.forEach((key, value) ->
                     existingProperties.put(key, ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI)))
             );
-            if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
-                for (Object e : newType.getEnum()) {
-                    // ensure all interface enum types are added to schema
-                    if (null != existingType.getEnum() && !existingType.getEnum().contains(e)) {
-                        existingType.addEnumItemObject(e);
-                    }
-                }
+            if (existingType != null && newType != null && isEnumSchema(newType)) {
+                mergeEnum(existingType, newType, EnumMergeOperation.UNION);
                 existingProperties.put("type", existingType);
             }
         }
@@ -3396,6 +3390,36 @@ public class DefaultCodegen implements CodegenConfig {
             model.isInteger = Boolean.TRUE; // older use case, int32 and unbounded int
             if (ModelUtils.isShortSchema(schema)) { // int32
                 model.setIsShort(Boolean.TRUE);
+            }
+        }
+    }
+
+    /**
+     * Deduplicate inline enum properties when a child repeats the same enum from its parent model
+     *
+     * @param codegenModel the child CodegenModel, will have enums removed if they collide with the parent's definition
+     * @param parentCodegenModel the parent CodegenModel
+     * @return the mutated child CodegenModel which has had any parent enum collisions removed
+     */
+    protected CodegenModel reconcileInlineEnums(CodegenModel codegenModel, CodegenModel parentCodegenModel) {
+        if (parentCodegenModel == null || !parentCodegenModel.hasEnums) {
+            return codegenModel;
+        }
+
+        for (CodegenProperty parentModelCodegenProperty : parentCodegenModel.vars) {
+            if (parentModelCodegenProperty.isEnum) {
+                reconcileInlineEnum(parentModelCodegenProperty, codegenModel.vars);
+            }
+        }
+        return codegenModel;
+    }
+
+    private void reconcileInlineEnum(CodegenProperty parentModelCodegenProperty, List<CodegenProperty> codegenProperties) {
+        Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+        while (iterator.hasNext()) {
+            CodegenProperty codegenProperty = iterator.next();
+            if (codegenProperty.isEnum && codegenProperty.equals(parentModelCodegenProperty)) {
+                iterator.remove();
             }
         }
     }
@@ -7301,17 +7325,20 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void postProcessEnumVars(List<EnumVarMap> enumVars) {
-        Collections.reverse(enumVars);
-        enumVars.forEach(v -> {
-            String name = (String) v.getEnumName();
-            long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
-            if (count > 1) {
-                String uniqueEnumName = getUniqueEnumName(name, enumVars);
-                LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
-                v.setEnumName(uniqueEnumName);
-            }
-        });
-        Collections.reverse(enumVars);
+        // a new name can already be taken ("EtcGmt1" + "2" is "EtcGmt12"), so repeat until names are unique
+        do {
+            Collections.reverse(enumVars);
+            enumVars.forEach(v -> {
+                String name = (String) v.getEnumName();
+                long count = enumVars.stream().filter(v1 -> v1.getEnumName().equals(name)).count();
+                if (count > 1) {
+                    String uniqueEnumName = getUniqueEnumName(name, enumVars);
+                    LOGGER.debug("Changing duplicate enumeration name from {} to {}", v.getEnumName(), uniqueEnumName);
+                    v.setEnumName(uniqueEnumName);
+                }
+            });
+            Collections.reverse(enumVars);
+        } while (enumVars.stream().map(EnumVarMap::getEnumName).distinct().count() < enumVars.size());
     }
 
     private String getUniqueEnumName(String name, List<EnumVarMap> enumVars) {
@@ -7420,7 +7447,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * reads propertyKey from additionalProperties, converts it to a boolean and
+     * reads propertyKey from additionalProperties, converts it to a boolean,
+     * calls the booleanSetter with the value and
      * writes it back to additionalProperties to be usable as a boolean in
      * mustache files.
      *
@@ -7434,6 +7462,27 @@ public class DefaultCodegen implements CodegenConfig {
             writePropertyBack(propertyKey, result);
             booleanSetter.accept(result);
             return result;
+        }
+        return false;
+    }
+
+    /**
+     * reads propertyKey from additionalProperties, converts it to a boolean,
+     * call the initializerFunction and
+     * writes back the result of it to additionalProperties to be usable as a boolean in
+     * mustache files.
+     * To be used when the initializerFunction modifies the value of the property and we want to write back the modified value to additionalProperties.
+     *
+     * @param propertyKey   property key
+     * @param initializerFunction the setter function that also returns the actual value after calling the setter.
+     * @return result of call to initializerFunction.apply() or false if it does not exist
+     */
+    public boolean convertPropertyToBooleanAndWriteBackTransformedValue(String propertyKey, Function<Boolean, Boolean> initializerFunction) {
+        if (additionalProperties.containsKey(propertyKey)) {
+            boolean result = convertPropertyToBoolean(propertyKey);
+            Boolean actualValue = initializerFunction.apply(result);
+            writePropertyBack(propertyKey, actualValue);
+            return Boolean.TRUE.equals(actualValue);
         }
         return false;
     }
@@ -7639,6 +7688,8 @@ public class DefaultCodegen implements CodegenConfig {
                 continue;
             } else {
                 mediaType.put("mediaType", escapeQuotationMark(key));
+                // unescaped value, for templates that escape for their own context
+                mediaType.put("rawMediaType", key);
                 if (isJsonMimeType(key)) {
                     mediaType.put("isJson", "true");
                 } else if (isXmlMimeType(key)) {
@@ -7714,6 +7765,8 @@ public class DefaultCodegen implements CodegenConfig {
             if (!existingMediaTypes.contains(encodedKey)) {
                 Map<String, String> mediaType = new HashMap<>();
                 mediaType.put("mediaType", encodedKey);
+                // unescaped value, for templates that escape for their own context
+                mediaType.put("rawMediaType", key);
                 if (isJsonMimeType(encodedKey)) {
                     mediaType.put("isJson", "true");
                 } else if (isXmlMimeType(encodedKey)) {
@@ -8068,7 +8121,8 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema, false);
 
-            if (codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
+            // inline unions only: a named model (e.g. a $ref oneOf of primitives) keeps its name below
+            if (codegenModel == null && codegenProperty != null && codegenProperty.getComplexType() != null && codegenProperty.getComplexType().contains(" | ")) {
                 // TODO move this splitting logic to the generator that needs it only
                 List<String> parts = Arrays.asList(codegenProperty.getComplexType().split(" \\| "));
                 imports.addAll(parts);

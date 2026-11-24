@@ -175,7 +175,7 @@ impl {{classname}} for {{classname}}Client {
 
         let local_var_client = &local_var_configuration.client;
 
-        let local_var_uri_str = format!("{}{{{path}}}", local_var_configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
+        let local_var_uri_str = format!("{}{{{path}}}", local_var_configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isArray}}.join(",").as_ref(){{/isArray}}{{#vendorExtensions.x-rust-chrono-date-time}}.to_rfc3339(){{/vendorExtensions.x-rust-chrono-date-time}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}.to_string(){{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{#isString}}){{/isString}}{{/pathParams}});
         let mut local_var_req_builder = local_var_client.request(reqwest::Method::{{{httpMethod}}}, local_var_uri_str.as_str());
 
         {{#queryParams}}
@@ -192,7 +192,7 @@ impl {{classname}} for {{classname}}Client {
         local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(&{{{paramName}}})?)]);
         {{/isMap}}
         {{^isMap}}
-        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}.to_string())]);
+        local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &{{{paramName}}}{{#vendorExtensions.x-rust-chrono-date-time}}.to_rfc3339(){{/vendorExtensions.x-rust-chrono-date-time}}{{^vendorExtensions.x-rust-chrono-date-time}}.to_string(){{/vendorExtensions.x-rust-chrono-date-time}})]);
         {{/isMap}}
         {{/isNullable}}
         {{#isNullable}}
@@ -237,7 +237,7 @@ impl {{classname}} for {{classname}}Client {
         {{/isMap}}
         {{^isMap}}
         if let Some(ref param_value) = {{{paramName}}} {
-            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value{{#vendorExtensions.x-rust-chrono-date-time}}.to_rfc3339(){{/vendorExtensions.x-rust-chrono-date-time}}{{^vendorExtensions.x-rust-chrono-date-time}}.to_string(){{/vendorExtensions.x-rust-chrono-date-time}})]);
         };
         {{/isMap}}
         {{/isModel}}
@@ -283,7 +283,7 @@ impl {{classname}} for {{classname}}Client {
             local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &serde_json::to_string(param_value)?)]);
             {{/isMap}}
             {{^isMap}}
-            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value.to_string())]);
+            local_var_req_builder = local_var_req_builder.query(&[("{{{baseName}}}", &param_value{{#vendorExtensions.x-rust-chrono-date-time}}.to_rfc3339(){{/vendorExtensions.x-rust-chrono-date-time}}{{^vendorExtensions.x-rust-chrono-date-time}}.to_string(){{/vendorExtensions.x-rust-chrono-date-time}})]);
             {{/isMap}}
             {{/isModel}}
             {{/isObject}}
@@ -339,18 +339,18 @@ impl {{classname}} for {{classname}}Client {
         {{#headerParams}}
         {{#required}}
         {{^isNullable}}
-        local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isArray}}.join(","){{/isArray}}.to_string());
+        local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", {{{paramName}}}{{#isArray}}.join(","){{/isArray}}{{#vendorExtensions.x-rust-chrono-date-time}}.to_rfc3339(){{/vendorExtensions.x-rust-chrono-date-time}}{{^vendorExtensions.x-rust-chrono-date-time}}.to_string(){{/vendorExtensions.x-rust-chrono-date-time}});
         {{/isNullable}}
         {{#isNullable}}
         match {{{paramName}}} {
-            Some(local_var_param_value) => { local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string()); },
+            Some(local_var_param_value) => { local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}{{#vendorExtensions.x-rust-chrono-date-time}}.to_rfc3339(){{/vendorExtensions.x-rust-chrono-date-time}}{{^vendorExtensions.x-rust-chrono-date-time}}.to_string(){{/vendorExtensions.x-rust-chrono-date-time}}); },
             None => { local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", ""); },
         }
         {{/isNullable}}
         {{/required}}
         {{^required}}
         if let Some(local_var_param_value) = {{{paramName}}} {
-            local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}.to_string());
+            local_var_req_builder = local_var_req_builder.header("{{{baseName}}}", local_var_param_value{{#isArray}}.join(","){{/isArray}}{{#vendorExtensions.x-rust-chrono-date-time}}.to_rfc3339(){{/vendorExtensions.x-rust-chrono-date-time}}{{^vendorExtensions.x-rust-chrono-date-time}}.to_string(){{/vendorExtensions.x-rust-chrono-date-time}});
         }
         {{/required}}
         {{/headerParams}}

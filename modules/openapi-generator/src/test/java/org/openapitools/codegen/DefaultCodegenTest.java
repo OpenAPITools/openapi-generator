@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.SpringCodegen;
+import org.openapitools.codegen.languages.TypeScriptClientCodegen;
 import org.openapitools.codegen.model.EnumVarMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
@@ -82,6 +83,22 @@ public class DefaultCodegenTest {
         Assert.assertEquals(enumVars.get(0).getEnumRawValue(), "original");
         Assert.assertEquals(enumVars.get(1).getEnumRawValue(), Integer.valueOf(42));
         Assert.assertEquals(enumVars.get(1).getEnumValue(), "\"_42\"");
+    }
+
+    @Test
+    public void testPostProcessEnumVarsKeepsRenamedEntriesUnique() {
+        // typescript names of "Etc/GMT+12", "Etc/GMT+1", "Etc/GMT0", "Etc/GMT-1" and "Etc/GMT-12"
+        List<EnumVarMap> enumVars = new ArrayList<>();
+        for (String name : Arrays.asList("EtcGmt12", "EtcGmt1", "EtcGmt0", "EtcGmt1", "EtcGmt12")) {
+            EnumVarMap enumVar = new EnumVarMap();
+            enumVar.setEnumName(name);
+            enumVars.add(enumVar);
+        }
+
+        new DefaultCodegen().postProcessEnumVars(enumVars);
+
+        assertThat(enumVars).extracting(EnumVarMap::getEnumName)
+                .containsExactly("EtcGmt122", "EtcGmt1", "EtcGmt0", "EtcGmt12", "EtcGmt1222");
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -882,8 +899,8 @@ public class DefaultCodegenTest {
     }
 
     @Test
-    public void testOneOfEnum() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue12545.json");
+    public void testOneOfEnumUnion() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed_enums.json");
         final DefaultCodegen codegen = new DefaultCodegen();
         String modelName = "petItems";
 
@@ -895,29 +912,82 @@ public class DefaultCodegenTest {
         oneOf.add("Dog");
         oneOf.add("Cat");
         assertEquals(petItems.oneOf, oneOf);
-        // make sure that animal has the property type
-        boolean typeSeen = false;
-        boolean typeContainsEnums = false;
-        for (CodegenProperty cp : petItems.vars) {
-            if ("type".equals(cp.name)) {
-                typeSeen = true;
-                if (null != cp.get_enum() && cp.get_enum().contains("dog") && cp.get_enum().contains("cat")) {
-                    typeContainsEnums = true;
-                }
-                break;
-            }
-        }
-        assertTrue(typeSeen);
-        assertTrue(typeContainsEnums);
+        hasEnum(petItems, "type", List.of("dog", "cat"));
 
-        assertEquals(
-                1,
-                ((StringSchema) openAPI.getComponents().getSchemas().get("Dog").getProperties().get("type")).getEnum().size()
-        );
-        assertEquals(
-                1,
-                ((StringSchema) openAPI.getComponents().getSchemas().get("Cat").getProperties().get("type")).getEnum().size()
-        );
+        hasEnum(openAPI.getComponents().getSchemas().get("Dog"), "type", List.of("dog"));
+        hasEnum(openAPI.getComponents().getSchemas().get("Cat"), "type", List.of("cat"));
+    }
+
+    @Test
+    public void testOneOfMergeKeepsExistingPlainTypeWhenNewTypeIsEnum() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed_enums.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        String modelName = "CatOrType";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        codegen.setOpenAPI(openAPI);
+        CodegenModel catOrType = codegen.fromModel(modelName, schema);
+
+        Set<String> oneOf = new TreeSet<>();
+        oneOf.add("Type");
+        oneOf.add("Cat");
+        assertEquals(catOrType.oneOf, oneOf);
+        assertFalse(catOrType.hasEnums);
+
+        hasEnum(openAPI.getComponents().getSchemas().get("Cat"), "type", List.of("cat"));
+    }
+
+    @Test
+    public void testInheritedInlineEnumIsDroppedFromChildModel() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty animalStatus = inlineEnumProperty("status", "StatusEnum", "ACTIVE", "INACTIVE");
+        CodegenModel animal = modelWithVars("Animal", animalStatus);
+
+        CodegenProperty catStatusBeforeReconcile = animalStatus.clone();
+        CodegenProperty catMood = property("mood");
+        CodegenModel cat = modelWithVars("Cat", catStatusBeforeReconcile, catMood);
+
+        assertTrue(animalStatus.isEnum);
+        assertEquals(animalStatus.get_enum(), Arrays.asList("ACTIVE", "INACTIVE"));
+
+        // Before reconciliation, the child still has its mirrored inline enum property.
+        assertTrue(catStatusBeforeReconcile.isEnum);
+        assertEquals(catStatusBeforeReconcile.get_enum(), Arrays.asList("ACTIVE", "INACTIVE"));
+        assertEquals(catStatusBeforeReconcile.enumName, animalStatus.enumName);
+        assertThat(cat.vars.stream().filter(property -> "status".equals(property.name)).count()).isEqualTo(1);
+
+        cat = codegen.reconcileInlineEnums(cat, animal);
+
+        // After reconciliation, the mirrored child property is dropped from vars.
+        assertThat(getNames(cat.vars)).containsExactly("mood");
+        assertThat(cat.vars.stream().filter(property -> "status".equals(property.name)).count()).isEqualTo(0);
+    }
+
+    @Test
+    public void testInheritedInlineEnumThatIsNarrowedIsKeptInChildModel() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        CodegenProperty animalType = inlineEnumProperty("type", "TypeEnum", "cat", "dog");
+        CodegenModel animal = modelWithVars("Animal", animalType);
+
+        CodegenProperty dogTypeBeforeReconcile = animalType.clone();
+        dogTypeBeforeReconcile.set_enum(Collections.singletonList("dog"));
+        CodegenModel dog = modelWithVars("Dog", dogTypeBeforeReconcile);
+
+        assertTrue(animalType.isEnum);
+        assertEquals(animalType.get_enum(), Arrays.asList("cat", "dog"));
+
+        // Before reconciliation, the narrowed child enum exists on the child model.
+        assertTrue(dogTypeBeforeReconcile.isEnum);
+        assertEquals(dogTypeBeforeReconcile.get_enum(), Collections.singletonList("dog"));
+        assertThat(dog.vars.stream().filter(property -> "type".equals(property.name)).count()).isEqualTo(1);
+
+        dog = codegen.reconcileInlineEnums(dog, animal);
+
+        // Narrowed enum is not identical to parent enum, so child property must be retained.
+        CodegenProperty dogTypeAfterReconcile = varNamed(dog, "type");
+        assertTrue(dogTypeAfterReconcile.isEnum);
+        assertEquals(dogTypeAfterReconcile.get_enum(), Collections.singletonList("dog"));
+        assertThat(dog.vars.stream().filter(property -> "type".equals(property.name)).count()).isEqualTo(1);
     }
 
     @Test
@@ -2856,6 +2926,26 @@ public class DefaultCodegenTest {
         assertTrue(codegenParameter.isContainer);
         assertTrue(codegenParameter.items.isModel);
         assertFalse(codegenParameter.items.isContainer);
+    }
+
+    // TypeScript names unions "number | string", which must not replace the model name of a $ref body
+    @Test
+    public void referencedPrimitiveUnionBodyKeepsModelName() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed-primitive-request-body.yaml");
+        final DefaultCodegen codegen = new TypeScriptClientCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Map.of("/one-of", "NodeId", "/any-of", "NodeKey").forEach((path, modelName) -> {
+            Set<String> imports = new HashSet<>();
+            RequestBody body = openAPI.getPaths().get(path).getPost().getRequestBody();
+
+            CodegenParameter codegenParameter = codegen.fromRequestBody(body, imports, "");
+
+            assertEquals(modelName, codegenParameter.dataType);
+            assertEquals(modelName, codegenParameter.baseType);
+            assertEquals(codegen.toParamName(modelName), codegenParameter.paramName);
+            assertEquals(Set.of(modelName), imports);
+        });
     }
 
     @Test
@@ -5739,5 +5829,43 @@ public class DefaultCodegenTest {
         var.defaultValue = "defaultType";
         DefaultCodegen.setEnumDiscriminatorDefaultValue(model);
         assertEquals("defaultType", var.defaultValue);
+    }
+
+    private void hasEnum(CodegenModel model, String fieldName, List<String> enumValues) {
+        List<String> values = null;
+        for (CodegenProperty cp : model.vars) {
+            if (fieldName.equals(cp.name)) {
+                values = cp.get_enum();
+                break;
+            }
+        }
+        assertEquals(values, enumValues);
+    }
+
+    private void hasEnum(Schema<?> model, String fieldName, List<String> enumValues) {
+        assertEquals(((Schema<?>) model.getProperties().get(fieldName)).getEnum(), enumValues);
+    }
+
+    private static CodegenModel modelWithVars(String modelName, CodegenProperty... vars) {
+        CodegenModel model = new CodegenModel();
+        model.name = modelName;
+        model.vars.addAll(Arrays.asList(vars));
+        model.hasEnums = model.vars.stream().filter(Objects::nonNull).anyMatch(v -> v.isEnum);
+        return model;
+    }
+
+    private static CodegenProperty inlineEnumProperty(String propertyName, String enumName, String... enumValues) {
+        CodegenProperty property = property(propertyName);
+        property.isEnum = true;
+        property.enumName = enumName;
+        property.set_enum(Arrays.asList(enumValues));
+        return property;
+    }
+
+    private static CodegenProperty property(String propertyName) {
+        CodegenProperty property = new CodegenProperty();
+        property.baseName = propertyName;
+        property.name = propertyName;
+        return property;
     }
 }
