@@ -1340,8 +1340,8 @@ public class SpringCodegenTest {
     @Test
     public void modelNamedTagDoesNotClashWithSwaggerTagAnnotation() throws IOException {
         // A model named `Tag` collides with io.swagger.v3.oas.annotations.tags.Tag. Importing both
-        // in the same api file is a duplicate single-type-import, which javac rejects outright, so
-        // the file that imports the model must reference the annotation fully qualified and skip
+        // in the same api file gives two different types the same simple name, which javac rejects,
+        // so the file that imports the model must reference the annotation fully qualified and skip
         // its import.
         Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/spring/model-named-tag.yaml", SPRING_BOOT,
