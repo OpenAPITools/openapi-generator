@@ -9,6 +9,8 @@ import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.openapitools.model.Pet
+import org.openapitools.model.GetPetByIdResponse
+import org.openapitools.model.UploadFileResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -151,7 +153,7 @@ interface PetApi {
     fun getPetById(
         @ApiParam(value = "ID of pet to return", required = true) @PathVariable("petId") petId: kotlin.Long,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<Pet>
+    ): ResponseEntity<GetPetByIdResponse>
 
 
     @ApiOperation(
@@ -435,7 +437,7 @@ interface PetApi {
         @ApiParam(value = "") @Valid @RequestParam(value = "additionalMetadata", required = false) additionalMetadata: kotlin.String?,
         @ApiParam(value = "file detail") @Valid @RequestPart("file", required = false) file: org.springframework.web.multipart.MultipartFile,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<ModelApiResponse>
+    ): ResponseEntity<UploadFileResponse>
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests
