@@ -1094,8 +1094,18 @@ export class N8nNodesOpenapiPetstoreApi implements INodeType {
 					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/{petId}';
 					path = path.replace('{' + 'petId' + '}', encodeURIComponent(this.getNodeParameter('petId', i) as string));
-					formFields['name'] = this.getNodeParameter('name', i);
-					formFields['status'] = this.getNodeParameter('status', i);
+					{
+						const nameValue = this.getNodeParameter('name', i);
+						if (nameValue !== '') {
+							formFields['name'] = nameValue;
+						}
+					}
+					{
+						const statusValue = this.getNodeParameter('status', i);
+						if (statusValue !== '') {
+							formFields['status'] = statusValue;
+						}
+					}
 					if (cookieParts.length > 0) {
 						headers['Cookie'] = cookieParts.join('; ');
 					}
@@ -1112,7 +1122,12 @@ export class N8nNodesOpenapiPetstoreApi implements INodeType {
 					let wholeBodyScalar: string | number | boolean | undefined;
 					let path = '/pet/{petId}/uploadImage';
 					path = path.replace('{' + 'petId' + '}', encodeURIComponent(this.getNodeParameter('petId', i) as string));
-					formFields['additionalMetadata'] = this.getNodeParameter('additionalMetadata', i);
+					{
+						const additionalMetadataValue = this.getNodeParameter('additionalMetadata', i);
+						if (additionalMetadataValue !== '') {
+							formFields['additionalMetadata'] = additionalMetadataValue;
+						}
+					}
 					// 'file' is a binary file form field; this generator does not support uploading binary data, so it is omitted from the request.
 					if (cookieParts.length > 0) {
 						headers['Cookie'] = cookieParts.join('; ');

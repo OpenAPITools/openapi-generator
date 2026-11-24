@@ -23,6 +23,12 @@ public class N8nClientCodegenTest {
 
     private static final String PETSTORE_SPEC = "src/test/resources/3_0/petstore.yaml";
 
+    /** Pinned (rather than {@code @latest}) so the generated-TypeScript compile checks below
+     * stay reproducible - a new major version of either package could otherwise start failing
+     * these tests for reasons unrelated to this generator's own correctness. */
+    private static final String N8N_WORKFLOW_TEST_DEPENDENCY = "n8n-workflow@2.48.4";
+    private static final String TYPESCRIPT_TEST_DEPENDENCY = "typescript@7.0.2";
+
     @Test
     public void generatorIsDiscoverableViaSpi() {
         CodegenConfig config = CodegenConfigLoader.forName("n8n");
@@ -599,7 +605,7 @@ public class N8nClientCodegenTest {
         try {
             generate(target);
 
-            int installExit = runProcess(target, "npm", "install", "--no-audit", "--no-fund", "n8n-workflow@2.48.4", "typescript@7.0.2");
+            int installExit = runProcess(target, "npm", "install", "--no-audit", "--no-fund", N8N_WORKFLOW_TEST_DEPENDENCY, TYPESCRIPT_TEST_DEPENDENCY);
             if (installExit != 0) {
                 throw new SkipException("could not install n8n-workflow/typescript (no network access?); skipping the generated-TypeScript compile check");
             }
@@ -1095,7 +1101,7 @@ public class N8nClientCodegenTest {
             Assert.assertTrue(Files.exists(outputDir.resolve("README.md")));
             Assert.assertFalse(find(outputDir, ".node.ts").isEmpty(), "a node file should still be generated for a zero-operation spec");
 
-            int installExit = runProcess(outputDir, "npm", "install", "--no-audit", "--no-fund", "n8n-workflow@latest", "typescript@latest");
+            int installExit = runProcess(outputDir, "npm", "install", "--no-audit", "--no-fund", N8N_WORKFLOW_TEST_DEPENDENCY, TYPESCRIPT_TEST_DEPENDENCY);
             if (installExit != 0) {
                 throw new SkipException("could not install n8n-workflow/typescript (no network access?); skipping the zero-operations compile check");
             }

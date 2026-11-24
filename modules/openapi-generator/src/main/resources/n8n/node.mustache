@@ -188,7 +188,17 @@ export class {{nodeClassName}} implements INodeType {
 					// '{{baseName}}' is a binary file form field; this generator does not support uploading binary data, so it is omitted from the request.
 					{{/isFile}}
 					{{^isFile}}
+					{{#required}}
 					formFields['{{baseName}}'] = this.getNodeParameter('{{paramName}}', i);
+					{{/required}}
+					{{^required}}
+					{
+						const {{paramName}}Value = this.getNodeParameter('{{paramName}}', i);
+						if ({{paramName}}Value !== '') {
+							formFields['{{baseName}}'] = {{paramName}}Value;
+						}
+					}
+					{{/required}}
 					{{/isFile}}
 					{{/isFormParam}}
 					{{#isBodyParam}}

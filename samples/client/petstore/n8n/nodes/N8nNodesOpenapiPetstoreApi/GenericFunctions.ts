@@ -60,7 +60,7 @@ export async function apiRequest(
 		json: true,
 	};
 
-	const isBodyEmpty = typeof body === 'object' && body !== null && Object.keys(body as object).length === 0;
+	const isBodyEmpty = body === '' || (typeof body === 'object' && body !== null && Object.keys(body as object).length === 0);
 	if (isBodyEmpty) {
 		delete options.body;
 	}

@@ -29,9 +29,10 @@ Set the **Base URL** field on whichever credential you use to your API's base UR
 
 - This spec declares more than one security scheme. Each operation automatically authenticates
   with whichever generated credential matches the security scheme it declares for itself in the
-  source spec (or the spec's global default, when the operation declares none of its own); an
-  operation that declares no security requirement at all (and has no spec-wide default to
-  inherit) sends an unauthenticated request, matching what the source spec actually requires.
+  source spec. An operation that omits its own `security` field entirely inherits the spec's
+  global default instead, if one is declared; an operation that explicitly declares `security: []`
+  opts out of that default and is never authenticated, same as one with no default to inherit -
+  both send an unauthenticated request, matching what the source spec actually requires.
 - **OpenAPI Petstore API - OAuth2** declares an OAuth2 scheme this generator does not auto-wire (its flow is not
   `clientCredentials`/`authorizationCode`, or the scheme declares more than one flow at once); the
   generated credential accepts a pre-obtained access token instead. See
