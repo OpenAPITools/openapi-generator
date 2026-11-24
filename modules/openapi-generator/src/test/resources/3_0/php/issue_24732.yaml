@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Model names starting with a number
+  version: 1.0.0
+paths:
+  /:
+    get:
+      operationId: first
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/3d-position'
+components:
+  schemas:
+    3d-position:
+      type: object
+      properties:
+        position:
+          type: object
+          properties:
+            x:
+              type: number
