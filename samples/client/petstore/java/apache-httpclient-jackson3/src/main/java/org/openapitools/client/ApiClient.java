@@ -1,6 +1,6 @@
 /*
  * OpenAPI Petstore
- * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -81,63 +81,17 @@ import java.net.URI;
 import java.text.DateFormat;
 
 import org.openapitools.client.auth.Authentication;
-import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
-import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
-  protected String basePath = "http://petstore.swagger.io:80/v2";
+  protected String basePath = "http://petstore.swagger.io/v2";
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "http://{server}.swagger.io:{port}/v2",
-      "petstore server",
-      new HashMap<String, ServerVariable>() {{
-        put("server", new ServerVariable(
-          "No description provided",
-          "petstore",
-          new HashSet<String>(
-            Arrays.asList(
-              "petstore",
-              "qa-petstore",
-              "dev-petstore"
-            )
-          )
-        ));
-        put("port", new ServerVariable(
-          "No description provided",
-          "80",
-          new HashSet<String>(
-            Arrays.asList(
-              "80",
-              "8080"
-            )
-          )
-        ));
-      }}
-    ),
-    new ServerConfiguration(
-      "https://localhost:8080/{version}",
-      "The local server",
-      new HashMap<String, ServerVariable>() {{
-        put("version", new ServerVariable(
-          "No description provided",
-          "v2",
-          new HashSet<String>(
-            Arrays.asList(
-              "v1",
-              "v2"
-            )
-          )
-        ));
-      }}
-    ),
-    new ServerConfiguration(
-      "https://127.0.0.1/no_varaible",
-      "The local server without variables",
+      "http://petstore.swagger.io/v2",
+      "No description provided",
       new HashMap<String, ServerVariable>()
     )
   ));
@@ -182,10 +136,6 @@ public class ApiClient extends JavaTimeFormatter {
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
     authentications.put("petstore_auth", new OAuth());
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-    authentications.put("http_basic_test", new HttpBasicAuth());
-    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
@@ -347,96 +297,7 @@ public class ApiClient extends JavaTimeFormatter {
     return tempFolderPath;
   }
 
-  /**
-   * Helper method to set access token for the first Bearer authentication.
-   * @param bearerToken Bearer token
-   * @return API client
-   */
-  public ApiClient setBearerToken(String bearerToken) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-        return this;
-      }
-    }
-    throw new RuntimeException("No Bearer authentication configured!");
-  }
 
-  /**
-   * Helper method to set the supplier of access tokens for Bearer authentication.
-   *
-   * @param tokenSupplier the token supplier function
-   */
-  public void setBearerToken(Supplier<String> tokenSupplier) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
-        return;
-      }
-    }
-    throw new RuntimeException("No Bearer authentication configured!");
-  }
-
-  /**
-   * Helper method to set username for the first HTTP basic authentication.
-   * @param username Username
-   * @return API client
-   */
-  public ApiClient setUsername(String username) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBasicAuth) {
-        ((HttpBasicAuth) auth).setUsername(username);
-        return this;
-      }
-    }
-    throw new RuntimeException("No HTTP basic authentication configured!");
-  }
-
-  /**
-   * Helper method to set password for the first HTTP basic authentication.
-   * @param password Password
-   * @return API client
-   */
-  public ApiClient setPassword(String password) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBasicAuth) {
-        ((HttpBasicAuth) auth).setPassword(password);
-        return this;
-      }
-    }
-    throw new RuntimeException("No HTTP basic authentication configured!");
-  }
-
-
-  /**
-   * Helper method to set API key value for the first API key authentication.
-   * @param apiKey the API key
-   * @return API client
-   */
-  public ApiClient setApiKey(String apiKey) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof ApiKeyAuth) {
-        ((ApiKeyAuth) auth).setApiKey(apiKey);
-        return this;
-      }
-    }
-    throw new RuntimeException("No API key authentication configured!");
-  }
-
-  /**
-   * Helper method to set API key prefix for the first API key authentication.
-   * @param apiKeyPrefix API key prefix
-   * @return API client
-   */
-  public ApiClient setApiKeyPrefix(String apiKeyPrefix) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof ApiKeyAuth) {
-        ((ApiKeyAuth) auth).setApiKeyPrefix(apiKeyPrefix);
-        return this;
-      }
-    }
-    throw new RuntimeException("No API key authentication configured!");
-  }
 
 
   /**

@@ -553,7 +553,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         if (ModelUtils.isMapSchema(p)) {
             Schema<?> inner = getSchemaAdditionalProperties(p);
             String postfix = "";
-            if (Boolean.TRUE.equals(inner.getNullable())) {
+            if (isNullableItem(inner)) {
                 postfix = " | null";
             }
             return "{ [key: string]: " + this.getTypeDeclaration(unaliasSchema(inner)) + postfix + "; }";

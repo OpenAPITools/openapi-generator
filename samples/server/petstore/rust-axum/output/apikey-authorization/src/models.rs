@@ -166,17 +166,14 @@ impl std::str::FromStr for Amount {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Amount".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "currency" => intermediate_rep.currency.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "currency" => intermediate_rep.currency.push(val.to_string()),
                     #[allow(clippy::redundant_clone)]
                     "value" => intermediate_rep.value.push(
                         <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
@@ -184,7 +181,7 @@ impl std::str::FromStr for Amount {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Amount".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -319,25 +316,19 @@ impl std::str::FromStr for CheckoutError {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing CheckoutError".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "code" => intermediate_rep.code.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "message" => intermediate_rep.message.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "code" => intermediate_rep.code.push(val.to_string()),
+                    "message" => intermediate_rep.message.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing CheckoutError".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -505,7 +496,7 @@ impl std::str::FromStr for Payment {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Payment".to_string(),
-                    )
+                    );
                 }
             };
 
@@ -522,22 +513,13 @@ impl std::str::FromStr for Payment {
                         <models::Amount as std::str::FromStr>::from_str(val)
                             .map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "merchantAccount" => intermediate_rep.merchant_account.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "reference" => intermediate_rep.reference.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "channel" => intermediate_rep.channel.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "merchantAccount" => intermediate_rep.merchant_account.push(val.to_string()),
+                    "reference" => intermediate_rep.reference.push(val.to_string()),
+                    "channel" => intermediate_rep.channel.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Payment".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -687,25 +669,19 @@ impl std::str::FromStr for PaymentMethod {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing PaymentMethod".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "type" => intermediate_rep.r_type.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(val.to_string()),
+                    "type" => intermediate_rep.r_type.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing PaymentMethod".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -836,25 +812,19 @@ impl std::str::FromStr for PaymentResult {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing PaymentResult".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "pspReference" => intermediate_rep.psp_reference.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "resultCode" => intermediate_rep.result_code.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "pspReference" => intermediate_rep.psp_reference.push(val.to_string()),
+                    "resultCode" => intermediate_rep.result_code.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing PaymentResult".to_string(),
-                        )
+                        );
                     }
                 }
             }

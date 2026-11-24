@@ -161,21 +161,18 @@ impl std::str::FromStr for Error {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing Error".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "message" => intermediate_rep.message.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "message" => intermediate_rep.message.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Error".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -256,10 +253,11 @@ impl GetPetEvents2XxResponse {
 /// Should be implemented in a serde serializer
 impl std::fmt::Display for GetPetEvents2XxResponse {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let params: Vec<Option<String>> = vec![self
-            .data
-            .as_ref()
-            .map(|data| ["data".to_string(), data.to_string()].join(","))];
+        let params: Vec<Option<String>> = vec![
+            self.data
+                .as_ref()
+                .map(|data| ["data".to_string(), data.to_string()].join(",")),
+        ];
 
         write!(
             f,
@@ -295,21 +293,18 @@ impl std::str::FromStr for GetPetEvents2XxResponse {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing GetPetEvents2XxResponse".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "data" => intermediate_rep.data.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "data" => intermediate_rep.data.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing GetPetEvents2XxResponse".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -430,7 +425,7 @@ impl std::str::FromStr for Pet {
             let val = match string_iter.next() {
                 Some(x) => x,
                 None => {
-                    return std::result::Result::Err("Missing value while parsing Pet".to_string())
+                    return std::result::Result::Err("Missing value while parsing Pet".to_string());
                 }
             };
 
@@ -441,14 +436,11 @@ impl std::str::FromStr for Pet {
                     "id" => intermediate_rep.id.push(
                         <i64 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
                     ),
-                    #[allow(clippy::redundant_clone)]
-                    "name" => intermediate_rep.name.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "name" => intermediate_rep.name.push(val.to_string()),
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing Pet".to_string(),
-                        )
+                        );
                     }
                 }
             }

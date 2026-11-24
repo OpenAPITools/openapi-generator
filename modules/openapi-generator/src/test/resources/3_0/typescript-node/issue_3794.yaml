@@ -1,0 +1,32 @@
+openapi: 3.0.3
+info:
+  title: Security scheme names that are not identifiers
+  version: 1.0.0
+paths:
+  /ping:
+    get:
+      operationId: ping
+      security:
+        - api-key: []
+        - basic-auth: []
+        - bearer.token: []
+        - api_key: []
+      responses:
+        "204":
+          description: no content
+components:
+  securitySchemes:
+    api-key:
+      type: apiKey
+      in: header
+      name: X-API-Key
+    basic-auth:
+      type: http
+      scheme: basic
+    bearer.token:
+      type: http
+      scheme: bearer
+    api_key:
+      type: apiKey
+      in: query
+      name: api_key

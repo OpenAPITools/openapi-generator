@@ -15,12 +15,77 @@
  */
 package org.openapitools.codegen.rubynextgen;
 
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.RubyNextgenClientCodegen;
 import org.testng.annotations.Test;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.testng.Assert.assertEquals;
 
 public class RubyNextgenClientCodegenTest {
+    @Test
+    public void testObjectQueryParametersRespectStyleAndExplode() throws Exception {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        ClientOptInput input =
+                new CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec(
+                                "src/test/resources/3_0/ruby-nextgen/object-query-parameters.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new DefaultGenerator(false).opts(input).generate();
+
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/things.rb"),
+                "query: [Petstore::QueryParams.explode('filter', filter),"
+                    + " Petstore::QueryParams.explode('defaultFilter', default_filter),"
+                    + " Petstore::QueryParams.join('flatFilter', flat_filter),"
+                    + " Petstore::QueryParams.deep_object('deepFilter', deep_filter),"
+                    + " { 'limit' => limit }.compact, { 'tags' => tags }.compact,"
+                    + " { 'contentFilter' => content_filter }.compact].reduce({}, :merge)");
+        // Models are serialized like maps: by their properties, never as one opaque value.
+        // A referenced schema that is not an object (anyOf of scalars, enum, allOf wrapper
+        // around one of those) stays a plain value, and a quote in a name is escaped.
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/widgets.rb"),
+                "query: [Petstore::QueryParams.explode('color', color),"
+                    + " Petstore::QueryParams.join('flatColor', flat_color),"
+                    + " Petstore::QueryParams.explode('shape', shape),"
+                    + " Petstore::QueryParams.join('flatShape', flat_shape),"
+                    + " Petstore::QueryParams.deep_object('deepColor', deep_color),"
+                    + " { 'consistency' => consistency }.compact, { 'level' => level }.compact,"
+                    + " Petstore::QueryParams.explode('defaultColor', default_color),"
+                    + " { 'wrappedConsistency' => wrapped_consistency }.compact,"
+                    + " { 'it\\'s' => its }.compact].reduce({}, :merge)");
+        TestUtils.assertFileExists(target.resolve("lib/petstore/query_params.rb"));
+    }
+
+    @Test
+    public void testQueryWithoutObjectParametersStaysAPlainHash() throws Exception {
+        Path target = Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        ClientOptInput input =
+                new CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new DefaultGenerator(false).opts(input).generate();
+
+        TestUtils.assertFileContains(
+                target.resolve("lib/petstore/api/pet.rb"), "query: { 'status' => status }");
+    }
+
     @Test
     public void testGeneratorName() {
         RubyNextgenClientCodegen gen = new RubyNextgenClientCodegen();

@@ -263,7 +263,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         supportedLibraries.put(JVM_KTOR, "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.");
+        supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3, 7 with useSpringBoot4 enabled) WebClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_SPRING_RESTCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 6 (or 7 with useSpringBoot4 enabled) RestClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
@@ -288,7 +288,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT3, "Whether to use the Spring Boot 3 with the jvm-spring-webclient library."));
-        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Whether to use the Spring Boot 4 with the jvm-spring-restclient library."));
+        cliOptions.add(CliOption.newBoolean(USE_SPRING_BOOT4, "Whether to use the Spring Boot 4 with the jvm-spring-webclient and jvm-spring-restclient libraries."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_PLUGIN_VERSIONS, "Whether to declare Gradle plugin versions in build files."));
         cliOptions.add(CliOption.newBoolean(OMIT_GRADLE_WRAPPER, "Whether to omit Gradle wrapper for creating a sub project."));
         cliOptions.add(CliOption.newBoolean(USE_SETTINGS_GRADLE, "Whether the project uses settings.gradle."));
@@ -330,7 +330,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(new CliOption(CONFIG_KEY, "Configuration key in @RegisterRestClient for jvm-microprofile. Mutually exclusive with configKeyFromClassName=true."));
         cliOptions.add(CliOption.newBoolean(CONFIG_KEY_FROM_CLASS_NAME, "Derive the jvm-microprofile configuration key from the API class name. Mutually exclusive with configKey.", false));
 
-        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable."));
+        cliOptions.add(CliOption.newBoolean(USE_JACKSON_3, "Use Jackson 3 dependencies (tools.jackson package). Requires serializationLibrary=jackson. Incompatible with openApiNullable. Supported by jvm-okhttp4, jvm-spring-restclient and jvm-spring-webclient; for the Spring libraries it requires useSpringBoot4 and defaults to true when useSpringBoot4 is enabled."));
 
         // AbstractKotlinCodegen calls cliOptions.clear(), dropping DefaultCodegen's registration.
         // Re-registered on kotlin alone: no other Kotlin generator's templates implement the fallback.
@@ -523,7 +523,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         boolean useSpringBoot4 = additionalProperties.containsKey(USE_SPRING_BOOT4)
                 && convertPropertyToBooleanAndWriteBack(USE_SPRING_BOOT4);
-        if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && useSpringBoot4 && !useJackson3Configured) {
+        if ((JVM_SPRING_RESTCLIENT.equals(getLibrary()) || JVM_SPRING_WEBCLIENT.equals(getLibrary()))
+                && useSpringBoot4 && !useJackson3Configured) {
             setUseJackson3(true);
             additionalProperties.put(USE_JACKSON_3, true);
             applyJackson3Package();
@@ -544,11 +545,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     && Boolean.parseBoolean(additionalProperties.get("openApiNullable").toString())) {
                 throw new IllegalArgumentException("openApiNullable cannot be set with useJackson3");
             }
-            if (!JVM_OKHTTP4.equals(getLibrary()) && !JVM_SPRING_RESTCLIENT.equals(getLibrary())) {
-                throw new IllegalArgumentException("useJackson3 is only supported for the jvm-okhttp4 and jvm-spring-restclient libraries at this time.");
+            if (!JVM_OKHTTP4.equals(getLibrary()) && !JVM_SPRING_RESTCLIENT.equals(getLibrary()) && !JVM_SPRING_WEBCLIENT.equals(getLibrary())) {
+                throw new IllegalArgumentException("useJackson3 is only supported for the jvm-okhttp4, jvm-spring-restclient and jvm-spring-webclient libraries at this time.");
             }
-            if (JVM_SPRING_RESTCLIENT.equals(getLibrary()) && !useSpringBoot4) {
-                throw new IllegalArgumentException("useJackson3 with jvm-spring-restclient requires useSpringBoot4=true.");
+            if ((JVM_SPRING_RESTCLIENT.equals(getLibrary()) || JVM_SPRING_WEBCLIENT.equals(getLibrary())) && !useSpringBoot4) {
+                throw new IllegalArgumentException("useJackson3 with " + getLibrary() + " requires useSpringBoot4=true.");
             }
         }
 
