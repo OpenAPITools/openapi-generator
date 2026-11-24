@@ -2621,6 +2621,23 @@ public class ModelUtils {
     }
 
     /**
+     * Returns schema types.
+     *
+     * @param schema the schema
+     * @return schema types
+     */
+    public static Set<String> getTypes(Schema<?> schema) {
+        Set<String> types = new HashSet<>();
+        if (schema.getType() != null) {
+            types.add(schema.getType());
+        }
+        if (schema.getTypes() != null) {
+            types.addAll(schema.getTypes());
+        }
+        return types;
+    }
+
+    /**
      * Sets the schema type.
      * For the 3.1 spec, sets {@code types}; for 3.0, sets {@code type}.
      *

@@ -46,6 +46,7 @@ import kotlinx.serialization.encoding.Encoder
 {{/enumUnknownDefaultCase}}
 {{#generateOneOfAnyOfWrappers}}
 import kotlinx.serialization.SerializationException
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.json.JsonDecoder
@@ -53,6 +54,7 @@ import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.JsonUnquotedLiteral
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 {{/generateOneOfAnyOfWrappers}}
@@ -120,6 +122,7 @@ import java.io.IOException
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}object {{classname}}Serializer : KSerializer<{{classname}}> {
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor("{{classname}}")
 
+    @OptIn(ExperimentalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: {{classname}}) {
         val jsonEncoder = encoder as? JsonEncoder ?: throw SerializationException("{{classname}} can only be serialized with Json")
 
@@ -157,7 +160,7 @@ import java.io.IOException
             {{/isPrimitiveType}}
             {{^isPrimitiveType}}
             {{#isNumber}}
-            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeJsonElement(JsonPrimitive(value.value))
+            is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeJsonElement(JsonUnquotedLiteral(value.value.toPlainString()))
             {{/isNumber}}
             {{^isNumber}}
             is {{classname}}.{{#fnToValueClassName}}{{{dataType}}}{{/fnToValueClassName}} -> jsonEncoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)

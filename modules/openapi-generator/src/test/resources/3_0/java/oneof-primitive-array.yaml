@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: oneOf primitive array
+  version: '1'
+paths: {}
+components:
+  schemas:
+    Union:
+      oneOf:
+        - $ref: '#/components/schemas/Variant'
+        - type: array
+          items:
+            type: string
+    Variant:
+      type: object
+      required: [kind]
+      properties:
+        kind:
+          type: string

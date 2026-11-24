@@ -8,8 +8,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
 {{#jackson}}
+{{^useJackson3}}
 import org.springframework.http.codec.json.Jackson2JsonDecoder
 import org.springframework.http.codec.json.Jackson2JsonEncoder
+{{/useJackson3}}
+{{#useJackson3}}
+import org.springframework.http.codec.json.JacksonJsonDecoder
+import org.springframework.http.codec.json.JacksonJsonEncoder
+{{/useJackson3}}
 {{/jackson}}
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
@@ -27,8 +33,14 @@ import {{packageName}}.infrastructure.*
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}constructor(baseUrl: String) : this(WebClient.builder()
         .baseUrl(baseUrl)
         .codecs {
+            {{^useJackson3}}
             it.defaultCodecs().jackson2JsonEncoder(Jackson2JsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
             it.defaultCodecs().jackson2JsonDecoder(Jackson2JsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            {{/useJackson3}}
+            {{#useJackson3}}
+            it.defaultCodecs().jacksonJsonEncoder(JacksonJsonEncoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            it.defaultCodecs().jacksonJsonDecoder(JacksonJsonDecoder(Serializer.jacksonObjectMapper, MediaType.APPLICATION_JSON))
+            {{/useJackson3}}
         }
         .build()
     )

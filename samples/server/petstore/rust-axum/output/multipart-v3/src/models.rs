@@ -171,15 +171,15 @@ impl std::str::FromStr for MultipartRelatedRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRelatedRequest".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                        #[allow(clippy::redundant_clone)]
+                       "object_field" => intermediate_rep.object_field.push(<models::MultipartRequestObjectField as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     "optional_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     "required_binary_field" => return std::result::Result::Err("Parsing binary data in this style is not supported in MultipartRelatedRequest".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRelatedRequest".to_string())
@@ -340,21 +340,17 @@ impl std::str::FromStr for MultipartRequest {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRequest".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "string_field" => intermediate_rep.string_field.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
-                    #[allow(clippy::redundant_clone)]
-                    "optional_string_field" => intermediate_rep.optional_string_field.push(
-                        <String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?,
-                    ),
+                    "string_field" => intermediate_rep.string_field.push(val.to_string()),
+                    "optional_string_field" => {
+                        intermediate_rep.optional_string_field.push(val.to_string())
+                    }
                     #[allow(clippy::redundant_clone)]
                     "object_field" => intermediate_rep.object_field.push(
                         <models::MultipartRequestObjectField as std::str::FromStr>::from_str(val)
@@ -367,7 +363,7 @@ impl std::str::FromStr for MultipartRequest {
                     _ => {
                         return std::result::Result::Err(
                             "Unexpected key while parsing MultipartRequest".to_string(),
-                        )
+                        );
                     }
                 }
             }
@@ -515,15 +511,14 @@ impl std::str::FromStr for MultipartRequestObjectField {
                 None => {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipartRequestObjectField".to_string(),
-                    )
+                    );
                 }
             };
 
             if let Some(key) = key_result {
                 #[allow(clippy::match_single_binding)]
                 match key {
-                    #[allow(clippy::redundant_clone)]
-                    "field_a" => intermediate_rep.field_a.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                       "field_a" => intermediate_rep.field_a.push(val.to_string()),
                     "field_b" => return std::result::Result::Err("Parsing a container in this style is not supported in MultipartRequestObjectField".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing MultipartRequestObjectField".to_string())
                 }
@@ -659,7 +654,7 @@ impl std::str::FromStr for MultipleIdenticalMimeTypesPostRequest {
                     return std::result::Result::Err(
                         "Missing value while parsing MultipleIdenticalMimeTypesPostRequest"
                             .to_string(),
-                    )
+                    );
                 }
             };
 

@@ -110,18 +110,18 @@ class {{classname}}Controller({{#serviceInterface}}@Autowired(required = true) v
     @RequestMapping(
         method = [RequestMethod.{{httpMethod}}],
         // "{{#lambdaEscapeInNormalString}}{{{path}}}{{/lambdaEscapeInNormalString}}"
-        value = [PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}]{{#singleContentTypes}}{{#hasProduces}},
-        produces = [{{#vendorExtensions.x-accepts}}"{{{.}}}"{{^-last}}, {{/-last}}{{/vendorExtensions.x-accepts}}]{{/hasProduces}}{{#hasConsumes}},
-        consumes = "{{{vendorExtensions.x-content-type}}}"{{/hasConsumes}}{{/singleContentTypes}}{{^singleContentTypes}}{{#hasProduces}},
-        produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
-        consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
+        value = [PATH_{{#lambda.uppercase}}{{#lambda.snakecase}}{{{operationId}}}{{/lambda.snakecase}}{{/lambda.uppercase}}]{{#vendorExtensions.x-accepts}}{{#-first}},
+        produces = [{{/-first}}"{{#lambdaEscapeInNormalString}}{{{.}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{#-last}}]{{/-last}}{{/vendorExtensions.x-accepts}}{{^vendorExtensions.x-accepts}}{{#hasProduces}},
+        produces = [{{#produces}}"{{#lambdaEscapeInNormalString}}{{{rawMediaType}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{/vendorExtensions.x-accepts}}{{#vendorExtensions.x-content-type}},
+        consumes = ["{{#lambdaEscapeInNormalString}}{{{vendorExtensions.x-content-type}}}{{/lambdaEscapeInNormalString}}"]{{/vendorExtensions.x-content-type}}{{^vendorExtensions.x-content-type}}{{#hasConsumes}},
+        consumes = [{{#consumes}}"{{#lambdaEscapeInNormalString}}{{{rawMediaType}}}{{/lambdaEscapeInNormalString}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/vendorExtensions.x-content-type}}
     )
     {{#suspendFunctions}}suspend {{/suspendFunctions}}{{^suspendFunctions}}{{#reactive}}{{^isArray}}suspend {{/isArray}}{{#isArray}}{{#vendorExtensions.x-reactive-array-string-return}}suspend {{/vendorExtensions.x-reactive-array-string-return}}{{^vendorExtensions.x-reactive-array-string-return}}{{^useFlowForArrayReturnType}}suspend {{/useFlowForArrayReturnType}}{{/vendorExtensions.x-reactive-array-string-return}}{{/isArray}}{{/reactive}}{{/suspendFunctions}}fun {{operationId}}({{#allParams}}
         {{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{^-last}},{{/-last}}{{/allParams}}{{#includeHttpRequestContext}}{{#hasParams}},
         {{/hasParams}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}{{#reactive}}exchange: org.springframework.web.server.ServerWebExchange{{/reactive}}{{^reactive}}request: {{javaxPackage}}.servlet.http.HttpServletRequest{{/reactive}}{{/includeHttpRequestContext}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}},
         {{/hasParams}}{{^hasParams}}{{#includeHttpRequestContext}},
         {{/includeHttpRequestContext}}{{/hasParams}}{{#vendorExtensions.x-pageable-extra-annotation}}{{{.}}} {{/vendorExtensions.x-pageable-extra-annotation}}{{#swagger1AnnotationLibrary}}@ApiParam(hidden = true) {{/swagger1AnnotationLibrary}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true) {{/swagger2AnnotationLibrary}}pageable: Pageable{{/vendorExtensions.x-spring-paginated}}{{#hasParams}}
-    {{/hasParams}}): {{#useResponseEntity}}ResponseEntity<{{/useResponseEntity}}{{>returnTypes}}{{#useResponseEntity}}>{{/useResponseEntity}} {
+    {{/hasParams}}): {{#useResponseEntity}}ResponseEntity<{{#useGenericResponseEntity}}*{{/useGenericResponseEntity}}{{^useGenericResponseEntity}}{{>returnTypes}}{{/useGenericResponseEntity}}>{{/useResponseEntity}}{{^useResponseEntity}}{{>returnTypes}}{{/useResponseEntity}} {
         return {{>returnValue}}
     }
 

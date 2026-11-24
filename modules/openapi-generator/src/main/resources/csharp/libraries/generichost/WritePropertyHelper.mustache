@@ -1,6 +1,6 @@
 {{#isNullable}}
 if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null)
-    {{#lambda.paste}}{{/lambda.paste}}
+{{>WriteGuardedPropertyValue}}
 else
     writer.WriteNull("{{baseName}}");
 {{/isNullable}}

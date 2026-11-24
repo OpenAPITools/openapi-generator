@@ -1,4 +1,4 @@
 {{!}}{{#useResponseEntity}}{{#serviceInterface}}ResponseEntity(service.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}), {{#responses}}{{#-first}}HttpStatus.valueOf({{code}}){{/-first}}{{/responses}}){{/serviceInterface}}{{/useResponseEntity}}{{!
----}}{{#useResponseEntity}}{{^serviceInterface}}ResponseEntity(HttpStatus.NOT_IMPLEMENTED){{/serviceInterface}}{{/useResponseEntity}}{{!
+---}}{{#useResponseEntity}}{{^serviceInterface}}ResponseEntity{{#useGenericResponseEntity}}<Any>{{/useGenericResponseEntity}}(HttpStatus.NOT_IMPLEMENTED){{/serviceInterface}}{{/useResponseEntity}}{{!
 ---}}{{^useResponseEntity}}{{#serviceInterface}}service.{{operationId}}({{#allParams}}{{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}}){{/serviceInterface}}{{/useResponseEntity}}{{!
 ---}}{{^useResponseEntity}}{{^serviceInterface}}TODO("Not yet implemented"){{/serviceInterface}}{{/useResponseEntity}}

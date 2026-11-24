@@ -590,6 +590,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        // supporting files bundle puts server URL over additionalProperties, keep user supplied basePath
+        if (additionalProperties.containsKey("basePath")) {
+            objs.put("basePath", additionalProperties.get("basePath"));
+        }
+        return super.postProcessSupportingFileData(objs);
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         ModelsMap result = super.postProcessModels(objs);
         return postProcessModelsEnum(result);
@@ -740,8 +749,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     public String removeModelPrefixSuffix(String name) {
         String result = name;
-        if (modelSuffix.length() > 0 && result.endsWith(modelSuffix)) {
-            result = result.substring(0, result.length() - modelSuffix.length());
+        // toModelName camelizes the suffix, so "dto" ends up as "Dto" in class names
+        String classSuffix = capitalize(this.modelSuffix);
+        if (classSuffix.length() > 0 && result.endsWith(classSuffix)) {
+            result = result.substring(0, result.length() - classSuffix.length());
         }
         String prefix = capitalize(this.modelNamePrefix);
         String suffix = capitalize(this.modelNameSuffix);

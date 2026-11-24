@@ -408,10 +408,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNumber("quantity", order.QuantityOption.Value.Value);
 
             if (order.ShipDateOption.IsSet)
-                {
-                            writer.WritePropertyName("shipDate");
-                                JsonSerializer.Serialize(writer, order.ShipDateOption.Value.Value, jsonSerializerOptions);
-                            }
+            {
+                writer.WritePropertyName("shipDate");
+                JsonSerializer.Serialize(writer, order.ShipDateOption.Value.Value, jsonSerializerOptions);
+            }
 
             if (order.StatusOption.IsSet)
             {

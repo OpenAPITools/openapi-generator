@@ -104,6 +104,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
 
@@ -185,6 +186,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean beanQualifiers = false;
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Setter private boolean useResponseEntity = true;
+    @Setter private boolean generateGenericResponseEntity = false;
     @Getter private String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
     /**
@@ -340,6 +342,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_RESPONSE_ENTITY,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity);
+        addSwitch(GENERATE_GENERIC_RESPONSE_ENTITY,
+                "Whether to use ResponseEntity<*> for generated API methods. Ignored when useResponseEntity=false.",
+                generateGenericResponseEntity);
         addSwitch(USE_SEALED_RESPONSE_INTERFACES,
                 "Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)",
                 useSealedResponseInterfaces);
@@ -670,10 +675,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             additionalProperties.put(CodegenConstants.LIBRARY, library);
         }
 
-        if(additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
+        if (additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
             this.setUseResponseEntity(Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
         }
         writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+
+        convertPropertyToBooleanAndWriteBack(GENERATE_GENERIC_RESPONSE_ENTITY, this::setGenerateGenericResponseEntity);
+        writePropertyBack(GENERATE_GENERIC_RESPONSE_ENTITY, generateGenericResponseEntity);
+        writePropertyBack("useGenericResponseEntity", useResponseEntity && generateGenericResponseEntity);
 
         if(additionalProperties.containsKey(USE_SEALED_RESPONSE_INTERFACES)) {
             this.setUseSealedResponseInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_SEALED_RESPONSE_INTERFACES).toString()));
@@ -1284,6 +1293,53 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     codegenOperation.operationId, library);
         }
 
+        Map<String, Object> extensions = codegenOperation.vendorExtensions;
+        String xAccepts = VendorExtension.X_ACCEPTS.getName();
+        String xContentType = VendorExtension.X_CONTENT_TYPE.getName();
+
+        // A content-type variant is narrowed to one media type on each split axis, which must win over the
+        // x-content-type / x-accepts it inherited from the operation it was split from
+        if (contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_REQUEST) != null) {
+            extensions.remove(xContentType);
+        }
+        if (contentTypeVariantMediaType(operation, CodegenConstants.X_CONTENT_TYPE_VARIANT_RESPONSE) != null) {
+            extensions.remove(xAccepts);
+        }
+
+        // x-accepts may be authored as a single string or a list; templates iterate it as a list
+        if (extensions.containsKey(xAccepts)) {
+            List<String> accepts = getObjectAsStringList(extensions.get(xAccepts)).stream()
+                    .filter(StringUtils::isNotBlank).collect(Collectors.toList());
+            if (accepts.isEmpty()) {
+                extensions.remove(xAccepts);
+            } else {
+                extensions.put(xAccepts, accepts);
+            }
+        }
+        if (extensions.containsKey(xContentType)
+                && !(extensions.get(xContentType) instanceof String && StringUtils.isNotBlank((String) extensions.get(xContentType)))) {
+            LOGGER.warn("x-content-type on operation '{}' must be a single media type string; ignoring {}",
+                    codegenOperation.operationId, extensions.get(xContentType));
+            extensions.remove(xContentType);
+        }
+
+        // Like the Java clients, the declarative client sends the first consumes media type as Content-Type
+        // and all produces media types as Accept, unless the spec sets x-content-type / x-accepts.
+        // Content-Type cannot be a wildcard such as image/*, so those consumes entries are skipped.
+        if (SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY.equals(library)) {
+            if (codegenOperation.hasConsumes) {
+                codegenOperation.consumes.stream()
+                        .map(c -> c.get("rawMediaType"))
+                        .filter(m -> !m.split(";", 2)[0].contains("*"))
+                        .findFirst()
+                        .ifPresent(m -> extensions.putIfAbsent(xContentType, m));
+            }
+            if (codegenOperation.hasProduces) {
+                extensions.putIfAbsent(xAccepts,
+                        codegenOperation.produces.stream().map(p -> p.get("rawMediaType")).collect(Collectors.toList()));
+            }
+        }
+
         if (isPageableSupported()
                 && Boolean.TRUE.equals(SpringPageableScanUtils.getXSpringPaginated(operation))) {
             // add Pageable import only if x-spring-paginated explicitly used AND the library supports it
@@ -1516,6 +1572,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return String.join(" ", annotations);
     }
 
+    @Override
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
+        super.updateParameterForString(codegenParameter, parameterSchema);
+        if (ModelUtils.isURISchema(parameterSchema)) {
+            codegenParameter.isUri = true;
+        }
+    }
+
     /**
      * Bean validation for the element type of a list/set, following the rules of
      * {@code AbstractJavaCodegen#getBeanValidation} and rendered in the format of {@code beanValidationCore.mustache}.
@@ -1568,7 +1632,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     private String getItemsStringBeanValidation(Schema<?> items) {
-        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items)
+                || ModelUtils.isDateSchema(items)
+                || ModelUtils.isDateTimeSchema(items)) {
             return "";
         }
         List<String> annotations = new ArrayList<>();
