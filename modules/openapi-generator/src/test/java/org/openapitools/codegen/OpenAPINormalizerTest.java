@@ -2261,6 +2261,15 @@ public class OpenAPINormalizerTest {
         assertEquals(errorsValue.getType(), "array");
         assertTrue(errorsValue.getNullable());
         assertNotNull(errorsValue.getItems());
+
+        Schema nullEnumValue = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get("nullEnumMap"));
+        assertTrue(nullEnumValue.getNullable());
+
+        // type-less values mean "any value" and must stay non-nullable
+        for (String name : List.of("emptySchemaMap", "trueMap", "refToEmptyMap")) {
+            Schema value = ModelUtils.getAdditionalProperties((Schema) schema.getProperties().get(name));
+            assertNull(value.getNullable(), name);
+        }
     }
 
 }
