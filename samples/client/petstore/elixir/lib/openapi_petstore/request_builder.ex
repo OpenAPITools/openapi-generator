@@ -397,7 +397,8 @@ defmodule OpenapiPetstore.RequestBuilder do
   end
 
   @type status_code :: :default | 100..599
-  @type response_mapping :: [{status_code, false | %{} | module()}]
+  @type response_mapping ::
+          [{status_code, false | %{} | [] | module() | {:enum, OpenapiPetstore.EctoUtils.enum_constraint()}}]
 
   @doc """
   Evaluate the response from a Tesla request.
@@ -417,7 +418,7 @@ defmodule OpenapiPetstore.RequestBuilder do
   - `{:error, term}` on failure
   """
   @spec evaluate_response(Tesla.Env.result(), response_mapping) ::
-          {:ok, struct() | [struct()] | Tesla.Env.t()} | {:error, Tesla.Env.t() | any()}
+          {:ok, term()} | {:error, term()}
   def evaluate_response({:ok, %Tesla.Env{} = env}, mapping) do
     resolve_mapping(env, mapping, nil)
   end
@@ -442,11 +443,15 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   defp decode(%Tesla.Env{} = env, false), do: {:ok, env}
 
-  defp decode(%Tesla.Env{body: body}, %{}) do
-    OpenapiPetstore.Deserializer.json_decode(body)
+  defp decode(%Tesla.Env{body: body}, {:enum, constraint}) do
+    OpenapiPetstore.EctoUtils.decode_enum(body, constraint)
   end
 
-  defp decode(%Tesla.Env{body: body}, module) do
-    OpenapiPetstore.Deserializer.json_decode(body, module)
+  defp decode(%Tesla.Env{body: body}, mapping) when not is_atom(mapping) do
+    {:ok, body}
+  end
+
+  defp decode(%Tesla.Env{body: params}, module) do
+    OpenapiPetstore.EctoUtils.cast_response(params, module)
   end
 end

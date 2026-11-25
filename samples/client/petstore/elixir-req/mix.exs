@@ -35,6 +35,7 @@ defmodule OpenapiPetstore.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:ecto, "~> 3.12"},
       {:req, "~> 0.6.0 or ~> 0.7.3"},
       {:ex_doc, "~> 0.37.3", only: :dev, runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}

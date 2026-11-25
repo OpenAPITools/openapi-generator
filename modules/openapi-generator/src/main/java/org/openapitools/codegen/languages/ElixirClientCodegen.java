@@ -19,9 +19,11 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,10 +40,13 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.model.EnumVarMap.ENUM_VALUES;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -203,6 +208,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         typeMapping.put("integer", "integer()");
         typeMapping.put("boolean", "boolean()");
         typeMapping.put("array", "list()");
+        typeMapping.put("set", "list()");
         typeMapping.put("object", "map()");
         typeMapping.put("map", "map()");
         typeMapping.put("null", "nil");
@@ -307,6 +313,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         deps = new ArrayList<>(Arrays.asList(
+                "{:ecto, \"~> 3.12\"}",
                 isReq ? "{:req, \"~> 0.6.0 or ~> 0.7.3\"}" : "{:tesla, \"~> 1.14\"}",
                 "{:ex_doc, \"~> 0.37.3\", only: :dev, runtime: false}",
                 "{:dialyxir, \"~> 1.4\", only: [:dev, :test], runtime: false}"));
@@ -340,7 +347,6 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 writer.write(text.toUpperCase(Locale.ROOT));
             }
         });
-
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             setModuleName((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
         }
@@ -375,9 +381,13 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 sourceFolder(),
                 "request_builder.ex"));
 
-        supportingFiles.add(new SupportingFile("deserializer.ex.mustache",
+        supportingFiles.add(new SupportingFile("ecto_utils.ex.mustache",
                 sourceFolder(),
-                "deserializer.ex"));
+                "ecto_utils.ex"));
+
+        supportingFiles.add(new SupportingFile("embedded_model_type.ex.mustache",
+                sourceFolder(),
+                "embedded_model_type.ex"));
     }
 
     @Override
@@ -422,7 +432,53 @@ public class ElixirClientCodegen extends DefaultCodegen {
     @Override
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel cm = super.fromModel(name, model);
-        return new ExtendedCodegenModel(cm);
+        ExtendedCodegenModel ecm = new ExtendedCodegenModel(cm);
+        ecm.isAlias = ecm.isAlias || isInlinedEnum(ModelUtils.getReferencedSchemaChain(openAPI, model));
+
+        // Convert all CodegenProperty objects to ExtendedCodegenProperty
+        List<CodegenProperty> vars = new ArrayList<>(ecm.vars);
+        ecm.vars.clear();
+        for (CodegenProperty var : vars) {
+            ecm.vars.add(new ExtendedCodegenProperty(var));
+        }
+
+        List<CodegenProperty> allVars = new ArrayList<>(ecm.allVars);
+        ecm.allVars.clear();
+        for (CodegenProperty var : allVars) {
+            ecm.allVars.add(new ExtendedCodegenProperty(var));
+        }
+
+        List<CodegenProperty> requiredVars = new ArrayList<>(ecm.requiredVars);
+        ecm.requiredVars.clear();
+        for (CodegenProperty var : requiredVars) {
+            ecm.requiredVars.add(new ExtendedCodegenProperty(var));
+        }
+
+        List<CodegenProperty> optionalVars = new ArrayList<>(ecm.optionalVars);
+        ecm.optionalVars.clear();
+        for (CodegenProperty var : optionalVars) {
+            ecm.optionalVars.add(new ExtendedCodegenProperty(var));
+        }
+
+        List<CodegenProperty> ectoFields = new ArrayList<>(ecm.ectoFields);
+        ecm.ectoFields.clear();
+        for (CodegenProperty field : ectoFields) {
+            ecm.ectoFields.add(new ExtendedCodegenProperty(field));
+        }
+
+        List<CodegenProperty> ectoEmbeds = new ArrayList<>(ecm.ectoEmbeds);
+        ecm.ectoEmbeds.clear();
+        for (CodegenProperty embed : ectoEmbeds) {
+            ecm.ectoEmbeds.add(new ExtendedCodegenProperty(embed));
+        }
+
+        List<CodegenProperty> requiredEctoFields = new ArrayList<>(ecm.requiredEctoFields);
+        ecm.requiredEctoFields.clear();
+        for (CodegenProperty field : requiredEctoFields) {
+            ecm.requiredEctoFields.add(new ExtendedCodegenProperty(field));
+        }
+
+        return ecm;
     }
 
     @Override
@@ -649,6 +705,10 @@ public class ElixirClientCodegen extends DefaultCodegen {
      */
     @Override
     public String getSchemaType(Schema p) {
+        Schema<?> enumSchema = referencedEnum(p);
+        if (enumSchema != null) {
+            return enumType(enumSchema);
+        }
         String openAPIType = super.getSchemaType(p);
         if (typeMapping.containsKey(openAPIType)) {
             return typeMapping.get(openAPIType);
@@ -657,8 +717,79 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
     }
 
+    @Override
+    protected String getParameterDataType(Parameter parameter, Schema schema) {
+        Schema<?> enumSchema = referencedEnum(schema);
+        return enumSchema == null ? super.getParameterDataType(parameter, schema) : enumType(enumSchema);
+    }
+
+    private Schema<?> referencedEnum(Schema<?> schema) {
+        if (schema == null || schema.get$ref() == null
+                || schemaMapping.containsKey(ModelUtils.getSimpleRef(schema.get$ref()))) {
+            return null;
+        }
+        Schema<?> target = ModelUtils.getReferencedSchemaChain(openAPI, schema);
+        return isInlinedEnum(target) ? target : null;
+    }
+
+    private boolean isInlinedEnum(Schema<?> schema) {
+        return schema != null && ModelUtils.isEnumSchema(schema)
+                && schema.getEnum().stream().allMatch(this::isScalarEnumValue);
+    }
+
+    private String enumType(Schema<?> schema) {
+        String type = ModelUtils.getType(schema);
+        return type == null ? "any()" : typeMapping.getOrDefault(type, "any()");
+    }
+
+    private boolean isScalarEnumValue(Object value) {
+        return value == null || value instanceof String || value instanceof Number || value instanceof Boolean;
+    }
+
+    private String enumConstraint(CodegenProperty property, boolean referencedOnly) {
+        if (property == null) {
+            return null;
+        }
+        if (property.isArray || property.isMap) {
+            String item = enumConstraint(property.items, referencedOnly);
+            String container = property.isArray ? ":array" : ":map";
+            return item == null ? null : "{" + container + ", " + item + "}";
+        }
+
+        List<?> values;
+        if (property.isEnumRef || (!referencedOnly && property.isEnum)) {
+            values = property.allowableValues == null ? null : (List<?>) property.allowableValues.get(ENUM_VALUES);
+        } else {
+            Schema<?> enumSchema = property.getRef() == null ? null : referencedEnum(new Schema<>().$ref(property.getRef()));
+            values = enumSchema == null ? null : enumSchema.getEnum();
+        }
+        if (values == null || values.isEmpty() || !values.stream().allMatch(this::isScalarEnumValue)) {
+            return null;
+        }
+        // Ecto casts numeric fields to floats before checking inclusion.
+        boolean castsToFloat = !referencedOnly
+                && ("number()".equals(property.baseType) || "float()".equals(property.baseType));
+        return values.stream().map(value -> enumLiteral(value, castsToFloat))
+                .collect(Collectors.joining(", ", "[", "]"));
+    }
+
+    private String enumLiteral(Object value, boolean castsToFloat) {
+        if (value == null) {
+            return "nil";
+        }
+        if (value instanceof String) {
+            return Json.mapper().getNodeFactory().textNode((String) value).toString().replace("#{", "\\#{");
+        }
+        String literal = value instanceof BigDecimal ? ((BigDecimal) value).toPlainString() : value.toString();
+        if (castsToFloat && value instanceof Number && !literal.contains(".")) {
+            return literal + ".0";
+        }
+        return literal;
+    }
+
     class ExtendedCodegenResponse extends CodegenResponse {
         public boolean isDefinedDefault;
+        private final String enumConstraint;
 
         public ExtendedCodegenResponse(CodegenResponse o) {
             super();
@@ -698,6 +829,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.vendorExtensions = o.vendorExtensions;
 
             this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
+            this.enumConstraint = enumConstraint(o.returnProperty, true);
         }
 
         public String codeMappingKey() {
@@ -714,6 +846,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
         }
 
         public String decodedStruct() {
+            if (enumConstraint != null) {
+                return "{:enum, " + enumConstraint + "}";
+            }
             // Decode the entire response into a generic blob
             if (isMap) {
                 return "%{}";
@@ -812,8 +947,14 @@ public class ElixirClientCodegen extends DefaultCodegen {
                 sb.append("{:ok, ").append(returnType).append("} | ");
             }
 
-            sb.append(isLibrary(REQ) ? "{:error, term()}" : "{:error, Tesla.Env.t}");
+            sb.append("{:error, ").append(errorType()).append("}");
             return sb.toString();
+        }
+
+        public String errorType() {
+            boolean hasEnumResponse = responses.stream()
+                    .anyMatch(response -> ((ExtendedCodegenResponse) response).enumConstraint != null);
+            return isLibrary(REQ) || hasEnumResponse ? "term()" : "Tesla.Env.t";
         }
 
         public String successTypesDoc() {
@@ -924,6 +1065,9 @@ public class ElixirClientCodegen extends DefaultCodegen {
 
     class ExtendedCodegenModel extends CodegenModel {
         public boolean hasImports;
+        public List<CodegenProperty> ectoFields = new ArrayList<>();
+        public List<CodegenProperty> ectoEmbeds = new ArrayList<>();
+        public List<CodegenProperty> requiredEctoFields = new ArrayList<>();
 
         public ExtendedCodegenModel(CodegenModel cm) {
             super();
@@ -977,15 +1121,161 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.additionalPropertiesType = cm.additionalPropertiesType;
 
             this.hasImports = !this.imports.isEmpty();
-        }
 
-        public boolean hasComplexVars() {
-            for (CodegenProperty p : vars) {
-                if (!p.isPrimitiveType) {
-                    return true;
+            for (CodegenProperty var : this.vars) {
+                if (var.isPrimitiveType || var.isMap || var.isEnum || var.isEnumRef) {
+                    this.ectoFields.add(var);
+                    if (var.required) {
+                        this.requiredEctoFields.add(var);
+                    }
+                } else {
+                    this.ectoEmbeds.add(var);
                 }
             }
-            return false;
+        }
+    }
+
+    class ExtendedCodegenProperty extends CodegenProperty {
+        public ExtendedCodegenProperty(CodegenProperty cp) {
+            super();
+
+            // Copy all fields of CodegenProperty
+            this.openApiType = cp.openApiType;
+            this.baseName = cp.baseName;
+            this.complexType = cp.complexType;
+            this.getter = cp.getter;
+            this.setter = cp.setter;
+            this.description = cp.description;
+            this.dataType = cp.dataType;
+            this.datatypeWithEnum = cp.datatypeWithEnum;
+            this.dataFormat = cp.dataFormat;
+            this.name = cp.name;
+            this.min = cp.min;
+            this.max = cp.max;
+            this.defaultValue = cp.defaultValue;
+            this.defaultValueWithParam = cp.defaultValueWithParam;
+            this.baseType = cp.baseType;
+            this.containerType = cp.containerType;
+            this.title = cp.title;
+            this.unescapedDescription = cp.unescapedDescription;
+            this.maxLength = cp.maxLength;
+            this.minLength = cp.minLength;
+            this.pattern = cp.pattern;
+            this.example = cp.example;
+            this.jsonSchema = cp.jsonSchema;
+            this.minimum = cp.minimum;
+            this.maximum = cp.maximum;
+            this.exclusiveMinimum = cp.exclusiveMinimum;
+            this.exclusiveMaximum = cp.exclusiveMaximum;
+            this.required = cp.required;
+            this.deprecated = cp.deprecated;
+            this.isPrimitiveType = cp.isPrimitiveType;
+            this.isModel = cp.isModel;
+            this.isContainer = cp.isContainer;
+            this.isString = cp.isString;
+            this.isNumeric = cp.isNumeric;
+            this.isInteger = cp.isInteger;
+            this.isLong = cp.isLong;
+            this.isNumber = cp.isNumber;
+            this.isFloat = cp.isFloat;
+            this.isDouble = cp.isDouble;
+            this.isByteArray = cp.isByteArray;
+            this.isBinary = cp.isBinary;
+            this.isFile = cp.isFile;
+            this.isBoolean = cp.isBoolean;
+            this.isDate = cp.isDate;
+            this.isDateTime = cp.isDateTime;
+            this.isUuid = cp.isUuid;
+            this.isEmail = cp.isEmail;
+            this.isModel = cp.isModel;
+            this.isNull = cp.isNull;
+            this.isArray = cp.isArray;
+            this.isMap = cp.isMap;
+            this.isFreeFormObject = cp.isFreeFormObject;
+            this.isEnum = cp.isEnum;
+            this.isEnumRef = cp.isEnumRef;
+            this.isReadOnly = cp.isReadOnly;
+            this.isWriteOnly = cp.isWriteOnly;
+            this.isNullable = cp.isNullable;
+            this._enum = cp._enum;
+            this.allowableValues = cp.allowableValues;
+            this.items = cp.items;
+            setRef(cp.getRef());
+            this.additionalProperties = cp.additionalProperties;
+            this.vars = cp.vars;
+            this.requiredVars = cp.requiredVars;
+            this.vendorExtensions = cp.vendorExtensions;
+        }
+
+        public String enumValidation() {
+            return enumConstraint(this, false);
+        }
+
+        public String ectoType() {
+            CodegenProperty modelInMap = findModelInMap(this, false);
+            String ectoType = ectoType(this, modelInMap);
+            if (modelInMap != null) {
+                return ectoType + ", model: " + moduleName + ".Model." + modelInMap.baseType;
+            }
+            if (":any".equals(ectoType)) {
+                return ectoType + ", virtual: true";
+            }
+            return ectoType;
+        }
+
+        private CodegenProperty findModelInMap(CodegenProperty property, boolean hasMap) {
+            if (property == null || property.isFreeFormObject) {
+                return null;
+            }
+            if (property.isArray || property.isMap) {
+                return findModelInMap(property.items, hasMap || property.isMap);
+            }
+            if (!hasMap || !property.isModel || property.isEnum || property.isEnumRef) {
+                return null;
+            }
+
+            String ref = property.getRef();
+            Schema<?> schema = ref == null ? null : ModelUtils.getSchema(openAPI, ModelUtils.getSimpleRef(ref));
+            return ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema) ? null : property;
+        }
+
+        private String ectoType(CodegenProperty property, CodegenProperty modelInMap) {
+            if (property == null) {
+                return ":any";
+            }
+
+            if (property == modelInMap) {
+                return moduleName + ".EmbeddedModelType";
+            }
+
+            String baseType = property.baseType;
+            switch (baseType) {
+                case "integer()":
+                    return ":integer";
+                case "float()":
+                    return ":float";
+                case "number()":
+                    return ":float";
+                case "boolean()":
+                    return ":boolean";
+                case "String.t":
+                    return ":string";
+                case "Date.t":
+                    return ":date";
+                case "DateTime.t":
+                    return ":utc_datetime";
+                case "binary()":
+                    return ":binary";
+                case "list()":
+                    return "{:array, " + ectoType(property.items, modelInMap) + "}";
+                case "map()":
+                    String valueType = ectoType(property.items, modelInMap);
+                    return ":any".equals(valueType) ? ":map" : "{:map, " + valueType + "}";
+                case "nil":
+                    return ":any";
+                default:
+                    return ":any";
+            }
         }
     }
 

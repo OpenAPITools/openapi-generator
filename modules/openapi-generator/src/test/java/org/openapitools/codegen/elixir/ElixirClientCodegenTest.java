@@ -40,11 +40,11 @@ import java.util.stream.Stream;
 public class ElixirClientCodegenTest {
 
     @DataProvider
-    public Object[][] pathParameterLibraries() {
+    public Object[][] httpLibraries() {
         return new Object[][]{{"tesla"}, {"req"}};
     }
 
-    @Test(dataProvider = "pathParameterLibraries")
+    @Test(dataProvider = "httpLibraries")
     public void testGeneratedPathParametersAreEncoded(String library) throws Exception {
         File output = Files.createTempDirectory("elixir-" + library + "-path-params").toFile();
         try {
@@ -61,6 +61,41 @@ public class ElixirClientCodegenTest {
             Assert.assertTrue(generatedApi.contains("|> url(\"/pet/#{encode_path_param(pet_id)}\")"));
             String generatedRequestBuilder = Files.readString(output.toPath().resolve("lib/petstore/request_builder.ex"), StandardCharsets.UTF_8);
             Assert.assertTrue(generatedRequestBuilder.contains("def encode_path_param(value) do"));
+        } finally {
+            FileUtils.deleteDirectory(output);
+        }
+    }
+
+    @Test(dataProvider = "httpLibraries")
+    public void testNamedEnumsUseTheirWireTypes(String library) throws Exception {
+        File output = Files.createTempDirectory("elixir-" + library + "-named-enums").toFile();
+        try {
+            CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("elixir")
+                    .setLibrary(library)
+                    .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "Petstore")
+                    .setInputSpec("src/test/resources/3_0/elixir/petstore-with-fake-endpoints-models-for-testing.yaml")
+                    .setOutputDir(output.getAbsolutePath());
+
+            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+            Path source = output.toPath().resolve("lib/petstore");
+            Assert.assertFalse(Files.exists(source.resolve("model/enum_class.ex")));
+            Assert.assertFalse(Files.exists(source.resolve("model/outer_enum_integer.ex")));
+            String model = Files.readString(source.resolve("model/enum_test.ex"));
+            Assert.assertTrue(model.contains("field :named_enum, :string"));
+            Assert.assertTrue(model.contains("field :named_enum_array, {:array, :string}"));
+            Assert.assertTrue(model.contains("field :named_enum_map, {:map, :string}"));
+            Assert.assertTrue(model.contains("Ecto.Changeset.validate_inclusion(:named_enum, ["));
+            Assert.assertTrue(model.contains("EctoUtils.validate_enum(:named_enum_array, {:array, ["));
+            Assert.assertTrue(model.contains("EctoUtils.validate_enum(:named_enum_map, {:map, ["));
+            Assert.assertFalse(model.contains("Petstore.Model.EnumClass"));
+
+            String api = Files.readString(source.resolve("api/fake.ex"));
+            Assert.assertTrue(api.contains(", list(String.t), String.t, keyword()) :: {:ok, String.t}"));
+            Assert.assertTrue(api.contains("{200, {:enum, [\"_abc\", \"-efg\""));
+            Assert.assertTrue(api.contains("{200, {:enum, {:array, [\"_abc\", \"-efg\""));
+            Assert.assertFalse(api.contains("Petstore.Model.EnumClass"));
         } finally {
             FileUtils.deleteDirectory(output);
         }

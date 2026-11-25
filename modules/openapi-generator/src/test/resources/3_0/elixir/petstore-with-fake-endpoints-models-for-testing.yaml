@@ -17,6 +17,47 @@ tags:
   - name: user
     description: Operations about user
 paths:
+  /fake/named-enum:
+    get:
+      tags:
+        - fake
+      operationId: getNamedEnum
+      parameters:
+        - name: states
+          in: query
+          description: Named enum values to query
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/EnumClass"
+        - name: state
+          in: header
+          description: A single named enum value
+          required: true
+          schema:
+            $ref: "#/components/schemas/EnumClass"
+      responses:
+        "200":
+          description: A named enum value
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnumClass"
+  /fake/named-enum-array:
+    get:
+      tags:
+        - fake
+      operationId: getNamedEnumArray
+      responses:
+        "200":
+          description: A list of named enum values
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EnumClass"
   /foo:
     get:
       responses:
@@ -679,6 +720,7 @@ paths:
               - -1.2
         - name: enum_query_model_array
           in: query
+          description: Query parameter referencing a named enum array
           schema:
             type: array
             items:
@@ -1728,6 +1770,9 @@ components:
         - _abc
         - "-efg"
         - (xyz)
+        - "42"
+        - "true"
+        - 'value "quoted" #{value}'
     Enum_Test:
       type: object
       required:
@@ -1757,6 +1802,7 @@ components:
           enum:
             - 1.1
             - -1.2
+            - 2
         outerEnum:
           $ref: "#/components/schemas/OuterEnum"
         outerEnumInteger:
@@ -1765,6 +1811,16 @@ components:
           $ref: "#/components/schemas/OuterEnumDefaultValue"
         outerEnumIntegerDefaultValue:
           $ref: "#/components/schemas/OuterEnumIntegerDefaultValue"
+        named_enum:
+          $ref: "#/components/schemas/EnumClass"
+        named_enum_array:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnumClass"
+        named_enum_map:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/EnumClass"
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1791,6 +1847,21 @@ components:
           type: object
           additionalProperties:
             $ref: "#/components/schemas/Animal"
+        map_of_arrays:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/Animal"
+        array_of_maps:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: "#/components/schemas/Animal"
+        free_form_map:
+          type: object
+          additionalProperties: true
     List:
       type: object
       properties:

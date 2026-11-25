@@ -338,6 +338,66 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `states` ([String.t]): Named enum values to query
+  - `state` (String.t): A single named enum value
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, String.t}` on success
+  - `{:error, term()}` on failure
+  """
+  @spec get_named_enum(Tesla.Env.client, list(String.t), String.t, keyword()) :: {:ok, String.t} | {:error, term()}
+  def get_named_enum(connection, states, state, _opts \\ []) do
+    request =
+      %{}
+      |> method(:get)
+      |> url("/fake/named-enum")
+      |> add_param(:query, :states, states)
+      |> add_param(:headers, :state, state)
+      |> finalize_request()
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, {:enum, ["_abc", "-efg", "(xyz)", "42", "true", "value \"quoted\" \#{value}"]}}
+    ])
+  end
+
+  @doc """
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, [String.t]}` on success
+  - `{:error, term()}` on failure
+  """
+  @spec get_named_enum_array(Tesla.Env.client, keyword()) :: {:ok, [String.t]} | {:error, term()}
+  def get_named_enum_array(connection, _opts \\ []) do
+    request =
+      %{}
+      |> method(:get)
+      |> url("/fake/named-enum-array")
+      |> finalize_request()
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, {:enum, {:array, ["_abc", "-efg", "(xyz)", "42", "true", "value \"quoted\" \#{value}"]}}}
+    ])
+  end
+
+  @doc """
   test referenced additionalProperties
   
 
@@ -604,7 +664,7 @@ defmodule OpenapiPetstore.Api.Fake do
     - `:enum_query_string` (String.t): Query parameter enum test (string)
     - `:enum_query_integer` (integer()): Query parameter enum test (double)
     - `:enum_query_double` (float()): Query parameter enum test (double)
-    - `:enum_query_model_array` ([OpenapiPetstore.Model.EnumClass.t]): 
+    - `:enum_query_model_array` ([String.t]): Query parameter referencing a named enum array
     - `:enum_form_string_array` ([String.t]): Form parameter enum test (string array)
     - `:enum_form_string` (String.t): Form parameter enum test (string)
 

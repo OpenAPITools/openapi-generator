@@ -11,7 +11,8 @@ lib/openapi_petstore/api/pet.ex
 lib/openapi_petstore/api/store.ex
 lib/openapi_petstore/api/user.ex
 lib/openapi_petstore/connection.ex
-lib/openapi_petstore/deserializer.ex
+lib/openapi_petstore/ecto_utils.ex
+lib/openapi_petstore/embedded_model_type.ex
 lib/openapi_petstore/model/_foo_get_default_response.ex
 lib/openapi_petstore/model/_special_model_name_.ex
 lib/openapi_petstore/model/additional_properties_class.ex
@@ -31,7 +32,6 @@ lib/openapi_petstore/model/client.ex
 lib/openapi_petstore/model/deprecated_model.ex
 lib/openapi_petstore/model/dog.ex
 lib/openapi_petstore/model/enum_arrays.ex
-lib/openapi_petstore/model/enum_class.ex
 lib/openapi_petstore/model/enum_test.ex
 lib/openapi_petstore/model/fake_big_decimal_map_200_response.ex
 lib/openapi_petstore/model/file.ex
@@ -50,16 +50,11 @@ lib/openapi_petstore/model/number_only.ex
 lib/openapi_petstore/model/object_with_deprecated_fields.ex
 lib/openapi_petstore/model/order.ex
 lib/openapi_petstore/model/outer_composite.ex
-lib/openapi_petstore/model/outer_enum.ex
-lib/openapi_petstore/model/outer_enum_default_value.ex
-lib/openapi_petstore/model/outer_enum_integer.ex
-lib/openapi_petstore/model/outer_enum_integer_default_value.ex
 lib/openapi_petstore/model/outer_object_with_enum_property.ex
 lib/openapi_petstore/model/parent_with_nullable.ex
 lib/openapi_petstore/model/pet.ex
 lib/openapi_petstore/model/read_only_first.ex
 lib/openapi_petstore/model/return.ex
-lib/openapi_petstore/model/single_ref_type.ex
 lib/openapi_petstore/model/tag.ex
 lib/openapi_petstore/model/test_inline_freeform_additional_properties_request.ex
 lib/openapi_petstore/model/user.ex

@@ -1,0 +1,43 @@
+{{>licenseInfo}}
+defmodule {{moduleName}}.EctoUtils do
+  @type enum_constraint :: [term()] | {:array, enum_constraint()} | {:map, enum_constraint()}
+
+  def cast_response(params, schema) when is_list(params) do
+    params
+    |> Enum.reduce_while([], fn item, models ->
+      case cast_response(item, schema) do
+        {:ok, model} -> {:cont, [model | models]}
+        {:error, _} = error -> {:halt, error}
+      end
+    end)
+    |> case do
+      {:error, _} = error -> error
+      models -> {:ok, Enum.reverse(models)}
+    end
+  end
+
+  def cast_response(nil, _schema), do: {:ok, nil}
+  def cast_response(params, schema), do: schema.from_params(params)
+
+  def validate_enum(changeset, field, constraint) do
+    Ecto.Changeset.validate_change(changeset, field, {:inclusion, constraint}, fn _, value ->
+      if enum_member?(value, constraint),
+        do: [],
+        else: [{field, {"is invalid", [validation: :inclusion, enum: constraint]}}]
+    end)
+  end
+
+  def decode_enum(value, constraint) do
+    if enum_member?(value, constraint), do: {:ok, value}, else: {:error, {:invalid_enum, value}}
+  end
+
+  defp enum_member?(value, {:array, constraint}) do
+    is_list(value) and Enum.all?(value, &enum_member?(&1, constraint))
+  end
+
+  defp enum_member?(value, {:map, constraint}) do
+    is_map(value) and Enum.all?(value, fn {_key, item} -> enum_member?(item, constraint) end)
+  end
+
+  defp enum_member?(value, values), do: Enum.any?(values, &(&1 == value))
+end

@@ -470,7 +470,8 @@ defmodule OpenapiPetstore.RequestBuilder do
   defp list_of_tuples?(_other), do: false
 
   @type status_code :: :default | 100..599
-  @type response_mapping :: [{status_code, false | %{} | module()}]
+  @type response_mapping ::
+          [{status_code, false | %{} | [] | module() | {:enum, OpenapiPetstore.EctoUtils.enum_constraint()}}]
 
   @doc """
   Evaluate the response from a Req request and decode mapped responses.
@@ -521,11 +522,19 @@ defmodule OpenapiPetstore.RequestBuilder do
 
   defp decode(%Req.Response{} = response, false), do: {:ok, response}
 
+  defp decode(%Req.Response{body: body}, {:enum, constraint}) do
+    with {:ok, value} <- JSON.decode(body) do
+      OpenapiPetstore.EctoUtils.decode_enum(value, constraint)
+    end
+  end
+
   defp decode(%Req.Response{body: body}, mapping) when not is_atom(mapping) do
-    OpenapiPetstore.Deserializer.json_decode(body)
+    JSON.decode(body)
   end
 
   defp decode(%Req.Response{body: body}, module) do
-    OpenapiPetstore.Deserializer.json_decode(body, module)
+    with {:ok, params} <- JSON.decode(body) do
+      OpenapiPetstore.EctoUtils.cast_response(params, module)
+    end
   end
 end
