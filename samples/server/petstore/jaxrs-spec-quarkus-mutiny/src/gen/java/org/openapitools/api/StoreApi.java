@@ -3,16 +3,17 @@ package org.openapitools.api;
 import java.util.Map;
 import org.openapitools.model.Order;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
 
 
+import io.smallrye.mutiny.Uni;
 
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition(
    info = @org.eclipse.microprofile.openapi.annotations.info.Info(
@@ -41,30 +42,14 @@ import javax.validation.Valid;
          description = "",
          apiKeyName = "api_key",
          in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.HEADER
-    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
-         securitySchemeName = "api_key_query",
-         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.APIKEY,
-         description = "",
-         apiKeyName = "api_key_query",
-         in = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeIn.QUERY
-    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
-         securitySchemeName = "http_basic_test",
-         type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
-         description = "",
-         scheme = "basic"
-    ), @org.eclipse.microprofile.openapi.annotations.security.SecurityScheme(
-        securitySchemeName = "bearer_test",
-        type = org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType.HTTP,
-        description = "",
-        scheme = "bearer", bearerFormat = "JWT"
-    ), 
+    )
 })
 @Path("/store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class StoreApi {
 
     @DELETE
-    @Path("/order/{order_id}")
+    @Path("/order/{orderId}")
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "deleteOrder", summary = "Delete purchase order by ID", description = "For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
     @org.eclipse.microprofile.openapi.annotations.tags.Tag(name="store")
@@ -76,9 +61,9 @@ public class StoreApi {
                 
             })
         })
-    public Response deleteOrder(@PathParam("order_id") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of the order that needs to be deleted") String orderId
+    public Uni<Response> deleteOrder(@PathParam("orderId") @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of the order that needs to be deleted") String orderId
 ) {
-        return Response.ok().entity("magic!").build();
+        return Uni.createFrom().item(Response.ok().entity("magic!").build());
     }
 
 
@@ -95,13 +80,13 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json", schema = @org.eclipse.microprofile.openapi.annotations.media.Schema(implementation = Map.class))
             })
         })
-    public Response getInventory() {
-        return Response.ok().entity("magic!").build();
+    public Uni<Response> getInventory() {
+        return Uni.createFrom().item(Response.ok().entity("magic!").build());
     }
 
 
     @GET
-    @Path("/order/{order_id}")
+    @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
     
     @org.eclipse.microprofile.openapi.annotations.Operation(operationId = "getOrderById", summary = "Find purchase order by ID", description = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions")
@@ -120,9 +105,9 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response getOrderById(@PathParam("order_id") @Min(1L) @Max(5L) @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet that needs to be fetched") Long orderId
+    public Uni<Response> getOrderById(@PathParam("orderId") @Min(1L) @Max(5L) @org.eclipse.microprofile.openapi.annotations.parameters.Parameter(description="ID of pet that needs to be fetched") Long orderId
 ) {
-        return Response.ok().entity("magic!").build();
+        return Uni.createFrom().item(Response.ok().entity("magic!").build());
     }
 
 
@@ -143,9 +128,9 @@ public class StoreApi {
                 @org.eclipse.microprofile.openapi.annotations.media.Content(mediaType="application/json")
             })
         })
-    public Response placeOrder(@Valid @NotNull Order order
+    public Uni<Response> placeOrder(@Valid @NotNull Order order
 ) {
-        return Response.ok().entity("magic!").build();
+        return Uni.createFrom().item(Response.ok().entity("magic!").build());
     }
 
 }

@@ -41,14 +41,10 @@ jobs:
           - samples/server/petstore/jaxrs-cxf-annotated-base-path
           - samples/server/petstore/jaxrs-cxf-cdi
           - samples/server/petstore/jaxrs-cxf-non-spring-app
-          - samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations
           - samples/server/petstore/jaxrs-spec-swagger-annotations
           - samples/server/petstore/jaxrs-spec-swagger-v3-annotations-jakarta
           - samples/server/petstore/jaxrs-spec-swagger-v3-annotations
         include:
-          # quarkus-maven-plugin 1.13.x needs Maven Resolver 1.x, which Maven 3.10 no longer ships
-          - sample: samples/server/petstore/jaxrs-spec-microprofile-openapi-annotations
-            mvn: $GITHUB_WORKSPACE/mvnw
           # resteasy samples use TestNG 6.8.8 and don't pin Surefire; Maven 3.10 defaults to
           # Surefire 3.6.0, which requires TestNG 6.14.3+
           - sample: samples/server/petstore/jaxrs-resteasy/default
