@@ -177,6 +177,25 @@ public class AbstractPhpCodegenTest {
         Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
     }
 
+    @Test(description = "Model names starting with a number, also for inline models (#24732)")
+    public void testModelNameStartingWithNumber() {
+        Assert.assertEquals(codegen.toModelName("3d-position"), "Model3dPosition");
+        // inline models get a name with a leading underscore, which camelize would otherwise drop
+        Assert.assertEquals(codegen.toModelName("_3d-position_position"), "Model3dPositionPosition");
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/php/issue_24732.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Set<String> modelNames = new TreeSet<>();
+        for (String schemaName : openAPI.getComponents().getSchemas().keySet()) {
+            modelNames.add(codegen.toModelName(schemaName));
+        }
+        Assert.assertEquals(modelNames.size(), 2, modelNames.toString());
+        for (String modelName : modelNames) {
+            Assert.assertTrue(modelName.startsWith("Model3dPosition"), modelName + " is not a valid PHP class name");
+        }
+    }
+
     @Test(description = "Enum value with quotes (#17582)")
     public void testEnumPropertyWithQuotes() {
         Assert.assertEquals(codegen.toEnumValue("enum-value", "string"), "'enum-value'");

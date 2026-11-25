@@ -112,6 +112,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String USE_TAGS = "useTags";
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String DECLARATIVE_INTERFACE_REACTIVE_MODE = "declarativeInterfaceReactiveMode";
     public static final String CLIENT_REGISTRATION_ID = "clientRegistrationId";
 
@@ -193,6 +194,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Setter private boolean beanQualifiers = false;
     @Setter private DeclarativeInterfaceReactiveMode declarativeInterfaceReactiveMode = DeclarativeInterfaceReactiveMode.coroutines;
     @Setter private boolean useResponseEntity = true;
+    @Setter private boolean generateGenericResponseEntity = false;
     @Getter private String autoXSpringPaginated = SpringPageableScanUtils.AUTO_PAGINATION_MODE_NONE;
     @Getter private SpringPageableScanUtils.AutoPaginationMode autoXSpringPaginatedMode = SpringPageableScanUtils.AutoPaginationMode.NONE;
     /**
@@ -348,6 +350,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(USE_RESPONSE_ENTITY,
                 "Whether (when false) to return actual type (e.g. List<Fruit>) and handle non-happy path responses via exceptions flow or (when true) return entire ResponseEntity (e.g. ResponseEntity<List<Fruit>>). If disabled, method are annotated using a @ResponseStatus annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity);
+        addSwitch(GENERATE_GENERIC_RESPONSE_ENTITY,
+                "Whether to use ResponseEntity<*> for generated API methods. Ignored when useResponseEntity=false.",
+                generateGenericResponseEntity);
         addSwitch(USE_SEALED_RESPONSE_INTERFACES,
                 "Generate sealed interfaces for endpoint responses that all possible response types implement. Allows controllers to return any valid response type in a type-safe manner (e.g., sealed interface CreateUserResponse implemented by User, ConflictResponse, ErrorResponse)",
                 useSealedResponseInterfaces);
@@ -678,10 +683,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             additionalProperties.put(CodegenConstants.LIBRARY, library);
         }
 
-        if(additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
+        if (additionalProperties.containsKey(USE_RESPONSE_ENTITY)) {
             this.setUseResponseEntity(Boolean.parseBoolean(additionalProperties.get(USE_RESPONSE_ENTITY).toString()));
         }
         writePropertyBack(USE_RESPONSE_ENTITY, useResponseEntity);
+
+        convertPropertyToBooleanAndWriteBack(GENERATE_GENERIC_RESPONSE_ENTITY, this::setGenerateGenericResponseEntity);
+        writePropertyBack(GENERATE_GENERIC_RESPONSE_ENTITY, generateGenericResponseEntity);
+        writePropertyBack("useGenericResponseEntity", useResponseEntity && generateGenericResponseEntity);
 
         if(additionalProperties.containsKey(USE_SEALED_RESPONSE_INTERFACES)) {
             this.setUseSealedResponseInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_SEALED_RESPONSE_INTERFACES).toString()));
@@ -1712,7 +1721,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     }
 
     private String getItemsStringBeanValidation(Schema<?> items) {
-        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items)
+                || ModelUtils.isDateSchema(items)
+                || ModelUtils.isDateTimeSchema(items)) {
             return "";
         }
         List<String> annotations = new ArrayList<>();
@@ -2200,6 +2211,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         if (modelToSealedInterfaces.containsKey(modelName)) {
                             List<String> sealedInterfaces = modelToSealedInterfaces.get(modelName);
                             cm.vendorExtensions.put("x-implements-sealed-interfaces", sealedInterfaces);
+                            // Templates render all supertypes from x-kotlin-implements, so the sealed interfaces are
+                            // appended there as well. x-implements-sealed-interfaces is kept for custom templates.
+                            List<String> kotlinImplements = new ArrayList<>(
+                                    (List<String>) cm.vendorExtensions.getOrDefault(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of()));
+                            sealedInterfaces.stream()
+                                    .filter(sealedInterface -> !kotlinImplements.contains(sealedInterface))
+                                    .forEach(kotlinImplements::add);
+                            cm.vendorExtensions.put(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), kotlinImplements);
 
                             // Add imports for each sealed interface
                             for (String sealedInterface : sealedInterfaces) {

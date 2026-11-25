@@ -171,10 +171,10 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException("Cannot write null property DateOnlyClass.DateOnlyProperty to non-nullable JSON property 'dateOnlyProperty'.");
 
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
-                {
-                            writer.WritePropertyName("dateOnlyProperty");
-                                JsonSerializer.Serialize(writer, dateOnlyClass.DateOnlyPropertyOption.Value!.Value, jsonSerializerOptions);
-                            }
+            {
+                writer.WritePropertyName("dateOnlyProperty");
+                JsonSerializer.Serialize(writer, dateOnlyClass.DateOnlyPropertyOption.Value!.Value, jsonSerializerOptions);
+            }
         }
     }
 }

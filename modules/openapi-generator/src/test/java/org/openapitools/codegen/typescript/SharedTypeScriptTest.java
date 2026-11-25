@@ -30,6 +30,22 @@ import org.testng.annotations.Test;
 @Test(groups = {TYPESCRIPT})
 public class SharedTypeScriptTest {
 
+    @Test(description = "Issue #25711")
+    public void nestjsServerImportsNumberedInlineModelByItsGeneratedFilename() throws IOException {
+        Path output = TestUtils.newTempFolder();
+        CodegenConfigurator config = new CodegenConfigurator()
+                .setGeneratorName("typescript-nestjs-server")
+                .setInputSpec("src/test/resources/3_0/issue_25711.yaml")
+                .setOutputDir(output.toString())
+                .addAdditionalProperty("fileNaming", "kebab-case");
+        getGenerator(config).generate();
+
+        Path models = output.resolve("models");
+        Assert.assertTrue(Files.isRegularFile(models.resolve("overlap-one-of-1.ts")));
+        TestUtils.assertFileContains(models.resolve("overlap.ts"),
+                "import { OverlapOneOf1 } from './overlap-one-of-1';");
+    }
+
     @Test(enabled = false)
     public void typesInImportsAreSplitTest() throws IOException {
         Path output = Files.createTempDirectory("test");
