@@ -401,6 +401,16 @@ or
 --import-mappings Pet=my.models.MyPet --import-mappings Order=my.models.MyOrder
 ```
 
+## Generated numeric examples
+
+Generators that use the shared example generator, including HTML documentation and Spring server stubs,
+respect `minimum`, `maximum`, `exclusiveMinimum`, and `exclusiveMaximum` when creating numeric examples.
+This includes boolean exclusive bounds in OpenAPI 3.0 and numeric exclusive bounds in OpenAPI 3.1.
+For example, an integer with `maximum: -5` produces a value at most `-5`, while an integer with
+`minimum: 0` and `exclusiveMinimum: true` produces a value greater than `0`.
+The bounds must allow a value representable by the property's numeric type and format.
+An explicit `example` in the schema takes precedence over generated values.
+
 ## Default Values
 
 To customize the default values for containers, one can leverage the option `defaultToEmptyContainer` to customize what to initalize for array/set/map by respecting the default values in the spec
