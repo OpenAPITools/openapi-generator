@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// MixedPropertiesAndAdditionalPropertiesClass
     /// </summary>
-    public partial class MixedPropertiesAndAdditionalPropertiesClass : IValidatableObject
+    public partial class MixedPropertiesAndAdditionalPropertiesClass : IEquatable<MixedPropertiesAndAdditionalPropertiesClass?>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
@@ -123,6 +123,53 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as MixedPropertiesAndAdditionalPropertiesClass).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if MixedPropertiesAndAdditionalPropertiesClass instances are equal
+        /// </summary>
+        /// <param name="input">Instance of MixedPropertiesAndAdditionalPropertiesClass to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(MixedPropertiesAndAdditionalPropertiesClass? input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (DateTime != null)
+                    hashCode = (hashCode * 59) + DateTime.GetHashCode();
+
+                if (Map != null)
+                    hashCode = (hashCode * 59) + Map.GetHashCode();
+
+                if (Uuid != null)
+                    hashCode = (hashCode * 59) + Uuid.GetHashCode();
+
+                if (UuidWithPattern != null)
+                    hashCode = (hashCode * 59) + UuidWithPattern.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Model for testing model with \&quot;_class\&quot; property
     /// </summary>
-    public partial class ClassModel : IValidatableObject
+    public partial class ClassModel : IEquatable<ClassModel>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
@@ -73,6 +73,44 @@ namespace Org.OpenAPITools.Model
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="input">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as ClassModel).AreEqual;
+        }
+
+        /// <summary>
+        /// Returns true if ClassModel instances are equal
+        /// </summary>
+        /// <param name="input">Instance of ClassModel to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals(ClassModel input)
+        {
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hashCode = 41;
+                if (Class != null)
+                    hashCode = (hashCode * 59) + Class.GetHashCode();
+
+                hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
+
+                return hashCode;
+            }
         }
 
         /// <summary>
