@@ -1587,6 +1587,29 @@ public class TypeScriptFetchClientCodegenTest {
                 "'mapOfArraysOfStrings': value['mapOfArraysOfStrings'],");
     }
 
+    @Test(description = "A request parameter that is a set should be converted to an array before it can be mapped to JSON")
+    public void testSetRequestParameterIsConvertedToArray() throws Exception {
+        File output = generate(
+                Collections.emptyMap(),
+                "src/test/resources/3_1/issue_24887.yaml"
+        );
+
+        Path modelPath = Paths.get(output + "/apis/DefaultApi.ts");
+        TestUtils.assertFileContains(modelPath,
+                "body: RequiredTestObjectToJSON(requestParameters['requiredTestObject']),",
+                "body: RequiredNullableTestObjectToJSON(requestParameters['requiredNullableTestObject']),",
+                "body: OptionalTestObjectToJSON(requestParameters['optionalTestObject']),",
+                "body: OptionalNullableTestObjectToJSON(requestParameters['optionalNullableTestObject']),",
+                "body: requestParameters['requiredArrayTestObject']!.map(RequiredArrayTestObjectToJSON),",
+                "body: requestParameters['optionalArrayTestObject'] === undefined ? requestParameters['optionalArrayTestObject'] : requestParameters['optionalArrayTestObject']!.map(OptionalArrayTestObjectToJSON),",
+                "body: requestParameters['requiredNullableArrayTestObject'] === null ? requestParameters['requiredNullableArrayTestObject'] : requestParameters['requiredNullableArrayTestObject']!.map(RequiredNullableArrayTestObjectToJSON),",
+                "body: requestParameters['optionalNullableArrayTestObject'] === undefined || requestParameters['optionalNullableArrayTestObject'] === null ? requestParameters['optionalNullableArrayTestObject'] : requestParameters['optionalNullableArrayTestObject']!.map(OptionalNullableArrayTestObjectToJSON),",
+                "body: Array.from(requestParameters['requiredSetTestObject'])!.map(RequiredSetTestObjectToJSON),",
+                "body: requestParameters['optionalSetTestObject'] === undefined ? requestParameters['optionalSetTestObject'] : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),",
+                "body: requestParameters['requiredNullableSetTestObject'] === null ? requestParameters['requiredNullableSetTestObject'] : Array.from(requestParameters['requiredNullableSetTestObject'])!.map(RequiredNullableSetTestObjectToJSON),",
+                "body: requestParameters['optionalNullableSetTestObject'] === undefined || requestParameters['optionalNullableSetTestObject'] === null ? requestParameters['optionalNullableSetTestObject'] : Array.from(requestParameters['optionalNullableSetTestObject'])!.map(OptionalNullableSetTestObjectToJSON),");
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(
