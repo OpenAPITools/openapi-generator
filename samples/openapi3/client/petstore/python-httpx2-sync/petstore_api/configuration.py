@@ -170,9 +170,9 @@ class Configuration:
     :param retries: int - Number of retries on connection failures
       (ConnectError, ConnectTimeout), passed to httpx2.AsyncHTTPTransport.
       Each attempt gets the full connect timeout, with an exponential backoff
-      between attempts. When greater than 0, httpx's limits apply: proxies from
-      environment variables are ignored (use the proxy parameter instead), and
-      requests sent through a proxy are not retried (encode/httpx#2997).
+      between attempts. Direct connections only: httpx does not retry through
+      a proxy (encode/httpx#2997), so retries are not applied when a proxy is
+      set, by the proxy parameter or by environment variables.
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.
