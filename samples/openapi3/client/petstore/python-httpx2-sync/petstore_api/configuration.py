@@ -168,8 +168,11 @@ class Configuration:
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
     :param retries: int - Number of retries on connection failures
-      (ConnectError, ConnectTimeout). When set, proxies from environment
-      variables are ignored; use the proxy parameter instead.
+      (ConnectError, ConnectTimeout), passed to httpx2.AsyncHTTPTransport.
+      Each attempt gets the full connect timeout, with an exponential backoff
+      between attempts. When greater than 0, httpx's limits apply: proxies from
+      environment variables are ignored (use the proxy parameter instead), and
+      requests sent through a proxy are not retried (encode/httpx#2997).
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.

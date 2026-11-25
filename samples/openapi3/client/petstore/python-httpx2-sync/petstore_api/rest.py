@@ -195,11 +195,10 @@ class RESTClientObject:
                 headers=self.proxy_headers
             )
 
-        if self.retries:
-            # httpx only retries connection failures (ConnectError, ConnectTimeout),
-            # i.e. requests that were never sent, so this is safe for every method.
-            # A custom transport disables proxies from environment variables, and a
-            # client-level proxy would bypass it: the proxy goes to the transport.
+        if self.retries is not None and self.retries > 0:
+            # Exposes httpx's own transport retries, with its limits (see the
+            # `retries` parameter of Configuration). A client-level proxy would
+            # mount its own transport and bypass this one: the proxy goes here.
             transport = httpx2.AsyncHTTPTransport(
                 verify=self.ssl_context,
                 limits=limits,
