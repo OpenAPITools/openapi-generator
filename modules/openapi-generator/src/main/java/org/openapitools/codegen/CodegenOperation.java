@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.tags.Tag;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CodegenOperation {
     public final List<CodegenProperty> responseHeaders = new ArrayList<CodegenProperty>();
@@ -396,6 +397,34 @@ public class CodegenOperation {
         if (pathParams.size() != 1) return false;
         String id = pathParams.get(0).baseName;
         return ("/{" + id + "}").equals(pathWithoutBaseName());
+    }
+
+    public List<CodegenModel> uniqueResponseTypes() {
+        return responses.stream()
+                .map(response -> {
+
+                    CodegenModel codegenModel = new CodegenModel();
+                    if(response.isArray) {
+                        codegenModel.isMap = false;
+                        codegenModel.isArray = true;
+                        codegenModel.isPrimitiveType = false;
+                        codegenModel.arrayModelType = response.baseType;
+                    } else if (response.isMap) {
+                        codegenModel.isMap = true;
+                        codegenModel.isArray = false;
+                        codegenModel.isPrimitiveType = false;
+                        codegenModel.dataType = response.baseType;
+                    } else {
+                        codegenModel.isArray = false;
+                        codegenModel.isMap = false;
+                        codegenModel.isPrimitiveType = true;
+                        codegenModel.dataType = response.dataType;
+                    }
+
+                    return codegenModel;
+                })
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     @Override
