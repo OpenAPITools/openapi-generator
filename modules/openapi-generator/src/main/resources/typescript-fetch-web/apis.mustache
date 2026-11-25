@@ -1,0 +1,383 @@
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+
+import * as runtime from '../runtime';
+{{#imports.0}}
+import {
+    {{#imports}}
+    {{className}},
+    {{^withoutRuntimeChecks}}
+    {{className}}FromJSON,
+    {{className}}ToJSON,
+    {{/withoutRuntimeChecks}}
+    {{/imports}}
+} from '../models';
+{{/imports.0}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams.0}}
+export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request {
+{{#allParams}}
+    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+{{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/operations}}
+{{#withInterfaces}}
+{{#operations}}
+/**
+ * {{classname}} - interface
+ * {{#lambda.indented_1}}{{{unescapedDescription}}}{{/lambda.indented_1}}
+ * @export
+ * @interface {{classname}}Interface
+ */
+export interface {{classname}}Interface {
+{{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+     {{/allParams}}
+     * @param {*} [options] Override http request option.
+    {{#isDeprecated}}
+     * @deprecated
+    {{/isDeprecated}}
+     * @throws {RequiredError}
+     * @memberof {{classname}}Interface
+     */
+    {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>>;
+
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     */
+    {{^useSingleRequestParameter}}
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    {{/useSingleRequestParameter}}
+    {{#useSingleRequestParameter}}
+    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
+    {{/useSingleRequestParameter}}
+
+{{/operation}}
+}
+
+{{/operations}}
+{{/withInterfaces}}
+{{#operations}}
+/**
+ * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
+ */
+{{#withInterfaces}}
+export class {{classname}} extends runtime.BaseAPI implements {{classname}}Interface {
+{{/withInterfaces}}
+{{^withInterfaces}}
+export class {{classname}} extends runtime.BaseAPI {
+{{/withInterfaces}}
+
+    {{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     */
+    async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
+        {{#allParams}}
+        {{#required}}
+        if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
+            throw new runtime.RequiredError('{{paramName}}','Required parameter requestParameters.{{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+
+        {{/required}}
+        {{/allParams}}
+        const queryParameters: any = {};
+
+        {{#queryParams}}
+        {{#isArray}}
+        if (requestParameters.{{paramName}}) {
+            {{#isCollectionFormatMulti}}
+            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+            queryParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters.{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+            {{/isCollectionFormatMulti}}
+        }
+
+        {{/isArray}}
+        {{^isArray}}
+        if (requestParameters.{{paramName}} !== undefined) {
+            {{#isDateTime}}
+            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString();
+            {{/isDateTime}}
+            {{^isDateTime}}
+            {{#isDate}}
+            queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
+            {{/isDate}}
+            {{^isDate}}
+            queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            {{/isDate}}
+            {{/isDateTime}}
+        }
+
+        {{/isArray}}
+        {{/queryParams}}
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        {{#bodyParam}}
+        {{^consumes}}
+        headerParameters['Content-Type'] = 'application/json';
+
+        {{/consumes}}
+        {{#consumes.0}}
+        headerParameters['Content-Type'] = '{{{mediaType}}}';
+
+        {{/consumes.0}}
+        {{/bodyParam}}
+        {{#headerParams}}
+        {{#isArray}}
+        if (requestParameters.{{paramName}}) {
+            headerParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters.{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        }
+
+        {{/isArray}}
+        {{^isArray}}
+        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
+            headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
+        }
+
+        {{/isArray}}
+        {{/headerParams}}
+        {{#authMethods}}
+        {{#isBasic}}
+        {{#isBasicBasic}}
+        if (this.configuration && (this.configuration.username !== undefined || this.configuration.password !== undefined)) {
+            headerParameters["Authorization"] = "Basic " + btoa(this.configuration.username + ":" + this.configuration.password);
+        }
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}]);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        {{/isBasicBearer}}
+        {{/isBasic}}
+        {{#isApiKey}}
+        {{#isKeyInHeader}}
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
+        }
+
+        {{/isKeyInHeader}}
+        {{#isKeyInQuery}}
+        if (this.configuration && this.configuration.apiKey) {
+            queryParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
+        }
+
+        {{/isKeyInQuery}}
+        {{/isApiKey}}
+        {{#isOAuth}}
+        if (this.configuration && this.configuration.accessToken) {
+            // oauth required
+            headerParameters["Authorization"] = await this.configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}]);
+        }
+
+        {{/isOAuth}}
+        {{/authMethods}}
+        {{#hasFormParams}}
+        const consumes: runtime.Consume[] = [
+            {{#consumes}}
+            { contentType: '{{{mediaType}}}' },
+            {{/consumes}}
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        {{#formParams}}
+        {{#isFile}}
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        {{/isFile}}
+        {{/formParams}}
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        {{#formParams}}
+        {{#isArray}}
+        if (requestParameters.{{paramName}}) {
+            {{#isCollectionFormatMulti}}
+            requestParameters.{{paramName}}.forEach((element) => {
+                formParams.append('{{baseName}}', element as any);
+            })
+            {{/isCollectionFormatMulti}}
+            {{^isCollectionFormatMulti}}
+            formParams.append('{{baseName}}', {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters.{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+            {{/isCollectionFormatMulti}}
+        }
+
+        {{/isArray}}
+        {{^isArray}}
+        if (requestParameters.{{paramName}} !== undefined) {
+            {{#isPrimitiveType}}
+            formParams.append('{{baseName}}', requestParameters.{{paramName}} as any);
+            {{/isPrimitiveType}}
+            {{^isPrimitiveType}}
+            {{^withoutRuntimeChecks}}
+            formParams.append('{{baseName}}', new Blob([JSON.stringify({{{dataType}}}ToJSON(requestParameters.{{paramName}}))], { type: "application/json", }));
+            {{/withoutRuntimeChecks}}{{#withoutRuntimeChecks}}
+            formParams.append('{{baseName}}', new Blob([JSON.stringify(requestParameters.{{paramName}})], { type: "application/json", }));
+            {{/withoutRuntimeChecks}}
+            {{/isPrimitiveType}}
+        }
+
+        {{/isArray}}
+        {{/formParams}}
+        {{/hasFormParams}}
+        const response = await this.request({
+            path: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+            method: '{{httpMethod}}',
+            headers: headerParameters,
+            query: queryParameters,
+            {{#hasBodyParam}}
+            {{#bodyParam}}
+            {{#isContainer}}
+            {{^withoutRuntimeChecks}}
+            body: requestParameters.{{paramName}}{{#isArray}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}},
+            {{/withoutRuntimeChecks}}
+            {{#withoutRuntimeChecks}}
+            body: requestParameters.{{paramName}},
+            {{/withoutRuntimeChecks}}
+            {{/isContainer}}
+            {{^isContainer}}
+            {{^isPrimitiveType}}
+            {{^withoutRuntimeChecks}}
+            body: {{dataType}}ToJSON(requestParameters.{{paramName}}),
+            {{/withoutRuntimeChecks}}
+            {{#withoutRuntimeChecks}}
+            body: requestParameters.{{paramName}},
+            {{/withoutRuntimeChecks}}
+            {{/isPrimitiveType}}
+            {{#isPrimitiveType}}
+            body: requestParameters.{{paramName}} as any,
+            {{/isPrimitiveType}}
+            {{/isContainer}}
+            {{/bodyParam}}
+            {{/hasBodyParam}}
+            {{#hasFormParams}}
+            body: formParams,
+            {{/hasFormParams}}
+        }, initOverrides);
+
+        {{#returnType}}
+        {{#isResponseFile}}
+        return new runtime.BlobApiResponse(response);
+        {{/isResponseFile}}
+        {{^isResponseFile}}
+        {{#returnTypeIsPrimitive}}
+        {{#isMap}}
+        return new runtime.JSONApiResponse<any>(response);
+        {{/isMap}}
+        {{#isArray}}
+        return new runtime.JSONApiResponse<any>(response);
+        {{/isArray}}
+        {{#returnSimpleType}}
+        return new runtime.TextApiResponse(response) as any;
+        {{/returnSimpleType}}
+        {{/returnTypeIsPrimitive}}
+        {{^returnTypeIsPrimitive}}
+        {{#isArray}}
+        return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => {{#uniqueItems}}new Set({{/uniqueItems}}jsonValue.map({{returnBaseType}}FromJSON){{/withoutRuntimeChecks}}){{#uniqueItems}}){{/uniqueItems}};
+        {{/isArray}}
+        {{^isArray}}
+        {{#isMap}}
+        return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => runtime.mapValues(jsonValue, {{returnBaseType}}FromJSON){{/withoutRuntimeChecks}});
+        {{/isMap}}
+        {{^isMap}}
+        return new runtime.JSONApiResponse(response{{^withoutRuntimeChecks}}, (jsonValue) => {{returnBaseType}}FromJSON(jsonValue){{/withoutRuntimeChecks}});
+        {{/isMap}}
+        {{/isArray}}
+        {{/returnTypeIsPrimitive}}
+        {{/isResponseFile}}
+        {{/returnType}}
+        {{^returnType}}
+        return new runtime.VoidApiResponse(response);
+        {{/returnType}}
+    }
+
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     */
+    {{^useSingleRequestParameter}}
+    async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        {{#returnType}}
+        const response = await this.{{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }, {{/allParams.0}}initOverrides);
+        return await response.value();
+        {{/returnType}}
+        {{^returnType}}
+        await this.{{nickname}}Raw({{#allParams.0}}{ {{#allParams}}{{paramName}}: {{paramName}}{{^-last}}, {{/-last}}{{/allParams}} }, {{/allParams.0}}initOverrides);
+        {{/returnType}}
+    }
+    {{/useSingleRequestParameter}}
+    {{#useSingleRequestParameter}}
+    async {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}initOverrides?: RequestInit): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        {{#returnType}}
+        const response = await this.{{nickname}}Raw({{#allParams.0}}requestParameters, {{/allParams.0}}initOverrides);
+        return await response.value();
+        {{/returnType}}
+        {{^returnType}}
+        await this.{{nickname}}Raw({{#allParams.0}}requestParameters, {{/allParams.0}}initOverrides);
+        {{/returnType}}
+    }
+    {{/useSingleRequestParameter}}
+
+    {{/operation}}
+}
+{{/operations}}
+{{#hasEnums}}
+
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+/**
+    * @export
+    * @enum {string}
+    */
+export enum {{operationIdCamelCase}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{/hasEnums}}
