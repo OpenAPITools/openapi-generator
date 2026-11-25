@@ -1,8 +1,8 @@
 package org.openapitools.model;
 
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,7 +17,7 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 @org.eclipse.microprofile.openapi.annotations.media.Schema(title="Pet category", description="A category for a pet")
 @JsonTypeName("Category")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class Category  implements Serializable {
   private Long id;
   private String name;
