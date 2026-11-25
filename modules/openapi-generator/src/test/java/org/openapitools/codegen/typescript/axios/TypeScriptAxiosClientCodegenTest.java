@@ -215,10 +215,10 @@ public class TypeScriptAxiosClientCodegenTest {
 
         Path api = Paths.get(output + "/api.ts");
         TestUtils.assertFileContains(api,
-                "if (typeof cursor === 'object' && cursor !== null) {",
+                "if (typeof cursor === 'object' && cursor !== null && !Array.isArray(cursor)) {",
                 "localVarQueryParameter['cursor'] = cursor;");
         TestUtils.assertFileContains(api,
-                "if (typeof filter === 'object' && filter !== null) {",
+                "if (typeof filter === 'object' && filter !== null && !Array.isArray(filter)) {",
                 "for (const [key, value] of Object.entries(filter)) {");
     }
 

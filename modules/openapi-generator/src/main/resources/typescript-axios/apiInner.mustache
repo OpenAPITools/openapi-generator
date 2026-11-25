@@ -138,7 +138,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
                 {{^isPrimitiveType}}
                 {{^isEnumRef}}
                 {{^isEnum}}
-                if (typeof {{paramName}} === 'object' && {{paramName}} !== null) {
+                if (typeof {{paramName}} === 'object' && {{paramName}} !== null && !Array.isArray({{paramName}})) {
                     for (const [key, value] of Object.entries({{paramName}})) {
                         localVarQueryParameter[key] = value;
                     }

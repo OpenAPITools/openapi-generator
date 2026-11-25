@@ -1747,7 +1747,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                if (typeof queryObject === 'object' && queryObject !== null) {
+                if (typeof queryObject === 'object' && queryObject !== null && !Array.isArray(queryObject)) {
                     for (const [key, value] of Object.entries(queryObject)) {
                         localVarQueryParameter[key] = value;
                     }
@@ -1788,7 +1788,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                if (typeof queryObject === 'object' && queryObject !== null) {
+                if (typeof queryObject === 'object' && queryObject !== null && !Array.isArray(queryObject)) {
                     for (const [key, value] of Object.entries(queryObject)) {
                         localVarQueryParameter[key] = value;
                     }
@@ -1899,7 +1899,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                if (typeof queryObject === 'object' && queryObject !== null) {
+                if (typeof queryObject === 'object' && queryObject !== null && !Array.isArray(queryObject)) {
                     for (const [key, value] of Object.entries(queryObject)) {
                         localVarQueryParameter[key] = value;
                     }
@@ -1940,7 +1940,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                if (typeof queryObject === 'object' && queryObject !== null) {
+                if (typeof queryObject === 'object' && queryObject !== null && !Array.isArray(queryObject)) {
                     for (const [key, value] of Object.entries(queryObject)) {
                         localVarQueryParameter[key] = value;
                     }
@@ -1981,7 +1981,7 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
             const localVarQueryParameter = {} as any;
 
             if (queryObject !== undefined) {
-                if (typeof queryObject === 'object' && queryObject !== null) {
+                if (typeof queryObject === 'object' && queryObject !== null && !Array.isArray(queryObject)) {
                     for (const [key, value] of Object.entries(queryObject)) {
                         localVarQueryParameter[key] = value;
                     }
