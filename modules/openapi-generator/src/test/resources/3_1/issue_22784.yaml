@@ -1,0 +1,45 @@
+openapi: 3.1.1
+info:
+  title: Optional Array with minItems 1 OpenAPI Example
+  version: 1.0.0
+paths:
+  /foo-bar:
+    put:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FooBarRequest'
+      responses:
+        204:
+          description: success
+
+components:
+  schemas:
+    FooBarRequest:
+      type: object
+      properties:
+        foo:
+          properties:
+            name:
+              type: string
+          required:
+            - name
+        barList:
+          description: |
+            This array is optional. If provided, it must contain between 1 and 3 items
+          type: array
+          items:
+            $ref: '#/components/schemas/Bar'
+          minItems: 1
+          maxItems: 3
+      required:
+        - foo
+    Bar:
+      type: object
+      properties:
+        someProperty:
+          type: string
+      required:
+        - someProperty
