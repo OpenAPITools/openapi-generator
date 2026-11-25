@@ -1,0 +1,6 @@
+generatorName: python-langchain-tools
+outputDir: samples/client/petstore/python/langchain/tools
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/python-langchain-tools
+additionalProperties:
+  hideGenerationTimestamp: "true"

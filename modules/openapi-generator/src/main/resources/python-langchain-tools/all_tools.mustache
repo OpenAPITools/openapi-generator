@@ -1,0 +1,40 @@
+# -*- coding: utf-8 -*-
+"""
+An aggregator for all generated LangChain tools.
+
+This file provides a single list, `all_tools`, that you can import and
+provide to your LangChain agent.
+"""
+from typing import List
+from langchain.tools import StructuredTool
+
+from {{packageName}}.api_client import ApiClient
+from {{packageName}}.configuration import Configuration
+
+# Import the factory functions from each tool module
+{{#apiInfo}}
+{{#apis}}
+from {{packageName}}.tools.{{classFilename}}_tools import get_{{classVarName}}_tools
+{{/apis}}
+{{/apiInfo}}
+
+def get_all_tools() -> List[StructuredTool]:
+    """
+    Initializes the API client and aggregates tools from all API modules.
+    """
+    # TODO: You may need to customize this based on your API's authentication needs.
+    configuration = Configuration(host="{{{serverUrl}}}")
+
+    all_tools_list = []
+
+    with ApiClient(configuration) as api_client:
+        {{#apiInfo}}
+        {{#apis}}
+            all_tools_list.extend(get_{{classVarName}}_tools(api_client))
+        {{/apis}}
+        {{/apiInfo}}
+
+    return all_tools_list
+
+# A pre-initialized list of all tools for convenience.
+all_tools = get_all_tools()
