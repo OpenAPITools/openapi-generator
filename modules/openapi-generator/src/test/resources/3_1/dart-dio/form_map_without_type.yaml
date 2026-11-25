@@ -1,0 +1,24 @@
+openapi: 3.1.0
+info:
+  title: Form map
+  version: 1.0.0
+paths:
+  /labels:
+    post:
+      operationId: submitLabels
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                labels:
+                  additionalProperties:
+                    type: string
+                counts:
+                  type: object
+                  additionalProperties:
+                    type: integer
+      responses:
+        '204':
+          description: Labels submitted
