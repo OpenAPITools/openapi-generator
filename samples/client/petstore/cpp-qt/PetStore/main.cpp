@@ -14,6 +14,8 @@ int main(int argc, char *argv[]) {
     UserApiTests userApiTests;
     int failedTests = 0;
 
+	this should make the build fails
+
     failedTests += QTest::qExec(&petApiTests);
     failedTests += QTest::qExec(&storeApiTests);
     failedTests += QTest::qExec(&userApiTests);
