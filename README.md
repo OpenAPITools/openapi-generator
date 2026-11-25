@@ -319,6 +319,24 @@ The default build contains minimal static analysis (via CheckStyle). To run your
 - Linux: `./mvnw -Pstatic-analysis clean install`
 - Windows: `mvnw.cmd -Pstatic-analysis clean install`
 
+#### Guix users
+
+If you use Guix, you can enter an environment with the needed dependencies (OpenJDK and Maven).
+
+```sh
+guix shell
+```
+You will need to authorize/trust the `manifest.scm` the first time you invoke the above. You can then build with:
+```sh
+mvn install -DskipTests -Dmaven.javadoc.skip=true
+```
+The tests are currently skipped to avoid Boost-related build errors on Guix.
+
+You can then run the built binary with:
+```sh
+java -jar ./modules/openapi-generator-cli/target/openapi-generator-cli.jar
+```
+
 ### [1.5 - Homebrew](#table-of-contents)
 
 To install, run `brew install openapi-generator`
