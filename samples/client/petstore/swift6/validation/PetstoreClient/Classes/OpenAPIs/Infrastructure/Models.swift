@@ -124,20 +124,37 @@ public struct Response<T> {
 extension Response : Sendable where T : Sendable {}
 
 public final class RequestTask: @unchecked Sendable {
-    private let _state = OpenAPIMutex<URLSessionDataTaskProtocol?>(nil)
+    private struct State {
+        var task: URLSessionDataTaskProtocol?
+        var isCancelled = false
+    }
+
+    private let _state = OpenAPIMutex(State())
 
     internal func set(task: URLSessionDataTaskProtocol) {
-        _state.withValue { $0 = task }
+        _state.withValue { $0.task = task }
     }
 
     internal func get() -> URLSessionDataTaskProtocol? {
-        _state.value
+        _state.value.task
     }
 
+    internal var isCancelled: Bool {
+        _state.value.isCancelled
+    }
+
+    /// A cancel only applies to the execution it interrupted, so a new execution starts clean.
+    internal func reset() {
+        _state.withValue { $0.isCancelled = false }
+    }
+
+    /// Cancels the current execution, including one whose data task is not created yet
+    /// (e.g. an interceptor that completes asynchronously).
     public func cancel() {
         _state.withValue {
-            $0?.cancel()
-            $0 = nil
+            $0.task?.cancel()
+            $0.task = nil
+            $0.isCancelled = true
         }
     }
 }

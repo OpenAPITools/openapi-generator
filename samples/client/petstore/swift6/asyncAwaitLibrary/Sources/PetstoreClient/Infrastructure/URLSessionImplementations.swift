@@ -122,6 +122,13 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
 
     @discardableResult
     override open func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        requestTask.reset()
+        return send(completion: completion)
+    }
+
+    /// Retries call this instead of `execute(completion:)` so a cancel is not forgotten.
+    @discardableResult
+    private func send(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard supportsResponseType else {
@@ -217,11 +224,17 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
                         }
                     }
 
+                    self.requestTask.set(task: dataTask)
+                    // A cancel that came while the interceptor was working found no task to cancel.
+                    // The cancelled task's completion handler reports it.
+                    guard !self.requestTask.isCancelled else {
+                        dataTask.cancel()
+                        return
+                    }
+
                     self.onProgressReady?(dataTask.progress)
 
                     URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = self.credential
-
-                    self.requestTask.set(task: dataTask)
 
                     self.apiConfiguration.interceptor.willSendRequest(urlRequest: modifiedRequest, urlSession: urlSession, requestBuilder: self)
 
@@ -263,16 +276,25 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
     }
 
     private func retryRequest(urlRequest: URLRequest, urlSession: URLSessionProtocol, statusCode: Int, data: Data?, response: URLResponse?, error: Error, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+        let failWithoutRetry: @Sendable () -> Void = {
+            self.apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, result: .failure(error))
+            self.apiConfiguration.apiResponseQueue.async {
+                completion(.failure(ErrorResponse.error(statusCode, data, response, error)))
+            }
+        }
+
+        guard !requestTask.isCancelled else {
+            failWithoutRetry()
+            return
+        }
+
         self.apiConfiguration.interceptor.retry(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, error: error) { retry in
             switch retry {
-            case .retry:
-                self.execute(completion: completion)
+            case .retry where !self.requestTask.isCancelled:
+                self.send(completion: completion)
 
-            case .dontRetry:
-                self.apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, result: .failure(error))
-                self.apiConfiguration.apiResponseQueue.async {
-                    completion(.failure(ErrorResponse.error(statusCode, data, response, error)))
-                }
+            case .retry, .dontRetry:
+                failWithoutRetry()
             }
         }
     }
