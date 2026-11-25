@@ -5,6 +5,11 @@
 
 {{/isEnum}}
 {{^isEnum}}
+{{#vendorExtensions.x-is-one-of-interface}}
+{{>pojo_doc}}
+
+{{/vendorExtensions.x-is-one-of-interface}}
+{{^vendorExtensions.x-is-one-of-interface}}
 {{^oneOf.isEmpty}}
 {{>model_oneof_doc}}
 
@@ -19,5 +24,6 @@
 
 {{/oneOf}}
 {{/anyOf}}
+{{/vendorExtensions.x-is-one-of-interface}}
 {{/isEnum}}
 {{/model}}{{/models}}

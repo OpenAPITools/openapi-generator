@@ -6,4 +6,5 @@ public {{>sealed}}interface {{classname}} {{#vendorExtensions.x-implements}}{{#-
     {{#discriminator}}
     public {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
+{{>oneof_interface_members}}
 }

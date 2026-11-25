@@ -1,0 +1,52 @@
+openapi: 3.0.3
+info:
+  title: oneOf without discriminator
+  description: >
+    oneOf of two object schemas without a discriminator. The variants are told apart by their
+    (disjoint) sets of properties, which is what useDeductionForOneOfInterfaces relies on.
+  version: 1.0.0
+paths:
+  /author:
+    get:
+      operationId: getAuthor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+    post:
+      operationId: createAuthor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+      responses:
+        '204':
+          description: created
+components:
+  schemas:
+    Author:
+      oneOf:
+        - $ref: '#/components/schemas/ServiceAuthor'
+        - $ref: '#/components/schemas/UserAuthor'
+    ServiceAuthor:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: string
+    UserAuthor:
+      type: object
+      required:
+        - id
+        - domainId
+      properties:
+        id:
+          type: string
+        domainId:
+          type: string

@@ -19,6 +19,7 @@ on:
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/native-oneOf-array/**
+      - samples/client/others/java/native-oneof-interface/**
       - samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
@@ -41,6 +42,7 @@ on:
       - samples/client/others/java/jersey2-oneOf-duplicates/**
       - samples/client/others/java/jersey2-oneOf-Mixed/**
       - samples/client/others/java/native-oneOf-array/**
+      - samples/client/others/java/native-oneof-interface/**
       - samples/client/others/java/okhttp-gson-streaming/**
       - samples/client/others/java/resttemplate-list-schema-validation/**
       - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/**
@@ -110,6 +112,7 @@ jobs:
           - samples/client/others/java/jersey2-oneOf-duplicates/
           - samples/client/others/java/jersey2-oneOf-Mixed/
           - samples/client/others/java/native-oneOf-array/
+          - samples/client/others/java/native-oneof-interface/
           - samples/client/others/java/resttemplate-list-schema-validation/
           - samples/client/petstore/java/okhttp-gson-3.1-duplicated-operationid/
           - samples/client/others/java/okhttp-gson-streaming/
