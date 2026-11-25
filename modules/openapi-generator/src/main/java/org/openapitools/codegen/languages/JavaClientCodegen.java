@@ -1364,6 +1364,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
         }
 
+        if(codegenModel.oneOf!= null && !codegenModel.oneOf.isEmpty() && codegenModel.discriminator!=null) {
+            codegenModel.oneOf = null;
+        }
         return codegenModel;
     }
 
