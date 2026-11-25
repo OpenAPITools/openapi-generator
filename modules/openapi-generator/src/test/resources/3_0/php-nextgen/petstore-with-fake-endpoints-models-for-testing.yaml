@@ -2460,3 +2460,33 @@ components:
         - $ref: '#/components/schemas/Mammal'
         - $ref: '#/components/schemas/Reptile'
 
+    3d_position:
+      type: object
+      properties:
+        a:
+          type: integer
+    _3d_position:
+      type: object
+      properties:
+        b:
+          type: integer
+    holder:
+      type: object
+      properties:
+        x:
+          $ref: '#/components/schemas/3d_position'
+        y:
+          $ref: '#/components/schemas/_3d_position'
+
+    3d-position:
+      type: object
+      properties:
+        position:
+          type: object
+          properties:
+            x:
+              type: integer
+            y:
+              type: integer
+            z:
+              type: integer
