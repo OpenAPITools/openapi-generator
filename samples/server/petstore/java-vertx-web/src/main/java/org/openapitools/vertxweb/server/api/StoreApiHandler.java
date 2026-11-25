@@ -51,11 +51,7 @@ public class StoreApiHandler {
         api.deleteOrder(orderId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -71,11 +67,7 @@ public class StoreApiHandler {
         api.getInventory()
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -93,11 +85,7 @@ public class StoreApiHandler {
         api.getOrderById(orderId)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
@@ -116,11 +104,7 @@ public class StoreApiHandler {
         api.placeOrder(order)
             .onSuccess(apiResponse -> {
                 routingContext.response().setStatusCode(apiResponse.getStatusCode());
-                if (apiResponse.hasData()) {
-                    routingContext.json(apiResponse.getData());
-                } else {
-                    routingContext.response().end();
-                }
+                apiResponse.sendResponse(routingContext);
             })
             .onFailure(routingContext::fail);
     }
