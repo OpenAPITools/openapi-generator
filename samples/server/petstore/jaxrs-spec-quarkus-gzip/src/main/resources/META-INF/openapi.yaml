@@ -1,0 +1,17 @@
+openapi: 3.0.1
+info:
+  title: ping test
+  version: "1.0"
+servers:
+- url: http://localhost:8000/
+paths:
+  /ping:
+    get:
+      operationId: pingGet
+      responses:
+        "201":
+          description: OK
+      x-accepts:
+      - application/json
+components:
+  schemas: {}

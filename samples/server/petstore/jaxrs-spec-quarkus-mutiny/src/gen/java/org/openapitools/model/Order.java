@@ -2,8 +2,8 @@ package org.openapitools.model;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,11 +12,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.jackson.nullable.JsonNullable;
 
+/**
+ * An order for a pets from the pet store
+ **/
 
-
-@org.eclipse.microprofile.openapi.annotations.media.Schema(description="")
+@org.eclipse.microprofile.openapi.annotations.media.Schema(title="Pet Order", description="An order for a pets from the pet store")
 @JsonTypeName("Order")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
 public class Order  implements Serializable {
   private Long id;
   private Long petId;

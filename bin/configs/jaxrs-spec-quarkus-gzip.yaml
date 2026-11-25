@@ -1,0 +1,9 @@
+generatorName: jaxrs-spec
+outputDir: samples/server/petstore/jaxrs-spec-quarkus-gzip
+library: quarkus
+inputSpec: modules/openapi-generator/src/test/resources/3_0/ping.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaJaxRS/spec
+additionalProperties:
+  artifactId: jaxrs-spec-quarkus-gzip
+  hideGenerationTimestamp: "true"
+  useGzipFeature: "true"

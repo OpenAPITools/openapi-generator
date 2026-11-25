@@ -818,34 +818,39 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
 
     }
 
-    @Test
-    public void generateApiForQuarkusWithGzipFeature() throws Exception {
-        final File output = Files.createTempDirectory("test").toFile();
+    /**
+     * The quarkus library depends on quarkus-rest, where org.jboss.resteasy.annotations.GZIP does
+     * not exist, so useGzipFeature uses the Quarkus HTTP compression support instead.
+     */
+    @Test(dataProvider = "interfaceOnlyVariants")
+    public void generateApiForQuarkusWithGzipFeature(boolean interfaceOnly) throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
-        final OpenAPI openAPI = new OpenAPIParser()
-                .readLocation("src/test/resources/3_0/ping.yaml", null, new ParseOptions()).getOpenAPI();
-
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.setLibrary(QUARKUS_LIBRARY);
-        codegen.additionalProperties().put(USE_GZIP_FEATURE, true);
-
-        final ClientOptInput input = new ClientOptInput()
-                .openAPI(openAPI)
-                .config(codegen); //Using JavaJAXRSSpecServerCodegen
-
-        final DefaultGenerator generator = new DefaultGenerator();
-        final List<File> files = generator.opts(input).generate(); //When generating files
-
-        //Then the java files are compilable
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .setLibrary(QUARKUS_LIBRARY)
+                .addAdditionalProperty(USE_GZIP_FEATURE, true)
+                .addAdditionalProperty(INTERFACE_ONLY, interfaceOnly)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .setOutputDir(output.getAbsolutePath().replace('\\', '/'));
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
         validateJavaSourceFiles(files);
 
-        //And the generated class contains CompletionStage<Response>
-        TestUtils.ensureContainsFile(files, output, "src/gen/java/org/openapitools/api/PingApi.java");
-        assertFileContains(output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java"),
-                "\nimport org.jboss.resteasy.annotations.GZIP\n",
-                "@GZIP\n"
-        );
+        Path api = output.toPath().resolve("src/gen/java/org/openapitools/api/PingApi.java");
+        // fully qualified, so that a generated model named Compressed cannot clash with an import
+        assertFileContains(api, "@io.quarkus.vertx.http.Compressed\n");
+        assertFileNotContains(api, "import io.quarkus.vertx.http.Compressed", "GZIP");
+        Path properties = output.toPath().resolve("src/main/resources/application.properties");
+        assertFileContains(properties,
+                "quarkus.http.enable-compression=true",
+                "quarkus.http.enable-decompression=true");
+        assertFileNotContains(properties, "quarkus.resteasy.gzip");
+    }
+
+    @DataProvider
+    public Object[][] interfaceOnlyVariants() {
+        return new Object[][]{{true}, {false}};
     }
 
     @Test
@@ -2027,13 +2032,73 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
             .assertValue(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class,
-          expectedExceptionsMessageRegExp = ".*useJakartaSecurityAnnotations.*useJakartaEe.*")
-    public void useJakartaSecurityRequiresUseJakartaEe() {
+    /**
+     * An explicit useJakartaEe=false would ask for the removed javax (Quarkus 1.x) project, so the
+     * quarkus library rejects it instead of silently generating Jakarta sources.
+     */
+    @Test(dataProvider = "useJakartaEeFalseValues", expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*'quarkus' library.*useJakartaEe=true.*issues/25770")
+    public void quarkusRejectsUseJakartaEeFalse(Object useJakartaEe) {
         codegen.setLibrary(QUARKUS_LIBRARY);
-        codegen.additionalProperties().put(USE_JAKARTA_EE, false);
-        codegen.additionalProperties().put(USE_JAKARTA_SECURITY_ANNOTATIONS, true);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, useJakartaEe);
         codegen.processOpts();
+    }
+
+    @DataProvider
+    public Object[][] useJakartaEeFalseValues() {
+        return new Object[][]{{false}, {"false"}};
+    }
+
+    // Without CodegenConfigurator, the library only reaches setLibrary inside super.processOpts().
+    @Test
+    public void quarkusLibraryOnlyInAdditionalPropertiesEnablesUseJakartaEe() {
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, QUARKUS_LIBRARY);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.getLibrary(), QUARKUS_LIBRARY);
+        Assert.assertEquals(codegen.additionalProperties().get(USE_JAKARTA_EE), true);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*'quarkus' library.*useJakartaEe=true.*issues/25770")
+    public void quarkusLibraryOnlyInAdditionalPropertiesRejectsUseJakartaEeFalse() {
+        codegen.additionalProperties().put(CodegenConstants.LIBRARY, QUARKUS_LIBRARY);
+        codegen.additionalProperties().put(USE_JAKARTA_EE, false);
+        codegen.processOpts();
+    }
+
+    @Test
+    public void quarkusEnablesUseJakartaEeByDefault() {
+        codegen.setLibrary(QUARKUS_LIBRARY);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(USE_JAKARTA_EE), true);
+        Assert.assertEquals(codegen.additionalProperties().get(AbstractJavaJAXRSServerCodegen.JAVAX_PACKAGE), "jakarta");
+    }
+
+    // Gradle/Maven configOptions and CLI -p pass the library as an additional property; CodegenConfigurator
+    // resolves it into setLibrary before processOpts, so the Quarkus 3 enforcement applies there too.
+    @Test
+    public void quarkusLibraryFromAdditionalPropertiesEnablesUseJakartaEe() {
+        CodegenConfig config = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .addAdditionalProperty(CodegenConstants.LIBRARY, QUARKUS_LIBRARY)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .toClientOptInput()
+                .getConfig();
+        config.processOpts();
+        Assert.assertEquals(config.additionalProperties().get(USE_JAKARTA_EE), true);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*'quarkus' library.*useJakartaEe=true.*issues/25770")
+    public void quarkusLibraryFromAdditionalPropertiesRejectsUseJakartaEeFalse() {
+        CodegenConfig config = new CodegenConfigurator()
+                .setGeneratorName("jaxrs-spec")
+                .addAdditionalProperty(CodegenConstants.LIBRARY, QUARKUS_LIBRARY)
+                .addAdditionalProperty(USE_JAKARTA_EE, false)
+                .setInputSpec("src/test/resources/3_0/ping.yaml")
+                .toClientOptInput()
+                .getConfig();
+        config.processOpts();
     }
 
     /**
@@ -2616,11 +2681,11 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     /**
-     * The javax path is pinned to Quarkus 1.13.7, which predates Quarkus REST, so it keeps
-     * RESTEasy Classic and its {@code InputStream} binding.
+     * The quarkus library only generates the Jakarta (Quarkus 3) project: without useJakartaEe it
+     * is enabled automatically, so the generated sources, pom and file bindings are the Jakarta ones.
      */
     @Test
-    public void testQuarkusJavaxKeepsResteasyClassicFileBinding() throws IOException {
+    public void testQuarkusDefaultsToJakarta() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -2636,14 +2701,11 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         validateJavaSourceFiles(files);
 
         Path api = Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartSingleApi.java");
-        assertFileContains(api, "@FormParam(value = \"file\") InputStream _fileInputStream");
-        assertFileNotContains(api, "import org.jboss.resteasy.reactive.multipart.FileUpload;");
-        // An array stays scalar here on purpose. @FormParam is a string-based annotation: injecting
-        // List<T> requires T to be constructible from a String, so List<InputStream> is rejected at
-        // deployment with RESTEASY003875. RESTEasy Classic has no portable multi-file binding.
-        assertFileNotContains(Paths.get(outputPath + "/src/gen/java/org/openapitools/api/MultipartArrayApi.java"),
-                "List<InputStream>");
-        assertFileContains(Paths.get(outputPath + "/pom.xml"), "<artifactId>quarkus-resteasy</artifactId>");
+        assertFileContains(api, "import jakarta.ws.rs.*;", "@RestForm(value = \"file\") FileUpload _file");
+        assertFileNotContains(api, "javax.");
+        Path pom = Paths.get(outputPath + "/pom.xml");
+        assertFileContains(pom, "<artifactId>quarkus-rest</artifactId>", "<artifactId>jakarta.ws.rs-api</artifactId>");
+        assertFileNotContains(pom, "quarkus-resteasy</artifactId>", "javax.ws.rs-api", "1.13.7.Final");
     }
 
     /**
