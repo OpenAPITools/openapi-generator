@@ -29,7 +29,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install
         working-directory: ${{ matrix.sample }}
-        run: npm install
+        # --ignore-scripts: this sample only needs n8n-workflow's type declarations for
+        # `tsc`, never its runtime code, so there's no reason to run any dependency's native
+        # build step (e.g. n8n-workflow's own isolated-vm, used only by n8n's own expression
+        # sandboxing at workflow-execution time) - skipping them avoids a real, reproducible
+        # native-compile failure against Node 20.x's V8 ABI that has nothing to do with
+        # whether this sample's own TypeScript is correct.
+        run: npm install --ignore-scripts
       - name: npm run build
         working-directory: ${{ matrix.sample }}
         run: npm run build
