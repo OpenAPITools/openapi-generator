@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: Array alias models
+  version: 1.0.0
+paths:
+  /cars:
+    get:
+      operationId: getCars
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarList'
+components:
+  schemas:
+    Car:
+      type: object
+      properties:
+        builtAt:
+          type: string
+          format: date-time
+    CarList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Car'
+    Names:
+      type: array
+      items:
+        type: string
