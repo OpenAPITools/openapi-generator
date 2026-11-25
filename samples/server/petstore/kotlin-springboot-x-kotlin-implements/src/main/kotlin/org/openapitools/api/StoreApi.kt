@@ -6,6 +6,8 @@
 package org.openapitools.api
 
 import org.openapitools.model.Order
+import org.openapitools.model.GetOrderByIdResponse
+import org.openapitools.model.PlaceOrderResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -98,7 +100,7 @@ interface StoreApi {
     fun getOrderById(
         @Min(value=1) @Max(value=5) @ApiParam(value = "", required = true) @PathVariable("orderId") orderId: kotlin.Int,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<Order>
+    ): ResponseEntity<GetOrderByIdResponse>
 
 
     @ApiOperation(
@@ -120,7 +122,7 @@ interface StoreApi {
     fun placeOrder(
         @ApiParam(value = "", required = true) @Valid @RequestBody order: Order,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<Order>
+    ): ResponseEntity<PlaceOrderResponse>
 
     companion object {
         //for your own safety never directly reuse these path definitions in tests

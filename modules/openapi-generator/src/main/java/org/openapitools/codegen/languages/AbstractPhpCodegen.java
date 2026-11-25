@@ -599,6 +599,14 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
         name = toGenericName(name);
 
+        // camelize drops leading underscores (e.g. _3d_position => 3dPosition), which would leave a name
+        // starting with a number, so add the prefix here as toGenericName does for names starting with a number
+        if (StringUtils.isEmpty(modelNamePrefix) && name.matches("^_+\\d.*")) {
+            LOGGER.warn("{} (model name starts with number) cannot be used as model name. Renamed to {}", name,
+                    camelize("model_" + name));
+            name = "model_" + name.replaceFirst("^_+", ""); // e.g. _200Response => Model200Response (after camelize)
+        }
+
         // add prefix and/or suffix only if name does not start with \ (e.g. \DateTime)
         if (!name.matches("^\\\\.*")) {
             if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -613,6 +621,17 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // camelize the model name
         // phone_number => PhoneNumber
         String camelizedName = camelize(name);
+
+        // camelize drops every underscore, including the one the inline-model
+        // resolver puts in front of a digit-leading name ("_3d_position" ->
+        // "3dPosition"), which is not a valid PHP class name. Restore that guard
+        // rather than adding a "Model" prefix: toGenericName already maps
+        // "3d_position" to Model3dPosition, so a prefix would give two schemas
+        // the same class name.
+        if (camelizedName.matches("^\\d.*")) {
+            camelizedName = "_" + camelizedName;
+        }
+
         schemaKeyToModelNameCache.put(origName, camelizedName);
         return camelizedName;
     }

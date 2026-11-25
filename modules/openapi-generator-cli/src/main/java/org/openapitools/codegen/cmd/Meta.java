@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.cmd;
 
-import ch.lambdaj.function.convert.Converter;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -40,8 +39,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
-import static ch.lambdaj.collection.LambdaCollections.with;
 import static com.google.common.base.Joiner.on;
 
 /**
@@ -125,19 +124,19 @@ public class Meta extends OpenApiGeneratorCommand {
                         .put("openapiGeneratorVersion", currentVersion).build();
 
 
-        with(supportingFiles).convert(processFiles(targetDir, data));
+        supportingFiles.forEach(processFiles(targetDir, data));
     }
 
     /**
-     * Converter method to process supporting files: execute with mustache, or simply copy to
-     * destination directory
+     * Action that processes one supporting file: execute it with mustache, or simply copy it to
+     * the destination directory
      *
      * @param targetDir - destination directory
      * @param data      - map with additional params needed to process templates
-     * @return converter object to pass to lambdaj
+     * @return action that writes one supporting file
      */
-    private static Converter<SupportingFile, File> processFiles(final File targetDir,
-                                                                final Map<String, Object> data) {
+    private static Consumer<SupportingFile> processFiles(final File targetDir,
+                                                         final Map<String, Object> data) {
         return support -> {
             try {
                 File destinationFolder =
@@ -166,8 +165,6 @@ public class Meta extends OpenApiGeneratorCommand {
                 }
 
                 FileUtils.writeStringToFile(outputFile, formatted, StandardCharsets.UTF_8);
-                return outputFile;
-
             } catch (IOException e) {
                 throw new RuntimeException("Can't generate project", e);
             }

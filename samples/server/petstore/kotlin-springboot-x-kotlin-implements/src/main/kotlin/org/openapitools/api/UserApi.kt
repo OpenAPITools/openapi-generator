@@ -6,6 +6,7 @@
 package org.openapitools.api
 
 import org.openapitools.model.User
+import org.openapitools.model.GetUserByNameResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiParam
@@ -138,7 +139,7 @@ interface UserApi {
     fun getUserByName(
         @ApiParam(value = "", required = true) @PathVariable("username") username: kotlin.String,
         @ApiParam(hidden = true) request: javax.servlet.http.HttpServletRequest
-    ): ResponseEntity<User>
+    ): ResponseEntity<GetUserByNameResponse>
 
 
     @ApiOperation(

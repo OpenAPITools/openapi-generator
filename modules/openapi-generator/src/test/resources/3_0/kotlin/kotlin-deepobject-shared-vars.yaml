@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: kotlin deepObject vars repro
+  version: 1.0.0
+paths:
+  /search:
+    get:
+      operationId: search
+      parameters:
+        - name: filter-a
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Filter'
+        - name: filter-b
+          in: query
+          style: deepObject
+          explode: true
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    Filter:
+      type: object
+      properties:
+        status:
+          type: string

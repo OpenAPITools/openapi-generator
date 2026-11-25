@@ -14,6 +14,7 @@ docs/Api/UserApi.md
 docs/Model/AdditionalPropertiesClass.md
 docs/Model/AllOfWithSingleRef.md
 docs/Model/Animal.md
+docs/Model/Another3dPosition.md
 docs/Model/ApiResponse.md
 docs/Model/Apple.md
 docs/Model/ArrayOfArrayOfNumberOnly.md
@@ -46,11 +47,14 @@ docs/Model/FormatTest.md
 docs/Model/Fruit.md
 docs/Model/HasOnlyReadOnly.md
 docs/Model/HealthCheckResult.md
+docs/Model/Holder.md
 docs/Model/Lizard.md
 docs/Model/Mammal.md
 docs/Model/MapTest.md
 docs/Model/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model/Model200Response.md
+docs/Model/Model3dPosition.md
+docs/Model/Model3dPositionPosition.md
 docs/Model/ModelList.md
 docs/Model/ModelReturn.md
 docs/Model/Name.md
@@ -74,6 +78,7 @@ docs/Model/Snake.md
 docs/Model/SpecialModelName.md
 docs/Model/Tag.md
 docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md
+docs/Model/Underscore3dPosition.md
 docs/Model/User.md
 docs/Model/Whale.md
 docs/Model/Zebra.md
@@ -94,6 +99,7 @@ src/HeaderSelector.php
 src/Model/AdditionalPropertiesClass.php
 src/Model/AllOfWithSingleRef.php
 src/Model/Animal.php
+src/Model/Another3dPosition.php
 src/Model/AnyOfInterface.php
 src/Model/ApiResponse.php
 src/Model/Apple.php
@@ -127,11 +133,14 @@ src/Model/FormatTest.php
 src/Model/Fruit.php
 src/Model/HasOnlyReadOnly.php
 src/Model/HealthCheckResult.php
+src/Model/Holder.php
 src/Model/Lizard.php
 src/Model/Mammal.php
 src/Model/MapTest.php
 src/Model/MixedPropertiesAndAdditionalPropertiesClass.php
 src/Model/Model200Response.php
+src/Model/Model3dPosition.php
+src/Model/Model3dPositionPosition.php
 src/Model/ModelInterface.php
 src/Model/ModelList.php
 src/Model/ModelReturn.php
@@ -157,6 +166,7 @@ src/Model/Snake.php
 src/Model/SpecialModelName.php
 src/Model/Tag.php
 src/Model/TestInlineFreeformAdditionalPropertiesRequest.php
+src/Model/Underscore3dPosition.php
 src/Model/User.php
 src/Model/Whale.php
 src/Model/Zebra.php

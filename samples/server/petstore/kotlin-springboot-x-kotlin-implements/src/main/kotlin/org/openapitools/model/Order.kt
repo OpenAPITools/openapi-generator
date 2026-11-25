@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.Nulls
+import org.openapitools.model.PlaceOrderResponse
+import org.openapitools.model.GetOrderByIdResponse
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -64,7 +66,7 @@ data class Order(
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("complete")
     @get:JsonProperty("complete") val complete: kotlin.Boolean? = false
-) : com.some.pack.BoundedRepo<kotlin.Long>, com.some.pack.TwoBounds<kotlin.Int>, com.some.pack.VariantSource<kotlin.collections.List<Tag>>, java.io.Serializable {
+) : com.some.pack.BoundedRepo<kotlin.Long>, com.some.pack.TwoBounds<kotlin.Int>, com.some.pack.VariantSource<kotlin.collections.List<Tag>>, java.io.Serializable, PlaceOrderResponse, GetOrderByIdResponse {
 
     /**
     * 

@@ -4,7 +4,12 @@
 {{/required}}
 {{^required}}
 if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet)
+{{#isNullable}}
     {{#lambda.indent1}}
     {{>WritePropertyHelper}}{{! prevent indent}}
     {{/lambda.indent1}}
+{{/isNullable}}
+{{^isNullable}}
+{{>WriteGuardedPropertyValue}}
+{{/isNullable}}
 {{/required}}

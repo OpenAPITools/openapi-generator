@@ -5,6 +5,7 @@
 */
 package org.openapitools.api
 
+import org.openapitools.model.Color
 import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -164,6 +165,29 @@ interface PetApi {
         @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
     ): ResponseEntity<Pet> {
         return getDelegate().getPetById(petId, exchange)
+    }
+
+
+    @ApiOperation(
+        value = "Returns the color of a pet",
+        nickname = "getPetColor",
+        notes = "",
+        response = Color::class
+    )
+    @ApiResponses(
+        value = [ApiResponse(code = 200, message = "successful operation", response = Color::class), ApiResponse(code = 404, message = "Pet not found")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        // "/pet/{petId}/color"
+        value = [PATH_GET_PET_COLOR],
+        produces = ["application/json"]
+    )
+    suspend fun getPetColor(
+        @ApiParam(value = "ID of pet", required = true) @PathVariable("petId") petId: kotlin.Long,
+        @ApiParam(hidden = true) exchange: org.springframework.web.server.ServerWebExchange
+    ): ResponseEntity<Color> {
+        return getDelegate().getPetColor(petId, exchange)
     }
 
 
@@ -481,6 +505,7 @@ interface PetApi {
         const val PATH_FIND_PETS_BY_STATUS: String = "/pet/findByStatus"
         const val PATH_FIND_PETS_BY_TAGS: String = "/pet/findByTags"
         const val PATH_GET_PET_BY_ID: String = "/pet/{petId}"
+        const val PATH_GET_PET_COLOR: String = "/pet/{petId}/color"
         const val PATH_LIST_ALL_PETS_PAGINATED: String = "/pet/paginated/all"
         const val PATH_LIST_PETS_BY_ID_PAGINATED: String = "/pet/paginated/pathOnly"
         const val PATH_LIST_PETS_BY_OWNER_PAGINATED: String = "/pet/paginated/{ownerId}"

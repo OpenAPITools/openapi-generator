@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import org.openapitools.model.Color
 import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -55,6 +56,13 @@ interface PetApiDelegate {
      */
     suspend fun getPetById(petId: kotlin.Long,
         exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>
+
+
+    /**
+     * @see PetApi#getPetColor
+     */
+    suspend fun getPetColor(petId: kotlin.Long,
+        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Color>
 
 
     /**

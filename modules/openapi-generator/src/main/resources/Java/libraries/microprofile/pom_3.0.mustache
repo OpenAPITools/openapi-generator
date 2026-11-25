@@ -132,17 +132,17 @@
     {{#jackson}}
     <!-- JSON processing: jackson -->
     <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
+        <groupId>{{jacksonPackage}}.core</groupId>
         <artifactId>jackson-core</artifactId>
         <version>${jackson.version}</version>
     </dependency>
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-annotations</artifactId>
-        <version>${jackson.version}</version>
+        <version>{{#useJackson3}}${jackson-annotations.version}{{/useJackson3}}{{^useJackson3}}${jackson.version}{{/useJackson3}}</version>
     </dependency>
     <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
+        <groupId>{{jacksonPackage}}.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>${jackson.version}</version>
     </dependency>
@@ -154,7 +154,7 @@
         <version>${jakarta.xml.bind.version}</version>
     </dependency>
     <dependency>
-        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <groupId>{{jacksonPackage}}.dataformat</groupId>
         <artifactId>jackson-dataformat-xml</artifactId>
         <version>${jackson.version}</version>
     </dependency>
@@ -165,11 +165,13 @@
         <artifactId>jakarta.activation-api</artifactId>
         <version>${jakarta.activation.version}</version>
     </dependency>
+{{^useJackson3}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
         <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson.jaxrs.version}</version>
     </dependency>
+{{/useJackson3}}
 {{#useBeanValidationFeature}}
     <dependency>
         <groupId>org.hibernate.validator</groupId>
@@ -231,7 +233,14 @@
     <cxf.version>3.2.7</cxf.version>
     <jackson.jaxrs.version>2.18.11</jackson.jaxrs.version>
 {{#jackson}}
+{{#useJackson3}}
+    <!-- Jackson 3 ships java.time support in jackson-databind; jackson-annotations keeps its own 2.x line -->
+    <jackson.version>3.1.6</jackson.version>
+    <jackson-annotations.version>2.21</jackson-annotations.version>
+{{/useJackson3}}
+{{^useJackson3}}
     <jackson.version>2.18.11</jackson.version>
+{{/useJackson3}}
 {{/jackson}}
     <jakarta.activation.version>2.1.0</jakarta.activation.version>
     <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
