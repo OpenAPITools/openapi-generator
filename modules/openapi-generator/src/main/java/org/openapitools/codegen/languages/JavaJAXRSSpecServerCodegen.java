@@ -633,7 +633,8 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
                 if (target == null) {
                     continue;
                 }
-                if (mappedModel.isExplicitMapping()) {
+                if (mappedModel.isExplicitMapping()
+                        || mappedModel.getMappingName().equals(target.getVendorExtensions().get(CodegenConstants.X_DISCRIMINATOR_VALUE))) {
                     throw new IllegalArgumentException(String.format(Locale.ROOT,
                             "The discriminator value '%s' of property '%s' in model '%s' maps to model '%s', which is marked '%s'. "
                                     + "An abstract class cannot be instantiated: map each discriminator value directly to a concrete "
@@ -759,8 +760,9 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
 
     /**
      * An abstract model without generated subclasses could only be extended by hand-written code. Under
-     * {@code useSealed} that subclass would have to be {@code non-sealed}, which reopens the sealed hierarchy, so such a
-     * model is rejected there.
+     * {@code useSealed}, if the model is a permitted subtype of a sealed type, that subclass would have to be
+     * {@code non-sealed}, which reopens the sealed hierarchy, so such a model is rejected there; any other abstract model
+     * without generated subclasses only logs a warning.
      */
     private void validateAbstractModelsHaveSubclasses(List<CodegenModel> allModels, List<CodegenModel> abstractModels) {
         if (abstractModels.isEmpty()) {
