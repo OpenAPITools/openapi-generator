@@ -23,6 +23,11 @@ title: Global Properties
 | modelTests                                        | Allows the user to define if model tests will be generated. Prefer using the more robust `.openapi-generator-ignore`.         | `true` or `false`                                    |
 | splitOperationsByContentType                      | Generates one operation per request/response content-type when an operation exposes several with different schemas            | `true` or `false`                                    |
 
+Note that `supportingFiles`, `models` and `apis` take an allow-list: when one of them is set, only the
+names it lists are generated. For `supportingFiles` this also means that supporting files added by a
+newer version of a generator are not generated unless the list mentions them, which can break the
+generated code — see [Selective generation](./customization.md#selective-generation).
+
 
 ## Note on splitOperationsByContentType
 
