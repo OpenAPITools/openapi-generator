@@ -1,7 +1,7 @@
 ####
 # This Dockerfile is used in order to build a container that runs the Quarkus application in JVM mode
 #
-# Before building the docker image run:
+# Before building the container image run:
 #
 # mvn package
 #
@@ -14,21 +14,19 @@
 # docker run -i --rm -p 8080:8080 quarkus/jaxrs-spec-petstore-server-jvm
 #
 ###
-FROM fabric8/java-alpine-openjdk8-jre:1.6.5
-ENV JAVA_OPTIONS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
-ENV AB_ENABLED=jmx_exporter
+FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.24
 
-# Be prepared for running in OpenShift too
-RUN adduser -G root --no-create-home --disabled-password 1001 \
-  && chown -R 1001 /deployments \
-  && chmod -R "g+rwX" /deployments \
-  && chown -R 1001:root /deployments
+ENV LANGUAGE='en_US:en'
 
-COPY target/lib/* /deployments/lib/
-COPY target/*-runner.jar /deployments/app.jar
+# We make four distinct layers so if there are application changes the library layers can be re-used
+COPY --chown=185 target/quarkus-app/lib/ /deployments/lib/
+COPY --chown=185 target/quarkus-app/*.jar /deployments/
+COPY --chown=185 target/quarkus-app/app/ /deployments/app/
+COPY --chown=185 target/quarkus-app/quarkus/ /deployments/quarkus/
+
 EXPOSE 8080
+USER 185
+ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
+ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
 
-# run with user 1001
-USER 1001
-
-ENTRYPOINT [ "/deployments/run-java.sh" ]
+ENTRYPOINT [ "/opt/jboss/container/java/run/run-java.sh" ]
