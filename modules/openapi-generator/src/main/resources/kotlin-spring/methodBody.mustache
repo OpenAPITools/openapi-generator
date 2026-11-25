@@ -11,13 +11,13 @@ getRequest().ifPresent { request ->
     {{#-last}}
             }
         }
-        return {{#useResponseEntity}}ResponseEntity({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{/useResponseEntity}}{{^useResponseEntity}}TODO("Not yet implemented"){{/useResponseEntity}}
+        return {{#useResponseEntity}}ResponseEntity{{#useGenericResponseEntity}}<Any>{{/useGenericResponseEntity}}({{#returnSuccessCode}}HttpStatus.valueOf({{{statusCode}}}){{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{/useResponseEntity}}{{^useResponseEntity}}TODO("Not yet implemented"){{/useResponseEntity}}
     {{/-last}}
 {{/examples}}
 {{^examples}}
-return {{#useResponseEntity}}ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{/useResponseEntity}}{{^useResponseEntity}}TODO("Not yet implemented"){{/useResponseEntity}}
+return {{#useResponseEntity}}ResponseEntity{{#useGenericResponseEntity}}<Any>{{/useGenericResponseEntity}}({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{/useResponseEntity}}{{^useResponseEntity}}TODO("Not yet implemented"){{/useResponseEntity}}
 {{/examples}}
 {{/reactive}}
 {{#reactive}}
-return {{#useResponseEntity}}ResponseEntity({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{/useResponseEntity}}{{^useResponseEntity}}TODO("Not yet implemented"){{/useResponseEntity}}
+return {{#useResponseEntity}}ResponseEntity{{#useGenericResponseEntity}}<Any>{{/useGenericResponseEntity}}({{#returnSuccessCode}}HttpStatus.OK{{/returnSuccessCode}}{{^returnSuccessCode}}HttpStatus.NOT_IMPLEMENTED{{/returnSuccessCode}}){{/useResponseEntity}}{{^useResponseEntity}}TODO("Not yet implemented"){{/useResponseEntity}}
 {{/reactive}}

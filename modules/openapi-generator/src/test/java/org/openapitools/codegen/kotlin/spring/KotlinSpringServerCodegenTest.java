@@ -3282,6 +3282,174 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @DataProvider
+    public Object[][] nonGenericResponseEntityValues() {
+        return new Object[][] {{null}, {false}, {"false"}};
+    }
+
+    @Test(dataProvider = "nonGenericResponseEntityValues")
+    public void genericResponseEntityKeepsTypedResponses(Object enabled) throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        if (enabled != null) {
+            additionalProperties.put(GENERATE_GENERIC_RESPONSE_ENTITY, enabled);
+        }
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/issue_24804.yaml", additionalProperties);
+
+        assertFileContains(files.get("OperationsApiController.kt").toPath(),
+                "fun startOperation(): ResponseEntity<Unit>");
+        assertFileContains(files.get("OperationsApiTest.kt").toPath(),
+                "val response: ResponseEntity<Unit> = api.startOperation()");
+    }
+
+    @Test
+    public void genericResponseEntityBooleanSurvivesRepeatedProcessing() {
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.additionalProperties().put(GENERATE_GENERIC_RESPONSE_ENTITY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, false);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(GENERATE_GENERIC_RESPONSE_ENTITY), true);
+        Assert.assertEquals(codegen.additionalProperties().get("useGenericResponseEntity"), false);
+
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, true);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get(GENERATE_GENERIC_RESPONSE_ENTITY), true);
+        Assert.assertEquals(codegen.additionalProperties().get("useGenericResponseEntity"), true);
+    }
+
+    @Test
+    public void genericResponseEntityForMultipleResponseShapes() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/issue_24804.yaml", additionalProperties);
+
+        assertFileContains(files.get("OperationsApiController.kt").toPath(),
+                "fun startOperation(): ResponseEntity<*>");
+        assertFileContains(files.get("OperationsApiTest.kt").toPath(),
+                "val response: ResponseEntity<*> = api.startOperation()");
+    }
+
+    @Test
+    public void genericResponseEntityForInterfaceAndDelegate() throws Exception {
+        Map<String, Object> interfaceProperties = new HashMap<>();
+        interfaceProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        interfaceProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        interfaceProperties.put(INTERFACE_ONLY, true);
+
+        Map<String, File> interfaceFiles = generateFromContract(
+                "src/test/resources/3_0/kotlin/issue_24804.yaml", interfaceProperties);
+        assertFileContains(interfaceFiles.get("OperationsApi.kt").toPath(),
+                "fun startOperation(): ResponseEntity<*>");
+
+        Map<String, Object> delegateProperties = new HashMap<>();
+        delegateProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        delegateProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        delegateProperties.put(DELEGATE_PATTERN, true);
+
+        Map<String, File> delegateFiles = generateFromContract(
+                "src/test/resources/3_0/kotlin/issue_24804.yaml", delegateProperties);
+        assertFileContains(delegateFiles.get("OperationsApi.kt").toPath(),
+                "fun startOperation(): ResponseEntity<*>");
+        assertFileContains(delegateFiles.get("OperationsApiDelegate.kt").toPath(),
+                "fun startOperation(): ResponseEntity<*>");
+    }
+
+    @Test
+    public void genericResponseEntityIsIgnoredWithoutResponseEntity() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/issue_24804.yaml", additionalProperties);
+
+        assertFileContains(files.get("OperationsApiController.kt").toPath(),
+                "fun startOperation(): Unit");
+        assertFileNotContains(files.get("OperationsApiController.kt").toPath(), "ResponseEntity<*>");
+    }
+
+    @Test
+    public void genericResponseEntityForDeclarativeHttpInterface() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.GENERATE_GENERIC_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_FLOW_FOR_ARRAY_RETURN_TYPE, false);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/issue_24804.yaml",
+                additionalProperties,
+                new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+
+        assertFileContains(files.get("OperationsApi.kt").toPath(),
+                "fun startOperation(",
+                "): ResponseEntity<*>");
+    }
+
+    @Test
+    public void sealedResponseInterfaceIsPreservedWithoutResponseEntity() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(INTERFACE_ONLY, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApi.kt").toPath(),
+                "): CreateUserResponse",
+                "): GetUserResponse");
+    }
+
+    @Test
+    public void sealedResponseInterfaceIsPreservedInDelegateWithoutResponseEntity() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, false);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(DELEGATE_PATTERN, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApiDelegate.kt").toPath(),
+                "): CreateUserResponse",
+                "): GetUserResponse");
+    }
+
+    @Test
+    public void sealedResponseInterfaceDoesNotChangeControllerServiceReturnType() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(SERVICE_INTERFACE, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApiController.kt").toPath(),
+                "): ResponseEntity<User>");
+        assertFileContains(files.get("UsersApiService.kt").toPath(),
+                "): User");
+    }
+
+    @Test
+    public void sealedResponseInterfaceIsPreservedInDelegate() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(KotlinSpringServerCodegen.USE_RESPONSE_ENTITY, true);
+        additionalProperties.put(KotlinSpringServerCodegen.USE_SEALED_RESPONSE_INTERFACES, true);
+        additionalProperties.put(DELEGATE_PATTERN, true);
+
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/sealed-response-interfaces.yaml", additionalProperties);
+
+        assertFileContains(files.get("UsersApiDelegate.kt").toPath(),
+                "): ResponseEntity<CreateUserResponse>",
+                "): ResponseEntity<GetUserResponse>");
+    }
+
     /**
      * Regression test for https://github.com/OpenAPITools/openapi-generator/issues/17445.
      * OpenAPI 'default' responses must emit responseCode = "default" in @ApiResponse (swagger2),
@@ -8237,6 +8405,83 @@ public class KotlinSpringServerCodegenTest {
                 .contains("@Size(min=2,max=12)");
     }
 
+    @Test(description = "Special string formats do not get unsupported Bean Validation annotations")
+    public void specialStringFormatsDoNotGetUnsupportedPatternOrSizeConstraints() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/kotlin/special-string-format-validation.yaml",
+                new HashMap<>(Map.of(USE_BEANVALIDATION, true))
+        );
+
+        File modelFile = files.get("FormattedPayload.kt");
+        assertThat(modelFile).isNotNull();
+        String model = Files.readString(modelFile.toPath());
+
+        assertThat(model).contains("dateMinLength: java.time.LocalDate?");
+        assertThat(getKotlinPropertyAnnotations(model, "dateMinLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "dateMaxLength")).doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "dateMinMaxLength")).doesNotContain("@get:Size");
+        assertThat(model).contains("dateTimePattern: java.time.OffsetDateTime?");
+        assertThat(getKotlinPropertyAnnotations(model, "dateTimePattern"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(model).contains("uuidPatternAndLength: java.util.UUID?");
+        assertThat(getKotlinPropertyAnnotations(model, "uuidPatternAndLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(model).contains("bytePatternAndLength: kotlin.ByteArray?");
+        assertThat(getKotlinPropertyAnnotations(model, "bytePatternAndLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(model).contains("binaryMinLength: org.springframework.core.io.Resource?");
+        assertThat(getKotlinPropertyAnnotations(model, "binaryMinLength"))
+                .doesNotContain("@get:Pattern")
+                .doesNotContain("@get:Size");
+        assertThat(getKotlinPropertyAnnotations(model, "plainString"))
+                .contains("@get:Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@get:Size(min=1)");
+
+        assertThat(model).contains("val dateItems: kotlin.collections.List<java.time.LocalDate>?");
+        assertThat(getKotlinPropertyAnnotations(model, "dateItems"))
+                .contains("@get:Size(min=1,max=3)")
+                .doesNotContain("@get:Pattern");
+        assertThat(model).contains("val dateTimeItems: kotlin.collections.List<java.time.OffsetDateTime>?");
+        assertThat(model).contains("val uuidItems: kotlin.collections.List<java.util.UUID>?");
+        assertThat(model).contains("val plainStringItems: kotlin.collections.List<@Size(min=2) kotlin.String>?");
+
+        File apiFile = files.get("FormattedPayloadApiController.kt");
+        assertThat(apiFile).isNotNull();
+        String api = Files.readString(apiFile.toPath());
+
+        assertThat(api).contains("dateParam: java.time.LocalDate?");
+        assertThat(getKotlinParameterAnnotations(api, "dateParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(api).contains("dateTimeParam: java.time.OffsetDateTime?");
+        assertThat(getKotlinParameterAnnotations(api, "dateTimeParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(api).contains("uuidParam: java.util.UUID?");
+        assertThat(getKotlinParameterAnnotations(api, "uuidParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(api).contains("byteParam: kotlin.ByteArray?");
+        assertThat(getKotlinParameterAnnotations(api, "byteParam"))
+                .doesNotContain("@Pattern")
+                .doesNotContain("@Size");
+        assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))
+                .contains("@Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@Size(min=1)");
+        assertThat(api).contains("dateArrayParam: kotlin.collections.List<java.time.LocalDate>?");
+        assertThat(getKotlinParameterAnnotations(api, "dateArrayParam"))
+                .contains("@Size(min=1,max=3)");
+        assertThat(api).contains("plainStringArrayParam: kotlin.collections.List<@Size(min=2) kotlin.String>?");
+        assertThat(api).contains("uuidArrayParam: kotlin.collections.List<java.util.UUID>?");
+        assertThat(getKotlinParameterAnnotations(api, "uuidArrayParam"))
+                .contains("@Size(min=1,max=3)");
+    }
+
     private String getKotlinPropertyAnnotations(String model, String propertyName) {
         String declaration = "val " + propertyName + ":";
         int declarationIndex = model.indexOf(declaration);
@@ -8259,6 +8504,11 @@ public class KotlinSpringServerCodegenTest {
         assertThat(declarationIndex).as("parameter declaration for %s", parameterName).isGreaterThanOrEqualTo(0);
 
         int lineStart = api.lastIndexOf('\n', declarationIndex) + 1;
+        int previousLineStart = api.lastIndexOf('\n', lineStart - 2) + 1;
+        String previousLine = api.substring(previousLineStart, lineStart).trim();
+        if (previousLine.startsWith("@") && !previousLine.contains("@Parameter")) {
+            lineStart = previousLineStart;
+        }
         return api.substring(lineStart, declarationIndex);
     }
 

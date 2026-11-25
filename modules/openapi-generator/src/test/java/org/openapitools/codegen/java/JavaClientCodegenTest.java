@@ -1066,6 +1066,17 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testGenerateJsonCreatorIsIgnoredOutsideNativeLibrary() {
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary(JavaClientCodegen.OKHTTP_GSON);
+        codegen.additionalProperties().put(JavaClientCodegen.GENERATE_JSON_CREATOR, true);
+        codegen.processOpts();
+
+        assertThat(codegen.isGenerateJsonCreator()).isFalse();
+        assertThat(codegen.additionalProperties()).containsEntry(JavaClientCodegen.GENERATE_JSON_CREATOR, false);
+    }
+
+    @Test
     public void testJdkHttpAsyncClient() {
         final Path output = newTempFolder();
         final CodegenConfigurator configurator = new CodegenConfigurator()
@@ -1215,6 +1226,150 @@ public class JavaClientCodegenTest {
                 .contains("<rest-assured.version>6.0.1</rest-assured.version>")
                 .contains("<groupId>com.fasterxml.jackson.core</groupId>")
                 .doesNotContain("jackson-datatype-jsr310");
+    }
+
+    @Test
+    public void testMicroprofileWithJackson3() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .addAdditionalProperty(CodegenConstants.API_PACKAGE, "xyz.abcdef.api")
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .setInputSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        // jackson-annotations keeps the com.fasterxml.jackson.annotation package in Jackson 3; everything else moved
+        for (File file : files) {
+            if (file.getName().endsWith(".java")) {
+                assertThat(file).content()
+                        .doesNotContain("com.fasterxml.jackson.core")
+                        .doesNotContain("com.fasterxml.jackson.databind")
+                        .doesNotContain("com.fasterxml.jackson.datatype");
+            }
+        }
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/RFC3339InstantDeserializer.java")).content()
+                .contains("import tools.jackson.databind.ext.javatime.deser.InstantDeserializer;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/RFC3339JavaTimeModule.java")).content()
+                .contains("import tools.jackson.databind.module.SimpleModule;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/RFC3339DateFormat.java")).content()
+                .contains("import tools.jackson.databind.util.StdDateFormat;");
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Pet.java")).content()
+                .contains("import com.fasterxml.jackson.annotation.JsonProperty;");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson.core</groupId>")
+                .contains("<jackson.version>3.1.6</jackson.version>")
+                .contains("<version>${jackson-annotations.version}</version>")
+                .contains("<java.version>17</java.version>")
+                .doesNotContain("jackson-datatype-jsr310");
+    }
+
+    @Test
+    public void testMicroprofileWithJackson3UsesJackson3JsonDeserializeForSets() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .setInputSpec("src/test/resources/3_0/issue_9848.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/UniqueArray.java")).content()
+                .contains("import tools.jackson.databind.annotation.JsonDeserialize;")
+                .contains("@JsonDeserialize(as = LinkedHashSet.class)")
+                .doesNotContain("com.fasterxml.jackson.databind");
+    }
+
+    @Test
+    public void testMicroprofileWithJackson3AndXml() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, "xyz.abcdef.model")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(CodegenConstants.WITH_XML, true)
+                .addAdditionalProperty(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        validateJavaSourceFiles(files);
+        assertThat(output.resolve("src/main/java/xyz/abcdef/model/Pet.java")).content()
+                .contains("import tools.jackson.dataformat.xml.annotation.*;")
+                .doesNotContain("com.fasterxml.jackson.dataformat");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<groupId>tools.jackson.dataformat</groupId>");
+    }
+
+    @Test
+    public void testMicroprofileWithJackson2IsUnchanged() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, "xyz.abcdef.invoker")
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+
+        assertThat(output.resolve("src/main/java/xyz/abcdef/invoker/RFC3339InstantDeserializer.java")).content()
+                .contains("import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;")
+                .doesNotContain("tools.jackson");
+        assertThat(output.resolve("pom.xml")).content()
+                .contains("<jackson.version>2.18.11</jackson.version>")
+                .contains("jackson-datatype-jsr310")
+                .doesNotContain("tools.jackson");
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "useJackson3 for the microprofile library requires microprofileRestClientVersion=3.0")
+    public void testMicroprofileWithJackson3RejectsJavaxRestClient() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jackson")
+                .addAdditionalProperty(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "2.0")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class,
+            expectedExceptionsMessageRegExp = "useJackson3 for the microprofile library requires serializationLibrary=jackson")
+    public void testMicroprofileWithJackson3RejectsJsonb() {
+        final Path output = newTempFolder();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(JAVA_GENERATOR)
+                .setLibrary(JavaClientCodegen.MICROPROFILE)
+                .addAdditionalProperty(CodegenConstants.SERIALIZATION_LIBRARY, "jsonb")
+                .addAdditionalProperty(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0")
+                .addAdditionalProperty(JavaClientCodegen.USE_JACKSON_3, true)
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(output.toString().replace("\\", "/"));
+
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
     }
 
     @Test(dataProvider = "springBoot4Jackson3Libraries")

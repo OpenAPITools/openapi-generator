@@ -305,11 +305,6 @@
         </dependency>
         <!-- Note: for useJackson3, jackson-datatype-jsr310 is included in jackson-databind -->
         <dependency>
-            <groupId>org.tomitribe</groupId>
-            <artifactId>tomitribe-http-signatures</artifactId>
-            <version>${http-signature-version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
             <version>${scribejava-apis-version}</version>
@@ -356,7 +351,6 @@
         <jakarta-annotation-version>3.0.0</jakarta-annotation-version>
         <beanvalidation-version>3.1.1</beanvalidation-version>
         <junit-version>5.10.0</junit-version>
-        <http-signature-version>1.8</http-signature-version>
         <scribejava-apis-version>8.3.3</scribejava-apis-version>
         <commons-lang3-version>3.17.0</commons-lang3-version>
         <spotless.version>2.21.0</spotless.version>
