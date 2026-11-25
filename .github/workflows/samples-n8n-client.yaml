@@ -1,0 +1,35 @@
+name: Samples n8n client
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/n8n/**
+      - .github/workflows/samples-n8n-client.yaml
+  pull_request:
+    paths:
+      - samples/client/petstore/n8n/**
+      - .github/workflows/samples-n8n-client.yaml
+jobs:
+  build:
+    name: Build projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - "20.x"
+          - "22.x"
+        sample:
+          - samples/client/petstore/n8n
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install
+        working-directory: ${{ matrix.sample }}
+        run: npm install
+      - name: npm run build
+        working-directory: ${{ matrix.sample }}
+        run: npm run build
