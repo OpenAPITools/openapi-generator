@@ -21,7 +21,7 @@ import org.springframework.lang.Nullable;
  * A plain list wrapper — has content array but no pagination metadata property
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class UserList implements Serializable {
 
   private static final long serialVersionUID = 1L;

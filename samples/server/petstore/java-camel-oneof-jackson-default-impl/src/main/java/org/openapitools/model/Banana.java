@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.*;
  * Banana
  */
 
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class Banana implements Fruit {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

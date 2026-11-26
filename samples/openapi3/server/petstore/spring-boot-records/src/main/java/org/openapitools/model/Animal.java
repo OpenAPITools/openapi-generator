@@ -29,7 +29,7 @@ import org.springframework.lang.Nullable;
   @JsonSubTypes.Type(value = Dog.class, name = "dog")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public sealed interface Animal permits Cat, Dog {
     public String getAnimalType();
 }

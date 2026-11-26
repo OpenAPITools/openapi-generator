@@ -30,7 +30,7 @@ import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName = "Foo")
 @XmlRootElement(name = "Foo")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class Foo {
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

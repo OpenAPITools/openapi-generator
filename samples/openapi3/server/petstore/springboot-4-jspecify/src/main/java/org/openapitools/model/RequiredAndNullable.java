@@ -27,7 +27,7 @@ import tools.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 @JacksonXmlRootElement(localName = "RequiredAndNullable")
 @XmlRootElement(name = "RequiredAndNullable")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class RequiredAndNullable {
 
   @JsonInclude(JsonInclude.Include.ALWAYS)

@@ -31,7 +31,7 @@ import org.springframework.lang.Nullable;
   @JsonSubTypes.Type(value = DogDto.class, name = "DOG")
 })
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class AnimalDto implements com.custompackage.InterfaceToKeep, com.custompackage.WithColor {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
