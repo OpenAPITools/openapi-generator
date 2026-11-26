@@ -200,6 +200,28 @@ public class TypeScriptAxiosClientCodegenTest {
         TestUtils.assertFileContains(api, "search: async (contentType?: ContentType | null");
     }
 
+    @Test(description = "Explode query params that are not objects at runtime are sent as a single value")
+    public void testExplodeQueryParamWithOneOfPrimitives() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_explode_oneof_primitives_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/typescript-axios/explode-query-param-oneof-primitives.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path api = Paths.get(output + "/api.ts");
+        TestUtils.assertFileContains(api,
+                "if (typeof cursor === 'object' && cursor !== null && !Array.isArray(cursor)) {",
+                "localVarQueryParameter['cursor'] = cursor;");
+        TestUtils.assertFileContains(api,
+                "if (typeof filter === 'object' && filter !== null && !Array.isArray(filter)) {",
+                "for (const [key, value] of Object.entries(filter)) {");
+    }
+
     @Test(description = "Verify multipart file arrays use repeated form fields")
     public void testMultipartFileArrayUsesRepeatedFormFields() throws Exception {
         final File output = Files.createTempDirectory("typescript_axios_multipart_file_array_").toFile();

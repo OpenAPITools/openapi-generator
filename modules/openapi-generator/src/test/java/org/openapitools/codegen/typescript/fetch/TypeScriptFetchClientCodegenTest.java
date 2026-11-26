@@ -1587,6 +1587,25 @@ public class TypeScriptFetchClientCodegenTest {
                 "'mapOfArraysOfStrings': value['mapOfArraysOfStrings'],");
     }
 
+    @Test(description = "Verify array alias models convert their model items with generateAliasAsModel")
+    public void testArrayAliasModelConvertsItems() throws IOException {
+        try {
+            Map<String, Object> properties = new HashMap<>();
+            properties.put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+            File output = generate(properties, "src/test/resources/3_0/typescript-fetch/issue_17533.yaml");
+
+            Path carList = Paths.get(output + "/models/CarList.ts");
+            TestUtils.assertFileContains(carList,
+                    "return (json as Array<any>).map(CarFromJSON);",
+                    "return (value as Array<any>).map(CarToJSON);");
+            // primitive items are still returned as is
+            Path names = Paths.get(output + "/models/Names.ts");
+            TestUtils.assertFileNotContains(names, ".map(");
+        } finally {
+            ModelUtils.setGenerateAliasAsModel(false);
+        }
+    }
+
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";
 
     private static File generate(

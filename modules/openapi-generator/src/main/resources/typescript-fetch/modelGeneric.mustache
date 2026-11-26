@@ -145,7 +145,20 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     };
     {{/hasVars}}
     {{^hasVars}}
+    {{#isArray}}
+    {{#items.isModel}}
+    if (json == null) {
+        return json;
+    }
+    return (json as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON);
+    {{/items.isModel}}
+    {{^items.isModel}}
     return json;
+    {{/items.isModel}}
+    {{/isArray}}
+    {{^isArray}}
+    return json;
+    {{/isArray}}
     {{/hasVars}}
 }
 
@@ -230,6 +243,19 @@ export function {{classname}}ToJSONTyped(value?: {{#hasReadOnly}}Omit<{{classnam
     };
     {{/hasVars}}
     {{^hasVars}}
+    {{#isArray}}
+    {{#items.isModel}}
+    if (value == null) {
+        return value;
+    }
+    return (value as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON);
+    {{/items.isModel}}
+    {{^items.isModel}}
     return value;
+    {{/items.isModel}}
+    {{/isArray}}
+    {{^isArray}}
+    return value;
+    {{/isArray}}
     {{/hasVars}}
 }

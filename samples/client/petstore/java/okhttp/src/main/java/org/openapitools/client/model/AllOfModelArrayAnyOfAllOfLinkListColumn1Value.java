@@ -37,7 +37,7 @@ import java.util.HashSet;
 
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1Value extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(AllOfModelArrayAnyOfAllOfLinkListColumn1Value.class.getName());
 

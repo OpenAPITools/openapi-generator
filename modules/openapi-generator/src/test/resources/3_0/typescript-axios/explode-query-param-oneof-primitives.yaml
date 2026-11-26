@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: Explode query param with oneOf of primitives
+  version: 1.0.0
+paths:
+  /items:
+    get:
+      operationId: listItems
+      parameters:
+        - name: cursor
+          in: query
+          schema:
+            $ref: '#/components/schemas/Cursor'
+        - name: filter
+          in: query
+          schema:
+            $ref: '#/components/schemas/Filter'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Id:
+      type: integer
+      format: int32
+    CreatedAt:
+      type: string
+      format: date-time
+    Cursor:
+      oneOf:
+        - $ref: '#/components/schemas/Id'
+        - $ref: '#/components/schemas/CreatedAt'
+    Filter:
+      type: object
+      properties:
+        name:
+          type: string

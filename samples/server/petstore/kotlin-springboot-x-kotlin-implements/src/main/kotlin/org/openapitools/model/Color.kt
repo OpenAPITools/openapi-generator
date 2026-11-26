@@ -4,6 +4,7 @@ import java.util.Objects
 import com.fasterxml.jackson.annotation.JsonValue
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.openapitools.model.GetPetColorResponse
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -19,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty
  * 
  * Values: black,white,brown,yellow,violet
  */
-enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDefaultMethods, java.io.Serializable {
+enum class Color(@get:JsonValue val value: kotlin.String) : com.some.pack.WithDefaultMethods, java.io.Serializable, GetPetColorResponse {
 
     black("black"),
     white("white"),

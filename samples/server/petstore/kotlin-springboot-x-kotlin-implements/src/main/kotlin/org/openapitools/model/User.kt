@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonSetter
 import com.fasterxml.jackson.annotation.Nulls
+import org.openapitools.model.GetUserByNameResponse
 import javax.validation.constraints.DecimalMax
 import javax.validation.constraints.DecimalMin
 import javax.validation.constraints.Email
@@ -76,7 +77,7 @@ data class User(
     @field:JsonSetter(nulls = Nulls.SKIP)
     @param:JsonProperty("userStatus")
     @get:JsonProperty("userStatus") val userStatus: kotlin.Int? = null
-) : java.io.Serializable {
+) : java.io.Serializable, GetUserByNameResponse {
 
     companion object {
         private const val serialVersionUID: kotlin.Long = 1
