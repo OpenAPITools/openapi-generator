@@ -169,10 +169,15 @@ openapi-generator generate -g go \
 Or you can add these to your `JAVA_OPTS` environment variable (this applies to every invocation of the tool):
 
 ```bash
-export JAVA_OPTS="${JAVA_OPTS} --global-property debugModels,debugOperations"
+export JAVA_OPTS="${JAVA_OPTS} -Dlog.level=debug --global-property debugModels,debugOperations"
 ```
 
 > NOTE: Globally available system options like these will apply to all invocations of the generator (CLI and plugins)
+
+> NOTE: If you invoke the tool via Java, you will need to provide the options directly to the `java` and `openapi-generator generate` command-line instead, for example:
+```
+java -Dlog.level=debug -jar .../openapi-generator-cli.jar generate --global-property debugModels,debugOperations ...
+```
 
 ## Runtime
 
@@ -224,6 +229,11 @@ You can try to enable debugging log with `-Dlog.level=debug` option to the `JAVA
 
 ```bash
 export JAVA_OPTS="${JAVA_OPTS} -Dlog.level=debug"
+```
+
+> NOTE: If you invoke the tool via Java directly, you must provide the property directly to its command line, for example:
+```bash
+java -Dlog.level=debug -jar ...
 ```
 
 Set the option then DEBUG logs are printed out:
