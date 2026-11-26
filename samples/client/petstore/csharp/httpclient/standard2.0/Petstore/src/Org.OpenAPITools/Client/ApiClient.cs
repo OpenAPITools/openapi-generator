@@ -523,6 +523,8 @@ namespace Org.OpenAPITools.Client
 #else
                     // Refresh the callback on every request; the delegate installed below reads this field,
                     // so a later request (or a replaced Configuration) is not stuck with the first callback.
+                    // The HttpClientHandler is shared by all requests of this client, so the callback applies
+                    // client-wide and the most recent request's configuration wins.
                     _remoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback;
                     // Install the handler delegate only once. HttpClientHandler properties are frozen after the
                     // first request, so the callback must be configured before this client sends its first request
@@ -551,6 +553,15 @@ namespace Org.OpenAPITools.Client
                     }
 #endif
                 }
+#if !NET47
+                else
+                {
+                    // No callback configured for this request: clear any callback stored by an earlier request,
+                    // so an already installed delegate falls back to the default validation instead of reusing it.
+                    // This is a no-op for clients that never set Configuration.RemoteCertificateValidationCallback.
+                    _remoteCertificateValidationCallback = null;
+                }
+#endif
 
                 var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
 
