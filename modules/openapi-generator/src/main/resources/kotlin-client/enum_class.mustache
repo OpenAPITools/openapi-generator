@@ -54,7 +54,7 @@ import kotlinx.serialization.encoding.Encoder
 {{/description}}
  * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
  */
-{{#multiplatform}}@Serializable{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
+{{#multiplatform}}@Serializable{{#isString}}{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{/isString}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/multiplatform}}{{#kotlinx_serialization}}@Serializable{{#enumUnknownDefaultCase}}(with = {{classname}}Serializer::class){{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}{{^isString}}(with = {{classname}}Serializer::class){{/isString}}{{/enumUnknownDefaultCase}}{{/kotlinx_serialization}}
 {{^multiplatform}}
 {{#moshi}}
 @JsonClass(generateAdapter = false)
@@ -205,6 +205,25 @@ internal object {{classname}}Serializer : KSerializer<{{classname}}> {
 {{/isString}}{{/enumUnknownDefaultCase}}
 {{/kotlinx_serialization}}
 {{#multiplatform}}
+{{^kotlinx_serialization}}
+{{#enumUnknownDefaultCase}}
+{{#isString}}
+internal object {{classname}}Serializer : KSerializer<{{classname}}> {
+    override val descriptor = {{dataType}}.serializer().descriptor
+
+    override fun deserialize(decoder: Decoder): {{classname}} {
+        val value = decoder.decodeSerializableValue({{{dataType}}}.serializer())
+        return {{classname}}.entries.firstOrNull { it.value == value }
+            ?: {{classname}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+    }
+
+    override fun serialize(encoder: Encoder, value: {{classname}}) {
+        encoder.encodeSerializableValue({{{dataType}}}.serializer(), value.value)
+    }
+}
+{{/isString}}
+{{/enumUnknownDefaultCase}}
+{{/kotlinx_serialization}}
 {{^isString}}
 internal object {{classname}}Serializer : KSerializer<{{classname}}> {
     override val descriptor = {{dataType}}.serializer().descriptor

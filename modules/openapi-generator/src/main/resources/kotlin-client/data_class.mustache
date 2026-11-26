@@ -62,6 +62,11 @@ import kotlinx.parcelize.Parcelize
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
+{{#enumUnknownDefaultCase}}
+{{#hasEnums}}
+import kotlinx.serialization.builtins.serializer
+{{/hasEnums}}
+{{/enumUnknownDefaultCase}}
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 {{#discriminator}}
@@ -157,7 +162,7 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{/moshi}}
     {{/multiplatform}}
     {{#multiplatform}}
-    @Serializable
+    @Serializable{{#enumUnknownDefaultCase}}(with = {{{nameInPascalCase}}}Serializer::class){{/enumUnknownDefaultCase}}
     {{/multiplatform}}
     {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}enum class {{{nameInPascalCase}}}({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}{{#jackson}}@get:JsonValue {{/jackson}}val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}{{dataType}}{{/mostInnerItems}}{{/isContainer}}) {
     {{#allowableValues}}
@@ -232,6 +237,26 @@ import {{packageName}}.infrastructure.ITransformForStorage
     {{/enumUnknownDefaultCase}}
     {{/multiplatform}}
     {{/kotlinx_serialization}}
+    {{#multiplatform}}
+    {{^kotlinx_serialization}}
+    {{#enumUnknownDefaultCase}}
+
+    internal object {{nameInPascalCase}}Serializer : KSerializer<{{nameInPascalCase}}> {
+        override val descriptor = {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}{{dataType}}{{/mostInnerItems}}{{/isContainer}}.serializer().descriptor
+
+        override fun deserialize(decoder: Decoder): {{nameInPascalCase}} {
+            val value = decoder.decodeSerializableValue({{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}{{dataType}}{{/mostInnerItems}}{{/isContainer}}.serializer())
+            return {{nameInPascalCase}}.entries.firstOrNull { it.value == value }
+                ?: {{nameInPascalCase}}.{{#allowableValues}}{{#enumVars}}{{#-last}}{{&name}}{{/-last}}{{/enumVars}}{{/allowableValues}}
+        }
+
+        override fun serialize(encoder: Encoder, value: {{nameInPascalCase}}) {
+            encoder.encodeSerializableValue({{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}{{dataType}}{{/mostInnerItems}}{{/isContainer}}.serializer(), value.value)
+        }
+    }
+    {{/enumUnknownDefaultCase}}
+    {{/kotlinx_serialization}}
+    {{/multiplatform}}
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}

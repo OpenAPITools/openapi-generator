@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Kotlin multiplatform enumUnknownDefaultCase
+  version: 1.0.0
+paths:
+  /pet:
+    get:
+      operationId: getPet
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Color:
+      type: string
+      enum:
+        - red
+        - green
+    Priority:
+      type: integer
+      enum:
+        - 1
+        - 2
+    Pet:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - available
+            - sold
+        size:
+          type: integer
+          enum:
+            - 1
+            - 2
+        codes:
+          type: array
+          items:
+            type: integer
+            enum:
+              - 7
+              - 8
+        color:
+          $ref: '#/components/schemas/Color'
+        priority:
+          $ref: '#/components/schemas/Priority'

@@ -336,7 +336,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // Re-registered on kotlin alone: no other Kotlin generator's templates implement the fallback.
         CliOption enumUnknownDefaultCaseOpt = CliOption.newBoolean(
                 CodegenConstants.ENUM_UNKNOWN_DEFAULT_CASE,
-                "Add an `unknown_default_open_api` enum case as a fallback for unrecognized values. Only `moshi`(serializationLibrary) decodes every unknown value to it: `jackson` skips nullable enums, `kotlinx_serialization` skips non-string enums, and neither `gson`(serializationLibrary) nor `multiplatform`(library) decodes to it at all.");
+                "Add an `unknown_default_open_api` enum case as a fallback for unrecognized values. Only `moshi`(serializationLibrary) decodes every unknown value to it: `jackson` skips nullable enums, `kotlinx_serialization` and `multiplatform`(library) skip top-level non-string enums, and `gson`(serializationLibrary) does not decode to it at all.");
         Map<String, String> enumUnknownDefaultCaseOpts = new HashMap<>();
         enumUnknownDefaultCaseOpts.put("false",
                 "No changes to the enums are made, this is the default option.");
