@@ -19,7 +19,7 @@ import org.springframework.lang.Nullable;
  */
 
 @Schema(name = "Order", description = "An order for a pets from the pet store")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class Order {
 
   private @Nullable Long id;

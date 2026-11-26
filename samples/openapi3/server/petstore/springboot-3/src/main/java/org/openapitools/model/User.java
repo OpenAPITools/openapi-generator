@@ -25,7 +25,7 @@ import org.springframework.lang.Nullable;
 @JacksonXmlRootElement(localName = "User")
 @XmlRootElement(name = "User")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class User {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

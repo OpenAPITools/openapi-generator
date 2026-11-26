@@ -24,6 +24,6 @@ import org.openapitools.model.Dog;
     @JsonSubTypes.Type(value = Dog.class), 
     @JsonSubTypes.Type(value = Cat.class)
 })
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public interface Animal {
 }

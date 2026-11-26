@@ -21,7 +21,7 @@ import org.springframework.lang.Nullable;
  * @param loose Get loose
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public record Holder(
     @Valid 
     @Schema(name = "tagged", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

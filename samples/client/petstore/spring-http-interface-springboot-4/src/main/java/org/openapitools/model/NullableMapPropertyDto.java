@@ -20,7 +20,7 @@ import org.springframework.lang.Nullable;
  */
 
 @JsonTypeName("NullableMapProperty")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class NullableMapPropertyDto {
 
   private @Nullable Map<String, String> languageValues;
