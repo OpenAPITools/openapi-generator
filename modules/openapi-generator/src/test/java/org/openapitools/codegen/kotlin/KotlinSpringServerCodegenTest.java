@@ -116,6 +116,50 @@ public class KotlinSpringServerCodegenTest {
         TestUtils.assertFileNotContains(birdKt, "val discriminator");
     }
 
+    @Test(description = "Issue #18626")
+    public void anyOfRequiredPropertiesAreOptional() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(
+                new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/issue_18626.yaml"))
+                        .config(codegen)
+        ).generate();
+
+        final Path modelKt = Paths.get(output + "/src/main/kotlin/org/openapitools/model/PetsPatchRequest.kt");
+        TestUtils.assertFileContains(modelKt,
+                "val age: kotlin.Int? = null",
+                "val petType: PetsPatchRequest.PetType? = null");
+
+        final Path ordered = Paths.get(output + "/src/main/kotlin/org/openapitools/model/OrderedAnyOf.kt");
+        TestUtils.assertFileContains(ordered,
+                "val rootRequired: kotlin.String",
+                "val shared: kotlin.String",
+                "val first: kotlin.String? = null",
+                "val second: kotlin.String? = null",
+                "val alreadyOptional: kotlin.String? = null");
+        TestUtils.assertFileNotContains(ordered,
+                "val rootRequired: kotlin.String?",
+                "val shared: kotlin.String?");
+        String constructor = Files.readString(ordered);
+        assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val shared:"));
+        assertTrue(constructor.indexOf("val first:") < constructor.indexOf("val alreadyOptional:"));
+        assertTrue(constructor.indexOf("val second:") < constructor.indexOf("val alreadyOptional:"));
+        String documentation = constructor.substring(0, constructor.indexOf("data class OrderedAnyOf"));
+        assertTrue(documentation.contains("@param first"));
+        assertTrue(documentation.indexOf("@param first") < documentation.indexOf("@param shared"));
+        assertTrue(documentation.indexOf("@param shared") < documentation.indexOf("@param second"));
+        assertTrue(documentation.indexOf("@param second") < documentation.indexOf("@param alreadyOptional"));
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/model/NestedAnyOf.kt"),
+                "val sometimes: kotlin.String? = null");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/model/AnyOfWithOptionalBranch.kt"),
+                "val branchOnly: kotlin.String? = null");
+    }
+
     @Test(description = "should not generate @Validated annotation on interface when built-in validation option is set to true")
     public void shouldEnableBuiltInValidationOptionWhenSetToTrueInterface() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

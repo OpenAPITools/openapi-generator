@@ -23,6 +23,7 @@ import org.openapitools.codegen.antlr4.KotlinParser;
 import org.openapitools.codegen.languages.AbstractKotlinCodegen;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.openapitools.codegen.languages.KotlinVertxServerCodegen;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -46,6 +47,65 @@ import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.K
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.RESOURCES;
 
 public class KotlinServerCodegenTest {
+
+    @DataProvider
+    public Object[][] anyOfServerGenerators() {
+        return new Object[][] {
+                {new KotlinServerCodegen(), JAVALIN5},
+                {new KotlinServerCodegen(), KTOR},
+                {new KotlinServerCodegen(), "ktor2"},
+                {new KotlinVertxServerCodegen(), null}
+        };
+    }
+
+    @Test(dataProvider = "anyOfServerGenerators", description = "Issue #18626")
+    public void anyOfConstructorOrder(AbstractKotlinCodegen codegen, String library) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        codegen.setOutputDir(output.getAbsolutePath());
+        if (library != null) {
+            codegen.additionalProperties().put(LIBRARY, library);
+        }
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/issue_18626.yaml"))
+                .config(codegen)).generate();
+
+        Path model = Paths.get(codegen.modelFileFolder(), "OrderedAnyOf.kt");
+        String content = Files.readString(model);
+        boolean vertx = codegen instanceof KotlinVertxServerCodegen;
+        String first = "val first: kotlin.String? = null";
+        String shared = vertx ? "val _shared: kotlin.String?" : "val shared: kotlin.String";
+        String second = "val second: kotlin.String? = null";
+        String optional = "val alreadyOptional: kotlin.String? = null";
+        assertFileContains(model, first, shared, second, optional);
+        Assert.assertTrue(content.indexOf(first) < content.indexOf(shared));
+        Assert.assertTrue(content.indexOf(second) < content.indexOf(optional));
+        assertFileContains(Paths.get(codegen.modelFileFolder(), "NestedAnyOf.kt"),
+                "val sometimes: kotlin.String? = null");
+    }
+
+    @Test(description = "anyOf discriminator uses the post-processed sealed parent constructor")
+    public void anyOfDiscriminatorConstructor() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(LIBRARY, JAVALIN5);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/anyof-discriminator.yaml"))
+                .config(codegen)).generate();
+
+        Path modelFolder = Paths.get(codegen.modelFileFolder());
+        Path parent = modelFolder.resolve("PetChoice.kt");
+        assertFileContains(parent, "sealed class PetChoice(", "open val kind: kotlin.String");
+        assertFileNotContains(parent, "catName", "dogAge");
+        assertFileContains(modelFolder.resolve("Cat.kt"),
+                "override val kind: kotlin.String = \"cat\"", ") : PetChoice(kind = kind)");
+        assertFileContains(modelFolder.resolve("Dog.kt"),
+                "override val kind: kotlin.String = \"dog\"", ") : PetChoice(kind = kind)");
+    }
 
     @Test
     public void enumDescription() throws IOException {
