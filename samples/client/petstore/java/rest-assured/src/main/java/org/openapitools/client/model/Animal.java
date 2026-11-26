@@ -54,7 +54,6 @@ public class Animal {
    * @return className
    */
   @javax.annotation.Nonnull
-  @NotNull
 
 
   public String getClassName() {

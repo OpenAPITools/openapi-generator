@@ -57,7 +57,7 @@ public class Animal  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty(required = true, value = "className")
-  @NotNull public String getClassName() {
+  public String getClassName() {
     return className;
   }
 

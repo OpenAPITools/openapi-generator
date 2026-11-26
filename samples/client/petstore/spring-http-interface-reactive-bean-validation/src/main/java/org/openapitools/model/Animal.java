@@ -59,7 +59,7 @@ public class Animal {
    * Get className
    * @return className
    */
-  @NotNull 
+  
   @JsonProperty("className")
   public String getClassName() {
     return className;

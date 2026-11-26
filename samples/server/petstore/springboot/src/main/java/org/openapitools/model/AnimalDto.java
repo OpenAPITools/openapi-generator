@@ -61,7 +61,7 @@ public class AnimalDto {
    * Get className
    * @return className
    */
-  @NotNull 
+  
   @Schema(name = "className", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("className")
   public String getClassName() {

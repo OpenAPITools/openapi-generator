@@ -72,7 +72,7 @@ public final class Apple implements Fruit {
    * Get fruitType
    * @return fruitType
    */
-  @NotNull @Valid 
+  @Valid 
   @Schema(name = "fruitType", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fruitType")
   public FruitType getFruitType() {

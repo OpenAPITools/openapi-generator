@@ -53,7 +53,7 @@ public class Base {
    * Get kind
    * @return kind
    */
-  @NotNull 
+  
   @Schema(name = "kind", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("kind")
   public String getKind() {

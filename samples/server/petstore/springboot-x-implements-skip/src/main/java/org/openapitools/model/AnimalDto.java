@@ -60,7 +60,7 @@ public class AnimalDto implements com.custompackage.InterfaceToKeep, com.customp
    * Get className
    * @return className
    */
-  @NotNull 
+  
   @Schema(name = "className", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("className")
   public String getClassName() {

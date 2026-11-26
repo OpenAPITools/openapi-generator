@@ -73,7 +73,6 @@ public class Animal {
    * @return className
    */
   @jakarta.annotation.Nonnull
-  @NotNull
 
   @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

@@ -156,7 +156,7 @@ public sealed class Entity permits Bar, BarCreate, Foo, Pasta, Pizza {
    * When sub-classing, this defines the sub-class Extensible name
    * @return atType
    */
-  @NotNull 
+  
   @Schema(name = "@type", description = "When sub-classing, this defines the sub-class Extensible name", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("@type")
   public String getAtType() {
