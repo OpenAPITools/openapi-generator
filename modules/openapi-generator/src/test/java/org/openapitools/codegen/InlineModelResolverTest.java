@@ -1213,6 +1213,11 @@ public class InlineModelResolverTest {
 
         Map<String, Schema> properties = openAPI.getComponents().getSchemas().get("ObjectOne").getProperties();
 
+        Schema one = properties.get("one");
+        assertEquals(1, one.getAllOf().size());
+        assertEquals("#/components/schemas/OtherObject", ((Schema) one.getAllOf().get(0)).get$ref());
+        assertEquals(Boolean.TRUE, one.getNullable());
+
         Schema two = properties.get("two");
         assertEquals("string", two.getType());
         assertNull(two.getAllOf());
