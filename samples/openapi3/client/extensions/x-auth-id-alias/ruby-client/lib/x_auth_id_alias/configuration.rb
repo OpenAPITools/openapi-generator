@@ -101,7 +101,7 @@ module XAuthIDAlias
     attr_accessor :temp_folder_path
 
     # The time limit for HTTP request in seconds.
-    # Default to 60.
+    # Default to 60 seconds.
     attr_accessor :timeout
 
     # Set this to false to skip client side validation in the operation.
