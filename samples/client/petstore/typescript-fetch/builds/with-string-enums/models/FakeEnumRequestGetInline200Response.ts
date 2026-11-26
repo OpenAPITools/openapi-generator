@@ -26,7 +26,7 @@ export interface FakeEnumRequestGetInline200Response {
     /**
      * 
      */
-    nullableStringEnum?: FakeEnumRequestGetInline200ResponseNullableStringEnumEnum;
+    nullableStringEnum?: FakeEnumRequestGetInline200ResponseNullableStringEnumEnum | null;
     /**
      * 
      */
@@ -34,7 +34,7 @@ export interface FakeEnumRequestGetInline200Response {
     /**
      * 
      */
-    nullableNumberEnum?: FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum;
+    nullableNumberEnum?: FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum | null;
 }
 
 /**
@@ -93,9 +93,9 @@ export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, igno
     return {
         
         'stringEnum': json['string-enum'] == null ? undefined : json['string-enum'],
-        'nullableStringEnum': json['nullable-string-enum'] == null ? undefined : json['nullable-string-enum'],
+        'nullableStringEnum': json['nullable-string-enum'] === undefined ? undefined : json['nullable-string-enum'] === null ? null : json['nullable-string-enum'],
         'numberEnum': json['number-enum'] == null ? undefined : json['number-enum'],
-        'nullableNumberEnum': json['nullable-number-enum'] == null ? undefined : json['nullable-number-enum'],
+        'nullableNumberEnum': json['nullable-number-enum'] === undefined ? undefined : json['nullable-number-enum'] === null ? null : json['nullable-number-enum'],
     };
 }
 

@@ -429,7 +429,11 @@ public class InlineModelResolver {
                                         "object".equals(((Schema) prop.getAllOf().get(0)).getType()))) {
                             // allOf with only 1 type (non-model)
                             LOGGER.info("allOf schema used by the property `{}` replaced by its only item (a type)", propName);
-                            props.put(propName, (Schema) prop.getAllOf().get(0));
+                            Schema item = (Schema) prop.getAllOf().get(0);
+                            if (prop.getNullable() != null && item.getNullable() == null) {
+                                item.setNullable(prop.getNullable());
+                            }
+                            props.put(propName, item);
                         }
                     }
                 }

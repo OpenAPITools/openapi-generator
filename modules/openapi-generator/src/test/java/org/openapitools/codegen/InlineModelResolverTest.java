@@ -1207,6 +1207,23 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void nullableSingleAllOfTypeProperty() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_20373.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        Map<String, Schema> properties = openAPI.getComponents().getSchemas().get("ObjectOne").getProperties();
+
+        Schema two = properties.get("two");
+        assertEquals("string", two.getType());
+        assertNull(two.getAllOf());
+        assertEquals(Boolean.TRUE, two.getNullable());
+
+        Schema three = properties.get("three");
+        assertEquals("string", three.getType());
+        assertNull(three.getNullable());
+    }
+
+    @Test
     public void callbacks() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
         new InlineModelResolver().flatten(openAPI);
