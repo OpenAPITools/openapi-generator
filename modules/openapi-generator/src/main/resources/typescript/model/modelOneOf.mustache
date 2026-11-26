@@ -20,6 +20,9 @@ export type {{classname}} = {{#oneOf}}{{{.}}}{{^-last}} | {{/-last}}{{/oneOf}};
 */
 export class {{classname}}Class {
     {{#discriminator}}
+    // This will get transformed to contentType if the content_type is used as a discriminator in the OpenAPI spec
+    // It will then fail in runtime during deserialization with the error "TypeError: typeMap[type].getAttributeTypeMap is not a function"
+    // We need to make sure "content_type" is used, or that the "content_type" is transformed to "contentType" (might not be desirable)
     static readonly discriminator: string | undefined = "{{discriminatorName}}";
     {{/discriminator}}
     {{^discriminator}}
