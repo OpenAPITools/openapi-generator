@@ -26,7 +26,7 @@ import org.springframework.lang.Nullable;
  * ObjectWithUniqueItems
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class ObjectWithUniqueItems {
 
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();

@@ -20,7 +20,7 @@ import org.springframework.lang.Nullable;
  */
 
 @JsonTypeName("TypeHolderDefault")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class TypeHolderDefaultDto {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

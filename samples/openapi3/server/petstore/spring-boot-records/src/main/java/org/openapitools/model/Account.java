@@ -21,7 +21,7 @@ import org.springframework.lang.Nullable;
  * @param displayName Get displayName
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public record Account(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotNull 

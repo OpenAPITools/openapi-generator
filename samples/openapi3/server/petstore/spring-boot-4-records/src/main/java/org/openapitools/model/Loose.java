@@ -23,7 +23,7 @@ import org.springframework.lang.Nullable;
  * @param additionalProperties the additional (undeclared) properties, by name
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public record Loose(
     
     @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)

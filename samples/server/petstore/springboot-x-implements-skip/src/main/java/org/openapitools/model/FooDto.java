@@ -19,7 +19,7 @@ import org.springframework.lang.Nullable;
  */
 
 @JsonTypeName("Foo")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class FooDto implements com.custompackage.WithBar, com.custompackage.WithDefaultMethod {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)
