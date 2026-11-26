@@ -1419,6 +1419,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put("legacyDiscriminatorBehavior", "false");
         properties.put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false");
+        properties.put("useBeanValidation", true);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("jaxrs-spec")
@@ -1436,7 +1437,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
                         "value = \"petType\"",
                         "allowSetters = true",
                         "include = JsonTypeInfo.As.PROPERTY")
-                .fileDoesNotContain("include = JsonTypeInfo.As.EXISTING_PROPERTY");
+                .fileDoesNotContain("include = JsonTypeInfo.As.EXISTING_PROPERTY")
+                .assertMethod("getPetType").doesNotHaveAnnotation("NotNull");
     }
 
     /**
@@ -1454,6 +1456,7 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put("legacyDiscriminatorBehavior", "false");
         properties.put(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "true");
+        properties.put("useBeanValidation", true);
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("jaxrs-spec")
@@ -1468,7 +1471,8 @@ public class JavaJAXRSSpecServerCodegenTest extends JavaJaxrsBaseTest {
         JavaFileAssert.assertThat(files.get("PetResponse.java"))
                 .fileDoesNotContain("@JsonIgnoreProperties(")
                 .fileContains("include = JsonTypeInfo.As.EXISTING_PROPERTY")
-                .fileDoesNotContain("include = JsonTypeInfo.As.PROPERTY");
+                .fileDoesNotContain("include = JsonTypeInfo.As.PROPERTY")
+                .assertMethod("getPetType").hasAnnotation("NotNull");
     }
 
     /**

@@ -1,6 +1,13 @@
 {{#required}}
 {{^isReadOnly}}
+{{^isDiscriminator}}
   @NotNull
+{{/isDiscriminator}}
+{{#isDiscriminator}}
+{{#disableDiscriminatorJsonIgnoreProperties}}
+  @NotNull
+{{/disableDiscriminatorJsonIgnoreProperties}}
+{{/isDiscriminator}}
 {{/isReadOnly}}
 {{/required}}
 {{^isContainer}}
