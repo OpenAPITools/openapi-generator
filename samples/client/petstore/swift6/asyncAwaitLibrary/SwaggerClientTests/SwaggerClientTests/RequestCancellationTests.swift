@@ -34,6 +34,30 @@ final class RequestCancellationTests: XCTestCase, @unchecked Sendable {
         XCTAssertEqual(interceptor.retryCallCount, 0)
     }
 
+    func testCancelDuringAsyncInterceptThatFailsThrowsCancellation() async throws {
+        struct InterceptorFailure: Error {}
+        let session = FakeSession(statusCode: 200)
+        let interceptor = GatedInterceptor()
+        let builder = makeBuilder(session: session, interceptor: interceptor)
+
+        let intercepting = expectation(description: "interceptor invoked")
+        interceptor.onIntercept = { intercepting.fulfill() }
+
+        let call = Task { try await builder.execute() }
+        await fulfillment(of: [intercepting], timeout: 5)
+
+        call.cancel()
+        interceptor.releaseIntercept(failingWith: InterceptorFailure())
+
+        do {
+            _ = try await call.value
+            XCTFail("expected a cancellation error")
+        } catch let ErrorResponse.error(_, _, _, underlying) {
+            XCTAssertEqual((underlying as? URLError)?.code, .cancelled)
+        }
+        XCTAssertEqual(session.resumedTaskCount, 0)
+    }
+
     func testCancelBeforeRetryDoesNotRetry() async throws {
         let session = FakeSession(statusCode: 500)
         let interceptor = GatedInterceptor()
@@ -53,8 +77,10 @@ final class RequestCancellationTests: XCTestCase, @unchecked Sendable {
 
         do {
             _ = try await call.value
-            XCTFail("expected the request to fail")
-        } catch {}
+            XCTFail("expected a cancellation error")
+        } catch let ErrorResponse.error(_, _, _, underlying) {
+            XCTAssertEqual((underlying as? URLError)?.code, .cancelled)
+        }
         XCTAssertEqual(session.resumedTaskCount, 1)
     }
 
@@ -71,6 +97,7 @@ final class RequestCancellationTests: XCTestCase, @unchecked Sendable {
         } catch {}
         XCTAssertEqual(session.resumedTaskCount, 2)
         XCTAssertEqual(interceptor.retryCallCount, 2)
+        XCTAssertEqual(builder.executeCallCount, 2, "a retry goes through the overridable execute(completion:)")
     }
 
     func testExecuteAfterCancelSendsRequest() async throws {
@@ -104,8 +131,18 @@ final class RequestCancellationTests: XCTestCase, @unchecked Sendable {
 
 private final class FakeSessionRequestBuilder<T: Sendable>: URLSessionRequestBuilder<T>, @unchecked Sendable {
     var session: URLSessionProtocol = FakeSession(statusCode: 200)
+    private let lock = NSLock()
+    private var _executeCallCount = 0
+
+    var executeCallCount: Int { lock.withLock { _executeCallCount } }
 
     override func createURLSession() -> URLSessionProtocol { session }
+
+    @discardableResult
+    override func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        lock.withLock { _executeCallCount += 1 }
+        return super.execute(completion: completion)
+    }
 }
 
 private final class FakeSession: URLSessionProtocol, @unchecked Sendable {
@@ -135,7 +172,7 @@ private final class FakeSession: URLSessionProtocol, @unchecked Sendable {
     }
 }
 
-/// Completes like URLSessionDataTask: with the response after `resume()`, with `URLError.cancelled` after `cancel()`.
+/// Completes like URLSessionDataTask: with the response after `resume()`, or with `URLError.cancelled` if cancelled before then.
 private final class FakeDataTask: URLSessionDataTaskProtocol, @unchecked Sendable {
     private let lock = NSLock()
     private var finished = false
@@ -154,15 +191,20 @@ private final class FakeDataTask: URLSessionDataTaskProtocol, @unchecked Sendabl
     }
 
     func resume() {
-        guard finish() else { return }
+        guard !isFinished else { return }
         onResume()
-        DispatchQueue.global().async { self.completionHandler(Data(), self.response, nil) }
+        DispatchQueue.global().async {
+            guard self.finish() else { return }
+            self.completionHandler(Data(), self.response, nil)
+        }
     }
 
     func cancel() {
         guard finish() else { return }
         DispatchQueue.global().async { self.completionHandler(nil, nil, URLError(.cancelled)) }
     }
+
+    private var isFinished: Bool { lock.withLock { finished } }
 
     private func finish() -> Bool {
         lock.withLock {
@@ -189,12 +231,13 @@ private final class GatedInterceptor: OpenAPIInterceptor, @unchecked Sendable {
 
     var retryCallCount: Int { lock.withLock { _retryCallCount } }
 
-    func releaseIntercept() {
+    func releaseIntercept(failingWith error: Error? = nil) {
         let action: (() -> Void)? = lock.withLock {
             interceptReleased = true
             guard let pending = pendingIntercept, let request else { return nil }
             pendingIntercept = nil
-            return { Task { pending(.success(request)) } }
+            let result: Result<URLRequest, Error> = error.map { .failure($0) } ?? .success(request)
+            return { Task { pending(result) } }
         }
         action?()
     }

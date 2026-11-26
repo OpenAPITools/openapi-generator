@@ -74,6 +74,9 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
 open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked Sendable {
 
+    /// Set by a retry, so that the `execute(completion:)` it calls keeps a cancel of the execution being retried.
+    private let isRetrying = OpenAPIMutex(false)
+
     required public init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
@@ -122,13 +125,14 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
 
     @discardableResult
     override open func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
-        requestTask.reset()
-        return send(completion: completion)
-    }
+        let isRetry = isRetrying.withValue { isRetrying in
+            defer { isRetrying = false }
+            return isRetrying
+        }
+        if !isRetry {
+            requestTask.reset()
+        }
 
-    /// Retries call this instead of `execute(completion:)` so a cancel is not forgotten.
-    @discardableResult
-    private func send(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
         let urlSession = createURLSession()
 
         guard supportsResponseType else {
@@ -240,6 +244,9 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
 
                     dataTask.resume()
 
+                case .failure where self.requestTask.isCancelled:
+                    self.failCancelled(urlRequest: request, urlSession: urlSession, completion: completion)
+
                 case .failure(let error):
                     self.apiConfiguration.interceptor.didComplete(urlRequest: request, urlSession: urlSession, requestBuilder: self, data: nil, response: nil, result: .failure(error))
                     self.apiConfiguration.apiResponseQueue.async {
@@ -276,26 +283,37 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
     }
 
     private func retryRequest(urlRequest: URLRequest, urlSession: URLSessionProtocol, statusCode: Int, data: Data?, response: URLResponse?, error: Error, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
-        let failWithoutRetry: @Sendable () -> Void = {
-            self.apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, result: .failure(error))
-            self.apiConfiguration.apiResponseQueue.async {
-                completion(.failure(ErrorResponse.error(statusCode, data, response, error)))
-            }
-        }
-
         guard !requestTask.isCancelled else {
-            failWithoutRetry()
+            failCancelled(urlRequest: urlRequest, urlSession: urlSession, completion: completion)
             return
         }
 
         self.apiConfiguration.interceptor.retry(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, error: error) { retry in
-            switch retry {
-            case .retry where !self.requestTask.isCancelled:
-                self.send(completion: completion)
-
-            case .retry, .dontRetry:
-                failWithoutRetry()
+            guard !self.requestTask.isCancelled else {
+                self.failCancelled(urlRequest: urlRequest, urlSession: urlSession, completion: completion)
+                return
             }
+
+            switch retry {
+            case .retry:
+                self.isRetrying.withValue { $0 = true }
+                self.execute(completion: completion)
+
+            case .dontRetry:
+                self.apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, result: .failure(error))
+                self.apiConfiguration.apiResponseQueue.async {
+                    completion(.failure(ErrorResponse.error(statusCode, data, response, error)))
+                }
+            }
+        }
+    }
+
+    /// Ends a cancelled execution the way a cancelled data task does, whatever stage it was cancelled in.
+    private func failCancelled(urlRequest: URLRequest, urlSession: URLSessionProtocol, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+        let error = URLError(.cancelled)
+        apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: nil, response: nil, result: .failure(error))
+        apiConfiguration.apiResponseQueue.async {
+            completion(.failure(ErrorResponse.error(-1, nil, nil, error)))
         }
     }
 
