@@ -503,6 +503,18 @@ namespace Org.OpenAPITools.Client
                     _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
                 }
 
+                if (configuration.RemoteCertificateValidationCallback != null)
+                {
+                    if (_httpClientHandler == null) throw new InvalidOperationException("Configuration `RemoteCertificateValidationCallback` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+                    // HttpClientHandler properties are frozen after the first request, so only assign when not already set.
+                    if (_httpClientHandler.ServerCertificateCustomValidationCallback == null)
+                    {
+                        _httpClientHandler.ServerCertificateCustomValidationCallback =
+                            (request, certificate, chain, sslPolicyErrors) =>
+                                configuration.RemoteCertificateValidationCallback(request, certificate, chain, sslPolicyErrors);
+                    }
+                }
+
                 var cookieContainer = req.Properties.ContainsKey("CookieContainer") ? req.Properties["CookieContainer"] as List<Cookie> : null;
 
                 if (cookieContainer != null)
