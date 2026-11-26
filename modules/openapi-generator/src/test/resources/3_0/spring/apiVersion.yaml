@@ -8,16 +8,25 @@ paths:
       tags:
         - Test
       operationId: getVersions
+      responses:
+        '200':
+          description: OK
   /overrides:
     get:
       tags:
         - Test
       operationId: getOverrides
       x-spring-api-version: '2+'
+      responses:
+        '200':
+          description: OK
   /nones:
     get:
       tags:
         - Test
       operationId: getNones
       x-spring-api-version: ''
+      responses:
+        '200':
+          description: OK
 

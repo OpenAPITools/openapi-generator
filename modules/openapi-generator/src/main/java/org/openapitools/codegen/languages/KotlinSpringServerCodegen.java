@@ -110,6 +110,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
     public static final String USE_SPRING_BOOT4 = "useSpringBoot4";
+    public static final String SPRING_API_VERSION = "springApiVersion";
     public static final String USE_SPRING_BUILT_IN_VALIDATION = "useSpringBuiltInValidation";
     public static final String INCLUDE_HTTP_REQUEST_CONTEXT = "includeHttpRequestContext";
     public static final String USE_FLOW_FOR_ARRAY_RETURN_TYPE = "useFlowForArrayReturnType";
@@ -312,6 +313,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addOption(CONFIG_PACKAGE, "configuration package for generated code", this.getConfigPackage());
         addOption(BASE_PACKAGE, "base package (invokerPackage) for generated code", basePackage);
         addOption(SERVER_PORT, "configuration the port in which the sever is to run on", serverPort);
+        cliOptions.add(CliOption.newString(SPRING_API_VERSION,
+                "Default value for the 'version' attribute in @RequestMapping (spring-boot library, Spring Framework 7+). "
+                        + "Override per operation with x-spring-api-version; an empty extension suppresses the default. "
+                        + "Use useSpringBoot4=true for generated applications and configure a version resolver in the application. "
+                        + "This option does not configure Spring's runtime default version."));
         addOption(CodegenConstants.MODEL_PACKAGE, "model package for generated code", modelPackage);
         addOption(CodegenConstants.API_PACKAGE, "api package for generated code", apiPackage);
         addSwitch(EXCEPTION_HANDLER, "generate default global exception handlers (not compatible with reactive. enabling reactive will disable exceptionHandler )", exceptionHandler);
@@ -975,6 +981,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(USE_SPRING_BOOT3, isUseSpringBoot3());
         writePropertyBack(USE_SPRING_BOOT4, isUseSpringBoot4());
+        additionalProperties.put("springBootLibrary", SPRING_BOOT.equals(library));
 
         modelTemplateFiles.put("model.mustache", ".kt");
 
@@ -2169,7 +2176,11 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         OperationMap operations = objs.getOperations();
         if (operations != null) {
             List<CodegenOperation> ops = operations.getOperation();
+            Object apiVersion = additionalProperties.get(SPRING_API_VERSION);
             ops.forEach(operation -> {
+                if (SPRING_BOOT.equals(library) && apiVersion != null) {
+                    operation.vendorExtensions.putIfAbsent(VendorExtension.X_SPRING_API_VERSION.getName(), apiVersion);
+                }
                 List<CodegenResponse> responses = operation.responses;
                 if (responses != null) {
                     responses.forEach(resp -> {
@@ -2463,6 +2474,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS);
         extensions.add(VendorExtension.X_KOTLIN_IMPLEMENTS_FIELDS);
         extensions.add(VendorExtension.X_SPRING_PAGINATED);
+        extensions.add(VendorExtension.X_SPRING_API_VERSION);
         extensions.add(VendorExtension.X_JACKSON_JSON_INCLUDE_POLICY);
         extensions.add(VendorExtension.X_JACKSON_JSON_SETTER_NULLS);
         return extensions;

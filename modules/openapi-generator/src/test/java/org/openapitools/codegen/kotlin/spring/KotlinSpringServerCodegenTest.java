@@ -4889,6 +4889,78 @@ public class KotlinSpringServerCodegenTest {
                 "ApiUtil.setExampleResponse(request, \"application/json; profile=\\\"x\\$y\\\"\", ");
     }
 
+    @DataProvider
+    public Object[][] apiVersionModes() {
+        return new Object[][]{
+                {false, false, false}, {true, false, false}, {false, true, false},
+                {false, false, true}, {true, false, true}, {false, true, true}
+        };
+    }
+
+    @Test(dataProvider = "apiVersionModes")
+    public void testSpringApiVersion(boolean interfaceOnly, boolean delegatePattern, boolean reactive) throws IOException {
+        for (String defaultVersion : new String[]{null, "1.0", ""}) {
+            Map<String, Object> properties = new HashMap<>(Map.of(
+                    USE_SPRING_BOOT4, true, USE_TAGS, true,
+                    INTERFACE_ONLY, interfaceOnly, DELEGATE_PATTERN, delegatePattern, REACTIVE, reactive));
+            if (defaultVersion != null) {
+                properties.put(SPRING_API_VERSION, defaultVersion);
+            }
+            Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml", properties);
+            File api = files.get(interfaceOnly || delegatePattern ? "TestApi.kt" : "TestApiController.kt");
+            String defaultMapping = requestMappingForOperation(api, "getVersions");
+            if (defaultVersion == null || defaultVersion.isEmpty()) {
+                assertThat(defaultMapping).doesNotContain("version =");
+            } else {
+                assertThat(defaultMapping).contains("version = \"1.0\"");
+            }
+            assertThat(requestMappingForOperation(api, "getOverrides")).contains("version = \"2+\"");
+            assertThat(requestMappingForOperation(api, "getNones")).doesNotContain("version =");
+            if (delegatePattern) {
+                assertFileNotContains(files.get("TestApiDelegate.kt").toPath(), "@RequestMapping");
+            }
+        }
+    }
+
+    @Test(dataProvider = "apiVersionModes")
+    public void testSpringApiVersionEscapesKotlinStrings(boolean interfaceOnly, boolean delegatePattern, boolean reactive) throws IOException {
+        String version = "v\"quoted\"\\path$version";
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml",
+                new HashMap<>(Map.of(USE_SPRING_BOOT4, true, USE_TAGS, true, SPRING_API_VERSION, version,
+                        INTERFACE_ONLY, interfaceOnly, DELEGATE_PATTERN, delegatePattern, REACTIVE, reactive)));
+        File api = files.get(interfaceOnly || delegatePattern ? "TestApi.kt" : "TestApiController.kt");
+        assertThat(requestMappingForOperation(api, "getVersions"))
+                .contains("version = \"v\\\"quoted\\\"\\\\path\\$version\"");
+    }
+
+    @Test
+    public void testSpringApiVersionIsNotAppliedToClients() throws IOException {
+        for (String library : List.of(SPRING_CLOUD_LIBRARY, SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY)) {
+            Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/apiVersion.yaml",
+                    new HashMap<>(Map.of(USE_SPRING_BOOT4, true, USE_TAGS, true, INTERFACE_ONLY, true,
+                            SPRING_API_VERSION, "1.0")), new HashMap<>(), config -> config.setLibrary(library));
+            assertFileNotContains(files.get("TestApi.kt").toPath(), "version =");
+        }
+    }
+
+    @Test
+    public void testSpringApiVersionIsOptInForOlderSpring() throws IOException {
+        for (boolean springBoot3 : new boolean[]{false, true}) {
+            Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml",
+                    new HashMap<>(Map.of(USE_SPRING_BOOT3, springBoot3, USE_TAGS, true, INTERFACE_ONLY, true)));
+            assertFileNotContains(files.get("PetApi.kt").toPath(), "version =");
+        }
+    }
+
+    private static String requestMappingForOperation(File api, String operationId) throws IOException {
+        String content = Files.readString(api.toPath());
+        int method = content.indexOf("fun " + operationId + "(");
+        assertThat(method).as("operation %s in %s", operationId, api).isGreaterThanOrEqualTo(0);
+        int mapping = content.lastIndexOf("@RequestMapping(", method);
+        assertThat(mapping).as("mapping for %s", operationId).isGreaterThanOrEqualTo(0);
+        return content.substring(mapping, method);
+    }
+
     private Map<String, File> generateFromContract(String url) throws IOException {
         return generateFromContract(url, new HashMap<>(), new HashMap<>());
     }
