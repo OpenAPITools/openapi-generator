@@ -101,7 +101,7 @@ module OpenapiClient
     attr_accessor :temp_folder_path
 
     # The time limit for HTTP request in seconds.
-    # Default to 0 (never times out).
+    # Default to 60.
     attr_accessor :timeout
 
     # Set this to false to skip client side validation in the operation.
