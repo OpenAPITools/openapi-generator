@@ -27,6 +27,11 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -74,6 +79,57 @@ public class DefaultGeneratorTest {
             generator.opts(clientOptInput).generate();
 
             verify(configSpy).postProcess();
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
+    @Test
+    public void testPostProcessFileReceivesFileTypes() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            ClientOptInput clientOptInput = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .setEnablePostProcessFile(true)
+                    .toClientOptInput();
+
+            CodegenConfig configSpy = spy(clientOptInput.getConfig());
+            doNothing().when(configSpy).postProcessFile(any(), any());
+            clientOptInput.config(configSpy);
+
+            DefaultGenerator generator = new DefaultGenerator();
+            generator.opts(clientOptInput).generate();
+
+            verify(configSpy).postProcessFile(argThat(f -> f.getName().equals("Pet.java")), eq("model"));
+            verify(configSpy).postProcessFile(argThat(f -> f.getName().equals("PetApi.java")), eq("api"));
+            verify(configSpy).postProcessFile(argThat(f -> f.getName().equals("pom.xml")), eq("supporting-file"));
+        } finally {
+            output.deleteOnExit();
+        }
+    }
+
+    @Test
+    public void testPostProcessFileIsNotCalledOnDryRun() throws IOException {
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            ClientOptInput clientOptInput = new CodegenConfigurator()
+                    .setGeneratorName("java")
+                    .setInputSpec("src/test/resources/3_0/pingSomeObj.yaml")
+                    .setOutputDir(target.toAbsolutePath().toString())
+                    .setEnablePostProcessFile(true)
+                    .toClientOptInput();
+
+            CodegenConfig configSpy = spy(clientOptInput.getConfig());
+            clientOptInput.config(configSpy);
+
+            DefaultGenerator generator = new DefaultGenerator(true);
+            generator.opts(clientOptInput).generate();
+
+            verify(configSpy, never()).postProcessFile(any(), any());
         } finally {
             output.deleteOnExit();
         }
