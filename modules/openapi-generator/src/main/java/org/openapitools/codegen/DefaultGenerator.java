@@ -1275,6 +1275,18 @@ public class DefaultGenerator implements Generator {
             throw new RuntimeException("missing config!");
         }
 
+        // Exposed via GlobalSettings (the existing, established mechanism for cross-cutting
+        // flags - see the generateApis/generateModels/etc. reads just below) so that a
+        // CodegenConfig which needs to write a file outside the standard SupportingFile/
+        // templateProcessor pipeline (e.g. one file per dynamically-discovered item, which
+        // SupportingFile's fixed-destination model can't express) can still honor dry-run,
+        // without DefaultGenerator needing to know about that generator's custom file writes.
+        // Set here, at the start of generate(), rather than in the constructor: generate()
+        // clears GlobalSettings at its end (so "the running thread can be reused for another
+        // generator-run"), which would otherwise leave this property stale/missing if the same
+        // DefaultGenerator instance's generate() were ever invoked a second time.
+        GlobalSettings.setProperty("dryRun", String.valueOf(this.dryRun));
+
         if (config.getGeneratorMetadata() == null) {
             LOGGER.warn("Generator '{}' is missing generator metadata!", config.getName());
         } else {

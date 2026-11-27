@@ -1,0 +1,6 @@
+generatorName: n8n
+outputDir: samples/client/petstore/n8n
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/n8n
+additionalProperties:
+  hideGenerationTimestamp: "true"

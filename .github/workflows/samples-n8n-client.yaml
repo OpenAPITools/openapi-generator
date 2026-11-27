@@ -1,0 +1,41 @@
+name: Samples n8n client
+
+on:
+  push:
+    paths:
+      - samples/client/petstore/n8n/**
+      - .github/workflows/samples-n8n-client.yaml
+  pull_request:
+    paths:
+      - samples/client/petstore/n8n/**
+      - .github/workflows/samples-n8n-client.yaml
+jobs:
+  build:
+    name: Build projects
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - "20.x"
+          - "22.x"
+        sample:
+          - samples/client/petstore/n8n
+    steps:
+      - uses: actions/checkout@v7
+      - name: Use Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install
+        working-directory: ${{ matrix.sample }}
+        # --ignore-scripts: this sample only needs n8n-workflow's type declarations for
+        # `tsc`, never its runtime code, so there's no reason to run any dependency's native
+        # build step (e.g. n8n-workflow's own isolated-vm, used only by n8n's own expression
+        # sandboxing at workflow-execution time) - skipping them avoids a real, reproducible
+        # native-compile failure against Node 20.x's V8 ABI that has nothing to do with
+        # whether this sample's own TypeScript is correct.
+        run: npm install --ignore-scripts
+      - name: npm run build
+        working-directory: ${{ matrix.sample }}
+        run: npm run build
