@@ -1,0 +1,67 @@
+// Gradle init script used by CI to take load off repo.maven.apache.org, which rate-limits
+// (HTTP 429) the shared IP ranges of GitHub-hosted runners.
+//
+// It puts a Maven Central mirror in front of the repositories a build already declares.
+// Nothing is replaced: if the mirror answers 404 (e.g. a release it has not synced yet),
+// Gradle falls through to the build's own repositories as usual.
+//
+// Override the mirror with the MAVEN_CENTRAL_MIRROR environment variable; set it to an
+// empty string to disable this script.
+
+def mirrorUrl = System.getenv().containsKey('MAVEN_CENTRAL_MIRROR')
+        ? System.getenv('MAVEN_CENTRAL_MIRROR')
+        : 'https://maven-central.storage-download.googleapis.com/maven2/'
+def mirrorName = 'MavenCentralMirror'
+
+if (!mirrorUrl) {
+    return
+}
+
+// Inserts the mirror as the first repository, keeping the existing ones (and their order).
+def prependMirror = { RepositoryHandler repos ->
+    if (repos.findByName(mirrorName) != null) {
+        return
+    }
+    def existing = new ArrayList(repos)
+    repos.clear()
+    repos.maven {
+        name = mirrorName
+        url = mirrorUrl
+    }
+    repos.addAll(existing)
+}
+
+settingsEvaluated { settings ->
+    // Plugins requested in build scripts (`plugins { id(...) }`). The plugin portal redirects
+    // many of them to Maven Central. An empty list means "plugin portal only", which stops
+    // being the default once we add a repository, so add the portal explicitly in that case.
+    def pluginRepos = settings.pluginManagement.repositories
+    if (pluginRepos.isEmpty()) {
+        pluginRepos.gradlePluginPortal()
+    }
+    prependMirror(pluginRepos)
+
+    // Repositories declared centrally in settings (Gradle 6.8+). Only touched when the build
+    // uses them, so the repositories mode and precedence rules stay as the build intended.
+    if (settings.hasProperty('dependencyResolutionManagement')) {
+        def drmRepos = settings.dependencyResolutionManagement.repositories
+        if (!drmRepos.isEmpty()) {
+            prependMirror(drmRepos)
+        }
+    }
+}
+
+allprojects { project ->
+    // Legacy `buildscript { repositories { ... } }` blocks are resolved while the build
+    // script is evaluated, so the mirror has to be in place beforehand.
+    prependMirror(project.buildscript.repositories)
+
+    // Project repositories are resolved later (at task execution), so wait until the build
+    // script has declared them. Projects that declare none rely on settings repositories;
+    // adding one here would silently disable those, so leave them alone.
+    project.afterEvaluate {
+        if (!project.repositories.isEmpty()) {
+            prependMirror(project.repositories)
+        }
+    }
+}
