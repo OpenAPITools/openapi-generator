@@ -1851,4 +1851,71 @@ public class KotlinClientCodegenModelTest {
         // String enums stay on their @SerialName values.
         TestUtils.assertFileNotContains(recordingKt, "ModeSerializer");
     }
+
+    private Path generateMultiplatformEnumUnknownDefaultCaseModels(boolean enumUnknownDefaultCase) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setLibrary("multiplatform")
+                .addAdditionalProperty("dateLibrary", "kotlinx-datetime")
+                .addAdditionalProperty(ENUM_UNKNOWN_DEFAULT_CASE, enumUnknownDefaultCase)
+                .setInputSpec("src/test/resources/3_0/kotlin/multiplatform-enum-unknown-default-case.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        return Paths.get(output.getAbsolutePath(), "src/commonMain/kotlin/org/openapitools/client/models");
+    }
+
+    @Test(description = "Issue #12970: multiplatform decodes unrecognized enum values to unknown_default_open_api")
+    public void testMultiplatformEnumUnknownDefaultCaseUsesFallbackSerializer() throws IOException {
+        Path models = generateMultiplatformEnumUnknownDefaultCaseModels(true);
+        Path petKt = models.resolve("Pet.kt");
+        Path colorKt = models.resolve("Color.kt");
+
+        // top-level string enum
+        TestUtils.assertFileContains(colorKt,
+                "@Serializable(with = ColorSerializer::class)",
+                "internal object ColorSerializer : KSerializer<Color>",
+                "decoder.decodeSerializableValue(kotlin.String.serializer())",
+                "?: Color.unknown_default_open_api",
+                "encoder.encodeSerializableValue(kotlin.String.serializer(), value.value)");
+        // inline string enum
+        TestUtils.assertFileContains(petKt,
+                "import kotlinx.serialization.builtins.serializer",
+                "@Serializable(with = StatusSerializer::class)",
+                "internal object StatusSerializer : KSerializer<Status>",
+                "?: Status.unknown_default_open_api");
+        // inline non-string enums also fall back, as they do with kotlinx_serialization
+        TestUtils.assertFileContains(petKt,
+                "@Serializable(with = PropertySizeSerializer::class)",
+                "?: PropertySize.unknown_default_open_api");
+        // container enums are serialized with the item type, not the container type
+        TestUtils.assertFileContains(petKt,
+                "internal object CodesSerializer : KSerializer<Codes>",
+                "override val descriptor = kotlin.Int.serializer().descriptor",
+                "?: Codes.unknown_default_open_api");
+        // top-level non-string enums keep rejecting unrecognized values, as they do with kotlinx_serialization
+        TestUtils.assertFileContains(models.resolve("Priority.kt"),
+                "@Serializable(with = PrioritySerializer::class)",
+                "?: throw IllegalArgumentException(\"Unknown enum value: $value\")");
+        TestUtils.assertFileNotContains(models.resolve("Priority.kt"), "?: Priority.unknown_default_open_api");
+    }
+
+    @Test
+    public void testMultiplatformEnumWithoutUnknownDefaultCaseHasNoFallbackSerializer() throws IOException {
+        Path models = generateMultiplatformEnumUnknownDefaultCaseModels(false);
+        Path petKt = models.resolve("Pet.kt");
+        Path colorKt = models.resolve("Color.kt");
+
+        TestUtils.assertFileContains(colorKt, "@Serializable\nenum class Color(val value: kotlin.String)");
+        TestUtils.assertFileNotContains(colorKt, "ColorSerializer", "unknown_default_open_api");
+        TestUtils.assertFileNotContains(petKt,
+                "Serializer",
+                "import kotlinx.serialization.builtins.serializer",
+                "unknown_default_open_api");
+    }
 }
