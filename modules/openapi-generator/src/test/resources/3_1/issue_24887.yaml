@@ -99,6 +99,38 @@ paths:
       responses:
         '200':
           description: OK
+  /required-primitive-non-unique-array:
+    post:
+      operationId: requiredPrimitiveNonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/RequiredPrimitiveNonUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /required-nullable-primitive-non-unique-array:
+    post:
+      operationId: requiredNullablePrimitiveNonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/RequiredNullablePrimitiveNonUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-primitive-non-unique-array:
+    post:
+      operationId: optionalPrimitiveNonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalPrimitiveNonUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-nullable-primitive-nonunique-array:
+    post:
+      operationId: optionalNullablePrimitiveNonUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalNullablePrimitiveNonUniqueArray'
+      responses:
+        '200':
+          description: OK
   /required-primitive-unique-array:
     post:
       operationId: requiredPrimitiveUniqueArray
@@ -388,5 +420,45 @@ components:
               - type: 'null'
               - type: array
                 uniqueItems: true
+                items:
+                  type: string
+    RequiredPrimitiveNonUniqueArray:
+      description: Request body that is a required primitive non-unique array
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+    RequiredNullablePrimitiveNonUniqueArray:
+      description: Request body that is a required nullable primitive non-unique array
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
+                items:
+                  type: string
+    OptionalPrimitiveNonUniqueArray:
+      description: Request body that is an optional primitive non-unique array
+      required: false
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+    OptionalNullablePrimitiveNonUniqueArray:
+      description: Request body that is an optional nullable primitive non-unique array
+      required: false
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
                 items:
                   type: string

@@ -1601,16 +1601,20 @@ public class TypeScriptFetchClientCodegenTest {
                 "body: OptionalTestObjectToJSON(requestParameters['optionalTestObject']),",
                 "body: OptionalNullableTestObjectToJSON(requestParameters['optionalNullableTestObject']),",
                 "body: requestParameters['requiredArrayTestObject']!.map(RequiredArrayTestObjectToJSON),",
-                "body: requestParameters['optionalArrayTestObject'] === undefined ? requestParameters['optionalArrayTestObject'] : requestParameters['optionalArrayTestObject']!.map(OptionalArrayTestObjectToJSON),",
+                "body: requestParameters['optionalArrayTestObject'] === undefined ? undefined : requestParameters['optionalArrayTestObject']!.map(OptionalArrayTestObjectToJSON),",
                 "body: requestParameters['requiredNullableArrayTestObject'] === null ? null : requestParameters['requiredNullableArrayTestObject']!.map(RequiredNullableArrayTestObjectToJSON),",
                 "body: requestParameters['optionalNullableArrayTestObject'] === undefined || requestParameters['optionalNullableArrayTestObject'] === null ? requestParameters['optionalNullableArrayTestObject'] : requestParameters['optionalNullableArrayTestObject']!.map(OptionalNullableArrayTestObjectToJSON),",
                 "body: Array.from(requestParameters['requiredSetTestObject'])!.map(RequiredSetTestObjectToJSON),",
-                "body: requestParameters['optionalSetTestObject'] === undefined ? requestParameters['optionalSetTestObject'] : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),",
+                "body: requestParameters['optionalSetTestObject'] === undefined ? undefined : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),",
                 "body: requestParameters['requiredNullableSetTestObject'] === null ? null : Array.from(requestParameters['requiredNullableSetTestObject'])!.map(RequiredNullableSetTestObjectToJSON),",
                 "body: requestParameters['optionalNullableSetTestObject'] === undefined || requestParameters['optionalNullableSetTestObject'] === null ? requestParameters['optionalNullableSetTestObject'] : Array.from(requestParameters['optionalNullableSetTestObject'])!.map(OptionalNullableSetTestObjectToJSON)",
+                "body: requestParameters['requestBody'],",
+                "body: requestParameters['requestBody'] === null ? null : requestParameters['requestBody'],",
+                "body: requestParameters['requestBody'] === undefined ? undefined : requestParameters['requestBody'],",
+                "body: requestParameters['requestBody'] === undefined || requestParameters['requestBody'] === null ? requestParameters['requestBody'] : requestParameters['requestBody'],",
                 "body: Array.from(requestParameters['requestBody'])",
                 "body: requestParameters['requestBody'] === null ? null : Array.from(requestParameters['requestBody']),",
-                "body: requestParameters['requestBody'] === undefined ? requestParameters['requestBody'] : Array.from(requestParameters['requestBody']),",
+                "body: requestParameters['requestBody'] === undefined ? undefined : Array.from(requestParameters['requestBody']),",
                 "body: requestParameters['requestBody'] === undefined || requestParameters['requestBody'] === null ? requestParameters['requestBody'] : Array.from(requestParameters['requestBody']),"
                 );
     }
