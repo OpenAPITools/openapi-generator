@@ -101,7 +101,7 @@ module DynamicServers
     attr_accessor :temp_folder_path
 
     # The time limit for HTTP request in seconds.
-    # Default to 0 (never times out).
+    # Default to 60 seconds.
     attr_accessor :timeout
 
     # Set this to false to skip client side validation in the operation.
@@ -171,7 +171,7 @@ module DynamicServers
       @verify_ssl_host = true
       @cert_file = nil
       @key_file = nil
-      @timeout = 0
+      @timeout = 60
       @params_encoding = nil
       @debugging = false
       @ignore_operation_servers = false
