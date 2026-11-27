@@ -1607,7 +1607,12 @@ public class TypeScriptFetchClientCodegenTest {
                 "body: Array.from(requestParameters['requiredSetTestObject'])!.map(RequiredSetTestObjectToJSON),",
                 "body: requestParameters['optionalSetTestObject'] === undefined ? requestParameters['optionalSetTestObject'] : Array.from(requestParameters['optionalSetTestObject'])!.map(OptionalSetTestObjectToJSON),",
                 "body: requestParameters['requiredNullableSetTestObject'] === null ? null : Array.from(requestParameters['requiredNullableSetTestObject'])!.map(RequiredNullableSetTestObjectToJSON),",
-                "body: requestParameters['optionalNullableSetTestObject'] === undefined || requestParameters['optionalNullableSetTestObject'] === null ? requestParameters['optionalNullableSetTestObject'] : Array.from(requestParameters['optionalNullableSetTestObject'])!.map(OptionalNullableSetTestObjectToJSON),");
+                "body: requestParameters['optionalNullableSetTestObject'] === undefined || requestParameters['optionalNullableSetTestObject'] === null ? requestParameters['optionalNullableSetTestObject'] : Array.from(requestParameters['optionalNullableSetTestObject'])!.map(OptionalNullableSetTestObjectToJSON)",
+                "body: Array.from(requestParameters['requestBody'])",
+                "body: requestParameters['requestBody'] === null ? null : Array.from(requestParameters['requestBody']),",
+                "body: requestParameters['requestBody'] === undefined ? requestParameters['requestBody'] : Array.from(requestParameters['requestBody']),",
+                "body: requestParameters['requestBody'] === undefined || requestParameters['requestBody'] === null ? requestParameters['requestBody'] : Array.from(requestParameters['requestBody']),"
+                );
     }
 
     private static final String DATE_HANDLING_SPEC = "src/test/resources/3_0/typescript-fetch/date-handling.yaml";

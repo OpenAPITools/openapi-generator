@@ -99,6 +99,38 @@ paths:
       responses:
         '200':
           description: OK
+  /required-primitive-unique-array:
+    post:
+      operationId: requiredPrimitiveUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/RequiredPrimitiveUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /required-nullable-primitive-unique-array:
+    post:
+      operationId: requiredNullablePrimitiveUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/RequiredNullablePrimitiveUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-primitive-unique-array:
+    post:
+      operationId: optionalPrimitiveUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalPrimitiveUniqueArray'
+      responses:
+        '200':
+          description: OK
+  /optional-nullable-primitive-unique-array:
+    post:
+      operationId: optionalNullablePrimitiveUniqueArray
+      requestBody:
+        $ref: '#/components/requestBodies/OptionalNullablePrimitiveUniqueArray'
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     RequiredTestObject:
@@ -314,3 +346,47 @@ components:
                 uniqueItems: true
                 items:
                   $ref: '#/components/schemas/OptionalNullableSetTestObject'
+    RequiredPrimitiveUniqueArray:
+      description: Request body that is a required primitive unique array
+      required: true
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+    RequiredNullablePrimitiveUniqueArray:
+      description: Request body that is a required nullable primitive unique array
+      required: true
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
+                uniqueItems: true
+                items:
+                  type: string
+    OptionalPrimitiveUniqueArray:
+      description: Request body that is an optional primitive unique array
+      required: false
+      content:
+        application/json:
+          schema:
+            type: array
+            uniqueItems: true
+            items:
+              type: string
+    OptionalNullablePrimitiveUniqueArray:
+      description: Request body that is an optional nullable primitive unique array
+      required: false
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - type: 'null'
+              - type: array
+                uniqueItems: true
+                items:
+                  type: string
