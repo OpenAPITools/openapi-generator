@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: model named Tag
+  version: 1.0.0
+tags:
+  - name: pets
+paths:
+  /tag:
+    get:
+      tags:
+        - pets
+      operationId: getTag
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+components:
+  schemas:
+    Tag:
+      properties:
+        id:
+          type: string
