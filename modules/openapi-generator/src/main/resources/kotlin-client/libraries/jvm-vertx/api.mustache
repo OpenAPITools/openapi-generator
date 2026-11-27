@@ -138,7 +138,7 @@ import {{packageName}}.infrastructure.*
     {{/isDeprecated}}
     {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}fun {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{/required}}{{^-last}}, {{/-last}}{{/allParams}}) : Future<ApiResponse<{{#returnType}}{{{returnType}}}?{{/returnType}}{{^returnType}}Unit?{{/returnType}}>> {
         val vertxClient = WebClient.create(vertx)
-        val request = vertxClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{{path}}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
+        val request = vertxClient.requestAbs(HttpMethod.{{httpMethod}}, UriTemplate.of("$basePath{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}"{{#pathParams}}.replace("{"+"{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}{{^required}}?{{/required}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}}))
 
         {{#hasFormParams}}request.putHeader("Content-Type", {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}){{/hasFormParams}}
         {{#headerParams}}{{{paramName}}}{{^required}}?{{/required}}.apply { request.putHeader("{{baseName}}", {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}})}{{/headerParams}}
@@ -158,26 +158,26 @@ import {{packageName}}.infrastructure.*
 
         {{#hasQueryParams}}
         {{#queryParams}}
-        {{{paramName}}}{{^required}}?{{/required}}.let { request.queryParams().add("{{baseName}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>(it){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
+        {{{paramName}}}{{^required}}?{{/required}}.let { request.queryParams().add("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}", {{#isContainer}}toMultiValue(it.toList(), "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{#isDateTime}}parseDateToQueryString<{{{dataType}}}>(it){{/isDateTime}}{{#isDate}}parseDateToQueryString<{{{dataType}}}>(it){{/isDate}}{{^isDateTime}}{{^isDate}}it.toString(){{/isDate}}{{/isDateTime}}){{/isContainer}}) }
         {{/queryParams}}
         {{/hasQueryParams}}
 
         {{#authMethods}}
         {{#isApiKey}}
-        if (apiKey["{{keyParamName}}"] != null) {
-            if (apiKeyPrefix["{{keyParamName}}"] != null) {
+        if (apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] != null) {
+            if (apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"] != null) {
                 {{#isKeyInHeader}}
-                request.putHeader("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+                request.putHeader("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!! + " " + apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-               request.queryParams().add("{{keyParamName}}", apiKeyPrefix["{{keyParamName}}"]!! + " " + apiKey["{{keyParamName}}"]!!)
+               request.queryParams().add("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", apiKeyPrefix["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!! + " " + apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInQuery}}
             } else {
                 {{#isKeyInHeader}}
-                request.putHeader("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                request.putHeader("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInHeader}}
                 {{#isKeyInQuery}}
-                request.queryParams().add("{{keyParamName}}", apiKey["{{keyParamName}}"]!!)
+                request.queryParams().add("{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}", apiKey["{{#lambda.escapeDollar}}{{keyParamName}}{{/lambda.escapeDollar}}"]!!)
                 {{/isKeyInQuery}}
             }
         }

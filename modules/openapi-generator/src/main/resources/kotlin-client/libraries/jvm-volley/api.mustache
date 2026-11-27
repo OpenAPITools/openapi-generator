@@ -63,10 +63,10 @@ import {{packageName}}.infrastructure.CollectionFormats.*
         // to make it easy to override with your own.
 
         // create path and map variables
-        val path = "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}IRequestFactory.escapeString({{{paramName}}}.toString()){{/isContainer}}){{/pathParams}}
+        val path = "{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}"{{#pathParams}}.replace("{" + "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}IRequestFactory.escapeString({{{paramName}}}.toString()){{/isContainer}}){{/pathParams}}
 
         val formParams = mapOf<String, String>({{^formParams}}){{/formParams}}{{#formParams}}
-            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
+            "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
         ){{/-last}}{{/formParams}}
 
 
@@ -74,12 +74,12 @@ import {{packageName}}.infrastructure.CollectionFormats.*
         // TODO, if its apikey auth, then add the header names here and the hardcoded auth key
         // Only support hard coded apikey in query param auth for when we do this first path
         val queryParams = mapOf<String, String>({{^queryParams}}){{/queryParams}}{{#queryParams}}
-                "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
+                "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
             ){{/-last}}{{/queryParams}}
             .filter { it.value.isNotEmpty() }
 
         val headerParams: Map<String, String> = mapOf({{^headerParams}}){{/headerParams}}{{#headerParams}}
-            "{{baseName}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
+            "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" to IRequestFactory.parameterToString({{paramName}}){{^-last}},{{/-last}}{{#-last}}
         ){{/-last}}{{/headerParams}}
 
         return suspendCoroutine { continuation ->

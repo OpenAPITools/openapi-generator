@@ -73,7 +73,7 @@ import kotlinx.serialization.encoding.*
                 {{#formParams}}
                 {{#isArray}}
                 {{{paramName}}}?.onEach {
-                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{{baseName}}}", it.toString()){{/isFile}}
+                    {{#isFile}}append(it){{/isFile}}{{^isFile}}append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", it.toString()){{/isFile}}
                 }
                 {{/isArray}}
                 {{^isArray}}
@@ -83,18 +83,18 @@ import kotlinx.serialization.encoding.*
                 {{^isFile}}
                 {{#isPrimitiveType}}
                 {{#isString}}
-                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{{paramName}}}?.apply { append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}) }
                 {{/isString}}
                 {{^isString}}
-                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{{paramName}}}?.apply { append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.toString()) }
                 {{/isString}}
                 {{/isPrimitiveType}}
                 {{^isPrimitiveType}}
                 {{#isEnumOrRef}}
-                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}.value.toString()) }
+                {{{paramName}}}?.apply { append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", {{{paramName}}}.value.toString()) }
                 {{/isEnumOrRef}}
                 {{^isEnumOrRef}}
-                {{{paramName}}}?.apply { append("{{{baseName}}}", ApiClient.JSON_DEFAULT.encodeToString({{{dataType}}}.serializer(), {{{paramName}}})) }
+                {{{paramName}}}?.apply { append("{{#lambda.escapeDollar}}{{{baseName}}}{{/lambda.escapeDollar}}", ApiClient.JSON_DEFAULT.encodeToString({{{dataType}}}.serializer(), {{{paramName}}})) }
                 {{/isEnumOrRef}}
                 {{/isPrimitiveType}}
                 {{/isFile}}
@@ -116,13 +116,13 @@ import kotlinx.serialization.encoding.*
             {{/hasBodyParam}}
 
         val localVariableQuery = mutableMapOf<String, List<String>>(){{#queryParams}}
-        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}){{/isContainer}} }{{/queryParams}}
+        {{{paramName}}}?.apply { localVariableQuery["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf({{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}){{/isContainer}} }{{/queryParams}}
         val localVariableHeaders = mutableMapOf<String, String>(){{#headerParams}}
-        {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
+        {{{paramName}}}?.apply { localVariableHeaders["{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }{{/headerParams}}
 
         val localVariableConfig = RequestConfig<kotlin.Any?>(
             RequestMethod.{{httpMethod}},
-            "{{{path}}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{/isContainer}}){{/pathParams}},
+            "{{#lambda.escapeDollar}}{{{path}}}{{/lambda.escapeDollar}}"{{#pathParams}}.replace("{" + "{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}" + "}", {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{^isEnumOrRef}}"${{{paramName}}}"{{/isEnumOrRef}}{{#isEnumOrRef}}"${ {{paramName}}.value }"{{/isEnumOrRef}}{{/isContainer}}){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
