@@ -25,8 +25,7 @@ from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class EnumTest(BaseModel):

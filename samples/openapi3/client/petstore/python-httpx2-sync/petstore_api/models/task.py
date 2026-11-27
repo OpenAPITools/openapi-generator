@@ -21,8 +21,7 @@ from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List
 from uuid import UUID
 from petstore_api.models.task_activity import TaskActivity
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class Task(BaseModel):

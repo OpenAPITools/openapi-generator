@@ -13,8 +13,7 @@
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
-from typing_extensions import Annotated
+from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import StrictStr
 

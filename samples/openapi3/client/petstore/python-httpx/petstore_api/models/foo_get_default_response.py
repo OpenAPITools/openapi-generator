@@ -20,8 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.foo import Foo
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class FooGetDefaultResponse(BaseModel):

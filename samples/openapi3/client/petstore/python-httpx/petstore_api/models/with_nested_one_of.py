@@ -21,8 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class WithNestedOneOf(BaseModel):

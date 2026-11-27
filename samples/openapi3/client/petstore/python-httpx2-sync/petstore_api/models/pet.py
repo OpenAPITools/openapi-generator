@@ -18,12 +18,10 @@ import re  # noqa: F401
 import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional
-from typing_extensions import Annotated
+from typing import Annotated, Any, ClassVar, Dict, List, Optional
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
-from typing import Optional, Set
-from typing_extensions import Self
+from typing import Optional, Set, Self
 from pydantic_core import to_jsonable_python
 
 class Pet(BaseModel):

@@ -13,12 +13,10 @@
 
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
-from typing_extensions import Annotated
+from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 
 from pydantic import Field, StrictBytes, StrictStr
-from typing import Any, Dict, List, Optional, Tuple, Union
-from typing_extensions import Annotated
+from typing import Annotated, Any, Dict, List, Optional, Tuple, Union
 from openapi_client.models.pet import Pet
 from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.models.tag import Tag

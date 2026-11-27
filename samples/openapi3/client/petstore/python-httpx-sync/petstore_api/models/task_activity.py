@@ -21,8 +21,7 @@ from petstore_api.models.bathing import Bathing
 from petstore_api.models.feeding import Feeding
 from petstore_api.models.poop_cleaning import PoopCleaning
 from pydantic import StrictStr, Field
-from typing import Union, List, Set, Optional, Dict
-from typing_extensions import Literal, Self
+from typing import Union, List, Set, Optional, Dict, Literal, Self
 
 TASKACTIVITY_ONE_OF_SCHEMAS = ["Bathing", "Feeding", "PoopCleaning"]
 
