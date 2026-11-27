@@ -57,6 +57,8 @@ extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
     }
 }
 
+
+
 class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
   @override
   final Iterable<Type> types = const [Animal];

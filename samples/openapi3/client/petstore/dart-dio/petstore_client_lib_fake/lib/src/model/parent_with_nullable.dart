@@ -49,6 +49,8 @@ extension ParentWithNullableBuilderDiscriminatorExt on ParentWithNullableBuilder
     }
 }
 
+
+
 class _$ParentWithNullableSerializer implements PrimitiveSerializer<ParentWithNullable> {
   @override
   final Iterable<Type> types = const [ParentWithNullable];
