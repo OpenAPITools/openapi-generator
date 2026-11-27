@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Code
         /// </summary>
-        [DataMember(Name = "code", EmitDefaultValue = false)]
+        [DataMember(Name = "code", EmitDefaultValue = true)]
         public int Code { get; set; }
 
         /// <summary>
