@@ -604,7 +604,7 @@ public class DefaultGenerator implements Generator {
         }
         if (GlobalSettings.getProperty("debugModels") != null) {
             LOGGER.info("############ Model info ############");
-            Json.prettyPrint(allModels);
+            LOGGER.info(Json.pretty(allModels));
         }
     }
 
@@ -841,7 +841,7 @@ public class DefaultGenerator implements Generator {
         }
         if (GlobalSettings.getProperty("debugOperations") != null) {
             LOGGER.info("############ Operation info ############");
-            Json.prettyPrint(allOperations);
+            LOGGER.info(Json.pretty(allOperations));
         }
 
     }
@@ -1000,7 +1000,7 @@ public class DefaultGenerator implements Generator {
         }
         if (GlobalSettings.getProperty("debugOperations") != null) {
             LOGGER.info("############ Operation info ############");
-            Json.prettyPrint(allWebhooks);
+            LOGGER.info(Json.pretty(allWebhooks));
         }
 
     }
@@ -1214,7 +1214,7 @@ public class DefaultGenerator implements Generator {
 
         if (GlobalSettings.getProperty("debugSupportingFiles") != null) {
             LOGGER.info("############ Supporting file info ############");
-            Json.prettyPrint(bundle);
+            LOGGER.info(Json.pretty(bundle));
         }
         return bundle;
     }
