@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Example API
+paths:
+  /info:
+    get:
+      operationId: getInfo
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExampleObject'
+components:
+  schemas:
+    StringArray:
+      type: array
+      items:
+        type: string
+    StringMap:
+      type: object
+      additionalProperties:
+        type: string
+    ExampleObject:
+      type: object
+      properties:
+        requiredStrings:
+          $ref: '#/components/schemas/StringArray'
+        optionalStrings:
+          $ref: '#/components/schemas/StringArray'
+        requiredMap:
+          $ref: '#/components/schemas/StringMap'
+        optionalMap:
+          $ref: '#/components/schemas/StringMap'
+      required:
+        - requiredStrings
+        - requiredMap
