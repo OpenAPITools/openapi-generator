@@ -1,0 +1,55 @@
+openapi: 3.0.3
+info:
+  title: issue 25574 nullable model reference inside an array or map (OAS 3.0 spelling)
+  version: 1.0.0
+paths:
+  /things:
+    get:
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+components:
+  schemas:
+    Inner:
+      type: object
+      properties:
+        name:
+          type: string
+    Other:
+      type: object
+      properties:
+        id:
+          type: integer
+    Thing:
+      type: object
+      properties:
+        # OAS 3.0 spelling of a nullable reference (allOf-wrapped $ref with nullable: true),
+        # as a map value and as an array item
+        all_of_map:
+          type: object
+          additionalProperties:
+            allOf:
+              - $ref: '#/components/schemas/Inner'
+            nullable: true
+        all_of_list:
+          type: array
+          items:
+            allOf:
+              # a different model than the map value, so the array item is told apart from it
+              - $ref: '#/components/schemas/Other'
+            nullable: true
+        # controls: the same reference without nullability
+        plain_map:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Inner'
+        plain_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inner'
+        plain_single:
+          $ref: '#/components/schemas/Inner'

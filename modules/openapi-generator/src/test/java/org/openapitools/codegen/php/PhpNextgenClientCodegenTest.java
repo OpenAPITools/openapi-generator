@@ -20,6 +20,7 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
@@ -817,5 +818,114 @@ public class PhpNextgenClientCodegenTest {
         Assert.assertListNotContains(objectSerializerContent,
                 a -> a.contains("Configuration::getDefaultConfiguration()->getBooleanFormatForQueryString()"),
                 "ObjectSerializer must only fall back to the default configuration if no configuration is given");
+    }
+
+    @Test
+    public void testStreamingFileTypeNameIsValidPhp() {
+        codegen.setSupportStreaming(true);
+        codegen.processOpts();
+
+        Schema binary = new StringSchema().format("binary");
+
+        // the streaming "file" type must be a syntactically valid PHP type: a single
+        // leading backslash and single namespace separators
+        Assert.assertEquals(codegen.getSchemaType(binary), "\\Psr\\Http\\Message\\StreamInterface");
+        Assert.assertEquals(codegen.getTypeDeclaration(binary), "\\Psr\\Http\\Message\\StreamInterface");
+    }
+
+    @Test
+    public void testFullyQualifiedTypeCollapsesDoubledSeparators() {
+        // a fully qualified type reaching the getSchemaType() passthrough must never be
+        // emitted with doubled namespace separators, even if the typeMapping value (or
+        // another upstream producer) carries them
+        PhpNextgenClientCodegen streamingCodegen = new PhpNextgenClientCodegen() {
+            {
+                setSupportStreaming(true);
+                processOpts();
+                // legacy value written with doubled separators
+                typeMapping.put("file", "\\Psr\\\\Http\\\\Message\\\\StreamInterface");
+            }
+        };
+
+        Schema binary = new StringSchema().format("binary");
+
+        Assert.assertEquals(streamingCodegen.getSchemaType(binary), "\\Psr\\Http\\Message\\StreamInterface");
+        Assert.assertEquals(streamingCodegen.getTypeDeclaration(binary), "\\Psr\\Http\\Message\\StreamInterface");
+    }
+
+    @Test
+    public void testQueryParameterOpenApiTypeIsValidPhpStringLiteral() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        // a schema type and a composed name are taken from the spec as written,
+        // so both may carry a single quote
+        String spec = String.join("\n",
+                "openapi: 3.0.0",
+                "info:",
+                "  title: quoted types",
+                "  version: '1'",
+                "paths:",
+                "  /x:",
+                "    get:",
+                "      operationId: getX",
+                "      parameters:",
+                "        - name: raw",
+                "          in: query",
+                "          schema:",
+                "            type: \"str'ing\"",
+                "        - name: composed",
+                "          in: query",
+                "          schema:",
+                "            anyOf:",
+                "              - $ref: \"#/components/schemas/Foo'Bar\"",
+                "              - type: string",
+                "        - name: models",
+                "          in: query",
+                "          schema:",
+                "            allOf:",
+                "              - $ref: \"#/components/schemas/Bird\"",
+                "              - $ref: \"#/components/schemas/Category\"",
+                "      responses:",
+                "        '200':",
+                "          description: ok",
+                "components:",
+                "  schemas:",
+                "    Foo'Bar:",
+                "      type: object",
+                "      properties:",
+                "        a:",
+                "          type: string",
+                "    Bird:",
+                "      type: object",
+                "      properties:",
+                "        a:",
+                "          type: string",
+                "    Category:",
+                "      type: object",
+                "      properties:",
+                "        a:",
+                "          type: string");
+
+        OpenAPI openAPI = new OpenAPIParser().readContents(spec, null, new ParseOptions()).getOpenAPI();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String apiContent = String.join("\n", Files.readAllLines(files.get("DefaultApi.php").toPath()));
+
+        // the openApiType argument is a single-quoted PHP string: ' and \ must be escaped,
+        // while the composed name keeps its namespace separators and '&'
+        Assert.assertTrue(apiContent.contains("'str\\'ing', // openApiType"), apiContent);
+        Assert.assertTrue(apiContent.contains("'anyOf<Foo\\'Bar,string>', // openApiType"), apiContent);
+        Assert.assertTrue(apiContent.contains(
+                "'\\\\OpenAPI\\\\Client\\\\Model\\\\Bird&\\\\OpenAPI\\\\Client\\\\Model\\\\Category', // openApiType"),
+                apiContent);
     }
 }

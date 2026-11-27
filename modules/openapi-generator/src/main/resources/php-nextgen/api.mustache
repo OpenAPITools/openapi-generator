@@ -708,7 +708,7 @@ use {{invokerPackage}}\ObjectSerializer;
         $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
             ${{paramName}}{{#isEnumRef}}?->value{{/isEnumRef}},
             '{{baseName}}', // param base name
-            '{{#schema}}{{openApiType}}{{/schema}}', // openApiType
+            '{{#schema}}{{#lambdaEscapePhpSingleQuotedString}}{{{openApiType}}}{{/lambdaEscapePhpSingleQuotedString}}{{/schema}}', // openApiType
             '{{style}}', // style
             {{#isExplode}}true{{/isExplode}}{{^isExplode}}false{{/isExplode}}, // explode
             {{required}}, // required

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -93,6 +94,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         String primitives = "'" + StringUtils.join(sortedLanguageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
 
+        // values written into a single-quoted PHP string may come from the spec as written
+        // (e.g. openApiType), so escape the only two characters that are special there
+        additionalProperties.put("lambdaEscapePhpSingleQuotedString", (Mustache.Lambda) (fragment, writer) -> writer
+                .write(fragment.execute().replace("\\", "\\\\").replace("'", "\\'")));
+
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(CliOption.newBoolean(SUPPORT_STREAMING, "Support streaming endpoint", this.supportStreaming));
@@ -136,7 +142,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         if (this.supportStreaming) {
-            typeMapping.put("file", "\\Psr\\\\Http\\\\Message\\\\StreamInterface");
+            // The value must be a valid PHP type: a single leading backslash and single
+            // separators. It used to carry doubled separators ("\\Psr\\\\Http\\..."),
+            // which only stayed valid because toModelName()'s camelize() collapsed them
+            // as a side effect (see getSchemaType()).
+            typeMapping.put("file", "\\Psr\\Http\\Message\\StreamInterface");
         }
     }
 
