@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  title: form allOf required
+  version: 1.0.0
+paths:
+  /register:
+    post:
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - type: object
+                  required:
+                    - query
+                  properties:
+                    query:
+                      type: string
+                - type: object
+                  required:
+                    - user_id
+                    - prop-with-dash
+                  properties:
+                    user_id:
+                      type: string
+                    prop-with-dash:
+                      type: string
+                    nickname:
+                      type: string
+      responses:
+        '200':
+          description: ok
+  /register-top:
+    post:
+      operationId: registerTop
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - top
+              properties:
+                top:
+                  type: string
+              allOf:
+                - type: object
+                  required:
+                    - member_req
+                  properties:
+                    member_req:
+                      type: string
+                    member_opt:
+                      type: string
+      responses:
+        '200':
+          description: ok
+  /register-mixed:
+    post:
+      operationId: registerMixed
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              required:
+                - common
+              properties:
+                common:
+                  type: string
+              oneOf:
+                - type: object
+                  required:
+                    - a
+                  properties:
+                    a:
+                      type: string
+                - type: object
+                  required:
+                    - b
+                  properties:
+                    b:
+                      type: string
+      responses:
+        '200':
+          description: ok
+  /register-wrapper:
+    post:
+      operationId: registerWrapper
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - wrapper_req
+              allOf:
+                - type: object
+                  properties:
+                    wrapper_req:
+                      type: string
+                    wrapper_opt:
+                      type: string
+      responses:
+        '200':
+          description: ok
+  /register-intersect:
+    post:
+      operationId: registerIntersect
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - type: object
+                  required:
+                    - base_req
+                  properties:
+                    base_req:
+                      type: string
+                - oneOf:
+                    - type: object
+                      required:
+                        - a
+                      properties:
+                        a:
+                          type: string
+                    - type: object
+                      required:
+                        - b
+                      properties:
+                        b:
+                          type: string
+      responses:
+        '200':
+          description: ok
+  /register-allbranches:
+    post:
+      operationId: registerAllbranches
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - type: object
+                  required:
+                    - base_req
+                  properties:
+                    base_req:
+                      type: string
+                - oneOf:
+                    - type: object
+                      required:
+                        - x
+                        - only_a
+                      properties:
+                        x:
+                          type: string
+                        only_a:
+                          type: string
+                    - $ref: '#/components/schemas/BranchB'
+      responses:
+        '200':
+          description: ok
+  /register-anyof-common:
+    post:
+      operationId: registerAnyofCommon
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              allOf:
+                - type: object
+                  properties:
+                    base_opt:
+                      type: string
+                - anyOf:
+                    - type: object
+                      required:
+                        - x2
+                        - aa
+                      properties:
+                        x2:
+                          type: string
+                        aa:
+                          type: string
+                    - type: object
+                      required:
+                        - x2
+                        - bb
+                      properties:
+                        x2:
+                          type: string
+                        bb:
+                          type: string
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    BranchB:
+      type: object
+      required:
+        - x
+        - only_b
+      properties:
+        x:
+          type: string
+        only_b:
+          type: string
