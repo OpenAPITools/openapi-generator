@@ -590,4 +590,26 @@ public class RubyNextgenClientCodegenTest {
         org.openapitools.codegen.TestUtils.assertFileContains(
                 target.resolve("lib/petstore/api/stables/ponies.rb"), "class Stables::Ponies");
     }
+
+    @Test
+    public void testPolymorphismTimeBranchParsesRfc3339Strictly() throws Exception {
+        java.nio.file.Path target = java.nio.file.Files.createTempDirectory("test");
+        target.toFile().deleteOnExit();
+        org.openapitools.codegen.ClientOptInput input =
+                new org.openapitools.codegen.config.CodegenConfigurator()
+                        .setGeneratorName("ruby-nextgen")
+                        .setInputSpec("src/test/resources/3_0/ruby-nextgen/object-query-parameters.yaml")
+                        .setOutputDir(target.toString())
+                        .addAdditionalProperty("gemName", "petstore")
+                        .addAdditionalProperty("moduleName", "Petstore")
+                        .toClientOptInput();
+        new org.openapitools.codegen.DefaultGenerator(false).opts(input).generate();
+
+        // A `format: date-time` candidate must only match RFC 3339 date-time strings:
+        // lenient Time.parse turns "12" or "may" into a Time, so the Time branch of an
+        // anyOf/oneOf swallows values that belong to its sibling candidates.
+        java.nio.file.Path polymorphism = target.resolve("lib/petstore/polymorphism.rb");
+        org.openapitools.codegen.TestUtils.assertFileContains(polymorphism, "Time.iso8601(data)");
+        org.openapitools.codegen.TestUtils.assertFileNotContains(polymorphism, "Time.parse(data)");
+    }
 }
