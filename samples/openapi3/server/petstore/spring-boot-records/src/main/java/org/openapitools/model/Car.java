@@ -66,7 +66,7 @@ public final class Car extends Vehicle {
     return this;
   }
 
-  public Car wheels(Integer wheels) {
+  public Car wheels(@Nullable Integer wheels) {
     super.wheels(wheels);
     return this;
   }

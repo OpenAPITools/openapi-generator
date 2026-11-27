@@ -85,22 +85,22 @@ public class Foo extends Entity implements FooRefOrValue {
   }
 
 
-  public Foo href(String href) {
+  public Foo href(@Nullable String href) {
     super.href(href);
     return this;
   }
 
-  public Foo id(String id) {
+  public Foo id(@Nullable String id) {
     super.id(id);
     return this;
   }
 
-  public Foo atSchemaLocation(String atSchemaLocation) {
+  public Foo atSchemaLocation(@Nullable String atSchemaLocation) {
     super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
-  public Foo atBaseType(String atBaseType) {
+  public Foo atBaseType(@Nullable String atBaseType) {
     super.atBaseType(atBaseType);
     return this;
   }

@@ -50,7 +50,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
   }
 
 
-  public ChildWithNullableDto type(TypeEnum type) {
+  public ChildWithNullableDto type(@Nullable TypeEnum type) {
     super.type(type);
     return this;
   }
