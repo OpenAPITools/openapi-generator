@@ -73,6 +73,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public static final String DATE_LIBRARY_DATE = "date";
     public static final String DATE_LIBRARY_STRING = "string";
     public static final String DATE_LIBRARY_TEMPORAL = "temporal";
+    public static final String DATE_ANCHOR = "dateAnchor";
+    public static final String DATE_ANCHOR_DESC = "Option. How a `format: date` value is anchored to an instant. Only applies when dateLibrary=date.";
+    public static final String DATE_ANCHOR_LOCAL = "local";
+    public static final String DATE_ANCHOR_UTC = "utc";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String IMPORT_FILE_EXTENSION_SWITCH = "importFileExtension";
@@ -96,6 +100,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     protected boolean addedModelIndex = false;
     protected boolean withoutRuntimeChecks = false;
     protected String dateLibrary = DATE_LIBRARY_DATE;
+    protected String dateAnchor = DATE_ANCHOR_LOCAL;
     protected boolean stringEnums = false;
     protected String fileNaming = PASCAL_CASE;
     protected String apiDocPath = "docs";
@@ -172,6 +177,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         dateOptions.put(DATE_LIBRARY_TEMPORAL, "Native Temporal. `format: date` is mapped to Temporal.PlainDate and `format: date-time` is mapped to Temporal.Instant and (de)serialized by the runtime. (Experimental support) ");
         dateLibraryOption.setEnum(dateOptions);
         this.cliOptions.add(dateLibraryOption);
+
+        CliOption dateAnchorOption = new CliOption(DATE_ANCHOR, DATE_ANCHOR_DESC).defaultValue(this.getDateAnchor());
+        Map<String, String> dateAnchorOptions = new LinkedHashMap<>();
+        dateAnchorOptions.put(DATE_ANCHOR_LOCAL, "Local calendar. A `format: date` value is parsed to local midnight and serialized from the local calendar (default since 7.25.0).");
+        dateAnchorOptions.put(DATE_ANCHOR_UTC, "UTC. A `format: date` value is parsed with `new Date(value)` and serialized as the UTC calendar day (`toISOString().substring(0, 10)`), the behaviour up to 7.24.");
+        dateAnchorOption.setEnum(dateAnchorOptions);
+        this.cliOptions.add(dateAnchorOption);
         this.cliOptions.add(new CliOption(SAGAS_AND_RECORDS, "Setting this property to true will generate additional files for use with redux-saga and immutablejs.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC, SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(IMPORT_FILE_EXTENSION_SWITCH, IMPORT_FILE_EXTENSION_SWITCH_DESC).defaultValue(""));
@@ -236,6 +248,19 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     public void setDateLibrary(String dateLibrary) {
         this.dateLibrary = dateLibrary;
+    }
+
+    public String getDateAnchor() {
+        return this.dateAnchor;
+    }
+
+    public void setDateAnchor(String dateAnchor) {
+        if (DATE_ANCHOR_LOCAL.equals(dateAnchor) || DATE_ANCHOR_UTC.equals(dateAnchor)) {
+            this.dateAnchor = dateAnchor;
+        } else {
+            throw new IllegalArgumentException("Invalid dateAnchor '" +
+                    dateAnchor + "'. Must be 'local' or 'utc'");
+        }
     }
 
     public Boolean getStringEnums() {
@@ -359,6 +384,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.setDateLibrary(additionalProperties.get(DATE_LIBRARY).toString());
         }
 
+        if (additionalProperties.containsKey(DATE_ANCHOR)) {
+            this.setDateAnchor(additionalProperties.get(DATE_ANCHOR).toString());
+        }
+
         if (!withoutRuntimeChecks) {
             this.modelTemplateFiles.put("models.mustache", ".ts");
         }
@@ -389,6 +418,13 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         additionalProperties.put("isDateLibraryDate", DATE_LIBRARY_DATE.equals(this.dateLibrary));
         additionalProperties.put("isDateLibraryString", DATE_LIBRARY_STRING.equals(this.dateLibrary));
         additionalProperties.put("isDateLibraryTemporal", DATE_LIBRARY_TEMPORAL.equals(this.dateLibrary));
+
+        if (DATE_ANCHOR_UTC.equals(this.dateAnchor) && !DATE_LIBRARY_DATE.equals(this.dateLibrary)) {
+            LOGGER.warn("{}={} only applies when {}={}; ignoring {}={}.",
+                    DATE_ANCHOR, this.dateAnchor, DATE_LIBRARY, DATE_LIBRARY_DATE, DATE_ANCHOR, this.dateAnchor);
+        }
+        additionalProperties.put(DATE_ANCHOR, this.dateAnchor);
+        additionalProperties.put("isDateAnchorUtc", DATE_ANCHOR_UTC.equals(this.dateAnchor) && DATE_LIBRARY_DATE.equals(this.dateLibrary));
 
         if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {
             this.setSagasAndRecords(convertPropertyToBoolean(SAGAS_AND_RECORDS));

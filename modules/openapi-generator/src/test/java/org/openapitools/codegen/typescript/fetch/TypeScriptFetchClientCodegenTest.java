@@ -1493,6 +1493,54 @@ public class TypeScriptFetchClientCodegenTest {
         TestUtils.assertFileNotContains(modelsIndex, "startsOn: Date;");
     }
 
+    @Test(description = "Verify dateAnchor=local is the default: format: date is anchored to the local calendar")
+    public void testDateAnchorLocalIsTheDefault() throws IOException {
+        File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileContains(runtime, "const year = ('000' + value.getFullYear()).slice(-4);");
+        TestUtils.assertFileContains(runtime, "date.setHours(0, 0, 0, 0);");
+        TestUtils.assertFileNotContains(runtime, "return value.toISOString().substring(0, 10);");
+    }
+
+    @Test(description = "Verify dateAnchor=utc restores the pre-7.25 UTC anchoring of format: date")
+    public void testDateAnchorUtc() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.DATE_ANCHOR, TypeScriptFetchClientCodegen.DATE_ANCHOR_UTC);
+
+        File output = generate(properties, DATE_HANDLING_SPEC);
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileContains(runtime, "return value.toISOString().substring(0, 10);");
+        TestUtils.assertFileContains(runtime, "export function parseDate(value: Date | string): Date {\n    if (value instanceof Date) {\n        return value;\n    }\n    return new Date(value);\n}");
+        TestUtils.assertFileNotContains(runtime, "setFullYear(year, month, day)");
+        TestUtils.assertFileNotContains(runtime, "date.setHours(0, 0, 0, 0);");
+
+        Path event = Paths.get(output + "/models/Event.ts");
+        TestUtils.assertFileContains(event, "startsOn: Date;");
+        TestUtils.assertFileContains(event, "'startsOn': (json['startsOn'] == null ? json['startsOn'] : parseDate(json['startsOn']))");
+        TestUtils.assertFileContains(event, "'startsOn': value['startsOn'] == null ? value['startsOn'] : serializeDate(value['startsOn'])");
+    }
+
+    @Test(description = "Verify dateAnchor=utc is ignored when dateLibrary is not date")
+    public void testDateAnchorUtcIsIgnoredWithoutDateLibraryDate() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptFetchClientCodegen.DATE_ANCHOR, TypeScriptFetchClientCodegen.DATE_ANCHOR_UTC);
+        properties.put(TypeScriptFetchClientCodegen.DATE_LIBRARY, TypeScriptFetchClientCodegen.DATE_LIBRARY_STRING);
+
+        File output = generate(properties, DATE_HANDLING_SPEC);
+
+        Path runtime = Paths.get(output + "/runtime.ts");
+        TestUtils.assertFileNotContains(runtime, "export function parseDate(");
+        TestUtils.assertFileNotContains(runtime, "export function serializeDate(");
+        TestUtils.assertFileNotContains(runtime, "return value.toISOString().substring(0, 10);");
+
+        TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        codegen.additionalProperties().putAll(properties);
+        codegen.processOpts();
+        Assert.assertEquals(codegen.additionalProperties().get("isDateAnchorUtc"), Boolean.FALSE);
+    }
+
     @Test(description = "Verify format: date is serialized as a calendar date in every parameter location, not as a date-time")
     public void testDateFormatIsSerializedAsACalendarDate() throws IOException {
         File output = generate(new HashMap<>(), DATE_HANDLING_SPEC);

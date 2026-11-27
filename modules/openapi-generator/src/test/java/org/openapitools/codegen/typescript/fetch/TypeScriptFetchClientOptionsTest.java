@@ -56,6 +56,7 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptFetchClientOptionsProvider.STRING_ENUMS));
         verify(clientCodegen).setFileNaming(TypeScriptFetchClientOptionsProvider.FILE_NAMING_VALUE);
         verify(clientCodegen).setDateLibrary(TypeScriptFetchClientOptionsProvider.DATE_LIBRARY_VALUE);
+        verify(clientCodegen).setDateAnchor(TypeScriptFetchClientOptionsProvider.DATE_ANCHOR_VALUE);
     }
 
     @Test(description = "Verify if an exception is thrown when invalid values are used with fileNaming option")
@@ -69,6 +70,20 @@ public class TypeScriptFetchClientOptionsTest extends AbstractOptionsTest {
         );
         Assert.assertThrows(IllegalArgumentException.class, () ->
                 codegen.setFileNaming("invalid-format")
+        );
+    }
+
+    @Test(description = "Verify if an exception is thrown when invalid values are used with dateAnchor option")
+    public void testDateAnchorInvalidValues() {
+        final TypeScriptFetchClientCodegen codegen = new TypeScriptFetchClientCodegen();
+        Assert.assertThrows(IllegalArgumentException.class, () ->
+                codegen.setDateAnchor(null)
+        );
+        Assert.assertThrows(IllegalArgumentException.class, () ->
+                codegen.setDateAnchor("")
+        );
+        Assert.assertThrows(IllegalArgumentException.class, () ->
+                codegen.setDateAnchor("UTC")
         );
     }
 
