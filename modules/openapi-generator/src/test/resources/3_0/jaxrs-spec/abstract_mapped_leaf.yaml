@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: x-abstract on a mapped model without own discriminator
+  description: >
+    Dog is marked x-abstract although the DOG value of Pet's discriminator maps to it and Dog has no
+    discriminator of its own to resolve a concrete subclass, so generation must fail.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          DOG: '#/components/schemas/Dog'
+
+    Dog:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean

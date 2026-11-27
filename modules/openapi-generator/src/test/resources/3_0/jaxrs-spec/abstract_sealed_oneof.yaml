@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: abstract member of a sealed oneOf interface
+  description: >
+    CatRequest is a member of the oneOf PetRequest and an abstract parent of PersianCatRequest and
+    SiameseCatRequest; its discriminator maps directly to these leaves. With useOneOfInterfaces and useSealed,
+    PetRequest is a sealed interface, CatRequest is abstract and sealed and all leaves are final, so a switch
+    over PetRequest can be exhaustive without default.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    PetRequest:
+      oneOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - $ref: '#/components/schemas/DogRequest'
+
+    CatRequest:
+      x-abstract: true
+      type: object
+      required:
+        - catType
+      properties:
+        catType:
+          type: string
+        indoor:
+          type: boolean
+      discriminator:
+        propertyName: catType
+        mapping:
+          PERSIAN: '#/components/schemas/PersianCatRequest'
+          SIAMESE: '#/components/schemas/SiameseCatRequest'
+
+    PersianCatRequest:
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    SiameseCatRequest:
+      allOf:
+        - $ref: '#/components/schemas/CatRequest'
+        - type: object
+          properties:
+            eyeColor:
+              type: string
+
+    DogRequest:
+      type: object
+      properties:
+        trained:
+          type: boolean

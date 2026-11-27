@@ -12,10 +12,19 @@
 {{/useDeductionForOneOfInterfaces}}{{#vendorExtensions.x-class-extra-annotation}}{{{vendorExtensions.x-class-extra-annotation}}}
 {{/vendorExtensions.x-class-extra-annotation}}
 {{/discriminator}}
+{{#vendorExtensions.x-jsonb-polymorphic}}
+@jakarta.json.bind.annotation.JsonbTypeDeserializer({{package}}.{{classname}}.{{vendorExtensions.x-jsonb-deserializer-name}}.class)
+{{/vendorExtensions.x-jsonb-polymorphic}}
 {{>generatedAnnotation}}
 
 public {{>sealed}}interface {{classname}}{{#vendorExtensions.x-implements}}{{#-first}} extends {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{/vendorExtensions.x-implements}} {{>permits}}{
     {{#discriminator}}
     {{propertyType}} {{propertyGetter}}();
     {{/discriminator}}
+{{#vendorExtensions.x-jsonb-polymorphic}}
+{{>jsonbPolymorphicDeserializer}}
+{{/vendorExtensions.x-jsonb-polymorphic}}
+{{#vendorExtensions.x-jsonb-container-deserializer-name}}
+{{>jsonbPolymorphicContainerDeserializer}}
+{{/vendorExtensions.x-jsonb-container-deserializer-name}}
 }

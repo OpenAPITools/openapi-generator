@@ -1,0 +1,151 @@
+openapi: 3.0.3
+info:
+  title: JSON-B polymorphism, discriminator defaults
+  description: >
+    Discriminator values that the concrete models are created with under jsonbDiscriminatorDeserializers. Shape dispatches by an
+    inline enum, Animal by a referenced enum. Fruit maps two values to Apple, so Apple gets no default. Machine is a
+    concrete root that no value maps to itself; Machine maps two values to Drone, which therefore must not keep the
+    default of Machine. The concrete child Robot of Machine resolves its subclasses by a second
+    discriminator property robotType that does not map Robot itself either. No model has a JSON-B creator here, so
+    JSON-B creates every model with its no-argument constructor.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Shape:
+      x-abstract: true
+      type: object
+      properties:
+        shapeType:
+          type: string
+          enum:
+            - CIRCLE
+            - SQUARE
+      discriminator:
+        propertyName: shapeType
+        mapping:
+          CIRCLE: '#/components/schemas/Circle'
+          SQUARE: '#/components/schemas/Square'
+
+    Circle:
+      allOf:
+        - $ref: '#/components/schemas/Shape'
+        - type: object
+          properties:
+            radius:
+              type: integer
+
+    Square:
+      allOf:
+        - $ref: '#/components/schemas/Shape'
+        - type: object
+          properties:
+            side:
+              type: integer
+
+    AnimalKind:
+      type: string
+      enum:
+        - BIRD
+        - FISH
+
+    Animal:
+      x-abstract: true
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/AnimalKind'
+      discriminator:
+        propertyName: kind
+        mapping:
+          BIRD: '#/components/schemas/Bird'
+          FISH: '#/components/schemas/Fish'
+
+    Bird:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            wings:
+              type: integer
+
+    Fish:
+      allOf:
+        - $ref: '#/components/schemas/Animal'
+        - type: object
+          properties:
+            fins:
+              type: integer
+
+    Fruit:
+      x-abstract: true
+      type: object
+      properties:
+        fruitType:
+          type: string
+      discriminator:
+        propertyName: fruitType
+        mapping:
+          APPLE: '#/components/schemas/Apple'
+          MALUS: '#/components/schemas/Apple'
+          PEAR: '#/components/schemas/Pear'
+
+    Apple:
+      allOf:
+        - $ref: '#/components/schemas/Fruit'
+        - type: object
+          properties:
+            sweet:
+              type: boolean
+
+    Pear:
+      allOf:
+        - $ref: '#/components/schemas/Fruit'
+        - type: object
+          properties:
+            ripe:
+              type: boolean
+
+    Machine:
+      type: object
+      properties:
+        machineType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: machineType
+        mapping:
+          ROBOT: '#/components/schemas/Robot'
+          DRONE: '#/components/schemas/Drone'
+          UAV: '#/components/schemas/Drone'
+
+    Robot:
+      allOf:
+        - $ref: '#/components/schemas/Machine'
+        - type: object
+          properties:
+            robotType:
+              type: string
+            arms:
+              type: integer
+      discriminator:
+        propertyName: robotType
+        mapping:
+          ARM: '#/components/schemas/ArmRobot'
+
+    ArmRobot:
+      allOf:
+        - $ref: '#/components/schemas/Robot'
+        - type: object
+          properties:
+            reach:
+              type: integer
+
+    Drone:
+      allOf:
+        - $ref: '#/components/schemas/Machine'
+        - type: object
+          properties:
+            rotors:
+              type: integer

@@ -1,0 +1,219 @@
+openapi: 3.0.3
+info:
+  title: JSON-B polymorphism in containers
+  description: >-
+    Lists, sets and maps (also nested ones) of polymorphic models with jsonbDiscriminatorDeserializers, which need a container
+    deserializer with Yasson up to 3.0.4. Pet is an abstract root with an abstract intermediate Cat, Vehicle a concrete
+    root that maps a value to itself and has a container of itself. Containers is a non-polymorphic holder, Required
+    has required containers (JSON-B creator parameters), the subclass Shelter inherits a required container from
+    House, and Dog is a polymorphic model with containers of its root. Also the input of the sample
+    jaxrs-spec-sealed-jsonb.
+  version: 1.0.0
+paths:
+  /containers:
+    post:
+      operationId: postContainers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Containers'
+      responses:
+        '200':
+          description: The containers that were read
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Containers'
+components:
+  schemas:
+    Pet:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          PERSIAN: '#/components/schemas/PersianCat'
+          DOG: '#/components/schemas/Dog'
+
+    Cat:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    PersianCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            barks:
+              type: integer
+            pack:
+              type: array
+              items:
+                $ref: '#/components/schemas/Pet'
+            friends:
+              type: object
+              additionalProperties:
+                $ref: '#/components/schemas/Pet'
+
+    Vehicle:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        wheels:
+          type: integer
+        trailers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+      discriminator:
+        propertyName: kind
+        mapping:
+          VEHICLE: '#/components/schemas/Vehicle'
+          CAR: '#/components/schemas/Car'
+
+    Car:
+      allOf:
+        - $ref: '#/components/schemas/Vehicle'
+        - type: object
+          properties:
+            doors:
+              type: integer
+
+    Containers:
+      type: object
+      properties:
+        petList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
+        petSet:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Pet'
+        petMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Pet'
+        petMapOfLists:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/Pet'
+        petListOfMaps:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Pet'
+        petMapOfMaps:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/Pet'
+        petListOfLists:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/Pet'
+        catMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Cat'
+        vehicleMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Vehicle'
+        vehicleList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+        carMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Car'
+        persianMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PersianCat'
+        stringMap:
+          type: object
+          additionalProperties:
+            type: string
+        stringLists:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+
+    Required:
+      type: object
+      required:
+        - petMap
+        - vehicleList
+      properties:
+        petMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Pet'
+        vehicleList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+        note:
+          type: string
+
+    House:
+      type: object
+      required:
+        - houseType
+        - residents
+      properties:
+        houseType:
+          type: string
+        residents:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Pet'
+      discriminator:
+        propertyName: houseType
+        mapping:
+          HOUSE: '#/components/schemas/House'
+          SHELTER: '#/components/schemas/Shelter'
+
+    Shelter:
+      allOf:
+        - $ref: '#/components/schemas/House'
+        - type: object
+          properties:
+            city:
+              type: string
