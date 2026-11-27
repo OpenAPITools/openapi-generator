@@ -101,28 +101,28 @@ QString PFXUser::asJson() const {
 
 QJsonObject PFXUser::asJsonObject() const {
     QJsonObject obj;
-    if (m_id_isSet) {
+    if (true && m_id_isSet) {
         obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
-    if (m_username_isSet) {
+    if (true && m_username_isSet) {
         obj.insert(QString("username"), ::test_namespace::toJsonValue(m_username));
     }
-    if (m_first_name_isSet) {
+    if (true && m_first_name_isSet) {
         obj.insert(QString("firstName"), ::test_namespace::toJsonValue(m_first_name));
     }
-    if (m_last_name_isSet) {
+    if (true && m_last_name_isSet) {
         obj.insert(QString("lastName"), ::test_namespace::toJsonValue(m_last_name));
     }
-    if (m_email_isSet) {
+    if (true && m_email_isSet) {
         obj.insert(QString("email"), ::test_namespace::toJsonValue(m_email));
     }
-    if (m_password_isSet) {
+    if (true && m_password_isSet) {
         obj.insert(QString("password"), ::test_namespace::toJsonValue(m_password));
     }
-    if (m_phone_isSet) {
+    if (true && m_phone_isSet) {
         obj.insert(QString("phone"), ::test_namespace::toJsonValue(m_phone));
     }
-    if (m_user_status_isSet) {
+    if (true && m_user_status_isSet) {
         obj.insert(QString("userStatus"), ::test_namespace::toJsonValue(m_user_status));
     }
     return obj;

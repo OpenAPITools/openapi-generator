@@ -100,11 +100,11 @@ QString {{classname}}::asJson() const {
 
 QJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}} {{classname}}::asJson{{^isEnum}}Object{{/isEnum}}{{#isEnum}}Value{{/isEnum}}() const {
     {{^isEnum}}QJsonObject obj;{{#vars}}{{^isContainer}}{{#complexType}}
-    if (m_{{name}}.isSet()){{/complexType}}{{^complexType}}
-    if (m_{{name}}_isSet){{/complexType}} {
+    if (true{{^required}} && m_{{name}}.isSet(){{/required}}){{/complexType}}{{^complexType}}
+    if (true{{^required}} && m_{{name}}_isSet{{/required}}){{/complexType}} {
         obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue(m_{{name}}));
     }{{/isContainer}}{{#isContainer}}
-    if (m_{{name}}.size() > 0) {
+    if (true{{^required}} && m_{{name}}.size() > 0{{/required}}) {
         {{^items.isContainer}}obj.insert(QString("{{baseName}}"), ::{{cppNamespace}}::toJsonValue(m_{{name}}));{{/items.isContainer}}{{#items.isContainer}}
         obj.insert(QString("{{baseName}}"), toJsonValue(m_{{name}}));{{/items.isContainer}}
     }{{/isContainer}}{{/vars}}
