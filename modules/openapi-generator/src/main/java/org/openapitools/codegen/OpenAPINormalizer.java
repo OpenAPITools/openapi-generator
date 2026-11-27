@@ -1180,6 +1180,8 @@ public class OpenAPINormalizer {
 
     protected Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
         Schema result = processNormalize31Spec(schema, visitedSchemas);
+        // OAS 3.1 boolean schemas are parsed as JsonSchema, not BooleanSchema
+        processSimplifyBooleanEnum(result);
         return processSetPrimitiveTypesToNullable(result);
     }
 
@@ -2162,11 +2164,8 @@ public class OpenAPINormalizer {
             return;
         }
 
-        if (schema instanceof BooleanSchema) {
-            BooleanSchema bs = (BooleanSchema) schema;
-            if (isEnumSchema(bs)) {
-                bs.setEnum(null);
-            }
+        if (isSingleTypeSchema(schema, "boolean") && isEnumSchema(schema)) {
+            schema.setEnum(null);
         }
     }
 
