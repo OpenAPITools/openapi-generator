@@ -946,7 +946,7 @@ public class OpenAPINormalizer {
     }
 
     protected boolean isSelfReference(String name, Schema subSchema) {
-        if (subSchema != null && name.equals(ModelUtils.getSimpleRef(subSchema.get$ref()))) {
+        if (subSchema != null && subSchema.get$ref() != null && name.equals(ModelUtils.getSimpleRef(subSchema.get$ref()))) {
             return true;
         } else {
             return false;

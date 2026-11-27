@@ -2264,4 +2264,3 @@ public class OpenAPINormalizerTest {
     }
 
 }
-
