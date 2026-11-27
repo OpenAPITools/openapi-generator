@@ -1851,4 +1851,56 @@ public class KotlinClientCodegenModelTest {
         // String enums stay on their @SerialName values.
         TestUtils.assertFileNotContains(recordingKt, "ModeSerializer");
     }
+
+    private Path generateNumberEnumDefaultModels(Map<String, String> typeMappings) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName(KOTLIN_GENERATOR)
+                .setAdditionalProperties(new HashMap<>() {{
+                  put(CodegenConstants.MODEL_PACKAGE, "model");
+                }})
+                .setTypeMappings(typeMappings)
+                .setInputSpec("src/test/resources/3_0/kotlin/issue23293-number-enum-default.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        return Paths.get(output + "/src/main/kotlin/model");
+    }
+
+    @Test
+    public void testNumberEnumDefaultValueUsesEnumConstant() throws IOException {
+        final Path models = generateNumberEnumDefaultModels(new HashMap<>());
+        final Path baseWebhook = models.resolve("BaseWebhook.kt");
+
+        // BigDecimal enums are constructed with BigDecimal values, not with strings
+        TestUtils.assertFileContains(baseWebhook,
+                "enum class IsActive(val value: java.math.BigDecimal) {",
+                "@Json(name = \"0\") _0(java.math.BigDecimal(\"0\")),",
+                "@Json(name = \"1\") _1(java.math.BigDecimal(\"1\"));");
+        TestUtils.assertFileContains(models.resolve("Flag.kt"), "_0(java.math.BigDecimal(\"0\"))");
+        // the defaults of enum properties are enum constants, not wrapped in the type constructor
+        TestUtils.assertFileContains(baseWebhook,
+                "val reqNumber: BaseWebhook.ReqNumber = ReqNumber._1,",
+                "val isActive: BaseWebhook.IsActive? = IsActive._1,",
+                "val level: BaseWebhook.Level? = Level._2,",
+                "val ratio: BaseWebhook.Ratio? = Ratio._0Period5,",
+                "val mode: BaseWebhook.Mode? = Mode.fast,",
+                // non-enum numbers are unchanged
+                "val plainNumber: java.math.BigDecimal? = java.math.BigDecimal(\"3\")");
+        TestUtils.assertFileNotContains(baseWebhook, "_0(\"0\")", "= java.math.BigDecimal(\"1\")");
+    }
+
+    @Test
+    public void testNumberEnumDefaultValueWithIntTypeMapping() throws IOException {
+        final Path baseWebhook = generateNumberEnumDefaultModels(new HashMap<>() {{
+          put("number", "kotlin.Int");
+        }}).resolve("BaseWebhook.kt");
+
+        TestUtils.assertFileContains(baseWebhook,
+                "enum class IsActive(val value: kotlin.Int) {",
+                "@Json(name = \"1\") _1(1);",
+                "val isActive: BaseWebhook.IsActive? = IsActive._1,");
+        TestUtils.assertFileNotContains(baseWebhook, "kotlin.Int(\"IsActive._1\")");
+    }
 }
