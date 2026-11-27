@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: jspecify inherited fluent setters
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Base:
+      type: object
+      required:
+        - kind
+      properties:
+        kind:
+          type: string
+        description:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+      discriminator:
+        propertyName: kind
+    Child:
+      allOf:
+        - $ref: '#/components/schemas/Base'
+        - type: object
+          properties:
+            extra:
+              type: string

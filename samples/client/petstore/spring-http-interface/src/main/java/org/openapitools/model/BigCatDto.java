@@ -91,7 +91,7 @@ public class BigCatDto extends CatDto {
   }
 
 
-  public BigCatDto declawed(Boolean declawed) {
+  public BigCatDto declawed(@Nullable Boolean declawed) {
     super.declawed(declawed);
     return this;
   }

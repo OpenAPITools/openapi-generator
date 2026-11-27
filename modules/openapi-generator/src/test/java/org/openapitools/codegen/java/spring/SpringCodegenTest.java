@@ -8415,6 +8415,37 @@ public class SpringCodegenTest {
         }
     }
 
+    @Test(dataProvider = "jspecifyLibraries")
+    public void testJspecify_inheritedFluentSettersKeepNullable(String library, int springBootVersion) throws IOException {
+        // https://github.com/OpenAPITools/openapi-generator/issues/25831
+        String springVersionProperty = springBootVersion == 4? USE_SPRING_BOOT4: USE_SPRING_BOOT3;
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/jspecify-allof-inherited-setters.yaml", library,
+                Map.of(USE_JSPECIFY, true,
+                        SpringCodegen.OPENAPI_NULLABLE, false,
+                        INTERFACE_ONLY, true,
+                        springVersionProperty, springBootVersion > 2,
+                        USE_JAKARTA_EE, springBootVersion > 2
+                ),
+                codegenConfigurator ->
+                        codegenConfigurator
+                                .addTypeMapping("OffsetDateTime", "java.time.Instant"));
+
+        JavaFileAssert.assertThat(files.get("Base.java"))
+                .fileContains(
+                        "public Base kind(String kind) {",
+                        "public Base description(@Nullable String description) {",
+                        "public Base createdAt(java.time.@Nullable Instant createdAt) {");
+        JavaFileAssert.assertThat(files.get("Child.java"))
+                .assertTypeAnnotations().doesImportAnnotation("org.jspecify.annotations.Nullable").toType()
+                .fileContains(
+                        "public Child kind(String kind) {",
+                        "public Child description(@Nullable String description) {",
+                        "public Child createdAt(java.time.@Nullable Instant createdAt) {")
+                .fileDoesNotContain(
+                        "public Child description(String description) {",
+                        "public Child createdAt(java.time.Instant createdAt) {");
+    }
+
     // -------------------------------------------------------------------------
     // autoXSpringPaginated tests
     // -------------------------------------------------------------------------
