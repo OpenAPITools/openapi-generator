@@ -1,0 +1,13 @@
+openapi: 3.1.0
+info: {title: Response header, version: '1'}
+paths:
+  /test:
+    get:
+      responses:
+        '204':
+          description: ok
+          headers:
+            X-Json:
+              content:
+                application/json:
+                  schema: {type: object}
