@@ -243,65 +243,6 @@ public class GoClientCodegenTest {
     }
 
     @Test
-    public void testOneOfEnumAndNullablePattern() throws IOException, InterruptedException {
-        File output = Files.createTempDirectory("go-oneof-enum-pattern").toFile();
-        try {
-            CodegenConfigurator configurator = new CodegenConfigurator()
-                    .setGeneratorName("go")
-                    .setInputSpec("src/test/resources/3_1/go/oneof-enum-pattern.yaml")
-                    .setOutputDir(output.getAbsolutePath());
-            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-            TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_metadata.go"),
-                    "valueValidator.Validate", "nullableRegexp");
-            TestUtils.assertFileContains(Paths.get(output.getAbsolutePath(), "model_nested_union.go"),
-                    "valueValidator.Validate", "nullableRegexp");
-            try {
-                if (new ProcessBuilder("go", "version").start().waitFor() != 0) {
-                    return;
-                }
-            } catch (IOException ignored) {
-                return;
-            }
-            Files.copy(Paths.get("src/test/resources/3_1/go/oneof-enum-pattern_test.go"),
-                    Paths.get(output.getAbsolutePath(), "oneof-enum-pattern_test.go"));
-            Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestOneOf(EnumAndNullablePattern|NestedNullablePattern)$", ".")
-                    .directory(output).redirectErrorStream(true).start();
-            String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-            Assert.assertEquals(goTest.waitFor(), 0, goOutput);
-        } finally {
-            FileUtils.deleteDirectory(output);
-        }
-    }
-
-    @Test
-    public void testDiscriminatorNullablePattern() throws IOException, InterruptedException {
-        File output = Files.createTempDirectory("go-discriminator-pattern").toFile();
-        try {
-            CodegenConfigurator configurator = new CodegenConfigurator()
-                    .setGeneratorName("go")
-                    .setInputSpec("src/test/resources/3_1/go/oneof-enum-pattern.yaml")
-                    .setOutputDir(output.getAbsolutePath())
-                    .addAdditionalProperty("useOneOfDiscriminatorLookup", true);
-            new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
-            try {
-                if (new ProcessBuilder("go", "version").start().waitFor() != 0) {
-                    return;
-                }
-            } catch (IOException ignored) {
-                return;
-            }
-            Files.copy(Paths.get("src/test/resources/3_1/go/oneof-discriminator-pattern_test.go"),
-                    Paths.get(output.getAbsolutePath(), "oneof-discriminator-pattern_test.go"));
-            Process goTest = new ProcessBuilder("go", "test", "-mod=mod", "-run", "^TestDiscriminatorNullablePattern$", ".")
-                    .directory(output).redirectErrorStream(true).start();
-            String goOutput = new String(goTest.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-            Assert.assertEquals(goTest.waitFor(), 0, goOutput);
-        } finally {
-            FileUtils.deleteDirectory(output);
-        }
-    }
-
-    @Test
     public void testStringNotEnumValidation() throws IOException, InterruptedException {
         File output = Files.createTempDirectory("go-not-enum").toFile();
         output.deleteOnExit();

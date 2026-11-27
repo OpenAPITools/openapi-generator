@@ -11,6 +11,7 @@ on:
       - samples/client/others/go/oneof-discriminator-lookup/**
       - samples/client/others/go/oneof-not-enum/**
       - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
+      - samples/openapi3/client/petstore/go/go-oneof-enum-pattern/**
   pull_request:
     paths:
       - 'samples/openapi3/client/petstore/go/go-petstore-aws-signature/**'
@@ -21,6 +22,7 @@ on:
       - samples/client/others/go/oneof-discriminator-lookup/**
       - samples/client/others/go/oneof-not-enum/**
       - samples/client/others/go/issue_20079_go_regex_wrongly_translated/**
+      - samples/openapi3/client/petstore/go/go-oneof-enum-pattern/**
 jobs:
   build:
     name: Build Go
@@ -37,6 +39,7 @@ jobs:
           - samples/client/others/go/oneof-discriminator-lookup/
           - samples/client/others/go/oneof-not-enum/
           - samples/client/others/go/issue_20079_go_regex_wrongly_translated/
+          - samples/openapi3/client/petstore/go/go-oneof-enum-pattern/
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
