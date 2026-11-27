@@ -1,0 +1,26 @@
+openapi: 3.0.3
+info:
+  title: nullable property with single allOf type
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    ObjectOne:
+      type: object
+      required:
+        - one
+        - two
+      properties:
+        one:
+          allOf:
+            - $ref: '#/components/schemas/OtherObject'
+          nullable: true
+        two:
+          allOf:
+            - type: string
+          nullable: true
+        three:
+          allOf:
+            - type: string
+    OtherObject:
+      type: string
