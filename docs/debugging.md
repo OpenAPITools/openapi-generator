@@ -166,10 +166,10 @@ openapi-generator generate -g go \
     --global-property debugModels,debugOperations
 ```
 
-Or you can add these to your `JAVA_OPTS` environment variable (this applies to every invocation of the tool):
+Or you can add these to your `JAVA_OPTS` environment variable (this applies to every invocation of the tool). Notice we add a file logger, which makes it easier to consult the verbose model output in the `output.log` file:
 
 ```bash
-export JAVA_OPTS="${JAVA_OPTS} --global-property debugModels,debugOperations"
+export JAVA_OPTS="${JAVA_OPTS} -Dlog.file=output.log --global-property debugModels,debugOperations"
 ```
 
 > NOTE: Globally available system options like these will apply to all invocations of the generator (CLI and plugins)
