@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
@@ -352,6 +353,63 @@ public class KotlinClientCodegenApiTest {
             assertFileContains(searchApi.toPath(),
                     "put(\"filter-a[status]\", listOf(filterA.status.toString()))",
                     "put(\"filter-b[status]\", listOf(filterB.status.toString()))");
+        }
+    }
+
+    // ApiClient properties (basePath, accessToken, apiKey, apiKeyPrefix, username,
+    // password, vertx) must be referenced through `this.` in jvm-vertx APIs, or an
+    // operation parameter with the same name shadows them. Unqualified member
+    // access has one of these shapes; spec-parameter uses (queryParams().add,
+    // the class constructor, lambda arguments) never match them.
+    private static final Pattern UNQUALIFIED_MEMBER_ACCESS = Pattern.compile(
+            "(?<!this\\.)apiKey(?:Prefix)?\\[" +
+            "|(?<!this\\.)(username|password|accessToken)\\?\\.let \\{ \\1 ->");
+
+    @Test
+    public void testJvmVertxApiClientMembersAreThisQualified() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-vertx-member-collision.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_VERTX);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        assertFileContainsLine(lines, "val vertxClient = WebClient.create(this.vertx)");
+        assertFileContainsLine(lines, "val request = vertxClient.requestAbs(HttpMethod.GET, UriTemplate.of(\"${this.basePath}/base\"))");
+
+        // basic auth
+        assertFileContainsLine(lines, "this.username?.let { username ->");
+        assertFileContainsLine(lines, "this.password?.let { password ->");
+
+        // bearer and oauth both emit a qualified accessToken block
+        long accessTokenBlocks = lines.stream().filter("this.accessToken?.let { accessToken ->"::equals).count();
+        Assert.assertTrue(accessTokenBlocks >= 2,
+                "expected at least 2 'this.accessToken?.let { accessToken ->' lines (bearer + oauth), found " + accessTokenBlocks);
+
+        // api key sent in the header: the apiKey and apiKeyPrefix branches
+        assertFileContainsLine(lines, "if (this.apiKey[\"X-API-KEY\"] != null) {");
+        assertFileContainsLine(lines, "if (this.apiKeyPrefix[\"X-API-KEY\"] != null) {");
+        assertFileContainsLine(lines, "request.putHeader(\"X-API-KEY\", this.apiKeyPrefix[\"X-API-KEY\"]!! + \" \" + this.apiKey[\"X-API-KEY\"]!!)");
+        assertFileContainsLine(lines, "request.putHeader(\"X-API-KEY\", this.apiKey[\"X-API-KEY\"]!!)");
+
+        // api key sent in the query: the same two branches
+        assertFileContainsLine(lines, "if (this.apiKey[\"api_key_q\"] != null) {");
+        assertFileContainsLine(lines, "if (this.apiKeyPrefix[\"api_key_q\"] != null) {");
+        assertFileContainsLine(lines, "request.queryParams().add(\"api_key_q\", this.apiKeyPrefix[\"api_key_q\"]!! + \" \" + this.apiKey[\"api_key_q\"]!!)");
+        assertFileContainsLine(lines, "request.queryParams().add(\"api_key_q\", this.apiKey[\"api_key_q\"]!!)");
+
+        // the spec's own parameters still reach the wire unqualified
+        assertFileContainsLine(lines, "username?.let { request.queryParams().add(\"username\", listOf(it.toString())) }");
+        assertFileContainsLine(lines, "accessToken?.let { request.queryParams().add(\"accessToken\", listOf(it.toString())) }");
+
+        // no unqualified member reference survives anywhere in the file
+        for (String line : lines) {
+            Assert.assertFalse(line.contains("WebClient.create(vertx)"), "unqualified member reference: " + line);
+            Assert.assertFalse(line.contains("\"$basePath"), "unqualified member reference: " + line);
+            Assert.assertFalse(UNQUALIFIED_MEMBER_ACCESS.matcher(line).find(), "unqualified member reference: " + line);
         }
     }
 
