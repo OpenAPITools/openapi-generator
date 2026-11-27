@@ -51,7 +51,7 @@ interface PetApiService {
      * @see PetApi#findPetsByTags
      */
     @Deprecated(message="Operation is deprecated")
-    fun findPetsByTags(tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+$") @Size(max=20) kotlin.String>): List<Pet>
+    fun findPetsByTags(tags: kotlin.collections.List<@Pattern(regexp="^[a-z0-9]+\$") @Size(max=20) kotlin.String>): List<Pet>
 
     /**
      * GET /pet/{petId} : Find pet by ID

@@ -43,7 +43,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Create user",
         operationId = "createUser",
-        description = """This can only be done by the logged in user.""",
+        description = "This can only be done by the logged in user.",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation")
         ],
@@ -65,7 +65,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Creates list of users with given input array",
         operationId = "createUsersWithArrayInput",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation")
         ],
@@ -87,7 +87,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Creates list of users with given input array",
         operationId = "createUsersWithListInput",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation")
         ],
@@ -109,7 +109,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Delete user",
         operationId = "deleteUser",
-        description = """This can only be done by the logged in user.""",
+        description = "This can only be done by the logged in user.",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid username supplied"),
             ApiResponse(responseCode = "404", description = "User not found")
@@ -131,7 +131,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Get user by user name",
         operationId = "getUserByName",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = User::class))]),
             ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -154,7 +154,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Logs user into the system",
         operationId = "loginUser",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.String::class))]),
             ApiResponse(responseCode = "400", description = "Invalid username/password supplied")
@@ -167,7 +167,7 @@ interface UserApi {
         produces = ["application/xml", "application/json"]
     )
     fun loginUser(
-        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+\$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
         @NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
     ): ResponseEntity<kotlin.String> {
         return getDelegate().loginUser(username, password)
@@ -177,7 +177,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Logs out current logged in user session",
         operationId = "logoutUser",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation")
         ],
@@ -196,7 +196,7 @@ interface UserApi {
         tags = ["user",],
         summary = "Updated user",
         operationId = "updateUser",
-        description = """This can only be done by the logged in user.""",
+        description = "This can only be done by the logged in user.",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid user supplied"),
             ApiResponse(responseCode = "404", description = "User not found")

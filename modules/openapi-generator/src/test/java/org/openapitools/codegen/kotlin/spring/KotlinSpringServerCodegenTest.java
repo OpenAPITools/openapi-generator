@@ -825,13 +825,13 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(
                 Paths.get(
                         outputPath + "/src/main/kotlin/org/openapitools/api/" + pingApiFileName),
-                "description = \"\"\"# Multi-line descriptions\n"
-                        + "\n"
-                        + "This is an example of a multi-line description.\n"
-                        + "\n"
-                        + "It:\n"
-                        + "- has multiple lines\n"
-                        + "- uses Markdown (CommonMark) for rich text representation\"\"\""
+                "description = \"# Multi-line descriptions\\n"
+                        + "\\n"
+                        + "This is an example of a multi-line description.\\n"
+                        + "\\n"
+                        + "It:\\n"
+                        + "- has multiple lines\\n"
+                        + "- uses Markdown (CommonMark) for rich text representation\""
         );
     }
 
@@ -3734,7 +3734,7 @@ public class KotlinSpringServerCodegenTest {
                 "@NotNull", "@Valid");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApiController.kt"),
                 "@NotNull", "@Valid",
-                "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")",
+                "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+\\$\")",
                 "@Parameter(description = \"The user name for login\", required = true)",
                 "@Parameter(description = \"The password for login in clear text\", required = true)");
     }
@@ -3762,7 +3762,7 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/PetApi.kt"),
                 "@NotNull", "@Valid");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/UserApi.kt"),
-                "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")");
+                "@NotNull", "@Valid", "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+\\$\")");
     }
 
     @DataProvider
@@ -4887,6 +4887,230 @@ public class KotlinSpringServerCodegenTest {
         assertFileContains(files.get("CtApiDelegate.kt").toPath(),
                 "MediaType.valueOf(\"application/json; profile=\\\"x\\$y\\\"\")",
                 "ApiUtil.setExampleResponse(request, \"application/json; profile=\\\"x\\$y\\\"\", ");
+    }
+
+    @Test
+    public void escapedValuesRetainKotlinDefaultAndFormParameterContracts() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml");
+
+        assertFileContains(files.get("RequiredDecimal.kt").toPath(), "BigDecimal(\"12.34\")");
+        assertFileContains(files.get("OptionalDecimal.kt").toPath(), "BigDecimal(\"56.78\")");
+        assertFileContains(files.get("FormFeed.kt").toPath(), "description = \"form feed \\u000c\"");
+        assertFileContains(files.get("EscapedApiController.kt").toPath(),
+                "defaultValue = \"raw &amp; <tag> */ \\\\u002a/\"");
+        assertFileContains(files.get("FormApiController.kt").toPath(),
+                "description = \"Form &amp; <tag> \\\"quote\\\" \\\\u002a/\"");
+        assertFileContains(files.get("EscapedEnum.kt").toPath(),
+                "(\"quote\\\" slash\\\\ \\$value\")");
+        assertFileContains(files.get("EscapedApiController.kt").toPath(),
+                "allowableValues = [\"quote\\\" slash\\\\ \\$value\"]");
+
+        Map<String, File> serviceFiles = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        assertFileContains(serviceFiles.get("FormApiService.kt").toPath(),
+                "@param defaulted Form default (optional, OpenAPI schema default to form default)");
+    }
+
+    @Test
+    public void serviceExternalDocumentationUsesItsOwnDescription() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/escaping-regressions.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        String serviceSource = Files.readString(files.get("EscapedApiService.kt").toPath());
+
+        Assert.assertTrue(serviceSource.contains("External docs &amp;amp; &lt;literal&gt; *&#47; &#92;u002a/"));
+        Assert.assertFalse(serviceSource.contains("Operation docs *&#47; &#92;u002a/\n     * @see"));
+
+        Map<String, File> rawPathFiles = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        assertFileContains(rawPathFiles.get("KdocU002aApiService.kt").toPath(),
+                "* GET /kdoc-&#92;u002a/");
+    }
+
+    @Test
+    public void kotlinSourceLiteralsEscapePathsContextPathsAndOAuthAnnotations() throws IOException {
+        final String input = "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml";
+
+        Map<String, File> controllerFiles = generateFromContract(input);
+        assertKotlinEscapedPaths(controllerFiles.get("EscapingApiController.kt"));
+        assertFileContains(controllerFiles.get("EscapingApiController.kt").toPath(),
+                "SecurityRequirement(name = \"oauth\\$\\\"name\", scopes = [ \"scope\\$\\\"name\" ])");
+        assertFileContains(controllerFiles.get("UriDefault.kt").toPath(),
+                "java.net.URI.create(\"https://example.test/\\$uri\")");
+        assertFileContains(controllerFiles.get("DiscriminatorParent.kt").toPath(),
+                "property = \"\\$kind\"",
+                "name = \"kind\\$\\\"\\\\name\"",
+                "name = \"mapping\\$\\\"\\\\name\"");
+        assertFileContains(controllerFiles.get("DiscriminatorChild.kt").toPath(),
+                "= \"kind\\$\\\"\\\\name\"");
+        assertFileContains(controllerFiles.get("SpringDocConfiguration.kt").toPath(),
+                ".title(\"Kotlin \\$ & \\\" \\\\ title\")",
+                ".description(\"Description \\$ & \\\" \\\\ details\")",
+                ".termsOfService(\"https://example.test/\\$terms?value=one&two\")",
+                ".name(\"Contact \\$ & \\\" \\\\ name\")",
+                ".url(\"https://example.test/\\$contact\")",
+                ".email(\"contact\\$@example.test\")",
+                ".name(\"License \\$ & \\\" \\\\ name\")",
+                ".url(\"https://example.test/\\$license\")",
+                ".version(\"1.0.\\$version\")",
+                ".addSecuritySchemes(\"oauth\\$\\\"name\", SecurityScheme()");
+
+        Map<String, File> interfaceFiles = generateFromContract(input, Map.of(
+                INTERFACE_ONLY, true,
+                REQUEST_MAPPING_OPTION, KotlinSpringServerCodegen.RequestMappingMode.api_interface));
+        assertKotlinEscapedPaths(interfaceFiles.get("EscapingApi.kt"));
+
+        Map<String, File> controllerWrapperFiles = generateFromContract(input, Map.of(
+                DELEGATE_PATTERN, true,
+                REQUEST_MAPPING_OPTION, KotlinSpringServerCodegen.RequestMappingMode.controller));
+        assertFileContains(controllerWrapperFiles.get("EscapingApiController.kt").toPath(),
+                "@RequestMapping(\"\\${api.base-path:/server-\\$context}\")",
+                "const val BASE_PATH: String = \"/server-\\$context\"");
+
+        Map<String, File> swagger1Files = generateFromContract(input, Map.of(
+                INTERFACE_ONLY, true,
+                ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER1.toCliOptValue(),
+                DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue()));
+        assertFileContains(swagger1Files.get("EscapingApi.kt").toPath(),
+                "Authorization(value = \"oauth\\$\\\"name\", scopes = [AuthorizationScope(scope = \"scope\\$\\\"name\", description = \"Scope description \\$ \\\" \\\\u002a/\")])");
+
+        Map<String, File> declarativeFiles = generateFromContract(input, new HashMap<>(), new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_DECLARATIVE_HTTP_INTERFACE_LIBRARY));
+        Path declarativeApi = declarativeFiles.get("EscapingApi.kt").toPath();
+        assertFileContains(declarativeApi,
+                "const val BASE_PATH: String = \"/server-\\$context\"",
+                "const val PATH_ESCAPED: String = \"/escaping/operations-\\$path\"");
+    }
+
+    @Test(description = "date and date-time parameter defaults are not emitted, matching the generator's existing behavior")
+    public void temporalParameterDefaultsAreNotEmitted() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-temporal-parameter-defaults.yaml",
+                Map.of(SERVICE_INTERFACE, true));
+        Path controller = files.get("QueryApiController.kt").toPath();
+        Path service = files.get("QueryApiService.kt").toPath();
+        Path formController = files.get("FormApiController.kt").toPath();
+        Path formService = files.get("FormApiService.kt").toPath();
+
+        assertFileContains(controller,
+                "@RequestParam(value = \"day\", required = false)",
+                "@RequestParam(value = \"at\", required = false)",
+                "@RequestHeader(value = \"headerDay\", required = false)",
+                "@CookieValue(name = \"cookieDay\", required = false)",
+                "@CookieValue(name = \"cookieAt\", required = false)",
+                "@RequestParam(value = \"label\", required = false, defaultValue = \"plain\")");
+        assertFileContains(formController,
+                "@RequestParam(value = \"day\", required = false)",
+                "@RequestParam(value = \"at\", required = false)");
+        assertFileContains(service, "@param day ", "@param at ", "@param cookieDay ");
+        assertFileContains(formService, "@param day ", "@param at ");
+        assertFileNotContains(controller, "2024-03-0");
+        assertFileNotContains(formController, "2024-03-0");
+        assertFileNotContains(service, "2024-03-0");
+        assertFileNotContains(formService, "2024-03-0");
+        assertFileContains(service, "@param label  (optional, default to plain)");
+    }
+
+    @Test(description = "omitted date and date-time defaults are reported once per parameter and model property")
+    public void omittedTemporalDefaultsAreLogged() throws IOException {
+        ch.qos.logback.classic.Logger logger = (ch.qos.logback.classic.Logger)
+                org.slf4j.LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+        ch.qos.logback.core.read.ListAppender<ch.qos.logback.classic.spi.ILoggingEvent> appender =
+                new ch.qos.logback.core.read.ListAppender<>();
+        appender.start();
+        logger.addAppender(appender);
+        List<String> warnings;
+        // Surefire runs test classes in parallel; only count events logged by this test's thread.
+        String testThread = Thread.currentThread().getName();
+        try {
+            generateFromContract("src/test/resources/3_0/spring/kotlin-temporal-parameter-defaults.yaml");
+            warnings = appender.list.stream()
+                    .filter(event -> testThread.equals(event.getThreadName()))
+                    .filter(event -> event.getLevel() == ch.qos.logback.classic.Level.WARN)
+                    .map(ch.qos.logback.classic.spi.ILoggingEvent::getFormattedMessage)
+                    .collect(Collectors.toList());
+        } finally {
+            logger.detachAppender(appender);
+        }
+
+        for (String expected : List.of(
+                "query parameter 'day' of operation 'temporalQuery'",
+                "query parameter 'day' of operation 'temporalQueryAgain'",
+                "query parameter 'at' of operation 'temporalQuery'",
+                "header parameter 'headerDay' of operation 'temporalQuery'",
+                "cookie parameter 'cookieDay' of operation 'temporalQuery'",
+                "cookie parameter 'cookieAt' of operation 'temporalQuery'",
+                "form parameter 'day' of operation 'temporalForm'",
+                "form parameter 'at' of operation 'temporalForm'",
+                "date/date-time property 'TemporalDefaults.day'", "date/date-time property 'TemporalDefaults.at'")) {
+            Assert.assertEquals(warnings.stream().filter(w -> w.contains(expected)).count(), 1L,
+                    "expected exactly one warning containing: " + expected + " in " + warnings);
+        }
+        Assert.assertTrue(warnings.stream().noneMatch(w -> w.contains("noDefault") || w.contains("'label'")),
+                "unexpected warning in " + warnings);
+        Assert.assertTrue(warnings.stream().noneMatch(w -> w.contains("is not applied when the field is omitted")),
+                "date/date-time form parameters must not also get the form-default warning: " + warnings);
+    }
+
+    @Test(description = "property examples keep line breaks and are escaped as Kotlin string literals")
+    public void propertyExamplesPreserveLineBreaks() throws IOException {
+        final String input = "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml";
+
+        Path swagger2Model = generateFromContract(input).get("MultilineExample.kt").toPath();
+        assertFileContains(swagger2Model,
+                "@Schema(example = \"first line\\nsecond \\\"line\\\" \\$ \\\\ \\ttab\", description = \"\")",
+                "@Schema(example = \"line one\\r\\nline two\", required = true, description = \"\")");
+
+        Path swagger1Model = generateFromContract(input, Map.of(
+                ANNOTATION_LIBRARY, AnnotationLibrary.SWAGGER1.toCliOptValue(),
+                DOCUMENTATION_PROVIDER, DocumentationProvider.NONE.toCliOptValue()))
+                .get("MultilineExample.kt").toPath();
+        assertFileContains(swagger1Model,
+                "@ApiModelProperty(example = \"first line\\nsecond \\\"line\\\" \\$ \\\\ \\ttab\", value = \"\")",
+                "@ApiModelProperty(example = \"line one\\r\\nline two\", required = true, value = \"\")");
+    }
+
+    @Test(description = "bean validation patterns and messages are escaped as Kotlin string literals")
+    public void beanValidationPatternsAndMessagesAreKotlinLiterals() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml",
+                Map.of(USE_BEANVALIDATION, true));
+
+        assertFileContains(files.get("PatternModel.kt").toPath(),
+                "@get:Pattern(regexp=\"^[a-z]*/\\$abc\\\\d\\$\", message=\"must \\\"match\\\" & \\$it\")",
+                "@get:Size(min=1,max=5, message=\"size \\\"x\\\" \\$y\")",
+                "List<@Pattern(regexp=\"^\\\\d+\\$name\", message=\"item \\\"match\\\" \\$it\") kotlin.String>");
+        assertFileContains(files.get("ValidationApiController.kt").toPath(),
+                "@Pattern(regexp=\"^[a-z]*/\\$abc\\\\d\\$\", message=\"query \\\"match\\\" & \\$it\")");
+    }
+
+    @Test(description = "spring-cloud client configuration escapes security and server values")
+    public void springCloudClientConfigurationEscapesValues() throws IOException {
+        Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/spring/kotlin-escaping-regressions.yaml",
+                new HashMap<>(), new HashMap<>(),
+                configurator -> configurator.setLibrary(SPRING_CLOUD_LIBRARY));
+
+        assertFileContains(files.get("ClientConfiguration.kt").toPath(),
+                "@Value(\"\\${kotlintitle.security.basic\\$\\\"name.username:}\")",
+                "@ConditionalOnProperty(\"kotlintitle.security.basic\\$\\\"name.username\")",
+                "fun basicnameRequestInterceptor(): BasicAuthRequestInterceptor",
+                "@Value(\"\\${kotlintitle.security.key\\$\\\"name.key:}\")",
+                "ApiKeyRequestInterceptor(\"header\", \"X-Key\\$\\\"\", this.keynameKey)",
+                "@ConditionalOnProperty(\"kotlintitle.security.oauth\\$\\\"name.client-id\")",
+                "details.accessTokenUri = \"https://example.test/\\$token?a=1&b=2\"");
+        assertFileContains(files.get("EscapingApiClient.kt").toPath(),
+                "url=\"\\${escaping.url:http://localhost/server-\\$context}\"");
+    }
+
+    private void assertKotlinEscapedPaths(File source) throws IOException {
+        assertFileContains(source.toPath(),
+                "@RequestMapping(\"\\${api.base-path:/server-\\$context}\")",
+                "const val BASE_PATH: String = \"/server-\\$context\"",
+                "const val PATH_ESCAPED: String = \"/escaping/operations-\\$path\"");
     }
 
     private Map<String, File> generateFromContract(String url) throws IOException {
@@ -8382,7 +8606,7 @@ public class KotlinSpringServerCodegenTest {
         assertThat(getKotlinPropertyAnnotations(model, "uriMaxLength")).doesNotContain("@get:Size");
         assertThat(getKotlinPropertyAnnotations(model, "uriMinMaxLength")).doesNotContain("@get:Size");
         assertThat(getKotlinPropertyAnnotations(model, "plainString"))
-                .contains("@get:Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@get:Pattern(regexp=\"^[a-z]+\\$\")")
                 .contains("@get:Size(min=1)");
         assertThat(getKotlinPropertyAnnotations(model, "plainStringMaxLength")).contains("@get:Size(max=10)");
         assertThat(getKotlinPropertyAnnotations(model, "plainStringMinMaxLength"))
@@ -8398,7 +8622,7 @@ public class KotlinSpringServerCodegenTest {
         assertThat(getKotlinParameterAnnotations(api, "uriParamMaxLength")).doesNotContain("@Size");
         assertThat(getKotlinParameterAnnotations(api, "uriParamMinMaxLength")).doesNotContain("@Size");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))
-                .contains("@Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@Pattern(regexp=\"^[a-z]+\\$\")")
                 .contains("@Size(min=1)");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParamMaxLength")).contains("@Size(max=10)");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParamMinMaxLength"))
@@ -8439,7 +8663,7 @@ public class KotlinSpringServerCodegenTest {
                 .doesNotContain("@get:Pattern")
                 .doesNotContain("@get:Size");
         assertThat(getKotlinPropertyAnnotations(model, "plainString"))
-                .contains("@get:Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@get:Pattern(regexp=\"^[a-z]+\\$\")")
                 .contains("@get:Size(min=1)");
 
         assertThat(model).contains("val dateItems: kotlin.collections.List<java.time.LocalDate>?");
@@ -8471,7 +8695,7 @@ public class KotlinSpringServerCodegenTest {
                 .doesNotContain("@Pattern")
                 .doesNotContain("@Size");
         assertThat(getKotlinParameterAnnotations(api, "plainStringParam"))
-                .contains("@Pattern(regexp=\"^[a-z]+$\")")
+                .contains("@Pattern(regexp=\"^[a-z]+\\$\")")
                 .contains("@Size(min=1)");
         assertThat(api).contains("dateArrayParam: kotlin.collections.List<java.time.LocalDate>?");
         assertThat(getKotlinParameterAnnotations(api, "dateArrayParam"))
@@ -8951,7 +9175,7 @@ public class KotlinSpringServerCodegenTest {
         // string / number constraints
         assertFileContains(holder,
                 "val names: kotlin.collections.List<@Size(max=10) kotlin.String>,",
-                "val codes: kotlin.collections.List<@Pattern(regexp=\"^[A-Z]{2}$\") kotlin.String>? = null",
+                "val codes: kotlin.collections.List<@Pattern(regexp=\"^[A-Z]{2}\\$\") kotlin.String>? = null",
                 "val emails: kotlin.collections.List<@Email kotlin.String>? = null",
                 "val sizes: kotlin.collections.List<@Size(min=1,max=3) kotlin.String>? = null",
                 "val ints: kotlin.collections.List<@Min(value=1) @Max(value=10) kotlin.Int>? = null",

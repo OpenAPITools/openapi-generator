@@ -32,8 +32,8 @@ public class CodegenOperation {
             isDeprecated, isCallbackRequest, uniqueItems,
             hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
     public CodegenProperty returnProperty;
-    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
-            returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
+    public String path, unescapedPath, operationId, returnType, returnFormat, httpMethod, returnBaseType,
+            returnContainer, summary, unescapedSummary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;
     public List<CodegenServer> servers = new ArrayList<CodegenServer>();
@@ -423,12 +423,14 @@ public class CodegenOperation {
         sb.append(", isCallbackRequest=").append(isCallbackRequest);
         sb.append(", uniqueItems='").append(uniqueItems);
         sb.append(", path='").append(path).append('\'');
+        sb.append(", unescapedPath='").append(unescapedPath).append('\'');
         sb.append(", operationId='").append(operationId).append('\'');
         sb.append(", returnType='").append(returnType).append('\'');
         sb.append(", httpMethod='").append(httpMethod).append('\'');
         sb.append(", returnBaseType='").append(returnBaseType).append('\'');
         sb.append(", returnContainer='").append(returnContainer).append('\'');
         sb.append(", summary='").append(summary).append('\'');
+        sb.append(", unescapedSummary='").append(unescapedSummary).append('\'');
         sb.append(", unescapedNotes='").append(unescapedNotes).append('\'');
         sb.append(", notes='").append(notes).append('\'');
         sb.append(", baseName='").append(baseName).append('\'');
@@ -496,12 +498,14 @@ public class CodegenOperation {
                 Objects.equals(returnProperty, that.returnProperty) &&
                 Objects.equals(responseHeaders, that.responseHeaders) &&
                 Objects.equals(path, that.path) &&
+                Objects.equals(unescapedPath, that.unescapedPath) &&
                 Objects.equals(operationId, that.operationId) &&
                 Objects.equals(returnType, that.returnType) &&
                 Objects.equals(httpMethod, that.httpMethod) &&
                 Objects.equals(returnBaseType, that.returnBaseType) &&
                 Objects.equals(returnContainer, that.returnContainer) &&
                 Objects.equals(summary, that.summary) &&
+                Objects.equals(unescapedSummary, that.unescapedSummary) &&
                 Objects.equals(unescapedNotes, that.unescapedNotes) &&
                 Objects.equals(notes, that.notes) &&
                 Objects.equals(baseName, that.baseName) &&
@@ -546,8 +550,8 @@ public class CodegenOperation {
         return Objects.hash(responseHeaders, hasAuthMethods, hasConsumes, hasProduces, hasOptionalParams,
                 returnTypeIsPrimitive, returnSimpleType, subresourceOperation, isMap,
                 isArray, isMultipart, isVoid, isResponseBinary, isResponseFile, isResponseOptional, hasReference,
-                isDeprecated, isCallbackRequest, uniqueItems, path, operationId, returnType, httpMethod,
-                returnBaseType, returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse,
+                isDeprecated, isCallbackRequest, uniqueItems, path, unescapedPath, operationId, returnType, httpMethod,
+                returnBaseType, returnContainer, summary, unescapedSummary, unescapedNotes, notes, baseName, defaultResponse,
                 discriminator, consumes, produces, prioritizedContentTypes, servers, bodyParam, allParams, bodyParams,
                 pathParams, queryParams, headerParams, formParams, cookieParams, requiredParams, returnProperty, optionalParams,
                 authMethods, tags, responses, callbacks, imports, examples, requestBodyExamples, externalDocs,

@@ -37,7 +37,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Create user",
         operationId = "createUser",
-        description = """This can only be done by the logged in user.""",
+        description = "This can only be done by the logged in user.",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
@@ -57,7 +57,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Creates list of users with given input array",
         operationId = "createUsersWithArrayInput",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
@@ -77,7 +77,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Creates list of users with given input array",
         operationId = "createUsersWithListInput",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
@@ -97,7 +97,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Delete user",
         operationId = "deleteUser",
-        description = """This can only be done by the logged in user.""",
+        description = "This can only be done by the logged in user.",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid username supplied"),
             ApiResponse(responseCode = "404", description = "User not found") ],
@@ -117,7 +117,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Get user by user name",
         operationId = "getUserByName",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = User::class))]),
             ApiResponse(responseCode = "400", description = "Invalid username supplied"),
@@ -138,7 +138,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Logs user into the system",
         operationId = "loginUser",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = kotlin.String::class))]),
             ApiResponse(responseCode = "400", description = "Invalid username/password supplied") ]
@@ -150,7 +150,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         produces = ["application/xml", "application/json"]
     )
     suspend fun loginUser(
-        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
+        @NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+\$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) username: kotlin.String,
         @NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) password: kotlin.String
     ): ResponseEntity<kotlin.String> {
         return ResponseEntity(service.loginUser(username, password), HttpStatus.valueOf(200))
@@ -159,7 +159,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Logs out current logged in user session",
         operationId = "logoutUser",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "default", description = "successful operation") ],
         security = [ SecurityRequirement(name = "api_key") ]
@@ -176,7 +176,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
     @Operation(
         summary = "Updated user",
         operationId = "updateUser",
-        description = """This can only be done by the logged in user.""",
+        description = "This can only be done by the logged in user.",
         responses = [
             ApiResponse(responseCode = "400", description = "Invalid user supplied"),
             ApiResponse(responseCode = "404", description = "User not found") ],

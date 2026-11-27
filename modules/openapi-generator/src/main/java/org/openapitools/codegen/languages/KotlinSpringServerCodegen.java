@@ -36,6 +36,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.SourceStringEscaper;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.utils.JsonAnnotationPolicyUtils;
 import org.openapitools.codegen.utils.JsonIncludePolicy;
@@ -74,6 +75,13 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     private final Logger LOGGER =
             LoggerFactory.getLogger(KotlinSpringServerCodegen.class);
+
+    // Deduplicates the "date/date-time default is not generated" warnings within one generation run.
+    private final Set<String> temporalDefaultWarnings = new HashSet<>();
+    // {location, name} of the parameters whose date/date-time default was cleared while the current
+    // operation was built (postProcessParameter runs inside super.fromOperation). Kept outside
+    // vendorExtensions so a specification cannot supply the marker; reported and reset in fromOperation.
+    private final List<String[]> omittedTemporalDefaults = new ArrayList<>();
 
     private static final HashSet<String> VARIABLE_RESERVED_WORDS =
             new HashSet<>(Arrays.asList(
@@ -1170,7 +1178,89 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""));
+                .put("escapeDoubleQuote", new EscapeLambda("\"", "\\\""))
+                .put("kotlinStringLiteral", (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringLiteral(fragment.execute())))
+                .put("kotlinStringContent", (fragment, writer) -> writer.write(SourceStringEscaper.kotlinStringContent(fragment.execute())))
+                .put("kotlinDocText", (fragment, writer) -> writer.write(SourceStringEscaper.docText(fragment.execute())));
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty property, Schema schema) {
+        String value = super.toDefaultValue(property, schema);
+        Schema resolved = ModelUtils.getReferencedSchema(openAPI, schema);
+        if (resolved != null && ModelUtils.isURISchema(resolved)
+                && resolved.getDefault() instanceof String) {
+            return "java.net.URI.create(" + SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault()) + ")";
+        }
+        if (resolved != null && ModelUtils.isStringSchema(resolved)
+                && !ModelUtils.isURISchema(resolved)
+                && (resolved.getEnum() == null || resolved.getEnum().isEmpty())
+                && resolved.getDefault() instanceof String) {
+            return SourceStringEscaper.kotlinStringLiteral((String) resolved.getDefault());
+        }
+        return value;
+    }
+
+    /**
+     * Keep the pattern unescaped: templates render it through {@code kotlinStringLiteral}, which is the
+     * only escaping a regular expression needs inside a Kotlin string. The inherited text escaping also
+     * rewrites comment delimiters and line breaks, which changes the expression.
+     */
+    @Override
+    public String toRegularExpression(String pattern) {
+        return pattern;
+    }
+
+    @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
+        clearTemporalDefault(parameter);
+        if (parameter.hasDefaultValue) {
+            parameter.vendorExtensions.put("x-spring-form-default-not-applied", true);
+            LOGGER.warn("OpenAPI default for form parameter '{}' is not applied when the field is omitted; "
+                    + "the generated Spring binding does not apply it.", parameter.baseName);
+        }
+        return parameter;
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        super.postProcessParameter(parameter);
+        clearTemporalDefault(parameter);
+    }
+
+    /**
+     * Date and date-time defaults are not emitted for parameters (the Kotlin generator has never
+     * produced them): swagger-parser materializes {@code format: date} defaults as a
+     * {@link java.util.Date}, losing the lexical value, so the raw default cannot be rendered reliably.
+     */
+    private void clearTemporalDefault(CodegenParameter parameter) {
+        if (parameter.isDate || parameter.isDateTime) {
+            if (parameter.hasDefaultValue) {
+                // Reported per operation in fromOperation, where the operation is known.
+                String location = parameter.isFormParam ? "form" : parameter.isQueryParam ? "query"
+                        : parameter.isHeaderParam ? "header" : parameter.isCookieParam ? "cookie"
+                        : parameter.isPathParam ? "path" : "body";
+                omittedTemporalDefaults.add(new String[]{location, parameter.baseName});
+            }
+            parameter.hasDefaultValue = false;
+            parameter.defaultValue = null;
+            parameter.rawDefaultValue = null;
+            parameter.rawDefaultValueText = null;
+        }
+    }
+
+    private void warnOmittedTemporalDefaults(CodegenOperation operation) {
+        for (String[] omitted : omittedTemporalDefaults) {
+            String location = omitted[0];
+            String name = omitted[1];
+            if (temporalDefaultWarnings.add("parameter:" + operation.operationId + ":" + location + ":" + name)) {
+                LOGGER.warn("OpenAPI default for date/date-time {} parameter '{}' of operation '{}' is not generated "
+                        + "(date/date-time defaults are not supported); the parameter is null when omitted.",
+                        location, name, operation.operationId);
+            }
+        }
+        omittedTemporalDefaults.clear();
     }
 
     @Override
@@ -1278,7 +1368,9 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     openAPI, operation, autoXSpringPaginatedMode);
         }
 
+        omittedTemporalDefaults.clear();
         CodegenOperation codegenOperation = super.fromOperation(path, httpMethod, operation, servers);
+        warnOmittedTemporalDefaults(codegenOperation);
 
         // For libraries that do not support Pageable (e.g. spring-declarative-http-interface)
         // x-spring-paginated cannot be honored: they need explicit query parameters for HTTP calls,
@@ -1639,7 +1731,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             annotations.add("@Email");
         }
         if (StringUtils.isNotEmpty(items.getPattern())) {
-            annotations.add("@Pattern(regexp=\"" + toRegularExpression(items.getPattern()) + "\""
+            annotations.add("@Pattern(regexp=" + SourceStringEscaper.kotlinStringLiteral(items.getPattern())
                     + validationMessage(items, "x-pattern-message") + ")");
         }
         if (ModelUtils.isDecimalSchema(items)) {
@@ -1683,16 +1775,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     private static String validationMessage(Schema<?> items, String extension) {
         Object message = items.getExtensions() == null ? null : items.getExtensions().get(extension);
-        return message == null ? "" : ", message=\"" + escapeKotlinString(String.valueOf(message)) + "\"";
-    }
-
-    private static String escapeKotlinString(String value) {
-        return value.replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("$", "\\$")
-                .replace("\r", "\\r")
-                .replace("\n", "\\n")
-                .replace("\t", "\\t");
+        return message == null ? "" : ", message=" + SourceStringEscaper.kotlinStringLiteral(String.valueOf(message));
     }
 
     @Override
@@ -1825,6 +1908,22 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         objs = super.postProcessModels(objs);
+
+        // AbstractKotlinCodegen.toDefaultValue does not emit date/date-time defaults; say so once per
+        // property declared on the model (inherited properties are reported on their own model).
+        for (ModelMap mo : objs.getModels()) {
+            CodegenModel cm = mo.getModel();
+            if (cm == null || cm.vars == null) {
+                continue;
+            }
+            for (CodegenProperty property : cm.vars) {
+                if ((property.isDate || property.isDateTime) && property.hasDefaultValue
+                        && temporalDefaultWarnings.add("property:" + cm.name + "." + property.baseName)) {
+                    LOGGER.warn("OpenAPI default for date/date-time property '{}.{}' is not generated "
+                            + "(date/date-time defaults are not supported).", cm.name, property.baseName);
+                }
+            }
+        }
 
         // Collect x-extra-imports declared on each model and its properties, and add them to the
         // model file's import list so custom class/field annotations can be referenced by short name.
@@ -2031,7 +2130,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         if (isEnumDiscriminator) {
                             p.defaultValue = dataType + "." + toEnumVarName(discriminatorValue, dataType);
                         } else {
-                            p.defaultValue = "\"" + escapeText(discriminatorValue) + "\"";
+                            p.defaultValue = SourceStringEscaper.kotlinStringLiteral(discriminatorValue);
                         }
                     }
                 });

@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -4151,6 +4152,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // unalias schema
         p = unaliasSchema(p);
+        Object referencedDefault = p.getDefault();
 
         property.setSchemaIsFromAdditionalProperties(schemaIsFromAdditionalProperties);
         property.required = required;
@@ -4405,6 +4407,11 @@ public class DefaultCodegen implements CodegenConfig {
                 property.example = toExampleValue(original);
             }
         }
+
+        Object effectiveDefault = p.getDefault() != null ? p.getDefault() : referencedDefault;
+        property.hasDefaultValue = effectiveDefault != null;
+        property.rawDefaultValue = snapshotDefaultValue(effectiveDefault);
+        property.rawDefaultValueText = rawDefaultValueText(effectiveDefault);
 
         // override defaultValue if it's not set and defaultToEmptyContainer is set
         if (p.getDefault() == null && defaultToEmptyContainer) {
@@ -4950,8 +4957,10 @@ public class DefaultCodegen implements CodegenConfig {
             op.path = path;
         }
         // remove backslash from path, e.g. /api/v2/GetPetById\\(\\) => /api/v2/GetPetById()
+        op.unescapedPath = op.path;
         op.path = op.path.replace("\\", "");
 
+        op.unescapedSummary = operation.getSummary();
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
@@ -5128,6 +5137,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 if (bodyParam != null) {
                     bodyParam.description = escapeText(requestBody.getDescription());
+                    bodyParam.unescapedDescription = requestBody.getDescription();
                     postProcessParameter(bodyParam);
                     bodyParams.add(bodyParam);
                     if (prependFormOrBodyParameters) {
@@ -5329,6 +5339,7 @@ public class DefaultCodegen implements CodegenConfig {
             responseSchema = ModelUtils.getSchemaFromResponse(openAPI, response);
         }
         r.schema = responseSchema;
+        r.unescapedMessage = response.getDescription();
         r.message = escapeText(response.getDescription());
 
         // adding examples to API responses
@@ -5892,9 +5903,36 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set default value
         codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, parameterSchema);
-
+        codegenParameter.hasDefaultValue = codegenProperty != null && codegenProperty.hasDefaultValue;
+        codegenParameter.rawDefaultValue = codegenProperty == null ? null : codegenProperty.rawDefaultValue;
+        codegenParameter.rawDefaultValueText = codegenProperty == null ? null : codegenProperty.rawDefaultValueText;
+        // swagger-parser materializes date defaults as Date, losing the lexical
+        // OpenAPI value. Preserve the same date form emitted for parameter binding.
+        if (codegenParameter.isDate && codegenParameter.rawDefaultValue != null
+                && codegenParameter.defaultValue != null) {
+            codegenParameter.rawDefaultValueText = codegenParameter.defaultValue;
+        }
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
+    }
+
+    private JsonNode snapshotDefaultValue(Object value) {
+        if (value == null) {
+            return null;
+        }
+        try {
+            return Json.mapper().valueToTree(value);
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+    private String rawDefaultValueText(Object value) {
+        if (value == null) {
+            return null;
+        }
+        JsonNode node = snapshotDefaultValue(value);
+        return node != null && node.isTextual() ? node.textValue() : String.valueOf(value);
     }
 
     private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
@@ -7256,7 +7294,9 @@ public class DefaultCodegen implements CodegenConfig {
 
             final String finalEnumName = toEnumVarName(enumName, dataType);
 
-            enumVar.enumVar(finalEnumName, toEnumValue(String.valueOf(value), dataType), isDataTypeString(dataType));
+            String unescapedEnumValue = String.valueOf(value);
+            enumVar.enumVar(finalEnumName, toEnumValue(unescapedEnumValue, dataType), isDataTypeString(dataType));
+            enumVar.setEnumValueUnescaped(unescapedEnumValue);
             enumVar.setEnumRawValue(rawValues.get(i));
             // TODO: add isNumeric
             enumVars.add(enumVar);
@@ -7291,6 +7331,7 @@ public class DefaultCodegen implements CodegenConfig {
                 String.valueOf(11184809);
 
         enumVar.enumVar(toEnumVarName(enumName, dataType), toEnumValue(enumValue, dataType), isDataTypeString(dataType));
+        enumVar.setEnumValueUnescaped(enumValue);
         enumVar.setEnumRawValue(enumValue);
         // TODO: add isNumeric
         enumVars.add(enumVar);
@@ -7645,6 +7686,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Map<String, Object> scope = new HashMap<>();
                 scope.put("scope", scopeEntry.getKey());
                 scope.put("description", escapeText(scopeEntry.getValue()));
+                scope.put("descriptionRaw", scopeEntry.getValue());
                 scopes.add(scope);
             }
             codegenSecurity.scopes = scopes;
@@ -7933,6 +7975,9 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set default value
         codegenParameter.defaultValue = toDefaultParameterValue(codegenProperty, propertySchema);
+        codegenParameter.hasDefaultValue = codegenProperty != null && codegenProperty.hasDefaultValue;
+        codegenParameter.rawDefaultValue = codegenProperty == null ? null : codegenProperty.rawDefaultValue;
+        codegenParameter.rawDefaultValueText = codegenProperty == null ? null : codegenProperty.rawDefaultValueText;
 
         if (ModelUtils.isFileSchema(ps) && !ModelUtils.isStringSchema(ps)) {
             // swagger v2 only, type file
@@ -8053,7 +8098,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenParameter.isFormParam = Boolean.TRUE;
         codegenParameter.description = escapeText(codegenProperty.description);
-        codegenParameter.unescapedDescription = codegenProperty.getDescription();
+        codegenParameter.unescapedDescription = codegenProperty.unescapedDescription;
         codegenParameter.jsonSchema = Json.pretty(propertySchema);
         codegenParameter.containerType = codegenProperty.containerType;
         codegenParameter.containerTypeMapped = codegenProperty.containerTypeMapped;
@@ -8083,7 +8128,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // set nullable
         setParameterNullable(codegenParameter, codegenProperty);
-
         return codegenParameter;
     }
 

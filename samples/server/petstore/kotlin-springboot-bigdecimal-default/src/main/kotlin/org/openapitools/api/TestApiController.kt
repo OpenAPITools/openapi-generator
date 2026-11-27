@@ -36,7 +36,7 @@ class TestApiController() {
     @Operation(
         summary = "",
         operationId = "testPost",
-        description = """""",
+        description = "",
         responses = [
             ApiResponse(responseCode = "200", description = "Successful operation") ]
     )
