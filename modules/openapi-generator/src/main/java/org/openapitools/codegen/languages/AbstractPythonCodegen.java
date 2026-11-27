@@ -1114,9 +1114,13 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add("typing", "ClassVar");
                 moduleImports.add("typing", "Dict");
                 moduleImports.add("typing", "Any");
-                if (this.disallowAdditionalPropertiesIfNotPresent || model.isAdditionalPropertiesTrue) {
-                    moduleImports.add("typing", "List");
-                }
+                moduleImports.add("typing", "List");
+                // reject unknown input fields when disallowAdditionalPropertiesIfNotPresent is set explicitly and
+                // the model does not allow additional properties; with the option set to false this only
+                // happens for an explicit `additionalProperties: false`
+                model.vendorExtensions.put(X_PY_REJECTS_ADDITIONAL_PROPERTIES,
+                        additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)
+                                && !model.isAdditionalPropertiesTrue);
             }
 
             // if pydantic model

@@ -2083,4 +2083,29 @@ public class PythonClientCodegenTest {
         final Path pyproject = Paths.get(output, "pyproject.toml");
         assertFileContains(pyproject, "{ include = \"openapi_client\", from = \"src\" },", "include = [\"src/openapi_client/py.typed\"]", "\"src/openapi_client\",");
     }
+
+    @Test(description = "an explicit additionalProperties: false is enforced even if disallowAdditionalPropertiesIfNotPresent is false")
+    public void testExplicitAdditionalPropertiesFalseWithDisallowFlagDisabled() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python")
+                .setInputSpec("src/test/resources/3_0/python/explicit-additional-properties-false.yaml")
+                .addAdditionalProperty(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, false)
+                .setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        Path models = Paths.get(output.getAbsolutePath(), "openapi_client", "models");
+        String rejection = "raise errors for additional fields in the input";
+
+        // explicit additionalProperties: false must still reject unknown fields
+        assertFileContains(models.resolve("strict.py"), rejection, "from typing import Any, ClassVar, Dict, List");
+        // additionalProperties absent or true keep the spec compliant behaviour: unknown fields are accepted
+        TestUtils.assertFileNotContains(models.resolve("open.py"), rejection);
+        TestUtils.assertFileNotContains(models.resolve("free.py"), rejection);
+    }
 }

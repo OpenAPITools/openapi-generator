@@ -561,6 +561,7 @@ public class CodegenConstants {
     public static final String X_PY_HIDDEN_STORAGE_NAMES = "x-py-hidden-storage-names";
     public static final String X_PY_INPUT_NAME_PROPERTIES = "x-py-input-name-properties";
     public static final String X_PY_PREPROCESSES_INPUT_NAMES = "x-py-preprocesses-input-names";
+    public static final String X_PY_REJECTS_ADDITIONAL_PROPERTIES = "x-py-rejects-additional-properties";
     public static final String X_PY_VALIDATES_INPUT_NAMES = "x-py-validates-input-names";
     public static final String X_PY_PUBLIC_NAME = "x-py-public-name";
     public static final String X_PY_PUBLIC_NAME_DIFFERS_FROM_STORAGE = "x-py-public-name-differs-from-storage";
