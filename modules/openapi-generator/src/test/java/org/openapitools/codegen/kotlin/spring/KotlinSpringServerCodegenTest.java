@@ -67,6 +67,7 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 public class KotlinSpringServerCodegenTest {
 
     private static final String MULTIPART_SPEC = "src/test/resources/3_0/form-multipart-binary-array.yaml";
+    private static final String UUID_VALIDATION_SPEC = "src/test/resources/3_0/kotlin/uuid-validation.yaml";
 
     @Test(description = "test embedded enum array")
     public void embeddedEnumArrayTest() throws Exception {
@@ -3737,6 +3738,32 @@ public class KotlinSpringServerCodegenTest {
                 "@Pattern(regexp=\"^[a-zA-Z0-9]+[a-zA-Z0-9\\\\.\\\\-_]*[a-zA-Z0-9]+$\")",
                 "@Parameter(description = \"The user name for login\", required = true)",
                 "@Parameter(description = \"The password for login in clear text\", required = true)");
+    }
+
+    @Test
+    public void uuidSkipsStringValidation_issue9256() throws IOException {
+        Map<String, File> files = generateFromContract(UUID_VALIDATION_SPEC, Map.of(INTERFACE_ONLY, true), Map.of(),
+                config -> config.addTypeMapping("string+custom-uuid", "UUID"));
+        Path api = files.get("ItemsApi.kt").toPath();
+        Path model = files.get("Item.kt").toPath();
+
+        assertFileContains(api, "@PathVariable(\"id\") id: java.util.UUID");
+        assertFileNotContains(api, "@Size(", "@Pattern(");
+        assertFileContains(model, "val id: java.util.UUID", "@get:Size(max=8)", "@get:Size(min=2)");
+        assertFileNotContains(model, "@get:Size(min=36)", "@get:Pattern(");
+        assertFileContains(model, "val relatedIds: kotlin.collections.List<java.util.UUID>",
+                "val customIds: kotlin.collections.List<java.util.UUID>", "@get:Size(min=1,max=4)");
+    }
+
+    @Test
+    public void uuidMappedToStringKeepsStringValidation_issue9256() throws IOException {
+        Map<String, File> files = generateFromContract(UUID_VALIDATION_SPEC, Map.of(INTERFACE_ONLY, true), Map.of(),
+                config -> config.addTypeMapping("UUID", "kotlin.String"));
+
+        assertFileContains(files.get("ItemsApi.kt").toPath(),
+                "@PathVariable(\"id\") id: kotlin.String", "@Pattern(regexp=\"[0-9a-f-]+\")", "@Size(min=36)");
+        assertFileContains(files.get("Item.kt").toPath(),
+                "val id: kotlin.String", "@get:Pattern(regexp=\"[0-9a-f-]+\")", "@get:Size(min=36)");
     }
 
     @Test

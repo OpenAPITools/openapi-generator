@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: UUID validation
+  version: 1.0.0
+paths:
+  /items/{id}:
+    get:
+      operationId: getItem
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ItemId'
+      responses:
+        '200':
+          description: The item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+components:
+  schemas:
+    ItemId:
+      type: string
+      format: uuid
+      minLength: 36
+      pattern: '[0-9a-f-]+'
+    Item:
+      type: object
+      required: [id]
+      properties:
+        id:
+          $ref: '#/components/schemas/ItemId'
+        label:
+          type: string
+          maxLength: 8
+        relatedIds:
+          type: array
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/ItemId'
+        customIds:
+          type: array
+          minItems: 1
+          maxItems: 4
+          items:
+            type: string
+            format: custom-uuid
+            minLength: 36
+            pattern: '[0-9a-f-]+'
