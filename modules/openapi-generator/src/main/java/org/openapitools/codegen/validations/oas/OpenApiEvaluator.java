@@ -43,7 +43,8 @@ public class OpenApiEvaluator implements Validator<OpenAPI> {
         OpenApiSchemaValidations schemaValidations = new OpenApiSchemaValidations(ruleConfiguration);
         OpenApiOperationValidations operationValidations = new OpenApiOperationValidations(ruleConfiguration);
 
-        if (ruleConfiguration.isEnableUnusedSchemasRecommendation()) {
+        if (ruleConfiguration.isEnableRecommendations()
+                && ruleConfiguration.isEnableUnusedSchemasRecommendation()) {
             ValidationRule unusedSchema = ValidationRule.create(Severity.WARNING, "Unused schema", "A schema was determined to be unused.", s -> ValidationRule.Pass.empty());
             ModelUtils.getUnusedSchemas(specification).forEach(schemaName -> validationResult.addResult(Validated.invalid(unusedSchema, "Unused model: " + schemaName)));
         }
