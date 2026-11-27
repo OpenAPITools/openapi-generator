@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: Tag sanitization
+  version: 1.0.0
+tags:
+  - name: pet-store
+    description: Everything about pets
+paths:
+  /pets:
+    get:
+      tags:
+        - pet-store
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
