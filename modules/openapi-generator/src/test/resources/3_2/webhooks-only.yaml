@@ -1,0 +1,8 @@
+openapi: 3.2.0
+info: {title: webhooks only, version: "1"}
+webhooks:
+  ping:
+    query:
+      operationId: pingQuery
+      responses:
+        '200': {description: ok}

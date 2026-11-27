@@ -31,6 +31,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.EnumUtils;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.Oas32Extensions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -475,34 +476,44 @@ public class OpenAPINormalizer {
             }
         }
 
+        final Filter operationFilter = filter;
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            List<Operation> operations = new ArrayList<>(path.readOperations());
+            List<Operation> operations = new ArrayList<>(Oas32Extensions.allOperationsList(openAPI, path));
 
-            Map<String, Function<PathItem, Operation>> methodMap = Map.of(
-                    "get", PathItem::getGet,
-                    "put", PathItem::getPut,
-                    "head", PathItem::getHead,
-                    "post", PathItem::getPost,
-                    "delete", PathItem::getDelete,
-                    "patch", PathItem::getPatch,
-                    "options", PathItem::getOptions,
-                    "trace", PathItem::getTrace
-            );
+            Map<String, Function<PathItem, Operation>> methodMap = new LinkedHashMap<>();
+            methodMap.put("get", PathItem::getGet);
+            methodMap.put("put", PathItem::getPut);
+            methodMap.put("head", PathItem::getHead);
+            methodMap.put("post", PathItem::getPost);
+            methodMap.put("delete", PathItem::getDelete);
+            methodMap.put("patch", PathItem::getPatch);
+            methodMap.put("options", PathItem::getOptions);
+            methodMap.put("trace", PathItem::getTrace);
 
-            if (filter != null && filter.hasFilter()) {
+            if (operationFilter != null && operationFilter.hasFilter()) {
                 // Iterates over each HTTP method in methodMap, retrieves the corresponding Operations from the PathItem,
                 // and marks it as internal (`x-internal=true`) if the method/operationId/tag/path is not in the filters.
-                filter.apply(pathsEntry.getKey(), path, methodMap);
+                operationFilter.apply(pathsEntry.getKey(), path, methodMap);
+                // OpenAPI 3.2 operations restored by the compatibility
+                // loader go through the same filter, applied operation by
+                // operation with the lowercase method name — the same rule
+                // the fixed methods use. They cannot be methodMap entries:
+                // an additionalOperations member named like a fixed method
+                // ("get") would shadow the fixed getter.
+                Oas32Extensions.operations(openAPI, path).forEach(
+                        (method, restored) -> operationFilter.applyToOperation(
+                                pathsEntry.getKey(),
+                                method.toLowerCase(Locale.ROOT), restored));
             }
 
             // Include callback operation as well
-            for (Operation operation : path.readOperations()) {
+            for (Operation operation : Oas32Extensions.allOperationsList(openAPI, path)) {
                 Map<String, Callback> callbacks = operation.getCallbacks();
                 if (callbacks != null) {
                     operations.addAll(callbacks.values().stream()
                             .flatMap(callback -> callback.values().stream())
-                            .flatMap(pathItem -> pathItem.readOperations().stream())
+                            .flatMap(pathItem -> Oas32Extensions.allOperationsList(openAPI, pathItem).stream())
                             .collect(Collectors.toList()));
                 }
             }
@@ -787,7 +798,7 @@ public class OpenAPINormalizer {
             return;
         }
 
-        List<Operation> operations = new LinkedList<>(path.readOperations());
+        List<Operation> operations = new LinkedList<>(Oas32Extensions.allOperationsList(openAPI, path));
         // An infinite loop is impossible here because it is impossible without using
         // references from components and we clean up components separately
         while (!operations.isEmpty()) {
@@ -796,7 +807,7 @@ public class OpenAPINormalizer {
             if (callbacks != null) {
                 for (Callback callback : callbacks.values()) {
                     for (PathItem callbackPath : callback.values()) {
-                        operations.addAll(callbackPath.readOperations());
+                        operations.addAll(Oas32Extensions.allOperationsList(openAPI, callbackPath));
                     }
                 }
             }
@@ -2686,23 +2697,32 @@ public class OpenAPINormalizer {
         }
 
         public void apply(String path, PathItem pathItem, Map<String, Function<PathItem, Operation>> methodMap) {
-            methodMap.forEach((method, getter) -> {
-                Operation operation = getter.apply(pathItem);
-                if (operation != null) {
-                    boolean found = false;
-                    String operationId = operation.getOperationId();
-                    found |= logIfMatch(PATH, operationId, hasPathStarting(path));
-                    found |= logIfMatch(TAG, operationId, hasTag(operation));
-                    found |= logIfMatch(OPERATION_ID, operationId, hasOperationId(operation));
-                    found |= logIfMatch(METHOD, operationId, hasMethod(method));
-                    found |= hasCustomFilterMatch(path, operation);
+            methodMap.forEach((method, getter) ->
+                    applyToOperation(path, method, getter.apply(pathItem)));
+        }
 
-                    operation.addExtension(X_INTERNAL, !found);
-                    if (!found) {
-                        getLogger().info("Operation `{}` does not match any filter and is marked as internal only (x-internal: true)", operationId);
-                    }
+        /**
+         * Applies the filters to one operation: it stays
+         * {@code x-internal=false} when a filter matches and is marked
+         * internal otherwise. {@code method} is the name {@code method:}
+         * filters compare against — the lowercase method name, like the
+         * fixed method keys.
+         */
+        protected void applyToOperation(String path, String method, Operation operation) {
+            if (operation != null) {
+                boolean found = false;
+                String operationId = operation.getOperationId();
+                found |= logIfMatch(PATH, operationId, hasPathStarting(path));
+                found |= logIfMatch(TAG, operationId, hasTag(operation));
+                found |= logIfMatch(OPERATION_ID, operationId, hasOperationId(operation));
+                found |= logIfMatch(METHOD, operationId, hasMethod(method));
+                found |= hasCustomFilterMatch(path, operation);
+
+                operation.addExtension(X_INTERNAL, !found);
+                if (!found) {
+                    getLogger().info("Operation `{}` does not match any filter and is marked as internal only (x-internal: true)", operationId);
                 }
-            });
+            }
         }
 
         private boolean hasPathStarting(String path) {

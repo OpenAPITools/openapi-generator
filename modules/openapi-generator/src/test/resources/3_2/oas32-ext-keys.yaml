@@ -1,0 +1,40 @@
+openapi: 3.2.0
+info: {title: extension members in path maps, version: "1"}
+paths:
+  # x- members of the paths map (and of a callback's expression ->
+  # Path Item map) are specification extensions — opaque data, not
+  # Path Items — so the "query" here must not be staged or restored as
+  # an operation
+  x-metadata:
+    query: {answer: 42}
+  /t:
+    get:
+      operationId: getT
+      responses:
+        '200': {description: ok}
+    query:
+      operationId: queryT
+      callbacks:
+        onEvent:
+          x-note: {query: {answer: 42}}
+          '{$request.body#/callbackUrl}':
+            query:
+              operationId: onEventQuery
+              responses:
+                '200': {description: ok}
+      responses:
+        '200': {description: ok}
+webhooks:
+  # webhooks is a plain name -> Path Item map with no extension slots
+  # (spec 3.2.1), so "x-meta" is a real webhook name: its query member
+  # is staged and restored exactly like ping's
+  x-meta:
+    query:
+      operationId: metaQuery
+      responses:
+        '200': {description: ok}
+  ping:
+    query:
+      operationId: pingQuery
+      responses:
+        '200': {description: ok}

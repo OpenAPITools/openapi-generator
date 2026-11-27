@@ -134,6 +134,24 @@ public class ModelUtilsTest {
     }
 
     @Test
+    public void testSchemasUsedOnlyInFormParamKeepsReadOperationsOrder() {
+        // Regression for the 3.2 compatibility accessor: the original code
+        // enumerated PathItem.readOperations() here (GET, PUT, HEAD, POST,
+        // ...) and the compatibility accessor must keep that order — HEAD
+        // before POST. HEAD's JSON response and POST's form reference the
+        // same schema A, and A is allOf B. Visiting HEAD first records B
+        // in the non-form context, so B is not form-only; the
+        // readOperationsMap() order (POST first) would record B in the
+        // form context and return [B], which skipFormModel then drops.
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec(
+                "src/test/resources/3_1/form-model-order.yaml");
+        List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
+        Assert.assertEquals(unusedSchemas.size(), 0,
+                "HEAD must be visited before POST, so B is reached in the "
+                        + "non-form context first");
+    }
+
+    @Test
     public void testNoComponentsSection() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/ping.yaml");
         List<String> unusedSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);

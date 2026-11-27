@@ -1,0 +1,28 @@
+openapi: 3.2.0
+info:
+  title: FILTER collision fixture
+  version: 1.0.0
+paths:
+  /t:
+    get:
+      operationId: standardGet
+      responses:
+        '200': {description: ok}
+    query:
+      operationId: queryT
+      responses:
+        '200': {description: ok}
+    additionalOperations:
+      PURGE:
+        operationId: purgeT
+        responses:
+          '204': {description: ok}
+      # spec 3.2.1 forbids an additionalOperations key matching a fixed
+      # method ("The map MUST NOT contain any entry for the methods that
+      # can be defined by other fixed fields"), but nothing stops a
+      # document from carrying one: the FILTER must not let it shadow the
+      # fixed GET.
+      get:
+        operationId: additionalGet
+        responses:
+          '200': {description: ok}
