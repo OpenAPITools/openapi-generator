@@ -2791,6 +2791,17 @@ public class ModelUtils {
             schema.setNullable(true);
         }
 
+        // nothing left to compose, an empty list would still be treated as a composed schema
+        if (subSchemas.isEmpty()) {
+            if (schema.getOneOf() != null && schema.getOneOf().isEmpty()) {
+                schema.setOneOf(null);
+            }
+            if (schema.getAnyOf() != null && schema.getAnyOf().isEmpty()) {
+                schema.setAnyOf(null);
+            }
+            return schema;
+        }
+
         // if only one element left, simplify to just the element (schema)
         if (subSchemas.size() == 1) {
             Schema<?> subSchema = subSchemas.get(0);

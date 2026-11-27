@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: anyOf and oneOf with only null sub-schemas
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        anyOfAnyTypeOrNull:
+          anyOf:
+            - {}
+            - type: 'null'
+        oneOfAnyTypeOrNull:
+          oneOf:
+            - {}
+            - type: 'null'
+        anyOfNull:
+          anyOf:
+            - type: 'null'

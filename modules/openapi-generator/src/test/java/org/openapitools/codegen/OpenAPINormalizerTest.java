@@ -1466,6 +1466,22 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSimplifyOneOfAnyOfWithOnlyNullSubSchemas31SpecForIssue22826() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_22826.yaml");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, new HashMap<>());
+        openAPINormalizer.normalize();
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Item");
+        for (String name : List.of("anyOfAnyTypeOrNull", "oneOfAnyTypeOrNull", "anyOfNull")) {
+            Schema property = (Schema) schema.getProperties().get(name);
+            assertNull(property.getAnyOf(), name);
+            assertNull(property.getOneOf(), name);
+            assertEquals(property.getNullable(), Boolean.TRUE, name);
+        }
+    }
+
+    @Test
     public void testOpenAPINormalizerProcessingArraySchema31Spec() {
         // to test array schema processing in 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18291.yaml");
