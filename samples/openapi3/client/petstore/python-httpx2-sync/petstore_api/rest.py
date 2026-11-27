@@ -71,6 +71,11 @@ class RESTClientObject:
             self.ssl_context.check_hostname = False
             self.ssl_context.verify_mode = ssl.CERT_NONE
 
+        # Honor assert_hostname like the urllib3 client. Only when verify_ssl is
+        # on: enabling check_hostname would otherwise turn verification back on.
+        if configuration.verify_ssl and configuration.assert_hostname is not None:
+            self.ssl_context.check_hostname = bool(configuration.assert_hostname)
+
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
 

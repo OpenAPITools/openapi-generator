@@ -1,4 +1,5 @@
 import os
+import ssl
 import unittest
 from unittest.mock import AsyncMock, Mock, patch
 
@@ -72,3 +73,24 @@ class TestMultipleResponseTypes(unittest.IsolatedAsyncioTestCase):
 
         assert type(data_count) is str
         assert type(data_object) is str
+
+
+class TestAssertHostname(unittest.TestCase):
+    def test_assert_hostname_false_disables_hostname_check(self):
+        config = petstore_api.Configuration()
+        config.assert_hostname = False
+
+        client = petstore_api.rest.RESTClientObject(config)
+
+        self.assertFalse(client.ssl_context.check_hostname)
+        self.assertEqual(ssl.CERT_REQUIRED, client.ssl_context.verify_mode)
+
+    def test_assert_hostname_does_not_reenable_verification(self):
+        config = petstore_api.Configuration()
+        config.verify_ssl = False
+        config.assert_hostname = True
+
+        client = petstore_api.rest.RESTClientObject(config)
+
+        self.assertFalse(client.ssl_context.check_hostname)
+        self.assertEqual(ssl.CERT_NONE, client.ssl_context.verify_mode)
