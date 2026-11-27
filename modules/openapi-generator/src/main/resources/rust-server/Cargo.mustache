@@ -46,6 +46,14 @@ client = [
 {{#hasCallbacks}}
     "serde_ignored", "percent-encoding", {{^apiUsesByteArray}}"lazy_static", "regex",{{/apiUsesByteArray}}
 {{/hasCallbacks}}
+{{! lazy_static and regex are optional dependencies unless the API uses byte arrays; the callbacks list above already has them }}
+{{#modelsUsePatternValidation}}
+{{^apiUsesByteArray}}
+{{^hasCallbacks}}
+    "lazy_static", "regex",
+{{/hasCallbacks}}
+{{/apiUsesByteArray}}
+{{/modelsUsePatternValidation}}
 {{! Anything added to the list below, should probably be added to the callbacks list below }}
     "hyper", "percent-encoding", "hyper-util/http1", "hyper-util/http2", "url"
 ]
