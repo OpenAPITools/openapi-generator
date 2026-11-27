@@ -20,3 +20,18 @@ components:
               properties:
                 code:
                   type: string
+        emptySchemaMap:
+          type: object
+          additionalProperties: {}
+        trueMap:
+          type: object
+          additionalProperties: true
+        nullEnumMap:
+          type: object
+          additionalProperties:
+            enum: [null]
+        refToEmptyMap:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Anything'
+    Anything: {}

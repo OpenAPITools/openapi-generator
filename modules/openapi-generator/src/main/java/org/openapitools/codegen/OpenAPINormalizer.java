@@ -1037,7 +1037,7 @@ public class OpenAPINormalizer {
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
             Schema result = normalizeMapSchema(schema);
             Schema additionalProperties = (Schema) result.getAdditionalProperties();
-            if (getRule(NORMALIZE_31SPEC) && ModelUtils.isNullTypeSchema(openAPI, additionalProperties)) {
+            if (getRule(NORMALIZE_31SPEC) && isExplicitNullTypeSchema(additionalProperties)) {
                 // OAS 3.1 allows a map value schema of `type: "null"` (e.g.
                 // `additionalProperties: { type: "null" }`). There's no OAS 3.0 equivalent type,
                 // so generators emit a fictional `Null` / `ModelNull` value type that fails to
@@ -1843,6 +1843,16 @@ public class OpenAPINormalizer {
         }
 
         return schema;
+    }
+
+    /**
+     * {@link ModelUtils#isNullTypeSchema} also matches type-less schemas such as {@code {}} and
+     * {@code true}, which mean "any value" and must not become nullable.
+     */
+    private boolean isExplicitNullTypeSchema(Schema schema) {
+        Schema resolved = ModelUtils.getReferencedSchema(openAPI, schema);
+        return ModelUtils.isNullTypeSchema(openAPI, resolved)
+                && !ModelUtils.isAnyType(resolved);
     }
 
     private boolean isInlineSchema(Schema schema) {
