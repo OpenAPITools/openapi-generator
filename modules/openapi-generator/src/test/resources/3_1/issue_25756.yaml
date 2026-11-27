@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: Multi-type property repro (issue 25756)
+  version: 1.0.0
+paths:
+  /companies/{id}:
+    get:
+      operationId: getCompany
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Company'
+components:
+  schemas:
+    Company:
+      type: object
+      properties:
+        name:
+          type: string
+        tradingNames:
+          description: A list for most countries, a single string for some.
+          type:
+            - array
+            - string
+          items:
+            type: string
+        objOrArray:
+          description: Related case from the issue.
+          type:
+            - object
+            - array
+          items:
+            type: string
+        objOrArrayWithProps:
+          description: Object-first union that also declares properties.
+          type:
+            - object
+            - array
+          items:
+            type: string
+          properties:
+            code:
+              type: string
+          required:
+            - code
+        arrOrObjWithProps:
+          description: Array-first variant of the union that also declares properties.
+          type:
+            - array
+            - object
+          items:
+            type: string
+          properties:
+            code:
+              type: string
+          required:
+            - code
+        intOrString:
+          description: Primitive-only union.
+          type:
+            - integer
+            - string
+        nullableArrOrStr:
+          description: Nullable variant of the array-or-string case.
+          type:
+            - array
+            - string
+            - 'null'
+          items:
+            type: string
+    MapOrString:
+      type:
+        - object
+        - string
+      additionalProperties:
+        type: string
