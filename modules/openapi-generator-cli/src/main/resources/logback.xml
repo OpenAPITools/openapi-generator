@@ -40,13 +40,29 @@
         </filter>
     </appender>
 
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${log.file}</file>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%date] [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <logger name="io.swagger" level="warn">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="STDERR"/>
+        <condition class="ch.qos.logback.core.boolex.ExpressionPropertyCondition">
+            <expression>isDefined("log.file")</expression>
+        </condition>
+        <if><then><appender-ref ref="FILE"/></then></if>
     </logger>
     <logger name="org.openapitools" level="${log.level:-info}">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="STDERR"/>
+        <condition class="ch.qos.logback.core.boolex.ExpressionPropertyCondition">
+            <expression>isDefined("log.file")</expression>
+        </condition>
+        <if><then><appender-ref ref="FILE"/></then></if>
     </logger>
     <root level="error">
         <appender-ref ref="STDERR"/>
