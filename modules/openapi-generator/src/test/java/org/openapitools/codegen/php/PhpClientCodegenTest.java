@@ -19,6 +19,7 @@ package org.openapitools.codegen.php;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.BooleanSchema;
 import io.swagger.v3.oas.models.media.DateTimeSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.StringSchema;
@@ -208,5 +209,62 @@ public class PhpClientCodegenTest {
         Assert.assertFalse(modelPhp.contains("mb_strlen($starts_at)"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($this->container['title']) > 10"), modelPhp);
         Assert.assertTrue(modelPhp.contains("mb_strlen($title) > 10"), modelPhp);
+    }
+
+    @Test
+    public void testModelNamePropertyDoesNotRedeclareGetModelName() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        ObjectSchema model = new ObjectSchema();
+        model.addProperties("model_name", new StringSchema());
+        model.addProperties("model_name_property", new StringSchema());
+        model.addProperties("title", new StringSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("UsedBy", model);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String modelPhp = String.join("\n", Files.readAllLines(files.get("UsedBy.php").toPath()));
+
+        // ModelInterface::getModelName() must not be redeclared by the getter of the model_name property
+        Assert.assertEquals(modelPhp.split("function getModelName\\(", -1).length - 1, 1, modelPhp);
+        // the getters of model_name and of a property literally named model_name_property stay distinct
+        Assert.assertEquals(modelPhp.split("function getModelNameProperty\\(", -1).length - 1, 1, modelPhp);
+        Assert.assertEquals(modelPhp.split("function getModelNamePropertyProperty\\(", -1).length - 1, 1, modelPhp);
+        Assert.assertTrue(modelPhp.contains("function setModelName("), modelPhp);
+        Assert.assertTrue(modelPhp.contains("function getTitle("), modelPhp);
+    }
+
+    @Test
+    public void testBooleanModelNamePropertyDoesNotRedeclareGetModelName() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        ObjectSchema model = new ObjectSchema();
+        model.addProperties("model_name", new BooleanSchema());
+
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("UsedBy", model);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String modelPhp = String.join("\n", Files.readAllLines(files.get("UsedBy.php").toPath()));
+
+        Assert.assertEquals(modelPhp.split("function getModelName\\(", -1).length - 1, 1, modelPhp);
+        Assert.assertTrue(modelPhp.contains("function getModelNameProperty("), modelPhp);
     }
 }

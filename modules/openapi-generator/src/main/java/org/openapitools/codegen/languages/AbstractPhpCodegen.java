@@ -584,6 +584,21 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         return name;
     }
 
+    /**
+     * The model templates that implement ModelInterface declare getModelName(), so no property getter may use that
+     * name. getModelName, getModelNameProperty, getModelNamePropertyProperty... are each moved one step along that
+     * sequence, which keeps the property getters distinct from each other and from getModelName().
+     *
+     * @param getter the getter name of a property
+     * @return the getter name to use
+     */
+    protected String avoidModelNameGetterClash(String getter) {
+        if (getter.matches("^getModelName(Property)*$")) {
+            return getter + "Property";
+        }
+        return getter;
+    }
+
     @Override
     public String toModelName(String name) {
 

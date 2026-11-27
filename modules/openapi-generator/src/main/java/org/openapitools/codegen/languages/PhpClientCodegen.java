@@ -118,6 +118,16 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
     }
 
     @Override
+    public String toGetter(String name) {
+        return avoidModelNameGetterClash(super.toGetter(name));
+    }
+
+    @Override
+    public String toBooleanGetter(String name) {
+        return avoidModelNameGetterClash(super.toBooleanGetter(name));
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 
