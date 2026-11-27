@@ -1,0 +1,11 @@
+generatorName: typescript-axios
+outputDir: samples/client/petstore/typescript-axios/builds/any-of-union
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-axios/any-of-union.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-axios
+additionalProperties:
+  apiPackage: api
+  modelPackage: models
+  withSeparateModelsAndApi: true
+  generateAnyOfAsUnion: true
+  npmName: any-of-union
+  npmVersion: 1.0.0
