@@ -9,7 +9,7 @@ import io.vertx.ext.web.api.generator.ApiHandlerUtils
 import io.vertx.serviceproxy.ProxyHandler
 import io.vertx.serviceproxy.ServiceException
 import io.vertx.serviceproxy.ServiceExceptionMessageCodec
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import io.vertx.kotlin.coroutines.dispatcher
 import io.vertx.core.json.Json
@@ -67,11 +67,11 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                 "createUser" -> {
                     val params = context.params
                     val bodyParam = ApiHandlerUtils.searchJsonObjectInJson(params,"body")
-                    if (bodyParam == null) {
-                        throw IllegalArgumentException("body is required")
+                    requireNotNull(bodyParam) {
+                        "body is required"
                     }
                     val body = Gson().fromJson(bodyParam.encode(), User::class.java)
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.createUser(body,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -84,12 +84,12 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                 "createUsersWithArrayInput" -> {
                     val params = context.params
                     val bodyParam = ApiHandlerUtils.searchJsonArrayInJson(params,"body")
-                    if(bodyParam == null){
-                         throw IllegalArgumentException("body is required")
+                    requireNotNull(bodyParam) {
+                        "body is required"
                     }
                     val body:kotlin.Array<User> = Gson().fromJson(bodyParam.encode()
                             , object : TypeToken<kotlin.collections.List<User>>(){}.type)
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.createUsersWithArrayInput(body,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -102,12 +102,12 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                 "createUsersWithListInput" -> {
                     val params = context.params
                     val bodyParam = ApiHandlerUtils.searchJsonArrayInJson(params,"body")
-                    if(bodyParam == null){
-                         throw IllegalArgumentException("body is required")
+                    requireNotNull(bodyParam) {
+                        "body is required"
                     }
                     val body:kotlin.Array<User> = Gson().fromJson(bodyParam.encode()
                             , object : TypeToken<kotlin.collections.List<User>>(){}.type)
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.createUsersWithListInput(body,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -120,10 +120,10 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                 "deleteUser" -> {
                     val params = context.params
                     val username = ApiHandlerUtils.searchStringInJson(params,"username")
-                    if(username == null){
-                        throw IllegalArgumentException("username is required")
+                    requireNotNull(username) {
+                        "username is required"
                     }
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.deleteUser(username,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -136,10 +136,10 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                 "getUserByName" -> {
                     val params = context.params
                     val username = ApiHandlerUtils.searchStringInJson(params,"username")
-                    if(username == null){
-                        throw IllegalArgumentException("username is required")
+                    requireNotNull(username) {
+                        "username is required"
                     }
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.getUserByName(username,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -152,14 +152,14 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                 "loginUser" -> {
                     val params = context.params
                     val username = ApiHandlerUtils.searchStringInJson(params,"username")
-                    if(username == null){
-                        throw IllegalArgumentException("username is required")
+                    requireNotNull(username) {
+                        "username is required"
                     }
                     val password = ApiHandlerUtils.searchStringInJson(params,"password")
-                    if(password == null){
-                        throw IllegalArgumentException("password is required")
+                    requireNotNull(password) {
+                        "password is required"
                     }
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.loginUser(username,password,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
@@ -175,15 +175,15 @@ class UserApiVertxProxyHandler(private val vertx: Vertx, private val service: Us
                 "updateUser" -> {
                     val params = context.params
                     val username = ApiHandlerUtils.searchStringInJson(params,"username")
-                    if(username == null){
-                        throw IllegalArgumentException("username is required")
+                    requireNotNull(username) {
+                        "username is required"
                     }
                     val bodyParam = ApiHandlerUtils.searchJsonObjectInJson(params,"body")
-                    if (bodyParam == null) {
-                        throw IllegalArgumentException("body is required")
+                    requireNotNull(bodyParam) {
+                        "body is required"
                     }
                     val body = Gson().fromJson(bodyParam.encode(), User::class.java)
-                    GlobalScope.launch(vertx.dispatcher()){
+                    CoroutineScope(vertx.dispatcher()).launch {
                         val result = service.updateUser(username,body,context)
                         val payload = JsonObject(Json.encode(result.payload)).toBuffer()
                         val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)

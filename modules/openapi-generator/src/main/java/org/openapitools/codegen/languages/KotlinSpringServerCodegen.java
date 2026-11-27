@@ -1033,6 +1033,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
                 supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
@@ -1083,6 +1084,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradleKts.mustache", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
                 supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
@@ -1122,6 +1124,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                     supportingFiles.add(new SupportingFile("buildGradle-sb3-Kts.mustache", "build.gradle.kts"));
                 }
                 supportingFiles.add(new SupportingFile("settingsGradle.mustache", "settings.gradle"));
+                supportingFiles.add(new SupportingFile("gradle.properties.mustache", "", "gradle.properties"));
 
                 String gradleWrapperPackage = "gradle.wrapper";
                 supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));

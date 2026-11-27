@@ -755,7 +755,7 @@ public class KotlinServerCodegenTest {
                 statusFile,
                 "companion object {",
                 "fun fromValue(value: kotlin.String): TestEnumStatusParameter =",
-                "values().firstOrNull { it.value == value } ?: throw IllegalArgumentException(\"No enum constant TestEnumStatusParameter.$value\")"
+                "entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException(\"No enum constant TestEnumStatusParameter.$value\")"
         );
 
         // Check parameter extraction

@@ -106,18 +106,18 @@ data class ApiApiResponse (
         fun validateJsonElement(jsonElement: JsonElement?) {
             if (jsonElement == null) {
               require(openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-                String.format("The required field(s) %s in ApiApiResponse is not found in the empty JSON string", ApiApiResponse.openapiRequiredFields.toString())
+                "The required field(s) ${openapiRequiredFields} in ApiApiResponse is not found in the empty JSON string"
               }
             }
             val jsonObj = jsonElement!!.getAsJsonObject()
             if (jsonObj["type"] != null && !jsonObj["type"].isJsonNull) {
-              require(jsonObj.get("type").isJsonPrimitive) {
-                String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj["type"].toString())
+              require(jsonObj["type"].isJsonPrimitive) {
+                "Expected the field `type` to be a primitive type in the JSON string but got `${jsonObj["type"]}`"
               }
             }
             if (jsonObj["message"] != null && !jsonObj["message"].isJsonNull) {
-              require(jsonObj.get("message").isJsonPrimitive) {
-                String.format("Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj["message"].toString())
+              require(jsonObj["message"].isJsonPrimitive) {
+                "Expected the field `message` to be a primitive type in the JSON string but got `${jsonObj["message"]}`"
               }
             }
         }

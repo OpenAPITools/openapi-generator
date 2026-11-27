@@ -26,7 +26,6 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.OffsetTime
-import java.util.Locale
 import java.util.regex.Pattern
 import com.squareup.moshi.adapter
 
@@ -298,20 +297,12 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
             // return tempFile
             val contentDisposition = response.header("Content-Disposition")
 
-            val fileName = if (contentDisposition != null) {
-                // Get filename from the Content-Disposition header.
-                val pattern = Pattern.compile("filename=['\"]?([^'\"\\s]+)['\"]?")
-                val matcher = pattern.matcher(contentDisposition)
-                if (matcher.find()) {
-                    matcher.group(1)
-                        ?.replace(".*[/\\\\]", "")
-                        ?.replace(";", "")
-                } else {
-                    null
-                }
-            } else {
-                null
-            }
+            // Get filename from the Content-Disposition header.
+            val fileName = contentDisposition
+                ?.let { Regex("filename=['\"]?([^'\"\\s]+)['\"]?").find(it) }
+                ?.groupValues?.get(1)
+                ?.replace(Regex(".*[/\\\\]"), "")
+                ?.replace(";", "")
 
             var prefix: String?
             val suffix: String?
@@ -387,7 +378,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
 
         val contentType = if (headers[CONTENT_TYPE] != null) {
             // TODO: support multiple contentType options here.
-            (headers[CONTENT_TYPE] as String).substringBefore(";").lowercase(Locale.US)
+            (headers[CONTENT_TYPE] as String).substringBefore(";").lowercase()
         } else {
             null
         }
@@ -410,7 +401,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
 
         val response = client.newCall(request).execute()
 
-        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase(Locale.US)
+        val accept = response.header(CONTENT_TYPE)?.substringBefore(";")?.lowercase()
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         @Suppress("UNNECESSARY_SAFE_CALL")

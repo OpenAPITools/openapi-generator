@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 buildscript {
     repositories {
@@ -16,10 +17,14 @@ repositories {
     mavenCentral()
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
-    // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
-    kotlinOptions.freeCompilerArgs += "-Xemit-jvm-type-annotations"
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
+
+        // Emit type annotations such as List<@Valid Pet>
+        // so Bean Validation can see them at runtime.
+        freeCompilerArgs.add("-Xemit-jvm-type-annotations")
+    }
 }
 
 tasks.bootJar {
@@ -32,8 +37,10 @@ plugins {
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
     id("org.springframework.boot") version "2.6.7"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("io.spring.dependency-management") version "1.1.7"
 }
+
+extra["kotlin.version"] = "1.9.25"
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

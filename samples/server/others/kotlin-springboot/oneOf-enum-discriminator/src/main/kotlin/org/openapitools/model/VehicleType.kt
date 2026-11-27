@@ -28,7 +28,7 @@ enum class VehicleType(@get:JsonValue val value: kotlin.String) {
         @JvmStatic
         @JsonCreator
         fun forValue(value: kotlin.String): VehicleType {
-            return values().firstOrNull{ it.value == value }
+            return entries.firstOrNull{ it.value == value }
                 ?: unknown_default_open_api
         }
     }

@@ -11,5 +11,12 @@ pluginManagement {
             }
         }
     }
+    def kotlinVersion = providers.gradleProperty("kotlinVersion").get()
+
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version kotlinVersion
+        id 'org.jetbrains.kotlin.plugin.jpa' version kotlinVersion
+        id 'org.jetbrains.kotlin.plugin.spring' version kotlinVersion
+    }
 }
 rootProject.name = "{{artifactId}}"

@@ -94,7 +94,7 @@ object AnimalSerializer : KSerializer<Animal> {
                 val decoded = decoder.json.decodeFromJsonElement(Robobird.serializer(), element)
                 Animal.RobobirdWrapper(decoded)
             }
-            else -> throw SerializationException("Unknown Animal discriminator: $discriminatorValue")
+            else -> throw SerializationException("Unknown Animal discriminator: ${discriminatorValue}")
         }
     }
 }

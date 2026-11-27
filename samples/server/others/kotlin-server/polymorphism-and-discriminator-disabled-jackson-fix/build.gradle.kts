@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.0.21"
+    kotlin("jvm") version "2.4.20"
 }
 
 group = "org.openapitools"

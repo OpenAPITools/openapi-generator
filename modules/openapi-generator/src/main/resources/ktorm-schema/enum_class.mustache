@@ -56,6 +56,6 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     }
 
 {{#multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{classname}}>("{{classname}}", values(), values().map { it.value.toString() }.toTypedArray())
+    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{classname}}>("{{classname}}", entries.toTypedArray(), entries.map { it.value.toString() }.toTypedArray())
 {{/multiplatform}}
 }

@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 group = "org.openapitools"
 version = "1.0.0"
@@ -9,20 +10,26 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
-    // emit type annotations such as List<@Valid Pet> so Bean Validation can see them at runtime
-    kotlinOptions.freeCompilerArgs += "-Xemit-jvm-type-annotations"
+tasks.withType<KotlinCompile>().configureEach {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+
+        // Emit type annotations such as List<@Valid Pet>
+        // so Bean Validation can see them at runtime.
+        freeCompilerArgs.add("-Xemit-jvm-type-annotations")
+    }
 }
 
 plugins {
-    val kotlinVersion = "1.9.25"
-    id("org.jetbrains.kotlin.jvm") version kotlinVersion
-    id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
-    id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion
+    id("org.jetbrains.kotlin.jvm")
+    id("org.jetbrains.kotlin.plugin.jpa")
+    id("org.jetbrains.kotlin.plugin.spring")
     id("org.springframework.boot") version "3.3.13"
     id("io.spring.dependency-management") version "1.1.7"
 }
+
+extra["kotlin.version"] = providers.gradleProperty("kotlinVersion").get()
+
 
 tasks.getByName("bootJar") {
     enabled = false
@@ -39,8 +46,8 @@ dependencyManagement {
 }
 
 dependencies {
-    val kotlinxCoroutinesVersion = "1.6.1"
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    val kotlinxCoroutinesVersion = "1.11.0"
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxCoroutinesVersion")

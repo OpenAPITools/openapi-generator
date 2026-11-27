@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* Gradle 5.x
+* Gradle 7.6.3
 * Java 8+
 
 ## Getting Started
