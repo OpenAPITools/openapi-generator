@@ -15,8 +15,8 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus-plugin.version>3.27.4.1</quarkus-plugin.version>
-    <quarkus.platform.version>3.27.4.1</quarkus.platform.version>
+    <quarkus-plugin.version>3.40.1.2</quarkus-plugin.version>
+    <quarkus.platform.version>3.40.1.2</quarkus.platform.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
