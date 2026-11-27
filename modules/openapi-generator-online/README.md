@@ -10,7 +10,7 @@ By using the [OpenAPI-Spec](https://openapis.org), you can easily generate a ser
 
 This is an example of building a OpenAPI-enabled server in Java using the SpringBoot framework.
 
-The underlying library integrating OpenAPI to SpringBoot is [springfox](https://github.com/springfox/springfox)
+The underlying library integrating OpenAPI to SpringBoot is [springdoc-openapi](https://springdoc.org)
 
 ## Building
 
@@ -28,11 +28,12 @@ java -jar ./target/openapi-generator-online.jar
 
 This exposes the API on local port 8080.
 
-Springfox supports configuration of the "host" value in the output OpenAPI document by setting the `Host` HTTP header in the request.
-To set this explicitly, pass the system property `springfox.documentation.swagger.v2.host` with the desired host. For example:
+The API description is served at `/api-docs` as an OpenAPI 3 document. Its server URL is taken from the request (an http
+scheme is left out, so clients use the scheme of the page or document).
+To set it explicitly, set the `GENERATOR_HOST` environment variable. For example:
 
 ```
-java -Dspringfox.documentation.swagger.v2.host=example.com:8888 -jar ./target/openapi-generator-online.jar
+GENERATOR_HOST=http://example.com:8888 java -jar ./target/openapi-generator-online.jar
 ```
 
 ### Via Docker

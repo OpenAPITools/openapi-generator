@@ -13,7 +13,7 @@
     <name>openapi-generator-online</name>
     <properties>
         <spring-boot.version>2.7.18</spring-boot.version>
-        <springfox-version>3.0.0</springfox-version>
+        <springdoc.version>1.8.0</springdoc.version>
         <sonar.exclusions>**/org/openapitools/codegen/online/**/*</sonar.exclusions>
     </properties>
     <dependencyManagement>
@@ -101,23 +101,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!--SpringFox dependencies -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
+            <version>${springdoc.version}</version>
             <exclusions>
+                <!-- keep the swagger-core version that the generator's swagger-parser brings -->
                 <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-annotations</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.swagger</groupId>
-                    <artifactId>swagger-models</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
+                    <groupId>io.swagger.core.v3</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

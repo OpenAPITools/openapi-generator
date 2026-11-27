@@ -18,35 +18,39 @@
 package org.openapitools.codegen.online.configuration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
+import org.springdoc.core.SpringDocUtils;
+import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.ServerBaseUrlCustomizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
+import java.util.TreeMap;
 
 
 @Configuration
-@EnableSwagger2
 public class OpenAPIDocumentationConfig {
-    private final Logger LOGGER = LoggerFactory.getLogger(OpenAPIDocumentationConfig.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OpenAPIDocumentationConfig.class);
 
-    ApiInfo apiInfo() {
+    static {
+        // document the free-form "spec" field as an object, as before
+        SpringDocUtils.getConfig().replaceWithClass(JsonNode.class, Object.class);
+    }
+
+    Info apiInfo() {
         final Properties properties = new Properties();
         try (InputStream stream = this.getClass().getResourceAsStream("/version.properties")) {
             if (stream != null) {
@@ -58,53 +62,81 @@ public class OpenAPIDocumentationConfig {
 
         String version = properties.getProperty("version", "unknown");
 
-        return new ApiInfoBuilder()
+        return new Info()
                 .title("OpenAPI Generator Online")
                 .description("This is an online openapi generator server.  You can find out more at https://github.com/OpenAPITools/openapi-generator.")
-                .license("Apache 2.0")
-                .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
-                .termsOfServiceUrl("")
+                .license(new License().name("Apache 2.0").url("https://www.apache.org/licenses/LICENSE-2.0.html"))
                 .version(version)
-                .contact(new Contact("", "", ""))
-                .build();
+                .contact(new Contact());
     }
 
     @Bean
-    public Docket customImplementation() {
-        Docket docket = new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("org.openapitools.codegen.online.api"))
-                .build()
-                .forCodeGeneration(true)
-                .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)
-                .directModelSubstitute(JsonNode.class, java.lang.Object.class)
-                .ignoredParameterTypes(Resource.class)
-                .ignoredParameterTypes(InputStream.class)
-                .apiInfo(apiInfo());
+    public OpenAPI customImplementation() {
+        OpenAPI openAPI = new OpenAPI().info(apiInfo());
 
-        String hostString = System.getenv("GENERATOR_HOST");
-        if (!StringUtils.isBlank(hostString)) {
-            try {
-                URI hostURI = new URI(hostString);
-                String scheme = hostURI.getScheme();
-                if (scheme != null) {
-                    Set<String> protocols = new HashSet<String>();
-                    protocols.add(scheme);
-                    docket.protocols(protocols);
-                }
-                String authority = hostURI.getAuthority();
-                if (authority != null) {
-                    // In OpenAPI `host` refers to host _and_ port, a.k.a. the URI authority
-                    docket.host(authority);
-                }
-                docket.pathMapping(hostURI.getPath());
-            } catch (URISyntaxException e) {
-                LOGGER.warn("Could not parse configured GENERATOR_HOST '" + hostString + "': " + e.getMessage());
-            }
+        String serverUrl = serverUrl(System.getenv("GENERATOR_HOST"));
+        if (serverUrl != null) {
+            // OpenAPI 3 has no host/schemes/basePath:
+            // the configured public address becomes the server URL
+            openAPI.addServersItem(new Server().url(serverUrl));
         }
 
-        return docket;
+        return openAPI;
+    }
+
+    /**
+     * Lists the paths in alphabetical order, as the springfox document did,
+     * so the landing page keeps its order.
+     */
+    @Bean
+    public OpenApiCustomiser sortPaths() {
+        return openApi -> {
+            if (openApi.getPaths() != null) {
+                Paths sorted = new Paths();
+                new TreeMap<>(openApi.getPaths()).forEach(sorted::addPathItem);
+                sorted.setExtensions(openApi.getPaths().getExtensions());
+                openApi.setPaths(sorted);
+            }
+        };
+    }
+
+    /**
+     * Leaves "http:" out of the server URL derived from the request ("//host:port"), as the
+     * springfox document left out the scheme: behind a proxy that terminates TLS the service sees
+     * http, and clients then use the scheme of the page instead of calling http from an https
+     * page. https and a server URL from GENERATOR_HOST are kept.
+     */
+    @Bean
+    public ServerBaseUrlCustomizer schemeRelativeServerUrl() {
+        return serverBaseUrl -> serverBaseUrl.replaceFirst("^http:", "");
+    }
+
+    /**
+     * The public address configured in GENERATOR_HOST without trailing slashes, or null if none is
+     * configured or it is neither a URL with a host nor a path. Clients append operation paths,
+     * which start with "/", and the service does not match "//".
+     */
+    static String serverUrl(String generatorHost) {
+        String url = StringUtils.stripEnd(generatorHost, "/");
+        if (StringUtils.isBlank(url)) {
+            return null;
+        }
+        if (!isUrlWithHostOrPath(url)) {
+            LOGGER.warn("Ignoring GENERATOR_HOST '{}' in the API description: "
+                    + "it is neither a URL with a host nor a path", generatorHost);
+            return null;
+        }
+        return url;
+    }
+
+    private static boolean isUrlWithHostOrPath(String url) {
+        try {
+            URI uri = new URI(url);
+            // a scheme needs a host after it: "http:///x" and "example.com:8888" have none
+            return uri.getScheme() == null || uri.getRawAuthority() != null;
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
 }
