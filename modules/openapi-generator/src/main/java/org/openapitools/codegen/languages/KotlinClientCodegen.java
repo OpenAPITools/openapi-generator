@@ -1203,6 +1203,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return getLibrary() != null && getLibrary().contains(JVM_RETROFIT2);
     }
 
+    private static String mediaTypeOf(Map<String, String> typeMapping) {
+        String mediaTypeValue = typeMapping.get("mediaType");
+        if (mediaTypeValue == null) {
+            return null;
+        }
+        // match on first part in mediaTypes like 'application/json; charset=utf-8'
+        int endIndex = mediaTypeValue.indexOf(';');
+        return (endIndex == -1 ? mediaTypeValue : mediaTypeValue.substring(0, endIndex)).trim();
+    }
+
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
@@ -1249,15 +1259,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     // Ideally we would do content negotiation to choose the best mediatype, but that would be a next step.
                     // For now we take the first mediatype we can parse and send that.
                     Predicate<Map<String, String>> isSerializable = typeMapping -> {
-                        String mediaTypeValue = typeMapping.get("mediaType");
-                        if (mediaTypeValue == null)
+                        String mediaType = mediaTypeOf(typeMapping);
+                        if (mediaType == null)
                             return false;
-                        // match on first part in mediaTypes like 'application/json; charset=utf-8'
-                        int endIndex = mediaTypeValue.indexOf(';');
-                        String mediaType = (endIndex == -1
-                                ? mediaTypeValue
-                                : mediaTypeValue.substring(0, endIndex)
-                        ).trim();
                         return "multipart/form-data".equals(mediaType)
                                 || "application/x-www-form-urlencoded".equals(mediaType)
                                 || (mediaType.startsWith("application/") && mediaType.endsWith("json"))
@@ -1270,8 +1274,32 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                             .collect(Collectors.toList());
                     operation.hasConsumes = operation.consumes != null && !operation.consumes.isEmpty();
 
+                    // Accept must only advertise what ApiClient.responseBody can handle for the
+                    // return type. A File body is streamed to a temp file, a Unit body is skipped,
+                    // so neither depends on the media type: every declared media type is accepted,
+                    // e.g. application/gzip next to a JSON error (#25733). Any other return type is
+                    // deserialized, which only works for JSON, octet-stream and text/plain, so
+                    // e.g. application/xml is not requested for a model.
+                    Predicate<Map<String, String>> isDeserializable = typeMapping -> {
+                        String type = mediaTypeOf(typeMapping);
+                        if (type == null) {
+                            return false;
+                        }
+                        boolean isJson = type.startsWith("application/") && type.endsWith("json");
+                        return isJson
+                                || "application/octet-stream".equals(type)
+                                || "text/plain".equals(type);
+                    };
+                    // the return type comes from the lowest 2xx response, so that response decides
+                    boolean isBodySkipped = operation.returnType == null;
+                    CodegenProperty returned = operation.returnProperty;
+                    boolean isBodyStreamed = returned != null && returned.isFile
+                            && !returned.isContainer && !mapFileBinaryToByteArray;
+                    Predicate<Map<String, String>> isAcceptable = isBodySkipped || isBodyStreamed
+                            ? typeMapping -> true
+                            : isDeserializable;
                     operation.produces = operation.produces == null ? null : operation.produces.stream()
-                            .filter(isSerializable)
+                            .filter(isAcceptable)
                             .collect(Collectors.toList());
                     operation.hasProduces = operation.produces != null && !operation.produces.isEmpty();
 

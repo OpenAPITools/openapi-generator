@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -210,6 +212,68 @@ public class KotlinClientCodegenApiTest {
     }
 
     @Test
+    public void testOkHttpAcceptHeaderKeepsNonJsonResponseMediaTypesWhenBodyIsNotDeserialized() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/issue25733-okhttp-accept-header.yaml");
+        File defaultApi = generateApis(openAPI, createOkHttpCodegen(false)).get(0);
+
+        // the body is streamed to a File, so every declared media type is accepted (#25733)
+        assertAcceptHeader(defaultApi, "download", "application/gzip, application/json");
+        assertAcceptHeader(defaultApi, "downloadOnlyGzip", "application/gzip");
+        assertAcceptHeader(defaultApi, "downloadOctetStream", "application/octet-stream, application/json");
+        // there is no return type, so the body is skipped and every declared media type is accepted
+        assertAcceptHeader(defaultApi, "exportReport", "application/gzip, application/json");
+        // the 200 response is a File, so the body is streamed whatever the 201 response is
+        assertAcceptHeader(defaultApi, "getPhotoOrPet", "image/png, application/xml, application/json");
+    }
+
+    @Test
+    public void testOkHttpAcceptHeaderOmitsMediaTypesTheClientCannotDeserialize() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/issue25733-okhttp-accept-header.yaml");
+        File defaultApi = generateApis(openAPI, createOkHttpCodegen(false)).get(0);
+
+        // a typed body is only parsed as JSON, so application/xml is not advertised, wherever the spec lists it
+        assertAcceptHeader(defaultApi, "getPet", "application/json");
+        assertNoAcceptHeader(defaultApi, "getPetXmlOnly");
+        // the returned 200 response is a model, whatever the 201 response is
+        assertAcceptHeader(defaultApi, "getPetOrPhoto", "application/json");
+        assertAcceptHeader(defaultApi, "getPetName", "text/plain, application/json");
+        // request body media types are not parsed as responses either
+        assertAcceptHeader(defaultApi, "pollToken", "application/json");
+    }
+
+    @Test
+    public void testOkHttpAcceptHeaderWhenFileResponsesAreMappedToByteArray() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/issue25733-okhttp-accept-header.yaml");
+        File defaultApi = generateApis(openAPI, createOkHttpCodegen(true)).get(0);
+
+        // the body is no longer streamed to a File, so only the media types a ByteArray is parsed from are accepted
+        assertAcceptHeader(defaultApi, "download", "application/json");
+        assertAcceptHeader(defaultApi, "downloadOctetStream", "application/octet-stream, application/json");
+    }
+
+    @Test
+    public void testOkHttpPetstoreAcceptHeaderStaysJsonOnlyForModelResponses() throws IOException {
+        OpenAPI openAPI = readOpenAPI("3_0/petstore.yaml");
+        List<File> apiFiles = generateApis(openAPI, createOkHttpCodegen(false));
+        File petApi = apiFiles.stream().filter(file -> file.getName().equals("PetApi.kt")).findAny().orElseThrow();
+        File storeApi = apiFiles.stream().filter(file -> file.getName().equals("StoreApi.kt")).findAny().orElseThrow();
+        File userApi = apiFiles.stream().filter(file -> file.getName().equals("UserApi.kt")).findAny().orElseThrow();
+
+        // petstore.yaml lists application/xml before application/json for these operations
+        assertAcceptHeader(petApi, "getPetById", "application/json");
+        assertAcceptHeader(petApi, "findPetsByStatus", "application/json");
+        assertAcceptHeader(petApi, "findPetsByTags", "application/json");
+        assertAcceptHeader(petApi, "addPet", "application/json");
+        assertAcceptHeader(petApi, "updatePet", "application/json");
+        assertAcceptHeader(storeApi, "getOrderById", "application/json");
+        assertAcceptHeader(storeApi, "placeOrder", "application/json");
+        assertAcceptHeader(userApi, "getUserByName", "application/json");
+        assertAcceptHeader(userApi, "loginUser", "application/json");
+        // /store/inventory only declares application/json
+        assertAcceptHeader(storeApi, "getInventory", "application/json");
+    }
+
+    @Test
     public void testJvmOkHttp4ApiClientUsesExplicitDateTypeArgumentsForQuerySerialization() throws IOException {
         OpenAPI openAPI = readOpenAPI("3_0/kotlin/petstore.yaml");
 
@@ -357,6 +421,57 @@ public class KotlinClientCodegenApiTest {
 
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
+    }
+
+    private KotlinClientCodegen createOkHttpCodegen(boolean mapFileBinaryToByteArray) throws IOException {
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        codegen.setMapFileBinaryToByteArray(mapFileBinaryToByteArray);
+        return codegen;
+    }
+
+    private static List<File> generateApis(OpenAPI openAPI, KotlinClientCodegen codegen) {
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        return generator.opts(createClientOptInput(openAPI, codegen)).generate().stream()
+                .filter(file -> file.getName().endsWith("Api.kt"))
+                .collect(Collectors.toList());
+    }
+
+    // lines of the body of `<operationId>RequestConfig`, i.e. of the operation itself rather than of the whole file
+    private static List<String> requestConfigLines(File apiFile, String operationId) throws IOException {
+        List<String> lines = Files.readAllLines(apiFile.toPath(), StandardCharsets.UTF_8);
+        List<String> body = new ArrayList<>();
+        boolean inRequestConfig = false;
+        for (String line : lines) {
+            if (line.startsWith("    fun " + operationId + "RequestConfig(")) {
+                inRequestConfig = true;
+            } else if (inRequestConfig) {
+                if (line.equals("    }")) {
+                    return body;
+                }
+                body.add(line.trim());
+            }
+        }
+        Assert.fail("No request config of " + operationId + " in " + apiFile.getName());
+        return body;
+    }
+
+    private static void assertAcceptHeader(File apiFile, String operationId, String expectedAccept) throws IOException {
+        List<String> acceptLines = requestConfigLines(apiFile, operationId).stream()
+                .filter(line -> line.startsWith("localVariableHeaders[\"Accept\"]"))
+                .collect(Collectors.toList());
+        Assert.assertEquals(acceptLines,
+                Collections.singletonList("localVariableHeaders[\"Accept\"] = \"" + expectedAccept + "\""),
+                "Accept header of " + operationId + " in " + apiFile.getName());
+    }
+
+    private static void assertNoAcceptHeader(File apiFile, String operationId) throws IOException {
+        List<String> acceptLines = requestConfigLines(apiFile, operationId).stream()
+                .filter(line -> line.startsWith("localVariableHeaders[\"Accept\"]"))
+                .collect(Collectors.toList());
+        Assert.assertEquals(acceptLines, Collections.emptyList(),
+                "Accept header of " + operationId + " in " + apiFile.getName());
     }
 
     private static void enableOnlyApiGeneration(DefaultGenerator generator) {
