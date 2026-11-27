@@ -1478,8 +1478,8 @@ class UserApi
         // query params
         if ($username !== null) {
             if('form' === 'form' && is_array($username)) {
-                foreach($username as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($username as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
@@ -1489,8 +1489,8 @@ class UserApi
         // query params
         if ($password !== null) {
             if('form' === 'form' && is_array($password)) {
-                foreach($password as $key => $value) {
-                    $queryParams[$key] = $value;
+                foreach($password as $localVariableKey => $localVariableValue) {
+                    $queryParams[$localVariableKey] = $localVariableValue;
                 }
             }
             else {
