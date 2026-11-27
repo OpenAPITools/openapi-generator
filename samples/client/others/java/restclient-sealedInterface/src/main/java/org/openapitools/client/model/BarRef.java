@@ -80,6 +80,18 @@ public final class BarRef extends EntityRef implements Serializable, BarRefOrVal
   }
 
   @Override
+  public BarRef name(@jakarta.annotation.Nullable String name) {
+    this.setName(name);
+    return this;
+  }
+
+  @Override
+  public BarRef atReferredType(@jakarta.annotation.Nullable String atReferredType) {
+    this.setAtReferredType(atReferredType);
+    return this;
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
