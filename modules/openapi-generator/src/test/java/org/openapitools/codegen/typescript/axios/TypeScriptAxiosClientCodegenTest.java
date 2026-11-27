@@ -9,6 +9,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -23,6 +24,69 @@ import static org.testng.Assert.assertEquals;
 public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+    @Test
+    public void testMixedCompositionImports() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_mixed_imports_").toFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/typescript-axios/mixed-composition-imports.yaml")
+                .addAdditionalProperty("withSeparateModelsAndApi", true)
+                .addAdditionalProperty("apiPackage", "api")
+                .addAdditionalProperty("modelPackage", "model")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+        // Axios imports composed children even when the source schema has allOf.
+        // This checks the real imports pipeline, not full mixed-composition support.
+        assertThat(Files.readString(output.toPath().resolve("model/mixed.ts")))
+                .containsOnlyOnce("import type { Base } from './base';");
+    }
+
+    @DataProvider
+    public Object[][] oneOfSiblingPropertiesOptions() {
+        return new Object[][] {{false, false}, {true, false}, {false, true}, {true, true}};
+    }
+
+    @Test(dataProvider = "oneOfSiblingPropertiesOptions")
+    public void testOneOfSiblingProperties(boolean separateModels, boolean stringEnums) throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_oneof_properties_").toFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_0/typescript-axios/oneof-sibling-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .addAdditionalProperty("withSeparateModelsAndApi", separateModels)
+                .addAdditionalProperty("apiPackage", "api")
+                .addAdditionalProperty("modelPackage", "model")
+                .addAdditionalProperty("stringEnums", stringEnums);
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+
+        Path receiptFile = output.toPath().resolve(separateModels ? "model/receipt.ts" : "api.ts");
+        String receipt = Files.readString(receiptFile);
+        assertThat(receipt).contains("export type Receipt = (LinkSubmission | TextSubmission) & {");
+        String receiptProperties = receipt.substring(receipt.indexOf("export type Receipt ="));
+        receiptProperties = receiptProperties.substring(0, receiptProperties.indexOf("\n};"));
+        assertThat(receiptProperties)
+                .contains("'id': string;", "'state': ReceiptStateEnum;", "'owner': Owner;",
+                        "'note'?: string | null;", "@deprecated")
+                .doesNotContain("'kind'", "'text'", "'url'");
+        assertThat(receipt).contains(stringEnums ? "export enum ReceiptStateEnum" : "export const ReceiptStateEnum");
+        if (separateModels) {
+            assertThat(receipt).containsOnlyOnce("import type { Owner } from './owner';")
+                    .containsOnlyOnce("import type { TextSubmission } from './text-submission';")
+                    .containsOnlyOnce("import type { LinkSubmission } from './link-submission';");
+        }
+
+        Path submissionFile = output.toPath().resolve(separateModels ? "model/submission.ts" : "api.ts");
+        TestUtils.assertFileContains(submissionFile, "export type Submission = LinkSubmission | TextSubmission;");
+        Path identifiedFile = output.toPath().resolve(separateModels ? "model/identified-submission.ts" : "api.ts");
+        TestUtils.assertFileContains(identifiedFile,
+                "export type IdentifiedSubmission = (LinkSubmission | TextSubmission) & {\n    'id': unknown;\n};");
+        Path taggedFile = output.toPath().resolve(separateModels ? "model/tagged-receipt.ts" : "api.ts");
+        TestUtils.assertFileContains(taggedFile,
+                "export type TaggedReceipt = ({ kind: 'link' } & LinkSubmission | { kind: 'text' } & TextSubmission) & {\n    'id': string;\n};");
+    }
 
     @Test
     public void testToEnumVarNameOriginalNamingType() {
