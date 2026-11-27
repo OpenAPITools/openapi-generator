@@ -331,6 +331,10 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
     }
 
     private String toExampleValueRecursive(Schema schema, List<Schema> includedSchemas, int indentation) {
+        return toExampleValueRecursive(schema, includedSchemas, indentation, null);
+    }
+
+    private String toExampleValueRecursive(Schema schema, List<Schema> includedSchemas, int indentation, String referencedSchemaName) {
         boolean cycleFound = includedSchemas.stream().filter(s -> schema.equals(s)).count() > 1;
         if (cycleFound) {
             return "";
@@ -391,7 +395,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                         includedSchemas.add(schema);
                     }
-                    return toExampleValueRecursive(refSchema, includedSchemas, indentation);
+                    // The component key identifies the generated model; its title is descriptive metadata.
+                    return toExampleValueRecursive(refSchema, includedSchemas, indentation, ref);
                 }
             } else {
                 LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
@@ -487,7 +492,8 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
 
-            example = packageName + ".models." + underscore(schema.getTitle()) + "." + schema.getTitle() + "(";
+            String modelName = StringUtils.isNotBlank(referencedSchemaName) ? referencedSchemaName : schema.getTitle();
+            example = packageName + ".models." + toModelFilename(modelName) + "." + toModelName(modelName) + "(";
 
             // if required only:
             // List<String> reqs = schema.getRequired();
