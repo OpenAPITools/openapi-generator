@@ -49,7 +49,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         consumes = ["application/json"]
     )
     fun createUsersWithArrayInput(
-        @Valid @RequestBody user: kotlin.collections.List<@Valid User>
+        @Size /* always valid - forces Spring to validate items in container */ @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithArrayInput(user), HttpStatus.valueOf(200))
     }
@@ -62,7 +62,7 @@ class UserApiController(@Autowired(required = true) val service: UserApiService)
         consumes = ["application/json"]
     )
     fun createUsersWithListInput(
-        @Valid @RequestBody user: kotlin.collections.List<@Valid User>
+        @Size /* always valid - forces Spring to validate items in container */ @RequestBody user: kotlin.collections.List<@Valid User>
     ): ResponseEntity<Unit> {
         return ResponseEntity(service.createUsersWithListInput(user), HttpStatus.valueOf(200))
     }

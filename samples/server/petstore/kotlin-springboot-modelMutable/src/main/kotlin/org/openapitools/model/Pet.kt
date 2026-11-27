@@ -54,7 +54,6 @@ data class Pet(
     @param:JsonProperty("category")
     @get:JsonProperty("category") var category: Category? = null,
 
-    @field:Valid
     @Schema(description = "")
     @field:JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @field:JsonSetter(nulls = Nulls.SKIP)

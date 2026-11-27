@@ -246,3 +246,40 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Pet'
+        singlePet:
+          $ref: '#/components/schemas/Pet'
+        customInfo:
+          type: object
+        anything: {}
+        anyMap:
+          type: object
+          additionalProperties: {}
+        anyOfPetInline:
+          anyOf:
+            - $ref: '#/components/schemas/Cat'
+            - $ref: '#/components/schemas/Dog'
+        oneOfPetInline:
+          oneOf:
+            - $ref: '#/components/schemas/Cat'
+            - $ref: '#/components/schemas/Dog'
+        allOfPetInline:
+          allOf:
+            - $ref: '#/components/schemas/Pet'
+            - type: object
+              properties:
+                extra:
+                  type: integer
+        composedPrimitives:
+          anyOf:
+            - type: string
+            - type: integer
+        inlineObjAnyOf:
+          anyOf:
+            - type: object
+              properties:
+                alpha:
+                  type: string
+            - type: object
+              properties:
+                beta:
+                  type: integer

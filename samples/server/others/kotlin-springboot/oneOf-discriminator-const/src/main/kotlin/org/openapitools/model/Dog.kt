@@ -25,7 +25,6 @@ import jakarta.validation.Valid
  */
 data class Dog(
 
-    @field:Valid
     @field:JsonInclude(JsonInclude.Include.ALWAYS)
     @param:JsonProperty("petType", required = true)
     @get:JsonProperty("petType", required = true) override val petType: kotlin.String = "dog",
