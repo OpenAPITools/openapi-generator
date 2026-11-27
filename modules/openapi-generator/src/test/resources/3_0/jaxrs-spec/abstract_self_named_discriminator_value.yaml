@@ -1,0 +1,56 @@
+openapi: 3.0.3
+info:
+  title: x-abstract with an x-discriminator-value equal to the schema name
+  description: >
+    The abstract middle tier Cat declares x-discriminator-value Cat, which equals its schema name. This explicit
+    mapping to an abstract model is rejected like any other explicit mapping.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      x-abstract: true
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+        name:
+          type: string
+      discriminator:
+        propertyName: petType
+
+    Cat:
+      x-abstract: true
+      x-discriminator-value: Cat
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            indoor:
+              type: boolean
+
+    PersianCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    SiameseCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            eyeColor:
+              type: string
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean

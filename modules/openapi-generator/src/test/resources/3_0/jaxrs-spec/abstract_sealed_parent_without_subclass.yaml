@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: x-abstract without subclasses below a sealed parent
+  description: >
+    Fish extends the discriminator parent Pet, is marked x-abstract and has no subclasses. With useSealed,
+    Pet permits Fish, so Fish would have to be declared non-sealed (sealed and final are not possible for an
+    abstract class without subclasses), which would reopen the hierarchy. Generation must fail with
+    useSealed and succeed without it.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          DOG: '#/components/schemas/Dog'
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean
+
+    Fish:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            fins:
+              type: integer

@@ -110,6 +110,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|Custom annotation(s) to be added to model; accepts a string or list of strings|MODEL|null
 |x-field-extra-annotation|Custom annotation(s) to be added to property; on an array `items` schema, generators that support element-type annotations add it to the element type instead (e.g. `List<@Foo T>`); accepts a string or list of strings|FIELD, OPERATION_PARAMETER|null
+|x-abstract|Generate the model class as `abstract`, with `protected` constructors and without `builder()` and JSON creator. Every discriminator value must resolve to a concrete class: an explicit mapping to an abstract model fails the generation, an implicit one is replaced by mappings to its concrete subclasses. With `useSealed`, an abstract model that is a permitted subtype of a sealed type fails the generation if no generated model extends it; any other abstract model without a generated subclass only logs a warning.|MODEL|false
 
 
 ## IMPORT MAPPING

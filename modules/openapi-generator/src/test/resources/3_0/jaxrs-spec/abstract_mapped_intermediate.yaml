@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: x-abstract intermediate type resolved by a second discriminator
+  description: >
+    Pet maps CAT to the abstract Cat, which resolves its leaves by a second discriminator catType. Jackson
+    does not re-dispatch on the second discriminator when reading through Pet and would try to instantiate
+    Cat, so the explicit mapping to an abstract model is rejected; the values must map directly to leaves.
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    Pet:
+      type: object
+      required:
+        - petType
+      properties:
+        petType:
+          type: string
+      discriminator:
+        propertyName: petType
+        mapping:
+          CAT: '#/components/schemas/Cat'
+          DOG: '#/components/schemas/Dog'
+
+    Cat:
+      x-abstract: true
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          required:
+            - catType
+          properties:
+            catType:
+              type: string
+      discriminator:
+        propertyName: catType
+        mapping:
+          PERSIAN: '#/components/schemas/PersianCat'
+
+    PersianCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            longHair:
+              type: boolean
+
+    Dog:
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+        - type: object
+          properties:
+            trained:
+              type: boolean
