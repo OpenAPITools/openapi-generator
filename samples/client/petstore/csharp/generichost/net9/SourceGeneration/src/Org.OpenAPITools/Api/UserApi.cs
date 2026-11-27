@@ -553,31 +553,6 @@ namespace Org.OpenAPITools.Api
         public UserApiEvents Events { get; }
 
         /// <summary>
-        /// A token provider of type <see cref="ApiKeyProvider"/>
-        /// </summary>
-        public TokenProvider<ApiKeyToken> ApiKeyProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BearerToken"/>
-        /// </summary>
-        public TokenProvider<BearerToken> BearerTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="BasicTokenProvider"/>
-        /// </summary>
-        public TokenProvider<BasicToken> BasicTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="HttpSignatureTokenProvider"/>
-        /// </summary>
-        public TokenProvider<HttpSignatureToken> HttpSignatureTokenProvider { get; }
-
-        /// <summary>
-        /// A token provider of type <see cref="OauthTokenProvider"/>
-        /// </summary>
-        public TokenProvider<OAuthToken> OauthTokenProvider { get; }
-
-        /// <summary>
         /// The token cookie container
         /// </summary>
         public Org.OpenAPITools.Client.CookieContainer CookieContainer { get; }
@@ -587,22 +562,12 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <returns></returns>
         public UserApi(ILogger<UserApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, UserApiEvents userApiEvents,
-            TokenProvider<ApiKeyToken> apiKeyProvider,
-            TokenProvider<BearerToken> bearerTokenProvider,
-            TokenProvider<BasicToken> basicTokenProvider,
-            TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider,
             Org.OpenAPITools.Client.CookieContainer cookieContainer)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             Logger = logger;
             HttpClient = httpClient;
             Events = userApiEvents;
-            ApiKeyProvider = apiKeyProvider;
-            BearerTokenProvider = bearerTokenProvider;
-            BasicTokenProvider = basicTokenProvider;
-            HttpSignatureTokenProvider = httpSignatureTokenProvider;
-            OauthTokenProvider = oauthTokenProvider;
             CookieContainer = cookieContainer;
         }
 

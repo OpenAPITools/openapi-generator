@@ -39,7 +39,11 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -1155,6 +1159,75 @@ public class CSharpClientCodegenTest {
         assertNotNull(api, "Could not find generated DefaultApi.cs");
         assertFileContains(api.toPath(), "Dictionary<string, Widget>");
         assertFileNotContains(api.toPath(), "Model.Dictionary<");
+    }
+
+    @Test(description = "generichost: token providers are only injected into Api classes whose operations use the matching security scheme")
+    public void testGenerichostTokenProvidersBasedOnOperationsAuthMethods() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/issue_25575.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        CSharpClientCodegen cSharpClientCodegen = new CSharpClientCodegen();
+        cSharpClientCodegen.setLibrary("generichost");
+        cSharpClientCodegen.setOutputDir(output.getAbsolutePath());
+        cSharpClientCodegen.additionalProperties().put("packageName", "Example.Api.Sdk");
+        cSharpClientCodegen.additionalProperties().put("netCoreProjectFile", true);
+        clientOptInput.config(cSharpClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        // Two schemes are declared (global apiKey, operation-level bearer), each used by its own tag:
+        // every Api class must require exactly the token providers of its own operations - not every
+        // declared scheme, and not a scheme used only by another Api class.
+        assertGenerichostTokenProviders(files, output, "SecuredApi",
+                "ILogger<SecuredApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, SecuredApiEvents securedApiEvents, TokenProvider<ApiKeyToken> apiKeyProvider",
+                "TokenProvider<ApiKeyToken> ApiKeyProvider");
+        // opts out of the global scheme
+        assertGenerichostTokenProviders(files, output, "PublicApi",
+                "ILogger<PublicApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PublicApiEvents publicApiEvents");
+        // second scheme only, on its own tag
+        assertGenerichostTokenProviders(files, output, "BearerApi",
+                "ILogger<BearerApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, BearerApiEvents bearerApiEvents, TokenProvider<BearerToken> bearerTokenProvider",
+                "TokenProvider<BearerToken> BearerTokenProvider");
+        // one operation per scheme
+        assertGenerichostTokenProviders(files, output, "MixedApi",
+                "ILogger<MixedApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, MixedApiEvents mixedApiEvents, TokenProvider<ApiKeyToken> apiKeyProvider, TokenProvider<BearerToken> bearerTokenProvider",
+                "TokenProvider<ApiKeyToken> ApiKeyProvider",
+                "TokenProvider<BearerToken> BearerTokenProvider");
+        // webhook Api class with its own security: only the webhook's scheme, not the global one
+        assertGenerichostTokenProviders(files, output, "PetHookApi",
+                "ILogger<PetHookApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, PetHookApiEvents petHookApiEvents, TokenProvider<BearerToken> bearerTokenProvider",
+                "TokenProvider<BearerToken> BearerTokenProvider");
+    }
+
+    /**
+     * Asserts that a generated generichost Api class declares exactly the given token provider properties
+     * and that its constructor takes exactly the given parameters (whitespace collapsed to single spaces).
+     */
+    private static void assertGenerichostTokenProviders(Map<String, File> files, File output, String classname,
+                                                        String constructorParameters, String... tokenProviders) throws IOException {
+        File apiFile = files.get(Paths.get(output.getAbsolutePath(), "src", "Example.Api.Sdk", "Api", classname + ".cs").toString());
+        assertNotNull(apiFile, "Could not find generated " + classname + ".cs");
+        String content = Files.readString(apiFile.toPath());
+
+        Set<String> declaredTokenProviders = new TreeSet<>();
+        Matcher provider = Pattern.compile("public (TokenProvider<\\w+> \\w+) \\{ get; \\}").matcher(content);
+        while (provider.find()) {
+            declaredTokenProviders.add(provider.group(1));
+        }
+        assertThat(declaredTokenProviders)
+                .as("token providers declared by %s", classname)
+                .containsExactlyInAnyOrder(tokenProviders);
+
+        Matcher constructor = Pattern.compile("public " + classname + "\\((.*?)\\)\\s*\\{", Pattern.DOTALL).matcher(content);
+        assertThat(constructor.find()).as("constructor of %s", classname).isTrue();
+        assertThat(constructor.group(1).replaceAll("\\s+", " "))
+                .as("constructor parameters of %s", classname)
+                .isEqualTo(constructorParameters);
     }
 
     @Test(description = "conditionalSerialization: an all-optional model's public constructor must not raise the serialization flag for value-typed properties the caller never passed")
