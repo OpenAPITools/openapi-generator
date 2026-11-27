@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |dateFormat|date format for query parameters| |%Y-%m-%d|
 |datetimeFormat|datetime format for query parameters| |%Y-%m-%dT%H:%M:%S%z|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
+|generateScalarAnyOfAsUnion|Generate an anyOf schema whose members are all enums or single values (strings, numbers, booleans, dates and UUIDs) as a type alias of a Union of its members, instead of a model that wraps the value in actual_instance. Properties of that type then hold the value itself, and a value takes the first member it validates against, in the order the anyOf lists them.| |false|
 |generateSourceCodeOnly|Specifies that only a library source code is to be generated.| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |lazyImports|Enable lazy imports.| |false|

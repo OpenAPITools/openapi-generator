@@ -74,6 +74,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     @Setter protected String projectName; // for setup.py, e.g. petstore-api
     protected boolean hasModelsToImport = Boolean.FALSE;
     protected String mapNumberTo = "Union[StrictFloat, StrictInt]";
+    @Setter protected boolean generateScalarAnyOfAsUnion = false;
     protected Map<Character, String> regexModifiers;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
@@ -81,6 +82,12 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
     private HashMap<String, HashSet<String>> circularImports = new HashMap<>();
     // map of codegen models
     private HashMap<String, CodegenModel> codegenModelMap = new HashMap<>();
+    // anyOf models whose members are all scalars or enums, generated as a Union type alias
+    private final Set<String> scalarUnions = new HashSet<>();
+    protected static final String X_PY_SCALAR_UNION = "x-py-scalar-union";
+    protected static final String X_PY_SCALAR_UNION_VALUE = "x-py-scalar-union-value";
+    // members can be cached properties shared with other models, so they don't reuse x-py-typing
+    protected static final String X_PY_UNION_MEMBER_TYPING = "x-py-union-member-typing";
 
     public AbstractPythonCodegen() {
         super();
@@ -1014,11 +1021,72 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             createImportMapOfSet(m, codegenModelMap);
         }
 
+        if (generateScalarAnyOfAsUnion) {
+            for (CodegenModel cm : codegenModelMap.values()) {
+                if (isScalarAnyOf(cm)) {
+                    scalarUnions.add(cm.classname);
+                    cm.vendorExtensions.put(X_PY_SCALAR_UNION, true);
+                }
+            }
+        }
+
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
             entry.setValue(postProcessModelsMap(entry.getValue()));
         }
 
+        // a scalar union value is the value itself, so (de)serialize it like a primitive rather than through
+        // to_dict() and from_dict(). This runs after every model's typing, which imports the alias as a model.
+        if (!scalarUnions.isEmpty()) {
+            for (CodegenModel cm : codegenModelMap.values()) {
+                for (List<CodegenProperty> vars : Arrays.asList(cm.vars, cm.allVars, cm.requiredVars,
+                        cm.optionalVars, cm.readOnlyVars, cm.readWriteVars, cm.parentVars)) {
+                    vars.forEach(this::markScalarUnionValues);
+                }
+                CodegenComposedSchemas composed = cm.getComposedSchemas();
+                if (composed != null) {
+                    for (List<CodegenProperty> members : Arrays.asList(composed.getOneOf(), composed.getAnyOf())) {
+                        if (members != null) {
+                            members.forEach(this::markScalarUnionValues);
+                        }
+                    }
+                }
+            }
+        }
+
         return processed;
+    }
+
+    /**
+     * An anyOf whose members are all enums or single values (strings, numbers, booleans, dates and UUIDs).
+     * An object can match several anyOf members at once, which a Union of the members can't represent.
+     */
+    private boolean isScalarAnyOf(CodegenModel cm) {
+        if (!ModelUtils.hasAnyOf(cm) || !cm.oneOf.isEmpty() || !cm.vars.isEmpty()
+                || cm.getDiscriminator() != null || !StringUtils.isEmpty(cm.parent)) {
+            return false;
+        }
+        return cm.getComposedSchemas().getAnyOf().stream().allMatch(member -> {
+            if (member.isContainer || member.isFreeFormObject || member.isAnyType || member.isNull
+                    || member.isBinary || member.isFile || member.isByteArray) {
+                return false;
+            }
+            CodegenModel ref = codegenModelMap.get(member.dataType);
+            if (ref != null) {
+                return ref.isEnum;
+            }
+            return member.isString || member.isNumeric || member.isBoolean
+                    || member.isDate || member.isDateTime || member.isUuid;
+        });
+    }
+
+    private void markScalarUnionValues(CodegenProperty cp) {
+        for (CodegenProperty p = cp; p != null; p = p.items) {
+            if (!p.isContainer && scalarUnions.contains(p.dataType)) {
+                p.isPrimitiveType = true;
+                p.isModel = false;
+                p.vendorExtensions.put(X_PY_SCALAR_UNION_VALUE, true);
+            }
+        }
     }
 
     private ModelsMap postProcessModelsMap(ModelsMap objs) {
@@ -1072,6 +1140,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
+            boolean scalarUnion = model.vendorExtensions.containsKey(X_PY_SCALAR_UNION);
             List<CodegenProperty> codegenProperties = null;
             if (hasOneOf(model)) {
                 codegenProperties = model.getComposedSchemas().getOneOf();
@@ -1081,6 +1150,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 moduleImports.add(PYDANTIC, "StrictStr");
                 moduleImports.add(PYDANTIC, "ValidationError");
                 moduleImports.add(PYDANTIC, "field_validator");
+            } else if (scalarUnion) {
+                codegenProperties = model.getComposedSchemas().getAnyOf();
+                moduleImports.add("typing", "Union");
+                moduleImports.add("typing_extensions", "Annotated");
+                moduleImports.add(PYDANTIC, "Field");
             } else if (hasAnyOf(model)) {
                 codegenProperties = model.getComposedSchemas().getAnyOf();
                 moduleImports.add(PYDANTIC, "Field");
@@ -1120,7 +1194,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             }
 
             // if pydantic model
-            if (!model.isEnum) {
+            if (!model.isEnum && !scalarUnion) {
                 moduleImports.add(PYDANTIC, "ConfigDict");
             }
 
@@ -1133,6 +1207,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
                 if (cp.vendorExtensions.containsKey("x-python-not-string-enum-values")) {
                     moduleImports.add(PYDANTIC, "field_validator");
+                }
+
+                if (scalarUnion) {
+                    cp.vendorExtensions.put(X_PY_UNION_MEMBER_TYPING, pydantic.getType(cp).asTypeConstraint(moduleImports));
+                    continue;
                 }
 
                 String typing = pydantic.generatePythonType(cp);
@@ -1149,7 +1228,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // add parent model to import
             if (!StringUtils.isEmpty(model.parent)) {
                 modelImports.add(model.parent);
-            } else if (!model.isEnum) {
+            } else if (!model.isEnum && !scalarUnion) {
                 moduleImports.add(PYDANTIC, "BaseModel");
             }
 
