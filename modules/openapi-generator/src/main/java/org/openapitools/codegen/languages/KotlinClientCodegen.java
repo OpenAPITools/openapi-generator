@@ -32,12 +32,16 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -1440,6 +1444,62 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             sb.append("Value");
             return sb.toString();
         }
+    }
+
+    /**
+     * Local variable names declared by each library's api.mustache that spec
+     * parameters must not collide with. A name is listed when a parameter
+     * reference can appear in a statement after the local's declaration, so a
+     * same-named parameter would read the local instead of its own value
+     * (e.g. a query parameter {@code localVariableQuery} would read the
+     * template's {@code val localVariableQuery} map). Parameter references
+     * inside the local's own initializer still resolve to the parameter, so
+     * locals used only that way ({@code localVariableConfig},
+     * {@code localVarResponse}, {@code localVarError}) are intentionally not
+     * listed. Only {@code localVariable*}-shaped locals are tracked: other
+     * statement-level template locals (jvm-vertx's {@code request},
+     * {@code vertxClient} and {@code form}; jvm-volley's {@code body},
+     * {@code contentTypes}, {@code path} and {@code formParams}) are out of
+     * scope. The sets must be kept in sync with each library's api.mustache.
+     */
+    private static final Map<String, Set<String>> TEMPLATE_LOCAL_NAME_COLLISIONS = createTemplateLocalNameCollisions();
+
+    private static Map<String, Set<String>> createTemplateLocalNameCollisions() {
+        Set<String> collidingWithRequestConfigLocals = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+                "localVariableBody", "localVariableQuery", "localVariableHeaders")));
+        Set<String> ktorLocals = new HashSet<>(collidingWithRequestConfigLocals);
+        ktorLocals.add("localVariableAuthNames");
+        Set<String> collidingWithKtorLocals = Collections.unmodifiableSet(ktorLocals);
+        Map<String, Set<String>> collisions = new HashMap<>();
+        // processOpts replaces jvm-okhttp4 with the shared template folder name jvm-okhttp, so both keys need this set
+        collisions.put(JVM_OKHTTP, collidingWithRequestConfigLocals);
+        collisions.put(JVM_OKHTTP4, collidingWithRequestConfigLocals);
+        collisions.put(JVM_SPRING_WEBCLIENT, collidingWithRequestConfigLocals);
+        collisions.put(JVM_SPRING_RESTCLIENT, collidingWithRequestConfigLocals);
+        collisions.put(JVM_KTOR, collidingWithKtorLocals);
+        collisions.put(MULTIPLATFORM, collidingWithKtorLocals);
+        return Collections.unmodifiableMap(collisions);
+    }
+
+    /**
+     * Renames a spec parameter whose {@code super.toParamName} result (the
+     * name after {@code toVariableName}) collides with a local variable
+     * declared by the current library's api template, giving it a
+     * {@code param_} prefix (the same pattern as the existing
+     * {@code callback} -> {@code paramCallback} escape). An explicit
+     * {@code parameterNameMapping} entry stays authoritative and is returned
+     * unchanged.
+     */
+    @Override
+    public String toParamName(String name) {
+        String paramName = super.toParamName(name);
+        if (parameterNameMapping.containsKey(name)) {
+            return paramName;
+        }
+        if (TEMPLATE_LOCAL_NAME_COLLISIONS.getOrDefault(getLibrary(), Collections.emptySet()).contains(paramName)) {
+            return toVariableName("param_" + name);
+        }
+        return paramName;
     }
 
     @Override

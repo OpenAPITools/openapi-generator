@@ -355,6 +355,187 @@ public class KotlinClientCodegenApiTest {
         }
     }
 
+    // clientLibraries plus jvm-microprofile, kept separate since the clientLibraries tests do not cover microprofile
+    @DataProvider(name = "allClientLibraries")
+    public static Object[][] allClientLibraries() {
+        return new Object[][]{
+                {ClientLibrary.JVM_KTOR},
+                {ClientLibrary.JVM_OKHTTP4},
+                {ClientLibrary.JVM_SPRING_WEBCLIENT},
+                {ClientLibrary.JVM_SPRING_RESTCLIENT},
+                {ClientLibrary.JVM_RETROFIT2},
+                {ClientLibrary.MULTIPLATFORM},
+                {ClientLibrary.JVM_VOLLEY},
+                {ClientLibrary.JVM_VERTX},
+                {ClientLibrary.JVM_MICROPROFILE}
+        };
+    }
+
+    /**
+     * Spec parameters whose names collide with a statement-level local
+     * declared by the library's api template (a parameter reference in a
+     * statement after the local's declaration would read the local, not the
+     * parameter) are renamed with a {@code param_} prefix; their wire names
+     * (baseName) are unchanged. Names referenced only inside the local's own
+     * initializer (localVariableConfig, localVarResponse, localVarError) and
+     * non-colliding names (localVariant, normalParam) are never renamed, and
+     * no name is renamed in libraries whose templates declare none of these
+     * localVariable* locals.
+     */
+    @Test(dataProvider = "allClientLibraries")
+    public void testTemplateLocalNameCollisionParamsAreRenamed(ClientLibrary library) throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-template-local-collision.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(library);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        switch (library) {
+            case JVM_OKHTTP4:
+            case JVM_SPRING_WEBCLIENT:
+            case JVM_SPRING_RESTCLIENT:
+                // colliding params are renamed but still bound to their wire names
+                assertFileContainsLine(lines, "val localVariableBody = paramLocalVariableBody");
+                assertFileContainsLine(lines, "put(\"localVariableQuery\", listOf(paramLocalVariableQuery.toString()))");
+                assertFileContainsLine(lines, "paramLocalVariableHeaders?.apply { localVariableHeaders[\"localVariableHeaders\"] = this.toString() }");
+                // shadow-only and non-colliding names keep their names
+                assertFileContainsLine(lines, "put(\"localVariableConfig\", listOf(localVariableConfig.toString()))");
+                assertFileContainsLine(lines, "put(\"localVariableAuthNames\", listOf(localVariableAuthNames.toString()))");
+                assertFileContainsLine(lines, "put(\"local-var-response\", listOf(localVarResponse.toString()))");
+                assertFileContainsLine(lines, "put(\"localVarError\", listOf(localVarError.toString()))");
+                assertFileContainsLine(lines, "put(\"localVariant\", listOf(localVariant.toString()))");
+                assertFileContainsLine(lines, "put(\"normalParam\", listOf(normalParam.toString()))");
+                break;
+            case JVM_KTOR:
+            case MULTIPLATFORM:
+                assertFileContainsLine(lines, "val localVariableBody = paramLocalVariableBody");
+                assertFileContainsLine(lines, "paramLocalVariableQuery?.apply { localVariableQuery[\"localVariableQuery\"] = listOf(\"$paramLocalVariableQuery\") }");
+                assertFileContainsLine(lines, "paramLocalVariableAuthNames?.apply { localVariableQuery[\"localVariableAuthNames\"] = listOf(\"$paramLocalVariableAuthNames\") }");
+                assertFileContainsLine(lines, "paramLocalVariableHeaders?.apply { localVariableHeaders[\"localVariableHeaders\"] = this.toString() }");
+                assertFileContainsLine(lines, "localVariableConfig?.apply { localVariableQuery[\"localVariableConfig\"] = listOf(\"$localVariableConfig\") }");
+                assertFileContainsLine(lines, "localVarResponse?.apply { localVariableQuery[\"local-var-response\"] = listOf(\"$localVarResponse\") }");
+                assertFileContainsLine(lines, "localVarError?.apply { localVariableQuery[\"localVarError\"] = listOf(\"$localVarError\") }");
+                assertFileContainsLine(lines, "localVariant?.apply { localVariableQuery[\"localVariant\"] = listOf(\"$localVariant\") }");
+                assertFileContainsLine(lines, "normalParam?.apply { localVariableQuery[\"normalParam\"] = listOf(\"$normalParam\") }");
+                break;
+            case JVM_VERTX:
+                // vert.x declares none of these localVariable* locals: nothing is renamed
+                assertFileContainsLine(lines, "localVariableQuery?.let { request.queryParams().add(\"localVariableQuery\", listOf(it.toString())) }");
+                assertFileContainsLine(lines, "localVariableConfig?.let { request.queryParams().add(\"localVariableConfig\", listOf(it.toString())) }");
+                assertFileContainsLine(lines, "localVariableAuthNames?.let { request.queryParams().add(\"localVariableAuthNames\", listOf(it.toString())) }");
+                assertFileContainsLine(lines, "localVarResponse?.let { request.queryParams().add(\"local-var-response\", listOf(it.toString())) }");
+                assertFileContainsLine(lines, "localVarError?.let { request.queryParams().add(\"localVarError\", listOf(it.toString())) }");
+                assertFileContainsLine(lines, "localVariant?.let { request.queryParams().add(\"localVariant\", listOf(it.toString())) }");
+                assertFileContainsLine(lines, "normalParam?.let { request.queryParams().add(\"normalParam\", listOf(it.toString())) }");
+                assertFileContainsLine(lines, "localVariableHeaders?.apply { request.putHeader(\"localVariableHeaders\", this.toString())}");
+                assertFileContainsLine(lines, ".sendBuffer(responseBody(localVariableBody))");
+                break;
+            case JVM_RETROFIT2:
+                assertFileContainsLine(lines, "fun collideBody(@Body localVariableBody: CollideBodyRequest, @Query(\"localVariableQuery\") localVariableQuery: kotlin.String? = null, @Query(\"localVariableConfig\") localVariableConfig: kotlin.String? = null, @Query(\"localVariableAuthNames\") localVariableAuthNames: kotlin.String? = null, @Query(\"local-var-response\") localVarResponse: kotlin.String? = null, @Query(\"localVarError\") localVarError: kotlin.String? = null, @Query(\"localVariant\") localVariant: kotlin.String? = null, @Query(\"normalParam\") normalParam: kotlin.String? = null, @Header(\"localVariableHeaders\") localVariableHeaders: kotlin.String? = null): Call<kotlin.String>");
+                break;
+            case JVM_VOLLEY:
+                assertFileContainsLine(lines, "val body: Any? = localVariableBody");
+                assertFileContainsLine(lines, "\"localVariableQuery\" to IRequestFactory.parameterToString(localVariableQuery),");
+                assertFileContainsLine(lines, "\"localVariableConfig\" to IRequestFactory.parameterToString(localVariableConfig),");
+                assertFileContainsLine(lines, "\"localVariableAuthNames\" to IRequestFactory.parameterToString(localVariableAuthNames),");
+                assertFileContainsLine(lines, "\"local-var-response\" to IRequestFactory.parameterToString(localVarResponse),");
+                assertFileContainsLine(lines, "\"localVarError\" to IRequestFactory.parameterToString(localVarError),");
+                assertFileContainsLine(lines, "\"localVariant\" to IRequestFactory.parameterToString(localVariant),");
+                assertFileContainsLine(lines, "\"normalParam\" to IRequestFactory.parameterToString(normalParam)");
+                assertFileContainsLine(lines, "\"localVariableHeaders\" to IRequestFactory.parameterToString(localVariableHeaders)");
+                break;
+            case JVM_MICROPROFILE:
+                assertFileContainsLine(lines, "localVariableBody: CollideBodyRequest,");
+                assertFileContainsLine(lines, "@QueryParam(\"localVariableQuery\") localVariableQuery: kotlin.String? = null,");
+                assertFileContainsLine(lines, "@QueryParam(\"localVariableConfig\") localVariableConfig: kotlin.String? = null,");
+                assertFileContainsLine(lines, "@QueryParam(\"localVariableAuthNames\") localVariableAuthNames: kotlin.String? = null,");
+                assertFileContainsLine(lines, "@QueryParam(\"local-var-response\") localVarResponse: kotlin.String? = null,");
+                assertFileContainsLine(lines, "@QueryParam(\"localVarError\") localVarError: kotlin.String? = null,");
+                assertFileContainsLine(lines, "@QueryParam(\"localVariant\") localVariant: kotlin.String? = null,");
+                assertFileContainsLine(lines, "@QueryParam(\"normalParam\") normalParam: kotlin.String? = null,");
+                assertFileContainsLine(lines, "@HeaderParam(\"localVariableHeaders\") localVariableHeaders: kotlin.String? = null");
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * An explicit parameterNameMapping entry stays authoritative: a mapped
+     * spec parameter uses the mapped name even when its original name would
+     * otherwise be renamed as a template-local collision.
+     */
+    @Test
+    public void testTemplateLocalNameCollisionParameterNameMappingWins() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-template-local-collision.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        codegen.parameterNameMapping().put("localVariableQuery", "explicitLocalVariableQuery");
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        assertFileContainsLine(lines, "put(\"localVariableQuery\", listOf(explicitLocalVariableQuery.toString()))");
+        Assert.assertTrue(lines.stream().noneMatch(line -> line.contains("paramLocalVariableQuery")),
+                "parameterNameMapping must win over the template-local rename");
+    }
+
+    /**
+     * A parameterNameMapping entry that maps a colliding name to itself keeps
+     * the parameter unrenamed: the mapping, not the collision check, decides
+     * the final name. Unlike the explicitLocalVariableQuery case above (whose
+     * mapped name would survive the rename check anyway), this fails if the
+     * parameterNameMapping guard in toParamName is removed.
+     */
+    @Test
+    public void testTemplateLocalNameCollisionParameterNameMappingCanPinName() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-template-local-collision.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.JVM_OKHTTP4);
+        codegen.parameterNameMapping().put("localVariableQuery", "localVariableQuery");
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        assertFileContainsLine(lines, "put(\"localVariableQuery\", listOf(localVariableQuery.toString()))");
+        Assert.assertTrue(lines.stream().noneMatch(line -> line.contains("paramLocalVariableQuery")),
+                "parameterNameMapping must pin the mapped name against the template-local rename");
+    }
+
+    /**
+     * Multiplatform renders a single (non-array) file form field as
+     * {@code param?.apply { append(param) }}: the appended value is the
+     * parameter, so it must be referenced by paramName. Referencing the wire
+     * name (baseName) produced an unresolved reference (upload_file) or read
+     * the template's local (localVariableQuery, renamed for a template-local
+     * collision) instead of the parameter.
+     */
+    @Test
+    public void testMultiplatformMultipartFileParamAppendsParamName() throws IOException {
+        OpenAPI openAPI = readOpenAPI("src/test/resources/3_0/kotlin/kotlin-multiplatform-multipart-file-param-name.yaml");
+
+        KotlinClientCodegen codegen = createCodegen(ClientLibrary.MULTIPLATFORM);
+        DefaultGenerator generator = new DefaultGenerator();
+        enableOnlyApiGeneration(generator);
+
+        List<File> files = generator.opts(createClientOptInput(openAPI, codegen)).generate();
+        File defaultApi = files.stream().filter(file -> file.getName().equals("DefaultApi.kt")).findAny().orElseThrow();
+        List<String> lines = Files.readAllLines(defaultApi.toPath()).stream().map(String::trim).collect(Collectors.toList());
+
+        assertFileContainsLine(lines, "paramLocalVariableQuery?.apply { append(paramLocalVariableQuery) }");
+        assertFileContainsLine(lines, "uploadFile?.apply { append(uploadFile) }");
+    }
+
     private static void assertFileContainsLine(List<String> lines, String line) {
         Assert.assertListContains(lines, s -> s.equals(line), line);
     }

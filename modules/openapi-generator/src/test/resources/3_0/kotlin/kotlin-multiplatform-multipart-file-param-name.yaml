@@ -1,0 +1,28 @@
+openapi: 3.0.4
+info:
+  title: Kotlin multiplatform multipart file param name repro
+  version: 1.0.0
+paths:
+  /upload:
+    post:
+      operationId: uploadFiles
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                localVariableQuery:
+                  type: string
+                  format: binary
+                upload_file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: string
