@@ -6147,6 +6147,74 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testNativeUseOneOfInterfacesWithDiscriminator() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/oneof_interface_petstore.yaml",
+                JavaClientCodegen.NATIVE, Map.of(USE_ONE_OF_INTERFACES, "true"));
+        validateJavaSourceFiles(new ArrayList<>(files.values()));
+
+        JavaFileAssert.assertThat(files.get("PetRequest.java"))
+                .isInterface()
+                .fileDoesNotContain("AbstractOpenApiSchema", "TypeReference", "getActualInstance")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("use", "JsonTypeInfo.Id.NAME", "property", "\"petType\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "CatRequest.class", "name", "\"CAT\""))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "DogRequest.class", "name", "\"DOG\""));
+        JavaFileAssert.assertThat(files.get("CatRequest.java")).isNormalClass().implementsInterfaces("PetRequest");
+        JavaFileAssert.assertThat(files.get("DogRequest.java")).isNormalClass().implementsInterfaces("PetRequest");
+    }
+
+    @DataProvider(name = "nativeJacksonVersions")
+    public Object[][] nativeJacksonVersions() {
+        return new Object[][]{{false}, {true}};
+    }
+
+    @Test(dataProvider = "nativeJacksonVersions")
+    public void testNativeUseDeductionForOneOfInterfaces(boolean useJackson3) {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/native/oneof-interface-deduction.yaml",
+                JavaClientCodegen.NATIVE,
+                Map.of(USE_ONE_OF_INTERFACES, "true", USE_DEDUCTION_FOR_ONE_OF_INTERFACES, "true",
+                        JavaClientCodegen.USE_JACKSON_3, useJackson3));
+        validateJavaSourceFiles(new ArrayList<>(files.values()));
+
+        JavaFileAssert.assertThat(files.get("Author.java"))
+                .isInterface()
+                .fileDoesNotContain("AbstractOpenApiSchema", "TypeReference", "getActualInstance")
+                // used by the generated api classes for deepObject and exploded query parameters
+                .fileContains("public String toUrlQueryString(String prefix);", "default String toUrlQueryString()")
+                .assertTypeAnnotations()
+                .containsWithNameAndAttributes("JsonTypeInfo", Map.of("use", "JsonTypeInfo.Id.DEDUCTION"))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "ServiceAuthor.class"))
+                .recursivelyContainsWithNameAndAttributes("JsonSubTypes.Type", Map.of("value", "UserAuthor.class"));
+        JavaFileAssert.assertThat(files.get("ServiceAuthor.java")).isNormalClass().implementsInterfaces("Author");
+        JavaFileAssert.assertThat(files.get("UserAuthor.java")).isNormalClass().implementsInterfaces("Author");
+    }
+
+    @Test
+    public void testNativeOneOfWithoutUseOneOfInterfacesStillGeneratesWrapperClass() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/native/oneof-interface-deduction.yaml",
+                JavaClientCodegen.NATIVE, Map.of());
+        validateJavaSourceFiles(new ArrayList<>(files.values()));
+
+        JavaFileAssert.assertThat(files.get("Author.java"))
+                .isNormalClass()
+                .extendsClass("AbstractOpenApiSchema")
+                .fileContains("getActualInstance");
+        JavaFileAssert.assertThat(files.get("ServiceAuthor.java")).doesNotImplementInterfaces("Author");
+    }
+
+    @Test
+    public void testNativeOneOfInterfaceOmitsUrlQueryMembersWithoutSupportUrlQuery() {
+        final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/native/oneof-interface-deduction.yaml",
+                JavaClientCodegen.NATIVE,
+                Map.of(USE_ONE_OF_INTERFACES, "true", JavaClientCodegen.SUPPORT_URL_QUERY, false));
+        validateJavaSourceFiles(new ArrayList<>(files.values()));
+
+        JavaFileAssert.assertThat(files.get("Author.java"))
+                .isInterface()
+                .fileDoesNotContain("toUrlQueryString");
+    }
+
+    @Test
     public void testSwagger2TagImportRestAssured() throws IOException {
         final Map<String, File> files = generateFromContract(
                 "src/test/resources/3_0/petstore.yaml",

@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/client/others/java/native-oneof-interface
+library: native
+inputSpec: modules/openapi-generator/src/test/resources/3_0/java/native/oneof-interface-deduction.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  useOneOfInterfaces: "true"
+  useDeductionForOneOfInterfaces: "true"

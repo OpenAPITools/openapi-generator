@@ -1,0 +1,18 @@
+{{#supportUrlQuery}}
+    /**
+     * Convert the instance into URL query string.
+     *
+     * @param prefix prefix of the query string
+     * @return URL query string
+     */
+    public String toUrlQueryString(String prefix);
+
+    /**
+     * Convert the instance into URL query string.
+     *
+     * @return URL query string
+     */
+    default String toUrlQueryString() {
+        return toUrlQueryString(null);
+    }
+{{/supportUrlQuery}}
