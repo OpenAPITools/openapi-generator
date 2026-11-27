@@ -267,6 +267,37 @@
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
         {{/useJackson3}}
+        {{#withXml}}
+        <!-- XML processing: Jackson -->
+        {{#useJackson3}}
+        <dependency>
+            <groupId>tools.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson3-version}</version>
+        </dependency>
+        {{/useJackson3}}
+        {{^useJackson3}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        {{/useJackson3}}
+        {{#useJakartaEe}}
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        {{/useJakartaEe}}
+        {{^useJakartaEe}}
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        {{/useJakartaEe}}
+        {{/withXml}}
         {{^useJspecify}}
 
         <!-- @Nullable annotation -->

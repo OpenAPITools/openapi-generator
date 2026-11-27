@@ -51,11 +51,16 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() { 
   }
 
-  @JsonCreator
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
   public ReadOnlyFirst(
-    @JsonProperty(JSON_PROPERTY_BAR) String bar
+    @JsonProperty(value = JSON_PROPERTY_BAR, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @javax.annotation.Nullable String bar
   ) {
-  this();
+    this();
     this.bar = bar;
   }
 

@@ -10,3 +10,4 @@ additionalProperties:
   useReflectionEqualsHashCode: "true"
   useJackson3: "true"
   openApiNullable: "false"
+  generateJsonCreator: "true"

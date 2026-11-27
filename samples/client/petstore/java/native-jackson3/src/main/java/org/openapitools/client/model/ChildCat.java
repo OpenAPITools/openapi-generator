@@ -63,6 +63,19 @@ public class ChildCat extends ParentPet {
   public ChildCat() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public ChildCat(
+    @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @javax.annotation.Nullable String petType
+  ) {
+    super(petType);
+    this.petType = petType;
+  }
+
   public ChildCat name(@javax.annotation.Nullable String name) {
     this.name = name;
     return this;

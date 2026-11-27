@@ -126,6 +126,31 @@ public class FormatTest {
   public FormatTest() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public FormatTest(
+    @JsonProperty(value = JSON_PROPERTY_NUMBER, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull BigDecimal number,
+    @JsonProperty(value = JSON_PROPERTY_BYTE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull byte[] _byte,
+    @JsonProperty(value = JSON_PROPERTY_DATE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull LocalDate date,
+    @JsonProperty(value = JSON_PROPERTY_PASSWORD, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String password
+  ) {
+    this();
+    this.number = number;
+    this._byte = _byte;
+    this.date = date;
+    this.password = password;
+  }
+
   public FormatTest integer(@javax.annotation.Nullable Integer integer) {
     this.integer = integer;
     return this;

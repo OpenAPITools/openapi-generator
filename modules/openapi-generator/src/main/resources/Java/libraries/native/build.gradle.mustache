@@ -130,6 +130,20 @@ dependencies {
     implementation "org.openapitools:jackson-databind-nullable:0.2.13"
     {{/openApiNullable}}
     {{/useJackson3}}
+    {{#withXml}}
+    {{#useJackson3}}
+    implementation "tools.jackson.dataformat:jackson-dataformat-xml:$jackson3_version"
+    {{/useJackson3}}
+    {{^useJackson3}}
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    {{/useJackson3}}
+    {{#useJakartaEe}}
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0"
+    {{/useJakartaEe}}
+    {{^useJakartaEe}}
+    implementation "javax.xml.bind:jaxb-api:2.3.1"
+    {{/useJakartaEe}}
+    {{/withXml}}
     {{#useJspecify}}
     implementation "org.jspecify:jspecify:1.0.0"
     {{/useJspecify}}

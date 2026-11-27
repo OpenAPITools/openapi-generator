@@ -50,6 +50,19 @@ public class Category {
   public Category() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Category(
+    @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String name
+  ) {
+    this();
+    this.name = name;
+  }
+
   public Category id(@javax.annotation.Nullable Long id) {
     this.id = id;
     return this;

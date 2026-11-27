@@ -50,6 +50,23 @@ public class SimpleQuadrilateral {
   public SimpleQuadrilateral() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public SimpleQuadrilateral(
+    @JsonProperty(value = JSON_PROPERTY_SHAPE_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String shapeType,
+    @JsonProperty(value = JSON_PROPERTY_QUADRILATERAL_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String quadrilateralType
+  ) {
+    this();
+    this.shapeType = shapeType;
+    this.quadrilateralType = quadrilateralType;
+  }
+
   public SimpleQuadrilateral shapeType(@javax.annotation.Nonnull String shapeType) {
     this.shapeType = shapeType;
     return this;

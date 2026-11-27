@@ -56,6 +56,18 @@ public class Dog extends Animal {
   public Dog() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Dog(
+    @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String className
+  ) {
+    super(className);
+  }
+
   public Dog breed(@javax.annotation.Nullable String breed) {
     this.breed = breed;
     return this;

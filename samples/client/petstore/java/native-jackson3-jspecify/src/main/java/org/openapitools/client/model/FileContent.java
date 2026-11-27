@@ -91,13 +91,22 @@ public class FileContent {
   public FileContent() { 
   }
 
-  @JsonCreator
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
   public FileContent(
-    @JsonProperty(JSON_PROPERTY_NAME) String name, 
-    @JsonProperty(JSON_PROPERTY_SIZE) Integer size, 
-    @JsonProperty(JSON_PROPERTY_VIRUS_SCAN) VirusScanEnum virusScan
+    @JsonProperty(value = JSON_PROPERTY_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    String name,
+    @JsonProperty(value = JSON_PROPERTY_SIZE, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @Nullable Integer size,
+    @JsonProperty(value = JSON_PROPERTY_VIRUS_SCAN, required = false)
+    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+    @Nullable VirusScanEnum virusScan
   ) {
-  this();
+    this();
     this.name = name;
     this.size = size;
     this.virusScan = virusScan;

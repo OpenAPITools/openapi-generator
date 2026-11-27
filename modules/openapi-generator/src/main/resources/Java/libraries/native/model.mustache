@@ -33,11 +33,11 @@ import java.io.Serializable;
 {{#jackson}}
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 {{#withXml}}
-import com.fasterxml.jackson.dataformat.xml.annotation.*;
+import {{jacksonPackage}}.dataformat.xml.annotation.*;
 {{/withXml}}
-{{#vendorExtensions.x-has-readonly-properties}}
+{{#vendorExtensions.x-java-json-creator}}
 import com.fasterxml.jackson.annotation.JsonCreator;
-{{/vendorExtensions.x-has-readonly-properties}}
+{{/vendorExtensions.x-java-json-creator}}
 {{/jackson}}
 {{#withXml}}
 import {{javaxPackage}}.xml.bind.annotation.*;

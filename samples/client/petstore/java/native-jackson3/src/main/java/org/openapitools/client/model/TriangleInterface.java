@@ -45,6 +45,19 @@ public class TriangleInterface {
   public TriangleInterface() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public TriangleInterface(
+    @JsonProperty(value = JSON_PROPERTY_TRIANGLE_TYPE, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String triangleType
+  ) {
+    this();
+    this.triangleType = triangleType;
+  }
+
   public TriangleInterface triangleType(@javax.annotation.Nonnull String triangleType) {
     this.triangleType = triangleType;
     return this;

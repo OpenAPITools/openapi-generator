@@ -56,6 +56,19 @@ public class Whale {
   public Whale() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public Whale(
+    @JsonProperty(value = JSON_PROPERTY_CLASS_NAME, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull String className
+  ) {
+    this();
+    this.className = className;
+  }
+
   public Whale hasBaleen(@javax.annotation.Nullable Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
     return this;

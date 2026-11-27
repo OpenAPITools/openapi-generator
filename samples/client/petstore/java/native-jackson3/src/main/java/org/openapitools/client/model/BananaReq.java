@@ -52,6 +52,19 @@ public class BananaReq {
   public BananaReq() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public BananaReq(
+    @JsonProperty(value = JSON_PROPERTY_LENGTH_CM, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull BigDecimal lengthCm
+  ) {
+    this();
+    this.lengthCm = lengthCm;
+  }
+
   public BananaReq lengthCm(@javax.annotation.Nonnull BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
     return this;

@@ -269,6 +269,19 @@ public class EnumTest {
   public EnumTest() { 
   }
 
+  /**
+   * Constructor with required and read-only properties
+   */
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  public EnumTest(
+    @JsonProperty(value = JSON_PROPERTY_ENUM_STRING_REQUIRED, required = true)
+    @JsonInclude(value = JsonInclude.Include.ALWAYS)
+    @javax.annotation.Nonnull EnumStringRequiredEnum enumStringRequired
+  ) {
+    this();
+    this.enumStringRequired = enumStringRequired;
+  }
+
   public EnumTest enumString(@javax.annotation.Nullable EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;
