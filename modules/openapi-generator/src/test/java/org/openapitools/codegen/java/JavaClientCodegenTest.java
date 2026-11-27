@@ -5654,17 +5654,21 @@ public class JavaClientCodegenTest {
     @Test
     public void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeNotAdded() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
-                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "true"));
+                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "true", BeanValidationFeatures.USE_BEANVALIDATION, "true"));
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
                 .assertTypeAnnotations().doesNotContainWithName("JsonIgnoreProperties");
+        JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
+                .assertMethod("getType").hasAnnotation("NotNull");
     }
 
     @Test
-    public void disableDiscriminatorJsonIgnorePropertiesIsTrueThenJsonIgnorePropertiesShouldBeAdded() {
+    public void disableDiscriminatorJsonIgnorePropertiesIsFalseThenJsonIgnorePropertiesShouldBeAdded() {
         final Map<String, File> files = generateFromContract("src/test/resources/3_0/java/issue12777.yaml", RESTCLIENT,
-                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false"));
+                Map.of(DISABLE_DISCRIMINATOR_JSON_IGNORE_PROPERTIES, "false", BeanValidationFeatures.USE_BEANVALIDATION, "true"));
         JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
                 .assertTypeAnnotations().containsWithName("JsonIgnoreProperties");
+        JavaFileAssert.assertThat(files.get("BaseConfiguration.java"))
+                .assertMethod("getType").doesNotHaveAnnotation("NotNull");
     }
 
     @Test

@@ -68,7 +68,6 @@ public class GrandparentAnimal {
    * @return petType
    */
   @jakarta.annotation.Nonnull
-  @NotNull
 
   @JsonProperty(value = JSON_PROPERTY_PET_TYPE, required = true)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)

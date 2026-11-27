@@ -57,7 +57,7 @@ public class AnimalDto {
    * Get className
    * @return className
    */
-  @NotNull 
+  
   @JsonProperty("className")
   public String getClassName() {
     return className;

@@ -58,7 +58,7 @@ public sealed class Vehicle permits Car {
    * Get type
    * @return type
    */
-  @NotNull 
+  
   @Schema(name = "type", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("type")
   public String getType() {

@@ -59,7 +59,7 @@ public class Animal  implements Serializable {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty(required = true, value = "className")
-  @NotNull public String getClassName() {
+  public String getClassName() {
     return className;
   }
 
