@@ -156,6 +156,16 @@ public class FruitReq extends AbstractOpenApiSchema {
         setActualInstance(o);
     }
 
+    public FruitReq(AppleReq o) {
+        this();
+        setActualInstance(o);
+    }
+
+    public FruitReq(BananaReq o) {
+        this();
+        setActualInstance(o);
+    }
+
     static {
         schemas.put("AppleReq", AppleReq.class);
         schemas.put("BananaReq", BananaReq.class);
@@ -218,6 +228,15 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     /**
+     * Check if the actual instance is of the type `AppleReq`.
+     *
+     * @return true if the actual instance is of the type `AppleReq`
+     */
+    public boolean isAppleReq() {
+        return super.getActualInstance() instanceof AppleReq;
+    }
+
+    /**
      * Get the actual instance of `BananaReq`. If the actual instance is not `BananaReq`,
      * the ClassCastException will be thrown.
      *
@@ -227,6 +246,15 @@ public class FruitReq extends AbstractOpenApiSchema {
     @SuppressWarnings("unchecked")
     public BananaReq getBananaReq() throws ClassCastException {
         return (BananaReq)super.getActualInstance();
+    }
+
+    /**
+     * Check if the actual instance is of the type `BananaReq`.
+     *
+     * @return true if the actual instance is of the type `BananaReq`
+     */
+    public boolean isBananaReq() {
+        return super.getActualInstance() instanceof BananaReq;
     }
 
     /**

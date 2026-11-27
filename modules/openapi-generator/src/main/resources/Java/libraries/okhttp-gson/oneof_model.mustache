@@ -310,6 +310,21 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         setActualInstance(o);
     }
 
+    {{#composedSchemas}}
+    {{#oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
+    {{^isAnyType}}
+    {{^isFreeFormObject}}
+    public {{classname}}({{{dataType}}} o) {
+        this();
+        setActualInstance(o);
+    }
+
+    {{/isFreeFormObject}}
+    {{/isAnyType}}
+    {{/vendorExtensions.x-duplicated-data-type}}
+    {{/oneOf}}
+    {{/composedSchemas}}
     static {
         {{#composedSchemas}}
         {{#oneOf}}
@@ -391,6 +406,23 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return ({{{dataType}}})super.getActualInstance();
     }
 
+    {{^vendorExtensions.x-is-method-inherited}}
+    {{^isContainer}}
+    {{^isAnyType}}
+    {{^isFreeFormObject}}
+    /**
+     * Check if the actual instance is of the type `{{dataType}}`.
+     *
+     * @return true if the actual instance is of the type `{{dataType}}`
+     */
+    public boolean is{{#sanitizeDataType}}{{{dataType}}}{{/sanitizeDataType}}() {
+        return super.getActualInstance() instanceof {{{dataType}}};
+    }
+
+    {{/isFreeFormObject}}
+    {{/isAnyType}}
+    {{/isContainer}}
+    {{/vendorExtensions.x-is-method-inherited}}
     {{/vendorExtensions.x-duplicated-data-type-ignoring-erasure}}
     {{/oneOf}}
     {{/composedSchemas}}
