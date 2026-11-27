@@ -67,7 +67,6 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
             // classpath, in both "process" and "classloader" workerIsolation modes. Not consumed or
             // published; only resolved by this plugin.
             val generatorExtraClasspath = configurations.create("openApiGeneratorExtra") {
-                isVisible = false
                 isCanBeConsumed = false
                 isCanBeResolved = true
                 description = "Additional classpath entries (e.g. custom NORMALIZER_CLASS jars) " +
