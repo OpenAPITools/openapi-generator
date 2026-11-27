@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: probes
+  version: 1.0.0
+paths:
+  /greeting:
+    get:
+      operationId: getGreeting
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+  /pets:
+    get:
+      operationId: listPets
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+components:
+  schemas:
+    Pet:
+      type: object
+      properties:
+        birthday:
+          type: string
+          format: date
+        code:
+          type: string
+          pattern: '^[a-z]+$'

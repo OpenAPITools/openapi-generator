@@ -48,7 +48,10 @@ module Qdrant
       response = @faraday.run_request(method, path, request_body, request_headers) do |req|
         req.params.update(encode_query(request_query))
       end
-      raise ApiError.from(response) unless response.success?
+      unless response.success?
+        decode_error_body(response)
+        raise ApiError.from(response)
+      end
 
       Response.new(data: deserialize(response.body, type), status: response.status, headers: response.headers)
     rescue Faraday::Error => e
@@ -89,22 +92,27 @@ module Qdrant
       end
     end
 
-    def deserialize(body, type)
-      return nil if body.nil? || body == ''
+    # `ApiError#body` is the decoded value (not the raw JSON string) of a JSON error response;
+    # the body of an error response with any other content type is left untouched.
+    def decode_error_body(response)
+      body = response.body
+      content_type = response.headers['Content-Type'].to_s.split(';', 2).first
+      return unless body.is_a?(String) && content_type&.match?(/\bjson$/)
 
-      # A successful response with a non-JSON body (plain text, HTML from a
-      # misbehaving proxy, ...) must not escape the single ApiError contract.
-      data =
-        if body.is_a?(String)
-          begin
-            JSON.parse(body)
-          rescue JSON::ParserError => e
-            raise ApiError, "invalid JSON in response body: #{e.message}"
-          end
-        else
-          body
-        end
-      return data if type.nil?
+      response.env.body = parse_json(body)
+    end
+
+    # Decodes a JSON body, `nil` when it is blank. A body that is not valid JSON (plain text,
+    # HTML from a misbehaving proxy, ...) must not escape the single ApiError contract.
+    def parse_json(body)
+      body.strip.empty? ? nil : JSON.parse(body)
+    rescue JSON::ParserError => e
+      raise ApiError, "invalid JSON in response body: #{e.message}"
+    end
+
+    def deserialize(body, type)
+      data = body.is_a?(String) ? parse_json(body) : body
+      return data if data.nil? || type.nil?
 
       if type.respond_to?(:from_hash)
         type.from_hash(data)

@@ -66,7 +66,7 @@ begin
   client.<resource>.<action>
 rescue ObjectQuery::ApiError => e
   e.status   # => HTTP status code (nil for a transport error)
-  e.body     # => the raw response body
+  e.body     # => the response body (decoded when the Content-Type is JSON)
   e.headers  # => the response headers
 end
 ```
