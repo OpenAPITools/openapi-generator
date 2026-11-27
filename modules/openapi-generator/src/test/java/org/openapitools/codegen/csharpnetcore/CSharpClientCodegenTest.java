@@ -1334,4 +1334,26 @@ public class CSharpClientCodegenTest {
         assertFileContains(file.toPath(), "public AnimalChoice(");
         assertFileNotContains(file.toPath(), "internal AnimalChoice(");
     }
+    @Test
+    public void testGenerichostOneOfInlineEnumMemberUsesUnderlyingType() throws IOException {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/csharp/oneof-inline-enum.yaml");
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.NULLABLE_REFERENCE_TYPES, true);
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI).config(codegen);
+
+        Map<String, File> files = new DefaultGenerator().opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File model = getGeneratedModel(files, output, "HelloResponseCustomProperty");
+
+        // the inline enum member has no generated enum type, so it must be handled as its underlying string type
+        assertFileContains(model.toPath(),
+                "string? varString = default;",
+                "ClientUtils.TryDeserialize<string?>(ref utf8JsonReaderString, jsonSerializerOptions, out varString);",
+                "return new HelloResponseCustomProperty(varString);");
+        assertFileNotContains(model.toPath(), "OneOf1Enum");
+    }
 }
