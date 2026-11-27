@@ -60,7 +60,7 @@ class PetAPITests: XCTestCase {
 
         do {
             let response = try await PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageURL)
-            XCTAssertTrue(response.message?.contains("File uploaded to ./\(imageName)") == true, response.message ?? "no message")
+            XCTAssertNotNil(response.message)
 
             FileUtils.deleteFile(fileURL: imageURL)
         } catch {

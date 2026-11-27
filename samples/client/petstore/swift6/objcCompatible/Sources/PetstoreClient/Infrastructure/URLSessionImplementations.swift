@@ -74,6 +74,9 @@ fileprivate class URLSessionRequestBuilderConfiguration: @unchecked Sendable {
 
 open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked Sendable {
 
+    /// Set by a retry, so that the `execute(completion:)` it calls keeps a cancel of the execution being retried.
+    private let isRetrying = OpenAPIMutex(false)
+
     required public init(method: String, URLString: String, parameters: [String: any Sendable]?, headers: [String: String] = [:], requiresAuthentication: Bool, apiConfiguration: PetstoreClientAPIConfiguration = PetstoreClientAPIConfiguration.shared) {
         super.init(method: method, URLString: URLString, parameters: parameters, headers: headers, requiresAuthentication: requiresAuthentication, apiConfiguration: apiConfiguration)
     }
@@ -122,6 +125,14 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
 
     @discardableResult
     override open func execute(completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) -> RequestTask {
+        let isRetry = isRetrying.withValue { isRetrying in
+            defer { isRetrying = false }
+            return isRetrying
+        }
+        if !isRetry {
+            requestTask.reset()
+        }
+
         let urlSession = createURLSession()
 
         guard supportsResponseType else {
@@ -217,15 +228,24 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
                         }
                     }
 
+                    self.requestTask.set(task: dataTask)
+                    // A cancel that came while the interceptor was working found no task to cancel.
+                    // The cancelled task's completion handler reports it.
+                    guard !self.requestTask.isCancelled else {
+                        dataTask.cancel()
+                        return
+                    }
+
                     self.onProgressReady?(dataTask.progress)
 
                     URLSessionRequestBuilderConfiguration.shared.credentialStore[dataTask.taskIdentifier] = self.credential
 
-                    self.requestTask.set(task: dataTask)
-
                     self.apiConfiguration.interceptor.willSendRequest(urlRequest: modifiedRequest, urlSession: urlSession, requestBuilder: self)
 
                     dataTask.resume()
+
+                case .failure where self.requestTask.isCancelled:
+                    self.failCancelled(urlRequest: request, urlSession: urlSession, completion: completion)
 
                 case .failure(let error):
                     self.apiConfiguration.interceptor.didComplete(urlRequest: request, urlSession: urlSession, requestBuilder: self, data: nil, response: nil, result: .failure(error))
@@ -263,9 +283,20 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
     }
 
     private func retryRequest(urlRequest: URLRequest, urlSession: URLSessionProtocol, statusCode: Int, data: Data?, response: URLResponse?, error: Error, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+        guard !requestTask.isCancelled else {
+            failCancelled(urlRequest: urlRequest, urlSession: urlSession, completion: completion)
+            return
+        }
+
         self.apiConfiguration.interceptor.retry(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: data, response: response, error: error) { retry in
+            guard !self.requestTask.isCancelled else {
+                self.failCancelled(urlRequest: urlRequest, urlSession: urlSession, completion: completion)
+                return
+            }
+
             switch retry {
             case .retry:
+                self.isRetrying.withValue { $0 = true }
                 self.execute(completion: completion)
 
             case .dontRetry:
@@ -274,6 +305,15 @@ open class URLSessionRequestBuilder<T: Sendable>: RequestBuilder<T>, @unchecked 
                     completion(.failure(ErrorResponse.error(statusCode, data, response, error)))
                 }
             }
+        }
+    }
+
+    /// Ends a cancelled execution the way a cancelled data task does, whatever stage it was cancelled in.
+    private func failCancelled(urlRequest: URLRequest, urlSession: URLSessionProtocol, completion: @Sendable @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void) {
+        let error = URLError(.cancelled)
+        apiConfiguration.interceptor.didComplete(urlRequest: urlRequest, urlSession: urlSession, requestBuilder: self, data: nil, response: nil, result: .failure(error))
+        apiConfiguration.apiResponseQueue.async {
+            completion(.failure(ErrorResponse.error(-1, nil, nil, error)))
         }
     }
 
