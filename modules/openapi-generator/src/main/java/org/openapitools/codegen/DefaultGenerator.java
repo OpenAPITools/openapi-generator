@@ -1647,26 +1647,7 @@ public class DefaultGenerator implements Generator {
 
     private OperationsMap processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops, List<ModelMap> allModels) {
         OperationsMap operations = new OperationsMap();
-        OperationMap objs = new OperationMap();
-        objs.setClassname(config.toApiName(tag));
-        objs.setPathPrefix(config.toApiVarName(tag));
-
-        // check for nickname uniqueness
-        if (config.getAddSuffixToDuplicateOperationNicknames()) {
-            Set<String> opIds = new HashSet<>();
-            int counter = 0;
-            for (CodegenOperation op : ops) {
-                String opId = op.nickname;
-                if (opIds.contains(opId)) {
-                    counter++;
-                    op.nickname += "_" + counter;
-                }
-                opIds.add(opId);
-            }
-        }
-        objs.setOperation(ops);
-
-        operations.setOperation(objs);
+        operations.setOperation(toOperationMap(config, tag, ops));
         operations.put("package", config.apiPackage());
 
         Set<String> allImports = new ConcurrentSkipListSet<>();
@@ -1691,26 +1672,7 @@ public class DefaultGenerator implements Generator {
 
     private WebhooksMap processWebhooks(CodegenConfig config, String tag, List<CodegenOperation> wks, List<ModelMap> allModels) {
         WebhooksMap operations = new WebhooksMap();
-        OperationMap objs = new OperationMap();
-        objs.setClassname(config.toApiName(tag));
-        objs.setPathPrefix(config.toApiVarName(tag));
-
-        // check for nickname uniqueness
-        if (config.getAddSuffixToDuplicateOperationNicknames()) {
-            Set<String> opIds = new HashSet<>();
-            int counter = 0;
-            for (CodegenOperation op : wks) {
-                String opId = op.nickname;
-                if (opIds.contains(opId)) {
-                    counter++;
-                    op.nickname += "_" + counter;
-                }
-                opIds.add(opId);
-            }
-        }
-        objs.setOperation(wks);
-
-        operations.setWebhooks(objs);
+        operations.setWebhooks(toOperationMap(config, tag, wks));
         operations.put("package", config.apiPackage());
 
         Set<String> allImports = new ConcurrentSkipListSet<>();
@@ -1731,6 +1693,38 @@ public class DefaultGenerator implements Generator {
 
         config.postProcessWebhooksWithModels(operations, allModels);
         return operations;
+    }
+
+    /**
+     * Builds the operation map of a tag, making duplicate nicknames unique if the generator asks
+     * for it.
+     *
+     * @param config The generator configuration
+     * @param tag    The tag the operations belong to
+     * @param ops    The operations of the tag
+     * @return The operation map
+     */
+    private OperationMap toOperationMap(
+            CodegenConfig config, String tag, List<CodegenOperation> ops) {
+        OperationMap objs = new OperationMap();
+        objs.setClassname(config.toApiName(tag));
+        objs.setPathPrefix(config.toApiVarName(tag));
+
+        // check for nickname uniqueness
+        if (config.getAddSuffixToDuplicateOperationNicknames()) {
+            Set<String> opIds = new HashSet<>();
+            int counter = 0;
+            for (CodegenOperation op : ops) {
+                String opId = op.nickname;
+                if (opIds.contains(opId)) {
+                    counter++;
+                    op.nickname += "_" + counter;
+                }
+                opIds.add(opId);
+            }
+        }
+        objs.setOperation(ops);
+        return objs;
     }
 
     /**
