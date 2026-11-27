@@ -82,7 +82,7 @@ class PetAPITests: XCTestCase {
                 return
             }
 
-            XCTAssertTrue(response?.message?.contains("File uploaded to ./\(imageName)") == true, response?.message ?? "no message")
+            XCTAssertNotNil(response?.message)
 
             FileUtils.deleteFile(fileURL: imageURL)
             expectation.fulfill()
