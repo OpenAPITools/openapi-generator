@@ -17,6 +17,7 @@ import json
 import re
 import ssl
 from typing import Optional, Union
+from urllib.request import getproxies
 
 import httpx
 
@@ -73,6 +74,8 @@ class RESTClientObject:
 
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
+
+        self.retries = configuration.retries
 
         self.pool_manager: Optional[httpx.AsyncClient] = None
 
@@ -191,6 +194,24 @@ class RESTClientObject:
             proxy = httpx.Proxy(
                 url=self.proxy,
                 headers=self.proxy_headers
+            )
+
+        # httpx's transport retries only apply to direct connections: it does not
+        # retry through a proxy (encode/httpx#2997), and a custom transport would
+        # disable proxies from environment variables. With any proxy, the client
+        # is built as without retries. getproxies() is what httpx reads as well.
+        has_proxy = proxy is not None or any(
+            scheme != "no" for scheme in getproxies()
+        )
+        if self.retries is not None and self.retries > 0 and not has_proxy:
+            transport = httpx.AsyncHTTPTransport(
+                verify=self.ssl_context,
+                limits=limits,
+                retries=self.retries,
+            )
+            return httpx.AsyncClient(
+                transport=transport,
+                trust_env=True
             )
 
         return httpx.AsyncClient(

@@ -167,7 +167,12 @@ class Configuration:
       when calling API from https server.
     :param ssl_ca_cert: str - the path to a file of concatenated CA certificates
       in PEM format.
-    :param retries: int - Retry configuration.
+    :param retries: int - Number of retries on connection failures
+      (ConnectError, ConnectTimeout), passed to httpx.AsyncHTTPTransport.
+      Each attempt gets the full connect timeout, with an exponential backoff
+      between attempts. Direct connections only: httpx does not retry through
+      a proxy (encode/httpx#2997), so retries are not applied when a proxy is
+      set, by the proxy parameter or by environment variables.
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
     :param cert_file: the path to a client certificate file, for mTLS.
