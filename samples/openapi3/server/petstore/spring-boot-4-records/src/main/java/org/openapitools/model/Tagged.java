@@ -27,7 +27,7 @@ import org.springframework.lang.Nullable;
  */
 
 @Schema(name = "Tagged", description = "A string-valued map next to declared properties")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public record Tagged(
     @NotNull 
     @Schema(name = "name", requiredMode = Schema.RequiredMode.REQUIRED)

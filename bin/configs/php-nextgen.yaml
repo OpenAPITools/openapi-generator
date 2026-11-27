@@ -4,3 +4,6 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/php-nextgen/petstore
 templateDir: modules/openapi-generator/src/main/resources/php-nextgen
 enumNameMappings:
   delivered: SHIPPED
+modelNameMappings:
+  3d_position: Underscore3dPosition
+  3d-position: Another3dPosition

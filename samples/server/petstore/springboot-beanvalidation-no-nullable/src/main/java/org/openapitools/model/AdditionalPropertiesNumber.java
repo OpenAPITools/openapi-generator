@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
  * AdditionalPropertiesNumber
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class AdditionalPropertiesNumber {
 
   @JsonInclude(JsonInclude.Include.NON_NULL)

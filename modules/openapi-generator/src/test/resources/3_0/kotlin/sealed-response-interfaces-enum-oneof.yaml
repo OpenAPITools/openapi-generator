@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: Sealed response interfaces with enum and oneOf responses
+  version: "1"
+paths:
+  /color:
+    get:
+      operationId: getColor
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Color"
+  /shape:
+    get:
+      operationId: getShape
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shape"
+components:
+  schemas:
+    Color:
+      type: string
+      enum: [red, green]
+    Circle:
+      type: object
+      properties:
+        r:
+          type: number
+    Square:
+      type: object
+      properties:
+        side:
+          type: number
+    Shape:
+      oneOf:
+        - $ref: "#/components/schemas/Circle"
+        - $ref: "#/components/schemas/Square"

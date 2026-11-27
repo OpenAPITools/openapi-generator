@@ -1,5 +1,6 @@
 package org.openapitools.api
 
+import org.openapitools.model.Color
 import org.openapitools.model.ModelApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -16,7 +17,7 @@ import java.util.Optional
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.28.0-SNAPSHOT")
+@javax.annotation.Generated(value = ["org.openapitools.codegen.languages.KotlinSpringServerCodegen"], comments = "Generator version: 7.29.0-SNAPSHOT")
 interface PetApiDelegate {
 
     fun getRequest(): Optional<NativeWebRequest> = Optional.empty()
@@ -55,6 +56,13 @@ interface PetApiDelegate {
      */
     suspend fun getPetById(petId: kotlin.Long,
         exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Pet>
+
+
+    /**
+     * @see PetApi#getPetColor
+     */
+    suspend fun getPetColor(petId: kotlin.Long,
+        exchange: org.springframework.web.server.ServerWebExchange): ResponseEntity<Color>
 
 
     /**

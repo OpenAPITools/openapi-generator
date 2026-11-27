@@ -2112,6 +2112,14 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                         if (modelToSealedInterfaces.containsKey(modelName)) {
                             List<String> sealedInterfaces = modelToSealedInterfaces.get(modelName);
                             cm.vendorExtensions.put("x-implements-sealed-interfaces", sealedInterfaces);
+                            // Templates render all supertypes from x-kotlin-implements, so the sealed interfaces are
+                            // appended there as well. x-implements-sealed-interfaces is kept for custom templates.
+                            List<String> kotlinImplements = new ArrayList<>(
+                                    (List<String>) cm.vendorExtensions.getOrDefault(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), List.of()));
+                            sealedInterfaces.stream()
+                                    .filter(sealedInterface -> !kotlinImplements.contains(sealedInterface))
+                                    .forEach(kotlinImplements::add);
+                            cm.vendorExtensions.put(VendorExtension.X_KOTLIN_IMPLEMENTS.getName(), kotlinImplements);
 
                             // Add imports for each sealed interface
                             for (String sealedInterface : sealedInterfaces) {

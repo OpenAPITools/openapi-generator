@@ -20,7 +20,7 @@ import org.springframework.lang.Nullable;
  * @param email Get email
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public record Owner(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @NotNull 

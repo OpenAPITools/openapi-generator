@@ -24,7 +24,7 @@ import org.hibernate.validator.constraints.*;
 @JacksonXmlRootElement(localName = "Category")
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class Category {
 
   private Long id;

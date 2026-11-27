@@ -8876,6 +8876,43 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "x-kotlin-implements and sealed response interfaces are each listed once")
+    public void testSealedInterfaceWithExternalSupertypesAndSealedResponseInterface() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/petstore-with-x-kotlin-implements.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+                        }}))
+                .generate();
+
+        assertFileContains(Paths.get(output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model/Pet.kt"),
+                "sealed interface Pet : com.some.pack.Named, com.some.pack.WithCategory, com.some.pack.WithDefaultMethods, "
+                        + "com.some.pack.WithPhotoUrls, GetPetByIdResponse {"
+        );
+    }
+
+    @Test(description = "enum and oneOf response models implement their sealed response interfaces")
+    public void testSealedResponseInterfacesOnEnumAndOneOfModels() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(new OpenAPIParser().readLocation("src/test/resources/3_0/kotlin/sealed-response-interfaces-enum-oneof.yaml", null, new ParseOptions()).getOpenAPI())
+                        .config(new KotlinSpringServerCodegen() {{
+                            setOutputDir(output.getAbsolutePath());
+                            additionalProperties().put(USE_SEALED_RESPONSE_INTERFACES, "true");
+                        }}))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/model";
+        assertFileContains(Paths.get(outputPath + "/Color.kt"), "val value: kotlin.String) : GetColorResponse {");
+        assertFileContains(Paths.get(outputPath + "/Shape.kt"), "sealed interface Shape : GetShapeResponse {");
+    }
+
     @Test(description = "oneOf sealed interface stays sealed when useSealedDiscriminatorInterfaces=false (different template path)")
     public void testOneOfInterfaceStillSealedWhenAllOfFlagOff() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();

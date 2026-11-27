@@ -26,7 +26,7 @@ import org.hibernate.validator.constraints.*;
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class ModelApiResponse {
 
   private Integer code;

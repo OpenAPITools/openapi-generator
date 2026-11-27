@@ -74,12 +74,12 @@ describe XAuthIDAlias::ApiClient do
     let(:config) { XAuthIDAlias::Configuration.new }
     let(:api_client) { XAuthIDAlias::ApiClient.new(config) }
 
-    it 'defaults to 0' do
-      expect(XAuthIDAlias::Configuration.default.timeout).to eq(0)
-      expect(config.timeout).to eq(0)
+    it 'defaults to 60' do
+      expect(XAuthIDAlias::Configuration.default.timeout).to eq(60)
+      expect(config.timeout).to eq(60)
 
       request = api_client.build_request(:get, '/test')
-      expect(request.options[:timeout]).to eq(0)
+      expect(request.options[:timeout]).to eq(60)
     end
 
     it 'can be customized' do

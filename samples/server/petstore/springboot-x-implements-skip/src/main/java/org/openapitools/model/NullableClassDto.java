@@ -31,7 +31,7 @@ import org.springframework.lang.Nullable;
  */
 
 @JsonTypeName("NullableClass")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.28.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.29.0-SNAPSHOT")
 public class NullableClassDto {
 
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
