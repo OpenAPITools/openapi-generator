@@ -202,6 +202,13 @@ namespace Org.OpenAPITools.Client
         private readonly HttpClientHandler _httpClientHandler;
         private readonly HttpClient _httpClient;
         private readonly bool _disposeClient;
+#if !NET47
+        // The callback most recently requested through Configuration.RemoteCertificateValidationCallback.
+        // The delegate installed on the HttpClientHandler reads this field, so it is refreshed on every request.
+        private volatile System.Net.Security.RemoteCertificateValidationCallback _remoteCertificateValidationCallback;
+        // 0 = not installed yet, 1 = installed (guarded with Interlocked for thread safety).
+        private int _remoteCertificateValidationInstalled;
+#endif
 
         /// <summary>
         /// Specifies the settings on a <see cref="JsonSerializer" /> object.
@@ -255,7 +262,9 @@ namespace Org.OpenAPITools.Client
         /// <exception cref="ArgumentNullException"></exception>
         /// <remarks>
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings, Remote Certificate Validation Callback.
+        /// Handler-level settings (Proxy, Client Certificates, Remote Certificate Validation Callback) must be configured before the first request is sent,
+        /// because HttpClientHandler properties cannot be changed once it has started sending requests.
         /// </remarks>
         public ApiClient(HttpClient client, HttpClientHandler handler = null) :
                  this(client, Org.OpenAPITools.Client.GlobalConfiguration.Instance.BasePath, handler)
@@ -272,7 +281,9 @@ namespace Org.OpenAPITools.Client
         /// <exception cref="ArgumentException"></exception>
         /// <remarks>
         /// Some configuration settings will not be applied without passing an HttpClientHandler.
-        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings.
+        /// The features affected are: Setting and Retrieving Cookies, Client Certificates, Proxy settings, Remote Certificate Validation Callback.
+        /// Handler-level settings (Proxy, Client Certificates, Remote Certificate Validation Callback) must be configured before the first request is sent,
+        /// because HttpClientHandler properties cannot be changed once it has started sending requests.
         /// </remarks>
         public ApiClient(HttpClient client, string basePath, HttpClientHandler handler = null)
         {
@@ -504,6 +515,55 @@ namespace Org.OpenAPITools.Client
                     if (_httpClientHandler == null) throw new InvalidOperationException("Configuration `ClientCertificates` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     _httpClientHandler.ClientCertificates.AddRange(configuration.ClientCertificates);
                 }
+
+                if (configuration.RemoteCertificateValidationCallback != null)
+                {
+                    if (_httpClientHandler == null) throw new InvalidOperationException("Configuration `RemoteCertificateValidationCallback` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
+#if NET47
+                    // HttpClientHandler.ServerCertificateCustomValidationCallback is only available from .NET Framework 4.7.1.
+                    throw new NotSupportedException("Configuration `RemoteCertificateValidationCallback` is not supported when targeting .NET Framework 4.7, because HttpClientHandler.ServerCertificateCustomValidationCallback requires .NET Framework 4.7.1 or later.");
+#else
+                    // Refresh the callback on every request; the delegate installed below reads this field,
+                    // so a later request (or a replaced Configuration) is not stuck with the first callback.
+                    // The HttpClientHandler is shared by all requests of this client, so the callback applies
+                    // client-wide and the most recent request's configuration wins.
+                    _remoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback;
+                    // Install the handler delegate only once. HttpClientHandler properties are frozen after the
+                    // first request, so the callback must be configured before this client sends its first request
+                    // (same limitation as `Proxy` and `ClientCertificates`).
+                    if (Interlocked.CompareExchange(ref _remoteCertificateValidationInstalled, 1, 0) == 0
+                        && _httpClientHandler.ServerCertificateCustomValidationCallback == null)
+                    {
+                        try
+                        {
+                            _httpClientHandler.ServerCertificateCustomValidationCallback =
+                                (request, certificate, chain, sslPolicyErrors) =>
+                                {
+                                    var callback = _remoteCertificateValidationCallback;
+                                    // Fall back to the default policy if the callback was cleared after installation.
+                                    return callback != null
+                                        ? callback(request, certificate, chain, sslPolicyErrors)
+                                        : sslPolicyErrors == System.Net.Security.SslPolicyErrors.None;
+                                };
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            // Allow the failure to be reported again instead of silently skipping validation later.
+                            Interlocked.Exchange(ref _remoteCertificateValidationInstalled, 0);
+                            throw new InvalidOperationException("Configuration `RemoteCertificateValidationCallback` must be set before the first request is sent: the HttpClientHandler has already started sending requests and its properties can no longer be changed.", ex);
+                        }
+                    }
+#endif
+                }
+#if !NET47
+                else
+                {
+                    // No callback configured for this request: clear any callback stored by an earlier request,
+                    // so an already installed delegate falls back to the default validation instead of reusing it.
+                    // This is a no-op for clients that never set Configuration.RemoteCertificateValidationCallback.
+                    _remoteCertificateValidationCallback = null;
+                }
+#endif
 
 
                 if (req.Options.TryGetValue(_httpOptionsCookieContainerKey, out var cookieContainer))
