@@ -34,7 +34,7 @@ module Qdrant
       conn.response :json, content_type: /\bjson$/
       conn.options.timeout = timeout
       conn.response :logger, logger if logger && debugging
-      @middlewares.each { |mw, mw_args, mw_block| conn.use(mw, *mw_args, &mw_block) }
+      @middlewares.each { |mw, mw_args, mw_kwargs, mw_block| conn.use(mw, *mw_args, **mw_kwargs, &mw_block) }
       conn.adapter Faraday.default_adapter
     end
 
@@ -58,8 +58,8 @@ module Qdrant
     # Register a Faraday middleware to run on every request, after the built-in
     # request middleware (so it sees the serialized body and final URL) and just
     # before the adapter. Use for request signing (OVH, AWS SigV4, ...).
-    def use(middleware, *args, &block)
-      @middlewares << [middleware, args, block]
+    def use(middleware, *args, **kwargs, &block)
+      @middlewares << [middleware, args, kwargs, block]
       self
     end
 
