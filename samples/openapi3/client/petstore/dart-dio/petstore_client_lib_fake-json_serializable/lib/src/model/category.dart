@@ -17,11 +17,9 @@ part 'category.g.dart';
   explicitToJson: true,
 )
 class Category {
-  /// Returns a new [Category] instance.
+/// Returns a new [Category] instance.
   Category({
-
      this.id,
-
      this.name = 'default-name',
   });
 
@@ -53,6 +51,7 @@ class Category {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is Category &&
+    runtimeType == other.runtimeType &&
       other.id == id &&
       other.name == name;
 

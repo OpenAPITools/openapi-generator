@@ -18,11 +18,9 @@ part 'all_of_with_single_ref.g.dart';
   explicitToJson: true,
 )
 class AllOfWithSingleRef {
-  /// Returns a new [AllOfWithSingleRef] instance.
+/// Returns a new [AllOfWithSingleRef] instance.
   AllOfWithSingleRef({
-
      this.username,
-
      this.singleRefType,
   });
 
@@ -55,6 +53,7 @@ class AllOfWithSingleRef {
 
     @override
     bool operator ==(Object other) => identical(this, other) || other is AllOfWithSingleRef &&
+    runtimeType == other.runtimeType &&
       other.username == username &&
       other.singleRefType == singleRefType;
 
