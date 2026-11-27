@@ -211,6 +211,10 @@ public class Pet {
     this.tags = tags;
   }
 
+  /**
+   * @deprecated deprecated
+   */
+  @Deprecated
   public Pet status(StatusEnum status) {
     this.status = Optional.ofNullable(status);
     return this;
@@ -229,7 +233,7 @@ public class Pet {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("status")

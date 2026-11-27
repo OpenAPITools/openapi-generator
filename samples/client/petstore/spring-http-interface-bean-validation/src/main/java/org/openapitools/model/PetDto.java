@@ -209,6 +209,10 @@ public class PetDto {
     this.tags = tags;
   }
 
+  /**
+   * @deprecated deprecated
+   */
+  @Deprecated
   public PetDto status(@Nullable StatusEnum status) {
     this.status = status;
     return this;
@@ -227,7 +231,7 @@ public class PetDto {
   }
 
   /**
-   * @deprecated
+   * @deprecated deprecated
    */
   @Deprecated
   @JsonProperty("status")
