@@ -2,10 +2,7 @@
     which needs the same expression once per request content-type. }}
 {{#isContainer
 }}{{#isArray
-}}{{#required
-}}{{#isNullable
-}}requestParameters['{{paramName}}'] === null ? requestParameters['{{paramName}}'] : {{/isNullable
-}}{{/required
+}}{{#required}}{{#isNullable}}requestParameters['{{paramName}}'] === null ? null : {{/isNullable}}{{/required
 }}{{^required}}requestParameters['{{paramName}}'] === undefined{{#isNullable}} || requestParameters['{{paramName}}'] === null{{/isNullable}} ? requestParameters['{{paramName}}'] : {{/required
 }}{{#uniqueItems}}Array.from({{/uniqueItems}}{{/isArray}}requestParameters['{{paramName}}']{{#isArray}}{{#uniqueItems}}){{/uniqueItems}}{{/isArray
 }}{{^withoutRuntimeChecks}}{{#isArray}}{{#items}}{{^isPrimitiveType}}!.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}}{{/withoutRuntimeChecks
