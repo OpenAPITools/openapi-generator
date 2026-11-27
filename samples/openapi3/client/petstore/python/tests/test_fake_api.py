@@ -198,3 +198,15 @@ class TestFakeApi(unittest.TestCase):
         ):
             returned = self.fake_api.fake_return_enum()
             self.assertEqual("a", returned)
+
+    def testEnumRefQueryParameterAcceptsEnumOrValue(self):
+        """An enum reference query parameter serializes the same as the enum or its value"""
+        for enum_ref in (petstore_api.EnumClass.MINUS_EFG, "-efg"):
+            _, url, _, _, _ = self.fake_api._fake_enum_ref_query_parameter_serialize(
+                enum_ref=enum_ref,
+                _request_auth=None,
+                _content_type=None,
+                _headers=None,
+                _host_index=0,
+            )
+            self.assertTrue(url.endswith("?enum_ref=-efg"), url)
