@@ -1,0 +1,16 @@
+openapi: 3.1.0
+info:
+  title: Dart bug
+  version: 0.0.0
+paths: {}
+components:
+  schemas:
+    InvalidMap:
+      properties:
+        mapField:
+          additionalProperties:
+            type: string
+        explicitMapField:
+          type: object
+          additionalProperties:
+            type: integer

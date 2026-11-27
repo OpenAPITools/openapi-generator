@@ -7988,7 +7988,8 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // unbounded integer
                 }
             }
-        } else if (ModelUtils.isTypeObjectSchema(ps)) {
+        } else if (ModelUtils.isTypeObjectSchema(ps)
+                || (ModelUtils.isAnyType(ps) && codegenProperty.isMap)) {
             if (ModelUtils.isMapSchema(ps)) {
                 codegenParameter.isMap = true;
                 codegenParameter.additionalProperties = codegenProperty.additionalProperties;

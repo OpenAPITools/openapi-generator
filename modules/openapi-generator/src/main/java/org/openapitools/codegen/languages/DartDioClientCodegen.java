@@ -696,6 +696,23 @@ public class DartDioClientCodegen extends AbstractDartCodegen {
     }
 
     @Override
+    protected void updatePropertyForMap(CodegenProperty property, Schema schema) {
+        property.setIsMap(true);
+        super.updatePropertyForMap(property, schema);
+    }
+
+    @Override
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema,
+                                             Set<String> imports) {
+        CodegenParameter parameter = super.fromFormProperty(name, propertySchema, imports);
+        if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)
+                && parameter.isContainer && parameter.isMap) {
+            parameter.baseType = parameter.items.dataType;
+        }
+        return parameter;
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         if (SERIALIZATION_LIBRARY_BUILT_VALUE.equals(library)) {

@@ -97,6 +97,47 @@ public class DartDioClientCodegenTest {
     }
 
     @Test
+    public void testMapPropertyWithoutExplicitObjectType() throws IOException {
+        Path output = generateBuiltValueMapClient("issue_23645.yaml");
+        Path model = output.resolve("lib/src/model/invalid_map.dart");
+        TestUtils.assertFileContains(
+                model,
+                "BuiltMap<String, String>? get mapField;",
+                "BuiltMap<String, int>? get explicitMapField;",
+                "FullType.nullable(BuiltMap, [FullType(String), FullType(String)])");
+        TestUtils.assertFileContains(
+                output.resolve("lib/src/serializers.dart"), "MapBuilder<String, String>()");
+    }
+
+    @Test
+    public void testFormMapPropertyWithoutExplicitObjectType() throws IOException {
+        Path output = generateBuiltValueMapClient("form_map_without_type.yaml");
+        TestUtils.assertFileContains(
+                output.resolve("lib/src/api/default_api.dart"),
+                "BuiltMap<String, String>? labels",
+                "BuiltMap<String, int>? counts",
+                "FullType(BuiltMap, [FullType(String), FullType(String)])",
+                "FullType(BuiltMap, [FullType(String), FullType(int)])");
+        TestUtils.assertFileContains(
+                output.resolve("lib/src/serializers.dart"), "MapBuilder<String, String>()");
+    }
+
+    private Path generateBuiltValueMapClient(String spec) throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("dart-dio")
+                .setInputSpec("src/test/resources/3_1/dart-dio/" + spec)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        List<File> files = new DefaultGenerator().opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        return output.toPath();
+    }
+
+    @Test
     public void testImportMappingsInSerializersAndBarrelFile() throws IOException {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
