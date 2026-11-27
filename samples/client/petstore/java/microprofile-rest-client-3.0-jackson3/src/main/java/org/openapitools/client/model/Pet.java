@@ -100,6 +100,7 @@ public class Pet  {
  /**
   * pet status in the store
   */
+  @Deprecated
   
   protected StatusEnum status;
 
@@ -255,12 +256,14 @@ public class Pet  {
   /**
    * Set status
    */
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
+  @Deprecated
   public Pet status(StatusEnum status) {
     this.status = status;
     return this;

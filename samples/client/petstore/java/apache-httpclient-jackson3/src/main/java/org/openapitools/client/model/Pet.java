@@ -101,6 +101,7 @@ public class Pet {
   }
 
   public static final String JSON_PROPERTY_STATUS = "status";
+  @Deprecated
   @javax.annotation.Nullable
   private StatusEnum status;
 
@@ -248,6 +249,7 @@ public class Pet {
     this.tags = tags;
   }
 
+  @Deprecated
   public Pet status(@javax.annotation.Nullable StatusEnum status) {
     
     this.status = status;
@@ -269,6 +271,7 @@ public class Pet {
   }
 
 
+  @Deprecated
   @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setStatus(@javax.annotation.Nullable StatusEnum status) {
