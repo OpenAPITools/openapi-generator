@@ -19,7 +19,16 @@ module ObjectQuery
     attr_reader :loader
   end
 
-  @loader = Zeitwerk::Loader.for_gem
+  # for_gem derives the namespace from gemName, which need not match moduleName (and
+  # can't target a nested one), so drive Zeitwerk explicitly. Any parent module(s) above
+  # are pre-defined so `module ObjectQuery` reopens rather than raising NameError.
+  @loader = Zeitwerk::Loader.new
+  @loader.push_dir("#{__dir__}/object_query", namespace: self)
+  # version.rb defines VERSION (not a `Version` class). for_gem's GemInflector special-cases
+  # this; a plain Loader doesn't, so ignore it for autoloading and require it directly to keep
+  # ObjectQuery::VERSION available.
+  @loader.ignore("#{__dir__}/object_query/version.rb")
+  require_relative "object_query/version"
   # The `api/` directory on disk is fixed regardless of the `apiNamespace` CliOption,
   # but api.mustache only nests classes under an `Api` module when the wrapper is
   # enabled (true). When it's disabled, tell Zeitwerk to collapse
