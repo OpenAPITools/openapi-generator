@@ -3,7 +3,8 @@
 {{#isContainer
 }}{{#isArray
 }}{{#required}}{{#isNullable}}requestParameters['{{paramName}}'] === null ? null : {{/isNullable}}{{/required
-}}{{^required}}requestParameters['{{paramName}}'] === undefined{{#isNullable}} || requestParameters['{{paramName}}'] === null{{/isNullable}} ? requestParameters['{{paramName}}'] : {{/required
+}}{{^required}}{{^isNullable}}requestParameters['{{paramName}}'] === undefined ? undefined : {{/isNullable}}{{/required
+}}{{^required}}{{#isNullable}}requestParameters['{{paramName}}'] === undefined || requestParameters['{{paramName}}'] === null ? requestParameters['{{paramName}}'] : {{/isNullable}}{{/required
 }}{{#uniqueItems}}Array.from({{/uniqueItems}}{{/isArray}}requestParameters['{{paramName}}']{{#isArray}}{{#uniqueItems}}){{/uniqueItems}}{{/isArray
 }}{{^withoutRuntimeChecks}}{{#isArray}}{{#items}}{{^isPrimitiveType}}!.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isArray}}{{/withoutRuntimeChecks
 }}{{/isContainer
