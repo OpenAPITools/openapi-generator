@@ -13,6 +13,10 @@ module {{moduleName}}
   module Polymorphism
     ARRAY_TYPE = /\AArray<(?<sub_type>.+)>\z/
     HASH_TYPE = /\AHash<String, ?(?<sub_type>.+)>\z/
+    # OpenAPI `format: date` is an RFC 3339 full-date; keep the guard strict so
+    # a Date candidate of an anyOf/oneOf does not grab values belonging to
+    # other branches (Date.parse accepts almost any humanized date string).
+    FULL_DATE = /\A\d{4}-\d{2}-\d{2}\z/
 
     # Internal sentinel distinguishing "no candidate matched" from a
     # genuinely null value that legitimately matched a nullable candidate
@@ -40,6 +44,8 @@ module {{moduleName}}
         data.is_a?(String) ? data : NO_MATCH
       when 'Time'
         cast_time(data)
+      when 'Date'
+        cast_date(data)
       when 'Object', 'Hash'
         data.is_a?(Hash) ? data : NO_MATCH
       when ARRAY_TYPE
@@ -60,6 +66,18 @@ module {{moduleName}}
       NO_MATCH
     end
     private_class_method :cast_time
+
+    def self.cast_date(data)
+      # An already-typed Date is a match as-is, like the Integer and String arms:
+      # to_hash keeps Date objects, so a from_hash round trip hands one back here.
+      return data if data.is_a?(Date)
+      return NO_MATCH unless data.is_a?(String) && FULL_DATE.match?(data)
+
+      Date.iso8601(data)
+    rescue ArgumentError, TypeError, Encoding::CompatibilityError
+      NO_MATCH
+    end
+    private_class_method :cast_date
 
     def self.cast_array(sub_type, data)
       return NO_MATCH unless data.is_a?(Array)
@@ -121,6 +139,8 @@ module {{moduleName}}
         data.is_a?(Numeric) ? data.to_f : data
       when 'Time'
         coerce_time(data)
+      when 'Date'
+        coerce_date(data)
       when ARRAY_TYPE
         sub_type = Regexp.last_match[:sub_type]
         data.is_a?(Array) ? data.map { |item| coerce(sub_type, item) } : data
@@ -143,12 +163,28 @@ module {{moduleName}}
     end
     private_class_method :coerce_time
 
+    def self.coerce_date(data)
+      return data unless data.is_a?(String)
+
+      begin
+        # Inside the rescue on purpose: a String of an unusable encoding makes
+        # the match itself raise, and that must fall back to the raw value too.
+        return data unless FULL_DATE.match?(data)
+
+        Date.iso8601(data)
+      rescue ArgumentError, TypeError, Encoding::CompatibilityError
+        data
+      end
+    end
+    private_class_method :coerce_date
+
     # Resolves a bare model name under Models:: and dispatches according to
     # what kind of generated constant it is, without any `valid?` gating:
     # - a real model class (Serializable/Validations): `from_hash` (recurses)
     # - a nested oneOf/anyOf wrapper module: `build(data)`
     # - an enum module: returns the raw value unchanged
-    # - anything unresolvable: returns the data unchanged
+    # - anything unresolvable, or a payload that raises while it is built (a wrong
+    #   shape, a payload no nested oneOf/anyOf candidate matches): the data unchanged
     def self.coerce_model(type_name, data)
       return data unless type_name.is_a?(String) && Models.const_defined?(type_name, false)
 
@@ -160,7 +196,10 @@ module {{moduleName}}
       else
         data
       end
-    rescue NameError
+    # A nested oneOf/anyOf wrapper raises when no candidate matches (or the payload
+    # is ambiguous); `coerce` never rejects data, so keep the raw value instead.
+    # NameError already covers its subclass NoMethodError.
+    rescue NameError, TypeError, ArgumentError
       data
     end
     private_class_method :coerce_model

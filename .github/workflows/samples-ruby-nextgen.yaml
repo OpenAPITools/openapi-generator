@@ -6,11 +6,13 @@ on:
       - 'samples/client/petstore/ruby-nextgen/**'
       - 'samples/client/others/ruby-nextgen-qdrant/**'
       - 'samples/client/others/ruby-nextgen-object-query/**'
+      - 'samples/client/others/ruby-nextgen-date-polymorphism/**'
   pull_request:
     paths:
       - 'samples/client/petstore/ruby-nextgen/**'
       - 'samples/client/others/ruby-nextgen-qdrant/**'
       - 'samples/client/others/ruby-nextgen-object-query/**'
+      - 'samples/client/others/ruby-nextgen-date-polymorphism/**'
 
 jobs:
   build:
@@ -22,6 +24,7 @@ jobs:
         sample:
           - samples/client/petstore/ruby-nextgen
           - samples/client/others/ruby-nextgen-object-query
+          - samples/client/others/ruby-nextgen-date-polymorphism
         ruby-version:
           - '3.0'
           - '3.3'

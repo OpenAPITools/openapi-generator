@@ -1,0 +1,13 @@
+generatorName: ruby-nextgen
+outputDir: samples/client/others/ruby-nextgen-date-polymorphism
+inputSpec: modules/openapi-generator/src/test/resources/3_0/ruby-nextgen/date-polymorphism.yaml
+templateDir: modules/openapi-generator/src/main/resources/ruby-nextgen
+globalProperties:
+  apiTests: "false"
+  modelTests: "false"
+  apiDocs: "false"
+  modelDocs: "false"
+additionalProperties:
+  gemName: date_polymorphism
+  moduleName: DatePolymorphism
+  gemVersion: 1.0.0
