@@ -254,6 +254,38 @@ public class CSharpClientCodegenTest {
     }
 
     @Test
+    public void testGenericHostRegistersGenericStringEnumConverterLast() throws IOException {
+        OpenAPI openAPI = new OpenAPI().components(new Components().addSchemas("Day",
+                new StringSchema()._enum(List.of("monday", "tuesday"))));
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        DefaultGenerator generator = new DefaultGenerator();
+        ClientOptInput input = new ClientOptInput().openAPI(openAPI);
+        CSharpClientCodegen codegen = new CSharpClientCodegen();
+        codegen.setLibrary("generichost");
+        codegen.setOutputDir(output.getAbsolutePath());
+        input.config(codegen);
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+        File hostConfiguration = files.get(Paths.get(output.getAbsolutePath(),
+                "src", "Org.OpenAPITools", "Client", "HostConfiguration.cs").toString());
+        assertNotNull(hostConfiguration);
+        // The generic JsonStringEnumConverter matches every enum, and System.Text.Json
+        // uses the first matching converter, so it must be registered after the
+        // generated schema-specific converters.
+        String content = Files.readString(hostConfiguration.toPath());
+        int schemaSpecific = content.indexOf("new DayJsonConverter()");
+        int schemaSpecificNullable = content.indexOf("new DayNullableJsonConverter()");
+        int generic = content.indexOf("new JsonStringEnumConverter()");
+        assertThat(schemaSpecific).isGreaterThanOrEqualTo(0);
+        assertThat(schemaSpecificNullable).isGreaterThanOrEqualTo(0);
+        assertThat(generic).isGreaterThan(schemaSpecific);
+        assertThat(generic).isGreaterThan(schemaSpecificNullable);
+    }
+
+    @Test
     public void testGenericHostOneOfConstructorsRespectApiVisibility() throws IOException {
         Map<String, File> publicModels = generateIssue23046Models(false);
         File publicModel = publicModels.get("DynamicMetadataValue");
