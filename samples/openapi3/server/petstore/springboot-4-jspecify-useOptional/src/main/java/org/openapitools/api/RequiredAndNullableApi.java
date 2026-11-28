@@ -64,7 +64,7 @@ public interface RequiredAndNullableApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<RequiredAndNullable> requiredAndNullablePost(
+    default ResponseEntity<RequiredAndNullable> requiredAndNullablePost(
         @Parameter(name = "RequiredAndNullable", description = "bodyWithRequiredAndNullableAttributes", required = true) @Valid @RequestBody RequiredAndNullable requiredAndNullable
     ) {
         getRequest().ifPresent(request -> {

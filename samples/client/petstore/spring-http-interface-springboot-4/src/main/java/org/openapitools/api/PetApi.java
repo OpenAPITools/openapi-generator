@@ -82,7 +82,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         accept = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<List<@Valid PetDto>> findPetsByStatus(
+    ResponseEntity<List<PetDto>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) List<String> status
     );
 
@@ -103,7 +103,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         accept = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<Set<@Valid PetDto>> findPetsByTags(
+    ResponseEntity<Set<PetDto>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
     );
 
@@ -123,7 +123,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         accept = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<PetDto> getPetById(
+    ResponseEntity<PetDto> getPetById(
          @PathVariable("petId") Long petId
     );
 
@@ -189,7 +189,7 @@ public interface PetApi {
         accept = { "application/json" },
         contentType = "multipart/form-data"
     )
-    @Valid ResponseEntity<ApiResponseDto> uploadFile(
+    ResponseEntity<ApiResponseDto> uploadFile(
          @PathVariable("petId") Long petId,
          @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file

@@ -112,6 +112,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
     public static final String USE_RESPONSE_ENTITY = "useResponseEntity";
+    public static final String VALIDATE_RESPONSE_ENTITY = "validateResponseEntity";
     public static final String GENERATE_GENERIC_RESPONSE_ENTITY = "generateGenericResponseEntity";
     public static final String USE_ENUM_CASE_INSENSITIVE = "useEnumCaseInsensitive";
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
@@ -189,6 +190,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     @Setter protected boolean useSpringController = false;
     protected boolean useSwaggerUI = true;
     @Setter protected boolean useResponseEntity = true;
+    @Setter protected boolean validateResponseEntity = false;
     @Setter protected boolean generateGenericResponseEntity = false;
     @Setter protected boolean useEnumCaseInsensitive = false;
     @Getter @Setter
@@ -388,6 +390,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                 "Use the `ResponseEntity` type to wrap return values of generated API methods. "
                         + "If disabled, method are annotated using a `@ResponseStatus` annotation, which has the status of the first response declared in the Api definition",
                 useResponseEntity));
+        cliOptions.add(CliOption.newBoolean(VALIDATE_RESPONSE_ENTITY,
+                "Add `@Valid` to the `ResponseEntity` body type when enabled. Requires `useResponseEntity` and `useBeanValidation`. "
+                        + "Executable return-value validation then requires an implementation of `ValueExtractor<ResponseEntity<@ExtractedValue ?>>`. "
+                        + "When disabled, no `@Valid` is added to the `ResponseEntity` return type, including nested collection elements.",
+                validateResponseEntity));
         cliOptions.add(CliOption.newBoolean(GENERATE_GENERIC_RESPONSE_ENTITY,
                 "Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. "
                         + "If enabled, method are generated with return type ResponseEntity<?>",
@@ -675,6 +682,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         convertPropertyToBooleanAndWriteBack(UNHANDLED_EXCEPTION_HANDLING, this::setUnhandledException);
         convertPropertyToBooleanAndWriteBack(USE_RESPONSE_ENTITY, this::setUseResponseEntity);
+        convertPropertyToBooleanAndWriteBack(VALIDATE_RESPONSE_ENTITY, this::setValidateResponseEntity);
         convertPropertyToBooleanAndWriteBack(GENERATE_GENERIC_RESPONSE_ENTITY, this::setGenerateGenericResponseEntity);
         if (!useResponseEntity) {
             this.setGenerateGenericResponseEntity(false);
@@ -942,12 +950,18 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         additionalProperties.put("lambdaSplitString", new SplitStringLambda());
 
-        additionalProperties.put("lambdaBeanValidationType", (Mustache.Lambda) (fragment, writer) -> {
+        additionalProperties.put("lambdaBeanValidationType", (Mustache.Lambda) (fragment, writer) ->
+                writer.write(annotateWithValid(fragment.execute())));
+        additionalProperties.put("lambdaValidateResponseEntityBody", (Mustache.Lambda) (fragment, writer) -> {
             String type = fragment.execute();
-            int genericStart = type.indexOf('<');
-            int qualifierEnd = (genericStart < 0 ? type : type.substring(0, genericStart)).lastIndexOf('.');
-            // Type-use annotations belong after the package qualifier, before the simple type name.
-            writer.write(type.substring(0, qualifierEnd + 1) + "@Valid " + type.substring(qualifierEnd + 1));
+            int arrayStart = type.length();
+            while (arrayStart >= 2 && type.startsWith("[]", arrayStart - 2)) {
+                arrayStart -= 2;
+            }
+            // An annotation before the element type would annotate the component, not the array.
+            writer.write(arrayStart < type.length()
+                    ? type.substring(0, arrayStart) + " @Valid " + type.substring(arrayStart)
+                    : annotateWithValid(type));
         });
 
         // apiController: hide implementation behind undocumented flag to temporarily preserve code
@@ -961,6 +975,13 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (useJspecify) {
             applyJspecify();
         }
+    }
+
+    private static String annotateWithValid(String type) {
+        int genericStart = type.indexOf('<');
+        int qualifierEnd = (genericStart < 0 ? type : type.substring(0, genericStart)).lastIndexOf('.');
+        // Type-use annotations belong after the package qualifier, before the simple type name.
+        return type.substring(0, qualifierEnd + 1) + "@Valid " + type.substring(qualifierEnd + 1);
     }
 
     protected void applyJackson2Package() {
@@ -1201,6 +1222,9 @@ public class SpringCodegen extends AbstractJavaCodegen
                         operation.isVoid = isVoid;
                     }
                 });
+
+                operation.vendorExtensions.put("x-validate-response-entity",
+                        validateResponseEntity && useResponseEntity && useBeanValidation && !operation.isVoid);
 
                 prepareVersioningParameters(ops);
                 handleImplicitHeaders(operation);

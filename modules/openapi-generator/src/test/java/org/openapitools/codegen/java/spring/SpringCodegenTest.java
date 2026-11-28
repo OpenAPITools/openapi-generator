@@ -2049,6 +2049,72 @@ public class SpringCodegenTest {
                 .assertMethod("deletePet").hasReturnType("Mono<ResponseEntity<Void>>");
     }
 
+    @DataProvider
+    public Object[][] responseEntityValidationOptions() {
+        return new Object[][]{
+                {Map.of(), "ResponseEntity<Pet> addPet("},
+                {Map.of(VALIDATE_RESPONSE_ENTITY, "false"), "ResponseEntity<Pet> addPet("},
+                {Map.of(VALIDATE_RESPONSE_ENTITY, "false", REACTIVE, "true"),
+                        "Mono<ResponseEntity<Pet>> addPet("},
+                {Map.of("validateResponseEntity", "true"), "ResponseEntity<@Valid Pet> addPet("},
+                {Map.of(VALIDATE_RESPONSE_ENTITY, "true", REACTIVE, "true"),
+                        "Mono<ResponseEntity<@Valid Pet>> addPet("},
+                {Map.of(VALIDATE_RESPONSE_ENTITY, "true", USE_RESPONSE_ENTITY, "false"), "@Valid Pet addPet("},
+                {Map.of(VALIDATE_RESPONSE_ENTITY, "true", USE_BEANVALIDATION, "false"), "ResponseEntity<Pet> addPet("},
+        };
+    }
+
+    @Test(dataProvider = "responseEntityValidationOptions")
+    public void shouldGenerateResponseEntityValidation(Map<String, Object> additionalProperties, String expectedSignature) throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, new HashMap<>(additionalProperties));
+        assertThat(Files.readString(files.get("PetApi.java").toPath())).contains("default " + expectedSignature);
+    }
+
+    @Test
+    public void shouldAnnotateSimpleNameOfQualifiedResponseEntityBody() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT,
+                Map.of(VALIDATE_RESPONSE_ENTITY, "true"), configurator -> configurator.addSchemaMapping("Pet", "com.example.ExternalPet"));
+        assertThat(Files.readString(files.get("PetApi.java").toPath()))
+                .contains("default ResponseEntity<com.example.@Valid ExternalPet> addPet(");
+    }
+
+    @Test
+    public void shouldAnnotateResponseEntityBodyInsideResponseWrapper() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT,
+                Map.of(VALIDATE_RESPONSE_ENTITY, true, RESPONSE_WRAPPER, "Callable"));
+        assertThat(Files.readString(files.get("PetApi.java").toPath()))
+                .contains("\n    java.util.concurrent.Callable<ResponseEntity<@Valid Pet>> addPet(");
+    }
+
+    @Test
+    public void shouldValidateArrayBodyRatherThanItsComponentType() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/collection-response-validation.yaml", SPRING_BOOT,
+                Map.of(VALIDATE_RESPONSE_ENTITY, true, USE_TAGS, true));
+        assertThat(Files.readString(files.get("CollectionApi.java").toPath()))
+                .contains("default ResponseEntity<byte @Valid []> getBytes(");
+    }
+
+    @Test
+    public void shouldValidateCollectionBodiesAndTheirModelElementsWhenEnabled() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/collection-response-validation.yaml", SPRING_BOOT,
+                Map.of(VALIDATE_RESPONSE_ENTITY, true, USE_TAGS, true));
+        assertThat(Files.readString(files.get("CollectionApi.java").toPath())).contains(
+                "default ResponseEntity<@Valid List<@Valid Pet>> getPets(",
+                "default ResponseEntity<@Valid Set<@Valid Pet>> getUniquePets(",
+                "default ResponseEntity<@Valid Map<String, @Valid Pet>> getPetsByName(");
+    }
+
+    @Test
+    public void shouldOnlyMoveValidationOntoBodiesWrappedInReactiveResponseEntities() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/collection-response-validation.yaml", SPRING_BOOT,
+                Map.of(VALIDATE_RESPONSE_ENTITY, true, USE_TAGS, true, REACTIVE, true));
+        assertThat(Files.readString(files.get("CollectionApi.java").toPath())).contains(
+                "default Mono<ResponseEntity<@Valid Flux<Pet>>> getPets(",
+                "default Mono<ResponseEntity<@Valid List<String>>> getNames(",
+                "default Mono<ResponseEntity<Void>> getNothing(",
+                "default @Valid Flux<Pet> getEvents(");
+    }
+
     @Test
     public void shouldGenerateValidCodeForReactiveControllerWithoutParams_issue14907() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -2870,15 +2936,15 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<@Valid TestResponse>>")
+                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithArrayOfString").hasReturnType("ResponseEntity<List<String>>")
                 .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<@Valid TestResponse>>")
+                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithSetOfStrings").hasReturnType("ResponseEntity<Set<String>>")
                 .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, @Valid TestResponse>>")
+                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
@@ -3579,7 +3645,8 @@ public class SpringCodegenTest {
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
         String api = Files.readString(files.get("CollectionApi.java").toPath());
         String model = mappedModel ? "com.example.ExternalPet" : "Pet";
-        String element = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String validatedElement = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String element = responseEntity ? model : validatedElement;
         String list = reactive ? "Flux<" + model + ">" : "List<" + element + ">";
         String set = reactive ? "Flux<" + model + ">" : "Set<" + element + ">";
         String map = "Map<String, " + element + ">";
@@ -3612,11 +3679,11 @@ public class SpringCodegenTest {
             name = "Mono<" + name + ">";
             noContent = "Mono<" + noContent + ">";
         }
-        String annotation = validation ? "@Valid " : "";
-        assertThat(api).contains(annotation + list + " getPets(", annotation + set + " getUniquePets(",
-                annotation + map + " getPetsByName(", annotation + strings + " getNames(",
-                annotation + pet + " getPet(", annotation + integers + " getNumbers(",
-                annotation + stringMap + " getNamesById(", annotation + name + " getName(",
+        String prefix = validation && !responseEntity ? "default @Valid " : "default ";
+        assertThat(api).contains(prefix + list + " getPets(", prefix + set + " getUniquePets(",
+                prefix + map + " getPetsByName(", prefix + strings + " getNames(",
+                prefix + pet + " getPet(", prefix + integers + " getNumbers(",
+                prefix + stringMap + " getNamesById(", prefix + name + " getName(",
                 "default " + noContent + " getNothing(")
                 .doesNotContain("ResponseEntity<@Valid", "Mono<@Valid", "List<@Valid String", "Flux<@Valid",
                         "Flux<com.example.@Valid",
@@ -3624,6 +3691,10 @@ public class SpringCodegenTest {
                         "@Valid " + noContent + " getNothing(");
         if (!validation) {
             assertThat(api).doesNotContain("@Valid");
+        }
+        if (!reactive) {
+            assertThat(api).contains((validation ? "default @Valid " : "default ")
+                    + "Flux<List<" + validatedElement + ">> getEvents(");
         }
     }
 
@@ -9299,7 +9370,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPets")
-                .hasReturnType("ResponseEntity<List<@Valid Pet>>");
+                .hasReturnType("ResponseEntity<List<Pet>>");
     }
 
     /** Common properties shared by all substituteGenericPagedModel tests. */

@@ -116,7 +116,7 @@ public interface UserApi {
         value = UserApi.PATH_GET_USER_BY_NAME,
         accept = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<User> getUserByName(
+    ResponseEntity<User> getUserByName(
          @PathVariable("username") String username
     );
 
@@ -136,7 +136,7 @@ public interface UserApi {
         value = UserApi.PATH_LOGIN_USER,
         accept = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<String> loginUser(
+    ResponseEntity<String> loginUser(
         @NotNull  @Valid @RequestParam(value = "username", required = true) String username,
         @NotNull  @Valid @RequestParam(value = "password", required = true) String password
     );

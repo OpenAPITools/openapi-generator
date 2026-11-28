@@ -32,7 +32,7 @@ public interface VersioningApiDelegate {
      * @return successful operation (status code 200)
      * @see VersioningApi#versioningHeaders
      */
-    default @Valid ResponseEntity<ModelApiResponse> versioningHeaders(Long petId) {
+    default ResponseEntity<ModelApiResponse> versioningHeaders(Long petId) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
@@ -55,7 +55,7 @@ public interface VersioningApiDelegate {
      * @return successful operation (status code 200)
      * @see VersioningApi#versioningMix
      */
-    default @Valid ResponseEntity<ModelApiResponse> versioningMix(String versionWithDefaultValueQuery,
+    default ResponseEntity<ModelApiResponse> versioningMix(String versionWithDefaultValueQuery,
         String versionNoDefaultValueQuery,
         Long petId) {
         getRequest().ifPresent(request -> {
@@ -80,7 +80,7 @@ public interface VersioningApiDelegate {
      * @return successful operation (status code 200)
      * @see VersioningApi#versioningQueryParams
      */
-    default @Valid ResponseEntity<ModelApiResponse> versioningQueryParams(String versionWithDefaultValue,
+    default ResponseEntity<ModelApiResponse> versioningQueryParams(String versionWithDefaultValue,
         String versionNoDefaultValue,
         Long petId) {
         getRequest().ifPresent(request -> {

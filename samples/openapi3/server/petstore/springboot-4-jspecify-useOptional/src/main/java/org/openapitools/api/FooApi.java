@@ -69,7 +69,7 @@ public interface FooApi {
         value = FooApi.PATH_FOO_DT_PARAM_GET,
         produces = { "application/json" }
     )
-    default @Valid ResponseEntity<Foo> fooDtParamGet(
+    default ResponseEntity<Foo> fooDtParamGet(
         @Parameter(name = "dtParam", description = "", in = ParameterIn.PATH) @PathVariable("dtParam") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<java.time.Instant> dtParam,
         @Parameter(name = "dtQuery", description = "", in = ParameterIn.QUERY) @RequestParam(value = "dtQuery", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<java.time.Instant> dtQuery,
         @Parameter(name = "dtCookie", description = "", in = ParameterIn.COOKIE) @CookieValue(name = "dtCookie", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<java.time.Instant> dtCookie,

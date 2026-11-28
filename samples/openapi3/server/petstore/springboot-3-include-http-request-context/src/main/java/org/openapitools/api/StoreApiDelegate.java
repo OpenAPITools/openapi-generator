@@ -49,7 +49,7 @@ public interface StoreApiDelegate {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    default @Valid ResponseEntity<Map<String, Integer>> getInventory(HttpServletRequest servletRequest) {
+    default ResponseEntity<Map<String, Integer>> getInventory(HttpServletRequest servletRequest) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -64,7 +64,7 @@ public interface StoreApiDelegate {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    default @Valid ResponseEntity<Order> getOrderById(Long orderId,
+    default ResponseEntity<Order> getOrderById(Long orderId,
         HttpServletRequest servletRequest) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -93,7 +93,7 @@ public interface StoreApiDelegate {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    default @Valid ResponseEntity<Order> placeOrder(Order order,
+    default ResponseEntity<Order> placeOrder(Order order,
         HttpServletRequest servletRequest) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

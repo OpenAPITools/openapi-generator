@@ -63,7 +63,7 @@ public interface ZoosApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<Zoo> addZoo(
+    default ResponseEntity<Zoo> addZoo(
         @Parameter(name = "Zoo", description = "", required = true) @Valid @RequestBody Zoo zoo
     ) {
         getRequest().ifPresent(request -> {

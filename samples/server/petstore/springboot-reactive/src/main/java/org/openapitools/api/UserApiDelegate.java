@@ -117,7 +117,7 @@ public interface UserApiDelegate {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    default @Valid Mono<ResponseEntity<User>> getUserByName(String username,
+    default Mono<ResponseEntity<User>> getUserByName(String username,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();
     
@@ -151,7 +151,7 @@ public interface UserApiDelegate {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    default @Valid Mono<ResponseEntity<String>> loginUser(String username,
+    default Mono<ResponseEntity<String>> loginUser(String username,
         String password,
         ServerWebExchange exchange) {
         Mono<Void> result = Mono.empty();

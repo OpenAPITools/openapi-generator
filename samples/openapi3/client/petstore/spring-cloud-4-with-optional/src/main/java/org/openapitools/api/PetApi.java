@@ -39,7 +39,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    @Valid ResponseEntity<Pet> addPet(
+    ResponseEntity<Pet> addPet(
          @Valid @RequestBody Pet pet
     );
 
@@ -77,7 +77,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<List<@Valid Pet>> findPetsByStatus(
+    ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) @Deprecated List<String> status
     );
 
@@ -98,7 +98,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<List<@Valid Pet>> findPetsByTags(
+    ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) List<String> tags
     );
 
@@ -118,7 +118,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<Pet> getPetById(
+    ResponseEntity<Pet> getPetById(
          @PathVariable("petId") Long petId
     );
 
@@ -142,7 +142,7 @@ public interface PetApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    @Valid ResponseEntity<Pet> updatePet(
+    ResponseEntity<Pet> updatePet(
          @Valid @RequestBody Pet pet
     );
 
@@ -185,7 +185,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = "multipart/form-data"
     )
-    @Valid ResponseEntity<ModelApiResponse> uploadFile(
+    ResponseEntity<ModelApiResponse> uploadFile(
          @PathVariable("petId") Long petId,
          @RequestParam(value = "additionalMetadata", required = false) Optional<String> additionalMetadata,
          @RequestPart(value = "file", required = false) MultipartFile file

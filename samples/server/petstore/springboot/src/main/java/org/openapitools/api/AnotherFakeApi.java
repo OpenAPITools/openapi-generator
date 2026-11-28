@@ -67,7 +67,7 @@ public interface AnotherFakeApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<ClientDto> call123testSpecialTags(
+    default ResponseEntity<ClientDto> call123testSpecialTags(
         @Parameter(name = "ClientDto", description = "client model", required = true) @Valid @RequestBody ClientDto clientDto
     ) {
         getRequest().ifPresent(request -> {

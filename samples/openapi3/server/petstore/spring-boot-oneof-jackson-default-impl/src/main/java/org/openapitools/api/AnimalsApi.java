@@ -64,7 +64,7 @@ public interface AnimalsApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<Animal> createAnimal(
+    default ResponseEntity<Animal> createAnimal(
         @Parameter(name = "Animal", description = "", required = true) @Valid @RequestBody Animal animal
     ) {
         getRequest().ifPresent(request -> {

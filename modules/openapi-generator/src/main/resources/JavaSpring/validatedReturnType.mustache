@@ -1,1 +1,4 @@
-{{#useBeanValidation}}{{#returnProperty.items.isModel}}{{#lambdaBeanValidationType}}{{{returnType}}}{{/lambdaBeanValidationType}}{{/returnProperty.items.isModel}}{{^returnProperty.items.isModel}}{{{returnType}}}{{/returnProperty.items.isModel}}{{/useBeanValidation}}{{^useBeanValidation}}{{{returnType}}}{{/useBeanValidation}}
+{{#vendorExtensions.x-sse}}{{>beanValidatedReturnType}}{{/vendorExtensions.x-sse}}{{!
+}}{{^vendorExtensions.x-sse}}{{^useResponseEntity}}{{>beanValidatedReturnType}}{{/useResponseEntity}}{{!
+}}{{#useResponseEntity}}{{#vendorExtensions.x-validate-response-entity}}{{>beanValidatedReturnType}}{{/vendorExtensions.x-validate-response-entity}}{{!
+}}{{^vendorExtensions.x-validate-response-entity}}{{{returnType}}}{{/vendorExtensions.x-validate-response-entity}}{{/useResponseEntity}}{{/vendorExtensions.x-sse}}
