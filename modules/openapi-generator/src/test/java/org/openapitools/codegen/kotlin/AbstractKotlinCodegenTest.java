@@ -1,5 +1,7 @@
 package org.openapitools.codegen.kotlin;
 
+import com.fasterxml.jackson.databind.node.NullNode;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.ObjectSchema;
@@ -43,6 +45,29 @@ public class AbstractKotlinCodegenTest {
         codegen = mock(
                 AbstractKotlinCodegen.class, withSettings().defaultAnswer(Answers.CALLS_REAL_METHODS).useConstructor()
         );
+    }
+
+    @Test
+    public void nullParameterDefaultsAreIgnoredButLiteralNullIsPreserved() {
+        CodegenProperty property = new CodegenProperty();
+        Schema schema = new StringSchema();
+        schema.setDefault(NullNode.getInstance());
+        assertNull(codegen.toDefaultParameterValue(property, schema));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NullDefault", schema)));
+        Schema reference = new Schema().$ref("#/components/schemas/NullDefault");
+        assertNull(codegen.toDefaultParameterValue(property, reference));
+        reference.setDefault("null");
+        assertEquals(codegen.toDefaultParameterValue(property, reference), "\"null\"");
+        assertSame(schema.getDefault(), NullNode.getInstance());
+        reference.setDefault(NullNode.getInstance());
+        schema.setDefault("fallback");
+        assertNull(codegen.toDefaultParameterValue(property, reference));
+        reference.setDefault(null);
+        schema.setDefault("null");
+        assertEquals(codegen.toDefaultParameterValue(property, reference), "\"null\"");
+        assertEquals(codegen.toDefaultParameterValue(property, schema), "\"null\"");
+        schema.setDefault(null);
+        assertNull(codegen.toDefaultParameterValue(property, schema));
     }
 
     @Test
