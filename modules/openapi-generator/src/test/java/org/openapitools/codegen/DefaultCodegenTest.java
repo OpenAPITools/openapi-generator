@@ -919,6 +919,26 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testAllOfEnumIntersection() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed_enums.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        String modelName = "ElectricMotorVehicle";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        codegen.setOpenAPI(openAPI);
+        CodegenModel electricMotorVehicle = codegen.fromModel(modelName, schema);
+
+        Set<String> allOf = new TreeSet<>();
+        allOf.add("MotorVehicle");
+        allOf.add("ElectricVehicle");
+        assertEquals(electricMotorVehicle.allOf, allOf);
+        hasEnum(electricMotorVehicle, "type", List.of("car", "truck"));
+
+        hasEnum(openAPI.getComponents().getSchemas().get("MotorVehicle"), "type", List.of("car", "truck", "motorcycle"));
+        hasEnum(openAPI.getComponents().getSchemas().get("ElectricVehicle"), "type", List.of("car", "truck", "bicycle"));
+    }
+
+    @Test
     public void testOneOfMergeKeepsExistingPlainTypeWhenNewTypeIsEnum() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed_enums.json");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -933,6 +953,25 @@ public class DefaultCodegenTest {
         oneOf.add("Cat");
         assertEquals(catOrType.oneOf, oneOf);
         assertFalse(catOrType.hasEnums);
+
+        hasEnum(openAPI.getComponents().getSchemas().get("Cat"), "type", List.of("cat"));
+    }
+
+    @Test
+    public void testAllOfMergeOverridesExistingPlainTypeWhenNewTypeIsEnum() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/composed_enums.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        String modelName = "CatAndType";
+
+        final Schema schema = openAPI.getComponents().getSchemas().get(modelName);
+        codegen.setOpenAPI(openAPI);
+        CodegenModel catAndType = codegen.fromModel(modelName, schema);
+
+        Set<String> allOf = new TreeSet<>();
+        allOf.add("Type");
+        allOf.add("Cat");
+        assertEquals(catAndType.allOf, allOf);
+        hasEnum(catAndType, "type", List.of("cat"));
 
         hasEnum(openAPI.getComponents().getSchemas().get("Cat"), "type", List.of("cat"));
     }
@@ -5839,7 +5878,7 @@ public class DefaultCodegenTest {
                 break;
             }
         }
-        assertEquals(values, enumValues);
+        assertEquals(enumValues, values);
     }
 
     private void hasEnum(Schema<?> model, String fieldName, List<String> enumValues) {
