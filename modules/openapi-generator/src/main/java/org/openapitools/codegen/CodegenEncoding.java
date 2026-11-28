@@ -47,9 +47,9 @@ public class CodegenEncoding {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CodegenEncoding that = (CodegenEncoding) o;
-        return contentType == that.getContentType() &&
+        return Objects.equals(contentType, that.getContentType()) &&
                 Objects.equals(headers, that.getHeaders()) &&
-                style == that.getStyle() &&
+                Objects.equals(style, that.getStyle()) &&
                 explode == that.getExplode() &&
                 allowReserved == that.getAllowReserved() &&
                 Objects.equals(vendorExtensions, that.vendorExtensions);
