@@ -46,8 +46,8 @@ export function ReportPatchFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function ReportPatchToJSON(json: any): ReportPatch {
-    return ReportPatchToJSONTyped(json, false);
+export function ReportPatchToJSON(value?: ReportPatch | null): any {
+    return ReportPatchToJSONTyped(value, false);
 }
 
 export function ReportPatchToJSONTyped(value?: ReportPatch | null, ignoreDiscriminator: boolean = false): any {

@@ -72,8 +72,8 @@ export function MapTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): M
     };
 }
 
-export function MapTestToJSON(json: any): MapTest {
-    return MapTestToJSONTyped(json, false);
+export function MapTestToJSON(value?: MapTest | null): any {
+    return MapTestToJSONTyped(value, false);
 }
 
 export function MapTestToJSONTyped(value?: MapTest | null, ignoreDiscriminator: boolean = false): any {

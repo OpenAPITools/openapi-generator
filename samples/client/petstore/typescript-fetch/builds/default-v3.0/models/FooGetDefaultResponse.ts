@@ -54,8 +54,8 @@ export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function FooGetDefaultResponseToJSON(json: any): FooGetDefaultResponse {
-    return FooGetDefaultResponseToJSONTyped(json, false);
+export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null): any {
+    return FooGetDefaultResponseToJSONTyped(value, false);
 }
 
 export function FooGetDefaultResponseToJSONTyped(value?: FooGetDefaultResponse | null, ignoreDiscriminator: boolean = false): any {

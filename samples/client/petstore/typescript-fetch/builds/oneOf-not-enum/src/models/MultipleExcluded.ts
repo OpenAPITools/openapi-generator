@@ -47,8 +47,8 @@ export function MultipleExcludedFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function MultipleExcludedToJSON(json: any): MultipleExcluded {
-    return MultipleExcludedToJSONTyped(json, false);
+export function MultipleExcludedToJSON(value?: MultipleExcluded | null): any {
+    return MultipleExcludedToJSONTyped(value, false);
 }
 
 export function MultipleExcludedToJSONTyped(value?: MultipleExcluded | null, ignoreDiscriminator: boolean = false): any {

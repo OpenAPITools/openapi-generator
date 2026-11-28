@@ -62,8 +62,8 @@ export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name
     };
 }
 
-export function NameToJSON(json: any): Name {
-    return NameToJSONTyped(json, false);
+export function NameToJSON(value?: Name | null): any {
+    return NameToJSONTyped(value, false);
 }
 
 export function NameToJSONTyped(value?: Omit<Name, 'snakeCase'|'_123number'> | null, ignoreDiscriminator: boolean = false): any {

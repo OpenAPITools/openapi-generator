@@ -53,8 +53,8 @@ export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part
     };
 }
 
-export function PartToJSON(json: any): Part {
-    return PartToJSONTyped(json, false);
+export function PartToJSON(value?: Part | null): any {
+    return PartToJSONTyped(value, false);
 }
 
 export function PartToJSONTyped(value?: Part | null, ignoreDiscriminator: boolean = false): any {

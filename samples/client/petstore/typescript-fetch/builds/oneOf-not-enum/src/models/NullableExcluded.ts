@@ -48,8 +48,8 @@ export function NullableExcludedFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function NullableExcludedToJSON(json: any): NullableExcluded {
-    return NullableExcludedToJSONTyped(json, false);
+export function NullableExcludedToJSON(value?: NullableExcluded | null): any {
+    return NullableExcludedToJSONTyped(value, false);
 }
 
 export function NullableExcludedToJSONTyped(value?: NullableExcluded | null, ignoreDiscriminator: boolean = false): any {

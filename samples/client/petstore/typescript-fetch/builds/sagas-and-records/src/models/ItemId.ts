@@ -53,8 +53,8 @@ export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): It
     };
 }
 
-export function ItemIdToJSON(json: any): ItemId {
-    return ItemIdToJSONTyped(json, false);
+export function ItemIdToJSON(value?: ItemId | null): any {
+    return ItemIdToJSONTyped(value, false);
 }
 
 export function ItemIdToJSONTyped(value?: ItemId | null, ignoreDiscriminator: boolean = false): any {

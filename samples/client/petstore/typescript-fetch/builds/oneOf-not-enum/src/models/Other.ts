@@ -48,8 +48,8 @@ export function OtherFromJSONTyped(json: any, ignoreDiscriminator: boolean): Oth
     };
 }
 
-export function OtherToJSON(json: any): Other {
-    return OtherToJSONTyped(json, false);
+export function OtherToJSON(value?: Other | null): any {
+    return OtherToJSONTyped(value, false);
 }
 
 export function OtherToJSONTyped(value?: Other | null, ignoreDiscriminator: boolean = false): any {
