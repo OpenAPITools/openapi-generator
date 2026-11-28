@@ -13,7 +13,7 @@ import unittest
 from decimal import Decimal
 from enum import Enum
 
-from dateutil.parser import parse
+import datetime
 
 import petstore_api
 import petstore_api.configuration
@@ -172,12 +172,12 @@ class ApiClientTests(unittest.TestCase):
         self.assertEqual(result, data)
 
     def test_sanitize_for_serialization_date(self):
-        data = parse("1997-07-16").date()  # date
+        data = datetime.date.fromisoformat("1997-07-16")  # date
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16")
 
     def test_sanitize_for_serialization_datetime(self):
-        data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
+        data = datetime.datetime.fromisoformat("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
 
@@ -318,7 +318,7 @@ class ApiClientTests(unittest.TestCase):
 
     def test_explode_query_object(self):
         # one pair per entry; a list repeats the name, None is left out, values are serialized
-        params = self.api_client.explode_query_object('filter', {'a': 'b', 'k': None, 'l': ['x', None, 2], 'd': parse('2020-01-02').date()})
+        params = self.api_client.explode_query_object('filter', {'a': 'b', 'k': None, 'l': ['x', None, 2], 'd': datetime.date.fromisoformat('2020-01-02')})
         self.assertEqual(params, [('a', 'b'), ('l', 'x'), ('l', 2), ('d', '2020-01-02')])
 
     def test_explode_query_object_model(self):
