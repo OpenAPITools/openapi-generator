@@ -21,6 +21,7 @@ import org.testng.annotations.Test;
 import java.util.Collections;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 
 public class CodegenEncodingTest {
 
@@ -32,5 +33,13 @@ public class CodegenEncodingTest {
 
         assertEquals(a.hashCode(), b.hashCode());
         assertEquals(a, b);
+    }
+
+    @Test
+    public void differentContentTypeOrStyleIsNotEqual() {
+        CodegenEncoding png = new CodegenEncoding("image/png", Collections.emptyList(), "form", true, false);
+
+        assertNotEquals(new CodegenEncoding("image/jpeg", Collections.emptyList(), "form", true, false), png);
+        assertNotEquals(new CodegenEncoding("image/png", Collections.emptyList(), "deepObject", true, false), png);
     }
 }
