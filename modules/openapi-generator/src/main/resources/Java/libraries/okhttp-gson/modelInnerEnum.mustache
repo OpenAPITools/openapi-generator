@@ -54,7 +54,7 @@
 
       @Override
       public {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} read(final JsonReader jsonReader) throws IOException {
-        {{^isNumber}}{{{dataType}}}{{/isNumber}}{{#isNumber}}String{{/isNumber}} value = {{#isFloat}}(float){{/isFloat}} {{#isUuid}}UUID.fromString({{/isUuid}}{{#isUri}}URI.create({{/isUri}}jsonReader.{{#isNumber}}nextString(){{/isNumber}}{{#isInteger}}nextInt(){{/isInteger}}{{#isUri}}nextString()){{/isUri}}{{#isUuid}}nextString()){{/isUuid}}{{^isNumber}}{{^isInteger}}{{^isUri}}{{^isUuid}}{{#isFloat}}nextDouble{{/isFloat}}{{^isFloat}}next{{{dataType}}}{{/isFloat}}(){{/isUuid}}{{/isUri}}{{/isInteger}}{{/isNumber}};
+        {{^isNumber}}{{{dataType}}}{{/isNumber}}{{#isNumber}}String{{/isNumber}} value = {{#isFloat}}(float){{/isFloat}} {{#vendorExtensions.x-is-big-integer}}new BigInteger({{/vendorExtensions.x-is-big-integer}}{{#isUuid}}UUID.fromString({{/isUuid}}{{#isUri}}URI.create({{/isUri}}jsonReader.{{#isNumber}}nextString(){{/isNumber}}{{#isInteger}}nextInt(){{/isInteger}}{{#isUri}}nextString()){{/isUri}}{{#isUuid}}nextString()){{/isUuid}}{{^isNumber}}{{^isInteger}}{{^isUri}}{{^isUuid}}{{#vendorExtensions.x-is-big-integer}}nextString()){{/vendorExtensions.x-is-big-integer}}{{^vendorExtensions.x-is-big-integer}}{{#isFloat}}nextDouble{{/isFloat}}{{^isFloat}}next{{{dataType}}}{{/isFloat}}(){{/vendorExtensions.x-is-big-integer}}{{/isUuid}}{{/isUri}}{{/isInteger}}{{/isNumber}};
         return {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
       }
     }
