@@ -136,6 +136,7 @@ public class AdditionalPropertiesInteger {
 
     protected Builder copyOf(AdditionalPropertiesInteger value) { 
       this.instance.setName(value.name);
+      this.instance.additionalProperties = value.additionalProperties;
       return this;
     }
 

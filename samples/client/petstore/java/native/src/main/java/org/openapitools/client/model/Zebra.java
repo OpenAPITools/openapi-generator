@@ -282,6 +282,11 @@ public class Zebra {
     }
 
 
+    public Zebra.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built Zebra instance.
     *
@@ -315,7 +320,8 @@ public class Zebra {
   public Zebra.Builder toBuilder() {
     return new Zebra.Builder()
       .type(getType())
-      .className(getClassName());
+      .className(getClassName())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }

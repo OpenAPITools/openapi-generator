@@ -713,6 +713,11 @@ public class NullableClass {
     }
 
 
+    public NullableClass.Builder additionalProperties(Map<String, Object> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built NullableClass instance.
     *
@@ -756,7 +761,8 @@ public class NullableClass {
       .arrayItemsNullable(getArrayItemsNullable())
       .objectNullableProp(getObjectNullableProp())
       .objectAndItemsNullableProp(getObjectAndItemsNullableProp())
-      .objectItemsNullable(getObjectItemsNullable());
+      .objectItemsNullable(getObjectItemsNullable())
+      .additionalProperties(getAdditionalProperties());
   }
 
 }
