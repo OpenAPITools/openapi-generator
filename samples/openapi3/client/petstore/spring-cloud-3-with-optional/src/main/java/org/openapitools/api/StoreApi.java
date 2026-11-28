@@ -53,7 +53,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_INVENTORY,
         produces = { "application/json" }
     )
-    @Valid ResponseEntity<Map<String, Integer>> getInventory(
+    ResponseEntity<Map<String, Integer>> getInventory(
         
     );
 
@@ -73,7 +73,7 @@ public interface StoreApi {
         value = StoreApi.PATH_GET_ORDER_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<Order> getOrderById(
+    ResponseEntity<Order> getOrderById(
         @Min(value = 1L) @Max(value = 5L)  @PathVariable("orderId") Long orderId
     );
 
@@ -93,7 +93,7 @@ public interface StoreApi {
         produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
-    @Valid ResponseEntity<Order> placeOrder(
+    ResponseEntity<Order> placeOrder(
          @Valid @RequestBody Order order
     );
 

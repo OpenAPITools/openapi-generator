@@ -66,7 +66,7 @@ public interface BarApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<Bar> createBar(
+    default ResponseEntity<Bar> createBar(
         @Parameter(name = "BarCreate", description = "", required = true) @Valid @RequestBody BarCreate barCreate
     ) {
         getRequest().ifPresent(request -> {

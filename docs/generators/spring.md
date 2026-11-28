@@ -132,6 +132,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSpringSecurityPreAuthorize|Generate Spring Security @PreAuthorize annotations from OAuth2/OpenID Connect security scopes.| |false|
 |useSwaggerUI|Open the OpenApi specification in swagger-ui. Will also import and configure needed dependencies| |true|
 |useTags|use tags for creating interface and controller classnames| |false|
+|validateResponseEntity|Add `@Valid` to the `ResponseEntity` body type when enabled. Requires `useResponseEntity` and `useBeanValidation`. Executable return-value validation then requires an implementation of `ValueExtractor&lt;ResponseEntity&lt;@ExtractedValue ?&gt;&gt;`. When disabled, neither `ResponseEntity` nor its immediate body type gets `@Valid`.| |false|
 |virtualService|Generates the virtual service. For more details refer - https://github.com/virtualansoftware/virtualan/wiki| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 |xImplementsSkip|Ability to choose interfaces that should NOT be implemented in the models despite their presence in vendor extension `x-implements`. Takes a list of fully qualified interface names. Example: yaml `xImplementsSkip: [com.some.pack.WithPhotoUrls]` skips implementing the interface `com.some.pack.WithPhotoUrls` in any schema| |empty list|

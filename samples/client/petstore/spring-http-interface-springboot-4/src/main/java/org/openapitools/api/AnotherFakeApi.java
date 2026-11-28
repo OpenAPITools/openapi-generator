@@ -38,7 +38,7 @@ public interface AnotherFakeApi {
         accept = { "application/json" },
         contentType = "application/json"
     )
-    @Valid ResponseEntity<ClientDto> call123testSpecialTags(
+    ResponseEntity<ClientDto> call123testSpecialTags(
          @Valid @RequestBody ClientDto clientDto
     );
 

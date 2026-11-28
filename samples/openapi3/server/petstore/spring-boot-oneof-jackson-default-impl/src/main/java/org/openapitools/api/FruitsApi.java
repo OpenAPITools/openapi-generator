@@ -64,7 +64,7 @@ public interface FruitsApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<Fruit> createFruit(
+    default ResponseEntity<Fruit> createFruit(
         @Parameter(name = "Fruit", description = "", required = true) @Valid @RequestBody Fruit fruit
     ) {
         getRequest().ifPresent(request -> {

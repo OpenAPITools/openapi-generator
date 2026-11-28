@@ -63,7 +63,7 @@ public interface CountersApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<Counters> addCounters(
+    default ResponseEntity<Counters> addCounters(
         @Parameter(name = "Counters", description = "", required = true) @Valid @RequestBody Counters counters
     ) {
         getRequest().ifPresent(request -> {

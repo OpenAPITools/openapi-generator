@@ -63,7 +63,7 @@ public interface VehiclesApi {
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default @Valid ResponseEntity<Vehicle> addVehicle(
+    default ResponseEntity<Vehicle> addVehicle(
         @Parameter(name = "Vehicle", description = "", required = true) @Valid @RequestBody Vehicle vehicle
     ) {
         getRequest().ifPresent(request -> {

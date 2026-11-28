@@ -39,7 +39,7 @@ public interface UserApi {
         value = UserApi.PATH_LIST_USERS,
         produces = { "application/json" }
     )
-    @Valid ResponseEntity<PagedModel<User>> listUsers(
+    ResponseEntity<PagedModel<User>> listUsers(
          @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
          @Valid @RequestParam(value = "size", required = false, defaultValue = "20") Integer size
     );
@@ -56,7 +56,7 @@ public interface UserApi {
         value = UserApi.PATH_LIST_USERS_SIMPLE,
         produces = { "application/json" }
     )
-    @Valid ResponseEntity<UserList> listUsersSimple(
+    ResponseEntity<UserList> listUsersSimple(
         
     );
 

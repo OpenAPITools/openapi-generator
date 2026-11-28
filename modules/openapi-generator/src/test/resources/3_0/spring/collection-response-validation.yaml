@@ -111,6 +111,32 @@ paths:
       responses:
         '204':
           description: No content
+  /bytes:
+    get:
+      operationId: getBytes
+      tags: [collection]
+      responses:
+        '200':
+          description: Bytes
+          content:
+            application/json:
+              schema:
+                type: string
+                format: byte
+  /events:
+    get:
+      operationId: getEvents
+      tags: [collection]
+      x-sse: 'true'
+      responses:
+        '200':
+          description: Pet events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
 components:
   schemas:
     Pet:

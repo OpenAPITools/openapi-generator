@@ -134,7 +134,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<List<@Valid Pet>> findPetsByStatus(
+    ResponseEntity<List<@Valid Pet>> findPetsByStatus(
         @NotNull @Parameter(name = "status", description = "Status values that need to be considered for filter", required = true, in = ParameterIn.QUERY) @RequestParam(value = "status", required = true) List<String> status
     );
 
@@ -172,7 +172,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<Set<@Valid Pet>> findPetsByTags(
+    ResponseEntity<Set<@Valid Pet>> findPetsByTags(
         @NotNull @Parameter(name = "tags", description = "Tags to filter by", required = true, in = ParameterIn.QUERY) @RequestParam(value = "tags", required = true) Set<String> tags
     );
 
@@ -209,7 +209,7 @@ public interface PetApi {
         value = PetApi.PATH_GET_PET_BY_ID,
         produces = { "application/json", "application/xml" }
     )
-    @Valid ResponseEntity<Pet> getPetById(
+    ResponseEntity<Pet> getPetById(
         @Parameter(name = "petId", description = "ID of pet to return", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     );
 
@@ -235,7 +235,7 @@ public interface PetApi {
         value = PetApi.PATH_RESPONSE_OBJECT_DIFFERENT_NAMES,
         produces = { "application/json" }
     )
-    @Valid ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
+    ResponseEntity<ResponseObjectWithDifferentFieldNames> responseObjectDifferentNames(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId
     );
 
@@ -340,7 +340,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = "multipart/form-data"
     )
-    @Valid ResponseEntity<ModelApiResponse> uploadFile(
+    ResponseEntity<ModelApiResponse> uploadFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
         @Parameter(name = "file", description = "file to upload") @RequestPart(value = "file", required = false) MultipartFile file
@@ -377,7 +377,7 @@ public interface PetApi {
         produces = { "application/json" },
         consumes = "multipart/form-data"
     )
-    @Valid ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
+    ResponseEntity<ModelApiResponse> uploadFileWithRequiredFile(
         @Parameter(name = "petId", description = "ID of pet to update", required = true, in = ParameterIn.PATH) @PathVariable("petId") Long petId,
         @Parameter(name = "requiredFile", description = "file to upload", required = true) @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,
         @Parameter(name = "additionalMetadata", description = "Additional data to pass to server") @Valid @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata
