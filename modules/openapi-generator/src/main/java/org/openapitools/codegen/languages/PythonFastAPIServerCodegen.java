@@ -63,6 +63,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     private static final String DEFAULT_IMPL_FOLDER = "impl";
     private static final String DEFAULT_PACKAGE_VERSION = "1.0.0";
     private static final String X_FASTAPI_REQUEST_BODY_EXAMPLE = "x-python-fastapi-request-body-example";
+    private static final String X_FASTAPI_STATUS_CODE = "x-python-fastapi-status-code";
+    private static final String FASTAPI_DEFAULT_STATUS_CODE = "200";
+    // FastAPI refuses to register a route that declares one of these status codes together with a response model
+    private static final Set<String> FASTAPI_NO_BODY_STATUS_CODES = new HashSet<>(Arrays.asList("204", "205"));
 
     private String implPackage;
     private boolean useExternalImplementationPackage = false;
@@ -331,6 +335,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
                 }
 
                 setBodyParamExampleFromContent(operation);
+                setSuccessStatusCode(operation);
                 if (overrideFileFormParamTyping(operation)) {
                     hasFileFormParam = true;
                 }
@@ -342,6 +347,40 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
 
         objs.put("securityImports", new ArrayList<>(securityImports));
+    }
+
+    /**
+     * Sets {@code x-python-fastapi-status-code} to the success status code the route decorator must declare, so
+     * that the status code returned at runtime matches the one documented in the specification instead of
+     * FastAPI's default of {@code 200}.
+     * <p>
+     * The lowest explicit {@code 2xx} code is used, which is also the response the return type is derived from.
+     * Nothing is set when that code is {@code 200} (FastAPI's default) or when the specification only documents
+     * a range ({@code 2XX}) or a {@code default} response. A {@code 204} or {@code 205} code is not declared
+     * either when the response unexpectedly defines a body, because FastAPI rejects such a route at import time.
+     *
+     * @param operation the operation whose success status code is looked up
+     */
+    private void setSuccessStatusCode(CodegenOperation operation) {
+        if (operation.responses == null) {
+            return;
+        }
+
+        String statusCode = null;
+        for (CodegenResponse response : operation.responses) {
+            if (response.is2xx && response.code != null && response.code.matches("2\\d\\d")
+                    && (statusCode == null || statusCode.compareTo(response.code) > 0)) {
+                statusCode = response.code;
+            }
+        }
+
+        if (statusCode == null || FASTAPI_DEFAULT_STATUS_CODE.equals(statusCode)) {
+            return;
+        }
+        if (operation.returnType != null && FASTAPI_NO_BODY_STATUS_CODES.contains(statusCode)) {
+            return;
+        }
+        operation.vendorExtensions.put(X_FASTAPI_STATUS_CODE, statusCode);
     }
 
     /**
