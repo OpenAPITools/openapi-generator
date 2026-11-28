@@ -18,7 +18,6 @@ REQUIRES = [
     "python-dateutil >= 2.8.2",
 {{#asyncio}}
     "aiohttp >= 3.14.1",
-    "aiohttp-retry >= 2.8.3",
 {{/asyncio}}
 {{#httpx}}
     "httpx >= 0.28.1",
@@ -43,6 +42,9 @@ setup(
     url="{{packageUrl}}",
     keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
     install_requires=REQUIRES,
+{{#asyncio}}
+    extras_require={"retry": ["aiohttp-retry >= 2.8.3"]},
+{{/asyncio}}
 {{#sourceFolder}}
     package_dir={"": "{{{sourceFolder}}}"},
 {{/sourceFolder}}
