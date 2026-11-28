@@ -87,6 +87,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String USE_DOT_NOTATION_FOR_FORM_OBJECTS = "useDotNotationForFormObjects";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
     public static final String USE_SQUARE_BRACKETS_IN_ARRAY_NAMES = "useSquareBracketsInArrayNames";
+    public static final String USE_INJECTION_FUNCTION = "useInjectionFunction";
     public static final String TS_VERSION = "tsVersion";
     public static final String RXJS_VERSION = "rxjsVersion";
     public static final String NGPACKAGR_VERSION = "ngPackagrVersion";
@@ -292,6 +293,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
         if (ngVersion.atLeast("12.0.0")) {
             additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, true);
+        }
+
+        if (ngVersion.atLeast("14.0.0")) {
+            additionalProperties.put(USE_INJECTION_FUNCTION, true);
         }
 
         if (ngVersion.atLeast("17.0.0")) {
