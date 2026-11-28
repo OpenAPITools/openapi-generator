@@ -27,7 +27,6 @@ impl Cat {
         }
     }
 }
-/// 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum PetType {
     #[serde(rename = "cat")]
