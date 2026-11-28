@@ -229,6 +229,26 @@ public class CppOatppClientCodegen extends AbstractCppCodegen {
     }
 
     @Override
+    public String toEnumVarName(String value, String datatype) {
+        // enum values become C++ function names: keep the case of the value, but make it a valid identifier
+        if (value.isEmpty()) {
+            return "EMPTY";
+        }
+
+        String var = value.replaceAll("\\W+", "_");
+        if (var.matches("\\d.*")) {
+            var = "_" + var;
+        }
+
+        // C++ keywords are case-sensitive, so only escape exact matches (isReservedWord ignores case)
+        if (reservedWords.contains(var)) {
+            return escapeReservedWord(var);
+        }
+
+        return var;
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
         String classname = operations.getClassname();
