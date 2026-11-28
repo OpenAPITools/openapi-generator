@@ -3,6 +3,10 @@
  * {{{description}}}
  */
 {{/description}}
+{{#vendorExtensions.x-typescript-primitive-type}}
+export type {{classname}} = {{{.}}}{{#isNullable}} | null{{/isNullable}};
+{{/vendorExtensions.x-typescript-primitive-type}}
+{{^vendorExtensions.x-typescript-primitive-type}}
 export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
 {{#additionalPropertiesType}}
     [key: string]: {{{additionalPropertiesType}}}{{#additionalPropertiesIsAnyType}}{{#hasVars}} | any{{/hasVars}}{{/additionalPropertiesIsAnyType}};
@@ -63,3 +67,4 @@ export type {{enumName}} = typeof {{enumName}}[keyof typeof {{enumName}}];
 {{/isEnum}}
 {{/vars}}
 {{/hasEnums}}
+{{/vendorExtensions.x-typescript-primitive-type}}

@@ -1,7 +1,14 @@
 package org.openapitools.codegen.typescript.axios;
 
+import com.fasterxml.jackson.databind.node.NullNode;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.ComposedSchema;
+import io.swagger.v3.oas.models.media.JsonSchema;
+import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
@@ -9,12 +16,15 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
 import org.openapitools.codegen.typescript.TypeScriptGroups;
 import org.testng.annotations.Test;
+import org.testng.annotations.DataProvider;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.testng.Assert.assertEquals;
@@ -23,6 +33,116 @@ import static org.testng.Assert.assertEquals;
 public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
+
+    @Test
+    public void testParsedNullConstDoesNotUsePrimitiveFallback() throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_null_const_").toFile();
+        output.deleteOnExit();
+        final ClientOptInput input = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/3_1/typescript-axios/primitive-const-null.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .toClientOptInput();
+        // The parser represents an explicit const: null as NullNode, not Java null.
+        for (String name : List.of("NullOnly", "Impossible")) {
+            assertThat(input.getOpenAPI().getComponents().getSchemas().get(name).getConst())
+                    .isEqualTo(NullNode.getInstance());
+        }
+        new DefaultGenerator().opts(input).generate().forEach(File::deleteOnExit);
+        for (String name : List.of("NullOnly", "Impossible")) {
+            assertThat(input.getOpenAPI().getComponents().getSchemas().get(name).getConst())
+                    .isEqualTo(NullNode.getInstance());
+        }
+        Path api = output.toPath().resolve("api.ts");
+        TestUtils.assertFileContains(api, "export type Unconstrained = string | null;");
+        // General const type generation is outside this fallback's scope.
+        TestUtils.assertFileNotContains(api, "export type NullOnly = string", "export type Impossible = string");
+    }
+
+    @Test
+    public void testPrimitiveNormalizationRetainsSiblingConstraints() {
+        Schema predicate = new Schema().pattern("^[a-z]+$");
+        Schema schema = new ComposedSchema().type("string").nullable(true)
+                ._enum(List.of("allowed")).minLength(2);
+        schema.setAnyOf(List.of(predicate));
+        Schema normalized = new TypeScriptAxiosClientCodegen.PrimitiveCompositionNormalizer(new OpenAPI(), Map.of())
+                .normalizeSchema(schema, new HashSet<>());
+        assertThat(normalized.getType()).isEqualTo("string");
+        assertThat(normalized.getEnum()).containsExactly("allowed");
+        assertThat(normalized.getMinLength()).isEqualTo(2);
+        assertThat(normalized.getAnyOf()).containsExactly(predicate);
+        assertThat(normalized.getNullable()).isFalse();
+    }
+
+    @Test
+    public void testPrimitiveAnyOfFallbackSkipsOtherTypeConstraints() {
+        Schema enumSchema = new ComposedSchema().type("string")._enum(List.of("allowed"));
+        Schema constSchema = new JsonSchema()._const("allowed");
+        constSchema.addType("string");
+        Schema mixedTypes = new JsonSchema();
+        mixedTypes.addType("string");
+        mixedTypes.addType("number");
+        for (Schema schema : List.of(enumSchema, constSchema, mixedTypes)) {
+            schema.addAnyOfItem(new Schema().pattern("^[a-z]+$"));
+            TypeScriptAxiosClientCodegen generator = new TypeScriptAxiosClientCodegen();
+            generator.setOpenAPI(new OpenAPI().components(new Components().addSchemas("Constrained", schema)));
+            CodegenModel model = generator.fromModel("Constrained", schema);
+            assertThat(model.vendorExtensions).doesNotContainKey("x-typescript-primitive-type");
+            if (schema == enumSchema) {
+                assertThat(model.allowableValues).containsEntry("values", List.of("allowed"));
+            }
+        }
+    }
+
+    @DataProvider
+    public Object[][] primitiveAnyOfOptions() {
+        return new Object[][] {{"3_0", false}, {"3_0", true}, {"3_1", false}, {"3_1", true}};
+    }
+
+    @Test(dataProvider = "primitiveAnyOfOptions")
+    public void testPrimitiveAnyOfValidation(String version, boolean separateModels) throws Exception {
+        final File output = Files.createTempDirectory("typescript_axios_primitive_anyof_").toFile();
+        output.deleteOnExit();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("typescript-axios")
+                .setInputSpec("src/test/resources/" + version + "/typescript-axios/primitive-anyof-validation.yaml")
+                .addAdditionalProperty("withSeparateModelsAndApi", separateModels)
+                .addAdditionalProperty("apiPackage", "api")
+                .addAdditionalProperty("modelPackage", "model")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+        new DefaultGenerator().opts(configurator.toClientOptInput()).generate().forEach(File::deleteOnExit);
+        TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/hostname.ts" : "api.ts"),
+                "export type Hostname = string;");
+        TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/nullable-hostname.ts" : "api.ts"),
+                "export type NullableHostname = string | null;");
+        TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/single-pattern.ts" : "api.ts"),
+                "export type SinglePattern = string;");
+        TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/exclusive-pattern.ts" : "api.ts"),
+                "export type ExclusivePattern = string;");
+        TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/port.ts" : "api.ts"),
+                "export type Port = number;");
+        Path address = output.toPath().resolve(separateModels ? "model/address.ts" : "api.ts");
+        TestUtils.assertFileContains(address, "'hostname': Hostname;");
+        TestUtils.assertFileContains(address, "'exclusivePattern'?: ExclusivePattern;");
+        TestUtils.assertFileNotContains(address, "'hostname': Hostname | null;", "export interface Hostname");
+        if ("3_1".equals(version)) {
+            for (String[] expected : List.of(
+                    new String[] {"contains-string", "ContainsString", "string"},
+                    new String[] {"null-first-hostname", "NullFirstHostname", "string | null"},
+                    new String[] {"nullable-exclusive-pattern", "NullableExclusivePattern", "string"},
+                    new String[] {"exclusive-pattern-or-null", "ExclusivePatternOrNull", "string"})) {
+                TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/" + expected[0] + ".ts" : "api.ts"),
+                        "export type " + expected[1] + " = " + expected[2] + ";");
+            }
+            TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/enum-pattern.ts" : "api.ts"),
+                    "Allowed: 'allowed'");
+            TestUtils.assertFileContains(address, "'nullableAlias'?: NullableAlias | null;");
+            TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "model/nullable-alias.ts" : "api.ts"),
+                    "export type NullableAlias = string | null;");
+        }
+        TestUtils.assertFileContains(output.toPath().resolve(separateModels ? "api/default-api.ts" : "api.ts"),
+                "createAddress(address: Address, options?: RawAxiosRequestConfig)");
+    }
 
     @Test
     public void testToEnumVarNameOriginalNamingType() {
