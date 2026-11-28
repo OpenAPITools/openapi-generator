@@ -82,7 +82,7 @@ public interface PetApiDelegate {
      *         or Invalid status value (status code 400)
      * @see PetApi#findPetsByStatus
      */
-    default ResponseEntity<List<@Valid Pet>> findPetsByStatus(List<String> status,
+    default ResponseEntity<List<Pet>> findPetsByStatus(List<String> status,
         HttpServletRequest servletRequest) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -113,7 +113,7 @@ public interface PetApiDelegate {
      * @see PetApi#findPetsByTags
      */
     @Deprecated
-    default ResponseEntity<List<@Valid Pet>> findPetsByTags(List<String> tags,
+    default ResponseEntity<List<Pet>> findPetsByTags(List<String> tags,
         HttpServletRequest servletRequest) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

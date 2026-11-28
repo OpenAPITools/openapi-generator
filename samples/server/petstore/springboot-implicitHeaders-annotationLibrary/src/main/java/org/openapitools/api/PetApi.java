@@ -102,7 +102,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<List<@Valid Pet>> findPetsByStatus(
+    default ResponseEntity<List<Pet>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) @Deprecated List<String> status
     ) {
         getRequest().ifPresent(request -> {
@@ -140,7 +140,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         produces = { "application/xml", "application/json" }
     )
-    default ResponseEntity<List<@Valid Pet>> findPetsByTags(
+    default ResponseEntity<List<Pet>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) List<String> tags
     ) {
         getRequest().ifPresent(request -> {

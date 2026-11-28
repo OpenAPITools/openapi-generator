@@ -105,7 +105,7 @@ public interface FooApi {
         value = FooApi.PATH_GET_ALL_FOOS,
         produces = { "application/json;charset=utf-8" }
     )
-    default ResponseEntity<List<@Valid FooRefOrValue>> getAllFoos(
+    default ResponseEntity<List<FooRefOrValue>> getAllFoos(
         
     ) {
         getRequest().ifPresent(request -> {

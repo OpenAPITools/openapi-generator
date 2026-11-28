@@ -37,7 +37,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS,
         produces = { "application/json" }
     )
-    ResponseEntity<List<@Valid Pet>> findPets(
+    ResponseEntity<List<Pet>> findPets(
         
     );
 

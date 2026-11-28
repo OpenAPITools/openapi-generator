@@ -2095,6 +2095,16 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldValidateCollectionBodiesAndTheirModelElementsWhenEnabled() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/collection-response-validation.yaml", SPRING_BOOT,
+                Map.of(VALIDATE_RESPONSE_ENTITY, true, USE_TAGS, true));
+        assertThat(Files.readString(files.get("CollectionApi.java").toPath())).contains(
+                "default ResponseEntity<@Valid List<@Valid Pet>> getPets(",
+                "default ResponseEntity<@Valid Set<@Valid Pet>> getUniquePets(",
+                "default ResponseEntity<@Valid Map<String, @Valid Pet>> getPetsByName(");
+    }
+
+    @Test
     public void shouldOnlyMoveValidationOntoBodiesWrappedInReactiveResponseEntities() throws IOException {
         Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/collection-response-validation.yaml", SPRING_BOOT,
                 Map.of(VALIDATE_RESPONSE_ENTITY, true, USE_TAGS, true, REACTIVE, true));
@@ -2926,15 +2936,15 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11897.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("MetadataApi.java"))
-                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<@Valid TestResponse>>")
+                .assertMethod("getWithArrayOfObjects").hasReturnType("ResponseEntity<List<TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithArrayOfString").hasReturnType("ResponseEntity<List<String>>")
                 .toFileAssert()
-                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<@Valid TestResponse>>")
+                .assertMethod("getWithSetOfObjects").hasReturnType("ResponseEntity<Set<TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithSetOfStrings").hasReturnType("ResponseEntity<Set<String>>")
                 .toFileAssert()
-                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, @Valid TestResponse>>")
+                .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
     }
@@ -3635,7 +3645,8 @@ public class SpringCodegenTest {
                 .generate().stream().collect(Collectors.toMap(File::getName, Function.identity()));
         String api = Files.readString(files.get("CollectionApi.java").toPath());
         String model = mappedModel ? "com.example.ExternalPet" : "Pet";
-        String element = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String validatedElement = validation ? (mappedModel ? "com.example.@Valid ExternalPet" : "@Valid Pet") : model;
+        String element = responseEntity ? model : validatedElement;
         String list = reactive ? "Flux<" + model + ">" : "List<" + element + ">";
         String set = reactive ? "Flux<" + model + ">" : "Set<" + element + ">";
         String map = "Map<String, " + element + ">";
@@ -3680,6 +3691,10 @@ public class SpringCodegenTest {
                         "@Valid " + noContent + " getNothing(");
         if (!validation) {
             assertThat(api).doesNotContain("@Valid");
+        }
+        if (!reactive) {
+            assertThat(api).contains((validation ? "default @Valid " : "default ")
+                    + "Flux<List<" + validatedElement + ">> getEvents(");
         }
     }
 
@@ -9355,7 +9370,7 @@ public class SpringCodegenTest {
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
                 .assertMethod("findPets")
-                .hasReturnType("ResponseEntity<List<@Valid Pet>>");
+                .hasReturnType("ResponseEntity<List<Pet>>");
     }
 
     /** Common properties shared by all substituteGenericPagedModel tests. */

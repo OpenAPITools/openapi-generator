@@ -82,7 +82,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_STATUS,
         accept = { "application/json", "application/xml" }
     )
-    ResponseEntity<List<@Valid PetDto>> findPetsByStatus(
+    ResponseEntity<List<PetDto>> findPetsByStatus(
         @NotNull  @RequestParam(value = "status", required = true) List<String> status
     );
 
@@ -103,7 +103,7 @@ public interface PetApi {
         value = PetApi.PATH_FIND_PETS_BY_TAGS,
         accept = { "application/json", "application/xml" }
     )
-    ResponseEntity<Set<@Valid PetDto>> findPetsByTags(
+    ResponseEntity<Set<PetDto>> findPetsByTags(
         @NotNull  @RequestParam(value = "tags", required = true) Set<String> tags
     );
 

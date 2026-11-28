@@ -393,7 +393,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(VALIDATE_RESPONSE_ENTITY,
                 "Add `@Valid` to the `ResponseEntity` body type when enabled. Requires `useResponseEntity` and `useBeanValidation`. "
                         + "Executable return-value validation then requires an implementation of `ValueExtractor<ResponseEntity<@ExtractedValue ?>>`. "
-                        + "When disabled, neither `ResponseEntity` nor its immediate body type gets `@Valid`.",
+                        + "When disabled, no `@Valid` is added to the `ResponseEntity` return type, including nested collection elements.",
                 validateResponseEntity));
         cliOptions.add(CliOption.newBoolean(GENERATE_GENERIC_RESPONSE_ENTITY,
                 "Use a generic type for the `ResponseEntity` wrapping return values of generated API methods. "

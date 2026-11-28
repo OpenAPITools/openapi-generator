@@ -102,7 +102,7 @@ public interface PetsApi {
         value = PetsApi.PATH_SEARCH_PETS,
         produces = { "application/json" }
     )
-    default ResponseEntity<List<@Valid Pet>> searchPets(
+    default ResponseEntity<List<Pet>> searchPets(
         @Parameter(name = "filter", description = "", in = ParameterIn.QUERY) @Valid @Nullable Filter filter
     ) {
         getRequest().ifPresent(request -> {
