@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: OneOf date strings
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    DateChoice:
+      oneOf:
+        - type: string
+          format: date
+        - type: number
+    DateTimeChoice:
+      oneOf:
+        - type: string
+          format: date-time
+        - type: number
+    DateArrayChoice:
+      oneOf:
+        - type: array
+          items:
+            type: string
+            format: date
+        - type: array
+          items:
+            type: number
+    DateTimeArrayChoice:
+      oneOf:
+        - type: array
+          items:
+            type: string
+            format: date-time
+        - type: array
+          items:
+            type: number
