@@ -86,6 +86,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |title|a title describing the application| |OpenAPI Server|
 |useBeanValidation|Use BeanValidation API annotations| |true|
 |useEnumCaseInsensitive|Use `equalsIgnoreCase` when String for enum comparison| |false|
+|useJackson3|Whether to use Jackson 3 (tools.jackson) instead of Jackson 2 (com.fasterxml.jackson). Only valid when serializationLibrary is set to jackson.| |false|
 |useJakartaEe|whether to use Jakarta EE namespace instead of javax| |false|
 |useJakartaSecurityAnnotations|Whether to generate Jakarta security annotations (@RolesAllowed, @PermitAll). Requires useJakartaEe=true. Currently only supported when library is set to quarkus.| |false|
 |useJspecify|Use JSpecify for null checks: @NullMarked package-info and @Nullable on optional properties and parameters.| |false|
