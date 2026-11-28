@@ -1,10 +1,10 @@
 package org.openapitools.codegen.java.assertions;
 
 import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.nodeTypes.NodeWithName;
 import com.github.javaparser.ast.nodeTypes.modifiers.NodeWithAbstractModifier;
@@ -26,6 +26,8 @@ import java.util.stream.Stream;
 @CanIgnoreReturnValue
 public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUnit> {
 
+    public static ParserConfiguration JAVA_17 = new ParserConfiguration().setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_17);
+
     private JavaFileAssert(final CompilationUnit actual) {
         super(actual, JavaFileAssert.class);
     }
@@ -42,14 +44,38 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         }
     }
 
+    public static JavaFileAssert assertThat(ParserConfiguration parserConfiguration, final Path path) {
+        ParserConfiguration oldParserConfiguration = StaticJavaParser.getParserConfiguration();
+        try {
+            StaticJavaParser.setConfiguration(parserConfiguration);
+            return new JavaFileAssert(StaticJavaParser.parse(path));
+        } catch (IOException | ParseProblemException e) {
+            throw new RuntimeException("Exception while reading file: " + path, e);
+        } finally {
+            StaticJavaParser.setConfiguration(oldParserConfiguration);
+        }
+    }
+
     public static JavaFileAssert assertThat(final File file) {
         return assertThat(file.toPath());
+    }
+
+    public static JavaFileAssert assertThat(final ParserConfiguration parserConfiguration, final File file) {
+        return assertThat(parserConfiguration, file.toPath());
     }
 
     public JavaFileAssert isInterface() {
         Assertions.assertThat(actual.getType(0).asClassOrInterfaceDeclaration())
                 .withFailMessage("Expected type %s to be an interface", actual.getType(0).getName().asString())
                 .extracting(ClassOrInterfaceDeclaration::isInterface)
+                .isEqualTo(true);
+        return this;
+    }
+
+    public JavaFileAssert isRecord() {
+        Assertions.assertThat(actual.getType(0).asClassOrInterfaceDeclaration())
+                .withFailMessage("Expected type %s to be a record", actual.getType(0).getName().asString())
+                .extracting(ClassOrInterfaceDeclaration::isRecordDeclaration)
                 .isEqualTo(true);
         return this;
     }
@@ -290,6 +316,27 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
                 )
                 .doesNotContainPattern(pattern);
 
+        return this;
+    }
+
+    public JavaFileAssert hasSealedAndPermits(String... permits) {
+        Assertions.assertThat(actual.getType(0).hasModifier(Modifier.Keyword.SEALED))
+                .withFailMessage("File should be sealed")
+                .isTrue();
+
+        ClassOrInterfaceDeclaration type = actual
+                .findFirst(ClassOrInterfaceDeclaration.class)
+                .orElseThrow();
+        if (permits.length == 0) {
+            return this;
+        }
+        Set<String> permitted = type.getPermittedTypes()
+                .stream()
+                .map(ClassOrInterfaceType::getNameAsString)
+                .collect(Collectors.toSet());
+        Assertions.assertThat(permitted)
+                .withFailMessage("File should contains permits %s but contains %s", Arrays.asList(permits), permitted)
+                .containsExactlyInAnyOrder(permits);
         return this;
     }
 }
