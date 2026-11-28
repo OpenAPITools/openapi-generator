@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.config;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
@@ -726,6 +727,11 @@ public class CodegenConfigurator {
         // TODO: Move custom validations to a separate type as part of a "Workflow"
         Set<String> validationMessages = new HashSet<>(null != result.getMessages() ? result.getMessages() : new ArrayList<>());
         OpenAPI specification = result.getOpenAPI();
+        // Swagger 2.0 parsing may leave missing schema references unreported.
+        if (specification != null) {
+            JsonNode specificationTree = Json.mapper().valueToTree(specification);
+            validateLocalSchemaReferences(specificationTree, specificationTree, validationMessages);
+        }
         // TODO: The line below could be removed when at least one of the issue below has been resolved.
         // https://github.com/swagger-api/swagger-parser/issues/1369
         // https://github.com/swagger-api/swagger-parser/pull/1374
@@ -881,5 +887,26 @@ public class CodegenConfigurator {
                 .userDefinedTemplates(userDefinedTemplates);
 
         return input.openAPI((OpenAPI) context.getSpecDocument());
+    }
+    /**
+     * Adds validation errors for local schema references that point to missing schemas.
+     * The Swagger 2.0 parser may leave these references unresolved without reporting them.
+     */
+    private static void validateLocalSchemaReferences(
+            JsonNode node, JsonNode root, Set<String> validationMessages) {
+        if (node.isObject()) {
+            JsonNode refNode = node.get("$ref");
+            if (refNode != null && refNode.isTextual()) {
+                String ref = refNode.asText();
+                if (ref.startsWith("#/components/schemas/")
+                        && root.at(ref.substring(1)).isMissingNode()) {
+                    validationMessages.add("Unable to resolve schema reference: " + ref);
+                }
+            }
+        }
+
+        for (JsonNode child : node) {
+            validateLocalSchemaReferences(child, root, validationMessages);
+        }
     }
 }
