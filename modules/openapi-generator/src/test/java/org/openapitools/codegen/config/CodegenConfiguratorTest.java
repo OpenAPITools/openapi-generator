@@ -278,4 +278,14 @@ public class CodegenConfiguratorTest {
         // existing, structured SpecValidationException rather than the new generic message.
         Assertions.assertThrows(SpecValidationException.class, configurator::toContext);
     }
+
+    // https://github.com/OpenAPITools/openapi-generator/issues/24832
+    @Test
+    public void shouldRejectSwagger2SpecWithMissingSchemaReference() {
+        CodegenConfigurator configurator = new CodegenConfigurator()
+                .setInputSpec("src/test/resources/2_0/issue_24832_missing_schema.yaml")
+                .setGeneratorName("java");
+
+        Assertions.assertThrows(SpecValidationException.class, configurator::toContext);
+    }
 }
