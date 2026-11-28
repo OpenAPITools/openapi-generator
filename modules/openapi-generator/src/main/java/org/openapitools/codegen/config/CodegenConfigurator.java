@@ -17,12 +17,12 @@
 
 package org.openapitools.codegen.config;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.core.util.Json;
-import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
